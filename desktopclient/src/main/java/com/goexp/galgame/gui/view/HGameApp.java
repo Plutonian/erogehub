@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ResourceBundle;
 
 /**
@@ -46,7 +45,7 @@ public class HGameApp extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage)  {
 
         Parent root = new FXMLLoaderProxy("HGame.fxml").load();
         primaryStage.setTitle("エロゲ まとめ");

@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.task.download.provider.brand;
 
-import com.goexp.galgame.data.db.query.BrandService;
+import com.goexp.galgame.data.db.query.mysql.BrandService;
 import com.goexp.galgame.data.task.download.provider.IdsProvider;
 
 import java.util.List;

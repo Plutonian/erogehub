@@ -2,8 +2,8 @@ package com.goexp.galgame.data.task.others;
 
 import com.goexp.galgame.common.model.CV;
 import com.goexp.galgame.data.db.importor.mysql.GameCharDB;
-import com.goexp.galgame.data.db.query.GameCharService;
-import com.goexp.galgame.data.db.query.GameService;
+import com.goexp.galgame.data.db.query.mysql.GameCharService;
+import com.goexp.galgame.data.db.query.mysql.GameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

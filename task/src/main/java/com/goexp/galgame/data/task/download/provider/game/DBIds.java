@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.task.download.provider.game;
 
-import com.goexp.galgame.data.db.query.GameService;
+import com.goexp.galgame.data.db.query.mysql.GameService;
 import com.goexp.galgame.data.task.download.provider.IdsProvider;
 
 import java.util.List;

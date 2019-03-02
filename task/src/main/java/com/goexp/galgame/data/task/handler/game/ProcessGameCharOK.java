@@ -4,7 +4,7 @@ import com.goexp.galgame.data.db.importor.mysql.GameCharDB;
 import com.goexp.galgame.data.model.Game;
 import com.goexp.galgame.data.piplline.core.Message;
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler;
-import com.goexp.galgame.data.db.query.GameCharService;
+import com.goexp.galgame.data.db.query.mysql.GameCharService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

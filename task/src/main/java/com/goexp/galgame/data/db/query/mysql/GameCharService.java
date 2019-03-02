@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.db.query;
+package com.goexp.galgame.data.db.query.mysql;
 
 import com.goexp.common.db.mysql.DBQueryTemplate;
 import com.goexp.common.db.mysql.ObjectCreator;

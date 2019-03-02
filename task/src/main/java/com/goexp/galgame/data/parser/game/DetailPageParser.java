@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.parser;
+package com.goexp.galgame.data.parser.game;
 
 import com.goexp.galgame.data.model.Game;
 import org.jsoup.Jsoup;

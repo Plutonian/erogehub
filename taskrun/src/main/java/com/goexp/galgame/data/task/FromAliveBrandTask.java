@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class FromAliveBrandTask {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)  {
 
         Network.initProxy();
 

@@ -4,9 +4,9 @@ import com.goexp.common.util.WebUtil;
 import com.goexp.galgame.common.website.GetchuURL;
 import com.goexp.galgame.data.db.importor.Config;
 import com.goexp.galgame.data.model.Game;
-import com.goexp.galgame.data.parser.DetailPageParser;
+import com.goexp.galgame.data.parser.game.DetailPageParser;
 import com.goexp.galgame.data.parser.ParseException;
-import com.goexp.galgame.data.parser.SearchListParser;
+import com.goexp.galgame.data.parser.game.ListPageParser;
 import com.goexp.galgame.data.task.client.error.AbstractTaskErrorProcessor;
 import com.goexp.galgame.data.task.client.error.BrandTaskErrorProcessor;
 import com.goexp.galgame.data.task.client.error.GameTaskErrorProcessor;
@@ -134,7 +134,7 @@ public class GetChu {
                         .build(), ofByteArray())).body();
                 var html = WebUtil.decodeGzip(bytes, DEFAULT_CHARSET);
 
-                return new SearchListParser().parse(html);
+                return new ListPageParser().parse(html);
 
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
@@ -154,7 +154,7 @@ public class GetChu {
                         .build(), ofByteArray())).body();
                 var html = WebUtil.decodeGzip(bytes, DEFAULT_CHARSET);
 
-                return new SearchListParser().parse(html);
+                return new ListPageParser().parse(html);
 
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
@@ -168,7 +168,7 @@ public class GetChu {
 
             var html = WebUtil.decodeGzip(bytes, DEFAULT_CHARSET);
 
-            return new SearchListParser().parse(html);
+            return new ListPageParser().parse(html);
         }
 
         public static void download(final int brandId) throws IOException, InterruptedException {

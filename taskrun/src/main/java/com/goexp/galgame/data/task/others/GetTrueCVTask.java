@@ -2,15 +2,15 @@ package com.goexp.galgame.data.task.others;
 
 import com.goexp.galgame.common.model.CV;
 import com.goexp.galgame.data.db.importor.mysql.GameCharDB;
+import com.goexp.galgame.data.db.query.mongdb.CVQuery;
 import com.goexp.galgame.data.db.query.mysql.GameCharService;
-import com.goexp.galgame.data.db.query.mysql.GameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GetTrueCVTask {
     private static GameCharDB importor = new GameCharDB();
 
-    private static GameService cvQuery = new GameService();
+    private static CVQuery cvQuery = new CVQuery();
 
 
     public static void main(String[] args) {
@@ -20,9 +20,6 @@ public class GetTrueCVTask {
 
         var cvMap = CV.getMap(cvQuery.cvList());
 
-
-//        cvMap.entrySet().forEach(System.out::println);
-//        System.out.println(cvMap);
 
         logger.info("Init OK");
 

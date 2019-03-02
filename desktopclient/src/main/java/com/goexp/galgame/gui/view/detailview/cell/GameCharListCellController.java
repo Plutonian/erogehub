@@ -1,8 +1,8 @@
 package com.goexp.galgame.gui.view.detailview.cell;
 
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.view.common.jump.CVSearchController;
 import com.goexp.galgame.gui.util.Images;
+import com.goexp.galgame.gui.view.common.jump.CVSearchController;
 import com.goexp.galgame.gui.view.search.MainSearchController;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
@@ -59,15 +59,9 @@ public class GameCharListCellController {
             cvsearchController.load(cv);
             lbCV.setText(cv);
 
-            if (isTrueCV) {
-                truecv.setVisible(true);
-                truecv.setOnAction(event -> {
-                    MainSearchController.$this.loadCVTab(gameChar.trueCV);
-                });
-            } else {
-                truecv.setVisible(false);
-                truecv.setOnAction(null);
-            }
+            truecv.setOnAction(event -> {
+                MainSearchController.$this.loadCVTab(isTrueCV ? gameChar.trueCV : gameChar.cv, isTrueCV);
+            });
         } else {
             cvPart.setVisible(false);
         }

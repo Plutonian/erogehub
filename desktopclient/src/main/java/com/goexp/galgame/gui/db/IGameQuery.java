@@ -26,4 +26,6 @@ public interface IGameQuery {
     List<Game> searchByPainter(String keyword);
 
     List<Game> queryByCV(String keyword);
+
+    List<Game> queryByRealCV(String keyword);
 }

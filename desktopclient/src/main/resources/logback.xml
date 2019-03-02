@@ -16,8 +16,8 @@
 
     <logger name="ch.qos.logback" level="OFF"/>
     <logger name="com.mchange.v2.log" level="OFF"/>
-    <logger name="com.goexp.galgame.gui" level="info">
-        <!--<appender-ref ref="info"/>-->
+    <logger name="com.goexp.galgame.gui.view" level="OFF">
+        <!--<appender-ref ref="debug"/>-->
     </logger>
     <!--<logger name="com.goexp.galgame.gui.db" level="info"/>-->
     <!--<logger name="com.goexp.galgame.data.query" level="info"/>-->

@@ -33,6 +33,7 @@ public class GameQuery implements IGameQuery {
         return tlp.list(
                 eq("state", gameState.getValue())
                 , exclude("gamechar", "simpleImg")
+                , descending("publishDate")
         );
     }
 
@@ -61,6 +62,7 @@ public class GameQuery implements IGameQuery {
         return tlp.list(
                 and(eq("brandId", brandId), eq("state", gameState.getValue()))
                 , exclude("gamechar", "simpleImg")
+                , descending("publishDate")
         );
     }
 
@@ -81,6 +83,7 @@ public class GameQuery implements IGameQuery {
         return tlp.list(
                 regex("name", "^" + keyword)
                 , exclude("gamechar", "simpleImg")
+                , descending("publishDate")
         );
     }
 
@@ -90,6 +93,7 @@ public class GameQuery implements IGameQuery {
         return tlp.list(
                 regex("name", keyword)
                 , exclude("gamechar", "simpleImg")
+                , descending("publishDate")
         );
     }
 
@@ -99,6 +103,7 @@ public class GameQuery implements IGameQuery {
         return tlp.list(
                 or(eq("tag", tag), regex("name", tag))
                 , exclude("gamechar", "simpleImg")
+                , descending("publishDate")
         );
 
 
@@ -110,6 +115,7 @@ public class GameQuery implements IGameQuery {
         return tlp.list(
                 eq("painter", keyword)
                 , exclude("gamechar", "simpleImg")
+                , descending("publishDate")
         );
 
 
@@ -118,8 +124,20 @@ public class GameQuery implements IGameQuery {
     @Override
     public List<Game> queryByCV(String keyword) {
         return tlp.list(
+                eq("gamechar.cv", keyword)
+                , exclude("gamechar", "simpleImg")
+                , descending("publishDate")
+        );
+
+
+    }
+
+    @Override
+    public List<Game> queryByRealCV(String keyword) {
+        return tlp.list(
                 eq("gamechar.truecv", keyword)
                 , exclude("gamechar", "simpleImg")
+                , descending("publishDate")
         );
 
 

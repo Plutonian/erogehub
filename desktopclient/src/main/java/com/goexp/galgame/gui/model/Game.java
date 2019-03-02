@@ -116,22 +116,25 @@ public class Game {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", publishDate=" + publishDate +
-//                ", story=" + story +
                 ", smallImg='" + smallImg + '\'' +
-                ", writer='" + writer + '\'' +
-                ", painter='" + painter + '\'' +
-                ", type='" + type + '\'' +
-                ", tag='" + tag + '\'' +
+                ", website='" + website + '\'' +
+                ", writer=" + writer +
+                ", painter=" + painter +
+                ", type=" + type +
+                ", tag=" + tag +
+//                ", story='" + story + '\'' +
+//                ", intro='" + intro + '\'' +
                 ", state=" + state +
                 ", star=" + star +
-//                ", hash=" + hash +
-//                ", brand=" + brand +
+                ", brand=" + brand +
+                ", gameCharacters=" + gameCharacters +
+                ", gameImgs=" + gameImgs +
                 '}';
     }
 
     public static class GameImg {
 
-    //    public String id;
+        //    public String id;
         public String src;
         public int index;
 
@@ -140,10 +143,10 @@ public class Game {
         @Override
         public String toString() {
             return "GameImg{" +
-    //                "id='" + id + '\'' +
+                    //                "id='" + id + '\'' +
                     ", src='" + src + '\'' +
                     ", index=" + index +
-    //                ", gameId=" + gameId +
+                    //                ", gameId=" + gameId +
                     '}';
         }
     }
@@ -170,7 +173,7 @@ public class Game {
                     "id='" + id + '\'' +
                     ", name='" + name + '\'' +
                     ", cv='" + cv + '\'' +
-    //                ", story='" + story + '\'' +
+                    //                ", story='" + story + '\'' +
                     ", gameId=" + gameId +
                     ", trueCV='" + trueCV + '\'' +
                     ", img='" + img + '\'' +

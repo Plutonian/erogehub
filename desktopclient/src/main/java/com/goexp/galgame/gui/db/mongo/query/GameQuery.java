@@ -25,7 +25,7 @@ public class GameQuery implements IGameQuery {
 
     private final Logger logger = LoggerFactory.getLogger(GameQuery.class);
 
-    private DBQueryTemplate tlp = new DBQueryTemplate("galgame", "game", new Creator.SimpleGame());
+    private DBQueryTemplate<Game> tlp = new DBQueryTemplate<>("galgame", "game", new Creator.SimpleGame());
 
 
     @Override
@@ -67,8 +67,8 @@ public class GameQuery implements IGameQuery {
     @Override
     public List<Game> list(LocalDate start, LocalDate end) {
         return tlp.list(and(
-                gte("publishDate", DateUtil.toDate(start.toString()+ " 00:00:00")),
-                lte("publishDate", DateUtil.toDate(end.toString()+ " 23:59:59"))
+                gte("publishDate", DateUtil.toDate(start.toString() + " 00:00:00")),
+                lte("publishDate", DateUtil.toDate(end.toString() + " 23:59:59"))
                 )
                 , exclude("gamechar", "simpleImg")
                 , descending("publishDate")

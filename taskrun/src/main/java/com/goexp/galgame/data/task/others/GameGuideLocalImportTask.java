@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-public class GameGuideImportTask {
+public class GameGuideLocalImportTask {
 
     private static final Charset CHARSET = Charset.forName("shift-jis");
 

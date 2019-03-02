@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
-
 <BorderPane styleClass="back" stylesheets="@../view.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.search.CVInfoSearchController">
-   <left>
-        <ListView fx:id="cvList" maxWidth="110.0" prefWidth="110.0" BorderPane.alignment="CENTER" />
-   </left>
    <center>
       <ScrollPane fitToHeight="true" pannable="true" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
          <content>

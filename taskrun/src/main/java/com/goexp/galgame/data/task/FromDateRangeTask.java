@@ -19,8 +19,6 @@ public class FromDateRangeTask {
 
         var start = LocalDate.now().withMonth(1).withDayOfMonth(1);
         var end = LocalDate.now().withMonth(12).withDayOfMonth(31);
-//        var start = LocalDate.of(2018, 1, 1);
-//        var end = LocalDate.of(2018, 12, 31);
 
         var pipl = new Piplline(new StartFromDateRange(start, end));
         pipl.registryCPUTypeMessageHandler(MesType.PRE_GAME, new PreProcessGame());

@@ -11,8 +11,6 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.FlowPane;
 import org.slf4j.Logger;
@@ -35,16 +33,6 @@ public class CVInfoSearchController {
      * UI Com
      */
 
-    @FXML
-    private ListView<CV> cvList;
-
-
-//    @FXML
-//    public FlowPane tagCloud;
-
-
-    //    @FXML
-//    public GameListByBrandController gameController;
     @FXML
     private FlowPane cvFlow;
     private Service<ObservableList<CV>> loadCVService = new Service<>() {
@@ -71,8 +59,6 @@ public class CVInfoSearchController {
         loadCVService.valueProperty().addListener((observable, oldValue, newValue) -> {
 
             if (newValue != null) {
-                cvList.setItems(newValue);
-
                 var nodes = newValue.stream()
                         .collect(Collectors.groupingBy(cv -> cv.star))
                         .entrySet().stream()
@@ -106,30 +92,6 @@ public class CVInfoSearchController {
 
         });
 
-
-        cvList.setCellFactory(param -> new ListCell<>() {
-            @Override
-            protected void updateItem(CV item, boolean empty) {
-                super.updateItem(item, empty);
-
-                setGraphic(null);
-                setText(null);
-
-                if (!empty) {
-                    setText(item.name);
-                }
-            }
-        });
-
-        cvList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-
-            if (newValue != null) {
-                cv = newValue.name;
-                onLoadProperty.set(true);
-                onLoadProperty.set(false);
-            }
-        });
-
         onLoadProperty.addListener((observable, oldValue, newValue) -> {
             if (newValue != null && newValue) {
                 MainSearchController.$this.loadCVTab(cv);
@@ -151,7 +113,6 @@ public class CVInfoSearchController {
 
 
     public void load() {
-        cvList.getSelectionModel().clearSelection();
 
         loadCVService.restart();
 

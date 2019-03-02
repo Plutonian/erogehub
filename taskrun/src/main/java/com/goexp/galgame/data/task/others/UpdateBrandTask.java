@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class UpdateBrandTask {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) {
 
         var logger = LoggerFactory.getLogger(UpdateBrandTask.class);
 

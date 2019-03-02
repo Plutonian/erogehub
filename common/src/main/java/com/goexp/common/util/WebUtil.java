@@ -18,6 +18,22 @@ public class WebUtil {
             .connectTimeout(Duration.ofSeconds(60))
             .build();
 
+    private static HttpClient noneProxyHttpClient;
+
+    public static HttpClient noneProxyClient() {
+
+        if (noneProxyHttpClient != null) {
+            noneProxyHttpClient = HttpClient
+                    .newBuilder()
+                    .followRedirects(HttpClient.Redirect.ALWAYS)
+                    .proxy(ProxySelector.getDefault())
+                    .connectTimeout(Duration.ofSeconds(60))
+                    .build();
+        }
+
+        return noneProxyHttpClient;
+    }
+
 
     public static String decodeGzip(byte[] gzipBytes, Charset charset) {
         return charset.decode(ByteBuffer.wrap(decodeGzip(gzipBytes))).toString();

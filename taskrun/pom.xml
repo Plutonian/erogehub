@@ -76,10 +76,13 @@
             <artifactId>jsoup</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.atilika.kuromoji/kuromoji -->
         <!--<dependency>-->
             <!--<groupId>org.atilika.kuromoji</groupId>-->
             <!--<artifactId>kuromoji</artifactId>-->
+            <!--<version>0.7.7</version>-->
         <!--</dependency>-->
+
     </dependencies>
     
 </project>

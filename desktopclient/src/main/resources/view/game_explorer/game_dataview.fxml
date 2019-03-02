@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.goexp.galgame.gui.view.dataview.DataViewController">
+    <center>
+        <BorderPane style="-fx-background-color: white;">
+            <center>
+                <StackPane>
+                    <fx:include fx:id="imgView" source="listview/img/game_img_list.fxml"/>
+                    <!--<fx:include fx:id="treeTableView" source="table/game_treetable.fxml" />-->
+                    <fx:include fx:id="tableView" source="table/game_table.fxml"/>
+                    <fx:include fx:id="listSimple" source="listview/game_simple_list.fxml"/>
+                </StackPane>
+            </center>
+            <bottom>
+                <AnchorPane BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <ToggleButton fx:id="toggList" mnemonicParsing="false" selected="true"
+                                              styleClass="left-pill" text="List">
+                                    <toggleGroup>
+                                        <ToggleGroup fx:id="gameViewChange"/>
+                                    </toggleGroup>
+                                </ToggleButton>
+                                <!--<ToggleButton fx:id="toggInfo" mnemonicParsing="false" styleClass="center-pill" text="Info" toggleGroup="$gameViewChange" />-->
+                                <ToggleButton fx:id="toggGrid" mnemonicParsing="false" styleClass="center-pill"
+                                              text="Grid" toggleGroup="$gameViewChange"/>
+                                <!--<ToggleButton fx:id="toggTreeGrid" mnemonicParsing="false" styleClass="center-pill" text="TreeGrid" toggleGroup="$gameViewChange" />-->
+                                <ToggleButton fx:id="toggImg" mnemonicParsing="false" styleClass="right-pill" text="Img"
+                                              toggleGroup="$gameViewChange"/>
+                            </children>
+                        </HBox>
+                        <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <StackPane>
+                                    <HBox.margin>
+                                        <Insets/>
+                                    </HBox.margin>
+                                    <children>
+                                        <Label fx:id="lbItemCount" prefWidth="80.0"/>
+                                    </children>
+                                </StackPane>
+                                <ProgressBar fx:id="progessloading" prefHeight="25.0" prefWidth="77.0" visible="false"/>
+                            </children>
+                        </HBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="5.0" top="5.0"/>
+                    </padding>
+                    <BorderPane.margin>
+                        <Insets/>
+                    </BorderPane.margin>
+                </AnchorPane>
+            </bottom>
+        </BorderPane>
+    </center>
+    <right>
+        <BorderPane>
+            <center>
+                <Accordion fx:id="groupPanel" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0">
+                    <panes>
+                        <fx:include fx:id="filterPanel" source="dataview_filter.fxml"/>
+                        <TitledPane text="Group">
+                            <content>
+                                <StackPane>
+                                    <children>
+                                        <SplitPane dividerPositions="0.3, 0.8" orientation="VERTICAL">
+                                            <items>
+                                                <fx:include fx:id="brandGroup" source="sidebar/brandgroup.fxml"/>
+                                                <!--<TreeView fx:id="compTree" showRoot="false"/>-->
+                                                <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml"/>
+                                                <!--<TreeView fx:id="dateTree" showRoot="false"/>-->
+                                                <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
+                                                    <content>
+                                                        <VBox fx:id="tagFlow" prefHeight="100.0"/>
+                                                    </content>
+                                                </ScrollPane>
+                                            </items>
+                                        </SplitPane>
+                                    </children>
+                                </StackPane>
+                            </content>
+                        </TitledPane>
+                    </panes>
+                </Accordion>
+            </center>
+            <left>
+                <ToolBar orientation="VERTICAL">
+                    <items>
+                        <Button fx:id="btnHide" mnemonicParsing="false" text="+"/>
+                        <Button mnemonicParsing="false" onAction="#reload_OnAction" text="R"/>
+                    </items>
+                </ToolBar>
+            </left>
+        </BorderPane>
+    </right>
+</BorderPane>

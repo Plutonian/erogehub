@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<TitledPane text="Filter" xmlns="http://javafx.com/javafx/8.0.172-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.dataview.sidebar.FilterPanelController">
+    <content>
+        <StackPane>
+            <children>
+                <VBox spacing="3.0" StackPane.alignment="TOP_CENTER">
+                    <children>
+                        <Label text="Star"/>
+                        <VBox fx:id="starbox" prefWidth="120.0" />
+                        <Label text="State"/>
+                        <VBox fx:id="statebox"/>
+                    </children>
+                </VBox>
+                <Button mnemonicParsing="false" onAction="#SetFilter_OnAction" text="OK"
+                        StackPane.alignment="BOTTOM_RIGHT"/>
+            </children>
+        </StackPane>
+    </content>
+</TitledPane>

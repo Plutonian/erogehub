@@ -1,0 +1,120 @@
+package com.goexp.galgame.gui.view.detailview;
+
+import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.view.task.ChangeGameTask;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.fxml.FXML;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+
+public class StarChoiceBarController {
+    private final Logger logger = LoggerFactory.getLogger(StarChoiceBarController.class);
+
+    private Game targetGame;
+
+    private ChangeListener<Toggle> handler;
+
+    private List<ToggleButton> list;
+
+
+    @FXML
+    private HBox groupLikeCon;
+
+    private ToggleGroup groupLike = new ToggleGroup();
+
+    private Service<Void> changeStarService = new Service<>() {
+        @Override
+        protected Task<Void> createTask() {
+            return new ChangeGameTask.Star(targetGame);
+        }
+    };
+
+
+    public BooleanProperty onStarChangeProperty = new SimpleBooleanProperty(false);
+
+    @FXML
+    private void initialize() {
+
+        list = IntStream.rangeClosed(1, 5).boxed()
+                .map(star -> {
+                    var toggle = new ToggleButton();
+                    toggle.setUserData(star);
+                    toggle.setText(star.toString());
+//                    toggle.setGraphic(new ImageView(image));
+                    toggle.setToggleGroup(groupLike);
+
+                    return toggle;
+                })
+                .collect(Collectors.toList());
+
+        groupLikeCon.getChildren().setAll(list);
+
+//        btnHope.setUserData(GameState.HOPE);
+//        btnLike.setUserData(GameState.LIKE);
+//        btnPass.setUserData(GameState.PASS);
+//        btnDefault.setUserData(GameState.UNCHECKED);
+//        btnNormal.setUserData(GameState.NORMAL);
+
+//        list = List.of(btnLike, btnPass, btnDefault, btnNormal, btnHope);
+
+
+        handler = ((o, oldV, newV) -> {
+            if (newV == null) {
+                targetGame.star = 0;
+                changeStarService.restart();
+            } else {
+                logger.debug("New:{}", newV.getUserData());
+
+                targetGame.star = (int) newV.getUserData();
+                changeStarService.restart();
+            }
+
+            onStarChangeProperty.set(true);
+            onStarChangeProperty.set(false);
+        });
+
+    }
+
+
+    public void load(Game game) {
+        this.targetGame = game;
+
+        loadDetailPage(game);
+    }
+
+    private void loadDetailPage(Game g) {
+
+        targetGame = g;
+
+        groupLike.selectedToggleProperty().removeListener(handler);
+
+        list.forEach(bt -> {
+            bt.setSelected(false);
+        });
+
+        list.stream().filter(btn -> {
+            return (int) (btn.getUserData()) == g.star;
+        }).findAny().ifPresent((targetBtn) -> {
+            targetBtn.setSelected(true);
+        });
+
+
+        groupLike.selectedToggleProperty().addListener(handler);
+
+    }
+
+
+}

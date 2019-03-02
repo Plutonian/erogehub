@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Class-Path: kuromoji-0.7.7.jar jsoup-1.11.3.jar c3p0-0.9.5.2.jar mysql
+ -connector-java-8.0.13.jar mchange-commons-java-0.2.11.jar commons-db
+ utils-1.7.jar src.zip javafx-swt.jar javafx.web.jar javafx.base.jar j
+ avafx.fxml.jar javafx.media.jar javafx.swing.jar javafx.controls.jar 
+ javafx.graphics.jar logback-core-1.2.3.jar logback-classic-1.2.3.jar 
+ slf4j-api-1.7.25.jar
+Main-Class: com.goexp.galgame.data.task.FromDateRangeTask
+

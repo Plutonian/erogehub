@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="debug" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss} [%thread] %-5level %logger{36} ----- %msg%n</Pattern>
+        </layout>
+    </appender>
+    <appender name="info" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%msg%n</Pattern>
+        </layout>
+    </appender>
+
+
+    <logger name="com.goexp.galgame.data.task.piplline" level="info"/>
+    <logger name="com.goexp.galgame.data.task" level="info"/>
+    <logger name="com.goexp.galgame" level="info"/>
+    <logger name="ch.qos.logback" level="error"/>
+
+
+    <root level="info">
+        <appender-ref ref="info"/>
+    </root>
+</configuration>

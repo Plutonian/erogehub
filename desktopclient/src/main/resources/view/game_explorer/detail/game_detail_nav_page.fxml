@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.detailview.NavViewController">
+    <stylesheets>
+        <URL value="@../../view.css" />
+    </stylesheets>
+    <children>
+        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <fx:include fx:id="rootContainer" source="game_detail_page.fxml" />
+                <!--<TitledPane animated="false" expanded="false" text="このブランドの作品" StackPane.alignment="BOTTOM_CENTER">-->
+                    <!--<content>-->
+                        <!--<ListView fx:id="listNav" orientation="HORIZONTAL" prefHeight="220.0" />-->
+                    <!--</content>-->
+                <!--</TitledPane>-->
+
+            </children>
+        </StackPane>
+        <VBox fx:id="vboxNav" AnchorPane.bottomAnchor="150.0" AnchorPane.rightAnchor="20.0">
+            <Hyperlink onAction="#linkTop_OnAction" text="Top" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="20.0">
+            </Hyperlink>
+        </VBox>
+
+        <fx:include fx:id="header" source="detail_small_header.fxml" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+    </children>
+</AnchorPane>

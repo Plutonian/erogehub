@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ChoiceBox?>
+
+
+<ChoiceBox fx:id="choiceState" prefHeight="25.0" prefWidth="77.0" styleClass="copyablelabel" stylesheets="@../../view.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.common.StateChangeController" />

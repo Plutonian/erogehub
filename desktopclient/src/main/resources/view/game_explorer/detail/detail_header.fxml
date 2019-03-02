@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.net.URL?>
+<BorderPane xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.detailview.header.HeaderController">
+    <stylesheets>
+        <URL value="@../../view.css" />
+    </stylesheets>
+    <center>
+        <BorderPane>
+            <center>
+                <VBox spacing="5.0">
+                    <children>
+                        <VBox>
+                            <children>
+                        <HBox>
+                           <children>
+                                      <Text fx:id="txtName" strokeType="OUTSIDE" strokeWidth="0.0" text="OH!!マイクロマン">
+                                          <font>
+                                              <Font name="System Bold" size="24.0" />
+                                          </font>
+                                      </Text>
+                              <Text fx:id="txtSubName" strokeType="OUTSIDE" strokeWidth="0.0" text="～小さくなって女の子の色んなトコロに入っちゃお～" HBox.hgrow="NEVER" />
+                           </children>
+                        </HBox>
+                                <fx:include fx:id="brandJump" source="../../jump/brandjump.fxml" />
+                            </children>
+                        </VBox>
+                        <GridPane>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="68.0" />
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="600.0" minWidth="10.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints fillHeight="false" minHeight="30.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <Label text="原画" textFill="#6e6d6d" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Label>
+                        <FlowPane fx:id="flowPainter" rowValignment="TOP" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES" />
+                                <Label text="シナリオ" textFill="#6e6d6d">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="txtWriter" text="XX" wrapText="true" GridPane.columnIndex="1" />
+                            </children>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </GridPane>
+
+                        <HBox fx:id="boxTag" spacing="5.0" />
+                        <HBox fx:id="boxStar">
+                        </HBox>
+                        <fx:include fx:id="starChange" source="game_star_choicebar.fxml" />
+
+                    </children>
+                </VBox>
+            </center>
+            <BorderPane.margin>
+                <Insets left="10.0" />
+            </BorderPane.margin>
+            <bottom>
+                <HBox spacing="20.0" BorderPane.alignment="CENTER">
+               <children>
+                      <fx:include fx:id="changeState" source="game_statechange.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" StackPane.alignment="BOTTOM_LEFT" />
+               </children>
+                </HBox>
+            </bottom>
+        </BorderPane>
+    </center>
+    <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+    </padding>
+    <left>
+        <AnchorPane BorderPane.alignment="TOP_CENTER">
+            <children>
+                <ImageView fx:id="imageImg" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                </ImageView>
+            </children>
+        </AnchorPane>
+    </left>
+    <right>
+        <StackPane BorderPane.alignment="CENTER">
+            <children>
+                <fx:include fx:id="dateview" source="date.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER" StackPane.alignment="TOP_LEFT" />
+                  <fx:include fx:id="webjump" source="../../jump/websitejump.fxml" StackPane.alignment="BOTTOM_CENTER" />
+            </children>
+        </StackPane>
+    </right>
+</BorderPane>

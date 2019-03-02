@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.MainController">
+    <stylesheets>
+        <URL value="@view/view.css" />
+    </stylesheets>
+    <children>
+            <fx:include fx:id="search" source="view/search.fxml" />
+    </children>
+</StackPane>

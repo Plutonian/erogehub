@@ -1,0 +1,288 @@
+package com.goexp.galgame.gui.view.dataview.tableview;
+
+import com.goexp.galgame.common.model.GameState;
+import com.goexp.galgame.gui.view.task.ChangeGameTask;
+import com.goexp.galgame.gui.util.UIUtil;
+import com.goexp.common.util.DateUtil;
+import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
+import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
+import com.goexp.galgame.gui.view.search.MainSearchController;
+import com.goexp.galgame.gui.model.Game;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class GameTreeTableController {
+
+
+    private final Logger logger = LoggerFactory.getLogger(GameTreeTableController.class);
+    @FXML
+    public TreeTableView<Game> table;
+    @FXML
+    public TreeTableColumn<Game, String> tableColTag;
+    @FXML
+    public TreeTableColumn<Game, String> tableColType;
+    @FXML
+    public TreeTableColumn<Game, String> tableColBrand;
+    @FXML
+    public TreeTableColumn<Game, String> tableColPainter;
+    @FXML
+    public TreeTableColumn<Game, String> tableColWriter;
+    @FXML
+    public TreeTableColumn<Game, GameState> tableColState;
+    @FXML
+    public TreeTableColumn<Game, LocalDate> tableColDate;
+    @FXML
+    public TreeTableColumn<Game, String> tableColTitle;
+    @FXML
+    public TreeTableColumn<Game, String> tableColCommand;
+    @FXML
+    private ContextMenu menuPopup;
+    private List<Game> selectedGames;
+
+
+    private Service<Void> changeGameService = new Service<>() {
+        @Override
+        protected Task<Void> createTask() {
+            return new ChangeGameTask.MultiLike(selectedGames);
+        }
+    };
+
+    @FXML
+    private void initialize() {
+
+        var items = Stream.of(GameState.values())
+//                .filter(value -> value != GameState.UNCHECKED)
+                .sorted(Comparator.reverseOrder())
+                .map(brandType -> {
+                    var menuItem = new MenuItem();
+                    menuItem.setUserData(brandType);
+                    menuItem.setText(brandType.getName());
+                    menuItem.setOnAction((e) -> {
+
+                        var type = (GameState) (((MenuItem) (e.getSource())).getUserData());
+                        logger.debug("<MenuItem>:{}", type.getName());
+
+
+                        selectedGames = table.getSelectionModel().getSelectedItems()
+                                .stream()
+                                .map(gameTreeItem -> gameTreeItem.getValue())
+                                .collect(Collectors.toUnmodifiableList());
+
+                        selectedGames.forEach(game -> game.state.set(type));
+
+                        changeGameService.restart();
+                    });
+
+                    return menuItem;
+                })
+                .collect(Collectors.toList());
+
+        menuPopup.getItems().setAll(items);
+
+
+        table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+//        table.setOnMouseClicked(event -> {
+//            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+//                var g=table.getSelectionModel().getSelectedItem();
+//
+//                if(g!=null)
+//                {
+//                    MainController.$this.loadDetail(g);
+//                }
+//            }
+//
+//        });
+
+
+        table.setRowFactory(tr -> {
+            var row = new TreeTableRow<Game>();
+            row.setOnMouseClicked(null);
+
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && row.getTreeItem().isLeaf()) {
+                    if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+                        var g = row.getItem();
+
+                        MainSearchController.$this.loadDetail(g);
+
+                    }
+                }
+            });
+
+            return row;
+        });
+
+
+        tableColState.setCellValueFactory(new TreeItemPropertyValueFactory<>("state"));
+
+        tableColBrand.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().brand.name));
+
+
+        tableColPainter.setCellValueFactory(new TreeItemPropertyValueFactory<>("painter"));
+        tableColWriter.setCellValueFactory(new TreeItemPropertyValueFactory<>("writer"));
+        tableColDate.setCellValueFactory(new TreeItemPropertyValueFactory<>("publishDate"));
+        tableColTag.setCellValueFactory(new TreeItemPropertyValueFactory<>("tag"));
+        tableColTitle.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
+        tableColType.setCellValueFactory(new TreeItemPropertyValueFactory<>("type"));
+
+
+        tableColDate.setCellFactory(col -> new TreeTableCell<>() {
+            @Override
+            protected void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                this.setGraphic(null);
+
+                if (!empty) {
+                    if (this.getTreeTableRow().getTreeItem().isLeaf()) {
+                        var titleLabel = new Label(DateUtil.formatDate(item));
+
+                        this.setGraphic(titleLabel);
+                    }
+                }
+            }
+        });
+
+        tableColTag.setCellFactory(col -> new TreeTableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                this.setGraphic(null);
+
+                if (!empty) {
+
+                    if (this.getTreeTableRow().getTreeItem().isLeaf()) {
+                        if (item.length() > 0) {
+                            var hbox = new HBox();
+                            hbox.setSpacing(5);
+                            hbox.getChildren().setAll(UIUtil.createTag(item));
+                            this.setGraphic(hbox);
+                        }
+                    }
+
+
+                }
+            }
+        });
+
+
+        tableColBrand.setCellFactory(col -> new TreeTableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                this.setGraphic(null);
+
+                if (!empty) {
+
+
+                    var game = this.getTreeTableRow().getItem();
+
+                    if (game != null) {
+                        var loader = new FXMLLoader(getClass().getClassLoader().getResource("view/jump/brandjump.fxml"));
+                        Region node = null;
+                        try {
+                            node = loader.load();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        JumpBrandController controller = loader.getController();
+                        controller.load(game.brand);
+
+                        this.setGraphic(node);
+                    }
+
+                }
+            }
+        });
+
+//        tableColTitle.setCellFactory(col -> new TableCell<>() {
+//            @Override
+//            protected void updateItem(String item, boolean empty) {
+//                super.updateItem(item, empty);
+//                this.setGraphic(null);
+//
+//                if (!empty) {
+//                    var game = this.getTableRow().getItem();
+//
+//                    var title = game.name;
+//                    var titleLabel = new Label(title);
+//
+//                    this.setGraphic(titleLabel);
+//                }
+//            }
+//        });
+
+        tableColCommand.setCellFactory(col -> new TreeTableCell<>() {
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                this.setGraphic(null);
+
+
+                if (!empty) {
+                    if (this.getTreeTableRow().getTreeItem().isLeaf()) {
+
+                        var game = this.getTreeTableRow().getItem();
+
+                        if (game != null) {
+                            Hyperlink viewLink = new Hyperlink("View");
+                            viewLink.setOnAction((e) -> {
+
+                                MainSearchController.$this.loadDetail(game);
+                            });
+
+                            var loader = new FXMLLoader(GameTreeTableController.class.getClassLoader().getResource("view/jump/websitejump.fxml"));
+                            try {
+                                Region node = loader.load();
+
+                                JumpLinkController controller = loader.getController();
+                                controller.load(game);
+
+                                this.setGraphic(new HBox(viewLink, node));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        tableColState.setCellFactory(col -> new TreeTableCell<>() {
+            @Override
+            protected void updateItem(GameState item, boolean empty) {
+                super.updateItem(item, empty);
+                this.setGraphic(null);
+
+                this.getTreeTableRow().getStyleClass().remove("gray");
+                if (!empty) {
+                    if (this.getTreeTableRow().getTreeItem().isLeaf()) {
+//                        if (item == GameState.PASS) {
+//                            this.getTreeTableRow().getStyleClass().add("gray");
+//                        }
+
+                        this.setGraphic(new Label(item.getName()));
+                    }
+                }
+            }
+        });
+
+
+    }
+}

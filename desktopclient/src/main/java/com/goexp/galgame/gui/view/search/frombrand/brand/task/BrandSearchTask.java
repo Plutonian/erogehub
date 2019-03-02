@@ -1,0 +1,168 @@
+package com.goexp.galgame.gui.view.search.frombrand.brand.task;
+
+import com.goexp.galgame.common.model.BrandType;
+import com.goexp.galgame.gui.db.IBrandQuery;
+import com.goexp.galgame.gui.db.mongo.query.BrandQuery;
+import com.goexp.galgame.gui.model.Brand;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.scene.control.TreeItem;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class BrandSearchTask {
+    private static IBrandQuery brandQuery = new BrandQuery();
+
+    public static class ByName extends Task<ObservableList<TreeItem<Brand>>> {
+
+        private String name;
+
+        public ByName(String name) {
+            this.name = name;
+        }
+
+        @Override
+        protected ObservableList<TreeItem<Brand>> call() {
+
+
+            var list = brandQuery.listByName(name);
+
+            return FXCollections.observableArrayList(makeTree(list));
+        }
+
+        private List<TreeItem<Brand>> makeTree(List<Brand> newValue) {
+            return newValue.stream()
+                    .collect(Collectors.groupingBy(b -> b.comp != null && b.comp.length() > 0 ? b.comp : ""))
+                    .entrySet().stream()
+                    .sorted(Comparator.comparing(Map.Entry::getKey))
+                    .map(entry -> {
+                        var comp = new Brand();
+                        comp.comp = entry.getKey();
+
+
+                        var rootItem = new TreeItem<Brand>();
+                        rootItem.setValue(comp);
+                        rootItem.setExpanded(true);
+
+
+                        var brandNodes = entry.getValue().stream()
+                                .map(brand -> {
+                                    var item = new TreeItem<Brand>();
+                                    item.setValue(brand);
+                                    return item;
+                                }).collect(Collectors.toList());
+
+
+                        rootItem.getChildren().setAll(brandNodes);
+
+                        return rootItem;
+                    }).collect(Collectors.toList());
+        }
+    }
+
+    public static class ByType extends Task<ObservableList<TreeItem<Brand>>> {
+
+        private BrandType type;
+
+        public ByType(BrandType type) {
+            this.type = type;
+        }
+
+        @Override
+        protected ObservableList<TreeItem<Brand>> call() {
+
+
+            List<Brand> list;
+            if (type == BrandType.ALL) {
+                list = brandQuery.list();
+            } else {
+                list = brandQuery.list(type.getValue());
+
+            }
+
+            return FXCollections.observableArrayList(makeTree(list));
+        }
+
+        private List<TreeItem<Brand>> makeTree(List<Brand> newValue) {
+            return newValue.stream()
+                    .collect(Collectors.groupingBy(b -> b.comp != null && b.comp.length() > 0 ? b.comp : ""))
+                    .entrySet().stream()
+                    .sorted(Comparator.comparing(Map.Entry::getKey))
+                    .map(entry -> {
+                        var comp = new Brand();
+                        comp.comp = entry.getKey();
+
+
+                        var rootItem = new TreeItem<Brand>();
+                        rootItem.setValue(comp);
+                        rootItem.setExpanded(true);
+
+
+                        var brandNodes = entry.getValue().stream()
+                                .map(brand -> {
+                                    var item = new TreeItem<Brand>();
+                                    item.setValue(brand);
+                                    return item;
+                                }).collect(Collectors.toList());
+
+
+                        rootItem.getChildren().setAll(brandNodes);
+
+                        return rootItem;
+                    }).collect(Collectors.toList());
+        }
+    }
+
+    public static class ByComp extends Task<ObservableList<TreeItem<Brand>>> {
+
+        private String name;
+
+        public ByComp(String name) {
+            this.name = name;
+        }
+
+        @Override
+        protected ObservableList<TreeItem<Brand>> call() {
+
+
+            var list = brandQuery.queryByComp(name);
+
+            return FXCollections.observableArrayList(makeTree(list));
+        }
+
+        private List<TreeItem<Brand>> makeTree(List<Brand> newValue) {
+            return newValue.stream()
+                    .collect(Collectors.groupingBy(b -> b.comp != null && b.comp.length() > 0 ? b.comp : ""))
+                    .entrySet().stream()
+                    .sorted(Comparator.comparing(Map.Entry::getKey))
+                    .map(entry -> {
+                        var comp = new Brand();
+                        comp.comp = entry.getKey();
+
+
+                        var rootItem = new TreeItem<Brand>();
+                        rootItem.setValue(comp);
+                        rootItem.setExpanded(true);
+
+
+                        var brandNodes = entry.getValue().stream()
+                                .map(brand -> {
+                                    var item = new TreeItem<Brand>();
+                                    item.setValue(brand);
+                                    return item;
+                                }).collect(Collectors.toList());
+
+
+                        rootItem.getChildren().setAll(brandNodes);
+
+                        return rootItem;
+                    }).collect(Collectors.toList());
+        }
+    }
+
+
+}

@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Class-Path: c3p0-0.9.5.2.jar mysql-connector-java-8.0.13.jar mchange-c
+ ommons-java-0.2.11.jar commons-dbutils-1.7.jar src.zip slf4j-api-1.7.
+ 25.jar logback-core-1.2.3.jar logback-classic-1.2.3.jar
+Main-Class: com.goexp.galgame.data.task.others.GetTrueCVTask
+

@@ -31,7 +31,7 @@ public class GetTrueCVTask {
                     if (cv != null) {
                         gameCharacter.trueCV = cv.name;
 
-                        logger.info("ID:{},CV:{},trueCV:{}", gameCharacter.id, gameCharacter.cv, gameCharacter.trueCV);
+                        logger.info("CV:{},trueCV:{}", gameCharacter.cv, gameCharacter.trueCV);
 
                         importor.updateTrueCV(gameCharacter);
                     }

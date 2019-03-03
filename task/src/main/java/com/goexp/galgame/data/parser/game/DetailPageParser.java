@@ -93,10 +93,8 @@ public class DetailPageParser {
                     .map(tr -> {
 
                         var gameCharacter = new Game.GameCharacter();
-                        gameCharacter.id = String.format("%d_%d", gameId, index);
                         gameCharacter.index = index;
                         var title = tr.select("h2.chara-name").text();
-                        gameCharacter.gameId = gameId;
                         gameCharacter.img = tr.select("td:nth-of-type(1)>img").attr("src");
                         gameCharacter.cv = parseCV(title);
 
@@ -125,9 +123,7 @@ public class DetailPageParser {
                     .map(a -> {
 
                         var img = new Game.Img();
-                        img.id = String.format("%d_%d", gameId, imgIndex);
                         img.src = a.attr("href");
-                        img.gameId = gameId;
                         img.index = imgIndex;
                         imgIndex++;
                         return img;

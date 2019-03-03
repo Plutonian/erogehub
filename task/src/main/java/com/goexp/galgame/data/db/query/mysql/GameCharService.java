@@ -37,7 +37,6 @@ public class GameCharService extends DBQueryTemplate<Game.GameCharacter> {
 
             var g = new Game.GameCharacter();
 
-            g.id = resultSet.getString("id");
             g.name = resultSet.getString("name");
             g.cv = resultSet.getString("cv");
 //                    g.intro = resultSet.getString("intro");

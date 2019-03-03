@@ -100,34 +100,25 @@ public class Game {
     }
 
     public static class Img {
-
-        public String id;
         public String src;
         public int index;
-        public int gameId;
 
         @Override
         public String toString() {
             return "Img{" +
-                    "id='" + id + '\'' +
                     ", src='" + src + '\'' +
                     ", index=" + index +
-                    ", gameId=" + gameId +
                     '}';
         }
     }
 
     public static class GameCharacter {
-        public String id;
-
         public String name;
         public String cv;
         public String trueCV = "";
         public String img;
         public String intro;
         public int index;
-
-        public int gameId;
 
         @Override
         public boolean equals(Object o) {
@@ -145,14 +136,12 @@ public class Game {
         @Override
         public String toString() {
             return "GameCharacter{" +
-                    "id='" + id + '\'' +
-                    ", name='" + name + '\'' +
+                    " name='" + name + '\'' +
                     ", cv='" + cv + '\'' +
-                    //                ", trueCV='" + trueCV + '\'' +
+                    ", trueCV='" + trueCV + '\'' +
                     ", img='" + img + '\'' +
                     //                ", intro='" + intro + '\'' +
                     ", index='" + index + '\'' +
-                    ", gameId=" + gameId +
                     '}';
         }
     }

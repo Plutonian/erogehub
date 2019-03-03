@@ -176,7 +176,6 @@ public class Game {
         public String id;
 
         public String title;
-        public String content;
         public String href;
         public DataFrom from;
 
@@ -198,7 +197,7 @@ public class Game {
             return "Guide{" +
                     "id='" + id + '\'' +
                     ", title='" + title + '\'' +
-//                    ", content='" + content + '\'' +
+                    ", href='" + href + '\'' +
                     ", from=" + from +
                     '}';
         }

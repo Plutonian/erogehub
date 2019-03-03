@@ -14,7 +14,8 @@ public class GuideDB extends DBUpdateTemplate {
 
         var doc = new Document("_id", item.id)
                 .append("title", item.title)
-                .append("content", item.content)
+                .append("href", item.href)
+//                .append("content", item.content)
                 .append("from", item.from.getValue());
 
 

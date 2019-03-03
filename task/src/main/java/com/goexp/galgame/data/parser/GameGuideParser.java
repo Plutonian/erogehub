@@ -51,7 +51,7 @@ public class GameGuideParser {
                                     var guide = new Game.Guide();
                                     guide.title = a.text();
                                     guide.from = Game.Guide.DataFrom.seiya_saiga_com;
-                                    guide.href = "http://seiya-saiga.com/" + a.attr("href");
+                                    guide.href = "http://seiya-saiga.com/game/" + a.attr("href");
                                     guide.id = guide.href;
 
                                     return guide;

@@ -167,13 +167,31 @@ public class Game {
             DataFrom(int value) {
                 this.value = value;
             }
+
+            public int getValue() {
+                return value;
+            }
         }
 
         public String id;
 
         public String title;
         public String content;
+        public String href;
         public DataFrom from;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Guide)) return false;
+            Guide guide = (Guide) o;
+            return id.equals(guide.id);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(id);
+        }
 
         @Override
         public String toString() {

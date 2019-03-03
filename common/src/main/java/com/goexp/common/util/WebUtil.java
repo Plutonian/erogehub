@@ -22,7 +22,7 @@ public class WebUtil {
 
     public static HttpClient noneProxyClient() {
 
-        if (noneProxyHttpClient != null) {
+        if (noneProxyHttpClient == null) {
             noneProxyHttpClient = HttpClient
                     .newBuilder()
                     .followRedirects(HttpClient.Redirect.ALWAYS)

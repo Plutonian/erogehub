@@ -1,7 +1,7 @@
 package com.goexp.galgame.data.task.handler.game;
 
 import com.goexp.common.util.WebUtil;
-import com.goexp.galgame.data.piplline.core.MesType;
+import com.goexp.galgame.data.task.handler.MesType;
 import com.goexp.galgame.data.piplline.core.Message;
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler;
 import com.goexp.galgame.data.task.client.GetChu;

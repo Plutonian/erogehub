@@ -1,9 +1,9 @@
-package com.goexp.galgame.data.task.handler;
+package com.goexp.galgame.data.task.starter;
 
-import com.goexp.galgame.data.piplline.core.MesType;
 import com.goexp.galgame.data.piplline.core.Message;
 import com.goexp.galgame.data.piplline.handler.DefaultStarter;
 import com.goexp.galgame.data.task.client.GetChu;
+import com.goexp.galgame.data.task.handler.MesType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,15 +11,15 @@ import java.time.LocalDate;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-public class StartFromDateRange extends DefaultStarter<Integer> {
+public class FromDateRange extends DefaultStarter<Integer> {
 
-    private final Logger logger = LoggerFactory.getLogger(StartFromDateRange.class);
+    private final Logger logger = LoggerFactory.getLogger(FromDateRange.class);
 
     private final LocalDate start;
 
     private final LocalDate end;
 
-    public StartFromDateRange(LocalDate start, LocalDate end) {
+    public FromDateRange(LocalDate start, LocalDate end) {
         this.start = start;
         this.end = end;
     }

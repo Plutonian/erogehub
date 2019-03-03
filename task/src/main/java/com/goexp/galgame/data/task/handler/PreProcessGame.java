@@ -2,7 +2,6 @@ package com.goexp.galgame.data.task.handler;
 
 import com.goexp.galgame.data.db.importor.mongdb.GameDB;
 import com.goexp.galgame.data.model.Game;
-import com.goexp.galgame.data.piplline.core.MesType;
 import com.goexp.galgame.data.piplline.core.Message;
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler;
 import org.slf4j.Logger;
@@ -16,8 +15,6 @@ public class PreProcessGame extends DefaultMessageHandler<Game> {
     final private Logger logger = LoggerFactory.getLogger(PreProcessGame.class);
 
     final private GameDB importor = new GameDB();
-//    final private GameDB.Star starImportor = new GameDB.Star();
-//    final private GameDB.State stateImportor = new GameDB.State();
 
     @Override
     public void process(final Message<Game> message, BlockingQueue<Message> msgQueue) {
@@ -32,8 +29,6 @@ public class PreProcessGame extends DefaultMessageHandler<Game> {
         } else {
             logger.info("<Insert> {}", game.simpleView());
             importor.insert(game);
-//            starImportor.insert(game);
-//            stateImportor.insert(game);
         }
 
 

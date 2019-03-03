@@ -1,14 +1,13 @@
 package com.goexp.galgame.data.task;
 
-import com.goexp.galgame.data.piplline.core.MesType;
+import com.goexp.galgame.data.task.handler.MesType;
 import com.goexp.galgame.data.piplline.core.Piplline;
 import com.goexp.galgame.data.task.handler.DownloadGameHandler;
 import com.goexp.galgame.data.task.handler.PreProcessGame;
-import com.goexp.galgame.data.task.handler.StartFromDateRange;
+import com.goexp.galgame.data.task.starter.FromDateRange;
 import com.goexp.galgame.data.task.handler.game.*;
 import com.goexp.galgame.common.util.Network;
 
-import java.io.IOException;
 import java.time.LocalDate;
 
 public class FromDateRangeTask {
@@ -20,7 +19,7 @@ public class FromDateRangeTask {
         var start = LocalDate.now().withMonth(1).withDayOfMonth(1);
         var end = LocalDate.now().withMonth(12).withDayOfMonth(31);
 
-        var pipl = new Piplline(new StartFromDateRange(start, end));
+        var pipl = new Piplline(new FromDateRange(start, end));
         pipl.registryCPUTypeMessageHandler(MesType.PRE_GAME, new PreProcessGame());
         pipl.registryIOTypeMessageHandler(MesType.NEED_DOWN_GAME, new DownloadGameHandler());
         pipl.registryCPUTypeMessageHandler(MesType.Game, new LocalGameHandler());

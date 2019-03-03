@@ -1,6 +1,5 @@
 package com.goexp.galgame.data.task.handler;
 
-import com.goexp.galgame.data.piplline.core.MesType;
 import com.goexp.galgame.data.piplline.core.Message;
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler;
 import com.goexp.galgame.data.task.client.GetChu;

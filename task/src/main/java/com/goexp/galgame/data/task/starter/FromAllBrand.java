@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.task.handler;
+package com.goexp.galgame.data.task.starter;
 
 import com.goexp.galgame.data.db.importor.Config;
 import com.goexp.galgame.data.piplline.core.Message;
@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
-public class StartFromAllAliveBrand extends DefaultStarter<Integer> {
+public class FromAllBrand extends DefaultStarter<Integer> {
 
 
     @Override

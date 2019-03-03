@@ -1,14 +1,12 @@
 package com.goexp.galgame.data.task;
 
-import com.goexp.galgame.data.piplline.core.MesType;
+import com.goexp.galgame.data.task.handler.MesType;
 import com.goexp.galgame.data.piplline.core.Piplline;
 import com.goexp.galgame.data.task.handler.DownloadGameHandler;
 import com.goexp.galgame.data.task.handler.ProcessGameList;
-import com.goexp.galgame.data.task.handler.StartFromAllAliveBrand;
+import com.goexp.galgame.data.task.starter.FromAllBrand;
 import com.goexp.galgame.data.task.handler.game.*;
 import com.goexp.galgame.common.util.Network;
-
-import java.io.IOException;
 
 public class FromAliveBrandTask {
 
@@ -17,7 +15,7 @@ public class FromAliveBrandTask {
         Network.initProxy();
 
 
-        var pipl = new Piplline(new StartFromAllAliveBrand());
+        var pipl = new Piplline(new FromAllBrand());
 
         pipl.registryCPUTypeMessageHandler(MesType.Brand, new ProcessGameList());
         pipl.registryIOTypeMessageHandler(MesType.NEED_DOWN_GAME, new DownloadGameHandler());

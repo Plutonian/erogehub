@@ -4,7 +4,7 @@ import com.goexp.galgame.data.task.handler.MesType;
 import com.goexp.galgame.data.piplline.core.Piplline;
 import com.goexp.galgame.data.task.handler.DownloadGameHandler;
 import com.goexp.galgame.data.task.handler.PreProcessGame;
-import com.goexp.galgame.data.task.starter.FromDateRange;
+import com.goexp.galgame.data.task.handler.starter.FromDateRange;
 import com.goexp.galgame.data.task.handler.game.*;
 import com.goexp.galgame.common.util.Network;
 

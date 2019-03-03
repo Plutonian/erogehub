@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.task.starter;
+package com.goexp.galgame.data.task.handler.starter;
 
 import com.goexp.galgame.data.piplline.core.Message;
 import com.goexp.galgame.data.piplline.handler.DefaultStarter;

@@ -24,9 +24,11 @@ public class GameQuery {
 
     private DBQueryTemplate tlp = new DBQueryTemplate("galgame", "game", new Creator.SimpleGame());
 
+    private DBQueryTemplate fullTlp = new DBQueryTemplate("galgame", "game", new Creator.FullGame());
+
 
     public Game get(int id) {
-        return (Game) tlp.one(
+        return (Game) fullTlp.one(
                 eq("_id", id)
         );
     }
@@ -135,7 +137,6 @@ public class GameQuery {
                 gameCharacter.trueCV = doc.getString("truecv");
                 gameCharacter.img = doc.getString("img");
                 gameCharacter.index = doc.getInteger("index");
-                gameCharacter.gameId = gameid;
 
                 logger.debug("{}", gameCharacter);
 
@@ -194,17 +195,27 @@ public class GameQuery {
             @Override
             public Game create(Document doc) {
                 var g = super.create(doc);
-                var gamecharCreator = new GameChar(g.id);
 
-                g.gameCharacterList = ((List<Document>) doc.get("gamechar")).stream()
-                        .map(gamecharCreator::create)
-                        .collect(Collectors.toList());
 
-                var simpleImgCreator = new SimpleImg();
+                Optional.ofNullable(doc.get("gamechar"))
+                        .ifPresent(list -> {
 
-                g.imgList = ((List<Document>) doc.get("simpleImg")).stream()
-                        .map(simpleImgCreator::create)
-                        .collect(Collectors.toList());
+                            var gamecharCreator = new GameChar(g.id);
+                            g.gameCharacterList = ((List<Document>) list).stream()
+                                    .map(gamecharCreator::create)
+                                    .collect(Collectors.toUnmodifiableList());
+                        });
+
+
+                Optional.ofNullable(doc.get("simpleImg"))
+                        .ifPresent(list -> {
+                            var simpleImgCreator = new SimpleImg();
+
+                            g.imgList = ((List<Document>) list).stream()
+                                    .map(simpleImgCreator::create)
+                                    .collect(Collectors.toUnmodifiableList());
+
+                        });
 
                 return g;
             }

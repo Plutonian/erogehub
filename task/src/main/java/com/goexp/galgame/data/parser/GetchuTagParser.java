@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.parser;
 
-import com.goexp.galgame.data.model.Tag;
+import com.goexp.galgame.data.model.TagType;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 public class GetchuTagParser {
 
-    public List<Tag.TagType> parse(String html) {
+    public List<TagType> parse(String html) {
 
-        var list = new ArrayList<Tag.TagType>();
+        var list = new ArrayList<TagType>();
 
         Jsoup.parse(html)
                 .select("#wrapper div.pc_headword:contains(カテゴリ一覧)").first()
@@ -25,10 +25,10 @@ public class GetchuTagParser {
         return list;
     }
 
-    private Tag.TagType parse(Element item) {
+    private TagType parse(Element item) {
 
 
-        var tagType = new Tag.TagType();
+        var tagType = new TagType();
         tagType.type = item.text();
         tagType.order = 0;
 

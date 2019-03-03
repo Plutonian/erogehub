@@ -2,7 +2,7 @@ package com.goexp.galgame.data.db.importor.mongdb;
 
 import com.goexp.common.db.mongo.DBOperatorTemplate;
 import com.goexp.common.db.mysql.DBUpdateTemplate;
-import com.goexp.galgame.data.model.Tag;
+import com.goexp.galgame.data.model.TagType;
 import org.bson.Document;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public class TagDB extends DBUpdateTemplate {
 
     DBOperatorTemplate tlp = new DBOperatorTemplate("galgame", "tag");
 
-    public void insert(List<Tag.TagType> item) {
+    public void insert(List<TagType> item) {
 
 
         var docs = item.stream()

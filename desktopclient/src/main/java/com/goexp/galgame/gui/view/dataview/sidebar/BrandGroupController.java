@@ -22,7 +22,7 @@ public class BrandGroupController extends FilterController<Game> {
 
     @FXML
     private void initialize() {
-        compTree.setCellFactory(new Callback<TreeView<DefaultItemNode>, TreeCell<DefaultItemNode>>() {
+        compTree.setCellFactory(new Callback<>() {
             @Override
             public TreeCell<DefaultItemNode> call(TreeView<DefaultItemNode> param) {
                 return new TreeCell<>() {

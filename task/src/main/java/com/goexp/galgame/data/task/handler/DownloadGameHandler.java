@@ -25,8 +25,11 @@ public class DownloadGameHandler extends DefaultMessageHandler<Integer> {
 
         do {
             try {
-                if (error)
-                    logger.info("Re-download:{}", gid);
+                if (error) {
+                    var delay = 3000;
+                    Thread.sleep(delay);
+                    logger.info("Re-download:{} after {}", gid, delay);
+                }
 
                 GetChu.GameService.download(gid);
                 error = false;
@@ -41,7 +44,7 @@ public class DownloadGameHandler extends DefaultMessageHandler<Integer> {
 
         try {
             msgQueue.offer(new Message<>(MesType.Game, gid), 60, TimeUnit.SECONDS);
-        } catch (InterruptedException e ) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }

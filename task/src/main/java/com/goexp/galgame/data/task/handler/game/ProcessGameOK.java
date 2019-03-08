@@ -78,7 +78,9 @@ public class ProcessGameOK extends DefaultMessageHandler<Game> {
 
         if (remoteImgSize > localImgSize) {
 
-            logger.info("Update Img:Local size:{},Remote size:{}", localGame.imgList == null ? 0 : localGame.imgList.size(), remoteGame.imgList.size());
+            logger.info("Game:{}", remoteGame.id);
+            logger.info("Update Img:Local size:{},Remote size:{}", localImgSize, remoteImgSize);
+
             gameDB.updateImg(remoteGame);
         }
 

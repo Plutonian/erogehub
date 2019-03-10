@@ -24,13 +24,13 @@ public class Images {
 
         public static Image tiny(Game game, String url) {
 
-            return Util.getImage(game.id + "\\game_t", url);
+            return Util.getImage(game.id + "/game_t", url);
         }
 
         public static Image small(final Game game) {
             var url = GetchuURL.getImgSmallFromId(game.id);
 
-            return Util.getImage(game.id + "\\game_s", url);
+            return Util.getImage(game.id + "/game_s", url);
         }
 
         public static class Simple {
@@ -38,13 +38,13 @@ public class Images {
             public static Image small(int gameId, int index, String src) {
                 var url = GetchuURL.getSimpleImgSmallFromSrc(src);
 
-                return Util.getImage(gameId + "\\simple_s_" + index, url);
+                return Util.getImage(gameId + "/simple_s_" + index, url);
             }
 
             public static Image large(int gameId, int index, String src) {
                 var url = GetchuURL.getSimpleImgBigFromSrc(src);
 
-                return Util.getImage(gameId + "\\simple_l_" + index, url);
+                return Util.getImage(gameId + "/simple_l_" + index, url);
             }
         }
 
@@ -53,7 +53,7 @@ public class Images {
             public static Image small(int gameId, int index, String src) {
                 var url = GetchuURL.getUrlFromSrc(src);
 
-                return Util.getImage(gameId + "\\char_s_" + index, url);
+                return Util.getImage(gameId + "/char_s_" + index, url);
             }
         }
 

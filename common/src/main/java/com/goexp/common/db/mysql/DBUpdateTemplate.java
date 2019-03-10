@@ -7,7 +7,7 @@ public class DBUpdateTemplate extends DBQueryTemplate {
     public void exec(String sql,Object... params)
     {
         try {
-            runner.execute(sql,params);
+            getRunner().execute(sql,params);
         } catch (SQLException e) {
             e.printStackTrace();
         }

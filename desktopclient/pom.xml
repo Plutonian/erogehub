@@ -79,31 +79,10 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
 
-        <!-- DB -->
-        <!--<dependency>-->
-            <!--<groupId>commons-dbutils</groupId>-->
-            <!--<artifactId>commons-dbutils</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>mysql</groupId>-->
-            <!--<artifactId>mysql-connector-java</artifactId>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>com.mchange</groupId>-->
-            <!--<artifactId>c3p0</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>com.mchange</groupId>-->
-        <!--<artifactId>mchange-commons-java</artifactId>-->
-        <!--</dependency>-->
 
         <!--java fx-->
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-base -->

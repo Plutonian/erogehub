@@ -3,7 +3,6 @@ package com.goexp.galgame.data.task.others;
 import com.goexp.common.util.WebUtil;
 import com.goexp.galgame.common.util.Network;
 import com.goexp.galgame.data.db.importor.mongdb.GuideDB;
-import com.goexp.galgame.data.db.query.mysql.GameCharService;
 import com.goexp.galgame.data.model.Game;
 import com.goexp.galgame.data.parser.GameGuideParser;
 import com.goexp.galgame.data.piplline.core.Message;
@@ -28,7 +27,7 @@ public class ImportGameGuideTask {
 
     private static class PageContentHandler extends DefaultMessageHandler<Game.Guide> {
 
-        final Logger logger = LoggerFactory.getLogger(GameCharService.class);
+        final Logger logger = LoggerFactory.getLogger(ImportGameGuideTask.class);
 
         private static final GuideDB guideDb = new GuideDB();
 

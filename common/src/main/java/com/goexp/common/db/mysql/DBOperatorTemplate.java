@@ -8,23 +8,25 @@ import java.util.ResourceBundle;
 
 public abstract class DBOperatorTemplate<T> {
 
-    static {
-        try {
-            var prop = ResourceBundle.getBundle("dbconfig");
-            var unpooled = DataSources.unpooledDataSource(prop.getString("dbString"));
-            var pooled = DataSources.pooledDataSource(unpooled);
 
-            runner = new QueryRunner(pooled);
-        } catch (SQLException e) {
-            e.printStackTrace();
+    QueryRunner getRunner() {
+        if (runner == null) {
+            try {
+                var prop = ResourceBundle.getBundle("dbconfig");
+                var unpooled = DataSources.unpooledDataSource(prop.getString("dbString"));
+                var pooled = DataSources.pooledDataSource(unpooled);
+
+                runner = new QueryRunner(pooled);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
+        return runner;
     }
 
 
-    protected static QueryRunner runner;
-
-
-
+    private static QueryRunner runner;
 
 
 }

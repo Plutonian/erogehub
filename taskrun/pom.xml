@@ -13,7 +13,7 @@
 
     <groupId>com.goexp.galgame</groupId>
     <artifactId>taskrun</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${version}-SNAPSHOT</version>
 
     <build>
         <plugins>
@@ -68,7 +68,7 @@
         <dependency>
             <groupId>com.goexp.galgame</groupId>
             <artifactId>task</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${version}-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -78,11 +78,11 @@
 
         <!-- https://mvnrepository.com/artifact/org.atilika.kuromoji/kuromoji -->
         <!--<dependency>-->
-            <!--<groupId>org.atilika.kuromoji</groupId>-->
-            <!--<artifactId>kuromoji</artifactId>-->
-            <!--<version>0.7.7</version>-->
+        <!--<groupId>org.atilika.kuromoji</groupId>-->
+        <!--<artifactId>kuromoji</artifactId>-->
+        <!--<version>0.7.7</version>-->
         <!--</dependency>-->
 
     </dependencies>
-    
+
 </project>

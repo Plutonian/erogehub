@@ -12,7 +12,7 @@
 
     <groupId>com.goexp.galgame</groupId>
     <artifactId>task</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${version}-SNAPSHOT</version>
     <dependencies>
         <dependency>
             <groupId>com.goexp</groupId>

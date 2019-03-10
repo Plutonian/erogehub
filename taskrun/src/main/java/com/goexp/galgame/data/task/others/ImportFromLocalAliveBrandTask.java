@@ -1,7 +1,7 @@
 package com.goexp.galgame.data.task.others;
 
 import com.goexp.galgame.common.util.Network;
-import com.goexp.galgame.data.db.importor.Config;
+import com.goexp.galgame.data.Config;
 import com.goexp.galgame.data.db.importor.mongdb.GameDB;
 import com.goexp.galgame.data.db.query.mongdb.GameQuery;
 import com.goexp.galgame.data.task.handler.MesType;

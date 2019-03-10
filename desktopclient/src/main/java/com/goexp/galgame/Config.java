@@ -4,8 +4,5 @@ import java.nio.file.Path;
 
 public class Config {
 
-    // false for debug
-    public static final boolean useCache = true;
-
-    public static final Path IMG_PATH = Path.of("C:\\Users\\K\\work\\galgame\\img\\game");
+    public final static Path IMG_PATH = com.goexp.galgame.common.Config.DATA_ROOT.resolve("img/game/");
 }

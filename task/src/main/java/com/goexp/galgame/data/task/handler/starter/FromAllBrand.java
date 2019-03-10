@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.task.handler.starter;
 
-import com.goexp.galgame.data.db.importor.Config;
+import com.goexp.galgame.data.Config;
 import com.goexp.galgame.data.piplline.core.Message;
 import com.goexp.galgame.data.piplline.handler.DefaultStarter;
 import com.goexp.galgame.data.task.client.GetChu;

@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.task.download.contentprovider.brand;
 
-import com.goexp.galgame.data.db.importor.Config;
+import com.goexp.galgame.data.Config;
 import com.goexp.galgame.data.model.Game;
 import com.goexp.galgame.data.task.client.GetChu;
 import com.goexp.galgame.data.task.download.contentprovider.ListProvider;

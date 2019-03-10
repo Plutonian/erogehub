@@ -2,7 +2,7 @@ package com.goexp.galgame.data.task.client;
 
 import com.goexp.common.util.WebUtil;
 import com.goexp.galgame.common.website.GetchuURL;
-import com.goexp.galgame.data.db.importor.Config;
+import com.goexp.galgame.data.Config;
 import com.goexp.galgame.data.model.Game;
 import com.goexp.galgame.data.parser.game.DetailPageParser;
 import com.goexp.galgame.data.parser.ParseException;

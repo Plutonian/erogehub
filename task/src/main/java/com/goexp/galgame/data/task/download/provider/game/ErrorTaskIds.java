@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.task.download.provider.game;
 
-import com.goexp.galgame.data.db.importor.Config;
+import com.goexp.galgame.data.Config;
 import com.goexp.galgame.data.task.download.provider.IdsProvider;
 
 import java.io.IOException;

@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.task.client.error;
 
-import com.goexp.galgame.data.db.importor.Config;
+import com.goexp.galgame.data.Config;
 
 import java.nio.file.Path;
 

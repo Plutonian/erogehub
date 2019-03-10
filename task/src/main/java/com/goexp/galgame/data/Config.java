@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.db.importor;
+package com.goexp.galgame.data;
 
 import java.nio.file.Path;
 

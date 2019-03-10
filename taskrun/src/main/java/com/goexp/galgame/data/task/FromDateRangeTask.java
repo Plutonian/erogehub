@@ -16,7 +16,7 @@ public class FromDateRangeTask {
         Network.initProxy();
 
 
-        var start = LocalDate.now().withMonth(1).withDayOfMonth(1);
+        var start = LocalDate.now().minusMonths(1).withDayOfMonth(1);
         var end = LocalDate.now().withMonth(12).withDayOfMonth(31);
 
         var pipl = new Piplline(new FromDateRange(start, end));

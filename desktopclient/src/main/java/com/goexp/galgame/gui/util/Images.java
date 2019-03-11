@@ -22,15 +22,15 @@ public class Images {
 
     public static class GameImage {
 
-        public static Image tiny(Game game, String url) {
+        public static Image tiny(Game game) {
 
-            return Util.getImage(game.id + "/game_t", url);
+            return Util.getImage(new CacheKey(game.id + "/game_t", game.smallImg));
         }
 
         public static Image small(final Game game) {
             var url = GetchuURL.getImgSmallFromId(game.id);
 
-            return Util.getImage(game.id + "/game_s", url);
+            return Util.getImage(new CacheKey(game.id + "/game_s", url));
         }
 
         public static class Simple {
@@ -38,13 +38,13 @@ public class Images {
             public static Image small(int gameId, int index, String src) {
                 var url = GetchuURL.getSimpleImgSmallFromSrc(src);
 
-                return Util.getImage(gameId + "/simple_s_" + index, url);
+                return Util.getImage(new CacheKey(gameId + "/simple_s_" + index, url));
             }
 
             public static Image large(int gameId, int index, String src) {
                 var url = GetchuURL.getSimpleImgBigFromSrc(src);
 
-                return Util.getImage(gameId + "/simple_l_" + index, url);
+                return Util.getImage(new CacheKey(gameId + "/simple_l_" + index, url));
             }
         }
 
@@ -53,7 +53,7 @@ public class Images {
             public static Image small(int gameId, int index, String src) {
                 var url = GetchuURL.getUrlFromSrc(src);
 
-                return Util.getImage(gameId + "/char_s_" + index, url);
+                return Util.getImage(new CacheKey(gameId + "/char_s_" + index, url));
             }
         }
 
@@ -63,46 +63,45 @@ public class Images {
     private static class Util {
         private static final Logger logger = LoggerFactory.getLogger(Util.class);
 
-        private static Image getImage(String localKey, String url) {
-            Objects.requireNonNull(localKey);
-            Objects.requireNonNull(url);
+        private static Image getImage(CacheKey cacheKey) {
+            Objects.requireNonNull(cacheKey);
+            Objects.requireNonNull(cacheKey.getDiskCacheKey());
+            Objects.requireNonNull(cacheKey.getMemCacheKey());
 
-            logger.debug("LocalKey={},url={}", localKey, url);
+            logger.debug("LocalKey={},memCacheKey={}", cacheKey.getDiskCacheKey(), cacheKey.getMemCacheKey());
 
             var imageCache = AppCache.imageCache;
 
-            //heat cache
-            var img = imageCache.get(url);
-            if (img != null) {
-                return img;
-            } else {
-                final var path = Config.IMG_PATH.resolve(Path.of(localKey + ".jpg"));
+            //try heat cache
+            return Optional.ofNullable(imageCache.get(cacheKey.getMemCacheKey()))
+                    //not heat cache
+                    .or(() -> {
+                        final var localPath = Config.IMG_PATH.resolve(cacheKey.getDiskCacheKey() + ".jpg");
 
-                logger.debug("path={}", path);
+                        logger.debug("localPath={}", localPath);
 
-                Image image = null;
+                        Consumer<Image> callback = image1 -> {
 
-                if (Files.exists(path)) {
-                    image = localImageLoader(path);
-                } else {
-                    image = remoteImageLoader(url, image1 -> {
+                            try {
+                                Files.createDirectories(localPath.getParent());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
 
-                        try {
-                            Files.createDirectories(path.getParent());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                            saveImage(image1, localPath);
+                        };
 
-                        saveImage2Path(image1, path);
-                    });
-                }
 
-                imageCache.put(url, image);
-                return image;
-            }
+                        //heat disk cache or load from remote
+                        var image = Files.exists(localPath) ? fromDisk(localPath) : loadRemote(cacheKey.getMemCacheKey(), callback);
+
+                        //memCacheKey as cache key
+                        imageCache.put(cacheKey.getMemCacheKey(), image);
+                        return Optional.ofNullable(image);
+                    }).get();
         }
 
-        private static void saveImage2Path(Image image, Path path) {
+        private static void saveImage(Image image, Path path) {
 
             if (image == null)
                 return;
@@ -120,25 +119,26 @@ public class Images {
 
         }
 
-        private static Image localImageLoader(Path path) {
+        private static Image fromDisk(Path path) {
 
             logger.debug("Local:{}", path);
             return new Image("file:" + path.toString());
         }
 
-        private static Image remoteImageLoader(final String url, final Consumer<Image> back) {
+        private static Image loadRemote(final String url, final Consumer<Image> callback) {
 
             logger.debug("Remote:{}", url);
 
             var imageCache = AppCache.imageCache;
 
             var image = new Image(url, true);
-            image.progressProperty().addListener((o, old, newValue) -> Optional.ofNullable(back)
-                    .ifPresent(b -> {
-                        if (newValue != null && newValue.doubleValue() == 1) {
-                            b.accept(image);
-                        }
-                    }));
+            image.progressProperty().addListener((o, old, newValue) ->
+                    Optional.ofNullable(callback)
+                            .ifPresent(b -> {
+                                if (newValue != null && newValue.doubleValue() == 1) {
+                                    b.accept(image);
+                                }
+                            }));
             image.exceptionProperty().addListener((o, old, newValue) -> {
                 if (newValue != null) {
                     newValue.printStackTrace();
@@ -191,6 +191,24 @@ public class Images {
                 imageCache.put(name, image);
                 return image;
             }
+        }
+    }
+
+    private static class CacheKey {
+        private final String diskCacheKey;
+        private final String memCacheKey;
+
+        CacheKey(String diskCacheKey, String memCacheKey) {
+            this.diskCacheKey = diskCacheKey;
+            this.memCacheKey = memCacheKey;
+        }
+
+        String getDiskCacheKey() {
+            return diskCacheKey;
+        }
+
+        String getMemCacheKey() {
+            return memCacheKey;
         }
     }
 }

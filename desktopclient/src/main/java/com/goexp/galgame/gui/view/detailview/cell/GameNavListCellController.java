@@ -27,7 +27,7 @@ public class GameNavListCellController {
 
         if (game.smallImg != null && game.smallImg.startsWith("http")) {
 
-            imageImg.setImage(Images.GameImage.tiny(game, game.smallImg));
+            imageImg.setImage(Images.GameImage.tiny(game));
         } else {
             imageImg.setImage(null);
         }

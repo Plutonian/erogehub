@@ -1,14 +1,12 @@
 package com.goexp.galgame.gui.view;
 
-import com.goexp.galgame.common.Config;
+import com.goexp.galgame.common.util.Network;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.util.ResourceBundle;
 
 /**
  * A sample that demonstrates a WebView object accessing a web page.
@@ -24,28 +22,11 @@ public class HGameApp extends Application {
     @Override
     public void init() {
         app = this;
-
-        if (Config.proxy) {
-
-            // HTTP 代理，只能代理 HTTP 请求
-
-            var prop = ResourceBundle.getBundle("proxy");
-            prop.keySet().forEach(key -> {
-                System.setProperty(key, prop.getString(key));
-            });
-
-
-            // SOCKS 代理，支持 HTTP 和 HTTPS 请求
-            // 注意：如果设置了 SOCKS 代理就不要设 HTTP/HTTPS 代理
-//        System.setProperty("socksProxyHost", "127.0.0.1");
-//        System.setProperty("socksProxyPort", "53758");
-
-        }
-
+        Network.initProxy();
     }
 
     @Override
-    public void start(Stage primaryStage)  {
+    public void start(Stage primaryStage) {
 
         Parent root = new FXMLLoaderProxy("HGame.fxml").load();
         primaryStage.setTitle("エロゲ まとめ");

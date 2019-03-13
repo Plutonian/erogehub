@@ -72,7 +72,7 @@ public class HeaderController {
 
     private Game targetGame;
 
-    private static final Pattern NAME_SPLITER_REX = Pattern.compile("[〜\\-＜\\s]");
+    private static final Pattern NAME_SPLITER_REX = Pattern.compile("[〜＜＋「\\s]");
 
     @FXML
     private void initialize() {

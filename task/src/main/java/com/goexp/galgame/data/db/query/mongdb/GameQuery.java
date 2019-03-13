@@ -182,6 +182,7 @@ public class GameQuery {
                 g.writer = (List<String>) doc.get("writer");
                 g.tag = (List<String>) doc.get("tag");
                 g.type = (List<String>) doc.get("type");
+                g.state=GameState.from(doc.getInteger("state"));
 
                 logger.debug("{}", g);
 

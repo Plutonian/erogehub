@@ -1,5 +1,7 @@
 package com.goexp.galgame.data.model;
 
+import com.goexp.galgame.common.model.GameState;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +19,7 @@ public class Game {
     public List<String> tag;
     public String story = ""; // ストーリー(HTML)
     public String intro = "";
-
+    public GameState state;
 
     public int brandId;
 

@@ -12,7 +12,7 @@ import static com.mongodb.client.model.Updates.combine;
 import static com.mongodb.client.model.Updates.set;
 
 public class GameDB {
-    DBOperatorTemplate tlp = new DBOperatorTemplate("galgame", "game");
+    static DBOperatorTemplate tlp = new DBOperatorTemplate("galgame", "game");
     DBQueryTemplate qlp = new DBQueryTemplate<Game>("galgame", "game", doc -> null);
 
     public void insert(Game game) {
@@ -21,17 +21,10 @@ public class GameDB {
                 .append("name", game.name)
                 .append("publishDate", game.publishDate)
                 .append("smallImg", game.smallImg)
-//                .append("writer", null)
-//                .append("painter", null)
-//                .append("type", null)
-//                .append("tag", null)
-//                .append("story", "")
-//                .append("intro", "")
                 .append("state", 0)
                 .append("star", 0)
+                .append("state", game.state.getValue())
                 .append("brandId", game.brandId);
-//                .append("gamechar", null)
-//                .append("simpleImg", null);
 
         tlp.exec(documentMongoCollection -> {
             documentMongoCollection.insertOne(gameDoc);
@@ -111,5 +104,15 @@ public class GameDB {
         return qlp.exists(eq("_id", id));
     }
 
+    public static class StateDB {
+        public void update(Game game) {
+            tlp.exec(documentMongoCollection -> {
+                documentMongoCollection.updateOne(
+                        eq("_id", game.id)
+                        , set("state", game.state.getValue())
+                );
+            });
+        }
+    }
 
 }

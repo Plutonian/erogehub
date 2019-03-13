@@ -1,6 +1,7 @@
 package com.goexp.galgame.gui.db.mongo;
 
 import com.goexp.common.db.mongo.DBOperatorTemplate;
+import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +57,15 @@ public class GameDB {
                 documentMongoCollection.updateOne(
                         eq("_id", game.id)
                         , set("state", game.state.get().getValue())
+                );
+            });
+        }
+
+        public void update(int brandId) {
+            tlp.exec(documentMongoCollection -> {
+                documentMongoCollection.updateMany(
+                        eq("brandId", brandId)
+                        , set("state", GameState.BLOCK.getValue())
                 );
             });
         }

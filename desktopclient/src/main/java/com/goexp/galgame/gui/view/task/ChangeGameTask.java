@@ -40,6 +40,23 @@ public class ChangeGameTask {
         }
     }
 
+    public static class MultiLikeByBrand extends Task<Void> {
+
+        private GameDB.StateDB gameDB = new GameDB.StateDB();
+
+        private int brandId;
+
+        public MultiLikeByBrand(int brandId) {
+            this.brandId = brandId;
+        }
+
+        @Override
+        protected Void call() throws Exception {
+            gameDB.update(brandId);
+            return null;
+        }
+    }
+
     public static class Star extends Task<Void> {
 
         private Game game;

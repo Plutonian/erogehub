@@ -9,6 +9,7 @@ import com.goexp.galgame.gui.view.common.control.URLHyperlink;
 import com.goexp.galgame.gui.view.search.MainSearchController;
 import com.goexp.galgame.gui.view.search.frombrand.brand.task.BrandChangeTask;
 import com.goexp.galgame.gui.view.search.frombrand.brand.task.BrandListTask;
+import com.goexp.galgame.gui.view.task.ChangeGameTask;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
@@ -16,7 +17,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -30,7 +30,10 @@ import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -58,6 +61,14 @@ public class BrandTitleController {
             return new BrandChangeTask(changeBrand);
         }
     };
+
+    private Service<Void> changeGameStateService = new Service<>() {
+        @Override
+        protected Task<Void> createTask() {
+            return new ChangeGameTask.MultiLikeByBrand(changeBrand.id);
+        }
+    };
+
 
     private Service<ObservableList<Brand>> listBrandService = new Service<>() {
         @Override
@@ -98,6 +109,10 @@ public class BrandTitleController {
                 changeBrand.isLike = newValue;
 
                 changeBrandStateService.restart();
+
+                if (newValue == BrandType.PASS) {
+                    changeGameStateService.restart();
+                }
             }
         };
 
@@ -184,7 +199,7 @@ public class BrandTitleController {
         Optional.ofNullable(games).ifPresent(list -> {
 
             var tagLbs = list.stream()
-                    .flatMap(game ->game.tag.stream())
+                    .flatMap(game -> game.tag.stream())
                     .filter(s -> s.trim().length() > 0)
                     .collect(Collectors.groupingBy(str -> str))
                     .entrySet()

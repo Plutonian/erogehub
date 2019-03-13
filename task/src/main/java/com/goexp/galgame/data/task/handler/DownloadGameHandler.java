@@ -21,25 +21,19 @@ public class DownloadGameHandler extends DefaultMessageHandler<Integer> {
         var gid = message.entity;
         logger.debug("Download {}", gid);
 
-        boolean error = false;
 
-        do {
+        try {
+            GetChu.GameService.download(gid);
+
+        } catch (IOException | InterruptedException e) {
+            logger.error("Game:{}", gid);
+
             try {
-                if (error) {
-                    var delay = 3000;
-                    Thread.sleep(delay);
-                    logger.info("Re-download:{} after {}", gid, delay);
-                }
-
-                GetChu.GameService.download(gid);
-                error = false;
-
-            } catch (IOException | InterruptedException e) {
-                error = true;
-                logger.error("Game:{}", gid);
-//                e.printStackTrace();
+                msgQueue.offer(new Message<>(MesType.NEED_DOWN_GAME, gid), 60, TimeUnit.SECONDS);
+            } catch (InterruptedException e2) {
+                e2.printStackTrace();
             }
-        } while (error);
+        }
 
 
         try {

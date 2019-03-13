@@ -54,7 +54,7 @@ public class MarkSameGameTask {
 
         final private GameQuery gameService = new GameQuery();
 
-        private static final Pattern NAME_SPLITER_REX = Pattern.compile("[〜＜＋「\\s]");
+        private static final Pattern NAME_SPLITER_REX = Pattern.compile("[〜＜＋（「\\s]");
 
         final static Set<String> checklist = Set.of(
                 "げっちゅ屋Ver",
@@ -63,6 +63,7 @@ public class MarkSameGameTask {
                 "普及版",
                 "Best Windows",
                 "KAGUYAコレクション",
+                "ベストシリーズ",
                 "破格版",
                 "セレクション",
                 "シンプル版"

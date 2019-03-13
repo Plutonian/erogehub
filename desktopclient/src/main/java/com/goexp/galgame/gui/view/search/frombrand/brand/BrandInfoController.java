@@ -89,6 +89,8 @@ public class BrandInfoController {
     }
 
     public void load(Brand brand) {
+
+        logger.info("<Brand> {}", brand);
         this.brand = brand;
 
         titleController.init(brand);

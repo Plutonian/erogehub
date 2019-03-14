@@ -25,6 +25,8 @@ import org.slf4j.LoggerFactory;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static com.goexp.galgame.common.util.GameName.NAME_SPLITER_REX;
+
 
 public class HeaderController {
     private final Logger logger = LoggerFactory.getLogger(HeaderController.class);
@@ -73,8 +75,6 @@ public class HeaderController {
     private HBox boxTag;
 
     private Game targetGame;
-
-    private static final Pattern NAME_SPLITER_REX = Pattern.compile("[〜＜＋（「\\s]");
 
     @FXML
     private void initialize() {

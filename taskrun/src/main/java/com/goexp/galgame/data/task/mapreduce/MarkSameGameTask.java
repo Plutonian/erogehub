@@ -1,6 +1,7 @@
 package com.goexp.galgame.data.task.mapreduce;
 
 import com.goexp.galgame.common.model.GameState;
+import com.goexp.galgame.common.util.GameName;
 import com.goexp.galgame.data.db.importor.mongdb.GameDB;
 import com.goexp.galgame.data.db.query.mongdb.BrandQuery;
 import com.goexp.galgame.data.db.query.mongdb.GameQuery;
@@ -13,12 +14,12 @@ import com.goexp.galgame.data.task.handler.MesType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class MarkSameGameTask {
@@ -48,13 +49,11 @@ public class MarkSameGameTask {
     }
 
 
-    public static class ProcessGameList extends DefaultMessageHandler<Integer> {
+    public static class ProcessBrandGame extends DefaultMessageHandler<Integer> {
 
-        final private Logger logger = LoggerFactory.getLogger(com.goexp.galgame.data.task.handler.ProcessGameList.class);
+        final private Logger logger = LoggerFactory.getLogger(ProcessBrandGame.class);
 
         final private GameQuery gameService = new GameQuery();
-
-        private static final Pattern NAME_SPLITER_REX = Pattern.compile("[〜＜＋（「\\s]");
 
         final static Set<String> checklist = Set.of(
                 "げっちゅ屋Ver",
@@ -82,7 +81,7 @@ public class MarkSameGameTask {
 
                 list.stream()
                         .collect(Collectors.groupingBy(game -> {
-                            var matcher = NAME_SPLITER_REX.matcher(game.name);
+                            var matcher = GameName.NAME_SPLITER_REX.matcher(game.name);
                             return matcher.find() ? game.name.substring(0, matcher.start()) : game.name;
                         }))
                         .entrySet().stream()
@@ -109,7 +108,10 @@ public class MarkSameGameTask {
                                                         .peek(game -> game.state = GameState.SAME);
                                             } else {
                                                 var templist = group.getValue().stream()
-                                                        .sorted(Comparator.comparing(game -> game.name.length()))
+                                                        .sorted(Comparator.comparing(game -> Optional.ofNullable(((Game) game).publishDate).orElse(LocalDate.MIN))
+                                                                .reversed()
+                                                                .thenComparing(game -> ((Game) game).name.length())
+                                                        )
                                                         .filter(game -> game.state == GameState.UNCHECKED)
                                                         .peek(game -> game.state = GameState.SAME)
                                                         .collect(Collectors.toUnmodifiableList());
@@ -141,7 +143,7 @@ public class MarkSameGameTask {
 
     public static class FillProcessGameList extends DefaultMessageHandler<Integer> {
 
-        final private Logger logger = LoggerFactory.getLogger(com.goexp.galgame.data.task.handler.ProcessGameList.class);
+        final private Logger logger = LoggerFactory.getLogger(ProcessBrandGame.class);
 
         final private GameQuery gameService = new GameQuery();
 
@@ -194,7 +196,7 @@ public class MarkSameGameTask {
 
         var pipl = new Piplline(new FromAllBrand());
 
-        pipl.registryCPUTypeMessageHandler(MesType.Brand, new ProcessGameList());
+        pipl.registryCPUTypeMessageHandler(MesType.Brand, new ProcessBrandGame());
         pipl.registryIOTypeMessageHandler(UPDATE_STATE, new UpdateState());
 
         pipl.start();

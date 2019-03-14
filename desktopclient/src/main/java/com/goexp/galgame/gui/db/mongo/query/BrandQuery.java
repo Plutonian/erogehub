@@ -83,11 +83,8 @@ public class BrandQuery implements IBrandQuery {
             g.id = doc.getInteger("_id");
             g.name = doc.getString("name");
             g.website = doc.getString("website");
-//            g.isMain = doc.getBoolean("isMain");
             g.isLike = BrandType.from(doc.getInteger("type"));
             g.comp = doc.getString("comp");
-//            g.index = doc.getString("index");
-//            g.dead = doc.getBoolean("dead");
             return g;
         }
     }

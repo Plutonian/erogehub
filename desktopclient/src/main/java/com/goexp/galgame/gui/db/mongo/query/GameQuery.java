@@ -304,14 +304,4 @@ public class GameQuery implements IGameQuery {
         }
 
     }
-
-
-    private static class Test {
-
-        public static void main(String[] args) {
-            var q = new GameQuery();
-
-            q.list(GameState.PLAYING).forEach(System.out::println);
-        }
-    }
 }

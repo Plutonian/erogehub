@@ -12,25 +12,9 @@ public class Brand {
 
     public String website;
 
-    public String index;
-
-    public boolean isMain;
-
     public BrandType isLike;
 
     public String comp;
-
-    public boolean dead;
-
-    public List<Brand> children;
-
-    public String getIndex() {
-        return index;
-    }
-
-    public boolean isMain() {
-        return isMain;
-    }
 
     public int getId() {
         return id;
@@ -52,21 +36,14 @@ public class Brand {
         return isLike;
     }
 
-    public boolean isDead() {
-        return dead;
-    }
-
     @Override
     public String toString() {
         return "Brand{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", website='" + website + '\'' +
-                ", index='" + index + '\'' +
-                ", isMain=" + isMain +
                 ", isLike=" + isLike +
                 ", comp='" + comp + '\'' +
-                ", dead=" + dead +
                 '}';
     }
 }

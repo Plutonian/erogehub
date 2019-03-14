@@ -11,14 +11,13 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.regex;
+import static com.mongodb.client.model.Filters.*;
 
 public class BrandQuery implements IBrandQuery {
 
     private final Logger logger = LoggerFactory.getLogger(BrandQuery.class);
 
-    private DBQueryTemplate<Brand> tlp = new DBQueryTemplate<>("galgame","brand",new BrandCreator());
+    private DBQueryTemplate<Brand> tlp = new DBQueryTemplate<>("galgame", "brand", new BrandCreator());
 
     @Override
     public Brand getById(int id) {
@@ -53,7 +52,12 @@ public class BrandQuery implements IBrandQuery {
 
         logger.debug("<listByComp> comp={}", comp);
 
-        return tlp.list(eq("comp", comp));
+        return tlp.list(
+                and(
+                        eq("comp", comp),
+                        ne("type", BrandType.PASS.getValue())
+                )
+        );
 
     }
 

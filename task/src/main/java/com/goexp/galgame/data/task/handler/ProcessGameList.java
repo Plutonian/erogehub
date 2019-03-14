@@ -1,5 +1,6 @@
 package com.goexp.galgame.data.task.handler;
 
+import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.data.db.importor.mongdb.GameDB;
 import com.goexp.galgame.data.db.query.mongdb.GameQuery;
 import com.goexp.galgame.data.piplline.core.Message;
@@ -41,6 +42,7 @@ public class ProcessGameList extends DefaultMessageHandler<Integer> {
                             .filter(g -> !indbList.contains(g.id))
                             .forEach(newGame -> {
                                 newGame.brandId = brandId;
+                                newGame.state = GameState.UNCHECKED;
 
                                 logger.info("<Insert> {}", newGame.simpleView());
                                 importor.insert(newGame);

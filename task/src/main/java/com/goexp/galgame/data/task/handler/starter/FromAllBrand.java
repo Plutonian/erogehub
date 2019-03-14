@@ -5,12 +5,15 @@ import com.goexp.galgame.data.piplline.core.Message;
 import com.goexp.galgame.data.piplline.handler.DefaultStarter;
 import com.goexp.galgame.data.task.client.GetChu;
 import com.goexp.galgame.data.task.download.provider.IdsProvider;
+import com.goexp.galgame.data.task.download.provider.brand.CodeIdsProvider;
 import com.goexp.galgame.data.task.download.provider.brand.DBIdsProvider;
 import com.goexp.galgame.data.task.download.provider.brand.ErrorIDSProvider;
+import com.goexp.galgame.data.task.handler.MesType;
 
 import java.nio.file.Files;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class FromAllBrand extends DefaultStarter<Integer> {
 
@@ -37,9 +40,9 @@ public class FromAllBrand extends DefaultStarter<Integer> {
                         System.out.println("Down:" + id);
                         GetChu.BrandService.download(id);
 
-//                        msgQueue.offer(new Message(MesType.Brand, id), 60, TimeUnit.SECONDS);
+                        msgQueue.offer(new Message(MesType.Brand, id), 60, TimeUnit.SECONDS);
                     } catch (Exception e) {
-//                        e.printStackTrace();
+                        e.printStackTrace();
                     }
 
                 });

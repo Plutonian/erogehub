@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.task.others;
+package com.goexp.galgame.data.task.mapreduce;
 
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.data.db.importor.mongdb.GameDB;

@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.task.others;
+package com.goexp.galgame.data.task.mapreduce;
 
 import com.goexp.common.util.Strings;
 import com.goexp.galgame.common.model.CV;
@@ -27,9 +27,7 @@ public class GetTrueCVTask {
 
         logger.info("Init OK");
 
-
         gameQuery.list()
-//                .stream()
                 .parallelStream()
                 .peek(game -> {
 

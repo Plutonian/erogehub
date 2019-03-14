@@ -1,10 +1,10 @@
 package com.goexp.galgame.data.task.others;
 
+import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.common.util.Network;
 import com.goexp.galgame.data.Config;
 import com.goexp.galgame.data.db.importor.mongdb.GameDB;
 import com.goexp.galgame.data.db.query.mongdb.GameQuery;
-import com.goexp.galgame.data.task.handler.MesType;
 import com.goexp.galgame.data.piplline.core.Message;
 import com.goexp.galgame.data.piplline.core.Piplline;
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler;
@@ -14,6 +14,7 @@ import com.goexp.galgame.data.task.download.contentprovider.brand.LocalProvider;
 import com.goexp.galgame.data.task.download.provider.IdsProvider;
 import com.goexp.galgame.data.task.download.provider.brand.DBIdsProvider;
 import com.goexp.galgame.data.task.download.provider.brand.ErrorIDSProvider;
+import com.goexp.galgame.data.task.handler.MesType;
 import com.goexp.galgame.data.task.handler.game.Bytes2Html;
 import com.goexp.galgame.data.task.handler.game.Html2GameOK;
 import com.goexp.galgame.data.task.handler.game.LocalGameHandler;
@@ -76,7 +77,7 @@ public class ImportFromLocalAliveBrandTask {
 
     public static class ProcessGameList extends DefaultMessageHandler<Integer> {
 
-        final private Logger logger = LoggerFactory.getLogger(com.goexp.galgame.data.task.handler.ProcessGameList.class);
+        final private Logger logger = LoggerFactory.getLogger(ProcessGameList.class);
 
         final private GameQuery gameService = new GameQuery();
         final private GameDB importor = new GameDB();
@@ -105,6 +106,7 @@ public class ImportFromLocalAliveBrandTask {
                         parseGameList.stream()
                                 .forEach(newGame -> {
                                     newGame.brandId = brandId;
+                                    newGame.state = GameState.UNCHECKED;
 
                                     logger.info("<Insert> {}", newGame.simpleView());
                                     importor.insert(newGame);

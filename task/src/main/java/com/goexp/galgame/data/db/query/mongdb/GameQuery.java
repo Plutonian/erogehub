@@ -16,13 +16,10 @@ import java.util.stream.Collectors;
 
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Projections.exclude;
-import static com.mongodb.client.model.Projections.include;
 
 public class GameQuery {
 
     private final Logger logger = LoggerFactory.getLogger(GameQuery.class);
-
-    private DBQueryTemplate tlp = new DBQueryTemplate("galgame", "game", new Creator.SimpleGame());
 
     private DBQueryTemplate fullTlp = new DBQueryTemplate("galgame", "game", new Creator.FullGame());
 
@@ -33,15 +30,20 @@ public class GameQuery {
         );
     }
 
+
+    public List<Game> list() {
+        return fullTlp.list();
+    }
+
     public List<Game> list(GameState gameState) {
-        return tlp.list(
+        return fullTlp.list(
                 eq("state", gameState.getValue())
                 , exclude("gamechar", "simpleImg")
         );
     }
 
     public List<Game> listByStarRange(int begin, int end) {
-        return tlp.list(
+        return fullTlp.list(
                 and(gte("star", begin), lte("star", end))
                 , exclude("gamechar", "simpleImg")
         );
@@ -49,7 +51,7 @@ public class GameQuery {
 
     public List<Game> listByBrand(int brandId) {
 
-        return tlp.list(
+        return fullTlp.list(
                 eq("brandId", brandId)
                 , exclude("gamechar", "simpleImg")
         );
@@ -57,64 +59,19 @@ public class GameQuery {
     }
 
     public List<Game> list(int brandId, GameState gameState) {
-        return tlp.list(
+        return fullTlp.list(
                 and(eq("brandId", brandId), eq("state", gameState.getValue()))
                 , exclude("gamechar", "simpleImg")
         );
     }
 
     public List<Game> list(LocalDate start, LocalDate end) {
-        return tlp.list(and(
+        return fullTlp.list(and(
                 gte("publishDate", DateUtil.toDate(start.toString() + " 00:00:00")),
                 lte("publishDate", DateUtil.toDate(end.toString() + " 23:59:59"))
                 )
                 , exclude("gamechar", "simpleImg")
         );
-    }
-
-    public List<Game> searchByName(String keyword) {
-
-        return tlp.list(
-                regex("name", "^" + keyword)
-                , exclude("gamechar", "simpleImg")
-        );
-    }
-
-    public List<Game> searchByNameEx(String keyword) {
-
-        return tlp.list(
-                regex("name", keyword)
-                , exclude("gamechar", "simpleImg")
-        );
-    }
-
-    public List<Game> searchByTag(String tag) {
-
-        return tlp.list(
-                or(eq("tag", tag), regex("name", tag))
-                , exclude("gamechar", "simpleImg")
-        );
-
-
-    }
-
-    public List<Game> searchByPainter(String keyword) {
-
-        return tlp.list(
-                eq("painter", keyword)
-                , exclude("gamechar", "simpleImg")
-        );
-
-
-    }
-
-    public List<Game> queryByCV(String keyword) {
-        return tlp.list(
-                eq("gamechar.truecv", keyword)
-                , exclude("gamechar", "simpleImg")
-        );
-
-
     }
 
     static class Creator {
@@ -182,7 +139,7 @@ public class GameQuery {
                 g.writer = (List<String>) doc.get("writer");
                 g.tag = (List<String>) doc.get("tag");
                 g.type = (List<String>) doc.get("type");
-                g.state=GameState.from(doc.getInteger("state"));
+                g.state = GameState.from(doc.getInteger("state"));
 
                 logger.debug("{}", g);
 
@@ -251,47 +208,6 @@ public class GameQuery {
 
                 return g;
             }
-        }
-    }
-
-    public static class GameCharQuery {
-        private DBQueryTemplate<Game> tlp = new DBQueryTemplate<Game>("galgame", "game", new Creator.CharList());
-
-        public List<Game.GameCharacter> list(int gameId) {
-
-
-            var g = tlp.one(
-                    eq("_id", gameId)
-                    , include("gamechar")
-            );
-
-            return g.gameCharacterList;
-        }
-    }
-
-    public static class GameImgQuery {
-
-        private DBQueryTemplate<Game> tlp = new DBQueryTemplate<Game>("galgame", "game", new Creator.SimpleImgList());
-
-        public List<Game.Img> list(int gameId) {
-
-            var g = tlp.one(
-                    eq("_id", gameId)
-                    , include("simpleImg")
-            );
-
-            return g.imgList;
-        }
-
-    }
-
-
-    private static class Test {
-
-        public static void main(String[] args) {
-            var q = new GameQuery();
-
-            q.list(GameState.PLAYING).forEach(System.out::println);
         }
     }
 }

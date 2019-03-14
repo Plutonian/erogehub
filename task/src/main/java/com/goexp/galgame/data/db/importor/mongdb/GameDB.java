@@ -5,6 +5,7 @@ import com.goexp.common.db.mongo.DBQueryTemplate;
 import com.goexp.galgame.data.model.Game;
 import org.bson.Document;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -61,26 +62,30 @@ public class GameDB {
 
     public void updateChar(Game game) {
 
-        var gameCharDocs = game.gameCharacterList
-                .stream()
-                .map(gameCharacter -> {
-                    var doc = new Document("name", gameCharacter.name)
-                            .append("intro", gameCharacter.intro)
-                            .append("cv", gameCharacter.cv)
-                            .append("truecv", gameCharacter.trueCV)
-                            .append("img", gameCharacter.img)
-                            .append("index", gameCharacter.index);
+        Optional.ofNullable(game.gameCharacterList)
+                .ifPresent(list -> {
+
+                    var gameCharDocs = list.stream()
+                            .map(gameCharacter -> {
+                                var doc = new Document("name", gameCharacter.name)
+                                        .append("intro", gameCharacter.intro)
+                                        .append("cv", gameCharacter.cv)
+                                        .append("truecv", gameCharacter.trueCV)
+                                        .append("img", gameCharacter.img)
+                                        .append("index", gameCharacter.index);
 
 
-                    return doc;
+                                return doc;
 
-                })
-                .collect(Collectors.toList());
+                            })
+                            .collect(Collectors.toList());
 
-        tlp.exec(documentMongoCollection -> {
-            documentMongoCollection.updateOne(eq("_id", game.id),
-                    set("gamechar", gameCharDocs));
-        });
+                    tlp.exec(documentMongoCollection -> {
+                        documentMongoCollection.updateOne(eq("_id", game.id),
+                                set("gamechar", gameCharDocs));
+                    });
+
+                });
     }
 
     public void updateImg(Game game) {

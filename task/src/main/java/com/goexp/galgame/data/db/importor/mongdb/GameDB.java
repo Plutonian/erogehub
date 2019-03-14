@@ -62,7 +62,7 @@ public class GameDB {
 
     public void updateChar(Game game) {
 
-        Optional.ofNullable(game.gameCharacterList)
+        Optional.ofNullable(game.gameCharacters)
                 .ifPresent(list -> {
 
                     var gameCharDocs = list.stream()
@@ -90,7 +90,7 @@ public class GameDB {
 
     public void updateImg(Game game) {
 
-        var imgdocs = game.imgList.stream()
+        var imgdocs = game.gameImgs.stream()
                 .map(img -> {
                     var doc = new Document("src", img.src)
                             .append("index", img.index);

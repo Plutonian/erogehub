@@ -16,8 +16,8 @@ public class DetailPageParser {
         var root = Jsoup.parse(html);
 
         var game = new DetailPartParser().parse(gameId, root);
-        game.gameCharacterList = new GameCharPartParser().parse(gameId, root);
-        game.imgList = new SimpleImgPartParser().parse(gameId, root);
+        game.gameCharacters = new GameCharPartParser().parse(gameId, root);
+        game.gameImgs = new SimpleImgPartParser().parse(gameId, root);
 
         return game;
     }
@@ -115,14 +115,14 @@ public class DetailPageParser {
 
         private int imgIndex = 1;
 
-        private List<Game.Img> parse(int gameId, Document root) {
+        private List<Game.GameImg> parse(int gameId, Document root) {
             return root.select("#wrapper div.tabletitle:contains(サンプル画像)")
                     .next()
                     .select("a.highslide")
                     .stream()
                     .map(a -> {
 
-                        var img = new Game.Img();
+                        var img = new Game.GameImg();
                         img.src = a.attr("href");
                         img.index = imgIndex;
                         imgIndex++;

@@ -164,7 +164,6 @@ public class GameQuery implements IGameQuery {
                 gameCharacter.trueCV = doc.getString("truecv");
                 gameCharacter.img = doc.getString("img");
                 gameCharacter.index = doc.getInteger("index");
-                gameCharacter.gameId = gameid;
 
                 logger.debug("{}", gameCharacter);
 

@@ -101,13 +101,13 @@ public class GameQuery {
             }
         }
 
-        static class SimpleImg implements ObjectCreator<Game.Img> {
+        static class SimpleImg implements ObjectCreator<Game.GameImg> {
 
             private final Logger logger = LoggerFactory.getLogger(SimpleImg.class);
 
             @Override
-            public Game.Img create(Document doc) {
-                var gameImg = new Game.Img();
+            public Game.GameImg create(Document doc) {
+                var gameImg = new Game.GameImg();
                 gameImg.src = doc.getString("src");
                 gameImg.index = doc.getInteger("index");
                 logger.debug("{}", gameImg);
@@ -159,7 +159,7 @@ public class GameQuery {
                         .ifPresent(list -> {
 
                             var gamecharCreator = new GameChar(g.id);
-                            g.gameCharacterList = ((List<Document>) list).stream()
+                            g.gameCharacters = ((List<Document>) list).stream()
                                     .map(gamecharCreator::create)
                                     .collect(Collectors.toUnmodifiableList());
                         });
@@ -169,7 +169,7 @@ public class GameQuery {
                         .ifPresent(list -> {
                             var simpleImgCreator = new SimpleImg();
 
-                            g.imgList = ((List<Document>) list).stream()
+                            g.gameImgs = ((List<Document>) list).stream()
                                     .map(simpleImgCreator::create)
                                     .collect(Collectors.toUnmodifiableList());
 
@@ -186,7 +186,7 @@ public class GameQuery {
                 var g = new Game();
                 var gamecharCreator = new GameChar(g.id);
 
-                g.gameCharacterList = ((List<Document>) doc.get("gamechar")).stream()
+                g.gameCharacters = ((List<Document>) doc.get("gamechar")).stream()
                         .map(gamecharCreator::create)
                         .collect(Collectors.toList());
 
@@ -202,7 +202,7 @@ public class GameQuery {
 
                 var simpleImgCreator = new SimpleImg();
 
-                g.imgList = ((List<Document>) doc.get("simpleImg")).stream()
+                g.gameImgs = ((List<Document>) doc.get("simpleImg")).stream()
                         .map(simpleImgCreator::create)
                         .collect(Collectors.toList());
 

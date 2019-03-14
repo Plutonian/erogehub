@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.model;
+package com.goexp.galgame.common.model;
 
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +27,6 @@ public class TagType {
         return "TagType{" +
                 "type='" + type + '\'' +
                 ", order=" + order +
-                ", tags=" + tags +
                 '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.goexp.galgame.data.parser;
 
+import com.goexp.galgame.common.model.CommonGame;
 import com.goexp.galgame.data.model.Game;
 import org.jsoup.Jsoup;
 
@@ -23,7 +24,7 @@ public class GameGuideParser {
 
                         var guide = new Game.Guide();
                         guide.title = a.text();
-                        guide.from = Game.Guide.DataFrom.sagaoz_net;
+                        guide.from = CommonGame.Guide.DataFrom.sagaoz_net;
                         guide.href = a.attr("href");
                         guide.id = guide.href;
 
@@ -50,7 +51,7 @@ public class GameGuideParser {
 
                                     var guide = new Game.Guide();
                                     guide.title = a.text();
-                                    guide.from = Game.Guide.DataFrom.seiya_saiga_com;
+                                    guide.from = CommonGame.Guide.DataFrom.seiya_saiga_com;
                                     guide.href = "http://seiya-saiga.com/game/" + a.attr("href");
                                     guide.id = guide.href;
 

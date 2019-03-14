@@ -3,8 +3,6 @@ package com.goexp.galgame.gui.db.mongo;
 import com.goexp.common.db.mongo.DBOperatorTemplate;
 import com.goexp.galgame.gui.model.Brand;
 
-import java.sql.SQLException;
-
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
 

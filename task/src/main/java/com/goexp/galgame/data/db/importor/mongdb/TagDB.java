@@ -2,7 +2,7 @@ package com.goexp.galgame.data.db.importor.mongdb;
 
 import com.goexp.common.db.mongo.DBOperatorTemplate;
 import com.goexp.common.db.mysql.DBUpdateTemplate;
-import com.goexp.galgame.data.model.TagType;
+import com.goexp.galgame.common.model.TagType;
 import org.bson.Document;
 
 import java.util.List;

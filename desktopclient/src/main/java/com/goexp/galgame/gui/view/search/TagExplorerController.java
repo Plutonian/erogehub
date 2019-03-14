@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.view.search;
 
-import com.goexp.galgame.gui.model.Tag;
+import com.goexp.galgame.common.model.TagType;
 import com.goexp.galgame.gui.util.CommonTabController;
 import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.TabSelect;
@@ -32,9 +32,9 @@ public class TagExplorerController {
     public String tag;
     @FXML
     private FlowPane tabType;
-    private Service<ObservableList<Tag.TagType>> typeService = new Service<>() {
+    private Service<ObservableList<TagType>> typeService = new Service<>() {
         @Override
-        protected Task<ObservableList<Tag.TagType>> createTask() {
+        protected Task<ObservableList<TagType>> createTask() {
             return new TagListTask();
         }
     };

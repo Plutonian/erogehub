@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.parser;
 
-import com.goexp.galgame.data.model.TagType;
+import com.goexp.galgame.common.model.TagType;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 

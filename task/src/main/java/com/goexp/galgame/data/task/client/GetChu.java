@@ -222,7 +222,7 @@ public class GetChu {
 //            try {
 //                var g = GameService.getFrom(1000302, GetchuURL.DEFAULT_CHARSET.decode(ByteBuffer.wrap(bytes)).toString());
 
-//                g.gameCharacterList.forEach(gameCharacter -> {
+//                g.gameCharacters.forEach(gameCharacter -> {
 
             try {
                 var byt = DEFAULT_CHARSET.encode("彧");
@@ -254,7 +254,7 @@ public class GetChu {
             var g = DEFAULT_CHARSET.decode(ByteBuffer.wrap(bytes)).toString();
             System.out.println(g);
 
-//                g.gameCharacterList.forEach(gameCharacter -> {
+//                g.gameCharacters.forEach(gameCharacter -> {
 //
 //                    try {
 //                        var byt = GetchuURL.DEFAULT_CHARSET.encode("彧" + "\n");

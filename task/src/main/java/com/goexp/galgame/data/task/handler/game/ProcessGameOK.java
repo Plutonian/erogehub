@@ -69,17 +69,17 @@ public class ProcessGameOK extends DefaultMessageHandler<Game> {
             gameDB.updateAll(remoteGame);
         }
 
-        remoteGame.gameCharacterList = merge(localGame.gameCharacterList, remoteGame.gameCharacterList);
+        remoteGame.gameCharacters = merge(localGame.gameCharacters, remoteGame.gameCharacters);
 
         gameDB.updateChar(remoteGame);
 
-        var localImgSize = localGame.imgList == null ? 0 : localGame.imgList.size();
-        var remoteImgSize = remoteGame.imgList == null ? 0 : remoteGame.imgList.size();
+        var localImgSize = localGame.gameImgs == null ? 0 : localGame.gameImgs.size();
+        var remoteImgSize = remoteGame.gameImgs == null ? 0 : remoteGame.gameImgs.size();
 
         if (remoteImgSize > localImgSize) {
 
             logger.info("Game:{}", remoteGame.id);
-            logger.info("Update Img:Local size:{},Remote size:{}", localImgSize, remoteImgSize);
+            logger.info("Update GameImg:Local size:{},Remote size:{}", localImgSize, remoteImgSize);
 
             gameDB.updateImg(remoteGame);
         }

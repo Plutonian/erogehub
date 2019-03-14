@@ -31,8 +31,8 @@ public class GetTrueCVTask {
                 .parallelStream()
                 .peek(game -> {
 
-                    if (game.gameCharacterList != null)
-                        game.gameCharacterList = game.gameCharacterList.stream()
+                    if (game.gameCharacters != null)
+                        game.gameCharacters = game.gameCharacters.stream()
                                 .peek(gameCharacter -> {
                                     if (!Strings.isEmpty(gameCharacter.cv)) {
                                         var cv = cvMap.get(gameCharacter.cv.trim().toLowerCase());

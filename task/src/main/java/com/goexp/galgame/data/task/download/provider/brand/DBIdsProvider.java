@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DBIdsProvider implements IdsProvider {
-    final private BrandQuery brandService = new BrandQuery();
+
 
     @Override
     public List<Integer> getIds() {
 
-        return brandService.list().stream().map(brand -> brand.id).collect(Collectors.toList());
+        return BrandQuery.tlp.query()
+                .list().stream()
+                .map(brand -> brand.id)
+                .collect(Collectors.toList());
 
     }
 }

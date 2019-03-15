@@ -1,7 +1,6 @@
 package com.goexp.galgame.gui.view.search.frombrand.brand.task;
 
 import com.goexp.galgame.common.model.BrandType;
-import com.goexp.galgame.gui.db.IBrandQuery;
 import com.goexp.galgame.gui.db.mongo.query.BrandQuery;
 import com.goexp.galgame.gui.model.Brand;
 import javafx.collections.FXCollections;
@@ -14,9 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class BrandSearchTask {
-    private static IBrandQuery brandQuery = new BrandQuery();
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.regex;
 
+public class BrandSearchTask {
     public static class ByName extends Task<ObservableList<TreeItem<Brand>>> {
 
         private String name;
@@ -29,7 +29,9 @@ public class BrandSearchTask {
         protected ObservableList<TreeItem<Brand>> call() {
 
 
-            var list = brandQuery.listByName(name);
+            var list = BrandQuery.tlp.query()
+                    .where(regex("name", "^" + name))
+                    .list();
 
             return FXCollections.observableArrayList(makeTree(list));
         }
@@ -78,9 +80,11 @@ public class BrandSearchTask {
 
             List<Brand> list;
             if (type == BrandType.ALL) {
-                list = brandQuery.list();
+                list = BrandQuery.tlp.query().list();
             } else {
-                list = brandQuery.list(type.getValue());
+                list = BrandQuery.tlp.query()
+                        .where(eq("type", type.getValue()))
+                        .list();
 
             }
 
@@ -129,7 +133,9 @@ public class BrandSearchTask {
         protected ObservableList<TreeItem<Brand>> call() {
 
 
-            var list = brandQuery.queryByComp(name);
+            var list = BrandQuery.tlp.query()
+                    .where(regex("comp", name))
+                    .list();
 
             return FXCollections.observableArrayList(makeTree(list));
         }

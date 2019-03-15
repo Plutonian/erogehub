@@ -12,8 +12,6 @@ import java.util.stream.Collectors;
 
 public class GetTrueCVTask {
 
-    private static CVQuery cvQuery = new CVQuery();
-    private static GameQuery gameQuery = new GameQuery();
     private static GameDB gameDB = new GameDB();
 
 
@@ -22,12 +20,13 @@ public class GetTrueCVTask {
         final Logger logger = LoggerFactory.getLogger(GetTrueCVTask.class);
 
 
-        var cvMap = CV.getMap(cvQuery.cvList());
+        var cvMap = CV.getMap(CVQuery.tlp.query().list());
 
 
         logger.info("Init OK");
 
-        gameQuery.list()
+        GameQuery.fullTlp.query()
+                .list()
                 .parallelStream()
                 .peek(game -> {
 

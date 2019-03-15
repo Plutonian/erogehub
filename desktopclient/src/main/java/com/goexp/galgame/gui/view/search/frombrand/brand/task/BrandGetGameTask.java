@@ -1,8 +1,6 @@
 package com.goexp.galgame.gui.view.search.frombrand.brand.task;
 
 import com.goexp.galgame.common.model.GameState;
-import com.goexp.galgame.gui.db.IBrandQuery;
-import com.goexp.galgame.gui.db.IGameQuery;
 import com.goexp.galgame.gui.db.mongo.query.BrandQuery;
 import com.goexp.galgame.gui.db.mongo.query.GameQuery;
 import com.goexp.galgame.gui.model.Brand;
@@ -14,9 +12,10 @@ import javafx.concurrent.Task;
 
 import java.util.stream.Collectors;
 
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
+
 public class BrandGetGameTask {
-    private static IBrandQuery brandQuery = new BrandQuery();
-    private static IGameQuery gameQuery = new GameQuery();
 
 
     public static class ByBrand extends Task<ObservableList<Game>> {
@@ -36,13 +35,20 @@ public class BrandGetGameTask {
             if (AppCache.brandCache.containsKey(brandId)) {
                 brand = AppCache.brandCache.get(brandId);
             } else {
-                brand = brandQuery.getById(brandId);
+
+                brand = BrandQuery.tlp.query()
+                        .where(eq("_id", brandId))
+                        .one();
                 AppCache.brandCache.put(brandId, brand);
             }
 
-            var list = gameQuery.listByBrand(brandId).stream().peek(g -> {
-                g.brand = brand;
-            }).collect(Collectors.toList());
+            var list = GameQuery.tlp.query()
+                    .where(eq("brandId", brandId))
+                    .list().stream()
+                    .peek(g -> {
+                        g.brand = brand;
+                    })
+                    .collect(Collectors.toList());
 
             return FXCollections.observableArrayList(list);
         }
@@ -65,13 +71,25 @@ public class BrandGetGameTask {
             if (AppCache.brandCache.containsKey(brandId)) {
                 brand = AppCache.brandCache.get(brandId);
             } else {
-                brand = brandQuery.getById(brandId);
+
+                brand = BrandQuery.tlp.query()
+                        .where(eq("_id", brandId))
+                        .one();
                 AppCache.brandCache.put(brandId, brand);
             }
 
-            var list = gameQuery.list(brandId, gameState).stream().peek(g -> {
-                g.brand = brand;
-            }).collect(Collectors.toList());
+            var list = GameQuery.tlp.query()
+                    .where(
+                            and(
+                                    eq("brandId", brandId),
+                                    eq("state", gameState.getValue())
+                            )
+                    )
+                    .list().stream()
+                    .peek(g -> {
+                        g.brand = brand;
+                    })
+                    .collect(Collectors.toList());
 
             return FXCollections.observableArrayList(list);
         }

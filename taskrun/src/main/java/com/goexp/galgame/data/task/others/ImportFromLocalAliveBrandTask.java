@@ -29,6 +29,8 @@ import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import static com.mongodb.client.model.Filters.eq;
+
 public class ImportFromLocalAliveBrandTask {
 
     public static class StartFromAllAliveBrand extends DefaultStarter<Integer> {
@@ -79,7 +81,6 @@ public class ImportFromLocalAliveBrandTask {
 
         final private Logger logger = LoggerFactory.getLogger(ProcessGameList.class);
 
-        final private GameQuery gameService = new GameQuery();
         final private GameDB importor = new GameDB();
         final private ListProvider listProvider = new LocalProvider();
 
@@ -92,7 +93,9 @@ public class ImportFromLocalAliveBrandTask {
 
                 var parseGameList = listProvider.getList(brandId);
 
-                final var indbList = gameService.listByBrand(brandId);
+                final var indbList = GameQuery.fullTlp.query()
+                        .where(eq("brandId", brandId))
+                        .list();
 
                 Optional.ofNullable(parseGameList).ifPresent((list) -> {
 

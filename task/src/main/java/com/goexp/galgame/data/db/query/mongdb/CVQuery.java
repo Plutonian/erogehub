@@ -7,17 +7,9 @@ import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+public class CVQuery {
 
-public class CVQuery  {
-
-    private DBQueryTemplate<CV> tlp = new DBQueryTemplate<>("galgame", "cv", new CVCreator());
-
-    public List<CV> cvList() {
-
-        return tlp.list();
-
-    }
+    public static final DBQueryTemplate<CV> tlp = new DBQueryTemplate.Builder<>("galgame", "cv", new CVCreator()).build();
 
     private static class CVCreator implements ObjectCreator<CV> {
 

@@ -1,135 +1,140 @@
 package com.goexp.common.db.mongo;
 
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
 
 public class DBQueryTemplate<T> extends DBOperatorTemplate {
 
-    private final ObjectCreator<T> creator;
+    private Bson defaultSort;
 
-    public DBQueryTemplate(String dbName, String tableName, ObjectCreator<T> creator) {
+    private Bson defaultSelect;
+
+    private final ObjectCreator<T> defaultCreator;
+
+    private DBQueryTemplate(String dbName, String tableName, ObjectCreator<T> defaultCreator) {
         super(dbName, tableName);
 
-        Objects.requireNonNull(creator);
-        this.creator = creator;
+        Objects.requireNonNull(defaultCreator);
+        this.defaultCreator = defaultCreator;
+    }
+
+    private DBQueryTemplate(String dbName, String tableName, ObjectCreator<T> defaultCreator, Bson defaultSelect, Bson defaultSort) {
+        this(dbName, tableName, defaultCreator);
+
+        this.defaultSelect = defaultSelect;
+        this.defaultSort = defaultSort;
+    }
+
+    public QueryBuilder<T> query() {
+        return this.new QueryBuilder<T>();
     }
 
 
-    public boolean exists(Bson filters) {
-        var db = mongoClient.getDatabase(dbName);
-        var collection = db.getCollection(tableName);
-        var docs = collection.find(filters);
+    public class QueryBuilder<T> {
 
-        return docs.first() != null;
-    }
-
-    public T one(Bson filters) {
-
-        var db = mongoClient.getDatabase(dbName);
-        var collection = db.getCollection(tableName);
-        var docs = collection.find(filters);
-
-        return docs.first() != null ? creator.create(docs.first()) : null;
-    }
-
-    public T one(Bson filters, Bson select) {
-
-        var db = mongoClient.getDatabase(dbName);
-        var collection = db.getCollection(tableName);
-        var docs = collection.find(filters).projection(select);
-
-        return docs.first() != null ? creator.create(docs.first()) : null;
-    }
-
-
-    public List<T> list(Bson where, Bson select,Bson sort) {
-
-        Objects.requireNonNull(where);
-        Objects.requireNonNull(select);
-        Objects.requireNonNull(sort);
-
-        var db = mongoClient.getDatabase(dbName);
-        var collection = db.getCollection(tableName);
-
-        var docs = collection.find(where).projection(select).sort(sort);
-
-        var list = new ArrayList<T>();
-        for (var doc : docs) {
-            list.add(creator.create(doc));
+        private QueryBuilder() {
         }
-        return list;
+
+        private Bson where;
+
+        private Bson select;
+
+        private Bson sort;
 
 
-    }
-
-    public List<T> list(Bson where, Bson select) {
-
-        Objects.requireNonNull(where);
-        Objects.requireNonNull(select);
-
-        var db = mongoClient.getDatabase(dbName);
-        var collection = db.getCollection(tableName);
-
-        var docs = collection.find(where).projection(select);
-
-        var list = new ArrayList<T>();
-        for (var doc : docs) {
-            list.add(creator.create(doc));
+        public QueryBuilder<T> where(Bson where) {
+            this.where = where;
+            return this;
         }
-        return list;
 
-
-    }
-
-    public List<T> list(Bson filters) {
-        Objects.requireNonNull(filters);
-
-        var db = mongoClient.getDatabase(dbName);
-        var collection = db.getCollection(tableName);
-
-        var docs = collection.find(filters);
-
-        var list = new ArrayList<T>();
-        for (var doc : docs) {
-            list.add(creator.create(doc));
+        public QueryBuilder<T> select(Bson select) {
+            this.select = select;
+            return this;
         }
-        return list;
 
-
-    }
-
-    public List<T> list() {
-
-        var db = mongoClient.getDatabase(dbName);
-        var collection = db.getCollection(tableName);
-        var docs = collection.find();
-
-        var list = new ArrayList<T>();
-        for (var doc : docs) {
-            list.add(creator.create(doc));
+        public QueryBuilder<T> sort(Bson sort) {
+            this.sort = sort;
+            return this;
         }
-        return list;
-    }
 
-    public List<T> list(Function<MongoCollection<Document>, FindIterable<Document>> back) {
-        Objects.requireNonNull(back);
+        public List<T> list() {
+            var db = mongoClient.getDatabase(dbName);
+            var collection = db.getCollection(tableName);
 
-        var db = mongoClient.getDatabase(dbName);
-        var collection = db.getCollection(tableName);
-        var docs = back.apply(collection);
+            var temp = where != null ? collection.find(where) : collection.find();
 
-        var list = new ArrayList<T>();
-        for (var doc : docs) {
-            list.add(creator.create(doc));
+            // choice select
+            if (select != null)
+                temp = temp.projection(select);
+            else if (defaultSelect != null)
+                temp = temp.projection(defaultSelect);
+
+            // choice sort
+            if (sort != null)
+                temp = temp.sort(sort);
+            else if (defaultSort != null)
+                temp = temp.sort(defaultSort);
+
+            var docs = temp;
+
+            var list = new ArrayList<T>();
+            for (var doc : docs) {
+                list.add((T) defaultCreator.create(doc));
+            }
+            return list;
         }
-        return list;
+
+        public T one() {
+            var db = mongoClient.getDatabase(dbName);
+            var collection = db.getCollection(tableName);
+
+            var temp = where != null ? collection.find(where) : collection.find();
+            var docs = temp;
+
+            return docs.first() != null ? (T) defaultCreator.create(docs.first()) : null;
+        }
+
+        public boolean exists() {
+            var db = mongoClient.getDatabase(dbName);
+            var collection = db.getCollection(tableName);
+
+            var temp = where != null ? collection.find(where) : collection.find();
+            var docs = temp;
+
+            return docs.first() != null;
+        }
+
     }
 
+    public static class Builder<T> {
+        private String dbName;
+        private String tableName;
+        private ObjectCreator<T> creator;
+        private Bson defaultSort;
+        private Bson defaultSelect;
+
+
+        public Builder(String dbName, String tableName, ObjectCreator<T> creator) {
+            this.dbName = dbName;
+            this.tableName = tableName;
+            this.creator = creator;
+        }
+
+        public Builder defaultSort(Bson defaultSort) {
+            this.defaultSort = defaultSort;
+            return this;
+        }
+
+        public Builder defaultSelect(Bson defaultSelect) {
+            this.defaultSelect = defaultSelect;
+            return this;
+        }
+
+        public DBQueryTemplate<T> build() {
+            return new DBQueryTemplate<>(dbName, tableName, creator, defaultSelect, defaultSort);
+        }
+    }
 }

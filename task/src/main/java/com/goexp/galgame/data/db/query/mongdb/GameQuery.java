@@ -9,70 +9,19 @@ import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Projections.exclude;
 
 public class GameQuery {
 
-    private final Logger logger = LoggerFactory.getLogger(GameQuery.class);
-
-    private DBQueryTemplate fullTlp = new DBQueryTemplate("galgame", "game", new Creator.FullGame());
-
-
-    public Game get(int id) {
-        return (Game) fullTlp.one(
-                eq("_id", id)
-        );
-    }
-
-
-    public List<Game> list() {
-        return fullTlp.list();
-    }
-
-    public List<Game> list(GameState gameState) {
-        return fullTlp.list(
-                eq("state", gameState.getValue())
-                , exclude("gamechar", "simpleImg")
-        );
-    }
-
-    public List<Game> listByStarRange(int begin, int end) {
-        return fullTlp.list(
-                and(gte("star", begin), lte("star", end))
-                , exclude("gamechar", "simpleImg")
-        );
-    }
-
-    public List<Game> listByBrand(int brandId) {
-
-        return fullTlp.list(
-                eq("brandId", brandId)
-                , exclude("gamechar", "simpleImg")
-        );
-
-    }
-
-    public List<Game> list(int brandId, GameState gameState) {
-        return fullTlp.list(
-                and(eq("brandId", brandId), eq("state", gameState.getValue()))
-                , exclude("gamechar", "simpleImg")
-        );
-    }
-
-    public List<Game> list(LocalDate start, LocalDate end) {
-        return fullTlp.list(and(
-                gte("publishDate", DateUtil.toDate(start.toString() + " 00:00:00")),
-                lte("publishDate", DateUtil.toDate(end.toString() + " 23:59:59"))
-                )
-                , exclude("gamechar", "simpleImg")
-        );
-    }
+    public static final DBQueryTemplate<Game> fullTlp = new DBQueryTemplate.Builder<Game>("galgame",
+            "game",
+            new Creator.FullGame())
+            .defaultSelect(exclude("gamechar", "simpleImg"))
+            .build();
 
     static class Creator {
 

@@ -1,15 +1,15 @@
 package com.goexp.galgame.gui.view.search.frombrand.brand.task;
 
-import com.goexp.galgame.gui.db.IBrandQuery;
+import com.goexp.galgame.common.model.BrandType;
 import com.goexp.galgame.gui.db.mongo.query.BrandQuery;
 import com.goexp.galgame.gui.model.Brand;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
-public class BrandListTask {
+import static com.mongodb.client.model.Filters.*;
 
-    private static IBrandQuery brandQuery = new BrandQuery();
+public class BrandListTask {
 
     public static class ByComp extends Task<ObservableList<Brand>> {
 
@@ -24,7 +24,14 @@ public class BrandListTask {
         protected ObservableList<Brand> call() {
 
 
-            var list = brandQuery.listByComp(name);
+            var list = BrandQuery.tlp.query()
+                    .where(
+                            and(
+                                    eq("comp", name),
+                                    ne("type", BrandType.PASS.getValue())
+                            )
+                    )
+                    .list();
 
             return FXCollections.observableArrayList(list);
         }

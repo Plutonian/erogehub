@@ -81,7 +81,8 @@ public class GroupBrandTask {
 
         var hostRegex = Pattern.compile("http[s]?://(?:ww[^\\.]+\\.)?(?<host>[^/]+)[/]?");
 
-        new BrandQuery().list()
+        BrandQuery.tlp.query()
+                .list()
                 .stream()
                 .filter(b -> {
                     return b.website != null && b.website.trim().length() > 0;
@@ -125,7 +126,8 @@ public class GroupBrandTask {
 
             var hostRegex = Pattern.compile("http[s]?://(?:ww[^\\.]+\\.)?(?<host>[^/]+)[/]?");
 
-            new BrandQuery().list()
+            BrandQuery.tlp.query()
+                    .list()
                     .stream()
                     .filter(b -> {
                         return b.website != null && b.website.trim().length() > 0;

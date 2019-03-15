@@ -4,156 +4,32 @@ import com.goexp.common.db.mongo.DBQueryTemplate;
 import com.goexp.common.db.mongo.ObjectCreator;
 import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;
-import com.goexp.galgame.gui.db.IGameQuery;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Projections.exclude;
-import static com.mongodb.client.model.Projections.include;
 import static com.mongodb.client.model.Sorts.descending;
 
-public class GameQuery implements IGameQuery {
+public class GameQuery {
 
-    private final Logger logger = LoggerFactory.getLogger(GameQuery.class);
-
-    private DBQueryTemplate<Game> tlp = new DBQueryTemplate<>("galgame", "game", new Creator.SimpleGame());
-
-
-    @Override
-    public List<Game> list(GameState gameState) {
-        return tlp.list(
-                eq("state", gameState.getValue())
-                , exclude("gamechar", "simpleImg")
-                , descending("publishDate", "name")
-
-        );
-    }
-
-    @Override
-    public List<Game> listByStarRange(int begin, int end) {
-        return tlp.list(
-                and(gte("star", begin), lte("star", end))
-                , exclude("gamechar", "simpleImg")
-                , descending("publishDate", "name")
-        );
-    }
-
-    @Override
-    public List<Game> listByBrand(int brandId) {
-
-        return tlp.list(
-                eq("brandId", brandId)
-                , exclude("gamechar", "simpleImg")
-                , descending("publishDate", "name")
-        );
-
-    }
-
-    @Override
-    public List<Game> list(int brandId, GameState gameState) {
-        return tlp.list(
-                and(eq("brandId", brandId), eq("state", gameState.getValue()))
-                , exclude("gamechar", "simpleImg")
-                , descending("publishDate", "name")
-        );
-    }
-
-    @Override
-    public List<Game> list(LocalDate start, LocalDate end) {
-        return tlp.list(and(
-                gte("publishDate", DateUtil.toDate(start.toString() + " 00:00:00")),
-                lte("publishDate", DateUtil.toDate(end.toString() + " 23:59:59"))
-                )
-                , exclude("gamechar", "simpleImg")
-                , descending("publishDate", "name")
-        );
-    }
-
-    @Override
-    public List<Game> searchByName(String keyword) {
-
-        return tlp.list(
-                regex("name", "^" + keyword)
-                , exclude("gamechar", "simpleImg")
-                , descending("publishDate", "name")
-        );
-    }
-
-    @Override
-    public List<Game> searchByNameEx(String keyword) {
-
-        return tlp.list(
-                regex("name", keyword)
-                , exclude("gamechar", "simpleImg")
-                , descending("publishDate", "name")
-        );
-    }
-
-    @Override
-    public List<Game> searchByTag(String tag) {
-
-        return tlp.list(
-                or(eq("tag", tag), regex("name", tag))
-                , exclude("gamechar", "simpleImg")
-                , descending("publishDate", "name")
-        );
-
-
-    }
-
-    @Override
-    public List<Game> searchByPainter(String keyword) {
-
-        return tlp.list(
-                eq("painter", keyword)
-                , exclude("gamechar", "simpleImg")
-                , descending("publishDate", "name")
-        );
-
-
-    }
-
-    @Override
-    public List<Game> queryByCV(String keyword) {
-        return tlp.list(
-                eq("gamechar.cv", keyword)
-                , exclude("gamechar", "simpleImg")
-                , descending("publishDate", "name")
-        );
-
-
-    }
-
-    @Override
-    public List<Game> queryByRealCV(String keyword) {
-        return tlp.list(
-                eq("gamechar.truecv", keyword)
-                , exclude("gamechar", "simpleImg")
-                , descending("publishDate", "name")
-        );
-
-
-    }
+    public final static DBQueryTemplate<Game> tlp =
+            new DBQueryTemplate.Builder<Game>("galgame", "game", new Creator.FullGame())
+                    .defaultSelect(exclude("gamechar", "simpleImg"))
+                    .defaultSort(descending("publishDate", "name"))
+                    .build();
 
     static class Creator {
 
         static class GameChar implements ObjectCreator<Game.GameCharacter> {
             private final Logger logger = LoggerFactory.getLogger(GameChar.class);
 
-            private final int gameid;
-
-            public GameChar(int gameid) {
-                this.gameid = gameid;
-            }
 
             @Override
             public Game.GameCharacter create(Document doc) {
@@ -225,17 +101,26 @@ public class GameQuery implements IGameQuery {
             @Override
             public Game create(Document doc) {
                 var g = super.create(doc);
-                var gamecharCreator = new GameChar(g.id);
 
-                g.gameCharacters = ((List<Document>) doc.get("gamechar")).stream()
-                        .map(gamecharCreator::create)
-                        .collect(Collectors.toList());
+                Optional.ofNullable(doc.get("gamechar"))
+                        .ifPresent(list -> {
 
-                var simpleImgCreator = new SimpleImg();
+                            var gamecharCreator = new GameChar();
+                            g.gameCharacters = ((List<Document>) list).stream()
+                                    .map(gamecharCreator::create)
+                                    .collect(Collectors.toUnmodifiableList());
+                        });
 
-                g.gameImgs = ((List<Document>) doc.get("simpleImg")).stream()
-                        .map(simpleImgCreator::create)
-                        .collect(Collectors.toList());
+
+                Optional.ofNullable(doc.get("simpleImg"))
+                        .ifPresent(list -> {
+                            var simpleImgCreator = new SimpleImg();
+
+                            g.gameImgs = ((List<Document>) list).stream()
+                                    .map(simpleImgCreator::create)
+                                    .collect(Collectors.toUnmodifiableList());
+
+                        });
 
                 return g;
             }
@@ -246,7 +131,7 @@ public class GameQuery implements IGameQuery {
             @Override
             public Game create(Document doc) {
                 var g = new Game();
-                var gamecharCreator = new GameChar(g.id);
+                var gamecharCreator = new GameChar();
 
                 g.gameCharacters = ((List<Document>) doc.get("gamechar")).stream()
                         .map(gamecharCreator::create)
@@ -274,33 +159,12 @@ public class GameQuery implements IGameQuery {
     }
 
     public static class GameCharQuery {
-        private DBQueryTemplate<Game> tlp = new DBQueryTemplate<Game>("galgame", "game", new Creator.CharList());
-
-        public List<Game.GameCharacter> list(int gameId) {
-
-
-            var g = tlp.one(
-                    eq("_id", gameId)
-                    , include("gamechar")
-            );
-
-            return g.gameCharacters;
-        }
+        public static final DBQueryTemplate<Game> tlp = new DBQueryTemplate.Builder<Game>("galgame", "game", new Creator.CharList())
+                .build();
     }
 
     public static class GameImgQuery {
-
-        private DBQueryTemplate<Game> tlp = new DBQueryTemplate<Game>("galgame", "game", new Creator.SimpleImgList());
-
-        public List<Game.GameImg> list(int gameId) {
-
-            var g = tlp.one(
-                    eq("_id", gameId)
-                    , include("simpleImg")
-            );
-
-            return g.gameImgs;
-        }
-
+        public static final DBQueryTemplate<Game> tlp = new DBQueryTemplate.Builder<Game>("galgame", "game", new Creator.SimpleImgList())
+                .build();
     }
 }

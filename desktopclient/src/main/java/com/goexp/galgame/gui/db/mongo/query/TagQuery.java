@@ -7,18 +7,10 @@ import org.bson.Document;
 
 import java.util.List;
 
-import static com.mongodb.client.model.Sorts.ascending;
-
 public class TagQuery {
 
-    private DBQueryTemplate<TagType> tlp = new DBQueryTemplate<>("galgame", "tag", new TagCreator());
-
-    public List<TagType> types() {
-
-        return tlp.list(documentMongoCollection -> {
-            return documentMongoCollection.find().sort(ascending("order"));
-        });
-    }
+    public final static DBQueryTemplate<TagType> tlp = new DBQueryTemplate.Builder<>("galgame", "tag", new TagCreator())
+            .build();
 
     private static class TagCreator implements ObjectCreator<TagType> {
         @Override
@@ -31,12 +23,4 @@ public class TagQuery {
         }
     }
 
-    public static void main(String[] args) {
-        new TagQuery().types()
-                .forEach(tagType -> {
-
-                    System.out.println(tagType);
-                    tagType.tags.forEach(System.out::println);
-                });
-    }
 }

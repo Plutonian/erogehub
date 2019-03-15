@@ -13,11 +13,11 @@ import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 
+import static com.mongodb.client.model.Filters.eq;
+
 public class ProcessGameOK extends DefaultMessageHandler<Game> {
 
     final private Logger logger = LoggerFactory.getLogger(ProcessGameOK.class);
-
-    final private GameQuery gameService = new GameQuery();
 
     final private GameDB gameDB = new GameDB();
 
@@ -63,7 +63,9 @@ public class ProcessGameOK extends DefaultMessageHandler<Game> {
 
         logger.debug("Process {}", remoteGame);
 
-        var localGame = gameService.get(remoteGame.id);
+        var localGame = GameQuery.fullTlp.query()
+                .where(eq("_id", remoteGame.id))
+                .one();
         if (!Objects.equals(localGame, remoteGame)) {
             logger.debug("\nOld:{}\nNew:{}\n", localGame, remoteGame);
             gameDB.updateAll(remoteGame);

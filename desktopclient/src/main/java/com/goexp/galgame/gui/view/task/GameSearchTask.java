@@ -1,8 +1,7 @@
 package com.goexp.galgame.gui.view.task;
 
+import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;
-import com.goexp.galgame.gui.db.IBrandQuery;
-import com.goexp.galgame.gui.db.IGameQuery;
 import com.goexp.galgame.gui.db.mongo.query.BrandQuery;
 import com.goexp.galgame.gui.db.mongo.query.GameQuery;
 import com.goexp.galgame.gui.model.Brand;
@@ -16,9 +15,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.mongodb.client.model.Filters.*;
+
 public class GameSearchTask {
-    private static IBrandQuery brandQuery = new BrandQuery();
-    private static IGameQuery gameQuery = new GameQuery();
 
     public static class ByCV extends Task<ObservableList<Game>> {
 
@@ -33,7 +32,11 @@ public class GameSearchTask {
         @Override
         protected ObservableList<Game> call() {
 
-            List<Game> list = real ? gameQuery.queryByRealCV(cv) : gameQuery.queryByCV(cv);
+            List<Game> list = real ? GameQuery.tlp.query()
+                    .where(eq("gamechar.truecv", cv))
+                    .list() : GameQuery.tlp.query()
+                    .where(eq("gamechar.cv", cv))
+                    .list();
             var templist = list.stream()
                     .distinct()
                     .peek(g -> {
@@ -42,7 +45,10 @@ public class GameSearchTask {
                         if (AppCache.brandCache.containsKey(g.brand.id)) {
                             brand = AppCache.brandCache.get(g.brand.id);
                         } else {
-                            brand = brandQuery.getById(g.brand.id);
+
+                            brand = BrandQuery.tlp.query()
+                                    .where(eq("_id", g.brand.id))
+                                    .one();
                             AppCache.brandCache.put(g.brand.id, brand);
                         }
                         g.brand = brand;
@@ -65,7 +71,9 @@ public class GameSearchTask {
         @Override
         protected ObservableList<Game> call() {
 
-            var list = gameQuery.searchByPainter(cv).stream()
+            var list = GameQuery.tlp.query()
+                    .where(eq("painter", cv))
+                    .list().stream()
                     .distinct()
                     .peek(g -> {
 
@@ -73,7 +81,10 @@ public class GameSearchTask {
                         if (AppCache.brandCache.containsKey(g.brand.id)) {
                             brand = AppCache.brandCache.get(g.brand.id);
                         } else {
-                            brand = brandQuery.getById(g.brand.id);
+
+                            brand = BrandQuery.tlp.query()
+                                    .where(eq("_id", g.brand.id))
+                                    .one();
                             AppCache.brandCache.put(g.brand.id, brand);
                         }
                         g.brand = brand;
@@ -97,13 +108,23 @@ public class GameSearchTask {
 
         @Override
         protected ObservableList<Game> call() {
-            var list = gameQuery.list(start, end).stream().peek(g -> {
+            var list = GameQuery.tlp.query()
+                    .where(
+                            and(
+                                    gte("publishDate", DateUtil.toDate(start.toString() + " 00:00:00")),
+                                    lte("publishDate", DateUtil.toDate(end.toString() + " 23:59:59"))
+                            )
+                    )
+                    .list().stream().peek(g -> {
 
                 Brand brand;
                 if (AppCache.brandCache.containsKey(g.brand.id)) {
                     brand = AppCache.brandCache.get(g.brand.id);
                 } else {
-                    brand = brandQuery.getById(g.brand.id);
+
+                    brand = BrandQuery.tlp.query()
+                            .where(eq("_id", g.brand.id))
+                            .one();
                     AppCache.brandCache.put(g.brand.id, brand);
                 }
                 g.brand = brand;
@@ -125,13 +146,19 @@ public class GameSearchTask {
 
         @Override
         protected ObservableList<Game> call() {
-            var list = gameQuery.searchByName(name).stream().peek(g -> {
+
+            var list = GameQuery.tlp.query()
+                    .where(regex("name", "^" + name))
+                    .list().stream().peek(g -> {
 
                 Brand brand;
                 if (AppCache.brandCache.containsKey(g.brand.id)) {
                     brand = AppCache.brandCache.get(g.brand.id);
                 } else {
-                    brand = brandQuery.getById(g.brand.id);
+
+                    brand = BrandQuery.tlp.query()
+                            .where(eq("_id", g.brand.id))
+                            .one();
                     AppCache.brandCache.put(g.brand.id, brand);
                 }
                 g.brand = brand;
@@ -152,13 +179,19 @@ public class GameSearchTask {
 
         @Override
         protected ObservableList<Game> call() {
-            var list = gameQuery.searchByNameEx(name).stream().peek(g -> {
+
+            var list = GameQuery.tlp.query()
+                    .where(regex("name", name))
+                    .list().stream().peek(g -> {
 
                 Brand brand;
                 if (AppCache.brandCache.containsKey(g.brand.id)) {
                     brand = AppCache.brandCache.get(g.brand.id);
                 } else {
-                    brand = brandQuery.getById(g.brand.id);
+
+                    brand = BrandQuery.tlp.query()
+                            .where(eq("_id", g.brand.id))
+                            .one();
                     AppCache.brandCache.put(g.brand.id, brand);
                 }
                 g.brand = brand;
@@ -180,13 +213,24 @@ public class GameSearchTask {
 
         @Override
         protected ObservableList<Game> call() {
-            var list = gameQuery.searchByTag(tag).stream()
+
+            var list = GameQuery.tlp.query()
+                    .where(
+                            or(
+                                    eq("tag", tag),
+                                    regex("name", tag)
+                            )
+                    )
+                    .list().stream()
                     .peek(g -> {
                         Brand brand;
                         if (AppCache.brandCache.containsKey(g.brand.id)) {
                             brand = AppCache.brandCache.get(g.brand.id);
                         } else {
-                            brand = brandQuery.getById(g.brand.id);
+
+                            brand = BrandQuery.tlp.query()
+                                    .where(eq("_id", g.brand.id))
+                                    .one();
                             AppCache.brandCache.put(g.brand.id, brand);
                         }
 
@@ -211,17 +255,30 @@ public class GameSearchTask {
         @Override
         protected ObservableList<Game> call() {
 
-            var list = gameQuery.listByStarRange(begin, end).stream().peek(g -> {
 
-                Brand brand;
-                if (AppCache.brandCache.containsKey(g.brand.id)) {
-                    brand = AppCache.brandCache.get(g.brand.id);
-                } else {
-                    brand = brandQuery.getById(g.brand.id);
-                    AppCache.brandCache.put(g.brand.id, brand);
-                }
-                g.brand = brand;
-            }).collect(Collectors.toList());
+            var list = GameQuery.tlp.query()
+                    .where(
+                            and(
+                                    gte("star", begin),
+                                    lte("star", end)
+                            )
+                    )
+                    .list().stream()
+                    .peek(g -> {
+
+                        Brand brand;
+                        if (AppCache.brandCache.containsKey(g.brand.id)) {
+                            brand = AppCache.brandCache.get(g.brand.id);
+                        } else {
+
+                            brand = BrandQuery.tlp.query()
+                                    .where(eq("_id", g.brand.id))
+                                    .one();
+                            AppCache.brandCache.put(g.brand.id, brand);
+                        }
+                        g.brand = brand;
+                    })
+                    .collect(Collectors.toList());
 
             return FXCollections.observableArrayList(list);
         }
@@ -238,17 +295,24 @@ public class GameSearchTask {
         @Override
         protected ObservableList<Game> call() {
 
-            var list = gameQuery.list(gameState).stream().peek(g -> {
+            var list = GameQuery.tlp.query()
+                    .where(eq("state", gameState.getValue()))
+                    .list().stream()
+                    .peek(g -> {
 
-                Brand brand;
-                if (AppCache.brandCache.containsKey(g.brand.id)) {
-                    brand = AppCache.brandCache.get(g.brand.id);
-                } else {
-                    brand = brandQuery.getById(g.brand.id);
-                    AppCache.brandCache.put(g.brand.id, brand);
-                }
-                g.brand = brand;
-            }).collect(Collectors.toList());
+                        Brand brand;
+                        if (AppCache.brandCache.containsKey(g.brand.id)) {
+                            brand = AppCache.brandCache.get(g.brand.id);
+                        } else {
+
+                            brand = BrandQuery.tlp.query()
+                                    .where(eq("_id", g.brand.id))
+                                    .one();
+                            AppCache.brandCache.put(g.brand.id, brand);
+                        }
+                        g.brand = brand;
+                    })
+                    .collect(Collectors.toList());
 
             return FXCollections.observableArrayList(list);
         }

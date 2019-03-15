@@ -2,6 +2,7 @@ package com.goexp.galgame.data.db.importor.mongdb;
 
 import com.goexp.common.db.mongo.DBOperatorTemplate;
 import com.goexp.common.db.mongo.DBQueryTemplate;
+import com.goexp.galgame.data.db.query.mongdb.GameQuery;
 import com.goexp.galgame.data.model.Game;
 import org.bson.Document;
 
@@ -14,7 +15,6 @@ import static com.mongodb.client.model.Updates.set;
 
 public class GameDB {
     static DBOperatorTemplate tlp = new DBOperatorTemplate("galgame", "game");
-    DBQueryTemplate qlp = new DBQueryTemplate<Game>("galgame", "game", doc -> null);
 
     public void insert(Game game) {
 
@@ -106,7 +106,7 @@ public class GameDB {
     }
 
     public boolean exist(int id) {
-        return qlp.exists(eq("_id", id));
+        return GameQuery.fullTlp.query().where(eq("_id", id)).exists();
     }
 
     public static class StateDB {

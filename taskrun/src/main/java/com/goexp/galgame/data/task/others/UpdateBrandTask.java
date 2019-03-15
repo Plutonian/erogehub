@@ -8,7 +8,6 @@ import com.goexp.galgame.data.parser.GetchuBrandParser;
 import com.goexp.galgame.data.task.client.GetChu;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.stream.Collectors;
 
 public class UpdateBrandTask {
@@ -19,8 +18,8 @@ public class UpdateBrandTask {
 
         Network.initProxy();
 
-        var brandService = new BrandQuery();
-        var localBrandMap = brandService.list()
+        var localBrandMap = BrandQuery.tlp.query()
+                .list()
                 .stream()
                 .collect(Collectors.toMap(b -> b.id, b -> b));
 

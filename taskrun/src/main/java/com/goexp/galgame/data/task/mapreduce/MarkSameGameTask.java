@@ -22,19 +22,21 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import static com.mongodb.client.model.Filters.eq;
+
 public class MarkSameGameTask {
 
     private static final int UPDATE_STATE = 8;
 
     public static class FromAllBrand extends DefaultStarter<Integer> {
 
-        final private BrandQuery brandQuery = new BrandQuery();
-
         @Override
         public void process(BlockingQueue<Message> msgQueue) {
 
 
-            brandQuery.list().forEach(brand -> {
+            BrandQuery.tlp.query()
+                    .list()
+                    .forEach(brand -> {
 
                 try {
                     msgQueue.offer(new Message(MesType.Brand, brand.id), 60, TimeUnit.SECONDS);
@@ -53,7 +55,6 @@ public class MarkSameGameTask {
 
         final private Logger logger = LoggerFactory.getLogger(ProcessBrandGame.class);
 
-        final private GameQuery gameService = new GameQuery();
 
         final static Set<String> checklist = Set.of(
                 "げっちゅ屋Ver",
@@ -74,7 +75,9 @@ public class MarkSameGameTask {
             var brandId = message.entity;
             logger.debug("<Brand> {}", brandId);
 
-            var parseGameList = gameService.listByBrand(brandId);
+            var parseGameList = GameQuery.fullTlp.query()
+                    .where(eq("brandId", brandId))
+                    .list();
 
 
             Optional.ofNullable(parseGameList).ifPresent((list) -> {
@@ -145,16 +148,15 @@ public class MarkSameGameTask {
 
         final private Logger logger = LoggerFactory.getLogger(ProcessBrandGame.class);
 
-        final private GameQuery gameService = new GameQuery();
-
-
         @Override
         public void process(final Message<Integer> message, BlockingQueue<Message> msgQueue) {
 
             var brandId = message.entity;
             logger.debug("<Brand> {}", brandId);
 
-            var parseGameList = gameService.listByBrand(brandId);
+            var parseGameList = GameQuery.fullTlp.query()
+                    .where(eq("brandId", brandId))
+                    .list();
 
 
             Optional.ofNullable(parseGameList).ifPresent((list) -> {

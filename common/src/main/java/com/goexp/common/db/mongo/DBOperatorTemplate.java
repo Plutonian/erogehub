@@ -21,6 +21,8 @@ public class DBOperatorTemplate {
     protected final String tableName;
 
     public DBOperatorTemplate(String dbName, String tableName) {
+        Objects.requireNonNull(dbName);
+        Objects.requireNonNull(tableName);
         this.dbName = dbName;
         this.tableName = tableName;
     }

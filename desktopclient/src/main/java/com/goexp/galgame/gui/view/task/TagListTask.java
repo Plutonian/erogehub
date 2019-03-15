@@ -6,10 +6,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
+import static com.mongodb.client.model.Sorts.ascending;
+
 public class TagListTask extends Task<ObservableList<TagType>> {
 
     @Override
-    protected ObservableList<TagType> call() throws Exception {
-        return FXCollections.observableArrayList(new TagQuery().types());
+    protected ObservableList<TagType> call() {
+        return FXCollections.observableArrayList(
+                TagQuery.tlp.query()
+                        .sort(ascending("order"))
+                        .list()
+        );
     }
 }

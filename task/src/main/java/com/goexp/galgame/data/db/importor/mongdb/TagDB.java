@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class TagDB extends DBUpdateTemplate {
 
-    DBOperatorTemplate tlp = new DBOperatorTemplate("galgame", "tag");
+    public static DBOperatorTemplate tlp = new DBOperatorTemplate("galgame", "tag");
 
     public void insert(List<TagType> item) {
 

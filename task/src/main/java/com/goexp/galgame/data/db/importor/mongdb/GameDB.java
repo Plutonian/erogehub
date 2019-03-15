@@ -14,7 +14,7 @@ import static com.mongodb.client.model.Updates.combine;
 import static com.mongodb.client.model.Updates.set;
 
 public class GameDB {
-    static DBOperatorTemplate tlp = new DBOperatorTemplate("galgame", "game");
+    public static DBOperatorTemplate tlp = new DBOperatorTemplate("galgame", "game");
 
     public void insert(Game game) {
 

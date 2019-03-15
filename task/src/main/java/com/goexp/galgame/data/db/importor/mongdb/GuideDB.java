@@ -7,7 +7,7 @@ import org.bson.Document;
 
 public class GuideDB extends DBUpdateTemplate {
 
-    DBOperatorTemplate tlp = new DBOperatorTemplate("galgame", "guide");
+    public static DBOperatorTemplate tlp = new DBOperatorTemplate("galgame", "guide");
 
     public void insert(Game.Guide item) {
 

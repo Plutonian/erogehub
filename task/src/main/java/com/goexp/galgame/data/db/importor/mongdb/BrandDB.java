@@ -10,7 +10,7 @@ import static com.mongodb.client.model.Updates.set;
 
 public class BrandDB extends DBUpdateTemplate {
 
-    private DBOperatorTemplate tlp = new DBOperatorTemplate("galgame", "brand");
+    public static DBOperatorTemplate tlp = new DBOperatorTemplate("galgame", "brand");
 
     public void insert(Brand item) {
 

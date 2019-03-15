@@ -1,5 +1,8 @@
 package com.goexp.common.db.mongo;
 
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
@@ -7,6 +10,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class DBQueryTemplate<T> extends AbstractDBTemplate {
+
+    private final MongoCollection<Document> collection;
 
     private Bson defaultSort;
 
@@ -19,6 +24,9 @@ public class DBQueryTemplate<T> extends AbstractDBTemplate {
 
         Objects.requireNonNull(defaultCreator);
         this.defaultCreator = defaultCreator;
+
+        var db = mongoClient.getDatabase(dbName);
+        collection = db.getCollection(tableName);
     }
 
     private DBQueryTemplate(String dbName, String tableName, ObjectCreator<T> defaultCreator, Bson defaultSelect, Bson defaultSort) {
@@ -61,9 +69,50 @@ public class DBQueryTemplate<T> extends AbstractDBTemplate {
         }
 
         public List<T> list() {
-            var db = mongoClient.getDatabase(dbName);
-            var collection = db.getCollection(tableName);
+            return getList(defaultCreator);
+        }
 
+        public List<T> list(ObjectCreator<T> userCreator) {
+
+            Objects.requireNonNull(userCreator);
+
+            return getList(userCreator);
+        }
+
+        public T one() {
+            var temp = where != null ? collection.find(where) : collection.find();
+            var docs = temp;
+
+            return docs.first() != null ? (T) defaultCreator.create(docs.first()) : null;
+        }
+
+        public T one(ObjectCreator<T> userCreator) {
+            Objects.requireNonNull(userCreator);
+            var temp = where != null ? collection.find(where) : collection.find();
+            var docs = temp;
+
+            return docs.first() != null ? (T) userCreator.create(docs.first()) : null;
+        }
+
+        public boolean exists() {
+            var temp = where != null ? collection.find(where) : collection.find();
+            var docs = temp;
+
+            return docs.first() != null;
+        }
+
+        private ArrayList<T> getList(ObjectCreator<T> userCreator) {
+            FindIterable<Document> docs = getDocuments();
+
+            var list = new ArrayList<T>();
+            for (var doc : docs) {
+
+                list.add((T) userCreator.create(doc));
+            }
+            return list;
+        }
+
+        private FindIterable<Document> getDocuments() {
             var temp = where != null ? collection.find(where) : collection.find();
 
             // choice select
@@ -78,33 +127,7 @@ public class DBQueryTemplate<T> extends AbstractDBTemplate {
             else if (defaultSort != null)
                 temp = temp.sort(defaultSort);
 
-            var docs = temp;
-
-            var list = new ArrayList<T>();
-            for (var doc : docs) {
-                list.add((T) defaultCreator.create(doc));
-            }
-            return list;
-        }
-
-        public T one() {
-            var db = mongoClient.getDatabase(dbName);
-            var collection = db.getCollection(tableName);
-
-            var temp = where != null ? collection.find(where) : collection.find();
-            var docs = temp;
-
-            return docs.first() != null ? (T) defaultCreator.create(docs.first()) : null;
-        }
-
-        public boolean exists() {
-            var db = mongoClient.getDatabase(dbName);
-            var collection = db.getCollection(tableName);
-
-            var temp = where != null ? collection.find(where) : collection.find();
-            var docs = temp;
-
-            return docs.first() != null;
+            return temp;
         }
 
     }

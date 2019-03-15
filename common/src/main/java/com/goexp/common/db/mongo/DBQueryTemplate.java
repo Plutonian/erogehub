@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class DBQueryTemplate<T> extends DBOperatorTemplate {
+public class DBQueryTemplate<T> extends AbstractDBTemplate {
 
     private Bson defaultSort;
 
@@ -28,12 +28,12 @@ public class DBQueryTemplate<T> extends DBOperatorTemplate {
         this.defaultSort = defaultSort;
     }
 
-    public QueryBuilder<T> query() {
-        return this.new QueryBuilder<T>();
+    public QueryBuilder query() {
+        return this.new QueryBuilder();
     }
 
 
-    public class QueryBuilder<T> {
+    public class QueryBuilder {
 
         private QueryBuilder() {
         }
@@ -45,17 +45,17 @@ public class DBQueryTemplate<T> extends DBOperatorTemplate {
         private Bson sort;
 
 
-        public QueryBuilder<T> where(Bson where) {
+        public QueryBuilder where(Bson where) {
             this.where = where;
             return this;
         }
 
-        public QueryBuilder<T> select(Bson select) {
+        public QueryBuilder select(Bson select) {
             this.select = select;
             return this;
         }
 
-        public QueryBuilder<T> sort(Bson sort) {
+        public QueryBuilder sort(Bson sort) {
             this.sort = sort;
             return this;
         }

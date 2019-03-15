@@ -52,7 +52,8 @@ public class GameSearchTask {
                             AppCache.brandCache.put(g.brand.id, brand);
                         }
                         g.brand = brand;
-                    }).collect(Collectors.toList());
+                    })
+                    .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(templist);
         }
@@ -88,7 +89,8 @@ public class GameSearchTask {
                             AppCache.brandCache.put(g.brand.id, brand);
                         }
                         g.brand = brand;
-                    }).collect(Collectors.toList());
+                    })
+                    .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);
         }
@@ -115,20 +117,22 @@ public class GameSearchTask {
                                     lte("publishDate", DateUtil.toDate(end.toString() + " 23:59:59"))
                             )
                     )
-                    .list().stream().peek(g -> {
+                    .list().stream()
+                    .peek(g -> {
 
-                Brand brand;
-                if (AppCache.brandCache.containsKey(g.brand.id)) {
-                    brand = AppCache.brandCache.get(g.brand.id);
-                } else {
+                        Brand brand;
+                        if (AppCache.brandCache.containsKey(g.brand.id)) {
+                            brand = AppCache.brandCache.get(g.brand.id);
+                        } else {
 
-                    brand = BrandQuery.tlp.query()
-                            .where(eq("_id", g.brand.id))
-                            .one();
-                    AppCache.brandCache.put(g.brand.id, brand);
-                }
-                g.brand = brand;
-            }).collect(Collectors.toList());
+                            brand = BrandQuery.tlp.query()
+                                    .where(eq("_id", g.brand.id))
+                                    .one();
+                            AppCache.brandCache.put(g.brand.id, brand);
+                        }
+                        g.brand = brand;
+                    })
+                    .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);
         }
@@ -149,20 +153,22 @@ public class GameSearchTask {
 
             var list = GameQuery.tlp.query()
                     .where(regex("name", "^" + name))
-                    .list().stream().peek(g -> {
+                    .list().stream()
+                    .peek(g -> {
 
-                Brand brand;
-                if (AppCache.brandCache.containsKey(g.brand.id)) {
-                    brand = AppCache.brandCache.get(g.brand.id);
-                } else {
+                        Brand brand;
+                        if (AppCache.brandCache.containsKey(g.brand.id)) {
+                            brand = AppCache.brandCache.get(g.brand.id);
+                        } else {
 
-                    brand = BrandQuery.tlp.query()
-                            .where(eq("_id", g.brand.id))
-                            .one();
-                    AppCache.brandCache.put(g.brand.id, brand);
-                }
-                g.brand = brand;
-            }).collect(Collectors.toList());
+                            brand = BrandQuery.tlp.query()
+                                    .where(eq("_id", g.brand.id))
+                                    .one();
+                            AppCache.brandCache.put(g.brand.id, brand);
+                        }
+                        g.brand = brand;
+                    })
+                    .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);
         }
@@ -182,20 +188,22 @@ public class GameSearchTask {
 
             var list = GameQuery.tlp.query()
                     .where(regex("name", name))
-                    .list().stream().peek(g -> {
+                    .list().stream()
+                    .peek(g -> {
 
-                Brand brand;
-                if (AppCache.brandCache.containsKey(g.brand.id)) {
-                    brand = AppCache.brandCache.get(g.brand.id);
-                } else {
+                        Brand brand;
+                        if (AppCache.brandCache.containsKey(g.brand.id)) {
+                            brand = AppCache.brandCache.get(g.brand.id);
+                        } else {
 
-                    brand = BrandQuery.tlp.query()
-                            .where(eq("_id", g.brand.id))
-                            .one();
-                    AppCache.brandCache.put(g.brand.id, brand);
-                }
-                g.brand = brand;
-            }).collect(Collectors.toList());
+                            brand = BrandQuery.tlp.query()
+                                    .where(eq("_id", g.brand.id))
+                                    .one();
+                            AppCache.brandCache.put(g.brand.id, brand);
+                        }
+                        g.brand = brand;
+                    })
+                    .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);
         }
@@ -215,12 +223,7 @@ public class GameSearchTask {
         protected ObservableList<Game> call() {
 
             var list = GameQuery.tlp.query()
-                    .where(
-                            or(
-                                    eq("tag", tag),
-                                    regex("name", tag)
-                            )
-                    )
+                    .where(eq("tag", tag))
                     .list().stream()
                     .peek(g -> {
                         Brand brand;
@@ -235,7 +238,8 @@ public class GameSearchTask {
                         }
 
                         g.brand = brand;
-                    }).collect(Collectors.toList());
+                    })
+                    .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);
         }
@@ -278,7 +282,7 @@ public class GameSearchTask {
                         }
                         g.brand = brand;
                     })
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);
         }
@@ -312,7 +316,7 @@ public class GameSearchTask {
                         }
                         g.brand = brand;
                     })
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);
         }

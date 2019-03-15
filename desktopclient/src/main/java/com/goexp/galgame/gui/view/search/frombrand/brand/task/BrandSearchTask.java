@@ -56,13 +56,13 @@ public class BrandSearchTask {
                                     var item = new TreeItem<Brand>();
                                     item.setValue(brand);
                                     return item;
-                                }).collect(Collectors.toList());
+                                }).collect(Collectors.toUnmodifiableList());
 
 
                         rootItem.getChildren().setAll(brandNodes);
 
                         return rootItem;
-                    }).collect(Collectors.toList());
+                    }).collect(Collectors.toUnmodifiableList());
         }
     }
 
@@ -111,13 +111,13 @@ public class BrandSearchTask {
                                     var item = new TreeItem<Brand>();
                                     item.setValue(brand);
                                     return item;
-                                }).collect(Collectors.toList());
+                                }).collect(Collectors.toUnmodifiableList());
 
 
                         rootItem.getChildren().setAll(brandNodes);
 
                         return rootItem;
-                    }).collect(Collectors.toList());
+                    }).collect(Collectors.toUnmodifiableList());
         }
     }
 
@@ -160,13 +160,13 @@ public class BrandSearchTask {
                                     var item = new TreeItem<Brand>();
                                     item.setValue(brand);
                                     return item;
-                                }).collect(Collectors.toList());
+                                }).collect(Collectors.toUnmodifiableList());
 
 
                         rootItem.getChildren().setAll(brandNodes);
 
                         return rootItem;
-                    }).collect(Collectors.toList());
+                    }).collect(Collectors.toUnmodifiableList());
         }
     }
 

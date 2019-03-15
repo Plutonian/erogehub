@@ -48,7 +48,7 @@ public class BrandGetGameTask {
                     .peek(g -> {
                         g.brand = brand;
                     })
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);
         }
@@ -89,7 +89,7 @@ public class BrandGetGameTask {
                     .peek(g -> {
                         g.brand = brand;
                     })
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);
         }

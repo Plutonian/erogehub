@@ -36,19 +36,27 @@ public class DetailPageParser {
             var g = new Game();
             g.id = gameId;
 
-            g.painter = Arrays.asList(ele.select("td:contains(原画)").next().text()
-                    .split("、"));
+            g.painter = Arrays.stream(ele.select("td:contains(原画)").next().text()
+                    .split("、"))
+                    .map(String::trim)
+                    .collect(Collectors.toUnmodifiableList());
 
-            g.writer = Arrays.asList(ele.select("td:contains(シナリオ)").next().text()
-                    .split("、"));
+            g.writer = Arrays.stream(ele.select("td:contains(シナリオ)").next().text()
+                    .split("、"))
+                    .map(String::trim)
+                    .collect(Collectors.toUnmodifiableList());
 
-            g.type = Arrays.asList(ele.select("td:contains(サブジャンル)").next().text()
+            g.type = Arrays.stream(ele.select("td:contains(サブジャンル)").next().text()
                     .replace("[一覧]", "")
-                    .split("、"));
+                    .split("、"))
+                    .map(String::trim)
+                    .collect(Collectors.toUnmodifiableList());
 
-            g.tag = Arrays.asList(ele.select("td:contains(カテゴリ)").next().text()
+            g.tag = Arrays.stream(ele.select("td:contains(カテゴリ)").next().text()
                     .replace("[一覧]", "")
-                    .split("、"));
+                    .split("、"))
+                    .map(String::trim)
+                    .collect(Collectors.toUnmodifiableList());
 
             g.story = root.select("#wrapper div.tabletitle:contains(ストーリー)").next()
                     .html()

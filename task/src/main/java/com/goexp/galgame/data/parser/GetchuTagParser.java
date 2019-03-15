@@ -36,7 +36,7 @@ public class GetchuTagParser {
         tagType.tags = item.nextElementSibling().select("a")
                 .stream()
                 .map(ele -> {
-                    return ele.text();
+                    return ele.text().trim();
                 }).collect(Collectors.toList());
 
         return tagType;

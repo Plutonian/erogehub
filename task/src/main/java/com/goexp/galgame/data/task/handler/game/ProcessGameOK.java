@@ -1,5 +1,6 @@
 package com.goexp.galgame.data.task.handler.game;
 
+import com.goexp.common.util.Strings;
 import com.goexp.galgame.data.db.importor.mongdb.GameDB;
 import com.goexp.galgame.data.db.query.mongdb.GameQuery;
 import com.goexp.galgame.data.model.Game;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 
@@ -35,25 +37,27 @@ public class ProcessGameOK extends DefaultMessageHandler<Game> {
         var localMap = local.stream().collect(Collectors.toUnmodifiableMap(cc -> cc, cc -> cc));
 
         //merge local to remote
-        return remote.stream().peek(rc -> {
-            var localC = localMap.get(rc);
-            if (localC != null) {
+        return remote.stream()
+                .peek(rc -> {
+                    var localC = localMap.get(rc);
+                    if (localC != null) {
 
-                //set local truecv to remote
-                if (localC.trueCV != null && !localC.trueCV.isEmpty()) {
-                    logger.debug("Merge trueCV {}", rc);
+                        //set local truecv to remote
+                        if (!Strings.isEmpty(localC.trueCV)) {
+                            logger.debug("Merge trueCV {}", rc);
 
-                    rc.trueCV = localC.trueCV;
-                }
+                            rc.trueCV = localC.trueCV;
+                        }
 
-                // also copy cv
-                if (localC.cv != null && !localC.cv.isEmpty()) {
+                        // also copy cv
+                        if (!Strings.isEmpty(localC.cv)) {
 
-                    logger.debug("Merge cv {}", rc);
-                    rc.cv = localC.cv;
-                }
-            }
-        }).collect(Collectors.toUnmodifiableList());
+                            logger.debug("Merge cv {}", rc);
+                            rc.cv = localC.cv;
+                        }
+                    }
+                })
+                .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
@@ -75,8 +79,8 @@ public class ProcessGameOK extends DefaultMessageHandler<Game> {
 
         gameDB.updateChar(remoteGame);
 
-        var localImgSize = localGame.gameImgs == null ? 0 : localGame.gameImgs.size();
-        var remoteImgSize = remoteGame.gameImgs == null ? 0 : remoteGame.gameImgs.size();
+        var localImgSize = Optional.ofNullable(localGame.gameImgs).map(List::size).orElse(0);
+        var remoteImgSize = Optional.ofNullable(remoteGame.gameImgs).map(List::size).orElse(0);
 
         if (remoteImgSize > localImgSize) {
 

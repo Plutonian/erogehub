@@ -28,6 +28,17 @@ public class MarkSameGameTask {
 
     private static final int UPDATE_STATE = 8;
 
+    public static void main(String[] args) {
+
+        var pipl = new Piplline(new FromAllBrand());
+
+        pipl.registryCPUTypeMessageHandler(MesType.Brand, new ProcessBrandGame());
+        pipl.registryIOTypeMessageHandler(UPDATE_STATE, new UpdateState());
+
+        pipl.start();
+
+    }
+
     public static class FromAllBrand extends DefaultStarter<Integer> {
 
         @Override
@@ -38,23 +49,19 @@ public class MarkSameGameTask {
                     .list()
                     .forEach(brand -> {
 
-                try {
-                    msgQueue.offer(new Message(MesType.Brand, brand.id), 60, TimeUnit.SECONDS);
-                } catch (Exception e) {
+                        try {
+                            msgQueue.offer(new Message(MesType.Brand, brand.id), 60, TimeUnit.SECONDS);
+                        } catch (Exception e) {
 //                        e.printStackTrace();
-                }
+                        }
 
-            });
+                    });
 
         }
 
     }
 
-
     public static class ProcessBrandGame extends DefaultMessageHandler<Integer> {
-
-        final private Logger logger = LoggerFactory.getLogger(ProcessBrandGame.class);
-
 
         final static Set<String> checklist = Set.of(
                 "げっちゅ屋Ver",
@@ -68,6 +75,7 @@ public class MarkSameGameTask {
                 "セレクション",
                 "シンプル版"
         );
+        final private Logger logger = LoggerFactory.getLogger(ProcessBrandGame.class);
 
         @Override
         public void process(final Message<Integer> message, BlockingQueue<Message> msgQueue) {
@@ -191,17 +199,6 @@ public class MarkSameGameTask {
 
             stateDB.update(game);
         }
-
-    }
-
-    public static void main(String[] args) {
-
-        var pipl = new Piplline(new FromAllBrand());
-
-        pipl.registryCPUTypeMessageHandler(MesType.Brand, new ProcessBrandGame());
-        pipl.registryIOTypeMessageHandler(UPDATE_STATE, new UpdateState());
-
-        pipl.start();
 
     }
 

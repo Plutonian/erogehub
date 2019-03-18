@@ -2,7 +2,6 @@ package com.goexp.galgame.gui.view.dataview.sidebar;
 
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.view.dataview.sidebar.FilterController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;

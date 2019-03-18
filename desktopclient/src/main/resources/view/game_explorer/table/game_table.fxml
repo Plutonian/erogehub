@@ -5,23 +5,27 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<TableView fx:id="table" styleClass="left-pill" tableMenuButtonVisible="true" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.dataview.tableview.GameTableController">
+<TableView xmlns:fx="http://javafx.com/fxml/1" fx:id="table" styleClass="left-pill" tableMenuButtonVisible="true"
+           xmlns="http://javafx.com/javafx/"
+           fx:controller="com.goexp.galgame.gui.view.dataview.tableview.GameTableController">
     <stylesheets>
-        <URL value="@../../view.css" />
+        <URL value="@../../view.css"/>
     </stylesheets>
     <columns>
-        <TableColumn fx:id="tableColDate" minWidth="-1.0" prefWidth="65.0" resizable="false" sortType="DESCENDING" text="Date" />
-        <TableColumn fx:id="tableColStar" prefWidth="100.0" resizable="false" sortType="DESCENDING" text="Star" />
-        <TableColumn fx:id="tableColState" prefWidth="60.0" resizable="false" sortType="DESCENDING" text="State" />
-        <TableColumn fx:id="tableColBrand" prefWidth="150.0" text="Brand" />
-        <TableColumn fx:id="tableColType" prefWidth="124.0" text="Type" visible="false" />
-        <TableColumn fx:id="tableColTitle" prefWidth="387.0" text="Title" />
-        <TableColumn fx:id="tableColPainter" prefWidth="200.0" text="原画" />
-        <TableColumn fx:id="tableColWriter" prefWidth="191.0" text="シナリオ" visible="false" />
-        <TableColumn fx:id="tableColTag" prefWidth="300.0" sortable="false" text="Tag" />
-        <TableColumn fx:id="tableColCommand" editable="false" minWidth="79.0" prefWidth="120.0" resizable="false" sortable="false" text="Command" />
+        <TableColumn fx:id="tableColDate" minWidth="-1.0" prefWidth="65.0" resizable="false" sortType="DESCENDING"
+                     text="Date"/>
+        <TableColumn fx:id="tableColStar" prefWidth="100.0" resizable="false" sortType="DESCENDING" text="Star"/>
+        <TableColumn fx:id="tableColState" prefWidth="60.0" resizable="false" sortType="DESCENDING" text="State"/>
+        <TableColumn fx:id="tableColBrand" prefWidth="150.0" text="Brand"/>
+        <TableColumn fx:id="tableColType" prefWidth="124.0" text="Type" visible="false"/>
+        <TableColumn fx:id="tableColTitle" prefWidth="387.0" text="Title"/>
+        <TableColumn fx:id="tableColPainter" prefWidth="200.0" text="原画"/>
+        <TableColumn fx:id="tableColWriter" prefWidth="191.0" text="シナリオ" visible="false"/>
+        <TableColumn fx:id="tableColTag" prefWidth="300.0" sortable="false" text="Tag"/>
+        <TableColumn fx:id="tableColCommand" editable="false" minWidth="79.0" prefWidth="120.0" resizable="false"
+                     sortable="false" text="Command"/>
     </columns>
     <contextMenu>
-        <ContextMenu fx:id="menuPopup" />
+        <ContextMenu fx:id="menuPopup"/>
     </contextMenu>
 </TableView>

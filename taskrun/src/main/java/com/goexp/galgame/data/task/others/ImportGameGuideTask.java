@@ -27,9 +27,8 @@ public class ImportGameGuideTask {
 
     private static class PageContentHandler extends DefaultMessageHandler<Game.Guide> {
 
-        final Logger logger = LoggerFactory.getLogger(ImportGameGuideTask.class);
-
         private static final GuideDB guideDb = new GuideDB();
+        final Logger logger = LoggerFactory.getLogger(ImportGameGuideTask.class);
 
         @Override
         public void process(Message<Game.Guide> message, BlockingQueue<Message> msgQueue) {
@@ -41,6 +40,16 @@ public class ImportGameGuideTask {
 
     static class Sagaoz_Net {
 
+
+        public static void main(String[] args) {
+
+            var pipl = new Piplline(new Starter());
+
+            pipl.registryIOTypeMessageHandler(1, new PageContentHandler());
+
+            pipl.start();
+
+        }
 
         private static class Starter extends DefaultStarter<Map<String, Object>> {
 
@@ -79,10 +88,14 @@ public class ImportGameGuideTask {
 
             }
         }
+    }
 
+
+    static class Seiya_saiga {
 
         public static void main(String[] args) {
 
+            Network.initProxy();
             var pipl = new Piplline(new Starter());
 
             pipl.registryIOTypeMessageHandler(1, new PageContentHandler());
@@ -90,10 +103,6 @@ public class ImportGameGuideTask {
             pipl.start();
 
         }
-    }
-
-
-    static class Seiya_saiga {
 
         private static class Starter extends DefaultStarter<Game.Guide> {
 
@@ -129,18 +138,6 @@ public class ImportGameGuideTask {
 
 
             }
-        }
-
-
-        public static void main(String[] args) {
-
-            Network.initProxy();
-            var pipl = new Piplline(new Starter());
-
-            pipl.registryIOTypeMessageHandler(1, new PageContentHandler());
-
-            pipl.start();
-
         }
     }
 

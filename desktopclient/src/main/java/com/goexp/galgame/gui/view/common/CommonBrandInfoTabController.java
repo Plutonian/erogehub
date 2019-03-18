@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.view.common;
 
-import com.goexp.galgame.gui.view.search.frombrand.brand.BrandInfoController;
 import com.goexp.galgame.gui.model.Brand;
+import com.goexp.galgame.gui.view.search.frombrand.brand.BrandInfoController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Region;
 

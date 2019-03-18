@@ -35,12 +35,9 @@ public class MainSearchController {
 
 
     public static MainSearchController $this;
-
+    public TabPane mainTabPanel;
     @FXML
     private DateController dateController;
-
-
-    public TabPane mainTabPanel;
     @FXML
     private Accordion menuPanel;
 
@@ -268,7 +265,7 @@ public class MainSearchController {
 
     }
 
-    public void loadCVTab(final String cv,boolean real) {
+    public void loadCVTab(final String cv, boolean real) {
 
         TabSelect.from(mainTabPanel)
                 .ifNotFind(a -> {
@@ -276,7 +273,7 @@ public class MainSearchController {
                     var conn = new CommonTabController(new Service<>() {
                         @Override
                         protected Task createTask() {
-                            return new GameSearchTask.ByCV(cv,real);
+                            return new GameSearchTask.ByCV(cv, real);
                         }
                     });
 

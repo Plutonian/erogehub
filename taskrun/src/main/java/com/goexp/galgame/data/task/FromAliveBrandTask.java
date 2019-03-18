@@ -1,16 +1,19 @@
 package com.goexp.galgame.data.task;
 
-import com.goexp.galgame.data.task.handler.MesType;
+import com.goexp.galgame.common.util.Network;
 import com.goexp.galgame.data.piplline.core.Piplline;
 import com.goexp.galgame.data.task.handler.DownloadGameHandler;
+import com.goexp.galgame.data.task.handler.MesType;
 import com.goexp.galgame.data.task.handler.ProcessGameList;
+import com.goexp.galgame.data.task.handler.game.Bytes2Html;
+import com.goexp.galgame.data.task.handler.game.Html2GameOK;
+import com.goexp.galgame.data.task.handler.game.LocalGameHandler;
+import com.goexp.galgame.data.task.handler.game.ProcessGameOK;
 import com.goexp.galgame.data.task.handler.starter.FromAllBrand;
-import com.goexp.galgame.data.task.handler.game.*;
-import com.goexp.galgame.common.util.Network;
 
 public class FromAliveBrandTask {
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
 
         Network.initProxy();
 

@@ -1,14 +1,14 @@
 package com.goexp.galgame.gui.view.dataview.tableview;
 
-import com.goexp.galgame.common.model.GameState;
-import com.goexp.galgame.gui.view.task.ChangeGameTask;
-import com.goexp.galgame.gui.util.UIUtil;
 import com.goexp.common.util.DateUtil;
+import com.goexp.galgame.common.model.GameState;
+import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.LocalRes;
+import com.goexp.galgame.gui.util.UIUtil;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
-import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.view.search.MainSearchController;
-import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.view.task.ChangeGameTask;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;

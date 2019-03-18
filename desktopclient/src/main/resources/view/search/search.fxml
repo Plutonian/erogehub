@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<BorderPane styleClass="back" stylesheets="@../view.css" xmlns="http://javafx.com/javafx/"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.search.SearchController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" styleClass="back" stylesheets="@../view.css"
+            xmlns="http://javafx.com/javafx/" fx:controller="com.goexp.galgame.gui.view.search.SearchController">
     <center>
         <StackPane onDragDropped="#textSearchGameKey_OnDragDropped" onDragOver="#textSearchGameKey_OnDragOver"
                    prefHeight="150.0" prefWidth="200.0">

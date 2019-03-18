@@ -1,8 +1,8 @@
 package com.goexp.galgame.gui.view.dataview.simplelistview;
 
+import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.view.dataview.simplelistview.cell.GameSimpleListCellController;
-import com.goexp.galgame.gui.model.Game;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;

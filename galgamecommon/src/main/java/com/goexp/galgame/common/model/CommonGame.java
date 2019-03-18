@@ -103,23 +103,7 @@ public class CommonGame {
     }
 
     public static class Guide {
-        public enum DataFrom {
-            seiya_saiga_com(1),
-            sagaoz_net(2);
-
-            private int value;
-
-            DataFrom(int value) {
-                this.value = value;
-            }
-
-            public int getValue() {
-                return value;
-            }
-        }
-
         public String id;
-
         public String title;
         public String href;
         public DataFrom from;
@@ -145,6 +129,21 @@ public class CommonGame {
                     ", href='" + href + '\'' +
                     ", from=" + from +
                     '}';
+        }
+
+        public enum DataFrom {
+            seiya_saiga_com(1),
+            sagaoz_net(2);
+
+            private int value;
+
+            DataFrom(int value) {
+                this.value = value;
+            }
+
+            public int getValue() {
+                return value;
+            }
         }
     }
 }

@@ -25,7 +25,7 @@ public class GameCharListTask extends Task<ObservableList<Game.GameCharacter>> {
 
 
         var g = GameQuery.GameCharQuery.tlp.query()
-                .where(eq("_id", gameId))
+                .where(eq(gameId))
                 .select(include("gamechar"))
                 .one();
 

@@ -6,15 +6,16 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="175.0" maxWidth="125.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.detailview.cell.GameNavListCellController">
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="175.0" maxWidth="125.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
+      fx:controller="com.goexp.galgame.gui.view.detailview.cell.GameNavListCellController">
     <stylesheets>
-        <URL value="@../../view.css" />
+        <URL value="@../../view.css"/>
     </stylesheets>
     <padding>
-        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
     </padding>
     <children>
-        <ImageView fx:id="imageImg" fitHeight="172.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
-      <Hyperlink fx:id="linkTitle" text="Hyperlink" VBox.vgrow="NEVER" />
+        <ImageView fx:id="imageImg" fitHeight="172.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true"/>
+        <Hyperlink fx:id="linkTitle" text="Hyperlink" VBox.vgrow="NEVER"/>
     </children>
 </VBox>

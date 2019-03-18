@@ -40,52 +40,36 @@ public class DataViewController {
 
     @FXML
     public GameImgListController imgViewController;
-
-    @FXML
-    private FilterPanelController filterPanelController;
-
-    @FXML
-    private BrandGroupController brandGroupController;
-
-    @FXML
-    private DateGroupController dateGroupController;
-
     @FXML
     public ProgressBar progessloading;
-
-    @FXML
-    private Label lbItemCount;
-
-    @FXML
-    private ToggleGroup gameViewChange;
-
-    @FXML
-    private ToggleButton toggList;
-
-    @FXML
-    private ToggleButton toggGrid;
-
-    @FXML
-    private ToggleButton toggImg;
-
-    @FXML
-    private TableView<Game> tableView;
-
-    @FXML
-    private ListView<Game> listSimple;
-
-    @FXML
-    private Region imgView;
-
-    @FXML
-    private Region filterPanel;
-
-    @FXML
-    private Button btnHide;
-
     @FXML
     public Accordion groupPanel;
-
+    @FXML
+    private FilterPanelController filterPanelController;
+    @FXML
+    private BrandGroupController brandGroupController;
+    @FXML
+    private DateGroupController dateGroupController;
+    @FXML
+    private Label lbItemCount;
+    @FXML
+    private ToggleGroup gameViewChange;
+    @FXML
+    private ToggleButton toggList;
+    @FXML
+    private ToggleButton toggGrid;
+    @FXML
+    private ToggleButton toggImg;
+    @FXML
+    private TableView<Game> tableView;
+    @FXML
+    private ListView<Game> listSimple;
+    @FXML
+    private Region imgView;
+    @FXML
+    private Region filterPanel;
+    @FXML
+    private Button btnHide;
     @FXML
     private VBox tagFlow;
 

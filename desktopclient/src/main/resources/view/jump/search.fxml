@@ -5,15 +5,17 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 
 
-<Menu mnemonicParsing="false" text="Search" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.common.jump.SearchController">
+<Menu xmlns:fx="http://javafx.com/fxml/1" mnemonicParsing="false" text="Search"
+      xmlns="http://javafx.com/javafx/8.0.172-ea"
+      fx:controller="com.goexp.galgame.gui.view.common.jump.SearchController">
     <items>
         <!--<MenuItem fx:id="linkDlsite" mnemonicParsing="false" text="Dlsite" />-->
         <!--<SeparatorMenuItem mnemonicParsing="false" />-->
-        <MenuItem fx:id="linkWiki" mnemonicParsing="false" text="Wiki" />
-        <MenuItem fx:id="link2DF" mnemonicParsing="false" text="2DF" />
+        <MenuItem fx:id="linkWiki" mnemonicParsing="false" text="Wiki"/>
+        <MenuItem fx:id="link2DF" mnemonicParsing="false" text="2DF"/>
         <!--<MenuItem fx:id="linkBangumi" mnemonicParsing="false" text="Bangumi" />-->
 
-        <SeparatorMenuItem mnemonicParsing="false" />
-        <MenuItem fx:id="linkGGBases" mnemonicParsing="false" text="GGBases" />
+        <SeparatorMenuItem mnemonicParsing="false"/>
+        <MenuItem fx:id="linkGGBases" mnemonicParsing="false" text="GGBases"/>
     </items>
 </Menu>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Hyperlink?>
-<fx:root type="javafx.scene.control.Hyperlink" xmlns:fx="http://javafx.com/fxml">
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.control.Hyperlink">
 </fx:root>

@@ -1,7 +1,6 @@
 package com.goexp.galgame.data.db.importor.mongdb;
 
 import com.goexp.common.db.mongo.DBOperatorTemplate;
-import com.goexp.common.db.mongo.DBQueryTemplate;
 import com.goexp.galgame.data.db.query.mongdb.GameQuery;
 import com.goexp.galgame.data.model.Game;
 import org.bson.Document;
@@ -36,7 +35,7 @@ public class GameDB {
     public void update(Game game) {
 
         tlp.exec(documentMongoCollection -> {
-            documentMongoCollection.updateOne(eq("_id", game.id),
+            documentMongoCollection.updateOne(eq(game.id),
                     combine(
                             set("publishDate", game.publishDate)
                             , set("smallImg", game.smallImg)
@@ -47,7 +46,7 @@ public class GameDB {
     public void updateAll(Game game) {
 
         tlp.exec(documentMongoCollection -> {
-            documentMongoCollection.updateOne(eq("_id", game.id),
+            documentMongoCollection.updateOne(eq(game.id),
                     combine(
                             set("painter", game.painter)
                             , set("writer", game.writer)
@@ -81,7 +80,7 @@ public class GameDB {
                             .collect(Collectors.toList());
 
                     tlp.exec(documentMongoCollection -> {
-                        documentMongoCollection.updateOne(eq("_id", game.id),
+                        documentMongoCollection.updateOne(eq(game.id),
                                 set("gamechar", gameCharDocs));
                     });
 
@@ -100,20 +99,20 @@ public class GameDB {
                 .collect(Collectors.toList());
 
         tlp.exec(documentMongoCollection -> {
-            documentMongoCollection.updateOne(eq("_id", game.id),
+            documentMongoCollection.updateOne(eq(game.id),
                     set("simpleImg", imgdocs));
         });
     }
 
     public boolean exist(int id) {
-        return GameQuery.fullTlp.query().where(eq("_id", id)).exists();
+        return GameQuery.fullTlp.query().where(eq(id)).exists();
     }
 
     public static class StateDB {
         public void update(Game game) {
             tlp.exec(documentMongoCollection -> {
                 documentMongoCollection.updateOne(
-                        eq("_id", game.id)
+                        eq(game.id)
                         , set("state", game.state.getValue())
                 );
             });

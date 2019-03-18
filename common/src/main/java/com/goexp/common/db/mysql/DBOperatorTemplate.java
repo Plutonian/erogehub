@@ -9,6 +9,8 @@ import java.util.ResourceBundle;
 public abstract class DBOperatorTemplate<T> {
 
 
+    private static QueryRunner runner;
+
     QueryRunner getRunner() {
         if (runner == null) {
             try {
@@ -24,9 +26,6 @@ public abstract class DBOperatorTemplate<T> {
 
         return runner;
     }
-
-
-    private static QueryRunner runner;
 
 
 }

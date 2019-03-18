@@ -94,7 +94,7 @@ public class CVInfoSearchController {
 
         onLoadProperty.addListener((observable, oldValue, newValue) -> {
             if (newValue != null && newValue) {
-                MainSearchController.$this.loadCVTab(cv,true);
+                MainSearchController.$this.loadCVTab(cv, true);
             }
         });
 

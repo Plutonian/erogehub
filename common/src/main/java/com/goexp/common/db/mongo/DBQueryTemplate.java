@@ -12,12 +12,9 @@ import java.util.Objects;
 public class DBQueryTemplate<T> extends AbstractDBTemplate {
 
     private final MongoCollection<Document> collection;
-
-    private Bson defaultSort;
-
-    private Bson defaultSelect;
-
     private final ObjectCreator<T> defaultCreator;
+    private Bson defaultSort;
+    private Bson defaultSelect;
 
     private DBQueryTemplate(String dbName, String tableName, ObjectCreator<T> defaultCreator) {
         super(dbName, tableName);
@@ -38,98 +35,6 @@ public class DBQueryTemplate<T> extends AbstractDBTemplate {
 
     public QueryBuilder query() {
         return this.new QueryBuilder();
-    }
-
-
-    public class QueryBuilder {
-
-        private QueryBuilder() {
-        }
-
-        private Bson where;
-
-        private Bson select;
-
-        private Bson sort;
-
-
-        public QueryBuilder where(Bson where) {
-            this.where = where;
-            return this;
-        }
-
-        public QueryBuilder select(Bson select) {
-            this.select = select;
-            return this;
-        }
-
-        public QueryBuilder sort(Bson sort) {
-            this.sort = sort;
-            return this;
-        }
-
-        public List<T> list() {
-            return getList(defaultCreator);
-        }
-
-        public List<T> list(ObjectCreator<T> userCreator) {
-
-            Objects.requireNonNull(userCreator);
-
-            return getList(userCreator);
-        }
-
-        public T one() {
-            var temp = where != null ? collection.find(where) : collection.find();
-            var docs = temp;
-
-            return docs.first() != null ? (T) defaultCreator.create(docs.first()) : null;
-        }
-
-        public T one(ObjectCreator<T> userCreator) {
-            Objects.requireNonNull(userCreator);
-            var temp = where != null ? collection.find(where) : collection.find();
-            var docs = temp;
-
-            return docs.first() != null ? (T) userCreator.create(docs.first()) : null;
-        }
-
-        public boolean exists() {
-            var temp = where != null ? collection.find(where) : collection.find();
-            var docs = temp;
-
-            return docs.first() != null;
-        }
-
-        private ArrayList<T> getList(ObjectCreator<T> userCreator) {
-            FindIterable<Document> docs = getDocuments();
-
-            var list = new ArrayList<T>();
-            for (var doc : docs) {
-
-                list.add((T) userCreator.create(doc));
-            }
-            return list;
-        }
-
-        private FindIterable<Document> getDocuments() {
-            var temp = where != null ? collection.find(where) : collection.find();
-
-            // choice select
-            if (select != null)
-                temp = temp.projection(select);
-            else if (defaultSelect != null)
-                temp = temp.projection(defaultSelect);
-
-            // choice sort
-            if (sort != null)
-                temp = temp.sort(sort);
-            else if (defaultSort != null)
-                temp = temp.sort(defaultSort);
-
-            return temp;
-        }
-
     }
 
     public static class Builder<T> {
@@ -159,5 +64,99 @@ public class DBQueryTemplate<T> extends AbstractDBTemplate {
         public DBQueryTemplate<T> build() {
             return new DBQueryTemplate<>(dbName, tableName, creator, defaultSelect, defaultSort);
         }
+    }
+
+    public class QueryBuilder {
+
+        private Bson where;
+        private Bson select;
+        private Bson sort;
+
+        private QueryBuilder() {
+        }
+
+        public QueryBuilder where(Bson where) {
+            this.where = where;
+            return this;
+        }
+
+        public QueryBuilder select(Bson select) {
+            this.select = select;
+            return this;
+        }
+
+        public QueryBuilder sort(Bson sort) {
+            this.sort = sort;
+            return this;
+        }
+
+        public List<T> list() {
+            return getList(defaultCreator);
+        }
+
+        public List<T> list(ObjectCreator<T> userCreator) {
+            Objects.requireNonNull(userCreator);
+
+            return getList(userCreator);
+        }
+
+        public T one() {
+
+            var temp = collection.find();
+
+            // choice where
+            if (where != null) {
+                temp = temp.filter(where);
+            }
+
+            return temp.limit(1).map(defaultCreator::create).first();
+        }
+
+        public T one(ObjectCreator<T> userCreator) {
+            Objects.requireNonNull(userCreator);
+
+            var temp = collection.find();
+
+            // choice where
+            if (where != null) {
+                temp = temp.filter(where);
+            }
+
+            return temp.limit(1).map(userCreator::create).first();
+        }
+
+        public boolean exists() {
+            return collection.countDocuments(where) > 0;
+        }
+
+        private ArrayList<T> getList(ObjectCreator<T> userCreator) {
+            return getDocuments().map(userCreator::create).into(new ArrayList<>());
+        }
+
+        private FindIterable<Document> getDocuments() {
+
+
+            var temp = collection.find();
+
+            // choice where
+            if (where != null) {
+                temp = temp.filter(where);
+            }
+
+            // choice select
+            if (select != null)
+                temp = temp.projection(select);
+            else if (defaultSelect != null)
+                temp = temp.projection(defaultSelect);
+
+            // choice sort
+            if (sort != null)
+                temp = temp.sort(sort);
+            else if (defaultSort != null)
+                temp = temp.sort(defaultSort);
+
+            return temp;
+        }
+
     }
 }

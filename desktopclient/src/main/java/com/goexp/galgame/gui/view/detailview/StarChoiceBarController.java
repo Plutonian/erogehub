@@ -22,28 +22,19 @@ import java.util.stream.IntStream;
 
 public class StarChoiceBarController {
     private final Logger logger = LoggerFactory.getLogger(StarChoiceBarController.class);
-
+    public BooleanProperty onStarChangeProperty = new SimpleBooleanProperty(false);
     private Game targetGame;
-
     private ChangeListener<Toggle> handler;
-
     private List<ToggleButton> list;
-
-
     @FXML
     private HBox groupLikeCon;
-
     private ToggleGroup groupLike = new ToggleGroup();
-
     private Service<Void> changeStarService = new Service<>() {
         @Override
         protected Task<Void> createTask() {
             return new ChangeGameTask.Star(targetGame);
         }
     };
-
-
-    public BooleanProperty onStarChangeProperty = new SimpleBooleanProperty(false);
 
     @FXML
     private void initialize() {

@@ -14,6 +14,10 @@ public class TabSelect {
         this.root = root;
     }
 
+    public static TabSelect from(TabPane root) {
+        return new TabSelect(root);
+    }
+
     public TabSelect ifNotFind(Consumer notFind) {
         this.notFind = notFind;
 
@@ -32,10 +36,5 @@ public class TabSelect {
             if (notFind != null)
                 notFind.accept(text);
         }
-    }
-
-
-    public static TabSelect from(TabPane root) {
-        return new TabSelect(root);
     }
 }

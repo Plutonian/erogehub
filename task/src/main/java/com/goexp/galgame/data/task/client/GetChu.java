@@ -4,8 +4,8 @@ import com.goexp.common.util.WebUtil;
 import com.goexp.galgame.common.website.GetchuURL;
 import com.goexp.galgame.data.Config;
 import com.goexp.galgame.data.model.Game;
-import com.goexp.galgame.data.parser.game.DetailPageParser;
 import com.goexp.galgame.data.parser.ParseException;
+import com.goexp.galgame.data.parser.game.DetailPageParser;
 import com.goexp.galgame.data.parser.game.ListPageParser;
 import com.goexp.galgame.data.task.client.error.AbstractTaskErrorProcessor;
 import com.goexp.galgame.data.task.client.error.BrandTaskErrorProcessor;
@@ -30,8 +30,8 @@ import static java.net.http.HttpResponse.BodyHandlers.ofFile;
 
 public class GetChu {
 
-    final private static Logger logger = LoggerFactory.getLogger(GetChu.class);
     public final static Charset DEFAULT_CHARSET = Charset.forName("EUC-JP");
+    final private static Logger logger = LoggerFactory.getLogger(GetChu.class);
 
     public static String getHtml(HttpRequest request) {
         try {

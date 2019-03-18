@@ -47,7 +47,7 @@ public class GameSearchTask {
                         } else {
 
                             brand = BrandQuery.tlp.query()
-                                    .where(eq("_id", g.brand.id))
+                                    .where(eq(g.brand.id))
                                     .one();
                             AppCache.brandCache.put(g.brand.id, brand);
                         }
@@ -84,7 +84,7 @@ public class GameSearchTask {
                         } else {
 
                             brand = BrandQuery.tlp.query()
-                                    .where(eq("_id", g.brand.id))
+                                    .where(eq(g.brand.id))
                                     .one();
                             AppCache.brandCache.put(g.brand.id, brand);
                         }
@@ -126,7 +126,7 @@ public class GameSearchTask {
                         } else {
 
                             brand = BrandQuery.tlp.query()
-                                    .where(eq("_id", g.brand.id))
+                                    .where(eq(g.brand.id))
                                     .one();
                             AppCache.brandCache.put(g.brand.id, brand);
                         }
@@ -162,7 +162,7 @@ public class GameSearchTask {
                         } else {
 
                             brand = BrandQuery.tlp.query()
-                                    .where(eq("_id", g.brand.id))
+                                    .where(eq(g.brand.id))
                                     .one();
                             AppCache.brandCache.put(g.brand.id, brand);
                         }
@@ -197,7 +197,7 @@ public class GameSearchTask {
                         } else {
 
                             brand = BrandQuery.tlp.query()
-                                    .where(eq("_id", g.brand.id))
+                                    .where(eq(g.brand.id))
                                     .one();
                             AppCache.brandCache.put(g.brand.id, brand);
                         }
@@ -232,7 +232,7 @@ public class GameSearchTask {
                         } else {
 
                             brand = BrandQuery.tlp.query()
-                                    .where(eq("_id", g.brand.id))
+                                    .where(eq(g.brand.id))
                                     .one();
                             AppCache.brandCache.put(g.brand.id, brand);
                         }
@@ -276,7 +276,7 @@ public class GameSearchTask {
                         } else {
 
                             brand = BrandQuery.tlp.query()
-                                    .where(eq("_id", g.brand.id))
+                                    .where(eq(g.brand.id))
                                     .one();
                             AppCache.brandCache.put(g.brand.id, brand);
                         }
@@ -310,7 +310,7 @@ public class GameSearchTask {
                         } else {
 
                             brand = BrandQuery.tlp.query()
-                                    .where(eq("_id", g.brand.id))
+                                    .where(eq(g.brand.id))
                                     .one();
                             AppCache.brandCache.put(g.brand.id, brand);
                         }

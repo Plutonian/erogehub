@@ -8,9 +8,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.web.WebView?>
 
-<BorderPane style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.pagesource.WebViewController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color: #fff;"
+            xmlns="http://javafx.com/javafx/8.0.172-ea"
+            fx:controller="com.goexp.galgame.gui.view.pagesource.WebViewController">
     <stylesheets>
-        <URL value="@view.css" />
+        <URL value="@view.css"/>
     </stylesheets>
 
     <center>
@@ -20,11 +22,11 @@
     </center>
     <top>
         <HBox spacing="10" BorderPane.alignment="CENTER">
-            <TextField fx:id="locationField" editable="false" HBox.hgrow="ALWAYS" />
-            <Button fx:id="goButton" onAction="#goButton_OnAction" text="Set As Brand Site" />
+            <TextField fx:id="locationField" editable="false" HBox.hgrow="ALWAYS"/>
+            <Button fx:id="goButton" onAction="#goButton_OnAction" text="Set As Brand Site"/>
         </HBox>
     </top>
     <bottom>
-        <Label fx:id="lbUrl" BorderPane.alignment="CENTER" />
+        <Label fx:id="lbUrl" BorderPane.alignment="CENTER"/>
     </bottom>
 </BorderPane>

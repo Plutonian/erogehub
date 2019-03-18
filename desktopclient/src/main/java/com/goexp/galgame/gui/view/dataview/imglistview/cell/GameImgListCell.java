@@ -1,8 +1,8 @@
 package com.goexp.galgame.gui.view.dataview.imglistview.cell;
 
+import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.view.dataview.imglistview.GameImgListCellController;
-import com.goexp.galgame.gui.model.Game;
 import javafx.scene.layout.Region;
 
 public class GameImgListCell {

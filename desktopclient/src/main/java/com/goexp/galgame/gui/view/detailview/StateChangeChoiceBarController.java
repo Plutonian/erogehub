@@ -1,8 +1,8 @@
 package com.goexp.galgame.gui.view.detailview;
 
 import com.goexp.galgame.common.model.GameState;
-import com.goexp.galgame.gui.view.task.ChangeGameTask;
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.view.task.ChangeGameTask;
 import javafx.beans.value.ChangeListener;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;

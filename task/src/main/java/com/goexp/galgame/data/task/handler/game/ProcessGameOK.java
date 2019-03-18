@@ -64,7 +64,7 @@ public class ProcessGameOK extends DefaultMessageHandler<Game> {
         logger.debug("Process {}", remoteGame);
 
         var localGame = GameQuery.fullTlp.query()
-                .where(eq("_id", remoteGame.id))
+                .where(eq(remoteGame.id))
                 .one();
         if (!Objects.equals(localGame, remoteGame)) {
             logger.debug("\nOld:{}\nNew:{}\n", localGame, remoteGame);

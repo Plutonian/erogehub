@@ -18,95 +18,104 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.control.Hyperlink?>
-<BorderPane xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.dataview.simplelistview.cell.HeaderController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/"
+            fx:controller="com.goexp.galgame.gui.view.dataview.simplelistview.cell.HeaderController">
     <stylesheets>
-        <URL value="@../../view.css" />
+        <URL value="@../../view.css"/>
     </stylesheets>
     <center>
         <BorderPane>
             <center>
                 <VBox>
                     <children>
-                          <HBox>
-                              <children>
-                                  <Text fx:id="txtName" strokeType="OUTSIDE" strokeWidth="0.0" text="OH!!マイクロマン">
-                                      <font>
-                                          <Font name="System Bold" size="24.0" />
-                                      </font>
-                                  </Text>
-                                  <Text fx:id="txtSubName" strokeType="OUTSIDE" strokeWidth="0.0" text="～小さくなって女の子の色んなトコロに入っちゃお～" HBox.hgrow="NEVER" />
-                              </children>
-                          </HBox>
-                          <fx:include fx:id="brandJump" source="../../jump/brandjump.fxml" />
-                          <HBox fx:id="boxStar" />
+                        <HBox>
+                            <children>
+                                <Text fx:id="txtName" strokeType="OUTSIDE" strokeWidth="0.0" text="OH!!マイクロマン">
+                                    <font>
+                                        <Font name="System Bold" size="24.0"/>
+                                    </font>
+                                </Text>
+                                <Text fx:id="txtSubName" strokeType="OUTSIDE" strokeWidth="0.0"
+                                      text="～小さくなって女の子の色んなトコロに入っちゃお～" HBox.hgrow="NEVER"/>
+                            </children>
+                        </HBox>
+                        <fx:include fx:id="brandJump" source="../../jump/brandjump.fxml"/>
+                        <HBox fx:id="boxStar"/>
                         <GridPane>
                             <columnConstraints>
-                                <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="68.0" />
-                                <ColumnConstraints hgrow="ALWAYS" maxWidth="600.0" minWidth="10.0" />
+                                <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="68.0"/>
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="600.0" minWidth="10.0"/>
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints minHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints fillHeight="false" minHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints fillHeight="false" minHeight="30.0" vgrow="SOMETIMES"/>
                             </rowConstraints>
                             <children>
                                 <Label text="原画" textFill="#6e6d6d" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                     <font>
-                                        <Font size="14.0" />
+                                        <Font size="14.0"/>
                                     </font>
                                 </Label>
-                                <FlowPane fx:id="flowPainter" rowValignment="TOP" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES" />
+                                <FlowPane fx:id="flowPainter" rowValignment="TOP" GridPane.columnIndex="1"
+                                          GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES"/>
                                 <Label text="シナリオ" textFill="#6e6d6d">
                                     <font>
-                                        <Font name="System Bold" size="14.0" />
+                                        <Font name="System Bold" size="14.0"/>
                                     </font>
                                 </Label>
-                                <Label fx:id="txtWriter" text="XX" wrapText="true" GridPane.columnIndex="1" />
+                                <Label fx:id="txtWriter" text="XX" wrapText="true" GridPane.columnIndex="1"/>
                             </children>
                             <opaqueInsets>
-                                <Insets />
+                                <Insets/>
                             </opaqueInsets>
                         </GridPane>
 
-                        <HBox fx:id="boxTag" spacing="5.0" />
-                        <fx:include fx:id="changeState" source="../detail/game_statechange.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" StackPane.alignment="BOTTOM_LEFT" />
+                        <HBox fx:id="boxTag" spacing="5.0"/>
+                        <fx:include fx:id="changeState" source="../detail/game_statechange.fxml"
+                                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                    StackPane.alignment="BOTTOM_LEFT"/>
 
                         <!--<fx:include fx:id="starChange" source="/view/game_explorer/detail/game_star_choicebar.fxml" />-->
 
                     </children>
-               <BorderPane.margin>
-                  <Insets left="10.0" />
-               </BorderPane.margin>
+                    <BorderPane.margin>
+                        <Insets left="10.0"/>
+                    </BorderPane.margin>
                 </VBox>
             </center>
             <BorderPane.margin>
-                <Insets />
+                <Insets/>
             </BorderPane.margin>
-         <left>
-              <AnchorPane BorderPane.alignment="CENTER">
-                  <children>
-                      <ImageView fx:id="imageImg" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <image>
-                        <Image url="@../../../../../../img/game/801002/game_s.jpg" />
-                     </image>
-                  </ImageView>
-                  </children>
-               <BorderPane.margin>
-                  <Insets />
-               </BorderPane.margin>
-              </AnchorPane>
-         </left>
+            <left>
+                <AnchorPane BorderPane.alignment="CENTER">
+                    <children>
+                        <ImageView fx:id="imageImg" pickOnBounds="true" preserveRatio="true"
+                                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <image>
+                                <Image url="@../../../../../../img/game/801002/game_s.jpg"/>
+                            </image>
+                        </ImageView>
+                    </children>
+                    <BorderPane.margin>
+                        <Insets/>
+                    </BorderPane.margin>
+                </AnchorPane>
+            </left>
         </BorderPane>
     </center>
     <right>
         <StackPane BorderPane.alignment="CENTER">
             <children>
-                <fx:include fx:id="dateview" source="../detail/date.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER" StackPane.alignment="TOP_LEFT" />
+                <fx:include fx:id="dateview" source="../detail/date.fxml" AnchorPane.leftAnchor="0.0"
+                            AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER"
+                            StackPane.alignment="TOP_LEFT"/>
                 <Hyperlink fx:id="linkView" text="View" StackPane.alignment="BOTTOM_CENTER"/>
                 <!--<fx:include fx:id="webjump" source="../../jump/websitejump.fxml" StackPane.alignment="BOTTOM_CENTER" />-->
             </children>
         </StackPane>
     </right>
-   <padding>
-      <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-   </padding>
+    <padding>
+        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+    </padding>
 </BorderPane>

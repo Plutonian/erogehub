@@ -24,7 +24,6 @@ import javafx.scene.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static com.goexp.galgame.common.util.GameName.NAME_SPLITER_REX;

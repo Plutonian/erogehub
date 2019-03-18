@@ -30,14 +30,14 @@ public class BrandDB extends DBUpdateTemplate {
     public void updateWebsite(Brand item) {
 
         tlp.exec(documentMongoCollection -> {
-            documentMongoCollection.updateOne(eq("_id", item.id), set("website", item.website));
+            documentMongoCollection.updateOne(eq(item.id), set("website", item.website));
         });
     }
 
     public void updateComp(Brand item) {
 
         tlp.exec(documentMongoCollection -> {
-            documentMongoCollection.updateOne(eq("_id", item.id),
+            documentMongoCollection.updateOne(eq(item.id),
                     set("comp", item.comp));
         });
     }

@@ -14,7 +14,7 @@ public class BrandDB {
 
         tlp.exec(documentMongoCollection -> {
             documentMongoCollection.updateOne(
-                    eq("_id", item.id)
+                    eq(item.id)
                     , set("website", item.website)
             );
         });
@@ -25,7 +25,7 @@ public class BrandDB {
 
         tlp.exec(documentMongoCollection -> {
             documentMongoCollection.updateOne(
-                    eq("_id", item.id)
+                    eq(item.id)
                     , set("type", item.isLike.getValue())
             );
         });

@@ -33,6 +33,25 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class ImportFromLocalAliveBrandTask {
 
+    public static void main(String[] args) throws IOException {
+
+        Network.initProxy();
+
+
+        var pipl = new Piplline(new StartFromAllAliveBrand());
+
+        pipl.registryCPUTypeMessageHandler(MesType.Brand, new ProcessGameList());
+        pipl.registryCPUTypeMessageHandler(MesType.Game, new LocalGameHandler());
+        pipl.registryCPUTypeMessageHandler(MesType.ContentBytes, new Bytes2Html());
+        pipl.registryCPUTypeMessageHandler(MesType.ContentHtml, new Html2GameOK());
+        pipl.registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameOK());
+//        pipl.registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameCharOK());
+//        pipl.registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameImgOK());
+
+        pipl.start();
+
+    }
+
     public static class StartFromAllAliveBrand extends DefaultStarter<Integer> {
 
 
@@ -142,25 +161,6 @@ public class ImportFromLocalAliveBrandTask {
 //            }
 //        }
         }
-
-    }
-
-    public static void main(String[] args) throws IOException {
-
-        Network.initProxy();
-
-
-        var pipl = new Piplline(new StartFromAllAliveBrand());
-
-        pipl.registryCPUTypeMessageHandler(MesType.Brand, new ProcessGameList());
-        pipl.registryCPUTypeMessageHandler(MesType.Game, new LocalGameHandler());
-        pipl.registryCPUTypeMessageHandler(MesType.ContentBytes, new Bytes2Html());
-        pipl.registryCPUTypeMessageHandler(MesType.ContentHtml, new Html2GameOK());
-        pipl.registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameOK());
-//        pipl.registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameCharOK());
-//        pipl.registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameImgOK());
-
-        pipl.start();
 
     }
 

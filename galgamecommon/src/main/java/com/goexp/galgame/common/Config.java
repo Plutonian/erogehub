@@ -5,6 +5,9 @@ import java.util.ResourceBundle;
 
 public class Config {
 
+    public static final Path DATA_ROOT;
+    public static boolean proxy = true;
+
     static {
 
         //load config
@@ -12,8 +15,4 @@ public class Config {
 
         DATA_ROOT = Path.of(prop.getString("DATA_ROOT"));
     }
-
-    public static boolean proxy = true;
-
-    public static final Path DATA_ROOT;
 }

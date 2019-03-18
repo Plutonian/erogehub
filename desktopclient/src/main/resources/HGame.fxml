@@ -3,11 +3,12 @@
 <?import java.net.URL?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.MainController">
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/"
+           fx:controller="com.goexp.galgame.gui.view.MainController">
     <stylesheets>
-        <URL value="@view/view.css" />
+        <URL value="@view/view.css"/>
     </stylesheets>
     <children>
-            <fx:include fx:id="search" source="view/search.fxml" />
+        <fx:include fx:id="search" source="view/search.fxml"/>
     </children>
 </StackPane>

@@ -1,13 +1,13 @@
 package com.goexp.galgame.gui.view.search.cell;
 
 
-import com.goexp.galgame.gui.view.common.CommonBrandInfoTabController;
+import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.TabSelect;
+import com.goexp.galgame.gui.view.common.CommonBrandInfoTabController;
 import com.goexp.galgame.gui.view.pagesource.WebViewController;
 import com.goexp.galgame.gui.view.search.MainSearchController;
-import com.goexp.galgame.gui.model.Brand;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

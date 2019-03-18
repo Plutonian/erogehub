@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.view.dataview.imglistview;
 
-import com.goexp.galgame.gui.view.dataview.imglistview.cell.GameImgListCell;
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.view.dataview.imglistview.cell.GameImgListCell;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;

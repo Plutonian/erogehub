@@ -32,7 +32,7 @@ public class InfoController {
 
         var data = newValue.stream()
                 .filter(g -> g.tag.size() > 0)
-                .flatMap(g->g.tag.stream())
+                .flatMap(g -> g.tag.stream())
                 .collect(Collectors.groupingBy(str -> str))
                 .entrySet().stream()
                 .sorted(Comparator.comparing((Map.Entry<String, List<String>> v) -> {

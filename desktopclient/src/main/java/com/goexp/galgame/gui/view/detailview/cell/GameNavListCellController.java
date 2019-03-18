@@ -1,8 +1,8 @@
 package com.goexp.galgame.gui.view.detailview.cell;
 
+import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Images;
 import com.goexp.galgame.gui.view.search.MainSearchController;
-import com.goexp.galgame.gui.model.Game;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;

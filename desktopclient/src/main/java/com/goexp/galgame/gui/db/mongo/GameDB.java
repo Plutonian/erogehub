@@ -25,7 +25,7 @@ public class GameDB {
             logger.debug("<update> {}", game);
 
             tlp.exec(documentMongoCollection -> {
-                documentMongoCollection.updateOne(eq("_id", game.id), set("star", game.star));
+                documentMongoCollection.updateOne(eq(game.id), set("star", game.star));
             });
         }
 
@@ -55,7 +55,7 @@ public class GameDB {
         public void update(Game game) {
             tlp.exec(documentMongoCollection -> {
                 documentMongoCollection.updateOne(
-                        eq("_id", game.id)
+                        eq(game.id)
                         , set("state", game.state.get().getValue())
                 );
             });
@@ -78,7 +78,7 @@ public class GameDB {
 
                 games.forEach(game -> {
                     documentMongoCollection.updateOne(
-                            eq("_id", game.id)
+                            eq(game.id)
                             , set("state", game.state.get().getValue())
                     );
                 });

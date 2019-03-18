@@ -24,7 +24,7 @@ public class GameImgListTask extends Task<ObservableList<Game.GameImg>> {
         new GameQuery.GameImgQuery();
 
         var g = GameQuery.GameImgQuery.tlp.query()
-                .where(eq("_id", gameId))
+                .where(eq(gameId))
                 .select(include("simpleImg"))
                 .one();
         return FXCollections.observableArrayList(g.gameImgs);

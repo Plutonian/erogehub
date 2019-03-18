@@ -1,14 +1,14 @@
 package com.goexp.galgame.gui.view.dataview.imglistview;
 
-import com.goexp.galgame.common.model.GameState;
-import com.goexp.galgame.gui.util.Images;
-import com.goexp.galgame.gui.util.UIUtil;
 import com.goexp.common.util.DateUtil;
+import com.goexp.galgame.common.model.GameState;
+import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.Images;
+import com.goexp.galgame.gui.util.LocalRes;
+import com.goexp.galgame.gui.util.UIUtil;
 import com.goexp.galgame.gui.view.common.StateChangeController;
 import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
-import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.view.search.MainSearchController;
-import com.goexp.galgame.gui.model.Game;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;

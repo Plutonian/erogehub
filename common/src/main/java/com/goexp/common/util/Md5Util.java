@@ -8,8 +8,7 @@ public class Md5Util {
 
     public static String encode(byte[] data) {
 
-        if(data==null)
-        {
+        if (data == null) {
             return null;
         }
 

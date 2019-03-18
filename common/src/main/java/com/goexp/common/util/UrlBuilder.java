@@ -18,7 +18,9 @@ public final class UrlBuilder {
         params = new HashMap<>();
     }
 
-
+    public static UrlBuilder create(final String host) {
+        return new UrlBuilder(host);
+    }
 
     public final UrlBuilder param(final String name, final String value) {
         params.put(name, value);
@@ -38,10 +40,5 @@ public final class UrlBuilder {
 
 
         return String.format("%s?%s", host, queryString);
-    }
-
-
-    public static UrlBuilder create(final String host) {
-        return new UrlBuilder(host);
     }
 }

@@ -23,21 +23,6 @@ public enum GameState {
         this.value = value;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-
-    @Override
-    public String toString() {
-        return this.name;
-    }
-
-
     public static GameState from(int value) {
 
         return Stream.of(GameState.values())
@@ -56,6 +41,19 @@ public enum GameState {
                 })
                 .findFirst()
                 .get();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 
 

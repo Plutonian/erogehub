@@ -1,10 +1,10 @@
 package com.goexp.galgame.gui.view.detailview.header;
 
-import com.goexp.galgame.gui.util.UIUtil;
 import com.goexp.common.util.DateUtil;
+import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.UIUtil;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
-import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.view.detailview.StateChangeChoiceBarController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -56,7 +56,7 @@ public class SmallHeaderController {
 
 
         if (game.tag.size() > 0) {
-            boxTag.getChildren().setAll(UIUtil.createSet(game.tag,label->{
+            boxTag.getChildren().setAll(UIUtil.createSet(game.tag, label -> {
                 label.getStyleClass().add("tag");
                 label.getStyleClass().add("tagbig");
             }));

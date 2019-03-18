@@ -16,7 +16,6 @@ public class GameSimpleListCellController {
     private void initialize() {
 
 
-
 //        imageImg.setOnMouseEntered(event -> {
 //            rightPanel.setVisible(true);
 //        });

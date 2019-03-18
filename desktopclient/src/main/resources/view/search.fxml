@@ -15,9 +15,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.search.MainSearchController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx"
+            fx:controller="com.goexp.galgame.gui.view.search.MainSearchController">
     <stylesheets>
-        <URL value="@view.css" />
+        <URL value="@view.css"/>
     </stylesheets>
     <center>
         <StackPane>
@@ -26,12 +27,12 @@
                     <children>
                         <Text strokeLineCap="ROUND" text="ようこそ、エロゲー世界へ">
                             <font>
-                                <Font name="System Bold" size="96.0" />
+                                <Font name="System Bold" size="96.0"/>
                             </font>
                             <effect>
                                 <Reflection bottomOpacity="0.15" fraction="0.59" topOffset="-10.0" topOpacity="0.37">
                                     <input>
-                                        <InnerShadow color="#0a0707" height="0.0" radius="0.0" width="0.0" />
+                                        <InnerShadow color="#0a0707" height="0.0" radius="0.0" width="0.0"/>
                                     </input>
                                 </Reflection>
                             </effect>
@@ -42,61 +43,61 @@
                     <contextMenu>
                         <ContextMenu>
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#miCloseOther_OnAction" text="Close Other" />
-                                <MenuItem mnemonicParsing="false" onAction="#miCloseRight_OnAction" text="Close Right" />
+                                <MenuItem mnemonicParsing="false" onAction="#miCloseOther_OnAction" text="Close Other"/>
+                                <MenuItem mnemonicParsing="false" onAction="#miCloseRight_OnAction" text="Close Right"/>
                             </items>
                         </ContextMenu>
                     </contextMenu>
                 </TabPane>
-                <fx:include fx:id="date" source="search/date.fxml" StackPane.alignment="BOTTOM_RIGHT" />
+                <fx:include fx:id="date" source="search/date.fxml" StackPane.alignment="BOTTOM_RIGHT"/>
             </children>
         </StackPane>
     </center>
     <left>
-      <VBox>
-         <children>
+        <VBox>
+            <children>
                 <TitledPane animated="false" collapsible="false" text="Search">
                     <content>
                         <VBox>
                             <children>
-                                <Hyperlink fx:id="linkSearch" onAction="#linkSearch_OnAction" />
+                                <Hyperlink fx:id="linkSearch" onAction="#linkSearch_OnAction"/>
                                 <Hyperlink fx:id="linkDate" onAction="#linkDate_OnAction">
                                 </Hyperlink>
-                                <Hyperlink fx:id="linkTags" onAction="#linkTags_OnAction" />
-                                <Hyperlink fx:id="linkCV" onAction="#linkCV_OnAction" />
-                                <Hyperlink fx:id="linkBrand" onAction="#linkBrand_OnAction" text="ブランド" />
+                                <Hyperlink fx:id="linkTags" onAction="#linkTags_OnAction"/>
+                                <Hyperlink fx:id="linkCV" onAction="#linkCV_OnAction"/>
+                                <Hyperlink fx:id="linkBrand" onAction="#linkBrand_OnAction" text="ブランド"/>
                             </children>
                         </VBox>
                     </content>
                 </TitledPane>
-              <Accordion fx:id="menuPanel">
-                  <panes>
-                  <TitledPane text="State">
-                     <content>
-                              <VBox spacing="20.0">
-                                  <children>
-                                      <VBox fx:id="gameStateLinkPanel">
-                                </VBox>
-                                      <VBox fx:id="gameStateLikeLinkPanel" />
-                                  </children>
-                              </VBox>
-                     </content>
-                  </TitledPane>
-                  <TitledPane text="Type">
-                     <content>
-                                <VBox fx:id="gameStarlinkPanel">
+                <Accordion fx:id="menuPanel">
+                    <panes>
+                        <TitledPane text="State">
+                            <content>
+                                <VBox spacing="20.0">
                                     <children>
-                                        <Hyperlink onAction="#pass_OnAction" text="差" />
-                                        <Hyperlink onAction="#normal_OnAction" text="良" />
-                                        <Hyperlink onAction="#like_OnAction" text="优" />
+                                        <VBox fx:id="gameStateLinkPanel">
+                                        </VBox>
+                                        <VBox fx:id="gameStateLikeLinkPanel"/>
                                     </children>
                                 </VBox>
-                     </content>
-                  </TitledPane>
-                  </panes>
-              </Accordion>
-         </children>
-      </VBox>
+                            </content>
+                        </TitledPane>
+                        <TitledPane text="Type">
+                            <content>
+                                <VBox fx:id="gameStarlinkPanel">
+                                    <children>
+                                        <Hyperlink onAction="#pass_OnAction" text="差"/>
+                                        <Hyperlink onAction="#normal_OnAction" text="良"/>
+                                        <Hyperlink onAction="#like_OnAction" text="优"/>
+                                    </children>
+                                </VBox>
+                            </content>
+                        </TitledPane>
+                    </panes>
+                </Accordion>
+            </children>
+        </VBox>
     </left>
     <!--<bottom>-->
     <!--<ListView fx:id="listPageHis" orientation="HORIZONTAL" prefHeight="50.0" BorderPane.alignment="CENTER" />-->

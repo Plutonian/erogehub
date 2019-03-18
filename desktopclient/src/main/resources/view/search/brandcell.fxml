@@ -5,13 +5,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.search.cell.BrandTreeCellController">
-   <top>
-      <VBox BorderPane.alignment="CENTER">
-         <children>
-            <Label fx:id="textName" text="AAAAAAAAAAA" />
-            <HBox fx:id="boxLink" />
-         </children>
-      </VBox>
-   </top>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/"
+            fx:controller="com.goexp.galgame.gui.view.search.cell.BrandTreeCellController">
+    <top>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <Label fx:id="textName" text="AAAAAAAAAAA"/>
+                <HBox fx:id="boxLink"/>
+            </children>
+        </VBox>
+    </top>
 </BorderPane>

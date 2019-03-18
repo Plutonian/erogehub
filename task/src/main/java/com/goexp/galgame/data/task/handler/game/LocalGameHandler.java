@@ -1,9 +1,9 @@
 package com.goexp.galgame.data.task.handler.game;
 
 import com.goexp.galgame.data.Config;
-import com.goexp.galgame.data.task.handler.MesType;
 import com.goexp.galgame.data.piplline.core.Message;
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler;
+import com.goexp.galgame.data.task.handler.MesType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +25,7 @@ public class LocalGameHandler extends DefaultMessageHandler<Integer> {
         var gid = message.entity;
         logger.debug("<Game> {}", gid);
 
-        var bytes = Map.entry(gid, Objects.requireNonNull(getContent(gid),gid.toString()));
+        var bytes = Map.entry(gid, Objects.requireNonNull(getContent(gid), gid.toString()));
 
         try {
             msgQueue.offer(new Message<>(MesType.ContentBytes, bytes), 60, TimeUnit.SECONDS);

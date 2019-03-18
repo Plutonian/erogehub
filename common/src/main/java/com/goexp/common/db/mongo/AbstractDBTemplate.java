@@ -5,11 +5,12 @@ import com.mongodb.client.MongoClients;
 
 public abstract class AbstractDBTemplate {
 
+    protected static MongoClient mongoClient;
+
     static {
         mongoClient = MongoClients.create();
     }
 
-    protected static MongoClient mongoClient;
     protected final String dbName;
     protected final String tableName;
 

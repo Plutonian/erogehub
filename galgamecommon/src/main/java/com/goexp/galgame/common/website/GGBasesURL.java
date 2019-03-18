@@ -2,7 +2,7 @@ package com.goexp.galgame.common.website;
 
 import com.goexp.common.util.UrlBuilder;
 
-public final class  GGBasesURL {
+public final class GGBasesURL {
 
     public static final String searchUrl = "https://www.ggbases.com/search.so";
 

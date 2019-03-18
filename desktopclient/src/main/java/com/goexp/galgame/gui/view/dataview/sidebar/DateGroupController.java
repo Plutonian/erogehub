@@ -112,24 +112,23 @@ public class DateGroupController extends FilterController<Game> {
 
     static class DateItemNode extends DefaultItemNode {
 
-        enum DateType {
-            YEAR,
-            MONTH
-        }
-
         DateRange range;
-
         DateType dateType;
-
 
         public DateItemNode(String title, LocalDate start, LocalDate end, int count, DateType dateType) {
             this(title, new DateRange(start, end), count, dateType);
         }
 
+
         public DateItemNode(String title, DateRange range, int count, DateType dateType) {
             super(title, count);
             this.range = range;
             this.dateType = dateType;
+        }
+
+        enum DateType {
+            YEAR,
+            MONTH
         }
     }
 }

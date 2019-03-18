@@ -5,16 +5,18 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 
-<TitledPane maxWidth="200" animated="false" style="-fx-background-color: white;" text="Date" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.search.DateController">
+<TitledPane xmlns:fx="http://javafx.com/fxml/1" maxWidth="200" animated="false" style="-fx-background-color: white;"
+            text="Date" xmlns="http://javafx.com/javafx"
+            fx:controller="com.goexp.galgame.gui.view.search.DateController">
     <stylesheets>
-        <URL value="@../view.css" />
+        <URL value="@../view.css"/>
     </stylesheets>
-   <content>
-      <VBox spacing="10">
-         <children>
-            <TilePane fx:id="dateCon" prefColumns="3"/>
-            <TilePane fx:id="flowYear" prefColumns="10"/>
-         </children>
-      </VBox>
-   </content>
+    <content>
+        <VBox spacing="10">
+            <children>
+                <TilePane fx:id="dateCon" prefColumns="3"/>
+                <TilePane fx:id="flowYear" prefColumns="10"/>
+            </children>
+        </VBox>
+    </content>
 </TitledPane>

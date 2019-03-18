@@ -5,12 +5,13 @@
 <?import javafx.scene.layout.FlowPane?>
 
 
-  <ScrollPane fx:id="rootScroll" fitToHeight="true" pannable="true" prefHeight="500.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.search.TagExplorerController">
-      <content>
-          <FlowPane fx:id="tabType" hgap="5.0" orientation="VERTICAL" rowValignment="TOP" vgap="5.0">
-              <padding>
-                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-              </padding>
-          </FlowPane>
-      </content>
-  </ScrollPane>
+<ScrollPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootScroll" fitToHeight="true" pannable="true" prefHeight="500.0"
+            xmlns="http://javafx.com/javafx/" fx:controller="com.goexp.galgame.gui.view.search.TagExplorerController">
+    <content>
+        <FlowPane fx:id="tabType" hgap="5.0" orientation="VERTICAL" rowValignment="TOP" vgap="5.0">
+            <padding>
+                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+            </padding>
+        </FlowPane>
+    </content>
+</ScrollPane>

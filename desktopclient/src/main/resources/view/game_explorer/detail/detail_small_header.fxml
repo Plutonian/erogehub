@@ -10,36 +10,39 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.detailview.header.SmallHeaderController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/"
+            fx:controller="com.goexp.galgame.gui.view.detailview.header.SmallHeaderController">
     <stylesheets>
-        <URL value="@../../view.css" />
+        <URL value="@../../view.css"/>
     </stylesheets>
     <children>
-        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+              AnchorPane.topAnchor="0.0">
             <children>
-                <Text fx:id="txtName" strokeType="OUTSIDE" strokeWidth="0.0" text="緋奈沢智花の絶対女王政＜早期予約キャンペーン特典付き45455555555555555555555555＞" wrappingWidth="1000.0">
+                <Text fx:id="txtName" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="緋奈沢智花の絶対女王政＜早期予約キャンペーン特典付き45455555555555555555555555＞" wrappingWidth="1000.0">
                     <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="System Bold" size="24.0"/>
                     </font>
                 </Text>
-                <fx:include fx:id="brandJump" source="../../jump/brandjump.fxml" />
-                <HBox fx:id="boxTag" spacing="5.0" />
+                <fx:include fx:id="brandJump" source="../../jump/brandjump.fxml"/>
+                <HBox fx:id="boxTag" spacing="5.0"/>
             </children>
         </VBox>
         <Label fx:id="lbDate" text="XXXXX" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">
             <font>
-                <Font size="14.0" />
+                <Font size="14.0"/>
             </font>
         </Label>
         <HBox AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
-            <fx:include fx:id="changeState" source="game_change_state_choicebar.fxml" />
-            <fx:include fx:id="webjump" source="../../jump/websitejump.fxml" />
+            <fx:include fx:id="changeState" source="game_change_state_choicebar.fxml"/>
+            <fx:include fx:id="webjump" source="../../jump/websitejump.fxml"/>
         </HBox>
     </children>
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
-   <effect>
-      <DropShadow />
-   </effect>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+    </padding>
+    <effect>
+        <DropShadow/>
+    </effect>
 </AnchorPane>

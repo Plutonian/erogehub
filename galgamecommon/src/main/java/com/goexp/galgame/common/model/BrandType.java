@@ -22,19 +22,6 @@ public enum BrandType {
         this.value = value;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    @Override
-    public String toString() {
-        return this.name;
-    }
-
     public static BrandType from(int value) {
 
         return Stream.of(BrandType.values())
@@ -53,6 +40,19 @@ public enum BrandType {
                 })
                 .findFirst()
                 .get();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 
 }

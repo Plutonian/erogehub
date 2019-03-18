@@ -32,6 +32,10 @@ public class SearchController {
     private String key;
 
     private SearchType searchType;
+    @FXML
+    private TextField textSearchGameKey;
+    @FXML
+    private ToggleGroup searchGroup;
 
     public String getKey() {
         return key;
@@ -40,13 +44,6 @@ public class SearchController {
     public SearchType getSearchType() {
         return searchType;
     }
-
-    @FXML
-    private TextField textSearchGameKey;
-
-    @FXML
-    private ToggleGroup searchGroup;
-
 
     @FXML
     private void initialize() {

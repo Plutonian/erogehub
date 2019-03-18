@@ -37,7 +37,7 @@ public class BrandGetGameTask {
             } else {
 
                 brand = BrandQuery.tlp.query()
-                        .where(eq("_id", brandId))
+                        .where(eq(brandId))
                         .one();
                 AppCache.brandCache.put(brandId, brand);
             }
@@ -73,7 +73,7 @@ public class BrandGetGameTask {
             } else {
 
                 brand = BrandQuery.tlp.query()
-                        .where(eq("_id", brandId))
+                        .where(eq(brandId))
                         .one();
                 AppCache.brandCache.put(brandId, brand);
             }

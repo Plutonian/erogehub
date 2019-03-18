@@ -62,12 +62,12 @@ public class Game extends CommonGame {
         return state.get();
     }
 
-    public SimpleObjectProperty<GameState> stateProperty() {
-        return state;
-    }
-
     public void setState(GameState isLike) {
         this.state.set(isLike);
+    }
+
+    public SimpleObjectProperty<GameState> stateProperty() {
+        return state;
     }
 
     public int getStar() {

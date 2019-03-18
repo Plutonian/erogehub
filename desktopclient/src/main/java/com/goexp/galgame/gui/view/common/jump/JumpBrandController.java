@@ -1,9 +1,9 @@
 package com.goexp.galgame.gui.view.common.jump;
 
 import com.goexp.galgame.common.website.GetchuURL;
+import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.view.HGameApp;
 import com.goexp.galgame.gui.view.search.MainSearchController;
-import com.goexp.galgame.gui.model.Brand;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;

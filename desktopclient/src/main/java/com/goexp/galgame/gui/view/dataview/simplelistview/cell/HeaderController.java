@@ -1,14 +1,14 @@
 package com.goexp.galgame.gui.view.dataview.simplelistview.cell;
 
 import com.goexp.galgame.common.model.GameState;
-import com.goexp.galgame.gui.view.common.StateChangeController;
-import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
+import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Images;
 import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.UIUtil;
+import com.goexp.galgame.gui.view.common.StateChangeController;
+import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.detailview.DateShowController;
 import com.goexp.galgame.gui.view.search.MainSearchController;
-import com.goexp.galgame.gui.model.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
@@ -22,7 +22,6 @@ import javafx.scene.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static com.goexp.galgame.common.util.GameName.NAME_SPLITER_REX;
@@ -132,7 +131,7 @@ public class HeaderController {
         txtWriter.setText(game.writer.stream().collect(Collectors.joining(",")));
 
         if (game.tag.size() > 0) {
-            boxTag.getChildren().setAll(UIUtil.createSet(game.tag,label->{
+            boxTag.getChildren().setAll(UIUtil.createSet(game.tag, label -> {
                 label.getStyleClass().add("tag");
                 label.getStyleClass().add("tagbig");
             }));

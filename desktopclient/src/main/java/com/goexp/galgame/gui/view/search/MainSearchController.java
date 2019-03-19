@@ -156,7 +156,6 @@ public class MainSearchController {
         var links = gameType2Link(List.of(
                 GameState.READYTOVIEW
                 , GameState.HOPE
-                , GameState.NEEDDOWNLOAD
                 , GameState.PLAYING
         ));
         gameStateLikeLinkPanel.getChildren().setAll(links);

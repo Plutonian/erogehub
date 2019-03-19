@@ -87,9 +87,9 @@
                             <content>
                                 <VBox fx:id="gameStarlinkPanel">
                                     <children>
-                                        <Hyperlink onAction="#pass_OnAction" text="差"/>
-                                        <Hyperlink onAction="#normal_OnAction" text="良"/>
                                         <Hyperlink onAction="#like_OnAction" text="优"/>
+                                        <Hyperlink onAction="#normal_OnAction" text="良"/>
+                                        <Hyperlink onAction="#pass_OnAction" text="差"/>
                                     </children>
                                 </VBox>
                             </content>

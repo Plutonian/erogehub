@@ -2,6 +2,7 @@ package com.goexp.galgame.data.task;
 
 import com.goexp.galgame.common.util.Network;
 import com.goexp.galgame.data.piplline.core.Piplline;
+import com.goexp.galgame.data.task.handler.DownloadBrandHandler;
 import com.goexp.galgame.data.task.handler.DownloadGameHandler;
 import com.goexp.galgame.data.task.handler.MesType;
 import com.goexp.galgame.data.task.handler.ProcessGameList;
@@ -20,6 +21,7 @@ public class FromAliveBrandTask {
 
         var pipl = new Piplline(new FromAllBrand());
 
+        pipl.registryIOTypeMessageHandler(99, new DownloadBrandHandler());
         pipl.registryCPUTypeMessageHandler(MesType.Brand, new ProcessGameList());
         pipl.registryIOTypeMessageHandler(MesType.NEED_DOWN_GAME, new DownloadGameHandler());
         pipl.registryCPUTypeMessageHandler(MesType.Game, new LocalGameHandler());

@@ -2,18 +2,14 @@ package com.goexp.galgame.data.task.others;
 
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.common.util.Network;
-import com.goexp.galgame.data.Config;
 import com.goexp.galgame.data.db.importor.mongdb.GameDB;
+import com.goexp.galgame.data.db.query.mongdb.BrandQuery;
 import com.goexp.galgame.data.db.query.mongdb.GameQuery;
 import com.goexp.galgame.data.piplline.core.Message;
 import com.goexp.galgame.data.piplline.core.Piplline;
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler;
 import com.goexp.galgame.data.piplline.handler.DefaultStarter;
-import com.goexp.galgame.data.task.download.contentprovider.ListProvider;
 import com.goexp.galgame.data.task.download.contentprovider.brand.LocalProvider;
-import com.goexp.galgame.data.task.download.provider.IdsProvider;
-import com.goexp.galgame.data.task.download.provider.brand.DBIdsProvider;
-import com.goexp.galgame.data.task.download.provider.brand.ErrorIDSProvider;
 import com.goexp.galgame.data.task.handler.MesType;
 import com.goexp.galgame.data.task.handler.game.Bytes2Html;
 import com.goexp.galgame.data.task.handler.game.Html2GameOK;
@@ -23,8 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -57,28 +51,20 @@ public class ImportFromLocalAliveBrandTask {
 
         @Override
         public void process(BlockingQueue<Message> msgQueue) {
-            IdsProvider idsProvider = new DBIdsProvider();
-            var ids = idsProvider.getIds();
-            down(ids, msgQueue);
-
-            while (Files.exists(Config.BRAND_ERROR_FILE)) {
-                down(new ErrorIDSProvider().getIds(), msgQueue);
-            }
-
-            System.out.println("All Done!!!");
-        }
-
-        private void down(List<Integer> ids, BlockingQueue<Message> msgQueue) {
-            ids.parallelStream()
-                    .forEach(id -> {
-
+            BrandQuery.tlp.query()
+                    .list()
+                    .forEach(brand -> {
                         try {
-                            msgQueue.offer(new Message(MesType.Brand, id), 60, TimeUnit.SECONDS);
+                            msgQueue.offer(new Message(MesType.Brand, brand.id), 60, TimeUnit.SECONDS);
                         } catch (Exception e) {
                         }
 
                     });
+
+
+            System.out.println("All Done!!!");
         }
+
     }
 
     public static class BrandIds extends DefaultStarter<Integer> {
@@ -101,7 +87,6 @@ public class ImportFromLocalAliveBrandTask {
         final private Logger logger = LoggerFactory.getLogger(ProcessGameList.class);
 
         final private GameDB importor = new GameDB();
-        final private ListProvider listProvider = new LocalProvider();
 
         @Override
         public void process(final Message<Integer> message, BlockingQueue<Message> msgQueue) {
@@ -110,7 +95,7 @@ public class ImportFromLocalAliveBrandTask {
             logger.debug("<Brand> {}", brandId);
             try {
 
-                var parseGameList = listProvider.getList(brandId);
+                var parseGameList = LocalProvider.getList(brandId);
 
                 final var indbList = GameQuery.fullTlp.query()
                         .where(eq("brandId", brandId))

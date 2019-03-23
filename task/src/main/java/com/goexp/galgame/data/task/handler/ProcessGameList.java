@@ -5,7 +5,6 @@ import com.goexp.galgame.data.db.importor.mongdb.GameDB;
 import com.goexp.galgame.data.db.query.mongdb.GameQuery;
 import com.goexp.galgame.data.piplline.core.Message;
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler;
-import com.goexp.galgame.data.task.download.contentprovider.ListProvider;
 import com.goexp.galgame.data.task.download.contentprovider.brand.LocalProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,6 @@ public class ProcessGameList extends DefaultMessageHandler<Integer> {
     final private Logger logger = LoggerFactory.getLogger(ProcessGameList.class);
 
     final private GameDB importor = new GameDB();
-    final private ListProvider listProvider = new LocalProvider();
 
     @Override
     public void process(final Message<Integer> message, BlockingQueue<Message> msgQueue) {
@@ -30,7 +28,7 @@ public class ProcessGameList extends DefaultMessageHandler<Integer> {
         logger.debug("<Brand> {}", brandId);
         try {
 
-            var parseGameList = listProvider.getList(brandId);
+            var parseGameList = LocalProvider.getList(brandId);
 
             final var indbList = GameQuery.fullTlp.query()
                     .where(eq("brandId", brandId))

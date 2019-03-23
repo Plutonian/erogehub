@@ -7,16 +7,12 @@ import com.goexp.galgame.data.model.Game;
 import com.goexp.galgame.data.parser.ParseException;
 import com.goexp.galgame.data.parser.game.DetailPageParser;
 import com.goexp.galgame.data.parser.game.ListPageParser;
-import com.goexp.galgame.data.task.client.error.AbstractTaskErrorProcessor;
-import com.goexp.galgame.data.task.client.error.BrandTaskErrorProcessor;
-import com.goexp.galgame.data.task.client.error.GameTaskErrorProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,9 +33,7 @@ public class GetChu {
         try {
             var bytes = WebUtil.httpClient.send(request, ofByteArray()).body();
             return WebUtil.decodeGzip(bytes, DEFAULT_CHARSET);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
 
@@ -48,65 +42,22 @@ public class GetChu {
 
     public static class GameService {
 
-        private final static AbstractTaskErrorProcessor error = new GameTaskErrorProcessor();
-
-        private static byte[] getBytes(int gameId) {
-            try {
-
-                var request = GetchuURL.RequestBuilder
-                        .create(GetchuURL.getFromId(gameId))
-                        .adaltFlag()
-                        .build();
-
-                return WebUtil.httpClient.send(request, ofByteArray()).body();
-
-            } catch (IOException | InterruptedException e) {
-
-                error.recordError(String.valueOf(gameId));
-                e.printStackTrace();
-                logger.error("<error> GameId:{}", gameId);
-            } finally {
-                logger.info("Download: {}", gameId);
-            }
-            return null;
-        }
-
         public static void download(int gameId) throws IOException, InterruptedException {
-            try {
-                final var localPath = Config.GAME_CACHE_ROOT.resolve(String.format("%d.bytes", gameId));
+            final var localPath = Config.GAME_CACHE_ROOT.resolve(String.format("%d.bytes", gameId));
 
-                final var tempPath = Path.of(localPath.toString() + "_");
+            final var tempPath = Path.of(localPath.toString() + "_");
+            logger.debug("Download:Game: {}", gameId);
 
-                WebUtil.httpClient.send(GetchuURL.RequestBuilder
-                        .create(GetchuURL.getFromId(gameId))
-                        .adaltFlag()
-                        .build(), ofFile(tempPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE));
+            WebUtil.httpClient.send(GetchuURL.RequestBuilder
+                            .create(GetchuURL.getFromId(gameId))
+                            .adaltFlag()
+                            .build()
+                    , ofFile(tempPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE));
 
+            Files.move(tempPath, localPath, StandardCopyOption.REPLACE_EXISTING);
 
-                Files.move(tempPath, localPath, StandardCopyOption.REPLACE_EXISTING);
-
-                logger.debug("Download:Game: {}", gameId);
-
-            } catch (IOException | InterruptedException e) {
-                error.recordError(String.valueOf(gameId));
-                logger.error("<Game> {} {}", gameId, e.getMessage());
-                throw e;
-
-            }
         }
 
-        public static String downloadHTML(int gameId) {
-            return WebUtil.decodeGzip(getBytes(gameId), DEFAULT_CHARSET);
-        }
-
-
-        public static Game getFrom(int gameId, byte[] bytes) throws ParseException {
-            return getFrom(gameId, WebUtil.decodeGzip(bytes, DEFAULT_CHARSET));
-        }
-
-        public static Game getFrom(int gameId) throws ParseException {
-            return getFrom(gameId, downloadHTML(gameId));
-        }
 
         public static Game getFrom(int gameId, String html) throws ParseException {
             var parser = new DetailPageParser();
@@ -121,8 +72,6 @@ public class GetChu {
     }
 
     public static class BrandService {
-
-        private final static AbstractTaskErrorProcessor error = new BrandTaskErrorProcessor();
 
         public static List<Game> gamesFrom(int brandId) {
 
@@ -189,28 +138,9 @@ public class GetChu {
                 logger.debug("Download: Brand:{}", brandId);
 
             } catch (IOException | InterruptedException e) {
-                error.recordError(String.valueOf(brandId));
                 logger.error("<Brand> {} Mes:{}", brandId, e.getMessage());
                 throw e;
             }
-        }
-
-        public static byte[] downloadBytesGameListFrom(int brandid) {
-            try {
-
-                logger.debug("Download: {}", brandid);
-
-                return (byte[]) ((HttpResponse) WebUtil.httpClient.send(GetchuURL.RequestBuilder
-                        .create(GetchuURL.getListByBrand(brandid))
-                        .adaltFlag()
-                        .build(), ofByteArray())).body();
-            } catch (IOException | InterruptedException e) {
-
-                error.recordError(String.valueOf(brandid));
-                e.printStackTrace();
-                logger.error("<error> Brand Id:{}", brandid);
-            }
-            return null;
         }
 
     }

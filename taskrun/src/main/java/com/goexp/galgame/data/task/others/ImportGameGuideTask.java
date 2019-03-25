@@ -6,6 +6,7 @@ import com.goexp.galgame.data.db.importor.mongdb.GuideDB;
 import com.goexp.galgame.data.model.Game;
 import com.goexp.galgame.data.parser.GameGuideParser;
 import com.goexp.galgame.data.piplline.core.Message;
+import com.goexp.galgame.data.piplline.core.MessageQueueProxy;
 import com.goexp.galgame.data.piplline.core.Piplline;
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler;
 import com.goexp.galgame.data.piplline.handler.DefaultStarter;
@@ -17,7 +18,6 @@ import java.net.URI;
 import java.net.http.HttpRequest;
 import java.nio.charset.Charset;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import static java.net.http.HttpResponse.BodyHandlers.ofString;
@@ -31,7 +31,7 @@ public class ImportGameGuideTask {
         final Logger logger = LoggerFactory.getLogger(ImportGameGuideTask.class);
 
         @Override
-        public void process(Message<Game.Guide> message, BlockingQueue<Message> msgQueue) {
+        public void process(Message<Game.Guide> message, MessageQueueProxy<Message> msgQueue) {
             var guide = message.entity;
             logger.info("insert:{}", guide);
             guideDb.insert(guide);
@@ -55,7 +55,7 @@ public class ImportGameGuideTask {
 
 
             @Override
-            public void process(BlockingQueue<Message> msgQueue) {
+            public void process(MessageQueueProxy<Message> msgQueue) {
 
                 var req = HttpRequest.newBuilder()
                         .uri(URI.create("http://sagaoz.net/foolmaker/game.html"))
@@ -72,16 +72,10 @@ public class ImportGameGuideTask {
                             .distinct()
                             .forEach(guide -> {
 
-                                try {
-                                    msgQueue.offer(new Message<>(1, guide), 10, TimeUnit.SECONDS);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                                msgQueue.offer(new Message<>(1, guide), 10, TimeUnit.SECONDS);
                             });
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }
 
@@ -108,7 +102,7 @@ public class ImportGameGuideTask {
 
 
             @Override
-            public void process(BlockingQueue<Message> msgQueue) {
+            public void process(MessageQueueProxy<Message> msgQueue) {
 
                 var req = HttpRequest.newBuilder()
                         .uri(URI.create("http://seiya-saiga.com/game/kouryaku.html"))
@@ -123,16 +117,10 @@ public class ImportGameGuideTask {
                     list.stream()
                             .distinct()
                             .forEach(guide -> {
-                                try {
-                                    msgQueue.offer(new Message<>(1, guide), 10, TimeUnit.SECONDS);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                                msgQueue.offer(new Message<>(1, guide), 10, TimeUnit.SECONDS);
                             });
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }
 

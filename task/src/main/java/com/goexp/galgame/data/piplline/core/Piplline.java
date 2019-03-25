@@ -1,5 +1,6 @@
 package com.goexp.galgame.data.piplline.core;
 
+import com.goexp.galgame.data.piplline.exception.RuntimeInterruptedException;
 import com.goexp.galgame.data.piplline.handler.HandlerConfig;
 import com.goexp.galgame.data.piplline.handler.Starter;
 import org.slf4j.Logger;
@@ -13,10 +14,10 @@ import java.util.stream.Collectors;
 public class Piplline {
     final private Logger logger = LoggerFactory.getLogger(Piplline.class);
 
-    final private BlockingQueue<Message> msgQueue = new ArrayBlockingQueue<>(1000);
-    final private ExecutorService listenerExecutorService = Executors.newSingleThreadExecutor();
+    final private MessageQueueProxy<Message> msgQueueProxy;
 
-//    final private Set<MessageHandler<? extends Object>> handlers;
+
+    final private ExecutorService listenerExecutorService = Executors.newSingleThreadExecutor();
 
     final private Set<HandlerConfig<? extends Object>> configs = new HashSet<>();
 
@@ -24,14 +25,10 @@ public class Piplline {
 
 
     public Piplline(Starter starter) {
-//        this.handlers = handlers;
         this.starter = starter;
+
+        msgQueueProxy = new MessageQueueProxy<>(1000);
     }
-//
-//    public Piplline(Starter starter, Set<HandlerConfig<? extends Object>> handlers) {
-////        this.handlers = handlers;
-//        this.starter = starter;
-//    }
 
     public void registry(HandlerConfig config) {
         configs.add(config);
@@ -76,8 +73,6 @@ public class Piplline {
 
         var mesTypeMap = configs.stream()
                 .collect(Collectors.groupingBy(c -> c.mesType));
-//                .forEach(mesTypeMap::put);
-
 
         listenerExecutorService.execute(() -> {
 
@@ -85,7 +80,7 @@ public class Piplline {
 
             while (running) {
                 try {
-                    final var mes = msgQueue.poll(5, TimeUnit.MINUTES);
+                    final var mes = msgQueueProxy.poll(5, TimeUnit.MINUTES);
 
                     if (mes != null) {
                         final var configs = mesTypeMap.get(mes.code);
@@ -94,7 +89,7 @@ public class Piplline {
                             for (var c : configs)
                                 c.executor.execute(() -> {
                                     try {
-                                        c.messageHandler.process(mes, msgQueue);
+                                        c.messageHandler.process(mes, msgQueueProxy);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -109,17 +104,16 @@ public class Piplline {
                         }
                         listenerExecutorService.shutdown();
                     }
-                } catch (InterruptedException e) {
+                } catch (RuntimeInterruptedException e) {
                     e.printStackTrace();
                     running = false;
-//                    listenerExecutorService.shutdown();
                 }
 
 
             }
         });
 
-        starter.process(msgQueue);
+        starter.process(msgQueueProxy);
 
     }
 }

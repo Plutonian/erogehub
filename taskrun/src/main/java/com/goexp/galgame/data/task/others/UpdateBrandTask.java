@@ -14,36 +14,36 @@ public class UpdateBrandTask {
 
     public static void main(String[] args) {
 
-        var logger = LoggerFactory.getLogger(UpdateBrandTask.class);
+        final var logger = LoggerFactory.getLogger(UpdateBrandTask.class);
 
         Network.initProxy();
 
-        var localBrandMap = BrandQuery.tlp.query()
+        final var localBrandMap = BrandQuery.tlp.query()
                 .list()
                 .stream()
-                .collect(Collectors.toMap(b -> b.id, b -> b));
+                .collect(Collectors.toUnmodifiableMap(b -> b.id, b -> b));
 
         logger.info("Local:{}", localBrandMap.size());
 
-        var request = GetchuURL.RequestBuilder
+        final var request = GetchuURL.RequestBuilder
                 .create("http://www.getchu.com/all/brand.html?genre=pc_soft")
                 .adaltFlag()
                 .build();
 
-        var html = GetChu.getHtml(request);
+        final var html = GetChu.getHtml(request);
 
-        var remoteBrandList = new GetchuBrandParser()
+        final var remoteBrandList = new GetchuBrandParser()
                 .parse(html);
 
         logger.info("Remote:{}", remoteBrandList.size());
 
 
-        var brandDb = new BrandDB();
+        final var brandDb = new BrandDB();
 
-        for (var remoteBrand : remoteBrandList) {
+        for (final var remoteBrand : remoteBrandList) {
             // Update
 
-            var localBrand = localBrandMap.get(remoteBrand.id);
+            final var localBrand = localBrandMap.get(remoteBrand.id);
 
             if (localBrand != null) {
 

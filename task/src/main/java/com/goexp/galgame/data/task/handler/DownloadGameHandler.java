@@ -1,14 +1,13 @@
 package com.goexp.galgame.data.task.handler;
 
 import com.goexp.galgame.data.piplline.core.Message;
+import com.goexp.galgame.data.piplline.core.MessageQueueProxy;
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler;
 import com.goexp.galgame.data.task.client.GetChu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 public class DownloadGameHandler extends DefaultMessageHandler<Integer> {
 
@@ -16,7 +15,7 @@ public class DownloadGameHandler extends DefaultMessageHandler<Integer> {
 
 
     @Override
-    public void process(final Message<Integer> message, BlockingQueue<Message> msgQueue) {
+    public void process(final Message<Integer> message, MessageQueueProxy<Message> msgQueue) {
 
         var gid = message.entity;
         logger.debug("Download {}", gid);
@@ -28,19 +27,10 @@ public class DownloadGameHandler extends DefaultMessageHandler<Integer> {
         } catch (IOException | InterruptedException e) {
             logger.error("Game:{}", gid);
 
-            try {
-                msgQueue.offer(new Message<>(MesType.NEED_DOWN_GAME, gid), 60, TimeUnit.SECONDS);
-            } catch (InterruptedException e2) {
-                e2.printStackTrace();
-            }
+            msgQueue.offer(new Message<>(MesType.NEED_DOWN_GAME, gid));
         }
 
-
-        try {
-            msgQueue.offer(new Message<>(MesType.Game, gid), 60, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        msgQueue.offer(new Message<>(MesType.Game, gid));
     }
 
 

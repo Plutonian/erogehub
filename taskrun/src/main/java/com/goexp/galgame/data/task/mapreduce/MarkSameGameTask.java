@@ -7,6 +7,7 @@ import com.goexp.galgame.data.db.query.mongdb.BrandQuery;
 import com.goexp.galgame.data.db.query.mongdb.GameQuery;
 import com.goexp.galgame.data.model.Game;
 import com.goexp.galgame.data.piplline.core.Message;
+import com.goexp.galgame.data.piplline.core.MessageQueueProxy;
 import com.goexp.galgame.data.piplline.core.Piplline;
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler;
 import com.goexp.galgame.data.piplline.handler.DefaultStarter;
@@ -18,7 +19,6 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -42,7 +42,7 @@ public class MarkSameGameTask {
     public static class FromAllBrand extends DefaultStarter<Integer> {
 
         @Override
-        public void process(BlockingQueue<Message> msgQueue) {
+        public void process(MessageQueueProxy<Message> msgQueue) {
 
 
             BrandQuery.tlp.query()
@@ -50,7 +50,7 @@ public class MarkSameGameTask {
                     .forEach(brand -> {
 
                         try {
-                            msgQueue.offer(new Message(MesType.Brand, brand.id), 60, TimeUnit.SECONDS);
+                            msgQueue.offer(new Message<>(MesType.Brand, brand.id), 60, TimeUnit.SECONDS);
                         } catch (Exception e) {
 //                        e.printStackTrace();
                         }
@@ -78,7 +78,7 @@ public class MarkSameGameTask {
         final private Logger logger = LoggerFactory.getLogger(ProcessBrandGame.class);
 
         @Override
-        public void process(final Message<Integer> message, BlockingQueue<Message> msgQueue) {
+        public void process(final Message<Integer> message, MessageQueueProxy<Message> msgQueue) {
 
             var brandId = message.entity;
             logger.debug("<Brand> {}", brandId);
@@ -139,11 +139,7 @@ public class MarkSameGameTask {
                         })
                         .forEach(game -> {
 
-                            try {
-                                msgQueue.offer(new Message<>(UPDATE_STATE, game), 60, TimeUnit.SECONDS);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                            msgQueue.offer(new Message<>(UPDATE_STATE, game));
                         });
 
             });
@@ -157,7 +153,7 @@ public class MarkSameGameTask {
         final private Logger logger = LoggerFactory.getLogger(ProcessBrandGame.class);
 
         @Override
-        public void process(final Message<Integer> message, BlockingQueue<Message> msgQueue) {
+        public void process(final Message<Integer> message, MessageQueueProxy<Message> msgQueue) {
 
             var brandId = message.entity;
             logger.debug("<Brand> {}", brandId);
@@ -172,11 +168,7 @@ public class MarkSameGameTask {
                 list.stream()
                         .forEach(game -> {
                             game.state = GameState.UNCHECKED;
-                            try {
-                                msgQueue.offer(new Message<>(UPDATE_STATE, game), 60, TimeUnit.SECONDS);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                            msgQueue.offer(new Message<>(UPDATE_STATE, game));
                         });
 
             });
@@ -192,7 +184,7 @@ public class MarkSameGameTask {
         final private GameDB.StateDB stateDB = new GameDB.StateDB();
 
         @Override
-        public void process(final Message<Game> message, BlockingQueue<Message> msgQueue) {
+        public void process(final Message<Game> message, MessageQueueProxy<Message> msgQueue) {
 
             var game = message.entity;
             logger.debug("<Game> {}", game.id);

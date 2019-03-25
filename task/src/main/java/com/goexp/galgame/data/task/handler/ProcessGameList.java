@@ -4,14 +4,14 @@ import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.data.db.importor.mongdb.GameDB;
 import com.goexp.galgame.data.db.query.mongdb.GameQuery;
 import com.goexp.galgame.data.piplline.core.Message;
+import com.goexp.galgame.data.piplline.core.MessageQueueProxy;
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler;
 import com.goexp.galgame.data.task.download.contentprovider.brand.LocalProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -22,7 +22,7 @@ public class ProcessGameList extends DefaultMessageHandler<Integer> {
     final private GameDB importor = new GameDB();
 
     @Override
-    public void process(final Message<Integer> message, BlockingQueue<Message> msgQueue) {
+    public void process(final Message<Integer> message, MessageQueueProxy<Message> msgQueue) {
 
         var brandId = message.entity;
         logger.debug("<Brand> {}", brandId);
@@ -32,7 +32,10 @@ public class ProcessGameList extends DefaultMessageHandler<Integer> {
 
             final var indbList = GameQuery.fullTlp.query()
                     .where(eq("brandId", brandId))
-                    .list();
+                    .list()
+                    .stream()
+                    .map(game -> game.id)
+                    .collect(Collectors.toUnmodifiableList());
 
             Optional.ofNullable(parseGameList).ifPresent((list) -> {
 
@@ -48,11 +51,7 @@ public class ProcessGameList extends DefaultMessageHandler<Integer> {
                                 logger.info("<Insert> {}", newGame.simpleView());
                                 importor.insert(newGame);
 
-                                try {
-                                    msgQueue.offer(new Message<>(MesType.NEED_DOWN_GAME, newGame.id), 60, TimeUnit.SECONDS);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                                msgQueue.offer(new Message<>(MesType.NEED_DOWN_GAME, newGame.id));
                             });
 
                 }
@@ -64,17 +63,6 @@ public class ProcessGameList extends DefaultMessageHandler<Integer> {
             e.printStackTrace();
         }
 
-//        var ids = list.idsByBrand(bid);
-//
-//        for (var id : ids) {
-//
-//            try {
-//                msgQueue.offer(new Message<>(MesType.Game, id), 60, TimeUnit.SECONDS);
-//                Thread.sleep(100);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
 }

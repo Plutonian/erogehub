@@ -6,6 +6,7 @@ import com.goexp.galgame.data.db.importor.mongdb.GameDB;
 import com.goexp.galgame.data.db.query.mongdb.BrandQuery;
 import com.goexp.galgame.data.db.query.mongdb.GameQuery;
 import com.goexp.galgame.data.piplline.core.Message;
+import com.goexp.galgame.data.piplline.core.MessageQueueProxy;
 import com.goexp.galgame.data.piplline.core.Piplline;
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler;
 import com.goexp.galgame.data.piplline.handler.DefaultStarter;
@@ -20,7 +21,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Optional;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -50,14 +50,11 @@ public class ImportFromLocalAliveBrandTask {
 
 
         @Override
-        public void process(BlockingQueue<Message> msgQueue) {
+        public void process(MessageQueueProxy<Message> msgQueue) {
             BrandQuery.tlp.query()
                     .list()
                     .forEach(brand -> {
-                        try {
-                            msgQueue.offer(new Message(MesType.Brand, brand.id), 60, TimeUnit.SECONDS);
-                        } catch (Exception e) {
-                        }
+                        msgQueue.offer(new Message(MesType.Brand, brand.id), 60, TimeUnit.SECONDS);
 
                     });
 
@@ -71,7 +68,7 @@ public class ImportFromLocalAliveBrandTask {
 
 
         @Override
-        public void process(BlockingQueue<Message> msgQueue) {
+        public void process(MessageQueueProxy<Message> msgQueue) {
             try {
                 msgQueue.offer(new Message(MesType.Brand, 3), 60, TimeUnit.SECONDS);
             } catch (Exception e) {
@@ -89,7 +86,7 @@ public class ImportFromLocalAliveBrandTask {
         final private GameDB importor = new GameDB();
 
         @Override
-        public void process(final Message<Integer> message, BlockingQueue<Message> msgQueue) {
+        public void process(final Message<Integer> message, MessageQueueProxy<Message> msgQueue) {
 
             var brandId = message.entity;
             logger.debug("<Brand> {}", brandId);
@@ -118,11 +115,7 @@ public class ImportFromLocalAliveBrandTask {
                                     logger.info("<Insert> {}", newGame.simpleView());
                                     importor.insert(newGame);
 
-                                    try {
-                                        msgQueue.offer(new Message<>(MesType.Game, newGame.id), 60, TimeUnit.SECONDS);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
+                                    msgQueue.offer(new Message<>(MesType.Game, newGame.id), 60, TimeUnit.SECONDS);
                                 });
 
                     }

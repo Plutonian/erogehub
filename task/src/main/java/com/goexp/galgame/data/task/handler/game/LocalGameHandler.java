@@ -2,6 +2,7 @@ package com.goexp.galgame.data.task.handler.game;
 
 import com.goexp.galgame.data.Config;
 import com.goexp.galgame.data.piplline.core.Message;
+import com.goexp.galgame.data.piplline.core.MessageQueueProxy;
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler;
 import com.goexp.galgame.data.task.handler.MesType;
 import org.slf4j.Logger;
@@ -11,8 +12,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 public class LocalGameHandler extends DefaultMessageHandler<Integer> {
 
@@ -20,18 +19,14 @@ public class LocalGameHandler extends DefaultMessageHandler<Integer> {
 
 
     @Override
-    public void process(final Message<Integer> message, BlockingQueue<Message> msgQueue) {
+    public void process(final Message<Integer> message, MessageQueueProxy<Message> msgQueue) {
 
         var gid = message.entity;
         logger.debug("<Game> {}", gid);
 
         var bytes = Map.entry(gid, Objects.requireNonNull(getContent(gid), gid.toString()));
 
-        try {
-            msgQueue.offer(new Message<>(MesType.ContentBytes, bytes), 60, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        msgQueue.offer(new Message<>(MesType.ContentBytes, bytes));
     }
 
     private byte[] getContent(int id) {

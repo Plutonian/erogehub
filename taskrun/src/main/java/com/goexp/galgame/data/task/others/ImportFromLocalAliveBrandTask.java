@@ -27,7 +27,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class ImportFromLocalAliveBrandTask {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
 
         Network.initProxy();
 

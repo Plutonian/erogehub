@@ -33,13 +33,16 @@ public class GetTrueCVTask {
                     if (game.gameCharacters != null)
                         game.gameCharacters = game.gameCharacters.stream()
                                 .peek(gameCharacter -> {
-                                    if (!Strings.isEmpty(gameCharacter.cv)) {
+
+                                    // cv is not empty && truecv is empty
+                                    if (!Strings.isEmpty(gameCharacter.cv) && Strings.isEmpty(gameCharacter.trueCV)) {
                                         var cv = cvMap.get(gameCharacter.cv.trim().toLowerCase());
 
+                                        // get true cv
                                         if (cv != null) {
                                             gameCharacter.trueCV = cv.name;
 //
-                                            logger.debug("CV:{},trueCV:{}", gameCharacter.cv, gameCharacter.trueCV);
+                                            logger.info("CV:{},trueCV:{}", gameCharacter.cv, gameCharacter.trueCV);
                                         }
                                     }
                                 })

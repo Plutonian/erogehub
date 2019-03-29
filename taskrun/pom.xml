@@ -26,7 +26,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.goexp.galgame.data.task.FromDateRangeTask</mainClass>
+                            <mainClass>com.goexp.galgame.data.task.ImporterStart</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

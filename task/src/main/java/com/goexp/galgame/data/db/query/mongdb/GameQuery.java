@@ -23,6 +23,12 @@ public class GameQuery {
             .defaultSelect(exclude("gamechar", "simpleImg"))
             .build();
 
+    public static final DBQueryTemplate<Game> fullTlpWithChar = new DBQueryTemplate.Builder<Game>("galgame",
+            "game",
+            new Creator.FullGame())
+            .defaultSelect(exclude("simpleImg"))
+            .build();
+
     static class Creator {
 
         static class GameChar implements ObjectCreator<Game.GameCharacter> {

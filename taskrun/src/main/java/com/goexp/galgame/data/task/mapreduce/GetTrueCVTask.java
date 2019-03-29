@@ -25,7 +25,7 @@ public class GetTrueCVTask {
 
         logger.info("Init OK");
 
-        GameQuery.fullTlp.query()
+        GameQuery.fullTlpWithChar.query()
                 .list()
                 .parallelStream()
                 .peek(game -> {

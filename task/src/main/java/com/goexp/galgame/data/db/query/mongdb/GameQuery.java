@@ -20,7 +20,7 @@ public class GameQuery {
     public static final DBQueryTemplate<Game> fullTlp = new DBQueryTemplate.Builder<Game>("galgame",
             "game",
             new Creator.FullGame())
-            .defaultSelect(exclude("gamechar", "simpleImg"))
+//            .defaultSelect(exclude("gamechar", "simpleImg"))
             .build();
 
     public static final DBQueryTemplate<Game> fullTlpWithChar = new DBQueryTemplate.Builder<Game>("galgame",

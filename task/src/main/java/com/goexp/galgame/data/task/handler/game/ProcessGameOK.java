@@ -35,12 +35,12 @@ public class ProcessGameOK extends DefaultMessageHandler<Game> {
         }
 
         // make local cache
-        var localMap = local.stream().collect(Collectors.toUnmodifiableMap(cc -> cc, cc -> cc));
+        var localMap = local.stream().collect(Collectors.toUnmodifiableMap(cc -> cc.index, cc -> cc));
 
         //merge local to remote
         return remote.stream()
                 .peek(rc -> {
-                    var localC = localMap.get(rc);
+                    var localC = localMap.get(rc.index);
                     if (localC != null) {
 
                         //set local truecv to remote

@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.mongodb.client.model.Projections.exclude;
+import static com.mongodb.client.model.Projections.include;
 import static com.mongodb.client.model.Sorts.descending;
 
 public class GameQuery {
@@ -131,11 +132,14 @@ public class GameQuery {
             @Override
             public Game create(Document doc) {
                 var g = new Game();
-                var gamecharCreator = new GameChar();
+                Optional.ofNullable(doc.get("gamechar"))
+                        .ifPresent(list -> {
 
-                g.gameCharacters = ((List<Document>) doc.get("gamechar")).stream()
-                        .map(gamecharCreator::create)
-                        .collect(Collectors.toList());
+                            var gamecharCreator = new GameChar();
+                            g.gameCharacters = ((List<Document>) list).stream()
+                                    .map(gamecharCreator::create)
+                                    .collect(Collectors.toUnmodifiableList());
+                        });
 
                 return g;
             }
@@ -147,12 +151,15 @@ public class GameQuery {
             public Game create(Document doc) {
                 var g = new Game();
 
-                var simpleImgCreator = new SimpleImg();
+                Optional.ofNullable(doc.get("simpleImg"))
+                        .ifPresent(list -> {
+                            var simpleImgCreator = new SimpleImg();
 
-                g.gameImgs = ((List<Document>) doc.get("simpleImg")).stream()
-                        .map(simpleImgCreator::create)
-                        .collect(Collectors.toList());
+                            g.gameImgs = ((List<Document>) list).stream()
+                                    .map(simpleImgCreator::create)
+                                    .collect(Collectors.toUnmodifiableList());
 
+                        });
                 return g;
             }
         }
@@ -160,11 +167,13 @@ public class GameQuery {
 
     public static class GameCharQuery {
         public static final DBQueryTemplate<Game> tlp = new DBQueryTemplate.Builder<Game>("galgame", "game", new Creator.CharList())
+                .defaultSelect(include("gamechar"))
                 .build();
     }
 
     public static class GameImgQuery {
         public static final DBQueryTemplate<Game> tlp = new DBQueryTemplate.Builder<Game>("galgame", "game", new Creator.SimpleImgList())
+                .defaultSelect(include("simpleImg"))
                 .build();
     }
 }

@@ -6,14 +6,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
+import java.util.Optional;
+
 import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Projections.include;
 
 public class GameCharListTask extends Task<ObservableList<Game.GameCharacter>> {
 
     private int gameId;
-
-    private GameQuery.GameCharQuery gameCharQuery = new GameQuery.GameCharQuery();
 
     public GameCharListTask(int gameId) {
         this.gameId = gameId;
@@ -26,9 +25,10 @@ public class GameCharListTask extends Task<ObservableList<Game.GameCharacter>> {
 
         var g = GameQuery.GameCharQuery.tlp.query()
                 .where(eq(gameId))
-                .select(include("gamechar"))
                 .one();
 
-        return FXCollections.observableArrayList(g.gameCharacters);
+        return Optional.ofNullable(g.gameCharacters)
+                .map(FXCollections::observableArrayList)
+                .orElse(FXCollections.emptyObservableList());
     }
 }

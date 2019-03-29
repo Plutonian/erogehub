@@ -17,7 +17,7 @@ public class ChangeGameTask {
         }
 
         @Override
-        protected Void call() throws Exception {
+        protected Void call() {
             new GameDB.StateDB().update(game);
             return null;
         }
@@ -34,7 +34,7 @@ public class ChangeGameTask {
         }
 
         @Override
-        protected Void call() throws Exception {
+        protected Void call() {
             gameDB.batchUpdate(games);
             return null;
         }
@@ -51,7 +51,7 @@ public class ChangeGameTask {
         }
 
         @Override
-        protected Void call() throws Exception {
+        protected Void call() {
             gameDB.update(brandId);
             return null;
         }
@@ -66,7 +66,7 @@ public class ChangeGameTask {
         }
 
         @Override
-        protected Void call() throws Exception {
+        protected Void call() {
             new GameDB.StarDB().update(game);
             return null;
         }

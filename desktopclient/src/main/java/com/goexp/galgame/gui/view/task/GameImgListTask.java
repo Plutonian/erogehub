@@ -6,8 +6,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
+import java.util.Optional;
+
 import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Projections.include;
 
 public class GameImgListTask extends Task<ObservableList<Game.GameImg>> {
 
@@ -25,8 +26,9 @@ public class GameImgListTask extends Task<ObservableList<Game.GameImg>> {
 
         var g = GameQuery.GameImgQuery.tlp.query()
                 .where(eq(gameId))
-                .select(include("simpleImg"))
                 .one();
-        return FXCollections.observableArrayList(g.gameImgs);
+        return Optional.ofNullable(g.gameImgs)
+                .map(FXCollections::observableArrayList)
+                .orElse(FXCollections.emptyObservableList());
     }
 }

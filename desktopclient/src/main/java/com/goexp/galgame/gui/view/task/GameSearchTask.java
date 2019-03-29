@@ -18,10 +18,24 @@ import java.util.stream.Collectors;
 import static com.mongodb.client.model.Filters.*;
 
 public class GameSearchTask {
+    private static void fillGameWithBrand(Game g) {
+        Brand brand;
+        if (AppCache.brandCache.containsKey(g.brand.id)) {
+            brand = AppCache.brandCache.get(g.brand.id);
+        } else {
+
+            brand = BrandQuery.tlp.query()
+                    .where(eq(g.brand.id))
+                    .one();
+            AppCache.brandCache.put(g.brand.id, brand);
+        }
+        g.brand = brand;
+    }
 
     public static class ByCV extends Task<ObservableList<Game>> {
 
         private String cv;
+
         private boolean real;
 
         public ByCV(String cv, boolean real) {
@@ -39,24 +53,12 @@ public class GameSearchTask {
                     .list();
             var templist = list.stream()
                     .distinct()
-                    .peek(g -> {
-
-                        Brand brand;
-                        if (AppCache.brandCache.containsKey(g.brand.id)) {
-                            brand = AppCache.brandCache.get(g.brand.id);
-                        } else {
-
-                            brand = BrandQuery.tlp.query()
-                                    .where(eq(g.brand.id))
-                                    .one();
-                            AppCache.brandCache.put(g.brand.id, brand);
-                        }
-                        g.brand = brand;
-                    })
+                    .peek(GameSearchTask::fillGameWithBrand)
                     .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(templist);
         }
+
     }
 
     public static class ByPainter extends Task<ObservableList<Game>> {
@@ -76,24 +78,12 @@ public class GameSearchTask {
                     .where(eq("painter", cv))
                     .list().stream()
                     .distinct()
-                    .peek(g -> {
-
-                        Brand brand;
-                        if (AppCache.brandCache.containsKey(g.brand.id)) {
-                            brand = AppCache.brandCache.get(g.brand.id);
-                        } else {
-
-                            brand = BrandQuery.tlp.query()
-                                    .where(eq(g.brand.id))
-                                    .one();
-                            AppCache.brandCache.put(g.brand.id, brand);
-                        }
-                        g.brand = brand;
-                    })
+                    .peek(GameSearchTask::fillGameWithBrand)
                     .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);
         }
+
     }
 
     public static class ByDateRange extends Task<ObservableList<Game>> {
@@ -118,20 +108,7 @@ public class GameSearchTask {
                             )
                     )
                     .list().stream()
-                    .peek(g -> {
-
-                        Brand brand;
-                        if (AppCache.brandCache.containsKey(g.brand.id)) {
-                            brand = AppCache.brandCache.get(g.brand.id);
-                        } else {
-
-                            brand = BrandQuery.tlp.query()
-                                    .where(eq(g.brand.id))
-                                    .one();
-                            AppCache.brandCache.put(g.brand.id, brand);
-                        }
-                        g.brand = brand;
-                    })
+                    .peek(GameSearchTask::fillGameWithBrand)
                     .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);
@@ -154,20 +131,7 @@ public class GameSearchTask {
             var list = GameQuery.tlp.query()
                     .where(regex("name", "^" + name))
                     .list().stream()
-                    .peek(g -> {
-
-                        Brand brand;
-                        if (AppCache.brandCache.containsKey(g.brand.id)) {
-                            brand = AppCache.brandCache.get(g.brand.id);
-                        } else {
-
-                            brand = BrandQuery.tlp.query()
-                                    .where(eq(g.brand.id))
-                                    .one();
-                            AppCache.brandCache.put(g.brand.id, brand);
-                        }
-                        g.brand = brand;
-                    })
+                    .peek(GameSearchTask::fillGameWithBrand)
                     .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);
@@ -189,20 +153,7 @@ public class GameSearchTask {
             var list = GameQuery.tlp.query()
                     .where(regex("name", name))
                     .list().stream()
-                    .peek(g -> {
-
-                        Brand brand;
-                        if (AppCache.brandCache.containsKey(g.brand.id)) {
-                            brand = AppCache.brandCache.get(g.brand.id);
-                        } else {
-
-                            brand = BrandQuery.tlp.query()
-                                    .where(eq(g.brand.id))
-                                    .one();
-                            AppCache.brandCache.put(g.brand.id, brand);
-                        }
-                        g.brand = brand;
-                    })
+                    .peek(GameSearchTask::fillGameWithBrand)
                     .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);
@@ -225,20 +176,7 @@ public class GameSearchTask {
             var list = GameQuery.tlp.query()
                     .where(eq("tag", tag))
                     .list().stream()
-                    .peek(g -> {
-                        Brand brand;
-                        if (AppCache.brandCache.containsKey(g.brand.id)) {
-                            brand = AppCache.brandCache.get(g.brand.id);
-                        } else {
-
-                            brand = BrandQuery.tlp.query()
-                                    .where(eq(g.brand.id))
-                                    .one();
-                            AppCache.brandCache.put(g.brand.id, brand);
-                        }
-
-                        g.brand = brand;
-                    })
+                    .peek(GameSearchTask::fillGameWithBrand)
                     .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);
@@ -268,20 +206,7 @@ public class GameSearchTask {
                             )
                     )
                     .list().stream()
-                    .peek(g -> {
-
-                        Brand brand;
-                        if (AppCache.brandCache.containsKey(g.brand.id)) {
-                            brand = AppCache.brandCache.get(g.brand.id);
-                        } else {
-
-                            brand = BrandQuery.tlp.query()
-                                    .where(eq(g.brand.id))
-                                    .one();
-                            AppCache.brandCache.put(g.brand.id, brand);
-                        }
-                        g.brand = brand;
-                    })
+                    .peek(GameSearchTask::fillGameWithBrand)
                     .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);
@@ -302,20 +227,7 @@ public class GameSearchTask {
             var list = GameQuery.tlp.query()
                     .where(eq("state", gameState.getValue()))
                     .list().stream()
-                    .peek(g -> {
-
-                        Brand brand;
-                        if (AppCache.brandCache.containsKey(g.brand.id)) {
-                            brand = AppCache.brandCache.get(g.brand.id);
-                        } else {
-
-                            brand = BrandQuery.tlp.query()
-                                    .where(eq(g.brand.id))
-                                    .one();
-                            AppCache.brandCache.put(g.brand.id, brand);
-                        }
-                        g.brand = brand;
-                    })
+                    .peek(GameSearchTask::fillGameWithBrand)
                     .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);

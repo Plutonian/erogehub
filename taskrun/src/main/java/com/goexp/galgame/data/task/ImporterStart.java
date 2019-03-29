@@ -22,9 +22,7 @@ public class ImporterStart {
         );
 
 
-        map.entrySet().forEach(stringStringEntry -> {
-            System.out.printf("%s:%s\n", stringStringEntry.getKey(), stringStringEntry.getValue());
-        });
+        map.forEach((key, value) -> System.out.printf("%s:%s\n", key, value));
 
 
     }
@@ -32,7 +30,6 @@ public class ImporterStart {
     public static void main(String[] args) {
         if (args.length == 0) {
             howToUse();
-            return;
         } else {
             switch (args[0]) {
                 case "get-truecv": {

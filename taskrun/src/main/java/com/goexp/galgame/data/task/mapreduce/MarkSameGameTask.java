@@ -73,7 +73,8 @@ public class MarkSameGameTask {
                 "ベストシリーズ",
                 "破格版",
                 "セレクション",
-                "シンプル版"
+                "シンプル版",
+                "DLカード"
         );
         final private Logger logger = LoggerFactory.getLogger(ProcessBrandGame.class);
 
@@ -165,7 +166,7 @@ public class MarkSameGameTask {
 
             Optional.ofNullable(parseGameList).ifPresent((list) -> {
 
-                list.stream()
+                list
                         .forEach(game -> {
                             game.state = GameState.UNCHECKED;
                             msgQueue.offer(new Message<>(UPDATE_STATE, game));

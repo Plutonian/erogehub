@@ -1,6 +1,7 @@
 package com.goexp.galgame.data.task;
 
 import com.goexp.galgame.data.task.mapreduce.GetTrueCVTask;
+import com.goexp.galgame.data.task.mapreduce.MarkSameGameTask;
 import com.goexp.galgame.data.task.others.GroupBrandTask;
 import com.goexp.galgame.data.task.others.ImportFromLocalAliveBrandTask;
 import com.goexp.galgame.data.task.others.ImportOnceTagTask;
@@ -18,7 +19,8 @@ public class ImporterStart {
                 "upgrade-brand", "Upgrade brand info ",
                 "import-tag", "Import tag info once",
                 "import-game-local", "Import from local cache once",
-                "group-brand", "Group brand"
+                "group-brand", "Group brand",
+                "mark-same","Mark the same game"
         );
 
 
@@ -34,6 +36,10 @@ public class ImporterStart {
             switch (args[0]) {
                 case "get-truecv": {
                     GetTrueCVTask.main(args);
+                    break;
+                }
+                case "mark-same": {
+                    MarkSameGameTask.main(args);
                     break;
                 }
                 case "upgrade-game-date": {

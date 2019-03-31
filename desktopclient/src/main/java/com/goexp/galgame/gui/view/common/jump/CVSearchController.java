@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.view.common.jump;
 
 import com.goexp.galgame.common.website.BangumiURL;
 import com.goexp.galgame.common.website.WikiURL;
-import com.goexp.galgame.gui.view.HGameApp;
+import com.goexp.galgame.gui.HGameApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 

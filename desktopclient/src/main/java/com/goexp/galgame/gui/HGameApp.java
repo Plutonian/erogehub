@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.view;
+package com.goexp.galgame.gui;
 
 import com.goexp.galgame.common.util.Network;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;

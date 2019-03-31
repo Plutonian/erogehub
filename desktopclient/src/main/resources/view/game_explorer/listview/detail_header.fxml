@@ -39,9 +39,9 @@
                                               <Font name="System Bold" size="24.0" />
                                           </font>
                                       </Text>
+                                      <Text fx:id="txtSubName" strokeType="OUTSIDE" strokeWidth="0.0" text="～小さくなって女の子の色んなトコロに入っちゃお～" />
                                   </children>
                               </HBox>
-                                <Text fx:id="txtSubName" strokeType="OUTSIDE" strokeWidth="0.0" text="～小さくなって女の子の色んなトコロに入っちゃお～" />
                               <fx:include fx:id="brandJump" source="../../jump/brandjump.fxml" />
                               <HBox fx:id="boxStar" />
       

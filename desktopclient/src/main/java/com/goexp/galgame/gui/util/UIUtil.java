@@ -28,6 +28,7 @@ public class UIUtil {
 
     public static List<Node> createSet(List<String> tag, Consumer<Node> consumer) {
         return tag.stream()
+                .filter(str -> !str.isEmpty())
                 .map(str -> {
                     var tagLabel = new Label(str);
 

@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
 import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Sorts.descending;
 
 public class BrandListTask {
 
@@ -29,6 +30,12 @@ public class BrandListTask {
                             and(
                                     eq("comp", name),
                                     ne("type", BrandType.PASS.getValue())
+                            )
+                    )
+                    .sort(
+                            and(
+                                    descending("type"),
+                                    descending("name")
                             )
                     )
                     .list();

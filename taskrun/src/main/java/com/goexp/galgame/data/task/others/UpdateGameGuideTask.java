@@ -1,8 +1,10 @@
 package com.goexp.galgame.data.task.others;
 
 import com.goexp.common.util.WebUtil;
+import com.goexp.galgame.common.model.CommonGame;
 import com.goexp.galgame.common.util.Network;
 import com.goexp.galgame.data.db.importor.mongdb.GuideDB;
+import com.goexp.galgame.data.db.query.mongdb.GuideQuery;
 import com.goexp.galgame.data.model.Game;
 import com.goexp.galgame.data.parser.GameGuideParser;
 import com.goexp.galgame.data.piplline.core.Message;
@@ -17,18 +19,20 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpRequest;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static com.mongodb.client.model.Filters.eq;
 import static java.net.http.HttpResponse.BodyHandlers.ofString;
 
-public class ImportGameGuideTask {
+public class UpdateGameGuideTask {
     private static final Charset CHARSET = Charset.forName("shift-jis");
 
     private static class PageContentHandler extends DefaultMessageHandler<Game.Guide> {
 
         private static final GuideDB guideDb = new GuideDB();
-        final Logger logger = LoggerFactory.getLogger(ImportGameGuideTask.class);
+        final Logger logger = LoggerFactory.getLogger(UpdateGameGuideTask.class);
 
         @Override
         public void process(Message<Game.Guide> message, MessageQueueProxy<Message> msgQueue) {
@@ -52,10 +56,18 @@ public class ImportGameGuideTask {
         }
 
         private static class Starter extends DefaultStarter<Map<String, Object>> {
-
+            final Logger logger = LoggerFactory.getLogger(DefaultStarter.class);
 
             @Override
             public void process(MessageQueueProxy<Message> msgQueue) {
+
+
+                var locallist = GuideQuery.tlp.query()
+                        .where(eq("from", CommonGame.Guide.DataFrom.sagaoz_net.getValue()))
+                        .list();
+
+
+                logger.info("Local:{}", locallist.size());
 
                 var req = HttpRequest.newBuilder()
                         .uri(URI.create("http://sagaoz.net/foolmaker/game.html"))
@@ -65,13 +77,20 @@ public class ImportGameGuideTask {
                     var res = WebUtil.noneProxyClient().send(req, ofString(CHARSET));
                     var html = res.body();
 
-                    var list = new GameGuideParser.Sagaoz_Net().parse(html);
+                    var remoteList = new GameGuideParser.Sagaoz_Net().parse(html);
+
+                    logger.info("Remote:{}", remoteList.size());
 
 
-                    list.stream()
-                            .distinct()
+                    var insertlist = new ArrayList<>(remoteList);
+                    insertlist.removeAll(locallist);
+
+
+                    logger.info("Insert:{}", insertlist.size());
+
+
+                    insertlist.stream()
                             .forEach(guide -> {
-
                                 msgQueue.offer(new Message<>(1, guide), 10, TimeUnit.SECONDS);
                             });
 
@@ -99,10 +118,18 @@ public class ImportGameGuideTask {
         }
 
         private static class Starter extends DefaultStarter<Game.Guide> {
-
+            final Logger logger = LoggerFactory.getLogger(DefaultStarter.class);
 
             @Override
             public void process(MessageQueueProxy<Message> msgQueue) {
+
+
+                var locallist = GuideQuery.tlp.query()
+                        .where(eq("from", CommonGame.Guide.DataFrom.seiya_saiga_com.getValue()))
+                        .list();
+
+
+                logger.info("Local:{}", locallist.size());
 
                 var req = HttpRequest.newBuilder()
                         .uri(URI.create("http://seiya-saiga.com/game/kouryaku.html"))
@@ -112,13 +139,29 @@ public class ImportGameGuideTask {
                     var res = WebUtil.httpClient.send(req, ofString(CHARSET));
                     var html = res.body();
 
-                    var list = new GameGuideParser.Seiya_saiga().parse(html);
+                    var remoteList = new GameGuideParser.Seiya_saiga().parse(html);
 
-                    list.stream()
+
+                    logger.info("Remote:{}", remoteList.size());
+
+
+                    var insertlist = new ArrayList<>(remoteList);
+                    insertlist.removeAll(locallist);
+
+
+                    logger.info("Insert:{}", insertlist.size());
+
+                    insertlist.stream()
                             .distinct()
                             .forEach(guide -> {
                                 msgQueue.offer(new Message<>(1, guide), 10, TimeUnit.SECONDS);
                             });
+
+//                    remoteList.stream()
+//                            .distinct()
+//                            .forEach(guide -> {
+//                                msgQueue.offer(new Message<>(1, guide), 10, TimeUnit.SECONDS);
+//                            });
 
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();

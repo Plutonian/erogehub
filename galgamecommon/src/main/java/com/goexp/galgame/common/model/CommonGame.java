@@ -1,6 +1,7 @@
 package com.goexp.galgame.common.model;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -139,6 +140,10 @@ public class CommonGame {
 
             DataFrom(int value) {
                 this.value = value;
+            }
+
+            public static DataFrom from(int value) {
+                return Arrays.stream(values()).filter(from -> from.value == value).findFirst().orElseThrow(() -> new RuntimeException("Error DataFrom value:" + value));
             }
 
             public int getValue() {

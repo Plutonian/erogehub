@@ -5,6 +5,7 @@ import com.goexp.galgame.gui.model.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
 import java.util.Comparator;
@@ -16,10 +17,10 @@ import java.util.stream.Stream;
 public class FilterPanelController extends FilterController<Game> {
 
     @FXML
-    private VBox starbox;
+    private FlowPane starbox;
 
     @FXML
-    private VBox statebox;
+    private FlowPane statebox;
 
     @FXML
     private void initialize() {

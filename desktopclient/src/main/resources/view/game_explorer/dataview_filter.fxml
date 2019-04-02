@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<TitledPane xmlns:fx="http://javafx.com/fxml/1" text="Filter"
-            xmlns="http://javafx.com/javafx/8.0.172-ea"
-            fx:controller="com.goexp.galgame.gui.view.dataview.sidebar.FilterPanelController">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<TitledPane text="Filter" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.dataview.sidebar.FilterPanelController">
     <content>
         <StackPane>
             <children>
                 <VBox spacing="3.0" StackPane.alignment="TOP_CENTER">
                     <children>
-                        <Label text="Star"/>
-                        <VBox fx:id="starbox" prefWidth="120.0"/>
-                        <Label text="State"/>
-                        <VBox fx:id="statebox"/>
+                        <Label text="Star" />
+                        <FlowPane fx:id="starbox" hgap="10.0" orientation="VERTICAL" prefHeight="100.0" prefWidth="188.0" />
+                        <Label text="State" />
+                        <FlowPane fx:id="statebox" hgap="10.0" orientation="VERTICAL" prefHeight="115.0" />
                     </children>
                 </VBox>
-                <Button mnemonicParsing="false" onAction="#SetFilter_OnAction" text="OK"
-                        StackPane.alignment="BOTTOM_RIGHT"/>
+                <Button mnemonicParsing="false" onAction="#SetFilter_OnAction" text="OK" StackPane.alignment="BOTTOM_RIGHT" />
             </children>
         </StackPane>
     </content>

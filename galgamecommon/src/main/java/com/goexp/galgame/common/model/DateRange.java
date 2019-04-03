@@ -1,6 +1,7 @@
 package com.goexp.galgame.common.model;
 
 import java.time.LocalDate;
+import java.util.StringJoiner;
 
 public class DateRange {
 
@@ -15,9 +16,9 @@ public class DateRange {
 
     @Override
     public String toString() {
-        return "DateRange{" +
-                "start=" + start +
-                ", end=" + end +
-                '}';
+        return new StringJoiner(", ", DateRange.class.getSimpleName() + "[", "]")
+                .add("start=" + start)
+                .add("end=" + end)
+                .toString();
     }
 }

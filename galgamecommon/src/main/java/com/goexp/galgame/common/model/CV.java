@@ -3,6 +3,7 @@ package com.goexp.galgame.common.model;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 public class CV {
@@ -32,11 +33,11 @@ public class CV {
 
     @Override
     public String toString() {
-        return "CV{" +
-                "name='" + name + '\'' +
-                ", nameStr='" + nameStr + '\'' +
-                ", star=" + star +
-                ", otherName='" + otherName + '\'' +
-                '}';
+        return new StringJoiner(", ", CV.class.getSimpleName() + "[", "]")
+                .add("name='" + name + "'")
+                .add("nameStr='" + nameStr + "'")
+                .add("star=" + star)
+                .add("otherName='" + otherName + "'")
+                .toString();
     }
 }

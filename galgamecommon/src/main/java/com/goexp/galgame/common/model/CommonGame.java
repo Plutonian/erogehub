@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 public class CommonGame {
     public int id;
@@ -35,24 +36,23 @@ public class CommonGame {
         return Objects.hash(id);
     }
 
-
     @Override
     public String toString() {
-        return "CommonGame{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", publishDate=" + publishDate +
-                ", smallImg='" + smallImg + '\'' +
-                ", website='" + website + '\'' +
-                ", writer=" + writer +
-                ", painter=" + painter +
-                ", type=" + type +
-                ", tag=" + tag +
-//                ", story='" + story + '\'' +
-//                ", intro='" + intro + '\'' +
-                ", gameCharacters=" + gameCharacters +
-                ", gameImgs=" + gameImgs +
-                '}';
+        return new StringJoiner(", ", CommonGame.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("name='" + name + "'")
+                .add("publishDate=" + publishDate)
+                .add("smallImg='" + smallImg + "'")
+                .add("website='" + website + "'")
+                .add("writer=" + writer)
+                .add("painter=" + painter)
+                .add("type=" + type)
+                .add("tag=" + tag)
+//                .add("story='" + story + "'")
+//                .add("intro='" + intro + "'")
+                .add("gameCharacters=" + gameCharacters)
+                .add("gameImgs=" + gameImgs)
+                .toString();
     }
 
     public String simpleView() {
@@ -71,10 +71,10 @@ public class CommonGame {
 
         @Override
         public String toString() {
-            return "GameImg{" +
-                    ", src='" + src + '\'' +
-                    ", index=" + index +
-                    '}';
+            return new StringJoiner(", ", GameImg.class.getSimpleName() + "[", "]")
+                    .add("src='" + src + "'")
+                    .add("index=" + index)
+                    .toString();
         }
     }
 
@@ -92,14 +92,14 @@ public class CommonGame {
 
         @Override
         public String toString() {
-            return "GameCharacter{" +
-                    ", name='" + name + '\'' +
-                    ", cv='" + cv + '\'' +
-                    //                ", story='" + story + '\'' +
-                    ", trueCV='" + trueCV + '\'' +
-                    ", img='" + img + '\'' +
-                    ", index='" + index + '\'' +
-                    '}';
+            return new StringJoiner(", ", GameCharacter.class.getSimpleName() + "[", "]")
+                    .add("name='" + name + "'")
+                    .add("cv='" + cv + "'")
+//                    .add("intro='" + intro + "'")
+                    .add("trueCV='" + trueCV + "'")
+                    .add("img='" + img + "'")
+                    .add("index=" + index)
+                    .toString();
         }
     }
 
@@ -124,12 +124,12 @@ public class CommonGame {
 
         @Override
         public String toString() {
-            return "Guide{" +
-                    "id='" + id + '\'' +
-                    ", title='" + title + '\'' +
-                    ", href='" + href + '\'' +
-                    ", from=" + from +
-                    '}';
+            return new StringJoiner(", ", Guide.class.getSimpleName() + "[", "]")
+                    .add("id='" + id + "'")
+                    .add("title='" + title + "'")
+                    .add("href='" + href + "'")
+                    .add("from=" + from)
+                    .toString();
         }
 
         public enum DataFrom {

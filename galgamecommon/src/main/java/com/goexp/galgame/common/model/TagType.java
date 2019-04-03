@@ -2,6 +2,7 @@ package com.goexp.galgame.common.model;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 public class TagType {
     public String type;
@@ -24,9 +25,10 @@ public class TagType {
 
     @Override
     public String toString() {
-        return "TagType{" +
-                "type='" + type + '\'' +
-                ", order=" + order +
-                '}';
+        return new StringJoiner(", ", TagType.class.getSimpleName() + "[", "]")
+                .add("type='" + type + "'")
+                .add("order=" + order)
+                .add("tags=" + tags)
+                .toString();
     }
 }

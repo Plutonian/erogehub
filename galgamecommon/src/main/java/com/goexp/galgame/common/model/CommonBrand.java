@@ -1,5 +1,7 @@
 package com.goexp.galgame.common.model;
 
+import java.util.StringJoiner;
+
 public class CommonBrand {
     public int id;
     public String name;
@@ -24,11 +26,11 @@ public class CommonBrand {
 
     @Override
     public String toString() {
-        return "Brand{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", website='" + website + '\'' +
-                ", comp='" + comp + '\'' +
-                '}';
+        return new StringJoiner(", ", CommonBrand.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("name='" + name + "'")
+                .add("website='" + website + "'")
+                .add("comp='" + comp + "'")
+                .toString();
     }
 }

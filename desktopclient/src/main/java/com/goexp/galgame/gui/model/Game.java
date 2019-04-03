@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 public class Game extends CommonGame {
@@ -78,12 +79,33 @@ public class Game extends CommonGame {
         return brand;
     }
 
-
     @Override
     public String toString() {
-        return "Game{" +
-                "state=" + state +
-                ", brand=" + brand +
-                "} " + super.toString();
+        return new StringJoiner(", ", Game.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("name='" + name + "'")
+                .add("publishDate=" + publishDate)
+                .add("smallImg='" + smallImg + "'")
+                .add("website='" + website + "'")
+                .add("writer=" + writer)
+                .add("painter=" + painter)
+                .add("type=" + type)
+                .add("tag=" + tag)
+//                .add("story='" + story + "'")
+//                .add("intro='" + intro + "'")
+                .add("gameCharacters=" + gameCharacters)
+                .add("gameImgs=" + gameImgs)
+                .add("state=" + state)
+                .add("brand=" + brand)
+                .add("star=" + star)
+                .toString();
     }
+
+    //    @Override
+//    public String toString() {
+//        return "Game{" +
+//                "state=" + state +
+//                ", brand=" + brand +
+//                "} " + super.toString();
+//    }
 }

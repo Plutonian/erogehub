@@ -1,7 +1,6 @@
 package com.goexp.galgame.data.task.mapreduce;
 
 import com.goexp.galgame.common.model.GameState;
-import com.goexp.galgame.common.util.GameName;
 import com.goexp.galgame.data.db.importor.mongdb.GameDB;
 import com.goexp.galgame.data.db.query.mongdb.BrandQuery;
 import com.goexp.galgame.data.db.query.mongdb.GameQuery;
@@ -15,14 +14,14 @@ import com.goexp.galgame.data.task.handler.MesType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDate;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 
 import static com.mongodb.client.model.Filters.eq;
+import static java.util.stream.Collectors.groupingBy;
 
 public class MarkSameGameTask {
 
@@ -43,18 +42,10 @@ public class MarkSameGameTask {
 
         @Override
         public void process(MessageQueueProxy<Message> msgQueue) {
-
-
             BrandQuery.tlp.query()
                     .list()
                     .forEach(brand -> {
-
-                        try {
-                            msgQueue.offer(new Message<>(MesType.Brand, brand.id), 60, TimeUnit.SECONDS);
-                        } catch (Exception e) {
-//                        e.printStackTrace();
-                        }
-
+                        msgQueue.offer(new Message<>(MesType.Brand, brand.id));
                     });
 
         }
@@ -63,7 +54,7 @@ public class MarkSameGameTask {
 
     public static class ProcessBrandGame extends DefaultMessageHandler<Integer> {
 
-        final static Set<String> checklist = Set.of(
+        final static Set<String> samelist = Set.of(
                 "げっちゅ屋Ver",
                 "廉価版",
                 "タペストリ",
@@ -74,7 +65,15 @@ public class MarkSameGameTask {
                 "破格版",
                 "セレクション",
                 "シンプル版",
-                "DLカード"
+                "DLカード",
+                "DLコード",
+                "外箱付"
+        );
+
+        final static Set<String> packagelist = Set.of(
+                "BOX",
+                "パック",
+                "Collection"
         );
         final private Logger logger = LoggerFactory.getLogger(ProcessBrandGame.class);
 
@@ -92,59 +91,70 @@ public class MarkSameGameTask {
             Optional.ofNullable(parseGameList).ifPresent((list) -> {
 
                 list.stream()
-                        .collect(Collectors.groupingBy(game -> {
-                            var matcher = GameName.NAME_SPLITER_REX.matcher(game.name);
-                            return matcher.find() ? game.name.substring(0, matcher.start()) : game.name;
+                        //partitioning
+                        .collect(groupingBy(game -> {
+                            if (checkSameGamePredicate().test(game)) {
+                                return "same";
+                            } else if (checkpackageGamePredicate().test(game)) {
+                                return "package";
+                            } else {
+                                return "other";
+                            }
                         }))
                         .entrySet().stream()
-                        .flatMap(stringListEntry -> {
+                        .flatMap(groupEntry -> {
 
-                            if (stringListEntry.getValue().size() == 1) {
-                                return stringListEntry.getValue().stream()
-                                        .filter(game -> checklist.stream().anyMatch(str -> game.name.contains(str)))
+                            final var checkedGames = groupEntry.getValue();
+
+                            // same game
+                            if ("same".equals(groupEntry.getKey())) {
+                                return checkedGames.stream()
+                                        .filter(game -> game.state != GameState.SAME)
                                         .peek(game -> game.state = GameState.SAME);
+
+                                //package
+                            } else if ("package".equals(groupEntry.getKey())) {
+                                return checkedGames.stream()
+                                        .filter(game -> game.state != GameState.PACKAGE)
+                                        .peek(game -> game.state = GameState.PACKAGE);
                             } else {
-                                //has some
+                                // need next check
 
-                                return stringListEntry.getValue().stream()
-                                        //split
-                                        .collect(Collectors.partitioningBy(game -> {
-                                            return checklist.stream().anyMatch(str -> game.name.contains(str));
-                                        }))
+                                return checkedGames.stream()
+                                        .filter(game -> game.publishDate != null)
+                                        .collect(groupingBy(game -> game.publishDate))
                                         .entrySet().stream()
-                                        .flatMap(group -> {
+                                        .filter(localDateListEntry -> localDateListEntry.getValue().size() > 1)
+                                        .flatMap(localDateListEntry -> {
 
-                                            //SMAE
-                                            if (group.getKey()) {
-                                                return group.getValue().stream()
-                                                        .peek(game -> game.state = GameState.SAME);
-                                            } else {
-                                                var templist = group.getValue().stream()
-                                                        .sorted(Comparator.comparing(game -> Optional.ofNullable(((Game) game).publishDate).orElse(LocalDate.MIN))
-                                                                .reversed()
-                                                                .thenComparing(game -> ((Game) game).name.length())
-                                                        )
-                                                        .filter(game -> game.state == GameState.UNCHECKED)
-                                                        .peek(game -> game.state = GameState.SAME)
-                                                        .collect(Collectors.toUnmodifiableList());
+                                            //games by date
+                                            return localDateListEntry.getValue().stream()
 
-                                                if (templist.size() > 0)
-                                                    templist.get(0).state = GameState.UNCHECKED;
+                                                    // only min-name-length is the target
+                                                    .sorted(Comparator.comparing(game -> game.name.length()))
+                                                    .skip(1)
+                                                    //only unchecked
+                                                    .filter(game -> game.state == GameState.UNCHECKED)
+                                                    .peek(game -> game.state = GameState.SAME);
 
-                                                return templist.stream();
-                                            }
                                         });
-
                             }
 
                         })
                         .forEach(game -> {
-
                             msgQueue.offer(new Message<>(UPDATE_STATE, game));
                         });
-
             });
 
+        }
+
+        private Predicate<Game> checkSameGamePredicate() {
+            return game -> samelist.stream().anyMatch(str -> game.name.contains(str));
+        }
+
+        private Predicate<Game> checkpackageGamePredicate() {
+            return game -> Optional.ofNullable(game.type).orElse(List.of()).contains("セット商品") ||
+                    packagelist.stream().anyMatch(str -> game.name.contains(str));
         }
 
     }

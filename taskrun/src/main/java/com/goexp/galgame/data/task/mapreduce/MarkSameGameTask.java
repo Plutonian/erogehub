@@ -106,38 +106,40 @@ public class MarkSameGameTask {
 
                             final var checkedGames = groupEntry.getValue();
 
-                            // same game
-                            if ("same".equals(groupEntry.getKey())) {
-                                return checkedGames.stream()
-                                        .filter(game -> game.state != GameState.SAME)
-                                        .peek(game -> game.state = GameState.SAME);
+                            switch (groupEntry.getKey()) {
+                                case "same": {
+                                    return checkedGames.stream()
+                                            .filter(game -> game.state != GameState.SAME)
+                                            .peek(game -> game.state = GameState.SAME);
+                                }
+                                case "package": {
+                                    return checkedGames.stream()
+                                            .filter(game -> game.state != GameState.PACKAGE)
+                                            .peek(game -> game.state = GameState.PACKAGE);
+                                }
+                                case "other": {
+                                    return checkedGames.stream()
+                                            .filter(game -> game.publishDate != null)
+                                            .collect(groupingBy(game -> game.publishDate))
+                                            .entrySet().stream()
+                                            .filter(localDateListEntry -> localDateListEntry.getValue().size() > 1)
+                                            .flatMap(localDateListEntry -> {
 
-                                //package
-                            } else if ("package".equals(groupEntry.getKey())) {
-                                return checkedGames.stream()
-                                        .filter(game -> game.state != GameState.PACKAGE)
-                                        .peek(game -> game.state = GameState.PACKAGE);
-                            } else {
-                                // need next check
+                                                //games by date
+                                                return localDateListEntry.getValue().stream()
 
-                                return checkedGames.stream()
-                                        .filter(game -> game.publishDate != null)
-                                        .collect(groupingBy(game -> game.publishDate))
-                                        .entrySet().stream()
-                                        .filter(localDateListEntry -> localDateListEntry.getValue().size() > 1)
-                                        .flatMap(localDateListEntry -> {
+                                                        // only min-name-length is the target
+                                                        .sorted(Comparator.comparing(game -> game.name.length()))
+                                                        .skip(1)
+                                                        //only unchecked
+                                                        .filter(game -> game.state == GameState.UNCHECKED)
+                                                        .peek(game -> game.state = GameState.SAME);
 
-                                            //games by date
-                                            return localDateListEntry.getValue().stream()
-
-                                                    // only min-name-length is the target
-                                                    .sorted(Comparator.comparing(game -> game.name.length()))
-                                                    .skip(1)
-                                                    //only unchecked
-                                                    .filter(game -> game.state == GameState.UNCHECKED)
-                                                    .peek(game -> game.state = GameState.SAME);
-
-                                        });
+                                            });
+                                }
+                                default: {
+                                    throw new RuntimeException("Error");
+                                }
                             }
 
                         })

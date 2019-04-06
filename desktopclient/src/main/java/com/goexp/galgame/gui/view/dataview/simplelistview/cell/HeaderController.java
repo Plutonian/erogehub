@@ -119,7 +119,7 @@ public class HeaderController {
         brandJumpController.load(game.brand);
 //        starChangeController.load(game);
 
-        var matcher = NAME_SPLITER_REX.matcher(game.name);
+        final var matcher = NAME_SPLITER_REX.matcher(game.name);
         final var find = matcher.find();
 
 

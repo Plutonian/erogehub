@@ -3,6 +3,7 @@ package com.goexp.galgame.gui.view.dataview.tableview;
 import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.UIUtil;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
@@ -13,7 +14,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -23,7 +23,6 @@ import javafx.scene.layout.Region;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -166,11 +165,10 @@ public class GameTableController {
             protected void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
                 this.setGraphic(null);
+                this.setText(null);
 
-                if (!empty) {
-                    var titleLabel = new Label(DateUtil.formatDate(item));
-
-                    this.setGraphic(titleLabel);
+                if (item != null && !empty) {
+                    this.setText(DateUtil.formatDate(item));
                 }
             }
         });
@@ -180,8 +178,9 @@ public class GameTableController {
             protected void updateItem(List<String> item, boolean empty) {
                 super.updateItem(item, empty);
                 this.setGraphic(null);
+                this.setText(null);
 
-                if (!empty) {
+                if (item != null && !empty) {
 
                     if (item.size() > 0) {
                         var hbox = new HBox();
@@ -199,19 +198,15 @@ public class GameTableController {
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 this.setGraphic(null);
+                this.setText(null);
 
-                if (!empty) {
+                if (item != null && !empty) {
 
                     var game = this.getTableRow().getItem();
 
                     if (game != null) {
-                        var loader = new FXMLLoader(getClass().getClassLoader().getResource("view/jump/brandjump.fxml"));
-                        Region node = null;
-                        try {
-                            node = loader.load();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        var loader = new FXMLLoaderProxy("view/jump/brandjump.fxml");
+                        Region node = loader.load();
                         JumpBrandController controller = loader.getController();
                         controller.load(game.brand);
 
@@ -227,21 +222,16 @@ public class GameTableController {
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 this.setGraphic(null);
+                this.setText(null);
 
-                if (!empty) {
+                if (item != null && !empty) {
                     var game = this.getTableRow().getItem();
 
                     if (game != null) {
                         var title = game.name;
-                        var titleLabel = new Label(title.replaceAll("＜[^＞]*＞", ""));
+                        var titleLabel = title.replaceAll("＜[^＞]*＞", "");
 
-//                        if (game.smallImg != null && game.smallImg.startsWith("http")) {
-//                            var tip = new Tooltip();
-//                            tip.setGraphic(new ImageView(Images.small(game.id)));
-//                            titleLabel.setTooltip(tip);
-//                        }
-
-                        this.setGraphic(titleLabel);
+                        this.setText(titleLabel);
                     }
 
 
@@ -253,10 +243,9 @@ public class GameTableController {
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 this.setGraphic(null);
+                this.setText(null);
 
-
-                if (!empty) {
-
+                if (item != null && !empty) {
 
                     var game = this.getTableRow().getItem();
 
@@ -267,17 +256,13 @@ public class GameTableController {
                             MainSearchController.$this.loadDetail(game);
                         });
 
-                        var loader = new FXMLLoader(GameTableController.class.getClassLoader().getResource("view/jump/websitejump.fxml"));
-                        try {
-                            Region node = loader.load();
+                        var loader = new FXMLLoaderProxy("view/jump/websitejump.fxml");
+                        Region node = loader.load();
 
-                            JumpLinkController controller = loader.getController();
-                            controller.load(game);
+                        JumpLinkController controller = loader.getController();
+                        controller.load(game);
 
-                            this.setGraphic(new HBox(viewLink, node));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        this.setGraphic(new HBox(viewLink, node));
                     }
                 }
             }
@@ -288,12 +273,14 @@ public class GameTableController {
             protected void updateItem(GameState item, boolean empty) {
                 super.updateItem(item, empty);
                 this.setGraphic(null);
+                this.setText(null);
+
                 this.getTableRow().getStyleClass().remove("gray");
-                if (!empty) {
+                if (item != null && !empty) {
                     if (item == GameState.BLOCK) {
                         this.getTableRow().getStyleClass().add("gray");
                     }
-                    this.setGraphic(new Label(item.getName()));
+                    this.setText(item.getName());
                 }
             }
         });
@@ -303,7 +290,7 @@ public class GameTableController {
             protected void updateItem(Integer item, boolean empty) {
                 super.updateItem(item, empty);
                 this.setGraphic(null);
-
+                this.setText(null);
 
                 if (!empty) {
                     var image = LocalRes.HEART_16_PNG.get();
@@ -316,7 +303,5 @@ public class GameTableController {
                 }
             }
         });
-
-
     }
 }

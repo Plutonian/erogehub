@@ -11,6 +11,7 @@ import javafx.util.Callback;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -71,23 +72,20 @@ public class BrandGroupController extends FilterController<Game> {
     private void createCompGroup(List<Game> filteredGames) {
 
         var comps = filteredGames.stream()
-//                .filter(game -> game.publishDate != null)
-                .collect(groupingBy(game -> game.brand.comp != null && !game.brand.comp.isEmpty() ? game.brand.comp : ""
+                .collect(groupingBy(game -> Optional.ofNullable(game.brand.comp).orElse("")
                         , groupingBy(g -> g.brand)))
                 .entrySet().stream()
-                .sorted(Comparator.comparing((Map.Entry n) -> (String) n.getKey()))
                 .map(d -> {
 
-//                    if (d.getKey() != 0) {
-                    var yearNode = new TreeItem<DefaultItemNode>(new CompItemNode(
+                    final var yearNode = new TreeItem<DefaultItemNode>(new CompItemNode(
                             d.getKey()
                             , d.getValue().entrySet().stream().mapToInt(m -> m.getValue().size()).sum()
                             , d.getKey()
                     ));
 
-                    d.getValue().entrySet().stream().sorted(Comparator.comparing(n1 -> n1.getKey().name))
+                    d.getValue().entrySet().stream().sorted(Comparator.comparing((Map.Entry<Brand, List<Game>> n1) -> n1.getValue().size()).reversed())
                             .forEach(d1 -> {
-                                var monthNode = new TreeItem<DefaultItemNode>(new BrandItemNode(
+                                final var monthNode = new TreeItem<DefaultItemNode>(new BrandItemNode(
                                         d1.getKey().name
                                         , d1.getValue().size()
                                         , d1.getKey()));
@@ -96,15 +94,10 @@ public class BrandGroupController extends FilterController<Game> {
                             });
 
                     return yearNode;
-//                    }
-
-//                    return null;
 
                 })
+                .sorted(Comparator.comparing((TreeItem<DefaultItemNode> item) -> item.getValue().count).reversed())
                 .collect(Collectors.toList());
-
-//        dateList.getSelectionModel().clearSelection();
-//        dateList.setItems(FXCollections.observableArrayList(yearsStream.collect(Collectors.toList())));
 
 
         var root = new TreeItem<DefaultItemNode>();

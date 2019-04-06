@@ -1,11 +1,9 @@
 package com.goexp.galgame.gui.view.common;
 
 import com.goexp.galgame.gui.model.Brand;
+import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.view.search.frombrand.brand.BrandInfoController;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Region;
-
-import java.io.IOException;
 
 public class CommonBrandInfoTabController {
 
@@ -19,33 +17,15 @@ public class CommonBrandInfoTabController {
 
     private void init() {
 
-        var dataView = new BrandInfoView();
-        dataView.invoke();
-        node = dataView.node;
+        final var loader = new FXMLLoaderProxy<Region, BrandInfoController>("view/brand/brand_info.fxml");
+        node = loader.node;
 
-        controller = dataView.controller;
+        controller = loader.controller;
         controller.dataViewController.tableViewController.tableColBrand.setVisible(false);
     }
 
     public void load(Brand brand) {
         controller.load(brand);
     }
-
-    private class BrandInfoView {
-        public BrandInfoController controller;
-
-        public Region node;
-
-        public void invoke() {
-            var loader = new FXMLLoader(getClass().getClassLoader().getResource("view/brand/brand_info.fxml"));
-            try {
-                node = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            controller = loader.getController();
-        }
-    }
-
 
 }

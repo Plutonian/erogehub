@@ -5,10 +5,7 @@ import com.goexp.galgame.gui.view.dataview.DataViewController;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Region;
-
-import java.io.IOException;
 
 public class CommonTabController {
 
@@ -26,11 +23,9 @@ public class CommonTabController {
 
     private void init() {
 
-        var dataView = new DateView();
-        dataView.invoke();
-        node = dataView.node;
-
-        controller = dataView.controller;
+        final var loader = new FXMLLoaderProxy<Region, DataViewController>("view/game_explorer/game_dataview.fxml");
+        node = loader.node;
+        controller = loader.controller;
 
         controller.reloadProperty.addListener((observable, oldValue, newValue) -> {
             if (newValue != null && newValue)
@@ -55,25 +50,5 @@ public class CommonTabController {
     public void load() {
         gameSearchService.restart();
     }
-
-    private class DateView {
-        public DataViewController controller;
-
-        public Region node;
-
-        DateView() {
-        }
-
-        void invoke() {
-            var loader = new FXMLLoader(getClass().getClassLoader().getResource("view/game_explorer/game_dataview.fxml"));
-            try {
-                node = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            controller = loader.getController();
-        }
-    }
-
 
 }

@@ -18,7 +18,6 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -27,12 +26,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -154,53 +151,46 @@ public class BrandPanelController {
             }
         });
 
-        colWebsite.setCellFactory(col -> new TreeTableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                this.setGraphic(null);
+        colWebsite.setCellFactory(col -> {
 
-                if (!empty && item != null) {
-                    Optional.ofNullable(this.getTreeTableRow())
-                            .map(TreeTableRow::getTreeItem
-                            ).ifPresent(treeitem -> {
+            final var loader = new FXMLLoaderProxy<Parent, WebViewController>("view/WebView.fxml");
 
-                        if (treeitem.isLeaf()) {
-                            if (item.length() > 0) {
+            return new TreeTableCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    this.setGraphic(null);
 
-                                final var brand = this.getTreeTableRow().getTreeItem().getValue();
-                                var titleLabel = new Hyperlink();
-                                titleLabel.setText(item);
-                                titleLabel.setOnAction((event -> {
-                                    var window = new Stage();
-                                    Parent root = null;
-                                    try {
-                                        var loader = new FXMLLoader(getClass().getClassLoader().getResource("view/WebView.fxml"));
-                                        root = loader.load();
-                                        var controller = (WebViewController) loader.getController();
-                                        controller.load(brand);
-                                    } catch (IOException e1) {
-                                        e1.printStackTrace();
-                                    }
-                                    window.setTitle(brand.website);
+                    if (!empty && item != null) {
+                        Optional.ofNullable(this.getTreeTableRow()).map(TreeTableRow::getTreeItem).ifPresent(treeitem -> {
 
-                                    window.setWidth(1200);
-                                    window.setMinWidth(1200);
+                            if (treeitem.isLeaf()) {
+                                if (item.length() > 0) {
 
-                                    window.setHeight(800);
-                                    window.setMinHeight(800);
-                                    window.setScene(new Scene(root, Color.BLACK));
+                                    final var brand = this.getTreeTableRow().getTreeItem().getValue();
+                                    var titleLabel = new Hyperlink();
+                                    titleLabel.setText(item);
+                                    titleLabel.setOnAction(event -> {
+                                        loader.controller.load(brand);
 
-                                    window.show();
+                                        var window = new Stage();
+                                        window.setTitle(brand.website);
+                                        window.setWidth(1200);
+                                        window.setMinWidth(1200);
+                                        window.setHeight(800);
+                                        window.setMinHeight(800);
+                                        window.setScene(new Scene(loader.node, Color.BLACK));
 
+                                        window.show();
 
-                                }));
-                                this.setGraphic(titleLabel);
+                                    });
+                                    this.setGraphic(titleLabel);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
-            }
+            };
         });
 
         colCommand.setCellFactory(col -> new TreeTableCell<>() {
@@ -320,30 +310,31 @@ public class BrandPanelController {
 //        });
 
 
-        treeBrandPanel.setCellFactory(new Callback<>() {
-            @Override
-            public TreeCell<Brand> call(TreeView<Brand> param) {
-                return new TreeCell<>() {
-                    @Override
-                    protected void updateItem(Brand item, boolean empty) {
-                        super.updateItem(item, empty);
+        treeBrandPanel.setCellFactory(brandTreeView -> {
 
-                        setText(null);
-                        setGraphic(null);
+            final var loader = new FXMLLoaderProxy<Region, BrandTreeCellController>("view/search/brandcell.fxml");
 
-                        if (!empty && item != null) {
+            return new TreeCell<>() {
+                @Override
+                protected void updateItem(Brand item, boolean empty) {
 
-                            var treeItem = this.getTreeItem();
+                    super.updateItem(item, empty);
 
-                            if (treeItem.isLeaf()) {
-                                var loader = new FXMLLoaderProxy<Region, BrandTreeCellController>("view/search/brandcell.fxml");
-                                loader.controller.load(item);
+                    setText(null);
+                    setGraphic(null);
 
-                                setGraphic(loader.node);
-                            } else {
-                                var node = new Label();
-                                node.setText(item.comp);
-                                node.setStyle("-fx-font-size:18px");
+                    if (!empty && item != null) {
+
+                        var treeItem = this.getTreeItem();
+
+                        if (treeItem.isLeaf()) {
+                            loader.controller.load(item);
+
+                            setGraphic(loader.node);
+                        } else {
+                            var node = new Label();
+                            node.setText(item.comp);
+                            node.setStyle("-fx-font-size:18px");
 
 //                                var root = new BorderPane();
 //
@@ -366,13 +357,12 @@ public class BrandPanelController {
 //
 //                                brandlist.getChildren().setAll(brandNodes);
 
-                                setGraphic(node);
-                            }
-
+                            setGraphic(node);
                         }
+
                     }
-                };
-            }
+                }
+            };
         });
     }
 

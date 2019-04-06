@@ -1,6 +1,7 @@
 package com.goexp.galgame.gui.view.detailview;
 
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.view.detailview.cell.GameCharListCellController;
 import com.goexp.galgame.gui.view.detailview.header.HeaderController;
 import com.goexp.galgame.gui.view.task.GameCharListTask;
@@ -10,7 +11,6 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -18,7 +18,6 @@ import javafx.scene.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.stream.Collectors;
 
 
@@ -114,18 +113,12 @@ public class FullContentViewController {
         }
 
         public Region invoke() {
-            var loader = new FXMLLoader(getClass().getClassLoader().getResource("view/game_explorer/detail/char_list_cell.fxml"));
-            Region node = null;
-            try {
-                node = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            GameCharListCellController controller = loader.getController();
+            var loader = new FXMLLoaderProxy<Region, GameCharListCellController>("view/game_explorer/detail/char_list_cell.fxml");
+            var controller = loader.controller;
             controller.gameId = gameid;
             controller.gameChar = gameCharacter;
             controller.init();
-            return node;
+            return loader.node;
         }
     }
 }

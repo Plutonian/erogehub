@@ -35,14 +35,13 @@ public class BrandTreeCellController {
         this.brand = brand;
 
         textName.setText(brand.name);
+        var loader = new FXMLLoaderProxy<Parent, WebViewController>("view/WebView.fxml");
 
         var titleLabel = new Hyperlink();
         titleLabel.setText("Website");
         titleLabel.setOnAction((event -> {
             var window = new Stage();
 
-
-            var loader = new FXMLLoaderProxy<Parent, WebViewController>("view/WebView.fxml");
             loader.controller.load(brand);
             window.setTitle(brand.website);
 

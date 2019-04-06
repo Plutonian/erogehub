@@ -193,26 +193,29 @@ public class GameTableController {
         });
 
 
-        tableColBrand.setCellFactory(col -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                this.setGraphic(null);
-                this.setText(null);
+        tableColBrand.setCellFactory(col -> {
+            final var loader = new FXMLLoaderProxy<Region, JumpBrandController>("view/jump/brandjump.fxml");
 
-                if (item != null && !empty) {
+            return new TableCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    this.setGraphic(null);
+                    this.setText(null);
 
-                    var game = this.getTableRow().getItem();
+                    if (item != null && !empty) {
 
-                    if (game != null) {
-                        var loader = new FXMLLoaderProxy<Region, JumpBrandController>("view/jump/brandjump.fxml");
-                        loader.controller.load(game.brand);
+                        var game = this.getTableRow().getItem();
 
-                        this.setGraphic(loader.node);
+                        if (game != null) {
+                            loader.controller.load(game.brand);
+
+                            this.setGraphic(loader.node);
+                        }
+
                     }
-
                 }
-            }
+            };
         });
 
         tableColTitle.setCellFactory(col -> new TableCell<>() {
@@ -237,31 +240,32 @@ public class GameTableController {
             }
         });
 
-        tableColCommand.setCellFactory(col -> new TableCell<>() {
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                this.setGraphic(null);
-                this.setText(null);
+        tableColCommand.setCellFactory(col -> {
+            final var loader = new FXMLLoaderProxy<Region, JumpLinkController>("view/jump/websitejump.fxml");
 
-                if (item != null && !empty) {
+            return new TableCell<>() {
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    this.setGraphic(null);
+                    this.setText(null);
 
-                    var game = this.getTableRow().getItem();
+                    if (item != null && !empty) {
 
-                    if (game != null) {
-                        Hyperlink viewLink = new Hyperlink("View");
-                        viewLink.setOnAction((e) -> {
+                        var game = this.getTableRow().getItem();
 
-                            MainSearchController.$this.loadDetail(game);
-                        });
+                        if (game != null) {
+                            Hyperlink viewLink = new Hyperlink("View");
+                            viewLink.setOnAction((e) -> {
 
-                        var loader = new FXMLLoaderProxy<Region, JumpLinkController>("view/jump/websitejump.fxml");
+                                MainSearchController.$this.loadDetail(game);
+                            });
+                            loader.controller.load(game);
 
-                        loader.controller.load(game);
-
-                        this.setGraphic(new HBox(viewLink, loader.node));
+                            this.setGraphic(new HBox(viewLink, loader.node));
+                        }
                     }
                 }
-            }
+            };
         });
 
         tableColState.setCellFactory(col -> new TableCell<>() {

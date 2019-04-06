@@ -101,7 +101,7 @@ public class HeaderController {
         loadWithoutImage(game);
 
         if (game.smallImg != null && game.smallImg.startsWith("http")) {
-            imageImg.setImage(Images.GameImage.small(game));
+            imageImg.setImage(Images.GameImage.tiny(game));
 
         } else {
             imageImg.setImage(null);

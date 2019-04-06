@@ -42,10 +42,8 @@ public class BrandTreeCellController {
             var window = new Stage();
 
 
-            var loader = new FXMLLoaderProxy("view/WebView.fxml");
-            var root = (Parent) loader.load();
-            var controller = (WebViewController) loader.getController();
-            controller.load(brand);
+            var loader = new FXMLLoaderProxy<Parent, WebViewController>("view/WebView.fxml");
+            loader.controller.load(brand);
             window.setTitle(brand.website);
 
             window.setWidth(1200);
@@ -53,7 +51,7 @@ public class BrandTreeCellController {
 
             window.setHeight(800);
             window.setMinHeight(800);
-            window.setScene(new Scene(root, Color.BLACK));
+            window.setScene(new Scene(loader.node, Color.BLACK));
 
             window.show();
 

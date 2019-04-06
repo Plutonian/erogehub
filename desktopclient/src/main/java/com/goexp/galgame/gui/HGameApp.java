@@ -2,6 +2,7 @@ package com.goexp.galgame.gui;
 
 import com.goexp.galgame.common.util.Network;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
+import com.goexp.galgame.gui.view.MainController;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,7 +29,7 @@ public class HGameApp extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        Parent root = new FXMLLoaderProxy("HGame.fxml").load();
+        var proxy = new FXMLLoaderProxy<Parent, MainController>("HGame.fxml");
         primaryStage.setTitle("エロゲ まとめ");
 
         primaryStage.setWidth(1400);
@@ -37,7 +38,7 @@ public class HGameApp extends Application {
 
         primaryStage.setHeight(800);
         primaryStage.setMinHeight(800);
-        primaryStage.setScene(new Scene(root, Color.BLACK));
+        primaryStage.setScene(new Scene(proxy.node, Color.BLACK));
 
         primaryStage.show();
     }

@@ -336,19 +336,10 @@ public class BrandPanelController {
                             var treeItem = this.getTreeItem();
 
                             if (treeItem.isLeaf()) {
-//                                var flow = new FlowPane();
-//                                flow.setHgap(5);
-//                                if (item.children != null)
-//                                    item.children.forEach(brand -> {
-                                var loader = new FXMLLoaderProxy("view/search/brandcell.fxml");
-                                var root = (Region) loader.load();
-                                var controller = (BrandTreeCellController) loader.getController();
-                                controller.load(item);
+                                var loader = new FXMLLoaderProxy<Region, BrandTreeCellController>("view/search/brandcell.fxml");
+                                loader.controller.load(item);
 
-//                                        flow.getChildren().add(root);
-//                                    });
-
-                                setGraphic(root);
+                                setGraphic(loader.node);
                             } else {
                                 var node = new Label();
                                 node.setText(item.comp);

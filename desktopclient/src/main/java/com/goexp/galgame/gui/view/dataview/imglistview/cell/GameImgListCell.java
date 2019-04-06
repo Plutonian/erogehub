@@ -13,11 +13,9 @@ public class GameImgListCell {
     }
 
     public Region invoke() {
-        var loader = new FXMLLoaderProxy("view/game_explorer/listview/img/img_list_cell.fxml");
-        var node = (Region) loader.load();
-        var controller = (GameImgListCellController) loader.getController();
-        controller.game = item;
-        controller.load();
-        return node;
+        var loader = new FXMLLoaderProxy<Region, GameImgListCellController>("view/game_explorer/listview/img/img_list_cell.fxml");
+        loader.controller.game = item;
+        loader.controller.load();
+        return loader.node;
     }
 }

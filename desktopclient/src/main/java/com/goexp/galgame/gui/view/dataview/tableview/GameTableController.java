@@ -205,12 +205,10 @@ public class GameTableController {
                     var game = this.getTableRow().getItem();
 
                     if (game != null) {
-                        var loader = new FXMLLoaderProxy("view/jump/brandjump.fxml");
-                        Region node = loader.load();
-                        JumpBrandController controller = loader.getController();
-                        controller.load(game.brand);
+                        var loader = new FXMLLoaderProxy<Region, JumpBrandController>("view/jump/brandjump.fxml");
+                        loader.controller.load(game.brand);
 
-                        this.setGraphic(node);
+                        this.setGraphic(loader.node);
                     }
 
                 }
@@ -256,13 +254,11 @@ public class GameTableController {
                             MainSearchController.$this.loadDetail(game);
                         });
 
-                        var loader = new FXMLLoaderProxy("view/jump/websitejump.fxml");
-                        Region node = loader.load();
+                        var loader = new FXMLLoaderProxy<Region, JumpLinkController>("view/jump/websitejump.fxml");
 
-                        JumpLinkController controller = loader.getController();
-                        controller.load(game);
+                        loader.controller.load(game);
 
-                        this.setGraphic(new HBox(viewLink, node));
+                        this.setGraphic(new HBox(viewLink, loader.node));
                     }
                 }
             }

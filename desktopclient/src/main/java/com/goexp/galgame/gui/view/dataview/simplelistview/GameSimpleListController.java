@@ -26,6 +26,7 @@ public class GameSimpleListController {
         listSimple.setCellFactory(new Callback<>() {
 
             private final Cache<Integer, Node> cache = new Cache<>();
+            private final Cache<Integer, FXMLLoaderProxy<Region, GameSimpleListCellController>> configCache = new Cache<>();
             private final Logger logger = LoggerFactory.getLogger(Callback.class);
 
             @Override
@@ -41,30 +42,25 @@ public class GameSimpleListController {
 
                         if (item == null || empty) {
                         } else {
-
-                            var tnode = Optional.ofNullable(cache.get(item.id)).orElseGet(() -> {
+                            var tarNc = Optional.ofNullable(configCache.get(item.id)).orElseGet(() -> {
 
                                 logger.debug("Load Node");
 
+                                var loader = new FXMLLoaderProxy<Region, GameSimpleListCellController>(SIMPLE_LIST_CELL_FXML);
 
-                                var loader = new FXMLLoaderProxy(SIMPLE_LIST_CELL_FXML);
-                                var node = (Region) loader.load();
-                                var controller = (GameSimpleListCellController) loader.getController();
-                                controller.load(item);
+                                configCache.put(item.id, loader);
 
-                                cache.put(item.id, node);
-
-                                return node;
+                                return loader;
                             });
 
-                            setGraphic(tnode);
-                        }
+                            tarNc.controller.load(item);
 
+                            setGraphic(tarNc.node);
+                        }
                     }
                 };
             }
         });
     }
-
 
 }

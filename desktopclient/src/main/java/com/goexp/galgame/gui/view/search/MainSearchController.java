@@ -291,17 +291,14 @@ public class MainSearchController {
         TabSelect.from(mainTabPanel)
                 .ifNotFind(a -> {
 
-                    var loader = new FXMLLoaderProxy(GAME_DETAIL_NAV_PAGE_FXML);
-                    var node = (Region) loader.load();
-                    var controller = (NavViewController) loader.getController();
+                    var loader = new FXMLLoaderProxy<Region, NavViewController>(GAME_DETAIL_NAV_PAGE_FXML);
 
-
-                    var tab = new Tab(game.name, node);
+                    var tab = new Tab(game.name, loader.node);
                     tab.setGraphic(new ImageView(LocalRes.GAME_16_PNG.get()));
 
                     insertTab(tab, true);
 
-                    controller.load(game);
+                    loader.controller.load(game);
                 })
                 .select(game.name);
     }
@@ -312,15 +309,13 @@ public class MainSearchController {
         TabSelect.from(mainTabPanel)
                 .ifNotFind(a -> {
 
-                    var loader = new FXMLLoaderProxy(SEARCH_FXML);
-                    var node = (Region) loader.load();
-                    var controller = (SearchController) loader.getController();
+                    var loader = new FXMLLoaderProxy<Region, SearchController>(SEARCH_FXML);
 
-                    var tab = new Tab("Search", node);
+                    var tab = new Tab("Search", loader.node);
 
                     insertTab(tab, true);
 
-                    controller.load();
+                    loader.controller.load();
                 })
                 .select("Search");
     }
@@ -331,13 +326,11 @@ public class MainSearchController {
 
         TabSelect.from(mainTabPanel)
                 .ifNotFind(a -> {
-                    var loader = new FXMLLoaderProxy(SEARCH_TYPE_FXML);
-                    var node = (Region) loader.load();
-                    var controller = (TagExplorerController) loader.getController();
+                    var loader = new FXMLLoaderProxy<Region, TagExplorerController>(SEARCH_TYPE_FXML);
 
-                    var tab = new Tab("Tags", node);
+                    var tab = new Tab("Tags", loader.node);
                     insertTab(tab, true);
-                    controller.load();
+                    loader.controller.load();
                 })
                 .select("Tags");
     }
@@ -358,13 +351,11 @@ public class MainSearchController {
 
         TabSelect.from(mainTabPanel)
                 .ifNotFind(a -> {
-                    final var loader = new FXMLLoaderProxy(BRAND_PANEL_FXML);
-                    final var node = (Region) loader.load();
-                    final var controller = (BrandPanelController) loader.getController();
+                    final var loader = new FXMLLoaderProxy<Region, BrandPanelController>(BRAND_PANEL_FXML);
 
-                    var tab = new Tab("Brand", node);
+                    var tab = new Tab("Brand", loader.node);
                     insertTab(tab, true);
-                    controller.load();
+                    loader.controller.load();
 
                 }).select("Brand");
 
@@ -377,16 +368,14 @@ public class MainSearchController {
         TabSelect.from(mainTabPanel)
                 .ifNotFind(a -> {
 
-                    final var loader = new FXMLLoaderProxy(CVINFO_FXML);
-                    final var node = (Region) loader.load();
-                    final var controller = (CVInfoSearchController) loader.getController();
+                    final var loader = new FXMLLoaderProxy<Region, CVInfoSearchController>(CVINFO_FXML);
 
-                    var tab = new Tab("CV", node);
+                    var tab = new Tab("CV", loader.node);
                     tab.setGraphic(new ImageView(LocalRes.CV_16_PNG.get()));
 
                     insertTab(tab, true);
 
-                    controller.load();
+                    loader.controller.load();
                 })
                 .select("CV");
     }

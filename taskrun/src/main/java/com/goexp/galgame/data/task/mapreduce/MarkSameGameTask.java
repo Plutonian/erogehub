@@ -14,9 +14,9 @@ import com.goexp.galgame.data.task.handler.MesType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStreamReader;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +46,9 @@ public class MarkSameGameTask {
 
         @Override
         public void process(MessageQueueProxy<Message> msgQueue) {
+
+//            msgQueue.offer(new Message<>(MesType.Brand, 10143));
+
             BrandQuery.tlp.query()
                     .list()
                     .forEach(brand -> {
@@ -59,15 +62,21 @@ public class MarkSameGameTask {
     public static class ProcessBrandGame extends DefaultMessageHandler<Integer> {
 
         private ProcessBrandGame() {
-            var samePath = Path.of(ProcessBrandGame.class.getResource("/same.list").toExternalForm().replace("file:/", ""));
-            var packagePath = Path.of(ProcessBrandGame.class.getResource("/package.list").toExternalForm().replace("file:/", ""));
-
             try {
-                samelist = Files.lines(samePath).collect(Collectors.toUnmodifiableSet());
-                packagelist = Files.lines(packagePath).collect(Collectors.toUnmodifiableSet());
+                try (var sameFileReader = new BufferedReader(new InputStreamReader(ProcessBrandGame.class.getResourceAsStream("/same.list")))) {
+
+                    samelist = sameFileReader.lines().collect(Collectors.toUnmodifiableSet());
+                }
+
+                try (var packFileReader = new BufferedReader(new InputStreamReader(ProcessBrandGame.class.getResourceAsStream("/package.list")))) {
+
+                    packagelist = packFileReader.lines().collect(Collectors.toUnmodifiableSet());
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
 
         private Set<String> samelist;
@@ -143,6 +152,7 @@ public class MarkSameGameTask {
 
                         })
                         .forEach(game -> {
+//                            System.out.println(game.name + " {} " + game.state);
                             msgQueue.offer(new Message<>(UPDATE_STATE, game));
                         });
             });

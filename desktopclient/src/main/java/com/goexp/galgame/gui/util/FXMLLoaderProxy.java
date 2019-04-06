@@ -24,8 +24,7 @@ public class FXMLLoaderProxy<N, C> {
             return loader.load();
         } catch (IOException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
-
-        return null;
     }
 }

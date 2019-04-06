@@ -14,11 +14,15 @@ import com.goexp.galgame.data.task.handler.MesType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static com.mongodb.client.model.Filters.eq;
 import static java.util.stream.Collectors.groupingBy;
@@ -54,27 +58,22 @@ public class MarkSameGameTask {
 
     public static class ProcessBrandGame extends DefaultMessageHandler<Integer> {
 
-        final static Set<String> samelist = Set.of(
-                "げっちゅ屋Ver",
-                "廉価版",
-                "タペストリ",
-                "普及版",
-                "Best Windows",
-                "KAGUYAコレクション",
-                "ベストシリーズ",
-                "破格版",
-                "セレクション",
-                "シンプル版",
-                "DLカード",
-                "DLコード",
-                "外箱付"
-        );
+        private ProcessBrandGame() {
+            var samePath = Path.of(ProcessBrandGame.class.getResource("/same.list").toExternalForm().replace("file:/", ""));
+            var packagePath = Path.of(ProcessBrandGame.class.getResource("/package.list").toExternalForm().replace("file:/", ""));
 
-        final static Set<String> packagelist = Set.of(
-                "BOX",
-                "パック",
-                "Collection"
-        );
+            try {
+                samelist = Files.lines(samePath).collect(Collectors.toUnmodifiableSet());
+                packagelist = Files.lines(packagePath).collect(Collectors.toUnmodifiableSet());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private Set<String> samelist;
+
+        private Set<String> packagelist;
+
         final private Logger logger = LoggerFactory.getLogger(ProcessBrandGame.class);
 
         @Override
@@ -109,12 +108,12 @@ public class MarkSameGameTask {
                             switch (groupEntry.getKey()) {
                                 case "same": {
                                     return checkedGames.stream()
-                                            .filter(game -> game.state != GameState.SAME)
+                                            .filter(game -> game.state == GameState.UNCHECKED)
                                             .peek(game -> game.state = GameState.SAME);
                                 }
                                 case "package": {
                                     return checkedGames.stream()
-                                            .filter(game -> game.state != GameState.PACKAGE)
+                                            .filter(game -> game.state == GameState.UNCHECKED)
                                             .peek(game -> game.state = GameState.PACKAGE);
                                 }
                                 case "other": {

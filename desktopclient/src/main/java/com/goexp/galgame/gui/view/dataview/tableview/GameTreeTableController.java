@@ -3,6 +3,7 @@ package com.goexp.galgame.gui.view.dataview.tableview;
 import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.util.UIUtil;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
@@ -12,7 +13,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.input.MouseButton;
@@ -21,7 +21,6 @@ import javafx.scene.layout.Region;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -183,33 +182,28 @@ public class GameTreeTableController {
         });
 
 
-        tableColBrand.setCellFactory(col -> new TreeTableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                this.setGraphic(null);
+        tableColBrand.setCellFactory(col -> {
 
-                if (!empty) {
+            final var loader = new FXMLLoaderProxy<Region, JumpBrandController>("view/jump/brandjump.fxml");
 
+            return new TreeTableCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    this.setGraphic(null);
 
-                    var game = this.getTreeTableRow().getItem();
+                    if (!empty) {
 
-                    if (game != null) {
-                        var loader = new FXMLLoader(getClass().getClassLoader().getResource("view/jump/brandjump.fxml"));
-                        Region node = null;
-                        try {
-                            node = loader.load();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        var game = this.getTreeTableRow().getItem();
+
+                        if (game != null) {
+                            loader.controller.load(game.brand);
+
+                            this.setGraphic(loader.node);
                         }
-                        JumpBrandController controller = loader.getController();
-                        controller.load(game.brand);
-
-                        this.setGraphic(node);
                     }
-
                 }
-            }
+            };
         });
 
 //        tableColTitle.setCellFactory(col -> new TableCell<>() {
@@ -229,39 +223,34 @@ public class GameTreeTableController {
 //            }
 //        });
 
-        tableColCommand.setCellFactory(col -> new TreeTableCell<>() {
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                this.setGraphic(null);
+        tableColCommand.setCellFactory(col -> {
 
+            final var loader = new FXMLLoaderProxy<Region, JumpLinkController>("view/jump/websitejump.fxml");
 
-                if (!empty) {
-                    if (this.getTreeTableRow().getTreeItem().isLeaf()) {
+            return new TreeTableCell<>() {
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    this.setGraphic(null);
 
-                        var game = this.getTreeTableRow().getItem();
+                    if (!empty) {
+                        if (this.getTreeTableRow().getTreeItem().isLeaf()) {
 
-                        if (game != null) {
-                            Hyperlink viewLink = new Hyperlink("View");
-                            viewLink.setOnAction((e) -> {
+                            var game = this.getTreeTableRow().getItem();
 
-                                MainSearchController.$this.loadDetail(game);
-                            });
+                            if (game != null) {
+                                Hyperlink viewLink = new Hyperlink("View");
+                                viewLink.setOnAction((e) -> {
+                                    MainSearchController.$this.loadDetail(game);
+                                });
 
-                            var loader = new FXMLLoader(GameTreeTableController.class.getClassLoader().getResource("view/jump/websitejump.fxml"));
-                            try {
-                                Region node = loader.load();
+                                loader.controller.load(game);
 
-                                JumpLinkController controller = loader.getController();
-                                controller.load(game);
-
-                                this.setGraphic(new HBox(viewLink, node));
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                                this.setGraphic(new HBox(viewLink, loader.node));
                             }
                         }
                     }
                 }
-            }
+            };
         });
 
         tableColState.setCellFactory(col -> new TreeTableCell<>() {

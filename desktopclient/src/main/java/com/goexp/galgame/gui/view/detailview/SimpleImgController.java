@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
-import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,24 +56,21 @@ public class SimpleImgController {
             }
         });
 
-        listSmallSimple.setCellFactory(new Callback<>() {
-            @Override
-            public ListCell<Game.GameImg> call(ListView<Game.GameImg> param) {
-                return new ListCell<>() {
-                    @Override
-                    protected void updateItem(Game.GameImg item, boolean empty) {
-                        super.updateItem(item, empty);
+        listSmallSimple.setCellFactory(gameImgListView -> {
+            return new ListCell<>() {
+                @Override
+                protected void updateItem(Game.GameImg item, boolean empty) {
+                    super.updateItem(item, empty);
 
-                        setGraphic(null);
-                        setText(null);
+                    setGraphic(null);
+                    setText(null);
 
-                        if (!empty) {
-                            setGraphic(new ImageView(Images.GameImage.Simple.small(game.id, item.index, item.src)));
-                        }
-
+                    if (!empty) {
+                        setGraphic(new ImageView(Images.GameImage.Simple.small(game.id, item.index, item.src)));
                     }
-                };
-            }
+
+                }
+            };
         });
 
         listSmallSimple.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, simpleLargeImage) -> {

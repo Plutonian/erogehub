@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.util.Callback;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -24,27 +23,21 @@ public class DateGroupController extends FilterController<Game> {
     @FXML
     private void initialize() {
 
-        dateTree.setCellFactory(new Callback<TreeView<DateItemNode>, TreeCell<DateItemNode>>() {
-            @Override
-            public TreeCell<DateItemNode> call(TreeView<DateItemNode> param) {
-                return new TreeCell<>() {
+        dateTree.setCellFactory(dateItemNodeTreeView -> {
+            return new TreeCell<>() {
 
-                    @Override
-                    protected void updateItem(DateItemNode item, boolean empty) {
-                        super.updateItem(item, empty);
+                @Override
+                protected void updateItem(DateItemNode item, boolean empty) {
+                    super.updateItem(item, empty);
 
-                        setGraphic(null);
-                        setText(null);
+                    setGraphic(null);
+                    setText(null);
 
-
-                        if (!empty && item != null) {
-
-                            setText(item.title);
-
-                        }
+                    if (!empty && item != null) {
+                        setText(item.title);
                     }
-                };
-            }
+                }
+            };
         });
         dateTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 

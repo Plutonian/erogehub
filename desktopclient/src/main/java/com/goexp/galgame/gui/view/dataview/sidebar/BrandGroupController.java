@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.util.Callback;
 
 import java.util.Comparator;
 import java.util.List;
@@ -23,24 +22,21 @@ public class BrandGroupController extends FilterController<Game> {
 
     @FXML
     private void initialize() {
-        compTree.setCellFactory(new Callback<>() {
-            @Override
-            public TreeCell<DefaultItemNode> call(TreeView<DefaultItemNode> param) {
-                return new TreeCell<>() {
-                    @Override
-                    protected void updateItem(DefaultItemNode item, boolean empty) {
-                        super.updateItem(item, empty);
+        compTree.setCellFactory(itemNodeTreeView -> {
+            return new TreeCell<>() {
+                @Override
+                protected void updateItem(DefaultItemNode item, boolean empty) {
+                    super.updateItem(item, empty);
 
-                        setGraphic(null);
-                        setText(null);
+                    setGraphic(null);
+                    setText(null);
 
-                        if (!empty && item != null) {
+                    if (!empty && item != null) {
 
-                            setText(String.format("%s (%d)", item.title, item.count));
-                        }
+                        setText(String.format("%s (%d)", item.title, item.count));
                     }
-                };
-            }
+                }
+            };
         });
         compTree.getSelectionModel().selectedItemProperty().addListener((o, old, item) -> {
             if (item != null) {

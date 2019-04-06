@@ -61,6 +61,8 @@ public class MarkSameGameTask {
 
     public static class ProcessBrandGame extends DefaultMessageHandler<Integer> {
 
+        final private Logger logger = LoggerFactory.getLogger(ProcessBrandGame.class);
+
         private ProcessBrandGame() {
             try {
                 try (var sameFileReader = new BufferedReader(new InputStreamReader(ProcessBrandGame.class.getResourceAsStream("/same.list")))) {
@@ -83,7 +85,6 @@ public class MarkSameGameTask {
 
         private Set<String> packagelist;
 
-        final private Logger logger = LoggerFactory.getLogger(ProcessBrandGame.class);
 
         @Override
         public void process(final Message<Integer> message, MessageQueueProxy<Message> msgQueue) {
@@ -152,7 +153,8 @@ public class MarkSameGameTask {
 
                         })
                         .forEach(game -> {
-//                            System.out.println(game.name + " {} " + game.state);
+
+                            logger.info("ID:{} Name: {}  State: {}", game.id, game.name, game.state);
                             msgQueue.offer(new Message<>(UPDATE_STATE, game));
                         });
             });

@@ -9,7 +9,6 @@ public class FXMLLoaderProxy<N, C> {
     private final FXMLLoader loader;
 
     public final N node;
-
     public final C controller;
 
     public FXMLLoaderProxy(final String path) {

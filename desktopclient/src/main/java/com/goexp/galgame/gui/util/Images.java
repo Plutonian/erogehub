@@ -73,32 +73,32 @@ public class Images {
             var imageCache = AppCache.imageCache;
 
             //try heat cache
-            return Optional.ofNullable(imageCache.get(cacheKey.getMemCacheKey()))
+            return imageCache.get(cacheKey.getMemCacheKey())
                     //not heat cache
-                    .or(() -> {
+                    .orElseGet(() -> {
                         final var localPath = Config.IMG_PATH.resolve(cacheKey.getDiskCacheKey() + ".jpg");
 
                         logger.debug("localPath={}", localPath);
 
-                        Consumer<Image> callback = image1 -> {
-
-                            try {
-                                Files.createDirectories(localPath.getParent());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            saveImage(image1, localPath);
-                        };
-
 
                         //heat disk cache or load from remote
-                        var image = Files.exists(localPath) ? fromDisk(localPath) : loadRemote(cacheKey.getMemCacheKey(), callback);
+                        var image = Files.exists(localPath) ?
+                                fromDisk(localPath) :
+                                loadRemote(cacheKey.getMemCacheKey(), image1 -> {
+
+                                    try {
+                                        Files.createDirectories(localPath.getParent());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    saveImage(image1, localPath);
+                                });
 
                         //memCacheKey as cache key
                         imageCache.put(cacheKey.getMemCacheKey(), image);
-                        return Optional.ofNullable(image);
-                    }).get();
+                        return image;
+                    });
         }
 
         private static void saveImage(Image image, Path path) {
@@ -182,15 +182,13 @@ public class Images {
         }
 
         private static Image getLocalImage(String name, ImageCache imageCache) {
-            var img = imageCache.get(name);
-            if (img != null) {
-                return img;
-            } else {
+            return imageCache.get(name).orElseGet(() -> {
                 var image = new Image(Images.class.getResource(name).toExternalForm());
 
                 imageCache.put(name, image);
                 return image;
-            }
+
+            });
         }
     }
 

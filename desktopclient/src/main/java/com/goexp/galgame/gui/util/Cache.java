@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.util;
 
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
+import java.util.Optional;
 
 public class Cache<K, V> {
 
@@ -11,13 +12,14 @@ public class Cache<K, V> {
         this.imageCache = new HashMap<>();
     }
 
-    public V get(K key) {
+    public Optional<V> get(K key) {
 
-        var img = imageCache.get(key);
-        if (img != null && img.get() != null) {
-            return img.get();
-        }
-        return null;
+        return Optional.ofNullable(imageCache.get(key)).map(cache -> cache.get());
+//        var img = imageCache.get(key);
+//        if (img != null && img.get() != null) {
+//            return img.get();
+//        }
+//        return null;
     }
 
     public SoftReference<V> put(K key, V value) {

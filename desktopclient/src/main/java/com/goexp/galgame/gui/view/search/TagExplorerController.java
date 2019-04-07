@@ -114,8 +114,8 @@ public class TagExplorerController {
 
                 final var targetTag = tag;
 
-                TabSelect.from(MainSearchController.$this.mainTabPanel)
-                        .ifNotFind(b -> {
+                TabSelect.from()
+                        .ifNotFind(() -> {
                             var conn = new CommonTabController(new Service<>() {
                                 @Override
                                 protected Task createTask() {
@@ -125,10 +125,10 @@ public class TagExplorerController {
 
                             var tab = new Tab(targetTag, conn.node);
                             tab.setGraphic(new ImageView(LocalRes.TAG_16_PNG.get()));
-
-                            MainSearchController.$this.insertTab(tab);
-
                             conn.load();
+
+                            return tab;
+
                         })
                         .select(targetTag);
             }

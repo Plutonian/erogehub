@@ -93,25 +93,23 @@ public class MainSearchController {
 
                 final var text = dateController.title;
 
-                TabSelect.from(mainTabPanel)
-                        .ifNotFind(a -> {
+                TabSelect.from().ifNotFind(() -> {
 
-                            var conn = new CommonTabController(new Service<>() {
-                                @Override
-                                protected Task createTask() {
+                    var conn = new CommonTabController(new Service<>() {
+                        @Override
+                        protected Task createTask() {
 
-                                    return new GameSearchTask.ByDateRange(start, end);
-                                }
-                            });
+                            return new GameSearchTask.ByDateRange(start, end);
+                        }
+                    });
 
-                            var tab = new Tab(text, conn.node);
+                    var tab = new Tab(text, conn.node);
+                    tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG.get()));
 
-                            tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG.get()));
+                    conn.load();
 
-                            insertTab(tab, true);
-                            conn.load();
-                        })
-                        .select(text);
+                    return tab;
+                }).select(text);
 
             }
         });
@@ -120,30 +118,26 @@ public class MainSearchController {
             if (newValue != null && newValue) {
 
                 final var from = dateController.from;
-
                 final var to = dateController.to;
-
                 final var text = dateController.title;
 
-                TabSelect.from(mainTabPanel)
-                        .ifNotFind(a -> {
+                TabSelect.from().ifNotFind(() -> {
 
-                            var conn = new CommonTabController(new Service<>() {
-                                @Override
-                                protected Task createTask() {
+                    var conn = new CommonTabController(new Service<>() {
+                        @Override
+                        protected Task createTask() {
 
-                                    return new GameSearchTask.ByDateRange(from, to);
-                                }
-                            });
+                            return new GameSearchTask.ByDateRange(from, to);
+                        }
+                    });
 
-                            var tab = new Tab(text, conn.node);
+                    var tab = new Tab(text, conn.node);
+                    tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG.get()));
 
-                            tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG.get()));
+                    conn.load();
 
-                            insertTab(tab, true);
-                            conn.load();
-                        })
-                        .select(text);
+                    return tab;
+                }).select(text);
 
             }
         });
@@ -203,15 +197,13 @@ public class MainSearchController {
 
                         final var text = type.getName();
 
-                        TabSelect.from(mainTabPanel)
-                                .ifNotFind(a -> {
+                        TabSelect.from().ifNotFind(() -> {
 
-                                    var tab = new Tab(text, conn.node);
-                                    insertTab(tab, true);
+                            var tab = new Tab(text, conn.node);
+                            conn.load();
 
-                                    conn.load();
-
-                                })
+                            return tab;
+                        })
                                 .select(text);
                     });
 
@@ -226,113 +218,101 @@ public class MainSearchController {
 
         final var text = brand.name;
 
-        TabSelect.from(mainTabPanel)
-                .ifNotFind(a -> {
-                    var conn = new CommonBrandInfoTabController();
+        TabSelect.from().ifNotFind(() -> {
+            var conn = new CommonBrandInfoTabController();
 
-                    var tab = new Tab(text, conn.node);
-                    tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG.get()));
+            var tab = new Tab(text, conn.node);
+            tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG.get()));
 
-                    insertTab(tab);
+            conn.load(brand);
 
-                    conn.load(brand);
-                })
-                .select(text);
+            return tab;
+        }).select(text);
 
     }
 
     public void loadPainterTab(final String painter) {
 
-        TabSelect.from(mainTabPanel)
-                .ifNotFind(a -> {
+        TabSelect.from().ifNotFind(() -> {
 
-                    var conn = new CommonTabController(new Service<>() {
-                        @Override
-                        protected Task createTask() {
-                            return new GameSearchTask.ByPainter(painter);
-                        }
-                    });
+            var conn = new CommonTabController(new Service<>() {
+                @Override
+                protected Task createTask() {
+                    return new GameSearchTask.ByPainter(painter);
+                }
+            });
 
-                    var tab = new Tab(painter, conn.node);
+            var tab = new Tab(painter, conn.node);
 //                    tab.setGraphic(new ImageView(LocalRes.CV_16_PNG.get()));
 
-                    insertTab(tab);
-
-                    conn.load();
-                })
-                .select(painter);
+            conn.load();
+            return tab;
+        }).select(painter);
 
     }
 
     public void loadCVTab(final String cv, boolean real) {
 
-        TabSelect.from(mainTabPanel)
-                .ifNotFind(a -> {
+        TabSelect.from().ifNotFind(() -> {
 
-                    var conn = new CommonTabController(new Service<>() {
-                        @Override
-                        protected Task createTask() {
-                            return new GameSearchTask.ByCV(cv, real);
-                        }
-                    });
+            var conn = new CommonTabController(new Service<>() {
+                @Override
+                protected Task createTask() {
+                    return new GameSearchTask.ByCV(cv, real);
+                }
+            });
 
-                    var tab = new Tab(cv, conn.node);
-                    tab.setGraphic(new ImageView(LocalRes.CV_16_PNG.get()));
+            var tab = new Tab(cv, conn.node);
+            tab.setGraphic(new ImageView(LocalRes.CV_16_PNG.get()));
 
-                    insertTab(tab);
+            conn.load();
 
-                    conn.load();
-                })
-                .select(cv);
+            return tab;
+        }).select(cv);
 
     }
 
     public void loadDetail(Game game) {
-        TabSelect.from(mainTabPanel)
-                .ifNotFind(a -> {
+        TabSelect.from().ifNotFind(() -> {
 
-                    var loader = new FXMLLoaderProxy<Region, NavViewController>(GAME_DETAIL_NAV_PAGE_FXML);
+            var loader = new FXMLLoaderProxy<Region, NavViewController>(GAME_DETAIL_NAV_PAGE_FXML);
 
-                    var tab = new Tab(game.name, loader.node);
-                    tab.setGraphic(new ImageView(LocalRes.GAME_16_PNG.get()));
+            var tab = new Tab(game.name, loader.node);
+            tab.setGraphic(new ImageView(LocalRes.GAME_16_PNG.get()));
 
-                    insertTab(tab, true);
+            loader.controller.load(game);
 
-                    loader.controller.load(game);
-                })
-                .select(game.name);
+            return tab;
+        }).select(game.name);
     }
 
 
     @FXML
     private void linkSearch_OnAction(ActionEvent actionEvent) throws IOException {
-        TabSelect.from(mainTabPanel)
-                .ifNotFind(a -> {
+        TabSelect.from().ifNotFind(() -> {
 
-                    var loader = new FXMLLoaderProxy<Region, SearchController>(SEARCH_FXML);
+            var loader = new FXMLLoaderProxy<Region, SearchController>(SEARCH_FXML);
 
-                    var tab = new Tab("Search", loader.node);
+            var tab = new Tab("Search", loader.node);
 
-                    insertTab(tab, true);
+            loader.controller.load();
 
-                    loader.controller.load();
-                })
-                .select("Search");
+            return tab;
+        }).select("Search");
     }
 
 
     @FXML
     private void linkTags_OnAction(ActionEvent actionEvent) throws IOException {
 
-        TabSelect.from(mainTabPanel)
-                .ifNotFind(a -> {
-                    var loader = new FXMLLoaderProxy<Region, TagExplorerController>(SEARCH_TYPE_FXML);
+        TabSelect.from().ifNotFind(() -> {
+            var loader = new FXMLLoaderProxy<Region, TagExplorerController>(SEARCH_TYPE_FXML);
 
-                    var tab = new Tab("Tags", loader.node);
-                    insertTab(tab, true);
-                    loader.controller.load();
-                })
-                .select("Tags");
+            var tab = new Tab("Tags", loader.node);
+            loader.controller.load();
+
+            return tab;
+        }).select("Tags");
     }
 
 
@@ -349,15 +329,14 @@ public class MainSearchController {
     @FXML
     private void linkBrand_OnAction(ActionEvent actionEvent) throws IOException {
 
-        TabSelect.from(mainTabPanel)
-                .ifNotFind(a -> {
-                    final var loader = new FXMLLoaderProxy<Region, BrandPanelController>(BRAND_PANEL_FXML);
+        TabSelect.from().ifNotFind(() -> {
+            final var loader = new FXMLLoaderProxy<Region, BrandPanelController>(BRAND_PANEL_FXML);
 
-                    var tab = new Tab("Brand", loader.node);
-                    insertTab(tab, true);
-                    loader.controller.load();
+            var tab = new Tab("Brand", loader.node);
+            loader.controller.load();
 
-                }).select("Brand");
+            return tab;
+        }).select("Brand");
 
 
     }
@@ -365,19 +344,17 @@ public class MainSearchController {
     @FXML
     private void linkCV_OnAction(ActionEvent actionEvent) {
 
-        TabSelect.from(mainTabPanel)
-                .ifNotFind(a -> {
+        TabSelect.from().ifNotFind(() -> {
 
-                    final var loader = new FXMLLoaderProxy<Region, CVInfoSearchController>(CVINFO_FXML);
+            final var loader = new FXMLLoaderProxy<Region, CVInfoSearchController>(CVINFO_FXML);
 
-                    var tab = new Tab("CV", loader.node);
-                    tab.setGraphic(new ImageView(LocalRes.CV_16_PNG.get()));
+            var tab = new Tab("CV", loader.node);
+            tab.setGraphic(new ImageView(LocalRes.CV_16_PNG.get()));
 
-                    insertTab(tab, true);
+            loader.controller.load();
 
-                    loader.controller.load();
-                })
-                .select("CV");
+            return tab;
+        }).select("CV");
     }
 
     @FXML
@@ -385,24 +362,23 @@ public class MainSearchController {
 
         final var title = "差";
 
-        TabSelect.from(mainTabPanel)
-                .ifNotFind(a -> {
+        TabSelect.from().ifNotFind(() -> {
 
 
-                    var conn = new CommonTabController(new Service<>() {
-                        @Override
-                        protected Task createTask() {
-                            return new GameSearchTask.ByStarRange(1, 2);
-                        }
-                    });
-                    conn.controller.tableViewController.tableColState.setVisible(false);
+            var conn = new CommonTabController(new Service<>() {
+                @Override
+                protected Task createTask() {
+                    return new GameSearchTask.ByStarRange(1, 2);
+                }
+            });
+            conn.controller.tableViewController.tableColState.setVisible(false);
 
-                    var tab = new Tab(title, conn.node);
+            var tab = new Tab(title, conn.node);
 
-                    insertTab(tab, true);
-                    conn.load();
+            conn.load();
 
-                }).select(title);
+            return tab;
+        }).select(title);
 
 
     }
@@ -413,24 +389,23 @@ public class MainSearchController {
 
         final var title = "优";
 
-        TabSelect.from(mainTabPanel)
-                .ifNotFind(a -> {
+        TabSelect.from().ifNotFind(() -> {
 
 
-                    var conn = new CommonTabController(new Service<>() {
-                        @Override
-                        protected Task createTask() {
-                            return new GameSearchTask.ByStarRange(4, 5);
-                        }
-                    });
-                    conn.controller.tableViewController.tableColState.setVisible(false);
+            var conn = new CommonTabController(new Service<>() {
+                @Override
+                protected Task createTask() {
+                    return new GameSearchTask.ByStarRange(4, 5);
+                }
+            });
+            conn.controller.tableViewController.tableColState.setVisible(false);
 
-                    var tab = new Tab(title, conn.node);
+            var tab = new Tab(title, conn.node);
 
-                    insertTab(tab, true);
-                    conn.load();
+            conn.load();
 
-                }).select(title);
+            return tab;
+        }).select(title);
 
 
     }
@@ -440,24 +415,23 @@ public class MainSearchController {
 
         final var title = "良";
 
-        TabSelect.from(mainTabPanel)
-                .ifNotFind(a -> {
+        TabSelect.from().ifNotFind(() -> {
 
 
-                    var conn = new CommonTabController(new Service<>() {
-                        @Override
-                        protected Task createTask() {
-                            return new GameSearchTask.ByStarRange(3, 3);
-                        }
-                    });
-                    conn.controller.tableViewController.tableColState.setVisible(false);
+            var conn = new CommonTabController(new Service<>() {
+                @Override
+                protected Task createTask() {
+                    return new GameSearchTask.ByStarRange(3, 3);
+                }
+            });
+            conn.controller.tableViewController.tableColState.setVisible(false);
 
-                    var tab = new Tab(title, conn.node);
+            var tab = new Tab(title, conn.node);
 
-                    insertTab(tab, true);
-                    conn.load();
+            conn.load();
 
-                }).select(title);
+            return tab;
+        }).select(title);
 
 
     }

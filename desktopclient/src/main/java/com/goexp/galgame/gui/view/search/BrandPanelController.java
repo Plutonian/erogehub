@@ -285,16 +285,15 @@ public class BrandPanelController {
 
                 final var text = targetBrand.name;
 
-                TabSelect.from(MainSearchController.$this.mainTabPanel)
-                        .ifNotFind(b -> {
-                            var conn = new CommonBrandInfoTabController();
+                TabSelect.from().ifNotFind(() -> {
+                    var conn = new CommonBrandInfoTabController();
 
-                            var tab = new Tab(text, conn.node);
-                            tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG.get()));
-                            conn.load(targetBrand);
-                            MainSearchController.$this.insertTab(tab);
-                        })
-                        .select(text);
+                    var tab = new Tab(text, conn.node);
+                    tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG.get()));
+                    conn.load(targetBrand);
+
+                    return tab;
+                }).select(text);
             }
         });
 

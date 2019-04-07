@@ -7,7 +7,6 @@ import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.TabSelect;
 import com.goexp.galgame.gui.view.common.CommonBrandInfoTabController;
 import com.goexp.galgame.gui.view.pagesource.WebViewController;
-import com.goexp.galgame.gui.view.search.MainSearchController;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -62,16 +61,14 @@ public class BrandTreeCellController {
             final var text = brand.name;
 
 
-            TabSelect.from(MainSearchController.$this.mainTabPanel)
-                    .ifNotFind(b -> {
-                        var conn = new CommonBrandInfoTabController();
+            TabSelect.from().ifNotFind(() -> {
+                var conn = new CommonBrandInfoTabController();
 
-                        var tab = new Tab(text, conn.node);
-                        tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG.get()));
-                        conn.load(brand);
-                        MainSearchController.$this.insertTab(tab);
-                    })
-                    .select(text);
+                var tab = new Tab(text, conn.node);
+                tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG.get()));
+                conn.load(brand);
+                return tab;
+            }).select(text);
         });
 
         boxLink.getChildren().setAll(titleLabel, link);

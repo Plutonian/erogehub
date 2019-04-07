@@ -52,39 +52,35 @@ public class SearchController {
 
                 final var text = searchType.name() + ":" + key;
 
-                TabSelect.from(MainSearchController.$this.mainTabPanel)
-                        .ifNotFind(b -> {
+                TabSelect.from().ifNotFind(() -> {
 
-                            var conn = new CommonTabController(new Service<>() {
-                                @Override
-                                protected Task createTask() {
+                    var conn = new CommonTabController(new Service<>() {
+                        @Override
+                        protected Task createTask() {
 
-                                    switch (searchType) {
-                                        case Simple: {
-                                            return new GameSearchTask.ByName(key);
-                                        }
-                                        case Extend: {
-                                            return new GameSearchTask.ByNameEx(key);
-                                        }
-                                        case Full: {
-                                            return new GameSearchTask.ByTag(key);
-                                        }
-                                    }
-
-                                    return null;
+                            switch (searchType) {
+                                case Simple: {
+                                    return new GameSearchTask.ByName(key);
                                 }
-                            });
+                                case Extend: {
+                                    return new GameSearchTask.ByNameEx(key);
+                                }
+                                case Full: {
+                                    return new GameSearchTask.ByTag(key);
+                                }
+                            }
+
+                            return null;
+                        }
+                    });
 
 
-                            var tab = new Tab(text, conn.node);
+                    var tab = new Tab(text, conn.node);
 //                            tab.setGraphic(new ImageView(LocalRes.SEARCH_16_PNG.get()));
 
-                            MainSearchController.$this.insertTab(tab);
-
-                            conn.load();
-
-                        })
-                        .select(text);
+                    conn.load();
+                    return tab;
+                }).select(text);
             }
         });
 
@@ -119,7 +115,6 @@ public class SearchController {
             e.acceptTransferModes(TransferMode.LINK);
         }
     }
-
 
     @FXML
     private void textSearchGameKey_OnDragDropped(DragEvent e) {

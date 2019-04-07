@@ -3,7 +3,6 @@ package com.goexp.galgame.gui.view.dataview;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
-import com.goexp.galgame.gui.view.dataview.imglistview.GameImgListController;
 import com.goexp.galgame.gui.view.dataview.sidebar.BrandGroupController;
 import com.goexp.galgame.gui.view.dataview.sidebar.DateGroupController;
 import com.goexp.galgame.gui.view.dataview.sidebar.FilterPanelController;
@@ -38,8 +37,8 @@ public class DataViewController {
     @FXML
     public GameTableController tableViewController;
 
-    @FXML
-    public GameImgListController imgViewController;
+    //    @FXML
+//    public GameImgListController imgViewController;
     @FXML
     public ProgressBar progessloading;
     @FXML
@@ -174,7 +173,7 @@ public class DataViewController {
                     logger.debug("<createTagGroup> Name:{},Value:{}", key, value);
                     return new HBox(Tags.toNodes(List.of(key)).get(0), new Label("(" + value + ")"));
                 })
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
 
 
         tagFlow.getChildren().setAll(data);
@@ -201,7 +200,6 @@ public class DataViewController {
                 g.state.get().getValue() > GameState.BLOCK.getValue() && !(g.star > 0 && g.star < 3)
         );
 
-
         var sortedData = new SortedList<>(filteredGames);
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
 
@@ -217,24 +215,20 @@ public class DataViewController {
     }
 
     private void loadItems(SortedList<Game> sortedData) {
-//        resetCount(sortedData);
 
         tableView.setItems(sortedData);
         tableView.scrollTo(0);
 
-
         listSimple.setItems(sortedData);
         listSimple.scrollTo(0);
+
     }
 
     private void loadItems(ObservableList<Game> sortedData) {
         resetCount(sortedData);
-//        tableView.setItems(null);
         tableView.setItems(sortedData);
         tableView.scrollTo(0);
 
-
-//        listSimple.setItems(null);
         listSimple.setItems(sortedData);
         listSimple.scrollTo(0);
     }

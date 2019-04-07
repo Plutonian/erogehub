@@ -7,7 +7,6 @@ import com.goexp.galgame.gui.util.Images;
 import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.common.StateChangeController;
-import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
 import com.goexp.galgame.gui.view.search.MainSearchController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
@@ -25,9 +24,6 @@ public class GameImgListCellController {
 
     @FXML
     private StateChangeController changeStateController;
-
-    @FXML
-    private JumpLinkController webjumpController;
 
     @FXML
     private ImageView imageImg;
@@ -81,7 +77,6 @@ public class GameImgListCellController {
         lbBrand.setText(game.brand.name);
         lbDate.setText(DateUtil.formatDate(game.publishDate));
         changeStateController.load(game);
-        webjumpController.load(game);
 
         if (game.tag.size() > 0)
             flowTag.getChildren().setAll(Tags.toNodes(game.tag));

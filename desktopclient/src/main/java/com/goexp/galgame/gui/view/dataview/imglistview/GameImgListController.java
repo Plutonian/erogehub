@@ -26,7 +26,7 @@ public class GameImgListController {
 
         rootPanel.vvalueProperty().addListener((observable, oldValue, newValue) -> {
 
-            if (newValue != null && newValue.doubleValue() > 0.9 * rootPanel.getVmax()) {
+            if (newValue != null && newValue.doubleValue() > 0.8 * rootPanel.getVmax()) {
                 loadItem();
             }
         });
@@ -50,15 +50,16 @@ public class GameImgListController {
 
         if (index <= page) {
 
-            final var loader = new FXMLLoaderProxy<Region, GameImgListCellController>("view/game_explorer/listview/img/img_list_cell.fxml");
             var nodes = cacheList.stream()
                     .skip((index - 1) * pageSize)
                     .limit(pageSize)
                     .map(game -> {
+                        final var loader = new FXMLLoaderProxy<Region, GameImgListCellController>("view/game_explorer/listview/img/img_list_cell.fxml");
+
                         loader.controller.load(game);
                         return loader.node;
                     })
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toUnmodifiableList());
 
             index++;
 

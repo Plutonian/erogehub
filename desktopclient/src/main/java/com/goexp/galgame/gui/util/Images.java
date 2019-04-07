@@ -15,34 +15,32 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 public class Images {
 
     public static class GameImage {
 
-        public static Image tiny(Game game) {
-
+        public static Image tiny(final Game game) {
             return Util.getImage(new CacheKey(game.id + "/game_t", game.smallImg));
         }
 
         public static Image small(final Game game) {
-            var url = GetchuURL.getImgSmallFromId(game.id);
+            final var url = GetchuURL.getImgSmallFromId(game.id);
 
             return Util.getImage(new CacheKey(game.id + "/game_s", url));
         }
 
         public static class Simple {
 
-            public static Image small(int gameId, int index, String src) {
-                var url = GetchuURL.getSimpleImgSmallFromSrc(src);
+            public static Image small(final int gameId, final int index, final String src) {
+                final var url = GetchuURL.getSimpleImgSmallFromSrc(src);
 
                 return Util.getImage(new CacheKey(gameId + "/simple_s_" + index, url));
             }
 
-            public static Image large(int gameId, int index, String src) {
-                var url = GetchuURL.getSimpleImgBigFromSrc(src);
+            public static Image large(final int gameId, final int index, final String src) {
+                final var url = GetchuURL.getSimpleImgBigFromSrc(src);
 
                 return Util.getImage(new CacheKey(gameId + "/simple_l_" + index, url));
             }
@@ -50,8 +48,8 @@ public class Images {
 
         public static class GameChar {
 
-            public static Image small(int gameId, int index, String src) {
-                var url = GetchuURL.getUrlFromSrc(src);
+            public static Image small(final int gameId, final int index, final String src) {
+                final var url = GetchuURL.getUrlFromSrc(src);
 
                 return Util.getImage(new CacheKey(gameId + "/char_s_" + index, url));
             }
@@ -59,18 +57,17 @@ public class Images {
 
     }
 
-
     private static class Util {
         private static final Logger logger = LoggerFactory.getLogger(Util.class);
 
-        private static Image getImage(CacheKey cacheKey) {
+        private static Image getImage(final CacheKey cacheKey) {
             Objects.requireNonNull(cacheKey);
             Objects.requireNonNull(cacheKey.getDiskCacheKey());
             Objects.requireNonNull(cacheKey.getMemCacheKey());
 
             logger.debug("LocalKey={},memCacheKey={}", cacheKey.getDiskCacheKey(), cacheKey.getMemCacheKey());
 
-            var imageCache = AppCache.imageCache;
+            final var imageCache = AppCache.imageCache;
 
             //try heat cache
             return imageCache.get(cacheKey.getMemCacheKey())
@@ -82,7 +79,7 @@ public class Images {
 
 
                         //heat disk cache or load from remote
-                        var image = Files.exists(localPath) ?
+                        final var image = Files.exists(localPath) ?
                                 fromDisk(localPath) :
                                 loadRemote(cacheKey.getMemCacheKey(), image1 -> {
 
@@ -101,13 +98,11 @@ public class Images {
                     });
         }
 
-        private static void saveImage(Image image, Path path) {
+        private static void saveImage(final Image image, final Path path) {
+            Objects.requireNonNull(image);
+            Objects.requireNonNull(path);
 
-            if (image == null)
-                return;
-
-            var bufferImage = SwingFXUtils.fromFXImage(image, null);
-
+            final var bufferImage = SwingFXUtils.fromFXImage(image, null);
             if (bufferImage == null)
                 return;
 
@@ -119,52 +114,51 @@ public class Images {
 
         }
 
-        private static Image fromDisk(Path path) {
+        private static Image fromDisk(final Path path) {
+            Objects.requireNonNull(path);
 
             logger.debug("Local:{}", path);
             return new Image("file:" + path.toString());
         }
 
+
         private static Image loadRemote(final String url, final Consumer<Image> callback) {
+            Objects.requireNonNull(url);
 
             logger.debug("Remote:{}", url);
 
-            var imageCache = AppCache.imageCache;
+            final var image = new Image(url, true);
 
-            var image = new Image(url, true);
-            image.progressProperty().addListener((o, old, newValue) ->
-                    Optional.ofNullable(callback)
-                            .ifPresent(b -> {
-                                if (newValue != null && newValue.doubleValue() == 1) {
-                                    b.accept(image);
-                                }
-                            }));
+            if (callback != null)
+                image.progressProperty().addListener((o, old, newValue) -> {
+                    if (newValue != null && newValue.doubleValue() == 1) {
+                        callback.accept(image);
+                    }
+                });
+
             image.exceptionProperty().addListener((o, old, newValue) -> {
                 if (newValue != null) {
                     newValue.printStackTrace();
 
                     if (!(newValue instanceof FileNotFoundException))
-                        imageCache.remove(url);
+                        AppCache.imageCache.remove(url);
                 }
 
             });
             return image;
         }
 
-        private static byte[] getImageBytes(Image image) {
+        private static byte[] getImageBytes(final Image image) {
+            Objects.requireNonNull(image);
 
-            if (image == null)
-                return null;
-
-            var bufferImage = SwingFXUtils.fromFXImage(image, null);
-
+            final var bufferImage = SwingFXUtils.fromFXImage(image, null);
             if (bufferImage == null)
                 return null;
 
-            try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-                ImageIO.write(bufferImage, "jpg", baos);
+            try (final var stream = new ByteArrayOutputStream()) {
+                ImageIO.write(bufferImage, "jpg", stream);
 
-                return baos.toByteArray();
+                return stream.toByteArray();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -175,15 +169,13 @@ public class Images {
 
     public static class Local {
 
-        public static Image getLocal(String name) {
-            var imageCache = AppCache.imageCache;
-
-            return getLocalImage(name, imageCache);
+        public static Image getLocal(final String name) {
+            return getLocal(name, AppCache.imageCache);
         }
 
-        private static Image getLocalImage(String name, ImageCache imageCache) {
+        private static Image getLocal(final String name, final ImageCache imageCache) {
             return imageCache.get(name).orElseGet(() -> {
-                var image = new Image(Images.class.getResource(name).toExternalForm());
+                final var image = new Image(Images.class.getResource(name).toExternalForm());
 
                 imageCache.put(name, image);
                 return image;
@@ -196,16 +188,16 @@ public class Images {
         private final String diskCacheKey;
         private final String memCacheKey;
 
-        CacheKey(String diskCacheKey, String memCacheKey) {
+        private CacheKey(final String diskCacheKey, final String memCacheKey) {
             this.diskCacheKey = diskCacheKey;
             this.memCacheKey = memCacheKey;
         }
 
-        String getDiskCacheKey() {
+        private String getDiskCacheKey() {
             return diskCacheKey;
         }
 
-        String getMemCacheKey() {
+        private String getMemCacheKey() {
             return memCacheKey;
         }
     }

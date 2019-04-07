@@ -4,7 +4,6 @@ import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.db.mongo.query.BrandQuery;
 import com.goexp.galgame.gui.db.mongo.query.GameQuery;
-import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.AppCache;
 import javafx.collections.FXCollections;
@@ -13,23 +12,24 @@ import javafx.concurrent.Task;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.mongodb.client.model.Filters.*;
 
 public class GameSearchTask {
     private static void fillGameWithBrand(Game g) {
-        Brand brand;
-        if (AppCache.brandCache.containsKey(g.brand.id)) {
-            brand = AppCache.brandCache.get(g.brand.id);
-        } else {
+        final var key = g.brand.id;
 
-            brand = BrandQuery.tlp.query()
-                    .where(eq(g.brand.id))
-                    .one();
-            AppCache.brandCache.put(g.brand.id, brand);
-        }
-        g.brand = brand;
+        g.brand = Optional.ofNullable(AppCache.brandCache.get(key))
+                .orElseGet(() -> {
+                    var brand = BrandQuery.tlp.query()
+                            .where(eq(g.brand.id))
+                            .one();
+                    AppCache.brandCache.put(key, brand);
+
+                    return brand;
+                });
     }
 
     public static class ByCV extends Task<ObservableList<Game>> {

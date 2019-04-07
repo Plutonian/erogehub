@@ -21,7 +21,7 @@ import javafx.scene.text.Text;
 
 public class GameImgListCellController {
 
-    public Game game;
+    private Game game;
 
     @FXML
     private StateChangeController changeStateController;
@@ -74,7 +74,9 @@ public class GameImgListCellController {
     }
 
 
-    public void load() {
+    public void load(Game game) {
+        this.game = game;
+
         txtName.setText(game.name);
         lbBrand.setText(game.brand.name);
         lbDate.setText(DateUtil.formatDate(game.publishDate));

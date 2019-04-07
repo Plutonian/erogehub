@@ -1,11 +1,12 @@
 package com.goexp.galgame.gui.view.dataview.imglistview;
 
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.view.dataview.imglistview.cell.GameImgListCell;
+import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Region;
 
 import java.util.stream.Collectors;
 
@@ -48,11 +49,14 @@ public class GameImgListController {
     private void loadItem() {
 
         if (index <= page) {
+
+            final var loader = new FXMLLoaderProxy<Region, GameImgListCellController>("view/game_explorer/listview/img/img_list_cell.fxml");
             var nodes = cacheList.stream()
                     .skip((index - 1) * pageSize)
                     .limit(pageSize)
                     .map(game -> {
-                        return new GameImgListCell(game).invoke();
+                        loader.controller.load(game);
+                        return loader.node;
                     })
                     .collect(Collectors.toList());
 

@@ -5,7 +5,7 @@ import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Images;
 import com.goexp.galgame.gui.util.LocalRes;
-import com.goexp.galgame.gui.util.UIUtil;
+import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.common.StateChangeController;
 import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
 import com.goexp.galgame.gui.view.search.MainSearchController;
@@ -84,7 +84,7 @@ public class GameImgListCellController {
         webjumpController.load(game);
 
         if (game.tag.size() > 0)
-            flowTag.getChildren().setAll(UIUtil.createTag(game.tag));
+            flowTag.getChildren().setAll(Tags.toNodes(game.tag));
 
 
         if (game.smallImg != null && game.smallImg.startsWith("http")) {

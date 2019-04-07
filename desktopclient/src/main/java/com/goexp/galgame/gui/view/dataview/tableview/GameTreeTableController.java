@@ -4,7 +4,7 @@ import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
-import com.goexp.galgame.gui.util.UIUtil;
+import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
 import com.goexp.galgame.gui.view.search.MainSearchController;
@@ -34,7 +34,7 @@ public class GameTreeTableController {
     @FXML
     public TreeTableView<Game> table;
     @FXML
-    public TreeTableColumn<Game, String> tableColTag;
+    public TreeTableColumn<Game, List<String>> tableColTag;
     @FXML
     public TreeTableColumn<Game, String> tableColType;
     @FXML
@@ -161,17 +161,17 @@ public class GameTreeTableController {
 
         tableColTag.setCellFactory(col -> new TreeTableCell<>() {
             @Override
-            protected void updateItem(String item, boolean empty) {
+            protected void updateItem(List<String> item, boolean empty) {
                 super.updateItem(item, empty);
                 this.setGraphic(null);
 
                 if (!empty) {
 
                     if (this.getTreeTableRow().getTreeItem().isLeaf()) {
-                        if (item.length() > 0) {
+                        if (item.size() > 0) {
                             var hbox = new HBox();
                             hbox.setSpacing(5);
-                            hbox.getChildren().setAll(UIUtil.createTag(item));
+                            hbox.getChildren().setAll(Tags.toNodes(item));
                             this.setGraphic(hbox);
                         }
                     }

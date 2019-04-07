@@ -4,7 +4,7 @@ import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Images;
 import com.goexp.galgame.gui.util.LocalRes;
-import com.goexp.galgame.gui.util.UIUtil;
+import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.common.StateChangeController;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
@@ -128,15 +128,23 @@ public class HeaderController {
         txtName.setText(find ? game.name.substring(0, matcher.start()) : game.name);
         txtSubName.setText(find ? game.name.substring(matcher.start()) : "");
 
-        flowPainter.getChildren().setAll(UIUtil.createSetLink(game.painter, label -> {
+        flowPainter.getChildren().setAll(Tags.toNodes(game.painter, str1 -> {
+            var tagLabel1 = new Hyperlink(str1);
+
+            return tagLabel1;
         }));
         txtWriter.setText(game.writer.stream().collect(Collectors.joining(",")));
 
         if (game.tag.size() > 0) {
-            boxTag.getChildren().setAll(UIUtil.createSet(game.tag, label -> {
-                label.getStyleClass().add("tag");
-                label.getStyleClass().add("tagbig");
-            }));
+            var nodes = Tags.toNodes(game.tag, str -> {
+                var tagLabel = new Label(str);
+                tagLabel.getStyleClass().add("tag");
+                tagLabel.getStyleClass().add("tagbig");
+
+                return tagLabel;
+            });
+
+            boxTag.getChildren().setAll(nodes);
         } else {
             boxTag.getChildren().clear();
         }

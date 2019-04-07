@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.view.dataview;
 
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.util.UIUtil;
+import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.dataview.imglistview.GameImgListController;
 import com.goexp.galgame.gui.view.dataview.sidebar.BrandGroupController;
 import com.goexp.galgame.gui.view.dataview.sidebar.DateGroupController;
@@ -158,17 +158,12 @@ public class DataViewController {
 
         var data = filteredGames.stream()
                 .filter(g -> g.tag.size() > 0)
-                .flatMap(g -> g.tag.stream())
+                .flatMap(g -> g.tag.stream().filter(t -> !t.isEmpty()))
                 .collect(Collectors.groupingBy(str -> str))
                 .entrySet().stream()
                 .sorted(Comparator.comparing((Map.Entry<String, List<String>> v) -> {
                     return v.getValue().size();
                 }).reversed())
-//                .collect(Collectors.toList());
-//
-//        // top 10
-//
-//        var PieData = data.stream()
                 .limit(20)
                 .map(k -> {
 
@@ -177,7 +172,7 @@ public class DataViewController {
 
 
                     logger.debug("<createTagGroup> Name:{},Value:{}", key, value);
-                    return new HBox(UIUtil.createTag(key).get(0), new Label("(" + value + ")"));
+                    return new HBox(Tags.toNodes(List.of(key)).get(0), new Label("(" + value + ")"));
                 })
                 .collect(Collectors.toList());
 

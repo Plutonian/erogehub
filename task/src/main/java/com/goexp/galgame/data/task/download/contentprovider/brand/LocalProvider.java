@@ -16,12 +16,11 @@ public class LocalProvider {
 
         try {
             var bytes = Files.readAllBytes(path);
-            GetChu.BrandService.gamesFrom(bytes);
+            return GetChu.BrandService.gamesFrom(bytes);
         } catch (IOException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
-
-        return null;
     }
 
 }

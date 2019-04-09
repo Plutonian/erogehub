@@ -28,8 +28,7 @@ public enum BrandType {
                 .filter(type -> {
                     return type.value == value;
                 })
-                .findFirst()
-                .get();
+                .findFirst().orElseThrow();
     }
 
     public static BrandType from(String name) {
@@ -38,8 +37,7 @@ public enum BrandType {
                 .filter(type -> {
                     return type.name.equals(name);
                 })
-                .findFirst()
-                .get();
+                .findFirst().orElseThrow();
     }
 
     public String getName() {

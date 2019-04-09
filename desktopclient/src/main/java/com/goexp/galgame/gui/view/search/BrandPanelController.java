@@ -1,5 +1,6 @@
 package com.goexp.galgame.gui.view.search;
 
+import com.goexp.common.util.Strings;
 import com.goexp.galgame.common.model.BrandType;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
@@ -131,21 +132,10 @@ public class BrandPanelController {
 
                 Optional.ofNullable(this.getTreeTableRow())
                         .map(TreeTableRow::getTreeItem)
-                        .ifPresent(treeitem -> {
-
-                            if (!treeitem.isLeaf()) {
-                                var brand = treeitem.getValue();
-
-                                Optional.ofNullable(brand).ifPresent(b -> {
-//
-//                                    var link = new Label(brand.comp);
-//                                    link.setStyle("-fx-font-size:18px");
-//                                    this.setGraphic(link);
-
-                                    this.setText(brand.comp);
-                                });
-                            }
-
+                        .filter(TreeItem::isLeaf)
+                        .map(TreeItem::getValue)
+                        .ifPresent(brand -> {
+                            this.setText(brand.comp);
                         });
 
             }
@@ -161,13 +151,12 @@ public class BrandPanelController {
                     super.updateItem(item, empty);
                     this.setGraphic(null);
 
-                    if (!empty && item != null) {
-                        Optional.ofNullable(this.getTreeTableRow()).map(TreeTableRow::getTreeItem).ifPresent(treeitem -> {
-
-                            if (treeitem.isLeaf()) {
-                                if (item.length() > 0) {
-
-                                    final var brand = this.getTreeTableRow().getTreeItem().getValue();
+                    if (!empty && !Strings.isEmpty(item)) {
+                        Optional.ofNullable(this.getTreeTableRow())
+                                .map(TreeTableRow::getTreeItem)
+                                .filter(TreeItem::isLeaf)
+                                .map(TreeItem::getValue)
+                                .ifPresent(brand -> {
                                     var titleLabel = new Hyperlink();
                                     titleLabel.setText(item);
                                     titleLabel.setOnAction(event -> {
@@ -185,9 +174,7 @@ public class BrandPanelController {
 
                                     });
                                     this.setGraphic(titleLabel);
-                                }
-                            }
-                        });
+                                });
                     }
                 }
             };
@@ -200,26 +187,18 @@ public class BrandPanelController {
                 this.setGraphic(null);
 
                 if (!empty) {
-
                     Optional.ofNullable(this.getTreeTableRow())
                             .map(TreeTableRow::getTreeItem)
-                            .ifPresent(treeitem -> {
-
-                                if (treeitem.isLeaf()) {
-                                    var brand = treeitem.getValue();
-
-                                    Optional.ofNullable(brand).ifPresent(b -> {
-
-                                        var link = new Hyperlink("関連ゲーム");
-                                        link.setOnAction(event -> {
-                                            targetBrand = brand;
-                                            onLoadProperty.set(true);
-                                            onLoadProperty.set(false);
-                                        });
-                                        this.setGraphic(link);
-                                    });
-                                }
-
+                            .filter(TreeItem::isLeaf)
+                            .map(TreeItem::getValue)
+                            .ifPresent(brand -> {
+                                var link = new Hyperlink("関連ゲーム");
+                                link.setOnAction(event -> {
+                                    targetBrand = brand;
+                                    onLoadProperty.set(true);
+                                    onLoadProperty.set(false);
+                                });
+                                this.setGraphic(link);
                             });
 
                 }
@@ -234,24 +213,6 @@ public class BrandPanelController {
                 root.getChildren().setAll(newValue);
                 treeBrandPanel.setRoot(root);
                 tableBrand.setRoot(root);
-
-//                var subNode = newValue.stream()
-//                        .map(brandTreeItem -> {
-//
-//                            var subBrand = new Brand();
-//                            subBrand.children = brandTreeItem.getChildren().stream().map(subItem -> {
-//                                return subItem.getValue();
-//                            }).collect(Collectors.toList());
-//                            var rootN = new TreeItem<>(brandTreeItem.getValue());
-//                            rootN.getChildren().add(new TreeItem<>(subBrand));
-//                            return rootN;
-//                        }).collect(Collectors.toList());
-//
-//                var root2 = new TreeItem<Brand>();
-//                root2.getChildren().setAll(subNode);
-//                treeBrandPanel.setRoot(root2);
-
-
             }
         };
 
@@ -262,9 +223,7 @@ public class BrandPanelController {
         brandByCompService.valueProperty().addListener(handler);
 
 
-        var types = Stream.of(
-                BrandType.values()
-        ).collect(Collectors.toList());
+        var types = Stream.of(BrandType.values()).collect(Collectors.toUnmodifiableList());
 
         choiceBrandType.setItems(FXCollections.observableArrayList(types));
         choiceBrandType.setConverter(new StringConverter<>() {
@@ -334,27 +293,6 @@ public class BrandPanelController {
                             var node = new Label();
                             node.setText(item.comp);
                             node.setStyle("-fx-font-size:18px");
-
-//                                var root = new BorderPane();
-//
-//                                var brandlist = new TilePane();
-//                                brandlist.setPrefColumns(5);
-//                                root.setCenter(brandlist);
-//                                root.setTop(node);
-//
-//
-//                                var brandNodes = treeItem.getChildren().stream()
-//                                        .map(t -> {
-//                                            var b = t.getValue();
-//                                            var loader = new FXMLLoaderProxy("view/search/brandcell.fxml");
-//                                            var rootNode = (Region) loader.load();
-//                                            var controller = (BrandTreeCellController) loader.getController();
-//                                            controller.load(b);
-//
-//                                            return rootNode;
-//                                        }).collect(Collectors.toList());
-//
-//                                brandlist.getChildren().setAll(brandNodes);
 
                             setGraphic(node);
                         }

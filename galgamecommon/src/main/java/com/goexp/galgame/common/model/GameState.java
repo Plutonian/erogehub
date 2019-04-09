@@ -25,8 +25,7 @@ public enum GameState {
 
         return Stream.of(GameState.values())
                 .filter(type -> type.value == value)
-                .findFirst()
-                .get();
+                .findFirst().orElseThrow();
     }
 
     public static GameState from(String name) {
@@ -35,8 +34,7 @@ public enum GameState {
                 .filter(type -> {
                     return type.name.equals(name);
                 })
-                .findFirst()
-                .get();
+                .findFirst().orElseThrow();
     }
 
     public String getName() {

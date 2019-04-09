@@ -1,5 +1,6 @@
 package com.goexp.galgame.data.task.others;
 
+import com.goexp.common.util.Strings;
 import com.goexp.galgame.data.db.importor.mongdb.BrandDB;
 import com.goexp.galgame.data.db.query.mongdb.BrandQuery;
 import org.slf4j.Logger;
@@ -15,61 +16,83 @@ import java.util.stream.Collectors;
 
 public class GroupBrandTask {
 
-    static Set<String> rem = Set.of("x",
-            "ad",
-            "bz",
-            "cc",
-            "co",
-            "ea",
-            "gr",
-            "id",
-            "in",
-            "jp",
-            "kt",
-            "la",
-            "me",
-            "ne",
-            "nu",
-            "nz",
-            "or",
-            "oz",
-            "ph",
-            "pw",
-            "sc",
-            "tk",
-            "to",
-            "tv",
-            "vc",
-            "com",
-            "net",
-            "app",
-            "ass",
-            "fc2",
-            "web",
-            "jpn",
-            "biz",
-            "dti",
-//            "ssw",
-//            "q-x",
-            "ics",
-            "kir",
-//            "mmv",
-            "org",
-            "xii",
-//            "m3e",
-//            "zoo",
-//            "suki",
-            "info",
-            "from",
-            "site",
-            "soft",
-            "sexy",
-            "game",
-            "software"
-    );
+    static class Processor {
 
-    static List<String> clean(String host) {
-        return Arrays.stream(host.split("\\.")).filter(s -> !rem.contains(s)).collect(Collectors.toUnmodifiableList());
+        static final Pattern hostRegex = Pattern.compile("http[s]?://(?:ww[^\\.]+\\.)?(?<host>[^/]+)[/]?");
+
+        private final static Set<String> rem = Set.of("x",
+                "ad",
+                "bz",
+                "cc",
+                "co",
+                "ea",
+                "gr",
+                "id",
+                "in",
+                "jp",
+                "kt",
+                "la",
+                "me",
+                "ne",
+                "nu",
+                "nz",
+                "or",
+                "oz",
+                "ph",
+                "pw",
+                "sc",
+                "tk",
+                "to",
+                "tv",
+                "vc",
+                "com",
+                "net",
+                "app",
+                "ass",
+                "fc2",
+                "web",
+                "jpn",
+                "biz",
+                "dti",
+                //            "ssw",
+                //            "q-x",
+                "ics",
+                "kir",
+                //            "mmv",
+                "org",
+                "xii",
+                //            "m3e",
+                //            "zoo",
+                //            "suki",
+                "info",
+                "from",
+                "site",
+                "soft",
+                "sexy",
+                "game",
+                "software"
+        );
+
+        private static List<String> clean(String host) {
+            return Arrays.stream(host.split("\\.")).filter(s -> !rem.contains(s)).collect(Collectors.toUnmodifiableList());
+        }
+
+        private static String getComp(String host) {
+            var temp = clean(host);
+            return temp.size() > 0 ? temp.get(temp.size() - 1) : "";
+        }
+
+        private static String getHost(String url) {
+            var hostMatcher = hostRegex.matcher(url);
+            return hostMatcher.find() ? hostMatcher.group("host") : "";
+        }
+
+
+        static String comp(String url) {
+            var host = getHost(url);
+
+            return getComp(host);
+        }
     }
 
     public static void main(String[] args) {
@@ -79,43 +102,22 @@ public class GroupBrandTask {
 
         var importor = new BrandDB();
 
-        var hostRegex = Pattern.compile("http[s]?://(?:ww[^\\.]+\\.)?(?<host>[^/]+)[/]?");
+        BrandQuery.tlp.query().list().stream()
+                .filter(b -> !Strings.isEmpty(b.website))
+                .collect(Collectors.groupingBy(b -> Processor.comp(b.website)))
+                .forEach((k, v) -> {
+                    if (!k.isEmpty() && v.size() > 1) {
+                        logger.debug("{}", k);
 
-        BrandQuery.tlp.query()
-                .list()
-                .stream()
-                .filter(b -> {
-                    return b.website != null && b.website.trim().length() > 0;
-                })
-                .collect(Collectors.groupingBy(b -> {
-                    var hostMatcher = hostRegex.matcher(b.website);
-                    var host = hostMatcher.find() ? hostMatcher.group("host") : "";
-
-                    logger.debug("{}", b.website);
-                    logger.debug("{}", host);
-
-
-                    var cleaned = clean(host);
-
-                    return cleaned.size() > 0 ? cleaned.get(cleaned.size() - 1) : "";
-
-                }))
-                .entrySet().stream()
-
-                .filter(entry -> !entry.getKey().isEmpty() && entry.getValue().size() > 1)
-                .forEach(entry -> {
-
-                    logger.debug("{}", entry.getKey());
-
-                    entry.getValue().forEach(b -> {
-                        b.comp = entry.getKey();
-//                        logger.debug("{}", b);
-                        importor.updateComp(b);
-                    });
-
-
+                        v.forEach(b -> {
+                            if (Strings.isEmpty(b.comp)) {
+                                logger.info("Raw:{} New:{}", b.comp, k);
+                                b.comp = k;
+                                importor.updateComp(b);
+                            }
+                        });
+                    }
                 });
-
 
     }
 
@@ -124,27 +126,18 @@ public class GroupBrandTask {
 
         public static void main(String[] args) {
 
-            var hostRegex = Pattern.compile("http[s]?://(?:ww[^\\.]+\\.)?(?<host>[^/]+)[/]?");
-
-            BrandQuery.tlp.query()
-                    .list()
-                    .stream()
-                    .filter(b -> {
-                        return b.website != null && b.website.trim().length() > 0;
-                    })
+            BrandQuery.tlp.query().list().stream()
+                    .filter(b -> !Strings.isEmpty(b.website))
                     .flatMap(b -> {
-                        var hostMatcher = hostRegex.matcher(b.website);
-                        var host = hostMatcher.find() ? hostMatcher.group("host") : "";
-
+                        var host = Processor.getHost(b.website);
 
                         return Arrays.stream(host.split("\\.")).skip(1);
                     })
                     .filter(s -> !s.isEmpty())
                     .collect(Collectors.groupingBy(str -> str))
                     .keySet().stream()
-                    .sorted(Comparator.comparing(str -> str.length()))
+                    .sorted(Comparator.comparing(String::length))
                     .forEach(k -> {
-
                         System.out.println("\"" + k + "\"" + ",");
                     });
         }

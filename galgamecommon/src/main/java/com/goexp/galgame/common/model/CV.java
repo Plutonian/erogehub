@@ -16,7 +16,7 @@ public class CV {
 
     public static Map<String, CV> getMap(List<CV> cvList) {
         return cvList.stream()
-                .map(cv -> {
+                .flatMap(cv -> {
                     return Arrays.stream(cv.nameStr.split("[=＝]"))
                             .map(name -> {
                                 var c = new CV();
@@ -27,8 +27,7 @@ public class CV {
 
                             });
                 })
-                .flatMap(s -> s)
-                .collect(Collectors.toMap((CV e) -> e.otherName, s -> s));
+                .collect(Collectors.toUnmodifiableMap(cv -> cv.otherName, cv -> cv));
     }
 
     @Override

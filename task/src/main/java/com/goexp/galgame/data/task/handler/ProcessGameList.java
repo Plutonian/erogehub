@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.util.stream.Collectors;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Projections.include;
 
 public class ProcessGameList extends DefaultMessageHandler<Integer> {
 
@@ -30,17 +31,17 @@ public class ProcessGameList extends DefaultMessageHandler<Integer> {
             var parseGameList = LocalProvider.getList(brandId);
 
             final var indbList = GameQuery.fullTlp.query()
-                    .where(eq("brandId", brandId))
-                    .list()
-                    .stream()
+                    .select(include("_id"))
+                    .where(eq("brandId", brandId)).list().stream()
                     .map(game -> game.id)
-                    .collect(Collectors.toUnmodifiableList());
+                    .collect(Collectors.toUnmodifiableSet());
 
 
             if (parseGameList.size() != indbList.size()) {
                 logger.debug("Brand:{},RemoteCount:{},LocalCount:{}", brandId, parseGameList.size(), indbList.size());
                 parseGameList.stream()
                         .filter(g -> !indbList.contains(g.id))
+                        //New Game
                         .forEach(newGame -> {
                             newGame.brandId = brandId;
                             newGame.state = GameState.UNCHECKED;

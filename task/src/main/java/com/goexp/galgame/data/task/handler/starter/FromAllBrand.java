@@ -13,8 +13,7 @@ public class FromAllBrand extends DefaultStarter<Integer> {
 
     @Override
     public void process(MessageQueueProxy<Message> msgQueue) {
-        BrandQuery.tlp.query()
-                .list()
+        BrandQuery.tlp.query().list()
                 .forEach(brand -> {
                     msgQueue.offer(new Message<>(99, brand.id));
                 });

@@ -7,8 +7,6 @@ import com.goexp.galgame.data.task.client.GetChu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.TimeUnit;
-
 public class DownloadBrandHandler extends DefaultMessageHandler<Integer> {
 
     private final Logger logger = LoggerFactory.getLogger(DownloadBrandHandler.class);
@@ -17,16 +15,16 @@ public class DownloadBrandHandler extends DefaultMessageHandler<Integer> {
     public void process(Message<Integer> message, MessageQueueProxy<Message> msgQueue) {
 
         var id = message.entity;
+        logger.info("Down:{}", id);
 
         try {
-
-            logger.info("Down:{}", id);
             GetChu.BrandService.download(id);
-
-            msgQueue.offer(new Message<>(MesType.Brand, id));
         } catch (Exception e) {
+            logger.error("ReDown:{}", id);
             msgQueue.offer(new Message<>(99, id));
             e.printStackTrace();
         }
+
+        msgQueue.offer(new Message<>(MesType.Brand, id));
     }
 }

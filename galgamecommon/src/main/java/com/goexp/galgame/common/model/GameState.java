@@ -24,9 +24,7 @@ public enum GameState {
     public static GameState from(int value) {
 
         return Stream.of(GameState.values())
-                .filter(type -> {
-                    return type.value == value;
-                })
+                .filter(type -> type.value == value)
                 .findFirst()
                 .get();
     }

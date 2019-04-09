@@ -7,8 +7,6 @@ import com.goexp.galgame.data.task.client.GetChu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
 public class DownloadGameHandler extends DefaultMessageHandler<Integer> {
 
     final private Logger logger = LoggerFactory.getLogger(DownloadGameHandler.class);
@@ -23,19 +21,14 @@ public class DownloadGameHandler extends DefaultMessageHandler<Integer> {
 
         try {
             GetChu.GameService.download(gid);
-
-        } catch (IOException | InterruptedException e) {
-            logger.error("Game:{}", gid);
-
+        } catch (Exception e) {
+            logger.error("Re-down:{}", gid);
             msgQueue.offer(new Message<>(MesType.NEED_DOWN_GAME, gid));
+            e.printStackTrace();
         }
 
         msgQueue.offer(new Message<>(MesType.Game, gid));
+
     }
 
-
-    //    @Override
-//    public ExecutorService getWorkerPool() {
-//        return Executors.newFixedThreadPool(1);
-//    }
 }

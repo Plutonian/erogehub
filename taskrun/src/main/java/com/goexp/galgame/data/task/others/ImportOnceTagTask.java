@@ -11,16 +11,9 @@ public class ImportOnceTagTask {
 
     public static void main(String[] args) {
 
-        var logger = LoggerFactory.getLogger(ImportOnceTagTask.class);
+        final var logger = LoggerFactory.getLogger(ImportOnceTagTask.class);
 
         Network.initProxy();
-
-//        var brandService = new BrandQuery();
-//        var localBrandMap = brandService.list()
-//                .stream()
-//                .collect(Collectors.toMap(b -> b.id, b -> b));
-//
-//        logger.info("Local:{}", localBrandMap.size());
 
         /**
          * download page from getchu
@@ -33,13 +26,17 @@ public class ImportOnceTagTask {
 
         var html = GetChu.getHtml(request);
 
-//        var html = ContentLoader.loadFromFile(Path.of("C:\\Users\\K\\Downloads\\カテゴリー一覧 - Getchu.com.html"), GetChu.DEFAULT_CHARSET);
+        /**
+         * parse html
+         */
 
-        var remoteTagList = new GetchuTagParser()
-                .parse(html);
+        var remoteTagList = new GetchuTagParser().parse(html);
 
         logger.info("Remote:{}", remoteTagList.size());
 
+        /**
+         * save to db
+         */
 
         var tagDb = new TagDB();
         tagDb.insert(remoteTagList);

@@ -19,8 +19,7 @@ public class UpdateBrandTask {
         Network.initProxy();
 
         final var localBrandMap = BrandQuery.tlp.query()
-                .list()
-                .stream()
+                .list().stream()
                 .collect(Collectors.toUnmodifiableMap(b -> b.id, b -> b));
 
         logger.info("Local:{}", localBrandMap.size());
@@ -32,11 +31,9 @@ public class UpdateBrandTask {
 
         final var html = GetChu.getHtml(request);
 
-        final var remoteBrandList = new GetchuBrandParser()
-                .parse(html);
+        final var remoteBrandList = new GetchuBrandParser().parse(html);
 
         logger.info("Remote:{}", remoteBrandList.size());
-
 
         final var brandDb = new BrandDB();
 
@@ -51,14 +48,12 @@ public class UpdateBrandTask {
                     logger.info("Local: {},Remote: {}", localBrand, remoteBrand);
                     brandDb.updateWebsite(remoteBrand);
                 }
-                //Insert
-            } else {
 
+            } else {
+                //Insert
                 logger.info("<Insert> {}", remoteBrand);
                 brandDb.insert(remoteBrand);
             }
         }
-
-
     }
 }

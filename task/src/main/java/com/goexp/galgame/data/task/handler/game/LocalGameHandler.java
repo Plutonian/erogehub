@@ -33,15 +33,12 @@ public class LocalGameHandler extends DefaultMessageHandler<Integer> {
         try {
             var path = Config.GAME_CACHE_ROOT.resolve(String.format("%d.bytes", id));
 
-            if (Files.exists(path)) {
-                return Files.readAllBytes(path);
-            }
+            return Files.readAllBytes(path);
 
         } catch (IOException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
-
-        return null;
     }
 
 

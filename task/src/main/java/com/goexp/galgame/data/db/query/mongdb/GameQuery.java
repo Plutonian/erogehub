@@ -143,7 +143,7 @@ public class GameQuery {
 
                 g.gameCharacters = ((List<Document>) doc.get("gamechar")).stream()
                         .map(gamecharCreator::create)
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toUnmodifiableList());
 
                 return g;
             }
@@ -159,7 +159,7 @@ public class GameQuery {
 
                 g.gameImgs = ((List<Document>) doc.get("simpleImg")).stream()
                         .map(simpleImgCreator::create)
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toUnmodifiableList());
 
                 return g;
             }

@@ -10,7 +10,6 @@ import com.goexp.galgame.data.task.download.contentprovider.brand.LocalProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -37,26 +36,23 @@ public class ProcessGameList extends DefaultMessageHandler<Integer> {
                     .map(game -> game.id)
                     .collect(Collectors.toUnmodifiableList());
 
-            Optional.ofNullable(parseGameList).ifPresent((list) -> {
 
+            if (parseGameList.size() != indbList.size()) {
+                logger.debug("Brand:{},RemoteCount:{},LocalCount:{}", brandId, parseGameList.size(), indbList.size());
+                parseGameList.stream()
+                        .filter(g -> !indbList.contains(g.id))
+                        .forEach(newGame -> {
+                            newGame.brandId = brandId;
+                            newGame.state = GameState.UNCHECKED;
 
-                if (list.size() != indbList.size()) {
-                    logger.debug("Brand:{},RemoteCount:{},LocalCount:{}", brandId, list.size(), indbList.size());
-                    list.stream()
-                            .filter(g -> !indbList.contains(g.id))
-                            .forEach(newGame -> {
-                                newGame.brandId = brandId;
-                                newGame.state = GameState.UNCHECKED;
+                            logger.info("<Insert> {}", newGame.simpleView());
+                            importor.insert(newGame);
 
-                                logger.info("<Insert> {}", newGame.simpleView());
-                                importor.insert(newGame);
+                            msgQueue.offer(new Message<>(MesType.NEED_DOWN_GAME, newGame.id));
+                        });
 
-                                msgQueue.offer(new Message<>(MesType.NEED_DOWN_GAME, newGame.id));
-                            });
+            }
 
-                }
-
-            });
         } catch (Exception e) {
             logger.error("Brand:{}", brandId);
 

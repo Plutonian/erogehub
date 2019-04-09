@@ -19,15 +19,13 @@ import com.goexp.galgame.data.task.handler.game.ProcessGameOK;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static com.mongodb.client.model.Filters.eq;
 
 public class ImportFromLocalAliveBrandTask {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         Network.initProxy();
 
@@ -54,8 +52,7 @@ public class ImportFromLocalAliveBrandTask {
             BrandQuery.tlp.query()
                     .list()
                     .forEach(brand -> {
-                        msgQueue.offer(new Message(MesType.Brand, brand.id), 60, TimeUnit.SECONDS);
-
+                        msgQueue.offer(new Message(MesType.Brand, brand.id));
                     });
 
 
@@ -69,11 +66,7 @@ public class ImportFromLocalAliveBrandTask {
 
         @Override
         public void process(MessageQueueProxy<Message> msgQueue) {
-            try {
-                msgQueue.offer(new Message(MesType.Brand, 3), 60, TimeUnit.SECONDS);
-            } catch (Exception e) {
-            }
-
+            msgQueue.offer(new Message(MesType.Brand, 3));
             System.out.println("All Done!!!");
         }
 
@@ -98,29 +91,26 @@ public class ImportFromLocalAliveBrandTask {
                         .where(eq("brandId", brandId))
                         .list();
 
-                Optional.ofNullable(parseGameList).ifPresent((list) -> {
 
+                if (parseGameList.size() > indbList.size()) {
 
-                    if (list.size() > indbList.size()) {
+                    logger.debug("Brand:{},RemoteCount:{},LocalCount:{}", brandId, parseGameList.size(), indbList.size());
 
-                        logger.debug("Brand:{},RemoteCount:{},LocalCount:{}", brandId, list.size(), indbList.size());
+                    parseGameList.removeAll(indbList);
 
-                        parseGameList.removeAll(indbList);
+                    parseGameList.stream()
+                            .forEach(newGame -> {
+                                newGame.brandId = brandId;
+                                newGame.state = GameState.UNCHECKED;
 
-                        parseGameList.stream()
-                                .forEach(newGame -> {
-                                    newGame.brandId = brandId;
-                                    newGame.state = GameState.UNCHECKED;
+                                logger.info("<Insert> {}", newGame.simpleView());
+                                importor.insert(newGame);
 
-                                    logger.info("<Insert> {}", newGame.simpleView());
-                                    importor.insert(newGame);
+                                msgQueue.offer(new Message<>(MesType.Game, newGame.id), 60, TimeUnit.SECONDS);
+                            });
 
-                                    msgQueue.offer(new Message<>(MesType.Game, newGame.id), 60, TimeUnit.SECONDS);
-                                });
+                }
 
-                    }
-
-                });
             } catch (Exception e) {
                 logger.error("Brand:{}", brandId);
 

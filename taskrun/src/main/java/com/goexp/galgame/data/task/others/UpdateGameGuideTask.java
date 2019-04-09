@@ -1,6 +1,5 @@
 package com.goexp.galgame.data.task.others;
 
-import com.goexp.common.util.WebUtil;
 import com.goexp.galgame.common.model.CommonGame;
 import com.goexp.galgame.common.util.Network;
 import com.goexp.galgame.data.db.importor.mongdb.GuideDB;
@@ -21,8 +20,9 @@ import java.net.http.HttpRequest;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
+import static com.goexp.common.util.WebUtil.httpClient;
+import static com.goexp.common.util.WebUtil.noneProxyClient;
 import static com.mongodb.client.model.Filters.eq;
 import static java.net.http.HttpResponse.BodyHandlers.ofString;
 
@@ -74,8 +74,7 @@ public class UpdateGameGuideTask {
                         .build();
 
                 try {
-                    var res = WebUtil.noneProxyClient().send(req, ofString(CHARSET));
-                    var html = res.body();
+                    var html = noneProxyClient().send(req, ofString(CHARSET)).body();
 
                     var remoteList = new GameGuideParser.Sagaoz_Net().parse(html);
 
@@ -91,7 +90,7 @@ public class UpdateGameGuideTask {
 
                     insertlist.stream()
                             .forEach(guide -> {
-                                msgQueue.offer(new Message<>(1, guide), 10, TimeUnit.SECONDS);
+                                msgQueue.offer(new Message<>(1, guide));
                             });
 
                 } catch (IOException | InterruptedException e) {
@@ -136,8 +135,7 @@ public class UpdateGameGuideTask {
                         .build();
 
                 try {
-                    var res = WebUtil.httpClient.send(req, ofString(CHARSET));
-                    var html = res.body();
+                    var html = httpClient.send(req, ofString(CHARSET)).body();
 
                     var remoteList = new GameGuideParser.Seiya_saiga().parse(html);
 
@@ -154,14 +152,8 @@ public class UpdateGameGuideTask {
                     insertlist.stream()
                             .distinct()
                             .forEach(guide -> {
-                                msgQueue.offer(new Message<>(1, guide), 10, TimeUnit.SECONDS);
+                                msgQueue.offer(new Message<>(1, guide));
                             });
-
-//                    remoteList.stream()
-//                            .distinct()
-//                            .forEach(guide -> {
-//                                msgQueue.offer(new Message<>(1, guide), 10, TimeUnit.SECONDS);
-//                            });
 
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();

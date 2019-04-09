@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.stream.Collectors;
 
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.not;
+
 public class GetTrueCVTask {
 
     private static GameDB gameDB = new GameDB();
@@ -26,27 +29,26 @@ public class GetTrueCVTask {
         logger.info("Init OK");
 
         GameQuery.fullTlpWithChar.query()
+                .where(not(eq("gamechar", null)))
                 .list()
                 .parallelStream()
                 .peek(game -> {
+                    game.gameCharacters = game.gameCharacters.stream()
+                            .peek(gameCharacter -> {
 
-                    if (game.gameCharacters != null)
-                        game.gameCharacters = game.gameCharacters.stream()
-                                .peek(gameCharacter -> {
+                                // cv is not empty && truecv is empty
+                                if (!Strings.isEmpty(gameCharacter.cv) && Strings.isEmpty(gameCharacter.trueCV)) {
+                                    var cv = cvMap.get(gameCharacter.cv.trim().toLowerCase());
 
-                                    // cv is not empty && truecv is empty
-                                    if (!Strings.isEmpty(gameCharacter.cv) && Strings.isEmpty(gameCharacter.trueCV)) {
-                                        var cv = cvMap.get(gameCharacter.cv.trim().toLowerCase());
-
-                                        // get true cv
-                                        if (cv != null) {
-                                            gameCharacter.trueCV = cv.name;
+                                    // get true cv
+                                    if (cv != null) {
+                                        gameCharacter.trueCV = cv.name;
 //
-                                            logger.info("CV:{},trueCV:{}", gameCharacter.cv, gameCharacter.trueCV);
-                                        }
+                                        logger.info("CV:{},trueCV:{}", gameCharacter.cv, gameCharacter.trueCV);
                                     }
-                                })
-                                .collect(Collectors.toUnmodifiableList());
+                                }
+                            })
+                            .collect(Collectors.toUnmodifiableList());
                 })
                 .forEach(game -> {
                     gameDB.updateChar(game);

@@ -47,8 +47,7 @@ public class MarkSameGameTask {
 
 //            msgQueue.offer(new Message<>(MesType.Brand, 10143));
 
-            BrandQuery.tlp.query()
-                    .list()
+            BrandQuery.tlp.query().list()
                     .forEach(brand -> {
                         msgQueue.offer(new Message<>(MesType.Brand, brand.id));
                     });
@@ -64,12 +63,10 @@ public class MarkSameGameTask {
         private ProcessBrandGame() {
             try {
                 try (var sameFileReader = new BufferedReader(new InputStreamReader(ProcessBrandGame.class.getResourceAsStream("/same.list")))) {
-
                     samelist = sameFileReader.lines().collect(Collectors.toUnmodifiableSet());
                 }
 
                 try (var packFileReader = new BufferedReader(new InputStreamReader(ProcessBrandGame.class.getResourceAsStream("/package.list")))) {
-
                     packagelist = packFileReader.lines().collect(Collectors.toUnmodifiableSet());
                 }
 
@@ -90,72 +87,68 @@ public class MarkSameGameTask {
             var brandId = message.entity;
             logger.debug("<Brand> {}", brandId);
 
-            var parseGameList = GameQuery.fullTlp.query()
+            GameQuery.fullTlp.query()
                     .where(eq("brandId", brandId))
-                    .list();
+                    .list().stream()
 
+                    //partitioning
+                    .collect(groupingBy(game -> {
+                        if (checkSameGamePredicate().test(game)) {
+                            return "same";
+                        } else if (checkpackageGamePredicate().test(game)) {
+                            return "package";
+                        } else {
+                            return "other";
+                        }
+                    }))
+                    .entrySet().stream()
+                    .flatMap(groupEntry -> {
 
-            Optional.ofNullable(parseGameList).ifPresent((list) -> {
-
-                list.stream()
-                        //partitioning
-                        .collect(groupingBy(game -> {
-                            if (checkSameGamePredicate().test(game)) {
-                                return "same";
-                            } else if (checkpackageGamePredicate().test(game)) {
-                                return "package";
-                            } else {
-                                return "other";
+                        final var value = groupEntry.getValue();
+                        final var key = groupEntry.getKey();
+                        switch (key) {
+                            case "same": {
+                                return value.stream()
+                                        .filter(game -> game.state == GameState.UNCHECKED)
+                                        .peek(game -> game.state = GameState.SAME);
                             }
-                        }))
-                        .entrySet().stream()
-                        .flatMap(groupEntry -> {
-
-                            final var checkedGames = groupEntry.getValue();
-
-                            switch (groupEntry.getKey()) {
-                                case "same": {
-                                    return checkedGames.stream()
-                                            .filter(game -> game.state == GameState.UNCHECKED)
-                                            .peek(game -> game.state = GameState.SAME);
-                                }
-                                case "package": {
-                                    return checkedGames.stream()
-                                            .filter(game -> game.state == GameState.UNCHECKED)
-                                            .peek(game -> game.state = GameState.PACKAGE);
-                                }
-                                case "other": {
-                                    return checkedGames.stream()
-                                            .filter(game -> game.publishDate != null)
-                                            .collect(groupingBy(game -> game.publishDate))
-                                            .entrySet().stream()
-                                            .filter(localDateListEntry -> localDateListEntry.getValue().size() > 1)
-                                            .flatMap(localDateListEntry -> {
-
-                                                //games by date
-                                                return localDateListEntry.getValue().stream()
-
-                                                        // only min-name-length is the target
-                                                        .sorted(Comparator.comparing(game -> game.name.length()))
-                                                        .skip(1)
-                                                        //only unchecked
-                                                        .filter(game -> game.state == GameState.UNCHECKED)
-                                                        .peek(game -> game.state = GameState.SAME);
-
-                                            });
-                                }
-                                default: {
-                                    throw new RuntimeException("Error");
-                                }
+                            case "package": {
+                                return value.stream()
+                                        .filter(game -> game.state == GameState.UNCHECKED)
+                                        .peek(game -> game.state = GameState.PACKAGE);
                             }
+                            case "other": {
+                                return value.stream()
+                                        .filter(game -> game.publishDate != null)
+                                        .collect(groupingBy(game -> game.publishDate))
 
-                        })
-                        .forEach(game -> {
+                                        .entrySet().stream()
+                                        .filter(localDateListEntry -> localDateListEntry.getValue().size() > 1)
+                                        .flatMap(localDateListEntry -> {
 
-                            logger.info("ID:{} Name: {}  State: {}", game.id, game.name, game.state);
-                            msgQueue.offer(new Message<>(UPDATE_STATE, game));
-                        });
-            });
+                                            //games by date
+                                            return localDateListEntry.getValue().stream()
+
+                                                    // only min-name-length is the target
+                                                    .sorted(Comparator.comparing(game -> game.name.length()))
+                                                    .skip(1)
+                                                    //only unchecked
+                                                    .filter(game -> game.state == GameState.UNCHECKED)
+                                                    .peek(game -> game.state = GameState.SAME);
+
+                                        });
+                            }
+                            default: {
+                                throw new RuntimeException("Error");
+                            }
+                        }
+
+                    })
+                    .forEach(game -> {
+
+                        logger.info("ID:{} Name: {}  State: {}", game.id, game.name, game.state);
+                        msgQueue.offer(new Message<>(UPDATE_STATE, game));
+                    });
 
         }
 
@@ -180,21 +173,13 @@ public class MarkSameGameTask {
             var brandId = message.entity;
             logger.debug("<Brand> {}", brandId);
 
-            var parseGameList = GameQuery.fullTlp.query()
+            GameQuery.fullTlp.query()
                     .where(eq("brandId", brandId))
-                    .list();
-
-
-            Optional.ofNullable(parseGameList).ifPresent((list) -> {
-
-                list
-                        .forEach(game -> {
-                            game.state = GameState.UNCHECKED;
-                            msgQueue.offer(new Message<>(UPDATE_STATE, game));
-                        });
-
-            });
-
+                    .list()
+                    .forEach(game -> {
+                        game.state = GameState.UNCHECKED;
+                        msgQueue.offer(new Message<>(UPDATE_STATE, game));
+                    });
         }
 
     }

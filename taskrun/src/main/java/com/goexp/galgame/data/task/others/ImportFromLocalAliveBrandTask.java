@@ -19,8 +19,6 @@ import com.goexp.galgame.data.task.handler.game.ProcessGameOK;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.TimeUnit;
-
 import static com.mongodb.client.model.Filters.eq;
 
 public class ImportFromLocalAliveBrandTask {
@@ -92,16 +90,15 @@ public class ImportFromLocalAliveBrandTask {
 
                     parseGameList.removeAll(indbList);
 
-                    parseGameList.stream()
-                            .forEach(newGame -> {
-                                newGame.brandId = brandId;
-                                newGame.state = GameState.UNCHECKED;
+                    parseGameList.stream().forEach(newGame -> {
+                        newGame.brandId = brandId;
+                        newGame.state = GameState.UNCHECKED;
 
-                                logger.info("<Insert> {}", newGame.simpleView());
-                                importor.insert(newGame);
+                        logger.info("<Insert> {}", newGame.simpleView());
+                        importor.insert(newGame);
 
-                                msgQueue.offer(new Message<>(MesType.Game, newGame.id), 60, TimeUnit.SECONDS);
-                            });
+                        msgQueue.offer(new Message<>(MesType.Game, newGame.id));
+                    });
 
                 }
 

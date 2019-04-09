@@ -20,7 +20,7 @@ public class ListPageParser {
 
                 .stream()
                 .map(GameParser::parse)
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
     }
 
 

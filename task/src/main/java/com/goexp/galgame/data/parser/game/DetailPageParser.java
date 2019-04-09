@@ -1,5 +1,6 @@
 package com.goexp.galgame.data.parser.game;
 
+import com.goexp.galgame.common.model.CommonGame;
 import com.goexp.galgame.data.model.Game;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,8 +17,8 @@ public class DetailPageParser {
         var root = Jsoup.parse(html);
 
         var game = new DetailPartParser().parse(gameId, root);
-        game.gameCharacters = new GameCharPartParser().parse(gameId, root);
-        game.gameImgs = new SimpleImgPartParser().parse(gameId, root);
+        game.gameCharacters = new GameCharPartParser().parse(root);
+        game.gameImgs = new SimpleImgPartParser().parse(root);
 
         return game;
     }
@@ -93,7 +94,7 @@ public class DetailPageParser {
             return cvM.find() ? cvM.group("cv").trim() : "";
         }
 
-        private List<Game.GameCharacter> parse(int gameId, Document root) {
+        private List<CommonGame.GameCharacter> parse(Document root) {
             return root.select("#wrapper div.tabletitle:contains(キャラクター)")
                     .next()
                     .select("tbody>tr:nth-of-type(2n+1)")
@@ -106,15 +107,13 @@ public class DetailPageParser {
                         gameCharacter.img = tr.select("td:nth-of-type(1)>img").attr("src");
                         gameCharacter.cv = parseCV(title);
 
-//                    if (gameCharacter.cv.length() > 0) {
-//                        var trueCV=cvset.stream().filter(cv -> cv.otherNames.contains(gameCharacter.cv.toLowerCase())).findAny().orElse(new CV("", ""));
                         gameCharacter.trueCV = "";
-//                    }
                         gameCharacter.name = parseName(title.replace(gameCharacter.cv, ""));
                         gameCharacter.intro = tr.select("dl dd").html().replaceAll("\\<[^\\>]*\\>", "").trim();
                         index++;
                         return gameCharacter;
-                    }).collect(Collectors.toList());
+                    })
+                    .collect(Collectors.toUnmodifiableList());
         }
 
     }
@@ -123,7 +122,7 @@ public class DetailPageParser {
 
         private int imgIndex = 1;
 
-        private List<Game.GameImg> parse(int gameId, Document root) {
+        private List<CommonGame.GameImg> parse(Document root) {
             return root.select("#wrapper div.tabletitle:contains(サンプル画像)")
                     .next()
                     .select("a.highslide")
@@ -135,9 +134,7 @@ public class DetailPageParser {
                         img.index = imgIndex;
                         imgIndex++;
                         return img;
-                    }).collect(Collectors.toList());
+                    }).collect(Collectors.toUnmodifiableList());
         }
     }
-
-
 }

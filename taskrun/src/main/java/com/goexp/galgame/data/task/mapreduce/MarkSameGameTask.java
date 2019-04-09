@@ -33,12 +33,10 @@ public class MarkSameGameTask {
 
     public static void main(String[] args) {
 
-        var pipl = new Piplline(new FromAllBrand());
-
-        pipl.registryCPUTypeMessageHandler(MesType.Brand, new ProcessBrandGame());
-        pipl.registryIOTypeMessageHandler(UPDATE_STATE, new UpdateState());
-
-        pipl.start();
+        new Piplline(new FromAllBrand())
+                .registryCPUTypeMessageHandler(MesType.Brand, new ProcessBrandGame())
+                .registryIOTypeMessageHandler(UPDATE_STATE, new UpdateState())
+                .start();
 
     }
 

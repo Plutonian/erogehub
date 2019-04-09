@@ -19,17 +19,16 @@ public class FromAliveBrandTask {
         Network.initProxy();
 
 
-        var pipl = new Piplline(new FromAllBrand());
+        new Piplline(new FromAllBrand())
+                .registryIOTypeMessageHandler(99, new DownloadBrandHandler())
+                .registryCPUTypeMessageHandler(MesType.Brand, new ProcessGameList())
+                .registryIOTypeMessageHandler(MesType.NEED_DOWN_GAME, new DownloadGameHandler())
+                .registryCPUTypeMessageHandler(MesType.Game, new LocalGameHandler())
+                .registryCPUTypeMessageHandler(MesType.ContentBytes, new Bytes2Html())
+                .registryCPUTypeMessageHandler(MesType.ContentHtml, new Html2GameOK())
+                .registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameOK())
 
-        pipl.registryIOTypeMessageHandler(99, new DownloadBrandHandler());
-        pipl.registryCPUTypeMessageHandler(MesType.Brand, new ProcessGameList());
-        pipl.registryIOTypeMessageHandler(MesType.NEED_DOWN_GAME, new DownloadGameHandler());
-        pipl.registryCPUTypeMessageHandler(MesType.Game, new LocalGameHandler());
-        pipl.registryCPUTypeMessageHandler(MesType.ContentBytes, new Bytes2Html());
-        pipl.registryCPUTypeMessageHandler(MesType.ContentHtml, new Html2GameOK());
-        pipl.registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameOK());
-
-        pipl.start();
+                .start();
 
     }
 

@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class Piplline {
@@ -30,46 +32,48 @@ public class Piplline {
         msgQueueProxy = new MessageQueueProxy<>(1000);
     }
 
-    public void registry(HandlerConfig config) {
+    public Piplline registry(HandlerConfig config) {
         configs.add(config);
+        return this;
     }
 
 
-    private void registryMessageHandler(int mesType, MessageHandler messageHandler, ExecutorService executor) {
+    private Piplline registryMessageHandler(int mesType, MessageHandler messageHandler, ExecutorService executor) {
         configs.add(new HandlerConfig<>(mesType, messageHandler, executor));
+        return this;
     }
 
-    private void registryMessageHandler(int mesType, MessageHandler messageHandler, int threadCount) {
+    private Piplline registryMessageHandler(int mesType, MessageHandler messageHandler, int threadCount) {
         configs.add(new HandlerConfig<>(mesType, messageHandler, Executors.newFixedThreadPool(threadCount)));
+        return this;
     }
 
 
-    public void registryCPUTypeMessageHandler(int handleMesType, MessageHandler messageHandler) {
-        registryMessageHandler(handleMesType, messageHandler, 2);
+    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler messageHandler) {
+        return registryMessageHandler(handleMesType, messageHandler, 2);
     }
 
-    public void registryCPUTypeMessageHandler(int handleMesType, MessageHandler messageHandler, int threadCount) {
-        registryMessageHandler(handleMesType, messageHandler, threadCount);
+    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler messageHandler, int threadCount) {
+        return registryMessageHandler(handleMesType, messageHandler, threadCount);
     }
 
-    public void registryCPUTypeMessageHandler(int handleMesType, MessageHandler messageHandler, ExecutorService executor) {
-        registryMessageHandler(handleMesType, messageHandler, executor);
+    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler messageHandler, ExecutorService executor) {
+        return registryMessageHandler(handleMesType, messageHandler, executor);
     }
 
-    public void registryIOTypeMessageHandler(int handleMesType, MessageHandler messageHandler) {
-        registryMessageHandler(handleMesType, messageHandler, 30);
+    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler messageHandler) {
+        return registryMessageHandler(handleMesType, messageHandler, 30);
     }
 
-    public void registryIOTypeMessageHandler(int handleMesType, MessageHandler messageHandler, int threadCount) {
-        registryMessageHandler(handleMesType, messageHandler, threadCount);
+    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler messageHandler, int threadCount) {
+        return registryMessageHandler(handleMesType, messageHandler, threadCount);
     }
 
-    public void registryIOTypeMessageHandler(int handleMesType, MessageHandler messageHandler, ExecutorService executor) {
-        registryMessageHandler(handleMesType, messageHandler, executor);
+    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler messageHandler, ExecutorService executor) {
+        return registryMessageHandler(handleMesType, messageHandler, executor);
     }
 
     public void start() {
-
 
         var mesTypeMap = configs.stream()
                 .collect(Collectors.groupingBy(c -> c.mesType));

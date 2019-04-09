@@ -29,18 +29,13 @@ public class ImportFromLocalAliveBrandTask {
 
         Network.initProxy();
 
-
-        var pipl = new Piplline(new StartFromAllAliveBrand());
-
-        pipl.registryCPUTypeMessageHandler(MesType.Brand, new ProcessGameList());
-        pipl.registryCPUTypeMessageHandler(MesType.Game, new LocalGameHandler());
-        pipl.registryCPUTypeMessageHandler(MesType.ContentBytes, new Bytes2Html());
-        pipl.registryCPUTypeMessageHandler(MesType.ContentHtml, new Html2GameOK());
-        pipl.registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameOK());
-//        pipl.registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameCharOK());
-//        pipl.registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameImgOK());
-
-        pipl.start();
+        new Piplline(new StartFromAllAliveBrand())
+                .registryCPUTypeMessageHandler(MesType.Brand, new ProcessGameList())
+                .registryCPUTypeMessageHandler(MesType.Game, new LocalGameHandler())
+                .registryCPUTypeMessageHandler(MesType.ContentBytes, new Bytes2Html())
+                .registryCPUTypeMessageHandler(MesType.ContentHtml, new Html2GameOK())
+                .registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameOK())
+                .start();
 
     }
 
@@ -62,7 +57,6 @@ public class ImportFromLocalAliveBrandTask {
     }
 
     public static class BrandIds extends DefaultStarter<Integer> {
-
 
         @Override
         public void process(MessageQueueProxy<Message> msgQueue) {
@@ -117,17 +111,6 @@ public class ImportFromLocalAliveBrandTask {
                 e.printStackTrace();
             }
 
-//        var ids = list.idsByBrand(bid);
-//
-//        for (var id : ids) {
-//
-//            try {
-//                msgQueue.offer(new Message<>(MesType.Game, id), 60, TimeUnit.SECONDS);
-//                Thread.sleep(100);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
         }
 
     }

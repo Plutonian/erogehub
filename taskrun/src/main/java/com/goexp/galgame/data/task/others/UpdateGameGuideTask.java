@@ -47,11 +47,9 @@ public class UpdateGameGuideTask {
 
         public static void main(String[] args) {
 
-            var pipl = new Piplline(new Starter());
-
-            pipl.registryIOTypeMessageHandler(1, new PageContentHandler());
-
-            pipl.start();
+            new Piplline(new Starter())
+                    .registryIOTypeMessageHandler(1, new PageContentHandler())
+                    .start();
 
         }
 
@@ -108,11 +106,10 @@ public class UpdateGameGuideTask {
         public static void main(String[] args) {
 
             Network.initProxy();
-            var pipl = new Piplline(new Starter());
 
-            pipl.registryIOTypeMessageHandler(1, new PageContentHandler());
-
-            pipl.start();
+            new Piplline(new Starter())
+                    .registryIOTypeMessageHandler(1, new PageContentHandler())
+                    .start();
 
         }
 

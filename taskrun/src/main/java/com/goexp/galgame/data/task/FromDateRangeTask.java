@@ -22,14 +22,14 @@ public class FromDateRangeTask {
         var start = LocalDate.now().minusMonths(1).withDayOfMonth(1);
         var end = LocalDate.now().withMonth(12).withDayOfMonth(31);
 
-        var pipl = new Piplline(new FromDateRange(start, end));
-        pipl.registryCPUTypeMessageHandler(MesType.PRE_GAME, new PreProcessGame());
-        pipl.registryIOTypeMessageHandler(MesType.NEED_DOWN_GAME, new DownloadGameHandler());
-        pipl.registryCPUTypeMessageHandler(MesType.Game, new LocalGameHandler());
-        pipl.registryCPUTypeMessageHandler(MesType.ContentBytes, new Bytes2Html());
-        pipl.registryCPUTypeMessageHandler(MesType.ContentHtml, new Html2GameOK());
-        pipl.registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameOK());
-        pipl.start();
+        new Piplline(new FromDateRange(start, end))
+                .registryCPUTypeMessageHandler(MesType.PRE_GAME, new PreProcessGame())
+                .registryIOTypeMessageHandler(MesType.NEED_DOWN_GAME, new DownloadGameHandler())
+                .registryCPUTypeMessageHandler(MesType.Game, new LocalGameHandler())
+                .registryCPUTypeMessageHandler(MesType.ContentBytes, new Bytes2Html())
+                .registryCPUTypeMessageHandler(MesType.ContentHtml, new Html2GameOK())
+                .registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameOK())
+                .start();
     }
 
 }

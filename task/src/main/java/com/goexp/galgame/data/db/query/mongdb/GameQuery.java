@@ -82,9 +82,8 @@ public class GameQuery {
                 g.id = doc.getInteger("_id");
                 g.name = doc.getString("name");
                 g.brandId = doc.getInteger("brandId");
-                g.publishDate = Optional.ofNullable(doc.getDate("publishDate"))
-                        .map(DateUtil::toLocalDate)
-                        .orElse(null);
+                Optional.ofNullable(doc.getDate("publishDate"))
+                        .ifPresent(date -> g.publishDate = DateUtil.toLocalDate(date));
 
                 g.intro = doc.getString("intro");
                 g.story = doc.getString("story");
@@ -93,8 +92,9 @@ public class GameQuery {
                 g.writer = (List<String>) doc.get("writer");
                 g.tag = (List<String>) doc.get("tag");
                 g.type = (List<String>) doc.get("type");
-                g.state = Optional.ofNullable(doc.getInteger("state"))
-                        .map(GameState::from).orElse(null);
+                Optional.ofNullable(doc.getInteger("state"))
+                        .map(GameState::from)
+                        .ifPresent(gameState -> g.state = gameState);
 
                 logger.debug("{}", g);
 

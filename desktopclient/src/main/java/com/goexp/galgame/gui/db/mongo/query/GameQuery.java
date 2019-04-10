@@ -75,10 +75,8 @@ public class GameQuery {
                 g.name = doc.getString("name");
                 g.brand = new Brand();
                 g.brand.id = doc.getInteger("brandId");
-                g.publishDate = Optional
-                        .ofNullable(doc.getDate("publishDate"))
-                        .map(date -> DateUtil.toLocalDate(date))
-                        .orElse(null);
+                Optional.ofNullable(doc.getDate("publishDate"))
+                        .ifPresent(date -> g.publishDate = DateUtil.toLocalDate(date));
 
                 g.intro = doc.getString("intro");
                 g.story = doc.getString("story");

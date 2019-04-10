@@ -141,7 +141,7 @@ public class SearchController {
         }
 
         public static SearchType from(int value) {
-            return Arrays.stream(SearchType.values()).filter(type -> type.value == value).findAny().orElse(null);
+            return Arrays.stream(SearchType.values()).filter(type -> type.value == value).findFirst().orElseThrow();
         }
     }
 }

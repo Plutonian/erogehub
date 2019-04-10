@@ -31,7 +31,6 @@ public class GameQuery {
         static class GameChar implements ObjectCreator<Game.GameCharacter> {
             private final Logger logger = LoggerFactory.getLogger(GameChar.class);
 
-
             @Override
             public Game.GameCharacter create(Document doc) {
                 var gameCharacter = new Game.GameCharacter();
@@ -63,7 +62,7 @@ public class GameQuery {
             }
         }
 
-        static class SimpleGame implements ObjectCreator<Game> {
+        static abstract class SimpleGame implements ObjectCreator<Game> {
 
             private final Logger logger = LoggerFactory.getLogger(SimpleGame.class);
 
@@ -97,80 +96,37 @@ public class GameQuery {
 
         static class FullGame extends SimpleGame {
 
+            private final GameChar gamecharCreator = new GameChar();
+            private final SimpleImg simpleImgCreator = new SimpleImg();
+
             @Override
             public Game create(Document doc) {
                 var g = super.create(doc);
-
-                Optional.ofNullable(doc.get("gamechar"))
-                        .ifPresent(list -> {
-
-                            var gamecharCreator = new GameChar();
-                            g.gameCharacters = ((List<Document>) list).stream()
-                                    .map(gamecharCreator::create)
-                                    .collect(Collectors.toUnmodifiableList());
-                        });
-
-
-                Optional.ofNullable(doc.get("simpleImg"))
-                        .ifPresent(list -> {
-                            var simpleImgCreator = new SimpleImg();
-
-                            g.gameImgs = ((List<Document>) list).stream()
-                                    .map(simpleImgCreator::create)
-                                    .collect(Collectors.toUnmodifiableList());
-
-                        });
+                g.gameCharacters = Optional.ofNullable(doc.get("gamechar")).map(list -> {
+                    return ((List<Document>) list).stream()
+                            .map(gamecharCreator::create)
+                            .collect(Collectors.toUnmodifiableList());
+                }).orElse(List.of());
+                g.gameImgs = Optional.ofNullable(doc.get("simpleImg")).map(list -> {
+                    return ((List<Document>) list).stream()
+                            .map(simpleImgCreator::create)
+                            .collect(Collectors.toUnmodifiableList());
+                }).orElse(List.of());
 
                 return g;
             }
         }
 
-        static class CharList extends SimpleGame {
-
-            @Override
-            public Game create(Document doc) {
-                var g = new Game();
-                Optional.ofNullable(doc.get("gamechar"))
-                        .ifPresent(list -> {
-
-                            var gamecharCreator = new GameChar();
-                            g.gameCharacters = ((List<Document>) list).stream()
-                                    .map(gamecharCreator::create)
-                                    .collect(Collectors.toUnmodifiableList());
-                        });
-
-                return g;
-            }
-        }
-
-        static class SimpleImgList extends SimpleGame {
-
-            @Override
-            public Game create(Document doc) {
-                var g = new Game();
-
-                Optional.ofNullable(doc.get("simpleImg"))
-                        .ifPresent(list -> {
-                            var simpleImgCreator = new SimpleImg();
-
-                            g.gameImgs = ((List<Document>) list).stream()
-                                    .map(simpleImgCreator::create)
-                                    .collect(Collectors.toUnmodifiableList());
-
-                        });
-                return g;
-            }
-        }
     }
 
     public static class GameCharQuery {
-        public static final DBQueryTemplate<Game> tlp = new DBQueryTemplate.Builder<Game>("galgame", "game", new Creator.CharList())
+        public static final DBQueryTemplate<Game> tlp = new DBQueryTemplate.Builder<>("galgame", "game", new Creator.FullGame())
                 .defaultSelect(include("gamechar"))
                 .build();
     }
 
     public static class GameImgQuery {
-        public static final DBQueryTemplate<Game> tlp = new DBQueryTemplate.Builder<Game>("galgame", "game", new Creator.SimpleImgList())
+        public static final DBQueryTemplate<Game> tlp = new DBQueryTemplate.Builder<>("galgame", "game", new Creator.FullGame())
                 .defaultSelect(include("simpleImg"))
                 .build();
     }

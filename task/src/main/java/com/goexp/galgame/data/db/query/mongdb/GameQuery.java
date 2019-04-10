@@ -17,13 +17,13 @@ import static com.mongodb.client.model.Projections.exclude;
 
 public class GameQuery {
 
-    public static final DBQueryTemplate<Game> fullTlp = new DBQueryTemplate.Builder<Game>("galgame",
+    public static final DBQueryTemplate<Game> fullTlp = new DBQueryTemplate.Builder<>("galgame",
             "game",
             new Creator.FullGame())
 //            .defaultSelect(exclude("gamechar", "simpleImg"))
             .build();
 
-    public static final DBQueryTemplate<Game> fullTlpWithChar = new DBQueryTemplate.Builder<Game>("galgame",
+    public static final DBQueryTemplate<Game> fullTlpWithChar = new DBQueryTemplate.Builder<>("galgame",
             "game",
             new Creator.FullGame())
             .defaultSelect(exclude("simpleImg"))
@@ -99,64 +99,27 @@ public class GameQuery {
 
         static class FullGame extends SimpleGame {
 
+            GameChar gamecharCreator = new GameChar();
+            SimpleImg simpleImgCreator = new SimpleImg();
+
             @Override
             public Game create(Document doc) {
                 var g = super.create(doc);
 
-
-                Optional.ofNullable(doc.get("gamechar"))
-                        .ifPresent(list -> {
-
-                            var gamecharCreator = new GameChar();
-                            g.gameCharacters = ((List<Document>) list).stream()
-                                    .map(gamecharCreator::create)
-                                    .collect(Collectors.toUnmodifiableList());
-                        });
-
-
-                Optional.ofNullable(doc.get("simpleImg"))
-                        .ifPresent(list -> {
-                            var simpleImgCreator = new SimpleImg();
-
-                            g.gameImgs = ((List<Document>) list).stream()
-                                    .map(simpleImgCreator::create)
-                                    .collect(Collectors.toUnmodifiableList());
-
-                        });
+                g.gameCharacters = Optional.ofNullable(doc.get("gamechar")).map(list -> {
+                    return ((List<Document>) list).stream()
+                            .map(gamecharCreator::create)
+                            .collect(Collectors.toUnmodifiableList());
+                }).orElse(List.of());
+                g.gameImgs = Optional.ofNullable(doc.get("simpleImg")).map(list -> {
+                    return ((List<Document>) list).stream()
+                            .map(simpleImgCreator::create)
+                            .collect(Collectors.toUnmodifiableList());
+                }).orElse(List.of());
 
                 return g;
             }
         }
 
-        static class CharList extends SimpleGame {
-
-            @Override
-            public Game create(Document doc) {
-                var g = new Game();
-                var gamecharCreator = new GameChar();
-
-                g.gameCharacters = ((List<Document>) doc.get("gamechar")).stream()
-                        .map(gamecharCreator::create)
-                        .collect(Collectors.toUnmodifiableList());
-
-                return g;
-            }
-        }
-
-        static class SimpleImgList extends SimpleGame {
-
-            @Override
-            public Game create(Document doc) {
-                var g = new Game();
-
-                var simpleImgCreator = new SimpleImg();
-
-                g.gameImgs = ((List<Document>) doc.get("simpleImg")).stream()
-                        .map(simpleImgCreator::create)
-                        .collect(Collectors.toUnmodifiableList());
-
-                return g;
-            }
-        }
     }
 }

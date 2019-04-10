@@ -34,12 +34,6 @@ public class GameQuery {
         static class GameChar implements ObjectCreator<Game.GameCharacter> {
             private final Logger logger = LoggerFactory.getLogger(GameChar.class);
 
-            private final int gameid;
-
-            public GameChar(int gameid) {
-                this.gameid = gameid;
-            }
-
             @Override
             public Game.GameCharacter create(Document doc) {
                 var gameCharacter = new Game.GameCharacter();
@@ -113,7 +107,7 @@ public class GameQuery {
                 Optional.ofNullable(doc.get("gamechar"))
                         .ifPresent(list -> {
 
-                            var gamecharCreator = new GameChar(g.id);
+                            var gamecharCreator = new GameChar();
                             g.gameCharacters = ((List<Document>) list).stream()
                                     .map(gamecharCreator::create)
                                     .collect(Collectors.toUnmodifiableList());
@@ -139,7 +133,7 @@ public class GameQuery {
             @Override
             public Game create(Document doc) {
                 var g = new Game();
-                var gamecharCreator = new GameChar(g.id);
+                var gamecharCreator = new GameChar();
 
                 g.gameCharacters = ((List<Document>) doc.get("gamechar")).stream()
                         .map(gamecharCreator::create)

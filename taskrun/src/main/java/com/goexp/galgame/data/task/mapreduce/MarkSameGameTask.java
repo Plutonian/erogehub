@@ -163,27 +163,6 @@ public class MarkSameGameTask {
 
     }
 
-    public static class FillProcessGameList extends DefaultMessageHandler<Integer> {
-
-        final private Logger logger = LoggerFactory.getLogger(ProcessBrandGame.class);
-
-        @Override
-        public void process(final Message<Integer> message, MessageQueueProxy<Message> msgQueue) {
-
-            var brandId = message.entity;
-            logger.debug("<Brand> {}", brandId);
-
-            GameQuery.fullTlp.query()
-                    .where(eq("brandId", brandId))
-                    .list()
-                    .forEach(game -> {
-                        game.state = GameState.UNCHECKED;
-                        msgQueue.offer(new Message<>(UPDATE_STATE, game));
-                    });
-        }
-
-    }
-
     public static class UpdateState extends DefaultMessageHandler<Game> {
 
         final private Logger logger = LoggerFactory.getLogger(UpdateState.class);

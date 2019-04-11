@@ -1,7 +1,5 @@
 package com.goexp.galgame.data.task.local
 
-import java.util
-
 import com.goexp.common.util.Strings
 import com.goexp.galgame.data.db.importor.mongdb.BrandDB
 import com.goexp.galgame.data.db.query.mongdb.BrandQuery
@@ -15,7 +13,7 @@ object GroupBrandTask {
   object Processor {
     private val hostRegex = "http[s]?://(?:ww[^\\.]+\\.)?(?<host>[^/]+)[/]?".r
 
-    private val rem = util.Set.of("x", "ad", "bz", "cc", "co", "ea", "gr", "id", "in", "jp", "kt", "la", "me", "ne", "nu", "nz", "or", "oz", "ph", "pw", "sc", "tk", "to", "tv", "vc", "com", "net", "app", "ass", "fc2", "web", "jpn", "biz", "dti", //            "ssw",
+    private val rem = Set("x", "ad", "bz", "cc", "co", "ea", "gr", "id", "in", "jp", "kt", "la", "me", "ne", "nu", "nz", "or", "oz", "ph", "pw", "sc", "tk", "to", "tv", "vc", "com", "net", "app", "ass", "fc2", "web", "jpn", "biz", "dti", //            "ssw",
       //            "q-x",
       "ics", "kir", //            "mmv",
       "org", "xii", //            "m3e",
@@ -23,7 +21,7 @@ object GroupBrandTask {
       //            "suki",
       "info", "from", "site", "soft", "sexy", "game", "software")
 
-    private def clean(host: String) = host.split("\\.").toStream.filter((s: String) => !rem.contains(s)).toList
+    private def clean(host: String) = host.split("\\.").toStream.filter(s => !rem.contains(s)).toList
 
     private def getComp(host: String) = {
       clean(host).lastOption.getOrElse("")

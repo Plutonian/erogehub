@@ -4,25 +4,19 @@ import com.goexp.galgame.common.model.TagType;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class GetchuTagParser {
 
     public List<TagType> parse(String html) {
-
-        var list = new ArrayList<TagType>();
-
-        Jsoup.parse(html)
+        return Jsoup.parse(html)
                 .select("#wrapper div.pc_headword:contains(カテゴリ一覧)").first()
                 .parent()
                 .select("div.category_pc_t")
-                .forEach(item -> {
-                    list.add(parse(item));
-                });
-
-        return list;
+                .stream()
+                .map(this::parse)
+                .collect(Collectors.toUnmodifiableList());
     }
 
     private TagType parse(Element item) {
@@ -35,9 +29,8 @@ public class GetchuTagParser {
 
         tagType.tags = item.nextElementSibling().select("a")
                 .stream()
-                .map(ele -> {
-                    return ele.text().trim();
-                }).collect(Collectors.toList());
+                .map(ele -> ele.text().trim())
+                .collect(Collectors.toUnmodifiableList());
 
         return tagType;
 

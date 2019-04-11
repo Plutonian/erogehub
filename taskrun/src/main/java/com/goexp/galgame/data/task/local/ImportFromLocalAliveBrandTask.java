@@ -54,16 +54,6 @@ public class ImportFromLocalAliveBrandTask {
 
     }
 
-    public static class BrandIds extends DefaultStarter<Integer> {
-
-        @Override
-        public void process(MessageQueueProxy<Message> msgQueue) {
-            msgQueue.offer(new Message(MesType.Brand, 3));
-            System.out.println("All Done!!!");
-        }
-
-    }
-
     public static class ProcessGameList extends DefaultMessageHandler<Integer> {
 
         final private Logger logger = LoggerFactory.getLogger(ProcessGameList.class);

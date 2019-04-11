@@ -1,9 +1,9 @@
 package com.goexp.galgame.data.task;
 
-import com.goexp.galgame.data.task.mapreduce.GetTrueCVTask;
-import com.goexp.galgame.data.task.mapreduce.MarkSameGameTask;
-import com.goexp.galgame.data.task.others.GroupBrandTask;
-import com.goexp.galgame.data.task.others.ImportFromLocalAliveBrandTask;
+import com.goexp.galgame.data.task.local.GetTrueCVTask;
+import com.goexp.galgame.data.task.local.GroupBrandTask;
+import com.goexp.galgame.data.task.local.ImportFromLocalAliveBrandTask;
+import com.goexp.galgame.data.task.local.MarkSameGameTask;
 import com.goexp.galgame.data.task.others.ImportOnceTagTask;
 import com.goexp.galgame.data.task.others.UpdateBrandTask;
 

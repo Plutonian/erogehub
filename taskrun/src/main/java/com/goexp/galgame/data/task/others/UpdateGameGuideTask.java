@@ -60,12 +60,12 @@ public class UpdateGameGuideTask {
             public void process(MessageQueueProxy<Message> msgQueue) {
 
 
-                var locallist = GuideQuery.tlp.query()
+                var localList = GuideQuery.tlp.query()
                         .where(eq("from", CommonGame.Guide.DataFrom.sagaoz_net.getValue()))
                         .list();
 
 
-                logger.info("Local:{}", locallist.size());
+                logger.info("Local:{}", localList.size());
 
                 var req = HttpRequest.newBuilder()
                         .uri(URI.create("http://sagaoz.net/foolmaker/game.html"))
@@ -80,7 +80,7 @@ public class UpdateGameGuideTask {
 
 
                     var insertlist = new ArrayList<>(remoteList);
-                    insertlist.removeAll(locallist);
+                    insertlist.removeAll(localList);
 
 
                     logger.info("Insert:{}", insertlist.size());

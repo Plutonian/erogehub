@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.task.mapreduce
+package com.goexp.galgame.data.task.local
 
 import org.atilika.kuromoji.Tokenizer
 

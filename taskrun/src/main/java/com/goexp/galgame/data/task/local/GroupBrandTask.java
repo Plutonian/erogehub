@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.task.others;
+package com.goexp.galgame.data.task.local;
 
 import com.goexp.common.util.Strings;
 import com.goexp.galgame.data.db.importor.mongdb.BrandDB;

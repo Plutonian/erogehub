@@ -25,34 +25,32 @@ object GetTrueCVTask {
 
     games.par
       .filter(g => Option(g.gameCharacters).map(_.size).getOrElse(0) > 0)
-      .map(game => {
+      .map(g => {
         var change = false
 
-        def isTargetGameCharacters(gChar: GameCharacter) = Strings.isNotEmpty(gChar.cv) && Strings.isEmpty(gChar.trueCV)
+        def isTargetGameCharacters(p: GameCharacter) = Strings.isNotEmpty(p.cv) && Strings.isEmpty(p.trueCV)
 
-        game.gameCharacters =
-          game.gameCharacters.asScala
-            .map(gChar => {
-              if (isTargetGameCharacters(gChar))
-                cvMap.get(gChar.cv.trim.toLowerCase) match {
-                  case Some(cv) => {
-                    gChar.trueCV = cv.name
+        g.gameCharacters =
+          g.gameCharacters.asScala
+            .map(p => {
+              if (isTargetGameCharacters(p))
+                cvMap.get(p.cv.trim.toLowerCase) match {
+                  case Some(cv) =>
+                    p.trueCV = cv.name
 
-                    logger.info(s"CV:${gChar.cv},trueCV:${gChar.trueCV}  Game: ${game.name} ")
+                    logger.info(s"CV:${p.cv},trueCV:${p.trueCV}  Game: ${g.name} ")
                     change = true
-                  }
-                  case _ => {}
+                  case _ =>
                 }
-              gChar
+              p
             }).asJava
 
-        (change, game)
+        (change, g)
       })
-      .foreach({
-        case (true, game) => {
+      .foreach {
+        case (true, game) =>
           gameDB.updateChar(game)
-        }
-        case _ => {}
-      })
+        case _ =>
+      }
   }
 }

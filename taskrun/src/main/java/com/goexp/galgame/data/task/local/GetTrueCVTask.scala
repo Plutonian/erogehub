@@ -1,5 +1,7 @@
 package com.goexp.galgame.data.task.local
 
+import java.util
+
 import com.goexp.common.util.Strings
 import com.goexp.galgame.common.model.CV
 import com.goexp.galgame.common.model.CommonGame.GameCharacter
@@ -17,10 +19,25 @@ object GetTrueCVTask {
 
   type Person = GameCharacter
 
+  def getMap(cvList: util.List[CV]) =
+    cvList.asScala
+      .toStream
+      .flatMap(cv => {
+        cv.nameStr.split("[=＝]")
+          .map((name: String) => {
+            val c = new CV
+            c.name = cv.name
+            c.trueName = name.trim.toLowerCase
+            c
+          })
+      })
+      .map(cv => cv.trueName -> cv)
+      .toMap
+
   def main(args: Array[String]) = {
 
     val list = CVQuery.tlp.query.list
-    val localCV = CV.getMap(list).asScala
+    val localCV = getMap(list)
 
     logger.info("Init OK")
 

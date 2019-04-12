@@ -5,12 +5,12 @@ import com.goexp.galgame.data.piplline.core.{Message, MessageQueueProxy}
 import com.goexp.galgame.data.piplline.handler.DefaultStarter
 import org.slf4j.LoggerFactory
 
-class FromAllBrand extends DefaultStarter[Integer] {
+class FromAllBrand extends DefaultStarter[Int] {
   private val logger = LoggerFactory.getLogger(classOf[FromAllBrand])
 
   override def process(msgQueue: MessageQueueProxy[Message[_]]) = {
     BrandQuery.tlp.query.list.forEach(brand => {
-      msgQueue.offer(new Message[Integer](99, brand.id))
+      msgQueue.offer(new Message[Int](99, brand.id))
     })
     logger.info("All Done!!!")
   }

@@ -9,7 +9,7 @@ import com.goexp.galgame.data.task.client.GetChu
 import com.goexp.galgame.data.task.handler.MesType
 import org.slf4j.LoggerFactory
 
-class FromDateRange(val start: LocalDate, val end: LocalDate) extends DefaultStarter[Integer] {
+class FromDateRange(val start: LocalDate, val end: LocalDate) extends DefaultStarter[Int] {
   private val logger = LoggerFactory.getLogger(classOf[FromDateRange])
 
   override def process(msgQueue: MessageQueueProxy[Message[_]]) = {

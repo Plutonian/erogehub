@@ -69,7 +69,11 @@ object GetChu {
 
     def gamesFrom(from: LocalDate, to: LocalDate): util.List[Game] = {
       try {
-        val bytes = WebUtil.httpClient.send(GetchuURL.RequestBuilder.create(GetchuURL.gameListFromDateRange(from, to)).adaltFlag.build, ofByteArray).asInstanceOf[HttpResponse[_]].body.asInstanceOf[Array[Byte]]
+
+        val request = GetchuURL.RequestBuilder.create(GetchuURL.gameListFromDateRange(from, to)).adaltFlag.build
+
+        val bytes = WebUtil.httpClient.send(request, ofByteArray).body
+
         val html = WebUtil.decodeGzip(bytes, DEFAULT_CHARSET)
         return new ListPageParser().parse(html)
       } catch {
@@ -87,18 +91,21 @@ object GetChu {
 
     @throws[IOException]
     @throws[InterruptedException]
-    def download(brandId: Int): Unit = try {
-      val localPath = Config.BRAND_CACHE_ROOT.resolve(s"$brandId.bytes")
-      val tempPath = Path.of(localPath.toString + "_")
-      val request = GetchuURL.RequestBuilder.create(GetchuURL.getListByBrand(brandId)).adaltFlag.build
-      WebUtil.httpClient.send(request, ofFile(tempPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE))
-      Files.move(tempPath, localPath, StandardCopyOption.REPLACE_EXISTING)
-      logger.debug("Download: Brand:${brandId}")
-    } catch {
-      case e@(_: IOException | _: InterruptedException) =>
-        logger.error(s"<Brand> $brandId Mes:${e.getMessage}")
-        throw e
-    }
+    def download(brandId: Int): Unit =
+      try {
+        val localPath = Config.BRAND_CACHE_ROOT.resolve(s"$brandId.bytes")
+        val tempPath = Path.of(s"${localPath}_")
+
+        val request = GetchuURL.RequestBuilder.create(GetchuURL.getListByBrand(brandId)).adaltFlag.build
+
+        WebUtil.httpClient.send(request, ofFile(tempPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE))
+        Files.move(tempPath, localPath, StandardCopyOption.REPLACE_EXISTING)
+        logger.debug(s"Download: Brand:$brandId")
+      } catch {
+        case e@(_: IOException | _: InterruptedException) =>
+          logger.error(s"<Brand> $brandId Mes:${e.getMessage}")
+          throw e
+      }
   }
 
 }

@@ -23,6 +23,6 @@ class PreProcessGame extends DefaultMessageHandler[Game] {
       logger.info("<Insert> {}", game.simpleView)
       importor.insert(game)
     }
-    msgQueue.offer(new Message[Integer](MesType.NEED_DOWN_GAME, game.id))
+    msgQueue.offer(new Message[Int](MesType.NEED_DOWN_GAME, game.id))
   }
 }

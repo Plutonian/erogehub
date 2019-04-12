@@ -14,11 +14,11 @@ import org.slf4j.LoggerFactory
 import scala.collection.JavaConverters._
 
 
-class ProcessGameList extends DefaultMessageHandler[Integer] {
+class ProcessGameList extends DefaultMessageHandler[Int] {
   final private val logger = LoggerFactory.getLogger(classOf[ProcessGameList])
   final private val importor = new GameDB
 
-  override def process(message: Message[Integer], msgQueue: MessageQueueProxy[Message[_]]): Unit = {
+  override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]): Unit = {
     val brandId = message.entity
     logger.debug("<Brand> {}", brandId)
     try {
@@ -41,7 +41,7 @@ class ProcessGameList extends DefaultMessageHandler[Integer] {
           logger.info("<Insert> {}", game.simpleView)
           importor.insert(game)
 
-          msgQueue.offer(new Message[Integer](MesType.NEED_DOWN_GAME, game.id))
+          msgQueue.offer(new Message[Int](MesType.NEED_DOWN_GAME, game.id))
         })
       }
     } catch {

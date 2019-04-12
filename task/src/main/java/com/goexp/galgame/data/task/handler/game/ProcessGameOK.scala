@@ -24,7 +24,7 @@ class ProcessGameOK extends DefaultMessageHandler[Game] {
     if (local == null && remote == null) return null
     if (local == null) return remote
     // make local cache
-    val localMap = local.asScala.toStream.map(cc => (cc.index, cc)).toMap
+    val localMap = local.asScala.toStream.map(cc => cc.index -> cc).toMap
     //merge local to remote
     remote.asScala.map((rc: CommonGame.GameCharacter) => {
       localMap.get(rc.index) match {

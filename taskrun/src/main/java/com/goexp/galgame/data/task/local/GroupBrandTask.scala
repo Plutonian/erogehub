@@ -3,7 +3,7 @@ package com.goexp.galgame.data.task.local
 import com.goexp.common.util.Strings
 import com.goexp.galgame.data.db.importor.mongdb.BrandDB
 import com.goexp.galgame.data.db.query.mongdb.BrandQuery
-import com.goexp.galgame.data.task.local.GroupBrandTask.Processor
+import com.goexp.galgame.data.task.local.GroupBrandTask.Extracker.getHost
 import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
@@ -16,20 +16,20 @@ object GroupBrandTask {
 
     BrandQuery.tlp.query.list.asScala.toStream
       .filter(b => Strings.isNotEmpty(b.website))
-      .groupBy(b => Processor.comp(b.website))
-      .filter({ case (k: String, v) => !k.isEmpty && v.size > 1 })
-      .foreach({ case (k: String, v) =>
+      .groupBy(b => Extracker.getComp(b.website))
+      .filter({ case (comp, v) => !comp.isEmpty && v.size > 1 })
+      .foreach({ case (comp, v) =>
         v.foreach(b => {
           if (Strings.isEmpty(b.comp)) {
-            logger.info(s"Raw:${b.comp} New:$k")
-            b.comp = k
+            logger.info(s"Raw:${b.comp} New:$comp")
+            b.comp = comp
             importor.updateComp(b)
           }
         })
       })
   }
 
-  object Processor {
+  object Extracker {
     private val hostRegex = "http[s]?://(?:ww[^\\.]+\\.)?(?<host>[^/]+)[/]?".r
 
     private val rem = Set("x", "ad", "bz", "cc", "co", "ea", "gr", "id", "in", "jp", "kt", "la", "me", "ne", "nu", "nz", "or", "oz", "ph", "pw", "sc", "tk", "to", "tv", "vc", "com", "net", "app", "ass", "fc2", "web", "jpn", "biz", "dti", //            "ssw",
@@ -40,19 +40,16 @@ object GroupBrandTask {
       //            "suki",
       "info", "from", "site", "soft", "sexy", "game", "software")
 
-    def comp(url: String) = {
-      val host = getHost(url)
-      getComp(host)
-    }
+    def getComp(url: String) = {
 
-    private def getComp(host: String) = {
+      def clean(host: String) = host.split("\\.").toStream.filter(!rem.contains(_))
+
+      val host = getHost(url)
       clean(host).lastOption.getOrElse("")
     }
 
-    private def clean(host: String) = host.split("\\.").toStream.filter(s => !rem.contains(s)).toList
-
     def getHost(url: String) = {
-      hostRegex.findFirstMatchIn(url).map(m => m.group("host")).getOrElse("")
+      hostRegex.findFirstMatchIn(url).map(_.group("host")).getOrElse("")
     }
   }
 
@@ -64,9 +61,9 @@ object GetRemove {
 
     BrandQuery.tlp.query.list.asScala.toStream
       .filter(b => Strings.isNotEmpty(b.website))
-      .flatMap(b => Processor.getHost(b.website).split("\\.").toStream.drop(1))
-      .filter(s => !s.isEmpty)
+      .flatMap(b => getHost(b.website).split(raw"\.").toStream.drop(1))
+      .filter(!_.isEmpty)
       .distinct
-      .sortBy(k => k.length)
+      .sortBy(_.length)
       .foreach(k => println(s"'$k',"))
 }

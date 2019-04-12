@@ -13,11 +13,14 @@ import scala.collection.JavaConverters._
 
 object GetTrueCVTask {
   private val gameDB = new GameDB
+  private val logger = LoggerFactory.getLogger(GetTrueCVTask.getClass)
+
+  type Person = GameCharacter
 
   def main(args: Array[String]) = {
-    val logger = LoggerFactory.getLogger(GetTrueCVTask.getClass)
 
-    val cvMap = CV.getMap(CVQuery.tlp.query.list).asScala
+    val list = CVQuery.tlp.query.list
+    val localCV = CV.getMap(list).asScala
 
     logger.info("Init OK")
 
@@ -28,23 +31,22 @@ object GetTrueCVTask {
       .map(g => {
         var change = false
 
-        def isTargetGameCharacters(p: GameCharacter) = Strings.isNotEmpty(p.cv) && Strings.isEmpty(p.trueCV)
-
         g.gameCharacters =
           g.gameCharacters.asScala
             .map(p => {
-              if (isTargetGameCharacters(p))
-                cvMap.get(p.cv.trim.toLowerCase) match {
-                  case Some(cv) =>
-                    p.trueCV = cv.name
+              def isTarget(p: Person) = Strings.isNotEmpty(p.cv) && Strings.isEmpty(p.trueCV)
 
-                    logger.info(s"CV:${p.cv},trueCV:${p.trueCV}  Game: ${g.name} ")
-                    change = true
-                  case _ =>
-                }
+              val cv = p.cv.trim.toLowerCase
+              if (isTarget(p) && localCV.contains(cv)) {
+                val trueCV = localCV(cv)
+                p.trueCV = trueCV.name
+
+                logger.info(s"CV:${p.cv},trueCV:${p.trueCV}  Game: ${g.name} ")
+                change = true
+              }
+
               p
             }).asJava
-
         (change, g)
       })
       .foreach {

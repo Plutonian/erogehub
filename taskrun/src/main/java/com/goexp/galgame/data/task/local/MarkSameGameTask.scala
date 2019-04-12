@@ -7,7 +7,6 @@ import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.piplline.core.{Message, MessageQueueProxy, Piplline}
 import com.goexp.galgame.data.piplline.handler.{DefaultMessageHandler, DefaultStarter}
 import com.goexp.galgame.data.task.handler.MesType
-import com.goexp.galgame.data.task.local.Fun.{FromAllBrand, ProcessBrandGame, UpdateState}
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 
@@ -22,11 +21,6 @@ object MarkSameGameTask {
     .registryCPUTypeMessageHandler(MesType.Brand, new ProcessBrandGame)
     .registryIOTypeMessageHandler(UPDATE_STATE, new UpdateState)
     .start()
-}
-
-package Fun {
-
-  import com.goexp.galgame.data.task.local.MarkSameGameTask.UPDATE_STATE
 
   class FromAllBrand extends DefaultStarter[Integer] {
     override def process(msgQueue: MessageQueueProxy[Message[_]]): Unit = {

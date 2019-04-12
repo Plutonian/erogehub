@@ -17,11 +17,11 @@ import scala.collection.JavaConverters._
 
 object ImportFromLocalAliveBrandTask {
 
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]) = {
     Network.initProxy()
 
     new Piplline(new ImportFromLocalAliveBrandTask.StartFromAllAliveBrand)
-      .registryCPUTypeMessageHandler(MesType.Brand, new ImportFromLocalAliveBrandTask.ProcessGameList)
+      .registryCPUTypeMessageHandler(MesType.Brand, new ProcessGameList)
       .registryCPUTypeMessageHandler(MesType.Game, new LocalGameHandler)
       .registryCPUTypeMessageHandler(MesType.ContentBytes, new Bytes2Html)
       .registryCPUTypeMessageHandler(MesType.ContentHtml, new Html2GameOK)
@@ -30,7 +30,7 @@ object ImportFromLocalAliveBrandTask {
   }
 
   class StartFromAllAliveBrand extends DefaultStarter[Int] {
-    override def process(msgQueue: MessageQueueProxy[Message[_]]): Unit = {
+    override def process(msgQueue: MessageQueueProxy[Message[_]]) = {
       BrandQuery.tlp.query.list
         .forEach(brand => {
           msgQueue.offer(new Message[Int](MesType.Brand, brand.id))
@@ -41,10 +41,10 @@ object ImportFromLocalAliveBrandTask {
   }
 
   class ProcessGameList extends DefaultMessageHandler[Int] {
-    private val logger = LoggerFactory.getLogger(classOf[ImportFromLocalAliveBrandTask.ProcessGameList])
+    private val logger = LoggerFactory.getLogger(classOf[ProcessGameList])
     private val importor = new GameDB
 
-    override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]): Unit = {
+    override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]) = {
       val brandId = message.entity
       logger.debug("<Brand> {}", brandId)
 

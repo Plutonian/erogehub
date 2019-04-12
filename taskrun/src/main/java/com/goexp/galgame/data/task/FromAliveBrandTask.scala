@@ -7,8 +7,8 @@ import com.goexp.galgame.data.task.handler.starter.FromAllBrand
 import com.goexp.galgame.data.task.handler.{DownloadBrandHandler, DownloadGameHandler, MesType, ProcessGameList}
 
 object FromAliveBrandTask {
-  def main(args: Array[String]): Unit = {
-    Network.initProxy
+  def main(args: Array[String]) = {
+    Network.initProxy()
 
     new Piplline(new FromAllBrand)
       .registryIOTypeMessageHandler(99, new DownloadBrandHandler)
@@ -18,6 +18,6 @@ object FromAliveBrandTask {
       .registryCPUTypeMessageHandler(MesType.ContentBytes, new Bytes2Html)
       .registryCPUTypeMessageHandler(MesType.ContentHtml, new Html2GameOK)
       .registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameOK)
-      .start
+      .start()
   }
 }

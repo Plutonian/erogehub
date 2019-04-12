@@ -28,10 +28,12 @@ object Seiya_saiga_com {
   }
 
   private class Starter extends DefaultStarter[CommonGame.Guide] {
-    final private[others] val logger = LoggerFactory.getLogger(classOf[DefaultStarter[_]])
+    private val logger = LoggerFactory.getLogger(classOf[Starter])
 
     override def process(msgQueue: MessageQueueProxy[Message[_]]): Unit = {
-      val localList = GuideQuery.tlp.query.where(Filters.eq("from", DataFrom.seiya_saiga_com.getValue)).list.asScala.toSet
+      val localList = GuideQuery.tlp.query
+        .where(Filters.eq("from", DataFrom.seiya_saiga_com.getValue))
+        .list.asScala.toSet
 
       logger.info(s"Local:${localList.size}")
 

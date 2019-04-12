@@ -12,15 +12,22 @@ import org.slf4j.LoggerFactory
 import scala.collection.JavaConverters._
 
 object UpdateBrandTask {
-  def main(args: Array[String]): Unit = {
-    val logger = LoggerFactory.getLogger(UpdateBrandTask.getClass)
+  private val logger = LoggerFactory.getLogger(UpdateBrandTask.getClass)
+
+  def main(args: Array[String]) = {
+
     Network.initProxy()
 
-    val localMap = BrandQuery.tlp.query.list.asScala.toStream.map(b => b.id -> b).toMap
+    val localMap = BrandQuery.tlp.query
+      .list.asScala.toStream
+      .map(b => b.id -> b)
+      .toMap
+
     logger.info(s"Local:${localMap.size}")
 
     val request = GetchuURL.RequestBuilder.create("http://www.getchu.com/all/brand.html?genre=pc_soft").adaltFlag.build
     val html = GetChu.getHtml(request)
+
     val remoteBrands = new GetchuBrandParser().parse(html).asScala
     logger.info(s"Remote: ${remoteBrands.size}")
 

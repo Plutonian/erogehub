@@ -4,7 +4,6 @@ import java.io.IOException
 import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse.BodyHandlers.ofString
-import java.util
 
 import com.goexp.common.util.WebUtil.noneProxyClient
 import com.goexp.galgame.common.model.CommonGame
@@ -25,11 +24,13 @@ object Sagaoz_net {
       .registryIOTypeMessageHandler(1, new PageContentHandler)
       .start()
 
-  private class Starter extends DefaultStarter[util.Map[String, AnyRef]] {
-    final private[others] val logger = LoggerFactory.getLogger(classOf[DefaultStarter[_]])
+  private class Starter extends DefaultStarter[CommonGame.Guide] {
+    private val logger = LoggerFactory.getLogger(classOf[Starter])
 
     override def process(msgQueue: MessageQueueProxy[Message[_]]): Unit = {
-      val localList = GuideQuery.tlp.query.where(Filters.eq("from", DataFrom.sagaoz_net.getValue)).list.asScala.toSet
+      val localList = GuideQuery.tlp.query
+        .where(Filters.eq("from", DataFrom.sagaoz_net.getValue))
+        .list.asScala.toSet
 
       logger.info(s"Local:${localList.size}")
 

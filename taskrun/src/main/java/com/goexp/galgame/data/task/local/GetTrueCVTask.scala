@@ -14,7 +14,7 @@ import scala.collection.JavaConverters._
 object GetTrueCVTask {
   private val gameDB = new GameDB
 
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]) = {
     val logger = LoggerFactory.getLogger(GetTrueCVTask.getClass)
 
     val cvMap = CV.getMap(CVQuery.tlp.query.list).asScala

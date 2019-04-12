@@ -17,30 +17,31 @@ object MarkSameGameTask {
 
   val UPDATE_STATE = 8
 
-  def main(args: Array[String]): Unit = new Piplline(new FromAllBrand)
-    .registryCPUTypeMessageHandler(MesType.Brand, new ProcessBrandGame)
-    .registryIOTypeMessageHandler(UPDATE_STATE, new UpdateState)
-    .start()
+  def main(args: Array[String]) =
+    new Piplline(new FromAllBrand)
+      .registryCPUTypeMessageHandler(MesType.Brand, new ProcessBrandGame)
+      .registryIOTypeMessageHandler(UPDATE_STATE, new UpdateState)
+      .start()
 
-  class FromAllBrand extends DefaultStarter[Integer] {
+  class FromAllBrand extends DefaultStarter[Int] {
     override def process(msgQueue: MessageQueueProxy[Message[_]]): Unit = {
       //            msgQueue.offer(new Message<>(MesType.Brand, 10143));
       BrandQuery.tlp.query.list
         .forEach(brand => {
-          msgQueue.offer(new Message[Integer](MesType.Brand, brand.id))
+          msgQueue.offer(new Message[Int](MesType.Brand, brand.id))
 
         })
     }
   }
 
-  class ProcessBrandGame extends DefaultMessageHandler[Integer] {
+  class ProcessBrandGame extends DefaultMessageHandler[Int] {
     private val samelist = Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/same.list")).getLines().toList
     private val packagelist = Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/package.list")).getLines().toList
 
 
     private val logger = LoggerFactory.getLogger(classOf[ProcessBrandGame])
 
-    override def process(message: Message[Integer], msgQueue: MessageQueueProxy[Message[_]]): Unit = {
+    override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]) = {
       val brandId = message.entity
       logger.debug("<Brand> {}", brandId)
 
@@ -90,14 +91,16 @@ object MarkSameGameTask {
 
     private def isSameGame = (game: Game) => samelist.exists(str => game.name.contains(str))
 
-    private def isPackageGame = (game: Game) => Option(game.`type`).map(_.asScala).getOrElse(List.empty).contains("セット商品") || packagelist.exists(str => game.name.contains(str))
+    private def isPackageGame = (game: Game) =>
+      Option(game.`type`).map(_.asScala).getOrElse(List.empty).contains("セット商品") ||
+        packagelist.exists(str => game.name.contains(str))
   }
 
   class UpdateState extends DefaultMessageHandler[Game] {
-    final private val logger = LoggerFactory.getLogger(classOf[UpdateState])
-    final private val stateDB = new GameDB.StateDB
+    private val logger = LoggerFactory.getLogger(classOf[UpdateState])
+    private val stateDB = new GameDB.StateDB
 
-    override def process(message: Message[Game], msgQueue: MessageQueueProxy[Message[_]]): Unit = {
+    override def process(message: Message[Game], msgQueue: MessageQueueProxy[Message[_]]) = {
       val game = message.entity
       logger.debug("<Game> {}", game.id)
       stateDB.update(game)

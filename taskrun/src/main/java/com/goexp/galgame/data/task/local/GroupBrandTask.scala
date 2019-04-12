@@ -10,6 +10,25 @@ import scala.collection.JavaConverters._
 
 object GroupBrandTask {
 
+  def main(args: Array[String]) = {
+    val logger = LoggerFactory.getLogger(GroupBrandTask.getClass)
+    val importor = new BrandDB
+
+    BrandQuery.tlp.query.list.asScala.toStream
+      .filter(b => Strings.isNotEmpty(b.website))
+      .groupBy(b => Processor.comp(b.website))
+      .filter({ case (k: String, v) => !k.isEmpty && v.size > 1 })
+      .foreach({ case (k: String, v) =>
+        v.foreach(b => {
+          if (Strings.isEmpty(b.comp)) {
+            logger.info(s"Raw:${b.comp} New:$k")
+            b.comp = k
+            importor.updateComp(b)
+          }
+        })
+      })
+  }
+
   object Processor {
     private val hostRegex = "http[s]?://(?:ww[^\\.]+\\.)?(?<host>[^/]+)[/]?".r
 
@@ -21,48 +40,27 @@ object GroupBrandTask {
       //            "suki",
       "info", "from", "site", "soft", "sexy", "game", "software")
 
-    private def clean(host: String) = host.split("\\.").toStream.filter(s => !rem.contains(s)).toList
+    def comp(url: String) = {
+      val host = getHost(url)
+      getComp(host)
+    }
 
     private def getComp(host: String) = {
       clean(host).lastOption.getOrElse("")
     }
 
+    private def clean(host: String) = host.split("\\.").toStream.filter(s => !rem.contains(s)).toList
+
     def getHost(url: String) = {
       hostRegex.findFirstMatchIn(url).map(m => m.group("host")).getOrElse("")
     }
-
-    def comp(url: String) = {
-      val host = getHost(url)
-      getComp(host)
-    }
-  }
-
-  def main(args: Array[String]): Unit = {
-    val logger = LoggerFactory.getLogger(GroupBrandTask.getClass)
-    val importor = new BrandDB
-
-    BrandQuery.tlp.query.list.asScala.toStream
-      .filter(b => Strings.isNotEmpty(b.website))
-      .groupBy(b => Processor.comp(b.website))
-      .filter({ case (k: String, v) => !k.isEmpty && v.size > 1 })
-      .foreach({ case (k: String, v) =>
-        //        logger.info(s"K:${k} V:$v ")
-
-        v.foreach(b => {
-          if (Strings.isEmpty(b.comp)) {
-            logger.info(s"Raw:${b.comp} New:$k")
-            b.comp = k
-            importor.updateComp(b)
-          }
-        })
-      })
   }
 
 
 }
 
 object GetRemove {
-  def main(args: Array[String]): Unit =
+  def main(args: Array[String]) =
 
     BrandQuery.tlp.query.list.asScala.toStream
       .filter(b => Strings.isNotEmpty(b.website))

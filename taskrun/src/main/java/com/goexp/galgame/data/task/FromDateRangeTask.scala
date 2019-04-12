@@ -9,8 +9,8 @@ import com.goexp.galgame.data.task.handler.starter.FromDateRange
 import com.goexp.galgame.data.task.handler.{DownloadGameHandler, MesType, PreProcessGame}
 
 object FromDateRangeTask {
-  def main(args: Array[String]): Unit = {
-    Network.initProxy
+  def main(args: Array[String]) = {
+    Network.initProxy()
 
     val start = LocalDate.now.minusMonths(1).withDayOfMonth(1)
     val end = LocalDate.now.withMonth(12).withDayOfMonth(31)
@@ -22,6 +22,6 @@ object FromDateRangeTask {
       .registryCPUTypeMessageHandler(MesType.ContentBytes, new Bytes2Html)
       .registryCPUTypeMessageHandler(MesType.ContentHtml, new Html2GameOK)
       .registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameOK)
-      .start
+      .start()
   }
 }

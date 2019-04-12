@@ -5,7 +5,7 @@ import org.atilika.kuromoji.Tokenizer
 import scala.collection.JavaConverters._
 
 object CleanGameNameTask {
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]) = {
     val tokenizer = Tokenizer.builder.build
 
     tokenizer.tokenize("続月花美人 〜桜花の頃〜").asScala.toStream

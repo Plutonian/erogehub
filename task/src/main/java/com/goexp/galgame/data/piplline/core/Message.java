@@ -6,9 +6,6 @@ public class Message<T> {
 
     public T entity;
 
-    public Message() {
-    }
-
     public Message(int code, T entity) {
         this.code = code;
         this.entity = entity;

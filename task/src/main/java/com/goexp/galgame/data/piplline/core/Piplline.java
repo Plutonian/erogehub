@@ -76,7 +76,7 @@ public class Piplline {
     public void start() {
 
         var mesTypeMap = configs.stream()
-                .collect(Collectors.groupingBy(c -> c.mesType));
+                .collect(Collectors.groupingBy(HandlerConfig::mesType));
 
         listenerExecutorService.execute(() -> {
 
@@ -91,9 +91,9 @@ public class Piplline {
 
                         if (configs != null)
                             for (var c : configs)
-                                c.executor.execute(() -> {
+                                c.executor().execute(() -> {
                                     try {
-                                        c.messageHandler.process(mes, msgQueueProxy);
+                                        c.messageHandler().process(mes, msgQueueProxy);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -104,7 +104,7 @@ public class Piplline {
                         running = false;
 
                         for (var config : configs) {
-                            config.executor.shutdown();
+                            config.executor().shutdown();
                         }
                         listenerExecutorService.shutdown();
                     }

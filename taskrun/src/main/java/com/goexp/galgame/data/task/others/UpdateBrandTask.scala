@@ -28,12 +28,12 @@ object UpdateBrandTask {
     val request = GetchuURL.RequestBuilder.create("http://www.getchu.com/all/brand.html?genre=pc_soft").adaltFlag.build
     val html = GetChu.getHtml(request)
 
-    val remoteBrands = new GetchuBrandParser().parse(html).asScala
-    logger.info(s"Remote: ${remoteBrands.size}")
+    val remotes = new GetchuBrandParser().parse(html).toSet
+    logger.info(s"Remote: ${remotes.size}")
 
     val brandDb = new BrandDB
 
-    remoteBrands.foreach(remote => {
+    remotes.foreach(remote => {
       localMap.get(remote.id) match {
         // find in local
         case Some(local) =>

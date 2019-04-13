@@ -1,7 +1,5 @@
 package com.goexp.galgame.data.parser
 
-import java.util
-
 import com.goexp.galgame.common.model.TagType
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
@@ -10,7 +8,7 @@ import scala.collection.JavaConverters._
 
 
 class GetchuTagParser {
-  def parse(html: String): util.List[TagType] =
+  def parse(html: String): Stream[TagType] =
     Jsoup.parse(html)
       .select("#wrapper div.pc_headword:contains(カテゴリ一覧)")
       .first
@@ -18,8 +16,7 @@ class GetchuTagParser {
       .select("div.category_pc_t")
       .asScala
       .toStream
-      .map(this.parse)
-      .asJava
+      .map(parse)
 
   private def parse(item: Element) = {
     val tagType = new TagType

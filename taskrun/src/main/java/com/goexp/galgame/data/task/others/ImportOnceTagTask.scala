@@ -7,6 +7,8 @@ import com.goexp.galgame.data.parser.GetchuTagParser
 import com.goexp.galgame.data.task.client.GetChu
 import org.slf4j.LoggerFactory
 
+import scala.collection.JavaConverters._
+
 object ImportOnceTagTask {
   def main(args: Array[String]): Unit = {
     val logger = LoggerFactory.getLogger(ImportOnceTagTask.getClass)
@@ -23,12 +25,12 @@ object ImportOnceTagTask {
       * parse html
       */
 
-    val remoteTagList = new GetchuTagParser().parse(html)
-    logger.info(s"Remote:${remoteTagList.size}")
+    val remotes = new GetchuTagParser().parse(html).asJava
+    logger.info(s"Remote:${remotes.size}")
 
     /**
       * save to db
       */
-    new TagDB insert remoteTagList
+    new TagDB insert remotes
   }
 }

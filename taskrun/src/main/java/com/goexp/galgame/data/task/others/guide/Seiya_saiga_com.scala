@@ -31,19 +31,19 @@ object Seiya_saiga_com {
     private val logger = LoggerFactory.getLogger(classOf[Starter])
 
     override def process(msgQueue: MessageQueueProxy[Message[_]]): Unit = {
-      val localList = GuideQuery.tlp.query
+      val locals = GuideQuery.tlp.query
         .where(Filters.eq("from", DataFrom.seiya_saiga_com.getValue))
         .list.asScala.toSet
 
-      logger.info(s"Local:${localList.size}")
+      logger.info(s"Local:${locals.size}")
 
       val req = HttpRequest.newBuilder.uri(URI.create("http://seiya-saiga.com/game/kouryaku.html")).build
       try {
         val html = httpClient.send(req, ofString(CHARSET)).body
-        val remoteList = new GameGuideParser.Seiya_saiga().parse(html).asScala.toSet
-        logger.info(s"Remote:${remoteList.size}")
+        val remotes = new GameGuideParser.Seiya_saiga().parse(html)
+        logger.info(s"Remote:${remotes.size}")
 
-        val insertlist = remoteList -- localList
+        val insertlist = remotes -- locals
         logger.info(s"Insert:${insertlist.size}")
 
         insertlist.foreach(guide => {

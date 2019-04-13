@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory
 import scala.collection.JavaConverters._
 
 object Sagaoz_net {
-  def main(args: Array[String]): Unit =
+  def main(args: Array[String]) =
     new Piplline(new Starter)
       .registryIOTypeMessageHandler(1, new PageContentHandler)
       .start()
@@ -27,22 +27,22 @@ object Sagaoz_net {
   private class Starter extends DefaultStarter[CommonGame.Guide] {
     private val logger = LoggerFactory.getLogger(classOf[Starter])
 
-    override def process(msgQueue: MessageQueueProxy[Message[_]]): Unit = {
-      val localList = GuideQuery.tlp.query
+    override def process(msgQueue: MessageQueueProxy[Message[_]]) = {
+      val locals = GuideQuery.tlp.query
         .where(Filters.eq("from", DataFrom.sagaoz_net.getValue))
         .list.asScala.toSet
 
-      logger.info(s"Local:${localList.size}")
+      logger.info(s"Local:${locals.size}")
 
       val req = HttpRequest.newBuilder.uri(URI.create("http://sagaoz.net/foolmaker/game.html")).build
       try {
         val html = noneProxyClient.send(req, ofString(CHARSET)).body
 
-        val remoteList = new GameGuideParser.Sagaoz_Net().parse(html).asScala.toSet
+        val remotes = new GameGuideParser.Sagaoz_Net().parse(html)
 
-        logger.info(s"Remote:${remoteList.size}")
+        logger.info(s"Remote:${remotes.size}")
 
-        val insertlist = remoteList -- localList
+        val insertlist = remotes -- locals
 
 
         logger.info(s"Insert:${insertlist.size}")

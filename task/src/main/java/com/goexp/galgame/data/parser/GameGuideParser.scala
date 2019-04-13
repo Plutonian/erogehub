@@ -1,6 +1,5 @@
 package com.goexp.galgame.data.parser
 
-import java.util
 import java.util.Objects
 
 import com.goexp.galgame.common.model.CommonGame
@@ -12,7 +11,8 @@ import scala.collection.JavaConverters._
 object GameGuideParser {
 
   class Sagaoz_Net {
-    def parse(html: String): util.List[CommonGame.Guide] = {
+
+    def parse(html: String) = {
       Objects.requireNonNull(html)
       Jsoup.parse(html)
         .select("table[width=720]:not(:nth-of-type(1))")
@@ -28,12 +28,14 @@ object GameGuideParser {
           guide.id = guide.href
           guide
 
-        }).asJava
+        })
+        .toSet
     }
   }
 
   class Seiya_saiga {
-    def parse(html: String): util.List[CommonGame.Guide] = {
+
+    def parse(html: String) = {
       Objects.requireNonNull(html)
       Jsoup.parse(html)
         .select("body > div > table > tbody > tr > th> table")
@@ -54,7 +56,7 @@ object GameGuideParser {
             })
 
         })
-        .asJava
+        .toSet
     }
   }
 

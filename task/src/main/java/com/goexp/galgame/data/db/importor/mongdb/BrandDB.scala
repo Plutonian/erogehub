@@ -1,7 +1,6 @@
 package com.goexp.galgame.data.db.importor.mongdb
 
 import com.goexp.common.db.mongo.DBOperatorTemplate
-import com.goexp.common.db.mysql.DBUpdateTemplate
 import com.goexp.galgame.data.model.Brand
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.set
@@ -11,7 +10,7 @@ object BrandDB {
   var tlp = new DBOperatorTemplate("galgame", "brand")
 }
 
-class BrandDB extends DBUpdateTemplate {
+class BrandDB {
   def insert(item: Brand) = {
     val doc = new Document("_id", item.id)
       .append("name", item.name)

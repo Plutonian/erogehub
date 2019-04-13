@@ -24,7 +24,7 @@ object MarkSameGameTask {
       .start()
 
   class FromAllBrand extends DefaultStarter[Int] {
-    override def process(msgQueue: MessageQueueProxy[Message[_]]): Unit = {
+    override def process(msgQueue: MessageQueueProxy[Message[_]]) = {
       //            msgQueue.offer(new Message<>(MesType.Brand, 10143));
       BrandQuery.tlp.query.list
         .forEach(brand => {

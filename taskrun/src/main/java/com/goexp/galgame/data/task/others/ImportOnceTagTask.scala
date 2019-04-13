@@ -8,7 +8,7 @@ import com.goexp.galgame.data.task.client.GetChu
 import org.slf4j.LoggerFactory
 
 object ImportOnceTagTask {
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]) = {
     val logger = LoggerFactory.getLogger(ImportOnceTagTask.getClass)
 
     Network.initProxy()
@@ -29,6 +29,6 @@ object ImportOnceTagTask {
     /**
       * save to db
       */
-    new TagDB insert remotes
+    TagDB insert remotes
   }
 }

@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory
 import scala.collection.JavaConverters._
 
 object Seiya_saiga_com {
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]) = {
     Network.initProxy()
     new Piplline(new Starter)
       .registryIOTypeMessageHandler(1, new PageContentHandler)
@@ -30,7 +30,7 @@ object Seiya_saiga_com {
   private class Starter extends DefaultStarter[CommonGame.Guide] {
     private val logger = LoggerFactory.getLogger(classOf[Starter])
 
-    override def process(msgQueue: MessageQueueProxy[Message[_]]): Unit = {
+    override def process(msgQueue: MessageQueueProxy[Message[_]]) = {
       val locals = GuideQuery.tlp.query
         .where(Filters.eq("from", DataFrom.seiya_saiga_com.getValue))
         .list.asScala.toSet

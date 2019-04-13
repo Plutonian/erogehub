@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory
 class Bytes2Html extends DefaultMessageHandler[(Int, Array[Byte])] {
   final private val logger = LoggerFactory.getLogger(classOf[Bytes2Html])
 
-  override def process(message: Message[(Int, Array[Byte])], msgQueue: MessageQueueProxy[Message[_]]): Unit = {
+  override def process(message: Message[(Int, Array[Byte])], msgQueue: MessageQueueProxy[Message[_]]) = {
     val (id, bytes) = message.entity
 
     logger.debug("<Bytes2Html> {}", id)

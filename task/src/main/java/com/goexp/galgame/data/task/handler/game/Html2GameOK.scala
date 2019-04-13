@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory
 class Html2GameOK extends DefaultMessageHandler[(Int, String)] {
   final private val logger = LoggerFactory.getLogger(classOf[Html2GameOK])
 
-  override def process(message: Message[(Int, String)], msgQueue: MessageQueueProxy[Message[_]]): Unit = {
+  override def process(message: Message[(Int, String)], msgQueue: MessageQueueProxy[Message[_]]) = {
     val (gameId, html) = message.entity
 
     logger.debug("<Html2GameOK> {}", gameId)

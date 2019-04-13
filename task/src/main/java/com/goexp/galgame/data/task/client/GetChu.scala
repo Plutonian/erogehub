@@ -33,7 +33,7 @@ object GetChu {
   object GameService {
     @throws[IOException]
     @throws[InterruptedException]
-    def download(gameId: Int): Unit = {
+    def download(gameId: Int) = {
       val localPath = Config.GAME_CACHE_ROOT.resolve(s"$gameId.bytes")
       val tempPath = Path.of(localPath.toString + "_")
       logger.debug("Download:Game: ${}", gameId)
@@ -90,7 +90,7 @@ object GetChu {
 
     @throws[IOException]
     @throws[InterruptedException]
-    def download(brandId: Int): Unit =
+    def download(brandId: Int) =
       try {
         val localPath = Config.BRAND_CACHE_ROOT.resolve(s"$brandId.bytes")
         val tempPath = Path.of(s"${localPath}_")

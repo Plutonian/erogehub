@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory
 class DownloadGameHandler extends DefaultMessageHandler[Int] {
   final private val logger = LoggerFactory.getLogger(classOf[DownloadGameHandler])
 
-  override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]): Unit = {
+  override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]) = {
     val gid = message.entity
     logger.debug("Download {}", gid)
     try GetChu.GameService.download(gid)

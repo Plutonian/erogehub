@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory
 class DownloadBrandHandler extends DefaultMessageHandler[Int] {
   final private val logger = LoggerFactory.getLogger(classOf[DownloadBrandHandler])
 
-  override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]): Unit = {
+  override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]) = {
     val id = message.entity
     logger.info("Down:{}", id)
     try GetChu.BrandService.download(id)

@@ -1,20 +1,13 @@
 package com.goexp.galgame.data.db.importor.mongdb
 
 import com.goexp.common.db.mongo.DBOperatorTemplate
-import com.goexp.common.db.mysql.DBUpdateTemplate
 import com.goexp.galgame.common.model.TagType
 import org.bson.Document
 
 import scala.collection.JavaConverters._
 
-object TagDB {
-  var tlp = new DBOperatorTemplate("galgame", "tag")
-}
-
-class TagDB extends DBUpdateTemplate {
-
+object TagDB extends DBOperatorTemplate("galgame", "tag") {
   def insert(item: List[TagType]) = {
-
     val docs = item
       .toStream
       .map(tagType => {
@@ -23,7 +16,7 @@ class TagDB extends DBUpdateTemplate {
           .append("tags", tagType.tags)
       }).asJava
 
-    TagDB.tlp.exec(gameC => {
+    TagDB.exec(gameC => {
       gameC.insertMany(docs)
     })
   }

@@ -18,7 +18,7 @@ class ProcessGameList extends DefaultMessageHandler[Int] {
   final private val logger = LoggerFactory.getLogger(classOf[ProcessGameList])
   final private val importor = new GameDB
 
-  override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]): Unit = {
+  override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]) = {
     val brandId = message.entity
     logger.debug("<Brand> {}", brandId)
     try {

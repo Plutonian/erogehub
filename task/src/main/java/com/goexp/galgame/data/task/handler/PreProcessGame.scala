@@ -11,7 +11,7 @@ class PreProcessGame extends DefaultMessageHandler[Game] {
   final private val logger = LoggerFactory.getLogger(classOf[PreProcessGame])
   final private val importor = new GameDB
 
-  override def process(message: Message[Game], msgQueue: MessageQueueProxy[Message[_]]): Unit = {
+  override def process(message: Message[Game], msgQueue: MessageQueueProxy[Message[_]]) = {
     val game = message.entity
     logger.debug("<Game> {}", game)
     if (importor.exist(game.id)) {

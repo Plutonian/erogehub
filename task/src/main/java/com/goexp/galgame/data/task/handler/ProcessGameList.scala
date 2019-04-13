@@ -22,7 +22,7 @@ class ProcessGameList extends DefaultMessageHandler[Int] {
     val brandId = message.entity
     logger.debug("<Brand> {}", brandId)
     try {
-      val remoteGames = LocalProvider.getList(brandId).asScala
+      val remoteGames = LocalProvider.getList(brandId)
       val localGames = GameQuery.fullTlp.query.select(include("_id"))
         .where(Filters.eq("brandId", brandId))
         .list.asScala.toStream.map((game: Game) => game.id).toSet

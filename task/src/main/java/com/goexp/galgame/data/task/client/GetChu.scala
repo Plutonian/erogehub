@@ -6,7 +6,6 @@ import java.net.http.{HttpRequest, HttpResponse}
 import java.nio.charset.Charset
 import java.nio.file.{Files, Path, StandardCopyOption, StandardOpenOption}
 import java.time.LocalDate
-import java.util
 
 import com.goexp.common.util.WebUtil
 import com.goexp.galgame.common.website.GetchuURL
@@ -54,11 +53,11 @@ object GetChu {
   }
 
   object BrandService {
-    def gamesFrom(brandId: Int): util.List[Game] = {
+    def gamesFrom(brandId: Int): List[Game] = {
       try {
         val bytes = WebUtil.httpClient.send(GetchuURL.RequestBuilder.create(GetchuURL.getListByBrand(brandId)).adaltFlag.build, ofByteArray).asInstanceOf[HttpResponse[_]].body.asInstanceOf[Array[Byte]]
         val html = WebUtil.decodeGzip(bytes, DEFAULT_CHARSET)
-        return new ListPageParser().parse(html)
+        new ListPageParser().parse(html)
       } catch {
         case e@(_: IOException | _: InterruptedException) =>
           e.printStackTrace()
@@ -67,7 +66,7 @@ object GetChu {
       null
     }
 
-    def gamesFrom(from: LocalDate, to: LocalDate): util.List[Game] = {
+    def gamesFrom(from: LocalDate, to: LocalDate): List[Game] = {
       try {
 
         val request = GetchuURL.RequestBuilder.create(GetchuURL.gameListFromDateRange(from, to)).adaltFlag.build
@@ -84,7 +83,7 @@ object GetChu {
       null
     }
 
-    def gamesFrom(bytes: Array[Byte]): util.List[Game] = {
+    def gamesFrom(bytes: Array[Byte]): List[Game] = {
       val html = WebUtil.decodeGzip(bytes, DEFAULT_CHARSET)
       new ListPageParser().parse(html)
     }

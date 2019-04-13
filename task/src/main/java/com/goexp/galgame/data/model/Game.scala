@@ -17,12 +17,12 @@ class Game extends CommonGame {
           //                Objects.equals(publishDate, game.publishDate) &&
           //                Objects.equals(imgUrl, game.imgUrl) &&
           //                Objects.equals(website, game.website) &&
-          Objects.equals(brandId, game.brandId) &&
-          Objects.equals(writer, game.writer) &&
-          Objects.equals(painter, game.painter) &&
-          Objects.equals(`type`, game.`type`) &&
-          Objects.equals(tag, game.tag) &&
-          Objects.equals(story, game.story)
+          (brandId == game.brandId) &&
+          (writer == game.writer) &&
+          (painter == game.painter) &&
+          (`type` == game.`type`) &&
+          (tag == game.tag) &&
+          (story == game.story)
       case _ => false
     }
   }

@@ -18,7 +18,7 @@ class FromDateRange(val start: LocalDate, val end: LocalDate) extends DefaultSta
     val list = GetChu.BrandService.gamesFrom(start, end)
 
     logger.info(s"${list.size}")
-    list.forEach(game => {
+    list.foreach(game => {
       msgQueue.offer(new Message[Game](MesType.PRE_GAME, game))
     })
   }

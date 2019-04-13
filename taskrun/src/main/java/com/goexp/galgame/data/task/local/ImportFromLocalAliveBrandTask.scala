@@ -49,16 +49,16 @@ object ImportFromLocalAliveBrandTask {
       logger.debug("<Brand> {}", brandId)
 
       try {
-        val parseGameList = LocalProvider.getList(brandId).asScala
-        val indbList = GameQuery.fullTlp.query
+        val remoteGames = LocalProvider.getList(brandId).toSet
+        val localGames = GameQuery.fullTlp.query
           .where(Filters.eq("brandId", brandId))
-          .list.asScala
+          .list.asScala.toSet
 
 
-        if (parseGameList.size > indbList.size) {
-          logger.debug(s"Brand:$brandId,RemoteCount:${parseGameList.size},LocalCount:${indbList.size}")
+        if (remoteGames.size > localGames.size) {
+          logger.debug(s"Brand:$brandId,RemoteCount:${remoteGames.size},LocalCount:${localGames.size}")
 
-          val insertGames = parseGameList -- indbList
+          val insertGames = remoteGames -- localGames
 
           insertGames.foreach(game => {
             game.brandId = brandId

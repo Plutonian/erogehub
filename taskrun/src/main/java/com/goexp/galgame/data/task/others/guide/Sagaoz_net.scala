@@ -38,7 +38,7 @@ object Sagaoz_net {
       try {
         val html = noneProxyClient.send(req, ofString(CHARSET)).body
 
-        val remotes = new GameGuideParser.Sagaoz_Net().parse(html)
+        val remotes = new GameGuideParser.Sagaoz_Net().parse(html).toSet
 
         logger.info(s"Remote:${remotes.size}")
 

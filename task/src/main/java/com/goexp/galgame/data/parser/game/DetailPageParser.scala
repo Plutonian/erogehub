@@ -58,7 +58,7 @@ object DetailPageParser {
           gameCharacter.intro = tr.select("dl dd").html.replaceAll("\\<[^\\>]*\\>", "").trim
           index += 1
           gameCharacter
-        }).asJava
+        })
   }
 
   private class SimpleImgPartParser {
@@ -73,7 +73,7 @@ object DetailPageParser {
           img.index = imgIndex
           imgIndex += 1
           img
-        }).asJava
+        })
   }
 
 }
@@ -82,8 +82,8 @@ class DetailPageParser {
   def parse(gameId: Int, html: String): Game = {
     val root = Jsoup.parse(html)
     val game = new DetailPageParser.DetailPartParser().parse(gameId, root)
-    game.gameCharacters = new DetailPageParser.GameCharPartParser().parse(root)
-    game.gameImgs = new DetailPageParser.SimpleImgPartParser().parse(root)
+    game.gameCharacters = new DetailPageParser.GameCharPartParser().parse(root).asJava
+    game.gameImgs = new DetailPageParser.SimpleImgPartParser().parse(root).asJava
     game
   }
 }

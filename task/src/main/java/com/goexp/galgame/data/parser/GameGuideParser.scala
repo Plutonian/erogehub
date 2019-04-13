@@ -29,7 +29,6 @@ object GameGuideParser {
           guide
 
         })
-        .toSet
     }
   }
 
@@ -56,7 +55,6 @@ object GameGuideParser {
             })
 
         })
-        .toSet
     }
   }
 

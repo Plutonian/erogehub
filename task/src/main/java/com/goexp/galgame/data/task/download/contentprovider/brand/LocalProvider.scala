@@ -8,7 +8,7 @@ import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.task.client.GetChu
 
 object LocalProvider {
-  def getList(id: Int): List[Game] = {
+  def getList(id: Int): Stream[Game] = {
     val path = Config.BRAND_CACHE_ROOT.resolve(s"$id.bytes")
     try {
 

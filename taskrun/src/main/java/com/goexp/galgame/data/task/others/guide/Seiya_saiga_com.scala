@@ -40,7 +40,7 @@ object Seiya_saiga_com {
       val req = HttpRequest.newBuilder.uri(URI.create("http://seiya-saiga.com/game/kouryaku.html")).build
       try {
         val html = httpClient.send(req, ofString(CHARSET)).body
-        val remotes = new GameGuideParser.Seiya_saiga().parse(html)
+        val remotes = new GameGuideParser.Seiya_saiga().parse(html).toSet
         logger.info(s"Remote:${remotes.size}")
 
         val insertlist = remotes -- locals

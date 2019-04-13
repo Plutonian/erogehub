@@ -51,12 +51,12 @@ public class DBQueryTemplate<T> extends AbstractDBTemplate {
             this.creator = creator;
         }
 
-        public Builder defaultSort(Bson defaultSort) {
+        public Builder<T> defaultSort(Bson defaultSort) {
             this.defaultSort = defaultSort;
             return this;
         }
 
-        public Builder defaultSelect(Bson defaultSelect) {
+        public Builder<T> defaultSelect(Bson defaultSelect) {
             this.defaultSelect = defaultSelect;
             return this;
         }

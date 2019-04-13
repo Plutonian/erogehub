@@ -57,7 +57,8 @@ class ProcessGameOK extends DefaultMessageHandler[Game] {
 
     remoteGame.gameCharacters = merge(localGame.gameCharacters, remoteGame.gameCharacters)
 
-    gameDB.updateChar(remoteGame)
+    if (remoteGame.gameCharacters != null)
+      gameDB.updateChar(remoteGame)
 
     val localImgSize = Option(localGame.gameImgs).map(_.size).getOrElse(0)
     val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)

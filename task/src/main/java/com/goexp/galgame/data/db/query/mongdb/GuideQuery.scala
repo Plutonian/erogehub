@@ -6,7 +6,7 @@ import org.bson.Document
 import org.slf4j.LoggerFactory
 
 object GuideQuery {
-  var tlp: DBQueryTemplate[CommonGame.Guide] = new DBQueryTemplate.Builder[CommonGame.Guide]("galgame", "guide", new Creator).build
+  var tlp = new DBQueryTemplate.Builder[CommonGame.Guide]("galgame", "guide", new Creator).build
 
   private class Creator extends ObjectCreator[CommonGame.Guide] {
     private val logger = LoggerFactory.getLogger(classOf[Creator])

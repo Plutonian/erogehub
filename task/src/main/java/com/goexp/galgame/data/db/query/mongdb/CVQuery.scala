@@ -12,8 +12,9 @@ object CVQuery {
     private val logger = LoggerFactory.getLogger(classOf[CVCreator])
 
     override def create(doc: Document): CV = {
-      val g = new CV
       logger.debug("<create> doc={}", doc)
+
+      val g = new CV
       g.name = doc.getString("name")
       g.star = doc.getInteger("star")
       g.nameStr = doc.getString("names")

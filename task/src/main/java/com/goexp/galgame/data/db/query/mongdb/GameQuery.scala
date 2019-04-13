@@ -28,6 +28,8 @@ object GameQuery {
       final private val logger = LoggerFactory.getLogger(classOf[GameChar])
 
       override def create(doc: Document) = {
+        logger.debug("{}", doc)
+
         val gameCharacter = new Person
         gameCharacter.name = doc.getString("name")
         gameCharacter.cv = doc.getString("cv")
@@ -35,7 +37,7 @@ object GameQuery {
         gameCharacter.trueCV = doc.getString("truecv")
         gameCharacter.img = doc.getString("img")
         gameCharacter.index = doc.getInteger("index")
-        logger.debug("{}", gameCharacter)
+
         gameCharacter
       }
     }

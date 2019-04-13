@@ -12,7 +12,7 @@ object BrandDB {
 }
 
 class BrandDB extends DBUpdateTemplate {
-  def insert(item: Brand): Unit = {
+  def insert(item: Brand) = {
     val doc = new Document("_id", item.id)
       .append("name", item.name)
       .append("website", item.website)
@@ -23,12 +23,12 @@ class BrandDB extends DBUpdateTemplate {
     })
   }
 
-  def updateWebsite(item: Brand): Unit =
+  def updateWebsite(item: Brand) =
     BrandDB.tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(item.id), set("website", item.website))
     })
 
-  def updateComp(item: Brand): Unit =
+  def updateComp(item: Brand) =
     BrandDB.tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(item.id), set("comp", item.comp))
     })

@@ -1,7 +1,5 @@
 package com.goexp.galgame.data.db.importor.mongdb
 
-import java.util
-
 import com.goexp.common.db.mongo.DBOperatorTemplate
 import com.goexp.common.db.mysql.DBUpdateTemplate
 import com.goexp.galgame.common.model.TagType
@@ -15,10 +13,10 @@ object TagDB {
 
 class TagDB extends DBUpdateTemplate {
 
-  def insert(item: util.List[TagType]): Unit = {
+  def insert(item: List[TagType]) = {
 
     val docs = item
-      .asScala.toStream
+      .toStream
       .map(tagType => {
         new Document("type", tagType.`type`)
           .append("order", tagType.order)

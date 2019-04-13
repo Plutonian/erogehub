@@ -12,8 +12,9 @@ object BrandQuery {
     private val logger = LoggerFactory.getLogger(classOf[BrandCreator])
 
     override def create(doc: Document): Brand = {
-      val g = new Brand
       logger.debug("<create> doc={}", doc)
+
+      val g = new Brand
       g.id = doc.getInteger("_id")
       g.name = doc.getString("name")
       g.website = doc.getString("website")

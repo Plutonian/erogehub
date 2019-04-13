@@ -14,7 +14,7 @@ object GameDB {
   var tlp = new DBOperatorTemplate("galgame", "game")
 
   class StateDB {
-    def update(game: Game): Unit =
+    def update(game: Game) =
       tlp.exec(documentMongoCollection => {
         documentMongoCollection.updateOne(Filters.eq(game.id), set("state", game.state.getValue))
       })
@@ -23,7 +23,7 @@ object GameDB {
 }
 
 class GameDB {
-  def insert(game: Game): Unit = {
+  def insert(game: Game) = {
     val gameDoc = new Document("_id", game.id)
       .append("name", game.name)
       .append("publishDate", game.publishDate)
@@ -38,7 +38,7 @@ class GameDB {
     })
   }
 
-  def update(game: Game): Unit =
+  def update(game: Game) =
     GameDB.tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(
         Filters.eq(game.id),
@@ -49,7 +49,7 @@ class GameDB {
       )
     })
 
-  def updateAll(game: Game): Unit =
+  def updateAll(game: Game) =
     GameDB.tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(
         Filters.eq(game.id),
@@ -64,7 +64,7 @@ class GameDB {
       )
     })
 
-  def updateChar(game: Game): Unit = {
+  def updateChar(game: Game) = {
     val gameCharDocs = game.gameCharacters
       .asScala.toStream
       .map(person => {
@@ -81,7 +81,7 @@ class GameDB {
     })
   }
 
-  def updateImg(game: Game): Unit = {
+  def updateImg(game: Game) = {
     val imgdocs = game.gameImgs
       .asScala.toStream
       .map(img => {

@@ -12,8 +12,9 @@ object GuideQuery {
     private val logger = LoggerFactory.getLogger(classOf[Creator])
 
     override def create(doc: Document): CommonGame.Guide = {
-      val g = new CommonGame.Guide
       logger.debug("<create> doc={}", doc)
+
+      val g = new CommonGame.Guide
       g.id = doc.getString("_id")
       g.href = doc.getString("name")
       g.title = doc.getString("title")

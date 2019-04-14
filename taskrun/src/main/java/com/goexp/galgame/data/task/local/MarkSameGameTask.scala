@@ -11,7 +11,7 @@ import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
-import scala.io.Source
+import scala.io.{Codec, Source}
 
 object MarkSameGameTask {
 
@@ -35,8 +35,8 @@ object MarkSameGameTask {
   }
 
   class ProcessBrandGame extends DefaultMessageHandler[Int] {
-    private val samelist = Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/same.list")).getLines().toList
-    private val packagelist = Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/package.list")).getLines().toList
+    private lazy val samelist = Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/same.list"))(Codec.UTF8).getLines().toList
+    private lazy val packagelist = Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/package.list"))(Codec.UTF8).getLines().toList
 
 
     private val logger = LoggerFactory.getLogger(classOf[ProcessBrandGame])

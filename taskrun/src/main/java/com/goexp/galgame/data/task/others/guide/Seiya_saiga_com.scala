@@ -33,7 +33,7 @@ object Seiya_saiga_com {
     override def process(msgQueue: MessageQueueProxy[Message[_]]) = {
       val locals = GuideQuery.tlp.query
         .where(Filters.eq("from", DataFrom.seiya_saiga_com.getValue))
-        .list.asScala.toSet
+        .set.asScala
 
       logger.info(s"Local:${locals.size}")
 

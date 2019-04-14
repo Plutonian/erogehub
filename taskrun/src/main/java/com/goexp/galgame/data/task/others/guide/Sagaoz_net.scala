@@ -30,7 +30,7 @@ object Sagaoz_net {
     override def process(msgQueue: MessageQueueProxy[Message[_]]) = {
       val locals = GuideQuery.tlp.query
         .where(Filters.eq("from", DataFrom.sagaoz_net.getValue))
-        .list.asScala.toSet
+        .set.asScala
 
       logger.info(s"Local:${locals.size}")
 

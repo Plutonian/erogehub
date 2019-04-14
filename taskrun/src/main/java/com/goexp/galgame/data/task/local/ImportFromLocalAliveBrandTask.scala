@@ -52,7 +52,7 @@ object ImportFromLocalAliveBrandTask {
         val remoteGames = LocalProvider.getList(brandId).toSet
         val localGames = GameQuery.fullTlp.query
           .where(Filters.eq("brandId", brandId))
-          .list.asScala.toSet
+          .set.asScala
 
 
         if (remoteGames.size > localGames.size) {

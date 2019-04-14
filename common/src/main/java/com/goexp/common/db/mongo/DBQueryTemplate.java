@@ -5,9 +5,7 @@ import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class DBQueryTemplate<T> extends AbstractDBTemplate {
 
@@ -90,6 +88,15 @@ public class DBQueryTemplate<T> extends AbstractDBTemplate {
             return this;
         }
 
+        public Set<T> set() {
+            return getSet(defaultCreator);
+        }
+
+        public Set<T> set(ObjectCreator<T> userCreator) {
+            Objects.requireNonNull(userCreator);
+            return getSet(userCreator);
+        }
+
         public List<T> list() {
             return getList(defaultCreator);
         }
@@ -131,6 +138,10 @@ public class DBQueryTemplate<T> extends AbstractDBTemplate {
 
         private ArrayList<T> getList(ObjectCreator<T> userCreator) {
             return getDocuments().map(userCreator::create).into(new ArrayList<>());
+        }
+
+        private Set<T> getSet(ObjectCreator<T> userCreator) {
+            return getDocuments().map(userCreator::create).into(new HashSet<>());
         }
 
         private FindIterable<Document> getDocuments() {

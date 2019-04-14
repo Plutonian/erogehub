@@ -32,13 +32,11 @@ class ListPageParser {
     }
 
     val g = new Game
-    val img = item.select("img.lazy").attr("data-original")
+    g.smallImg = item.select("img.lazy").attr("data-original")
     val gEle = item.select("div.content_block a.blueb")
-    val name = gEle.text
+    g.name = gEle.text
     val url = gEle.attr("href")
     g.id = parseId(url)
-    g.name = name
-    g.smallImg = img
     val raw = item.select("div.content_block p").text
     g.publishDate = parseDate(raw)
     g

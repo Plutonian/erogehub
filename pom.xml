@@ -26,67 +26,6 @@
         <module>taskrun</module>
     </modules>
 
-    <!--    <build>-->
-    <!--        <sourceDirectory>src/main/java</sourceDirectory>-->
-    <!--        <testSourceDirectory>src/test/java</testSourceDirectory>-->
-    <!--        <plugins>-->
-    <!--            <plugin>-->
-    <!--                <groupId>org.scala-tools</groupId>-->
-    <!--                <artifactId>maven-scala-plugin</artifactId>-->
-    <!--                <executions>-->
-    <!--                    <execution>-->
-    <!--                        <goals>-->
-    <!--                            <goal>compile</goal>-->
-    <!--                            <goal>testCompile</goal>-->
-    <!--                        </goals>-->
-    <!--                    </execution>-->
-    <!--                </executions>-->
-    <!--                <configuration>-->
-    <!--                    <scalaVersion>${scala.version}</scalaVersion>-->
-
-    <!--                    &lt;!&ndash;          <args>&ndash;&gt;-->
-    <!--                    &lt;!&ndash;            <arg>-target:jvm-1.11</arg>&ndash;&gt;-->
-    <!--                    &lt;!&ndash;          </args>&ndash;&gt;-->
-    <!--                </configuration>-->
-    <!--            </plugin>-->
-    <!--            &lt;!&ndash;      <plugin>&ndash;&gt;-->
-    <!--            &lt;!&ndash;        <groupId>org.apache.maven.plugins</groupId>&ndash;&gt;-->
-    <!--            &lt;!&ndash;        <artifactId>maven-eclipse-plugin</artifactId>&ndash;&gt;-->
-    <!--            &lt;!&ndash;        <configuration>&ndash;&gt;-->
-    <!--            &lt;!&ndash;          <downloadSources>true</downloadSources>&ndash;&gt;-->
-    <!--            &lt;!&ndash;          <buildcommands>&ndash;&gt;-->
-    <!--            &lt;!&ndash;            <buildcommand>ch.epfl.lamp.sdt.core.scalabuilder</buildcommand>&ndash;&gt;-->
-    <!--            &lt;!&ndash;          </buildcommands>&ndash;&gt;-->
-    <!--            &lt;!&ndash;          <additionalProjectnatures>&ndash;&gt;-->
-    <!--            &lt;!&ndash;            <projectnature>ch.epfl.lamp.sdt.core.scalanature</projectnature>&ndash;&gt;-->
-    <!--            &lt;!&ndash;          </additionalProjectnatures>&ndash;&gt;-->
-    <!--            &lt;!&ndash;          <classpathContainers>&ndash;&gt;-->
-    <!--            &lt;!&ndash;            <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>&ndash;&gt;-->
-    <!--            &lt;!&ndash;            <classpathContainer>ch.epfl.lamp.sdt.launching.SCALA_CONTAINER</classpathContainer>&ndash;&gt;-->
-    <!--            &lt;!&ndash;          </classpathContainers>&ndash;&gt;-->
-    <!--            &lt;!&ndash;        </configuration>&ndash;&gt;-->
-    <!--            &lt;!&ndash;      </plugin>&ndash;&gt;-->
-    <!--        </plugins>-->
-    <!--    </build>-->
-
-
-    <!--    <repositories>-->
-    <!--        <repository>-->
-    <!--            <id>scala-tools.org</id>-->
-    <!--            <name>Scala-Tools Maven2 Repository</name>-->
-    <!--            <url>http://scala-tools.org/repo-releases</url>-->
-    <!--        </repository>-->
-    <!--    </repositories>-->
-
-    <!--    <pluginRepositories>-->
-    <!--        <pluginRepository>-->
-    <!--            <id>scala-tools.org</id>-->
-    <!--            <name>Scala-Tools Maven2 Repository</name>-->
-    <!--            <url>http://scala-tools.org/repo-releases</url>-->
-    <!--        </pluginRepository>-->
-    <!--    </pluginRepositories>-->
-
-
     <build>
         <pluginManagement>
             <plugins>
@@ -94,11 +33,6 @@
                     <groupId>net.alchim31.maven</groupId>
                     <artifactId>scala-maven-plugin</artifactId>
                     <version>4.0.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.0.2</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -120,18 +54,6 @@
                         <phase>process-test-resources</phase>
                         <goals>
                             <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
                         </goals>
                     </execution>
                 </executions>

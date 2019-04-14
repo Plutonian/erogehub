@@ -13,7 +13,14 @@
     <groupId>com.goexp.galgame</groupId>
     <artifactId>task</artifactId>
     <version>${version}-SNAPSHOT</version>
+
+
     <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.goexp</groupId>
             <artifactId>common</artifactId>

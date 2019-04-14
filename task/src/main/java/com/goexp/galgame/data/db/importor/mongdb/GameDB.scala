@@ -11,7 +11,7 @@ import scala.collection.JavaConverters._
 
 
 object GameDB {
-  var tlp = new DBOperatorTemplate("galgame", "game")
+  lazy val tlp = new DBOperatorTemplate("galgame", "game")
 
   class StateDB {
     def update(game: Game) =

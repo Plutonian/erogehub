@@ -6,7 +6,7 @@ import org.bson.Document
 import org.slf4j.LoggerFactory
 
 object BrandQuery {
-  var tlp = new DBQueryTemplate.Builder[Brand]("galgame", "brand", new BrandCreator).build
+  lazy val tlp = new DBQueryTemplate.Builder[Brand]("galgame", "brand", new BrandCreator).build
 
   private class BrandCreator extends ObjectCreator[Brand] {
     private val logger = LoggerFactory.getLogger(classOf[BrandCreator])

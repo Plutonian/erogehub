@@ -17,15 +17,15 @@ import scala.collection.JavaConverters._
 object GameQuery {
 
   type Person = GameCharacter
-  val fullTlp = new DBQueryTemplate.Builder[Game]("galgame", "game", new Creator.FullGame).build
-  val fullTlpWithChar = new DBQueryTemplate.Builder[Game]("galgame", "game", new Creator.FullGame)
+  lazy val fullTlp = new DBQueryTemplate.Builder[Game]("galgame", "game", new Creator.FullGame).build
+  lazy val fullTlpWithChar = new DBQueryTemplate.Builder[Game]("galgame", "game", new Creator.FullGame)
     .defaultSelect(exclude("simpleImg"))
     .build
 
   object Creator {
 
     class GameChar extends ObjectCreator[Person] {
-      final private val logger = LoggerFactory.getLogger(classOf[GameChar])
+      private lazy val logger = LoggerFactory.getLogger(classOf[GameChar])
 
       override def create(doc: Document) = {
         logger.debug("{}", doc)
@@ -43,7 +43,7 @@ object GameQuery {
     }
 
     class SimpleImg extends ObjectCreator[CommonGame.GameImg] {
-      final private val logger = LoggerFactory.getLogger(classOf[SimpleImg])
+      private lazy val logger = LoggerFactory.getLogger(classOf[SimpleImg])
 
       override def create(doc: Document): CommonGame.GameImg = {
         val gameImg = new CommonGame.GameImg
@@ -55,7 +55,7 @@ object GameQuery {
     }
 
     class SimpleGame extends ObjectCreator[Game] {
-      final private val logger = LoggerFactory.getLogger(classOf[SimpleGame])
+      private lazy val logger = LoggerFactory.getLogger(classOf[SimpleGame])
 
       override def create(doc: Document) = {
         val g = new Game
@@ -83,8 +83,8 @@ object GameQuery {
     }
 
     class FullGame extends Creator.SimpleGame {
-      val gamecharCreator = new Creator.GameChar
-      val simpleImgCreator = new Creator.SimpleImg
+      lazy val gamecharCreator = new Creator.GameChar
+      lazy val simpleImgCreator = new Creator.SimpleImg
 
       override def create(doc: Document) = {
         val g = super.create(doc)

@@ -1,12 +1,15 @@
 package com.goexp.galgame.data.parser
 
-import java.util.regex.Pattern
-
 import com.goexp.galgame.data.model.Brand
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 
 import scala.collection.JavaConverters._
+
+private object GetchuBrandParser {
+  private lazy val ID_REGEX = "search_brand_id=(?<id>\\d+)".r
+
+}
 
 class GetchuBrandParser {
 
@@ -18,6 +21,9 @@ class GetchuBrandParser {
       .drop(1)
       .flatMap(parse)
   }
+
+
+  import GetchuBrandParser._
 
   private def parse(item: Element) =
 
@@ -31,9 +37,7 @@ class GetchuBrandParser {
         val titleEle = ele.select("td:nth-of-type(1)>a")
         val idUrl = titleEle.attr("href")
         brand.name = titleEle.text
-        val m = Pattern.compile("search_brand_id=(?<id>\\d+)").matcher(idUrl)
-        brand.id = if (m.find) m.group("id").toInt
-        else 0
+        brand.id = ID_REGEX.findFirstMatchIn(idUrl).map(m => m.group("id").toInt).getOrElse(0)
         val websiteEle = ele.select("td:nth-of-type(2)>a")
         brand.website = websiteEle.attr("href")
         //                    brand.index = index;

@@ -6,7 +6,7 @@ import org.bson.Document
 import org.slf4j.LoggerFactory
 
 object CVQuery {
-  val tlp = new DBQueryTemplate.Builder[CV]("galgame", "cv", new CVCreator).build
+  lazy val tlp = new DBQueryTemplate.Builder[CV]("galgame", "cv", new CVCreator).build
 
   private class CVCreator extends ObjectCreator[CV] {
     private val logger = LoggerFactory.getLogger(classOf[CVCreator])

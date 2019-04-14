@@ -9,8 +9,7 @@ import org.jsoup.nodes.Element
 
 import scala.collection.JavaConverters._
 
-
-private object ItemParser {
+class ListPageParser {
 
   def parse(item: Element) = {
     def parseId(url: String) = {
@@ -36,14 +35,11 @@ private object ItemParser {
     g
 
   }
-}
 
-
-class ListPageParser {
 
   def parse(html: String) =
     Jsoup.parse(html)
       .select("ul.display>li>div.content_block")
       .asScala.toStream
-      .map(ItemParser.parse)
+      .map(parse)
 }

@@ -5,7 +5,7 @@ import com.goexp.galgame.common.model.CommonGame
 import org.bson.Document
 
 object GuideDB {
-  var tlp = new DBOperatorTemplate("galgame", "guide")
+  lazy val tlp = new DBOperatorTemplate("galgame", "guide")
 }
 
 class GuideDB {

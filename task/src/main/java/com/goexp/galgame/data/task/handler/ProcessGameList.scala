@@ -15,8 +15,8 @@ import scala.collection.JavaConverters._
 
 
 class ProcessGameList extends DefaultMessageHandler[Int] {
-  final private val logger = LoggerFactory.getLogger(classOf[ProcessGameList])
-  final private val importor = new GameDB
+  private lazy val logger = LoggerFactory.getLogger(classOf[ProcessGameList])
+  private lazy val importor = new GameDB
 
   override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]) = {
     val brandId = message.entity

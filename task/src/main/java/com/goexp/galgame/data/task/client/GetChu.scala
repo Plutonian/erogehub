@@ -16,7 +16,7 @@ import com.goexp.galgame.data.parser.game.{DetailPageParser, ListPageParser}
 import org.slf4j.LoggerFactory
 
 object GetChu {
-  val DEFAULT_CHARSET: Charset = Charset.forName("EUC-JP")
+  lazy val DEFAULT_CHARSET: Charset = Charset.forName("EUC-JP")
   private val logger = LoggerFactory.getLogger(GetChu.getClass)
 
   def getHtml(request: HttpRequest): String = {

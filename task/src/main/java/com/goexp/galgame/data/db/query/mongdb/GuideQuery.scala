@@ -6,10 +6,10 @@ import org.bson.Document
 import org.slf4j.LoggerFactory
 
 object GuideQuery {
-  var tlp = new DBQueryTemplate.Builder[CommonGame.Guide]("galgame", "guide", new Creator).build
+  lazy val tlp = new DBQueryTemplate.Builder[CommonGame.Guide]("galgame", "guide", new Creator).build
 
   private class Creator extends ObjectCreator[CommonGame.Guide] {
-    private val logger = LoggerFactory.getLogger(classOf[Creator])
+    private lazy val logger = LoggerFactory.getLogger(classOf[Creator])
 
     override def create(doc: Document): CommonGame.Guide = {
       logger.debug("<create> doc={}", doc)

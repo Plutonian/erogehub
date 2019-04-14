@@ -7,7 +7,7 @@ import com.mongodb.client.model.Updates.set
 import org.bson.Document
 
 object BrandDB {
-  var tlp = new DBOperatorTemplate("galgame", "brand")
+  lazy val tlp = new DBOperatorTemplate("galgame", "brand")
 }
 
 class BrandDB {

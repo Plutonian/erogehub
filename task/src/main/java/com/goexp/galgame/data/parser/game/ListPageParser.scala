@@ -11,7 +11,7 @@ import scala.collection.JavaConverters._
 
 class ListPageParser {
 
-  def parse(item: Element) = {
+  def parse(item: Element): Game = {
     def parseId(url: String) = {
       "id=(?<id>\\d+)".r.findFirstMatchIn(url).map(_.group("id").toInt).getOrElse(0)
     }
@@ -37,7 +37,7 @@ class ListPageParser {
   }
 
 
-  def parse(html: String) =
+  def parse(html: String): Stream[Game] =
     Jsoup.parse(html)
       .select("ul.display>li>div.content_block")
       .asScala.toStream

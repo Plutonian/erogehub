@@ -21,7 +21,7 @@ public class Piplline {
 
     final private ExecutorService listenerExecutorService = Executors.newSingleThreadExecutor();
 
-    final private Set<HandlerConfig<? extends Object>> configs = new HashSet<>();
+    final private Set<HandlerConfig<?>> configs = new HashSet<>();
 
     final private Starter starter;
 
@@ -38,38 +38,38 @@ public class Piplline {
     }
 
 
-    private Piplline registryMessageHandler(int mesType, MessageHandler messageHandler, ExecutorService executor) {
+    private Piplline registryMessageHandler(int mesType, MessageHandler<?> messageHandler, ExecutorService executor) {
         configs.add(new HandlerConfig<>(mesType, messageHandler, executor));
         return this;
     }
 
-    private Piplline registryMessageHandler(int mesType, MessageHandler messageHandler, int threadCount) {
+    private Piplline registryMessageHandler(int mesType, MessageHandler<?> messageHandler, int threadCount) {
         configs.add(new HandlerConfig<>(mesType, messageHandler, Executors.newFixedThreadPool(threadCount)));
         return this;
     }
 
 
-    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler messageHandler) {
+    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler<?> messageHandler) {
         return registryMessageHandler(handleMesType, messageHandler, 2);
     }
 
-    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler messageHandler, int threadCount) {
+    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler<?> messageHandler, int threadCount) {
         return registryMessageHandler(handleMesType, messageHandler, threadCount);
     }
 
-    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler messageHandler, ExecutorService executor) {
+    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler<?> messageHandler, ExecutorService executor) {
         return registryMessageHandler(handleMesType, messageHandler, executor);
     }
 
-    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler messageHandler) {
+    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler<?> messageHandler) {
         return registryMessageHandler(handleMesType, messageHandler, 30);
     }
 
-    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler messageHandler, int threadCount) {
+    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler<?> messageHandler, int threadCount) {
         return registryMessageHandler(handleMesType, messageHandler, threadCount);
     }
 
-    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler messageHandler, ExecutorService executor) {
+    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler<?> messageHandler, ExecutorService executor) {
         return registryMessageHandler(handleMesType, messageHandler, executor);
     }
 

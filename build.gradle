@@ -9,7 +9,6 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'scala'
     apply plugin: 'maven-publish'
     
 

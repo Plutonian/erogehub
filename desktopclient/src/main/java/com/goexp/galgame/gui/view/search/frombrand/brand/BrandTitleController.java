@@ -173,7 +173,7 @@ public class BrandTitleController {
         boxWebsite.getChildren().clear();
 
         var getchuLink = new URLHyperlink("Getchu");
-        getchuLink.setHref(GetchuURL.getListByBrand(brand.id));
+        getchuLink.setHref(GetchuURL.GameList.byBrand(brand.id));
         boxWebsite.getChildren().add(getchuLink);
 
         var ggBasesLink = new URLHyperlink("GGBases");

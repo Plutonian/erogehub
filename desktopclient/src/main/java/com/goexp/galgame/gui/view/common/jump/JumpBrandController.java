@@ -1,8 +1,8 @@
 package com.goexp.galgame.gui.view.common.jump;
 
 import com.goexp.galgame.common.website.GetchuURL;
-import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.HGameApp;
+import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.view.search.MainSearchController;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
@@ -34,7 +34,7 @@ public class JumpBrandController {
     private void initialize() {
 
         linkGetchu.setOnAction((e) -> {
-            HGameApp.app.getHostServices().showDocument(GetchuURL.getListByBrand(brand.id));
+            HGameApp.app.getHostServices().showDocument(GetchuURL.GameList.byBrand(brand.id));
         });
         jumpBrand.setOnAction((e) -> {
             MainSearchController.$this.viewBrand(brand);

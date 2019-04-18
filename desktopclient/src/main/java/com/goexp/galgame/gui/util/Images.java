@@ -26,7 +26,7 @@ public class Images {
         }
 
         public static Image small(final Game game) {
-            final var url = GetchuURL.getImgSmallFromId(game.id);
+            final var url = GetchuURL.Game.SmallImg(game.id);
 
             return Util.getImage(new CacheKey(game.id + "/game_s", url));
         }
@@ -34,13 +34,13 @@ public class Images {
         public static class Simple {
 
             public static Image small(final int gameId, final int index, final String src) {
-                final var url = GetchuURL.getSimpleImgSmallFromSrc(src);
+                final var url = GetchuURL.Game.smallSimpleImg(src);
 
                 return Util.getImage(new CacheKey(gameId + "/simple_s_" + index, url));
             }
 
             public static Image large(final int gameId, final int index, final String src) {
-                final var url = GetchuURL.getSimpleImgBigFromSrc(src);
+                final var url = GetchuURL.Game.largeSimpleImg(src);
 
                 return Util.getImage(new CacheKey(gameId + "/simple_l_" + index, url));
             }
@@ -49,7 +49,7 @@ public class Images {
         public static class GameChar {
 
             public static Image small(final int gameId, final int index, final String src) {
-                final var url = GetchuURL.getUrlFromSrc(src);
+                final var url = GetchuURL.Game.getUrlFromSrc(src);
 
                 return Util.getImage(new CacheKey(gameId + "/char_s_" + index, url));
             }

@@ -7,7 +7,6 @@ import com.goexp.galgame.gui.task.brand.BrandSearchTask;
 import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.TabSelect;
 import com.goexp.galgame.gui.util.Websites;
-import com.goexp.galgame.gui.view.common.CommonBrandInfoTabController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;

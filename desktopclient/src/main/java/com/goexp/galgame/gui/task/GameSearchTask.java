@@ -3,6 +3,7 @@ package com.goexp.galgame.gui.task;
 import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.db.mongo.Query;
+import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.AppCache;
 import javafx.collections.FXCollections;
@@ -227,6 +228,42 @@ public class GameSearchTask {
                     .where(eq("state", gameState.getValue()))
                     .list().stream()
                     .peek(GameSearchTask::fillGameWithBrand)
+                    .collect(Collectors.toUnmodifiableList());
+
+            return FXCollections.observableArrayList(list);
+        }
+    }
+
+    public static class ByBrand extends Task<ObservableList<Game>> {
+
+        private int brandId;
+
+
+        public ByBrand(int brandId) {
+            this.brandId = brandId;
+
+        }
+
+        @Override
+        protected ObservableList<Game> call() {
+
+            Brand brand;
+            if (AppCache.brandCache.containsKey(brandId)) {
+                brand = AppCache.brandCache.get(brandId);
+            } else {
+
+                brand = Query.BrandQuery.tlp.query()
+                        .where(eq(brandId))
+                        .one();
+                AppCache.brandCache.put(brandId, brand);
+            }
+
+            var list = Query.GameQuery.tlp.query()
+                    .where(eq("brandId", brandId))
+                    .list().stream()
+                    .peek(g -> {
+                        g.brand = brand;
+                    })
                     .collect(Collectors.toUnmodifiableList());
 
             return FXCollections.observableArrayList(list);

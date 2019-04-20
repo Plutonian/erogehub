@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.view.common.jump;
+package com.goexp.galgame.gui.view.game.detailview;
 
 import com.goexp.galgame.common.website.BangumiURL;
 import com.goexp.galgame.common.website.WikiURL;

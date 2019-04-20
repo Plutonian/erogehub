@@ -5,7 +5,7 @@ import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.*;
 import com.goexp.galgame.gui.view.brand.BrandPanelController;
-import com.goexp.galgame.gui.view.common.CommonBrandInfoTabController;
+import com.goexp.galgame.gui.view.brand.CommonBrandInfoTabController;
 import com.goexp.galgame.gui.view.game.detailview.NavViewController;
 import com.goexp.galgame.gui.task.GameSearchTask;
 import javafx.concurrent.Service;

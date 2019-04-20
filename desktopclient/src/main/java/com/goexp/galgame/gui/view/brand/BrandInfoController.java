@@ -2,8 +2,8 @@ package com.goexp.galgame.gui.view.brand;
 
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.task.GameSearchTask;
 import com.goexp.galgame.gui.view.game.dataview.DataViewController;
-import com.goexp.galgame.gui.task.brand.BrandGetGameTask;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -44,7 +44,7 @@ public class BrandInfoController {
     private Service<ObservableList<Game>> gameByBrand = new Service<>() {
         @Override
         protected Task<ObservableList<Game>> createTask() {
-            return new BrandGetGameTask.ByBrand(brand.id);
+            return new GameSearchTask.ByBrand(brand.id);
         }
     };
 

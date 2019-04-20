@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.view.common;
+package com.goexp.galgame.gui.view.game.part;
 
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;

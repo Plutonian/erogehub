@@ -5,4 +5,4 @@
 
 <ChoiceBox xmlns:fx="http://javafx.com/fxml/1" fx:id="choiceState" prefHeight="25.0" prefWidth="77.0"
            styleClass="copyablelabel" stylesheets="@../../view.css" xmlns="http://javafx.com/javafx/"
-           fx:controller="com.goexp.galgame.gui.view.common.StateChangeController"/>
+           fx:controller="com.goexp.galgame.gui.view.game.part.StateChangeController"/>

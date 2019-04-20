@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.view.game.detailview.cell;
 
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Images;
-import com.goexp.galgame.gui.view.common.jump.CVSearchController;
+import com.goexp.galgame.gui.view.game.detailview.CVSearchController;
 import com.goexp.galgame.gui.view.game.HomeController;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;

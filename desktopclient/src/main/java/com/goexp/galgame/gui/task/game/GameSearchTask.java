@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.task;
+package com.goexp.galgame.gui.task.game;
 
 import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;

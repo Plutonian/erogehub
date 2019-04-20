@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.view.game.detailview;
+package com.goexp.galgame.gui.view.game.detailview.part;
 
 import com.goexp.common.util.DateUtil;
 import javafx.fxml.FXML;

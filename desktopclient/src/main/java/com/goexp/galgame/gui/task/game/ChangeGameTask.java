@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.task;
+package com.goexp.galgame.gui.task.game;
 
 import com.goexp.galgame.gui.db.mongo.GameDB;
 import com.goexp.galgame.gui.model.Game;

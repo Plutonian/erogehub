@@ -4,7 +4,7 @@ import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.view.game.detailview.cell.GameCharListCellController;
 import com.goexp.galgame.gui.view.game.detailview.header.HeaderController;
-import com.goexp.galgame.gui.task.GameCharListTask;
+import com.goexp.galgame.gui.task.game.GameCharListTask;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -4,7 +4,7 @@ import com.goexp.galgame.common.model.TagType;
 import com.goexp.galgame.gui.util.CommonTabController;
 import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.TabSelect;
-import com.goexp.galgame.gui.task.GameSearchTask;
+import com.goexp.galgame.gui.task.game.GameSearchTask;
 import com.goexp.galgame.gui.task.TagListTask;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;

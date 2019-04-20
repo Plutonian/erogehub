@@ -7,7 +7,7 @@
 
 <Menu xmlns:fx="http://javafx.com/fxml/1" mnemonicParsing="false" text="Search"
       xmlns="http://javafx.com/javafx/8.0.172-ea"
-      fx:controller="com.goexp.galgame.gui.view.game.detailview.CVSearchController">
+      fx:controller="com.goexp.galgame.gui.view.game.detailview.part.CVSearchController">
     <items>
         <!--<MenuItem fx:id="linkDlsite" mnemonicParsing="false" text="Dlsite" />-->
         <!--<SeparatorMenuItem mnemonicParsing="false" />-->

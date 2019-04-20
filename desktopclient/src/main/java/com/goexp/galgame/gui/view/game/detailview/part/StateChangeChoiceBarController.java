@@ -1,9 +1,8 @@
-package com.goexp.galgame.gui.view.game.detailview;
+package com.goexp.galgame.gui.view.game.detailview.part;
 
+import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.task.ChangeGameTask;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import com.goexp.galgame.gui.task.game.ChangeGameTask;
 import javafx.beans.value.ChangeListener;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -17,34 +16,41 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 
-public class StarChoiceBarController {
-    private final Logger logger = LoggerFactory.getLogger(StarChoiceBarController.class);
-    public BooleanProperty onStarChangeProperty = new SimpleBooleanProperty(false);
+public class StateChangeChoiceBarController {
+    private final Logger logger = LoggerFactory.getLogger(StateChangeChoiceBarController.class);
+
     private Game targetGame;
+
     private ChangeListener<Toggle> handler;
+
     private List<ToggleButton> list;
+
+
     @FXML
     private HBox groupLikeCon;
+
     private ToggleGroup groupLike = new ToggleGroup();
-    private Service<Void> changeStarService = new Service<>() {
+
+    private Service<Void> changeGameStateService = new Service<>() {
         @Override
         protected Task<Void> createTask() {
-            return new ChangeGameTask.Star(targetGame);
+            return new ChangeGameTask.Like(targetGame);
         }
     };
 
     @FXML
     private void initialize() {
 
-        list = IntStream.rangeClosed(1, 5).boxed()
-                .map(star -> {
+
+        list = Stream.of(GameState.values())
+                .filter(gameType -> gameType != GameState.UNCHECKED)
+                .map(gameType -> {
                     var toggle = new ToggleButton();
-                    toggle.setUserData(star);
-                    toggle.setText(star.toString());
-//                    toggle.setGraphic(new ImageView(image));
+                    toggle.setUserData(gameType);
+                    toggle.setText(gameType.getName());
                     toggle.setToggleGroup(groupLike);
 
                     return toggle;
@@ -64,17 +70,14 @@ public class StarChoiceBarController {
 
         handler = ((o, oldV, newV) -> {
             if (newV == null) {
-                targetGame.star = 0;
-                changeStarService.restart();
+                targetGame.state.set(GameState.UNCHECKED);
+                changeGameStateService.restart();
             } else {
                 logger.debug("New:{}", newV.getUserData());
 
-                targetGame.star = (int) newV.getUserData();
-                changeStarService.restart();
+                targetGame.state.set((GameState) newV.getUserData());
+                changeGameStateService.restart();
             }
-
-            onStarChangeProperty.set(true);
-            onStarChangeProperty.set(false);
         });
 
     }
@@ -83,13 +86,6 @@ public class StarChoiceBarController {
     public void load(Game game) {
         this.targetGame = game;
 
-        loadDetailPage(game);
-    }
-
-    private void loadDetailPage(Game g) {
-
-        targetGame = g;
-
         groupLike.selectedToggleProperty().removeListener(handler);
 
         list.forEach(bt -> {
@@ -97,7 +93,7 @@ public class StarChoiceBarController {
         });
 
         list.stream().filter(btn -> {
-            return (int) (btn.getUserData()) == g.star;
+            return (btn.getUserData()) == game.state.get();
         }).findAny().ifPresent((targetBtn) -> {
             targetBtn.setSelected(true);
         });

@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.task;
+package com.goexp.galgame.gui.task.game;
 
 import com.goexp.galgame.gui.db.mongo.Query;
 import com.goexp.galgame.gui.model.Game;
@@ -10,24 +10,24 @@ import java.util.Optional;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public class GameImgListTask extends Task<ObservableList<Game.GameImg>> {
+public class GameCharListTask extends Task<ObservableList<Game.GameCharacter>> {
 
     private int gameId;
 
-    public GameImgListTask(int gameId) {
+    public GameCharListTask(int gameId) {
         this.gameId = gameId;
 
     }
 
     @Override
-    protected ObservableList<Game.GameImg> call() {
+    protected ObservableList<Game.GameCharacter> call() {
 
-        new Query.GameQuery.GameImgQuery();
 
-        var g = Query.GameQuery.GameImgQuery.tlp.query()
+        var g = Query.GameQuery.GameCharQuery.tlp.query()
                 .where(eq(gameId))
                 .one();
-        return Optional.ofNullable(g.gameImgs)
+
+        return Optional.ofNullable(g.gameCharacters)
                 .map(FXCollections::observableArrayList)
                 .orElse(FXCollections.emptyObservableList());
     }

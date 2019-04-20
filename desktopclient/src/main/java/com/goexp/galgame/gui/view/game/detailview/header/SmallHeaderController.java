@@ -5,7 +5,7 @@ import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
-import com.goexp.galgame.gui.view.game.detailview.StateChangeChoiceBarController;
+import com.goexp.galgame.gui.view.game.detailview.part.StateChangeChoiceBarController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;

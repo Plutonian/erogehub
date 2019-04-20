@@ -5,7 +5,7 @@ import com.goexp.galgame.common.website.GGBasesURL;
 import com.goexp.galgame.common.website.GetchuURL;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.task.ChangeGameTask;
+import com.goexp.galgame.gui.task.game.ChangeGameTask;
 import com.goexp.galgame.gui.task.brand.BrandChangeTask;
 import com.goexp.galgame.gui.task.brand.BrandListTask;
 import com.goexp.galgame.gui.view.common.control.URLHyperlink;

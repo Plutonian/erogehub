@@ -7,7 +7,7 @@ import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.game.part.StateChangeController;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
-import com.goexp.galgame.gui.view.game.detailview.DateShowController;
+import com.goexp.galgame.gui.view.game.detailview.part.DateShowController;
 import com.goexp.galgame.gui.view.game.HomeController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

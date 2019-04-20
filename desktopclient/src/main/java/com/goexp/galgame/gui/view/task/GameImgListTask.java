@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.view.task;
 
-import com.goexp.galgame.gui.db.mongo.query.GameQuery;
+import com.goexp.galgame.gui.db.mongo.Query;
 import com.goexp.galgame.gui.model.Game;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,9 +22,9 @@ public class GameImgListTask extends Task<ObservableList<Game.GameImg>> {
     @Override
     protected ObservableList<Game.GameImg> call() {
 
-        new GameQuery.GameImgQuery();
+        new Query.GameQuery.GameImgQuery();
 
-        var g = GameQuery.GameImgQuery.tlp.query()
+        var g = Query.GameQuery.GameImgQuery.tlp.query()
                 .where(eq(gameId))
                 .one();
         return Optional.ofNullable(g.gameImgs)

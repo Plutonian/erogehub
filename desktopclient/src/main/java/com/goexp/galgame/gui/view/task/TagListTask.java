@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.view.task;
 
 import com.goexp.galgame.common.model.TagType;
-import com.goexp.galgame.gui.db.mongo.query.TagQuery;
+import com.goexp.galgame.gui.db.mongo.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -13,7 +13,7 @@ public class TagListTask extends Task<ObservableList<TagType>> {
     @Override
     protected ObservableList<TagType> call() {
         return FXCollections.observableArrayList(
-                TagQuery.tlp.query()
+                Query.TagQuery.tlp.query()
                         .sort(ascending("order"))
                         .list()
         );

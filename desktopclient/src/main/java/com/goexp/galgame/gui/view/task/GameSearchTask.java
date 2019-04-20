@@ -2,8 +2,7 @@ package com.goexp.galgame.gui.view.task;
 
 import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;
-import com.goexp.galgame.gui.db.mongo.query.BrandQuery;
-import com.goexp.galgame.gui.db.mongo.query.GameQuery;
+import com.goexp.galgame.gui.db.mongo.Query;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.AppCache;
 import javafx.collections.FXCollections;
@@ -23,7 +22,7 @@ public class GameSearchTask {
 
         g.brand = Optional.ofNullable(AppCache.brandCache.get(key))
                 .orElseGet(() -> {
-                    var brand = BrandQuery.tlp.query()
+                    var brand = Query.BrandQuery.tlp.query()
                             .where(eq(g.brand.id))
                             .one();
                     AppCache.brandCache.put(key, brand);
@@ -46,9 +45,9 @@ public class GameSearchTask {
         @Override
         protected ObservableList<Game> call() {
 
-            List<Game> list = real ? GameQuery.tlp.query()
+            List<Game> list = real ? Query.GameQuery.tlp.query()
                     .where(eq("gamechar.truecv", cv))
-                    .list() : GameQuery.tlp.query()
+                    .list() : Query.GameQuery.tlp.query()
                     .where(eq("gamechar.cv", cv))
                     .list();
             var templist = list.stream()
@@ -74,7 +73,7 @@ public class GameSearchTask {
         @Override
         protected ObservableList<Game> call() {
 
-            var list = GameQuery.tlp.query()
+            var list = Query.GameQuery.tlp.query()
                     .where(eq("painter", cv))
                     .list().stream()
                     .distinct()
@@ -100,7 +99,7 @@ public class GameSearchTask {
 
         @Override
         protected ObservableList<Game> call() {
-            var list = GameQuery.tlp.query()
+            var list = Query.GameQuery.tlp.query()
                     .where(
                             and(
                                     gte("publishDate", DateUtil.toDate(start.toString() + " 00:00:00")),
@@ -128,7 +127,7 @@ public class GameSearchTask {
         @Override
         protected ObservableList<Game> call() {
 
-            var list = GameQuery.tlp.query()
+            var list = Query.GameQuery.tlp.query()
                     .where(regex("name", "^" + name))
                     .list().stream()
                     .peek(GameSearchTask::fillGameWithBrand)
@@ -150,7 +149,7 @@ public class GameSearchTask {
         @Override
         protected ObservableList<Game> call() {
 
-            var list = GameQuery.tlp.query()
+            var list = Query.GameQuery.tlp.query()
                     .where(regex("name", name))
                     .list().stream()
                     .peek(GameSearchTask::fillGameWithBrand)
@@ -173,7 +172,7 @@ public class GameSearchTask {
         @Override
         protected ObservableList<Game> call() {
 
-            var list = GameQuery.tlp.query()
+            var list = Query.GameQuery.tlp.query()
                     .where(eq("tag", tag))
                     .list().stream()
                     .peek(GameSearchTask::fillGameWithBrand)
@@ -198,7 +197,7 @@ public class GameSearchTask {
         protected ObservableList<Game> call() {
 
 
-            var list = GameQuery.tlp.query()
+            var list = Query.GameQuery.tlp.query()
                     .where(
                             and(
                                     gte("star", begin),
@@ -224,7 +223,7 @@ public class GameSearchTask {
         @Override
         protected ObservableList<Game> call() {
 
-            var list = GameQuery.tlp.query()
+            var list = Query.GameQuery.tlp.query()
                     .where(eq("state", gameState.getValue()))
                     .list().stream()
                     .peek(GameSearchTask::fillGameWithBrand)

@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.view.search.frombrand.brand.task;
 
 import com.goexp.galgame.common.model.BrandType;
-import com.goexp.galgame.gui.db.mongo.query.BrandQuery;
+import com.goexp.galgame.gui.db.mongo.Query;
 import com.goexp.galgame.gui.model.Brand;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,7 +29,7 @@ public class BrandSearchTask {
         protected ObservableList<TreeItem<Brand>> call() {
 
 
-            var list = BrandQuery.tlp.query()
+            var list = Query.BrandQuery.tlp.query()
                     .where(regex("name", "^" + name))
                     .list();
 
@@ -80,9 +80,9 @@ public class BrandSearchTask {
 
             List<Brand> list;
             if (type == BrandType.ALL) {
-                list = BrandQuery.tlp.query().list();
+                list = Query.BrandQuery.tlp.query().list();
             } else {
-                list = BrandQuery.tlp.query()
+                list = Query.BrandQuery.tlp.query()
                         .where(eq("type", type.getValue()))
                         .list();
 
@@ -133,7 +133,7 @@ public class BrandSearchTask {
         protected ObservableList<TreeItem<Brand>> call() {
 
 
-            var list = BrandQuery.tlp.query()
+            var list = Query.BrandQuery.tlp.query()
                     .where(regex("comp", name))
                     .list();
 

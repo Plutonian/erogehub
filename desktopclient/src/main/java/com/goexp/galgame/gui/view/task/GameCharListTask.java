@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.view.task;
 
-import com.goexp.galgame.gui.db.mongo.query.GameQuery;
+import com.goexp.galgame.gui.db.mongo.Query;
 import com.goexp.galgame.gui.model.Game;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +23,7 @@ public class GameCharListTask extends Task<ObservableList<Game.GameCharacter>> {
     protected ObservableList<Game.GameCharacter> call() {
 
 
-        var g = GameQuery.GameCharQuery.tlp.query()
+        var g = Query.GameQuery.GameCharQuery.tlp.query()
                 .where(eq(gameId))
                 .one();
 

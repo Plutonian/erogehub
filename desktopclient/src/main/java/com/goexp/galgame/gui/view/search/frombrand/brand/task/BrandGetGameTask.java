@@ -1,8 +1,7 @@
 package com.goexp.galgame.gui.view.search.frombrand.brand.task;
 
 import com.goexp.galgame.common.model.GameState;
-import com.goexp.galgame.gui.db.mongo.query.BrandQuery;
-import com.goexp.galgame.gui.db.mongo.query.GameQuery;
+import com.goexp.galgame.gui.db.mongo.Query;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.AppCache;
@@ -36,13 +35,13 @@ public class BrandGetGameTask {
                 brand = AppCache.brandCache.get(brandId);
             } else {
 
-                brand = BrandQuery.tlp.query()
+                brand = Query.BrandQuery.tlp.query()
                         .where(eq(brandId))
                         .one();
                 AppCache.brandCache.put(brandId, brand);
             }
 
-            var list = GameQuery.tlp.query()
+            var list = Query.GameQuery.tlp.query()
                     .where(eq("brandId", brandId))
                     .list().stream()
                     .peek(g -> {
@@ -72,13 +71,13 @@ public class BrandGetGameTask {
                 brand = AppCache.brandCache.get(brandId);
             } else {
 
-                brand = BrandQuery.tlp.query()
+                brand = Query.BrandQuery.tlp.query()
                         .where(eq(brandId))
                         .one();
                 AppCache.brandCache.put(brandId, brand);
             }
 
-            var list = GameQuery.tlp.query()
+            var list = Query.GameQuery.tlp.query()
                     .where(
                             and(
                                     eq("brandId", brandId),

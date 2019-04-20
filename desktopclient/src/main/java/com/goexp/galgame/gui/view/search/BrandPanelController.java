@@ -3,13 +3,10 @@ package com.goexp.galgame.gui.view.search;
 import com.goexp.common.util.Strings;
 import com.goexp.galgame.common.model.BrandType;
 import com.goexp.galgame.gui.model.Brand;
-import com.goexp.galgame.gui.util.FXMLLoaderProxy;
+import com.goexp.galgame.gui.task.brand.BrandSearchTask;
 import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.TabSelect;
 import com.goexp.galgame.gui.view.common.CommonBrandInfoTabController;
-import com.goexp.galgame.gui.view.pagesource.WebViewController;
-import com.goexp.galgame.gui.view.search.cell.BrandTreeCellController;
-import com.goexp.galgame.gui.task.brand.BrandSearchTask;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
@@ -19,14 +16,9 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -140,7 +132,6 @@ public class BrandPanelController {
 
         colWebsite.setCellFactory(col -> {
 
-            final var loader = new FXMLLoaderProxy<Parent, WebViewController>("view/WebView.fxml");
 
             return new TreeTableCell<>() {
                 @Override
@@ -157,17 +148,8 @@ public class BrandPanelController {
                                     var titleLabel = new Hyperlink();
                                     titleLabel.setText(item);
                                     titleLabel.setOnAction(event -> {
-                                        loader.controller.load(brand);
 
-                                        var window = new Stage();
-                                        window.setTitle(brand.website);
-                                        window.setWidth(1200);
-                                        window.setMinWidth(1200);
-                                        window.setHeight(800);
-                                        window.setMinHeight(800);
-                                        window.setScene(new Scene(loader.node, Color.BLACK));
-
-                                        window.show();
+                                        //TODO::something
 
                                     });
                                     this.setGraphic(titleLabel);

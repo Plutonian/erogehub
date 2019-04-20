@@ -25,14 +25,6 @@ public class WebViewController {
     @FXML
     private WebView webView;
 
-    private Brand brand;
-
-    private Service<Void> updateBrandService = new Service<Void>() {
-        @Override
-        protected Task<Void> createTask() {
-            return new UpdateBrandWebsiteTask(brand);
-        }
-    };
 
     /**
      * Event
@@ -97,7 +89,6 @@ public class WebViewController {
     }
 
     public void load(Brand brand) {
-        this.brand = brand;
         webView
                 .getEngine().load(brand.website);
     }
@@ -105,8 +96,6 @@ public class WebViewController {
     @FXML
     private void goButton_OnAction(ActionEvent actionEvent) {
 
-        brand.website = locationField.getText();
-        updateBrandService.restart();
     }
 
 }

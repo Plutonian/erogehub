@@ -6,6 +6,7 @@ import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.task.brand.BrandSearchTask;
 import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.TabSelect;
+import com.goexp.galgame.gui.util.TaskService;
 import com.goexp.galgame.gui.util.Websites;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -13,7 +14,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -79,26 +79,11 @@ public class BrandPanelController {
     private String keyword;
 
 
-    private Service<ObservableList<TreeItem<Brand>>> brandService = new Service<>() {
-        @Override
-        protected Task<ObservableList<TreeItem<Brand>>> createTask() {
-            return new BrandSearchTask.ByType(brandType);
-        }
-    };
+    private Service<ObservableList<TreeItem<Brand>>> brandService = new TaskService<>(() -> new BrandSearchTask.ByType(brandType));
 
-    private Service<ObservableList<TreeItem<Brand>>> brandByNameService = new Service<>() {
-        @Override
-        protected Task<ObservableList<TreeItem<Brand>>> createTask() {
-            return new BrandSearchTask.ByName(keyword);
-        }
-    };
+    private Service<ObservableList<TreeItem<Brand>>> brandByNameService = new TaskService<>(() -> new BrandSearchTask.ByName(keyword));
 
-    private Service<ObservableList<TreeItem<Brand>>> brandByCompService = new Service<>() {
-        @Override
-        protected Task<ObservableList<TreeItem<Brand>>> createTask() {
-            return new BrandSearchTask.ByComp(keyword);
-        }
-    };
+    private Service<ObservableList<TreeItem<Brand>>> brandByCompService = new TaskService<>(() -> new BrandSearchTask.ByComp(keyword));
 
 
     @FXML

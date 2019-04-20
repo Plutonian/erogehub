@@ -3,13 +3,11 @@ package com.goexp.galgame.gui.view.game;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.task.game.GameSearchTask;
 import com.goexp.galgame.gui.util.*;
 import com.goexp.galgame.gui.view.brand.BrandPanelController;
 import com.goexp.galgame.gui.view.brand.CommonBrandInfoTabController;
 import com.goexp.galgame.gui.view.game.detailview.NavViewController;
-import com.goexp.galgame.gui.task.game.GameSearchTask;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -96,13 +94,7 @@ public class HomeController {
 
                 TabSelect.from().ifNotFind(() -> {
 
-                    var conn = new CommonTabController(new Service<>() {
-                        @Override
-                        protected Task createTask() {
-
-                            return new GameSearchTask.ByDateRange(start, end);
-                        }
-                    });
+                    var conn = new CommonTabController(() -> new GameSearchTask.ByDateRange(start, end));
 
                     var tab = new Tab(text, conn.node);
                     tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG.get()));
@@ -124,13 +116,7 @@ public class HomeController {
 
                 TabSelect.from().ifNotFind(() -> {
 
-                    var conn = new CommonTabController(new Service<>() {
-                        @Override
-                        protected Task createTask() {
-
-                            return new GameSearchTask.ByDateRange(from, to);
-                        }
-                    });
+                    var conn = new CommonTabController(() -> new GameSearchTask.ByDateRange(from, to));
 
                     var tab = new Tab(text, conn.node);
                     tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG.get()));
@@ -186,12 +172,7 @@ public class HomeController {
                     link.setText(type.getName());
                     link.setUserData(type);
                     link.setOnAction(event -> {
-                        var conn = new CommonTabController(new Service<>() {
-                            @Override
-                            protected Task createTask() {
-                                return new GameSearchTask.ByState(type);
-                            }
-                        });
+                        var conn = new CommonTabController(() -> new GameSearchTask.ByState(type));
 
                         conn.controller.tableViewController.tableColStar.setVisible(false);
                         conn.controller.tableViewController.tableColState.setVisible(false);
@@ -236,12 +217,7 @@ public class HomeController {
 
         TabSelect.from().ifNotFind(() -> {
 
-            var conn = new CommonTabController(new Service<>() {
-                @Override
-                protected Task createTask() {
-                    return new GameSearchTask.ByPainter(painter);
-                }
-            });
+            var conn = new CommonTabController(() -> new GameSearchTask.ByPainter(painter));
 
             var tab = new Tab(painter, conn.node);
 //                    tab.setGraphic(new ImageView(LocalRes.CV_16_PNG.get()));
@@ -256,12 +232,7 @@ public class HomeController {
 
         TabSelect.from().ifNotFind(() -> {
 
-            var conn = new CommonTabController(new Service<>() {
-                @Override
-                protected Task createTask() {
-                    return new GameSearchTask.ByCV(cv, real);
-                }
-            });
+            var conn = new CommonTabController(() -> new GameSearchTask.ByCV(cv, real));
 
             var tab = new Tab(cv, conn.node);
             tab.setGraphic(new ImageView(LocalRes.CV_16_PNG.get()));
@@ -366,12 +337,8 @@ public class HomeController {
         TabSelect.from().ifNotFind(() -> {
 
 
-            var conn = new CommonTabController(new Service<>() {
-                @Override
-                protected Task createTask() {
-                    return new GameSearchTask.ByStarRange(1, 2);
-                }
-            });
+            var conn = new CommonTabController(() -> new GameSearchTask.ByStarRange(1, 2));
+
             conn.controller.tableViewController.tableColState.setVisible(false);
 
             var tab = new Tab(title, conn.node);
@@ -393,12 +360,8 @@ public class HomeController {
         TabSelect.from().ifNotFind(() -> {
 
 
-            var conn = new CommonTabController(new Service<>() {
-                @Override
-                protected Task createTask() {
-                    return new GameSearchTask.ByStarRange(4, 5);
-                }
-            });
+            var conn = new CommonTabController(() -> new GameSearchTask.ByStarRange(4, 5));
+
             conn.controller.tableViewController.tableColState.setVisible(false);
 
             var tab = new Tab(title, conn.node);
@@ -419,12 +382,8 @@ public class HomeController {
         TabSelect.from().ifNotFind(() -> {
 
 
-            var conn = new CommonTabController(new Service<>() {
-                @Override
-                protected Task createTask() {
-                    return new GameSearchTask.ByStarRange(3, 3);
-                }
-            });
+            var conn = new CommonTabController(() -> new GameSearchTask.ByStarRange(3, 3));
+
             conn.controller.tableViewController.tableColState.setVisible(false);
 
             var tab = new Tab(title, conn.node);

@@ -1,17 +1,17 @@
 package com.goexp.galgame.gui.view.game;
 
 import com.goexp.galgame.common.model.TagType;
+import com.goexp.galgame.gui.task.TagListTask;
+import com.goexp.galgame.gui.task.game.GameSearchTask;
 import com.goexp.galgame.gui.util.CommonTabController;
 import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.TabSelect;
-import com.goexp.galgame.gui.task.game.GameSearchTask;
-import com.goexp.galgame.gui.task.TagListTask;
+import com.goexp.galgame.gui.util.TaskService;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
@@ -32,12 +32,7 @@ public class TagExplorerController {
     public String tag;
     @FXML
     private FlowPane tabType;
-    private Service<ObservableList<TagType>> typeService = new Service<>() {
-        @Override
-        protected Task<ObservableList<TagType>> createTask() {
-            return new TagListTask();
-        }
-    };
+    private Service<ObservableList<TagType>> typeService = new TaskService<>(() -> new TagListTask());
 
 
     /**
@@ -116,12 +111,7 @@ public class TagExplorerController {
 
                 TabSelect.from()
                         .ifNotFind(() -> {
-                            var conn = new CommonTabController(new Service<>() {
-                                @Override
-                                protected Task createTask() {
-                                    return new GameSearchTask.ByTag(targetTag);
-                                }
-                            });
+                            var conn = new CommonTabController(() -> new GameSearchTask.ByTag(targetTag));
 
                             var tab = new Tab(targetTag, conn.node);
                             tab.setGraphic(new ImageView(LocalRes.TAG_16_PNG.get()));

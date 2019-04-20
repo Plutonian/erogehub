@@ -35,17 +35,9 @@ public class NavViewController {
     @FXML
     private VBox vboxNav;
 
-//    @FXML
-//    private ListView<Game> listNav;
 
     private Timeline timeline = new Timeline();
 
-//    private Service<ObservableList<Game>> gameListByBrandService = new Service<>() {
-//        @Override
-//        protected Task<ObservableList<Game>> createTask() {
-//            return new BrandGetGameTask.ByBrand(game.brand.id);
-//        }
-//    };
 
     @FXML
     private void initialize() {
@@ -206,7 +198,6 @@ public class NavViewController {
         headerController.load(g);
 
     }
-
 
     @FXML
     private void linkTop_OnAction(ActionEvent event) {

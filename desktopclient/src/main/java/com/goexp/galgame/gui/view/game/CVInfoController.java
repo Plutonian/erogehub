@@ -2,12 +2,12 @@ package com.goexp.galgame.gui.view.game;
 
 import com.goexp.galgame.common.model.CV;
 import com.goexp.galgame.gui.task.CVListTask;
+import com.goexp.galgame.gui.util.TaskService;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
@@ -35,12 +35,8 @@ public class CVInfoController {
 
     @FXML
     private FlowPane cvFlow;
-    private Service<ObservableList<CV>> loadCVService = new Service<>() {
-        @Override
-        protected Task<ObservableList<CV>> createTask() {
-            return new CVListTask();
-        }
-    };
+    private Service<ObservableList<CV>> loadCVService = new TaskService<>(CVListTask::new);
+
 
 
     /**

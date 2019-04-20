@@ -5,9 +5,10 @@ import com.goexp.galgame.common.website.GGBasesURL;
 import com.goexp.galgame.common.website.GetchuURL;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.task.game.ChangeGameTask;
 import com.goexp.galgame.gui.task.brand.BrandChangeTask;
 import com.goexp.galgame.gui.task.brand.BrandListTask;
+import com.goexp.galgame.gui.task.game.ChangeGameTask;
+import com.goexp.galgame.gui.util.TaskService;
 import com.goexp.galgame.gui.view.common.control.URLHyperlink;
 import com.goexp.galgame.gui.view.game.HomeController;
 import javafx.beans.property.BooleanProperty;
@@ -16,7 +17,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -55,27 +55,12 @@ public class TitlePartController {
     private ChoiceBox<BrandType> choiceBrandState;
     private Brand changeBrand;
 
-    private Service<Boolean> changeBrandStateService = new Service<>() {
-        @Override
-        protected Task<Boolean> createTask() {
-            return new BrandChangeTask(changeBrand);
-        }
-    };
+    private Service<Boolean> changeBrandStateService = new TaskService<>(() -> new BrandChangeTask(changeBrand));
 
-    private Service<Void> changeGameStateService = new Service<>() {
-        @Override
-        protected Task<Void> createTask() {
-            return new ChangeGameTask.MultiLikeByBrand(changeBrand.id);
-        }
-    };
+    private Service<Void> changeGameStateService = new TaskService<>(() -> new ChangeGameTask.MultiLikeByBrand(changeBrand.id));
 
 
-    private Service<ObservableList<Brand>> listBrandService = new Service<>() {
-        @Override
-        protected Task<ObservableList<Brand>> createTask() {
-            return new BrandListTask.ByComp(changeBrand.comp);
-        }
-    };
+    private Service<ObservableList<Brand>> listBrandService = new TaskService<>(() -> new BrandListTask.ByComp(changeBrand.comp));
 
 
     private ChangeListener<BrandType> listener;

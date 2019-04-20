@@ -3,16 +3,16 @@ package com.goexp.galgame.gui.view.game.dataview.tableview;
 import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.task.game.ChangeGameTask;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.Tags;
+import com.goexp.galgame.gui.util.TaskService;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
 import com.goexp.galgame.gui.view.game.HomeController;
-import com.goexp.galgame.gui.task.game.ChangeGameTask;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -60,12 +60,8 @@ public class GameTableController {
     private List<Game> selectedGames;
 
 
-    private Service<Void> changeGameService = new Service<>() {
-        @Override
-        protected Task<Void> createTask() {
-            return new ChangeGameTask.MultiLike(selectedGames);
-        }
-    };
+    private Service<Void> changeGameService = new TaskService<>(() -> new ChangeGameTask.MultiLike(selectedGames));
+
 
     @FXML
     private void initialize() {

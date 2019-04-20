@@ -3,10 +3,10 @@ package com.goexp.galgame.gui.view.game.part;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.ChangeGameTask;
+import com.goexp.galgame.gui.util.TaskService;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.util.StringConverter;
@@ -26,12 +26,7 @@ public class StateChangeController {
 
     private ChangeListener<GameState> listener;
     private Game targetGame;
-    private Service<Void> changeGameStateService = new Service<>() {
-        @Override
-        protected Task<Void> createTask() {
-            return new ChangeGameTask.Like(targetGame);
-        }
-    };
+    private Service<Void> changeGameStateService = new TaskService<>(() -> new ChangeGameTask.Like(targetGame));
 
     @FXML
     private void initialize() {

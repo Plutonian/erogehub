@@ -1,13 +1,13 @@
 package com.goexp.galgame.gui.view.game.detailview;
 
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.util.Images;
 import com.goexp.galgame.gui.task.game.GameImgListTask;
+import com.goexp.galgame.gui.util.Images;
+import com.goexp.galgame.gui.util.TaskService;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
@@ -29,12 +29,7 @@ public class SimpleImgController {
     private ImageView largeSimple;
 
 
-    private Service<ObservableList<Game.GameImg>> imgListService = new Service<>() {
-        @Override
-        protected Task<ObservableList<Game.GameImg>> createTask() {
-            return new GameImgListTask(game.id);
-        }
-    };
+    private Service<ObservableList<Game.GameImg>> imgListService = new TaskService<>(() -> new GameImgListTask(game.id));
 
     @FXML
     private void initialize() {

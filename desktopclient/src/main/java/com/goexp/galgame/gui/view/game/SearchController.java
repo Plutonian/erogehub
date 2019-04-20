@@ -1,12 +1,10 @@
 package com.goexp.galgame.gui.view.game;
 
+import com.goexp.galgame.gui.task.game.GameSearchTask;
 import com.goexp.galgame.gui.util.CommonTabController;
 import com.goexp.galgame.gui.util.TabSelect;
-import com.goexp.galgame.gui.task.game.GameSearchTask;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
@@ -54,24 +52,20 @@ public class SearchController {
 
                 TabSelect.from().ifNotFind(() -> {
 
-                    var conn = new CommonTabController(new Service<>() {
-                        @Override
-                        protected Task createTask() {
-
-                            switch (searchType) {
-                                case Simple: {
-                                    return new GameSearchTask.ByName(key);
-                                }
-                                case Extend: {
-                                    return new GameSearchTask.ByNameEx(key);
-                                }
-                                case Full: {
-                                    return new GameSearchTask.ByTag(key);
-                                }
+                    var conn = new CommonTabController(() -> {
+                        switch (searchType) {
+                            case Simple: {
+                                return new GameSearchTask.ByName(key);
                             }
-
-                            return null;
+                            case Extend: {
+                                return new GameSearchTask.ByNameEx(key);
+                            }
+                            case Full: {
+                                return new GameSearchTask.ByTag(key);
+                            }
                         }
+
+                        return null;
                     });
 
 

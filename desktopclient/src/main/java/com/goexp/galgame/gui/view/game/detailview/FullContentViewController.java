@@ -1,15 +1,15 @@
 package com.goexp.galgame.gui.view.game.detailview;
 
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.task.game.GameCharListTask;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
+import com.goexp.galgame.gui.util.TaskService;
 import com.goexp.galgame.gui.view.game.detailview.cell.GameCharListCellController;
 import com.goexp.galgame.gui.view.game.detailview.header.HeaderController;
-import com.goexp.galgame.gui.task.game.GameCharListTask;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
@@ -43,12 +43,8 @@ public class FullContentViewController {
     private VBox listChar;
 
 
-    private Service<ObservableList<Game.GameCharacter>> charListByGameService = new Service<>() {
-        @Override
-        protected Task<ObservableList<Game.GameCharacter>> createTask() {
-            return new GameCharListTask(game.id);
-        }
-    };
+    private Service<ObservableList<Game.GameCharacter>> charListByGameService = new TaskService<>(() -> new GameCharListTask(game.id));
+
 
     @FXML
     private void initialize() {

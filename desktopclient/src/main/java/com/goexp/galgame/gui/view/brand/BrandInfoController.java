@@ -3,12 +3,12 @@ package com.goexp.galgame.gui.view.brand;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.GameSearchTask;
+import com.goexp.galgame.gui.util.TaskService;
 import com.goexp.galgame.gui.view.game.dataview.DataViewController;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,12 +41,7 @@ public class BrandInfoController {
      */
 
 
-    private Service<ObservableList<Game>> gameByBrand = new Service<>() {
-        @Override
-        protected Task<ObservableList<Game>> createTask() {
-            return new GameSearchTask.ByBrand(brand.id);
-        }
-    };
+    private Service<ObservableList<Game>> gameByBrand = new TaskService<>(() -> new GameSearchTask.ByBrand(brand.id));
 
 
     /**

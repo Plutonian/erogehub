@@ -9,9 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-/**
- * A sample that demonstrates a WebView object accessing a web page.
- */
 public class HGameApp extends Application {
     public static HGameApp app;
 

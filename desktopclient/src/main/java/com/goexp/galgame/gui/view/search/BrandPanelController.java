@@ -50,9 +50,6 @@ public class BrandPanelController {
     @FXML
     private TextField textBrandKey;
 
-    @FXML
-    private TreeView<Brand> treeBrandPanel;
-
 
     @FXML
     private TreeTableView<Brand> tableBrand;
@@ -211,7 +208,6 @@ public class BrandPanelController {
             if (newValue != null) {
                 var root = new TreeItem<Brand>();
                 root.getChildren().setAll(newValue);
-                treeBrandPanel.setRoot(root);
                 tableBrand.setRoot(root);
             }
         };
@@ -267,40 +263,6 @@ public class BrandPanelController {
 //
 //        });
 
-
-        treeBrandPanel.setCellFactory(brandTreeView -> {
-
-            final var loader = new FXMLLoaderProxy<Region, BrandTreeCellController>("view/search/brandcell.fxml");
-
-            return new TreeCell<>() {
-                @Override
-                protected void updateItem(Brand item, boolean empty) {
-
-                    super.updateItem(item, empty);
-
-                    setText(null);
-                    setGraphic(null);
-
-                    if (!empty && item != null) {
-
-                        var treeItem = this.getTreeItem();
-
-                        if (treeItem.isLeaf()) {
-                            loader.controller.load(item);
-
-                            setGraphic(loader.node);
-                        } else {
-                            var node = new Label();
-                            node.setText(item.comp);
-                            node.setStyle("-fx-font-size:18px");
-
-                            setGraphic(node);
-                        }
-
-                    }
-                }
-            };
-        });
     }
 
 

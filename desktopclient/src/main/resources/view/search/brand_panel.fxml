@@ -1,21 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
-<?import javafx.scene.control.TreeView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/"
             fx:controller="com.goexp.galgame.gui.view.search.BrandPanelController">
     <bottom>
@@ -59,11 +47,6 @@
                                 <TreeTableColumn fx:id="colCommand" prefWidth="75.0" text="Command"/>
                             </columns>
                         </TreeTableView>
-                    </content>
-                </Tab>
-                <Tab text="Tree">
-                    <content>
-                        <TreeView fx:id="treeBrandPanel" prefHeight="200.0" prefWidth="200.0" showRoot="false"/>
                     </content>
                 </Tab>
             </tabs>

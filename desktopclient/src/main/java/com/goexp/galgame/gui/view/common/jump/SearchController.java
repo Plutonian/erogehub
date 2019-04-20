@@ -4,6 +4,7 @@ import com.goexp.galgame.common.website.GGBasesURL;
 import com.goexp.galgame.common.website.WikiURL;
 import com.goexp.galgame.common.website._2DFURL;
 import com.goexp.galgame.gui.HGameApp;
+import com.goexp.galgame.gui.util.Websites;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 
@@ -33,19 +34,19 @@ public class SearchController {
     private void initialize() {
 
 //        linkDlsite.setOnAction((e) -> {
-//            HGameApp.app.getHostServices().showDocument(DlSiteURL.fromTitle(keyword));
+//            Websites.open(DlSiteURL.fromTitle(keyword));
 //        });
         linkGGBases.setOnAction((e) -> {
-            HGameApp.app.getHostServices().showDocument(GGBasesURL.fromTitle(keyword));
+            Websites.open(GGBasesURL.fromTitle(keyword));
         });
         linkWiki.setOnAction((e) -> {
-            HGameApp.app.getHostServices().showDocument(WikiURL.fromTitle(keyword));
+            Websites.open(WikiURL.fromTitle(keyword));
         });
         link2DF.setOnAction((e) -> {
-            HGameApp.app.getHostServices().showDocument(_2DFURL.fromTitle(keyword));
+            Websites.open(_2DFURL.fromTitle(keyword));
         });
 //        linkBangumi.setOnAction((e) -> {
-//            HGameApp.app.getHostServices().showDocument(BangumiURL.fromTitle(keyword));
+//            Websites.open(BangumiURL.fromTitle(keyword));
 //        });
     }
 

@@ -1,4 +1,4 @@
-package com.goexp.galgame;
+package com.goexp.galgame.gui;
 
 import java.nio.file.Path;
 

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/"
-            fx:controller="com.goexp.galgame.gui.view.detailview.NavViewController">
+            fx:controller="com.goexp.galgame.gui.view.game.detailview.NavViewController">
     <stylesheets>
         <URL value="@../../view.css"/>
     </stylesheets>

@@ -7,7 +7,7 @@
 
 <TableView xmlns:fx="http://javafx.com/fxml/1" fx:id="table" styleClass="left-pill" tableMenuButtonVisible="true"
            xmlns="http://javafx.com/javafx/"
-           fx:controller="com.goexp.galgame.gui.view.dataview.tableview.GameTableController">
+           fx:controller="com.goexp.galgame.gui.view.game.dataview.tableview.GameTableController">
     <stylesheets>
         <URL value="@../../view.css"/>
     </stylesheets>

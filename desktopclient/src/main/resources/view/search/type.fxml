@@ -6,7 +6,7 @@
 
 
 <ScrollPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootScroll" fitToHeight="true" pannable="true" prefHeight="500.0"
-            xmlns="http://javafx.com/javafx/" fx:controller="com.goexp.galgame.gui.view.search.TagExplorerController">
+            xmlns="http://javafx.com/javafx/" fx:controller="com.goexp.galgame.gui.view.game.TagExplorerController">
     <content>
         <FlowPane fx:id="tabType" hgap="5.0" orientation="VERTICAL" rowValignment="TOP" vgap="5.0">
             <padding>

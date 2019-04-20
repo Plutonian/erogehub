@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Text?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx"
-            fx:controller="com.goexp.galgame.gui.view.search.MainSearchController">
+            fx:controller="com.goexp.galgame.gui.view.game.HomeController">
     <stylesheets>
         <URL value="@view.css"/>
     </stylesheets>

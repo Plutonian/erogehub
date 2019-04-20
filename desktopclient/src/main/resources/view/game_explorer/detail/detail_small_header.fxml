@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/"
-            fx:controller="com.goexp.galgame.gui.view.detailview.header.SmallHeaderController">
+            fx:controller="com.goexp.galgame.gui.view.game.detailview.header.SmallHeaderController">
     <stylesheets>
         <URL value="@../../view.css"/>
     </stylesheets>

@@ -7,7 +7,7 @@
 
 <ScrollPane xmlns:fx="http://javafx.com/fxml/1" fitToHeight="true" fitToWidth="true"
             xmlns="http://javafx.com/javafx/8.0.172-ea"
-            fx:controller="com.goexp.galgame.gui.view.dataview.InfoController">
+            fx:controller="com.goexp.galgame.gui.view.game.dataview.InfoController">
     <content>
         <FlowPane prefHeight="200.0" prefWidth="200.0">
             <children>

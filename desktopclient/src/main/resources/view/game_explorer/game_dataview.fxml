@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx"
-            fx:controller="com.goexp.galgame.gui.view.dataview.DataViewController">
+            fx:controller="com.goexp.galgame.gui.view.game.dataview.DataViewController">
     <center>
         <BorderPane style="-fx-background-color: white;">
             <center>

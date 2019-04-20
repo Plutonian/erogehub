@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<TitledPane text="Filter" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.dataview.sidebar.FilterPanelController">
+<TitledPane text="Filter" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.dataview.sidebar.FilterPanelController">
     <content>
         <StackPane>
             <children>

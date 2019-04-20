@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.util;
 
-import com.goexp.galgame.gui.view.search.MainSearchController;
+import com.goexp.galgame.gui.view.game.HomeController;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
@@ -21,7 +21,7 @@ public class TabSelect {
     }
 
     public static TabSelect from() {
-        return new TabSelect(MainSearchController.$this.mainTabPanel);
+        return new TabSelect(HomeController.$this.mainTabPanel);
     }
 
     public TabSelect ifNotFind(Supplier<Tab> notFind) {
@@ -35,6 +35,6 @@ public class TabSelect {
                 .filter(targetTab -> targetTab.getText().equals(title))
                 .findAny()
                 .ifPresentOrElse(tab -> root.getSelectionModel().select(tab),
-                        () -> MainSearchController.$this.insertTab(notFind.get()));
+                        () -> HomeController.$this.insertTab(notFind.get()));
     }
 }

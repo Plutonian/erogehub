@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" styleClass="back" stylesheets="@../view.css"
             xmlns="http://javafx.com/javafx/"
-            fx:controller="com.goexp.galgame.gui.view.search.CVInfoSearchController">
+            fx:controller="com.goexp.galgame.gui.view.game.CVInfoController">
     <center>
         <ScrollPane fitToHeight="true" pannable="true" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
             <content>

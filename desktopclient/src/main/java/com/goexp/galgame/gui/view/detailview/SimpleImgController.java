@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.view.detailview;
 
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Images;
-import com.goexp.galgame.gui.view.task.GameImgListTask;
+import com.goexp.galgame.gui.task.GameImgListTask;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

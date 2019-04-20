@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.view.task;
+package com.goexp.galgame.gui.task;
 
 import com.goexp.galgame.common.model.CV;
 import com.goexp.galgame.gui.db.mongo.Query;

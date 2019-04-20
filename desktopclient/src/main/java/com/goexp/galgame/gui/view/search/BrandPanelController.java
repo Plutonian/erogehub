@@ -9,7 +9,7 @@ import com.goexp.galgame.gui.util.TabSelect;
 import com.goexp.galgame.gui.view.common.CommonBrandInfoTabController;
 import com.goexp.galgame.gui.view.pagesource.WebViewController;
 import com.goexp.galgame.gui.view.search.cell.BrandTreeCellController;
-import com.goexp.galgame.gui.view.search.frombrand.brand.task.BrandSearchTask;
+import com.goexp.galgame.gui.task.brand.BrandSearchTask;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;

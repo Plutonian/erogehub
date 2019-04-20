@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.view.search;
 
 import com.goexp.galgame.common.model.CV;
-import com.goexp.galgame.gui.view.task.CVListTask;
+import com.goexp.galgame.gui.task.CVListTask;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;

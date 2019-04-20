@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.search.frombrand.brand;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.view.dataview.DataViewController;
-import com.goexp.galgame.gui.view.search.frombrand.brand.task.BrandGetGameTask;
+import com.goexp.galgame.gui.task.brand.BrandGetGameTask;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;

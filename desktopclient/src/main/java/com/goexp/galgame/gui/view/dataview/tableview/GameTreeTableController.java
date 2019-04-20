@@ -8,7 +8,7 @@ import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
 import com.goexp.galgame.gui.view.search.MainSearchController;
-import com.goexp.galgame.gui.view.task.ChangeGameTask;
+import com.goexp.galgame.gui.task.ChangeGameTask;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;

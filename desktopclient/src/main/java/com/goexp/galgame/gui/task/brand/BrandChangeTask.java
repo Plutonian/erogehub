@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.view.search.frombrand.brand.task;
+package com.goexp.galgame.gui.task.brand;
 
 import com.goexp.galgame.gui.db.mongo.BrandDB;
 import com.goexp.galgame.gui.model.Brand;

@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.view.search;
 
 import com.goexp.galgame.gui.util.CommonTabController;
 import com.goexp.galgame.gui.util.TabSelect;
-import com.goexp.galgame.gui.view.task.GameSearchTask;
+import com.goexp.galgame.gui.task.GameSearchTask;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Service;

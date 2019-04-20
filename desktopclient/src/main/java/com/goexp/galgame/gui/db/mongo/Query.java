@@ -22,10 +22,12 @@ import static com.mongodb.client.model.Projections.include;
 import static com.mongodb.client.model.Sorts.descending;
 
 public class Query {
+
+    private static final String DB = "galgame";
+
     public static class BrandQuery {
 
-        public final static DBQueryTemplate<Brand> tlp = new DBQueryTemplate.Builder<>("galgame", "brand", new BrandCreator())
-                .build();
+        public final static DBQueryTemplate<Brand> tlp = new DBQueryTemplate.Builder<>(DB, "brand", new BrandCreator()).build();
 
         private static class BrandCreator implements ObjectCreator<Brand> {
 
@@ -49,8 +51,7 @@ public class Query {
 
     public static class CVQuery {
 
-        public final static DBQueryTemplate<CV> tlp = new DBQueryTemplate.Builder<>("galgame", "cv", new CVCreator())
-                .build();
+        public final static DBQueryTemplate<CV> tlp = new DBQueryTemplate.Builder<>(DB, "cv", new CVCreator()).build();
 
         private static class CVCreator implements ObjectCreator<CV> {
 
@@ -73,7 +74,7 @@ public class Query {
     public static class GameQuery {
 
         public final static DBQueryTemplate<Game> tlp =
-                new DBQueryTemplate.Builder<Game>("galgame", "game", new Creator.FullGame())
+                new DBQueryTemplate.Builder<Game>(DB, "game", new Creator.FullGame())
                         .defaultSelect(exclude("gamechar", "simpleImg"))
                         .defaultSort(descending("publishDate", "name"))
                         .build();
@@ -172,13 +173,13 @@ public class Query {
         }
 
         public static class GameCharQuery {
-            public static final DBQueryTemplate<Game> tlp = new DBQueryTemplate.Builder<>("galgame", "game", new Creator.FullGame())
+            public static final DBQueryTemplate<Game> tlp = new DBQueryTemplate.Builder<>(DB, "game", new Creator.FullGame())
                     .defaultSelect(include("gamechar"))
                     .build();
         }
 
         public static class GameImgQuery {
-            public static final DBQueryTemplate<Game> tlp = new DBQueryTemplate.Builder<>("galgame", "game", new Creator.FullGame())
+            public static final DBQueryTemplate<Game> tlp = new DBQueryTemplate.Builder<>(DB, "game", new Creator.FullGame())
                     .defaultSelect(include("simpleImg"))
                     .build();
         }
@@ -186,8 +187,7 @@ public class Query {
 
     public static class TagQuery {
 
-        public final static DBQueryTemplate<TagType> tlp = new DBQueryTemplate.Builder<>("galgame", "tag", new TagCreator())
-                .build();
+        public final static DBQueryTemplate<TagType> tlp = new DBQueryTemplate.Builder<>(DB, "tag", new TagCreator()).build();
 
         private static class TagCreator implements ObjectCreator<TagType> {
             @Override

@@ -37,9 +37,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BrandTitleController {
+public class TitlePartController {
 
-    private final Logger logger = LoggerFactory.getLogger(BrandTitleController.class);
+    private final Logger logger = LoggerFactory.getLogger(TitlePartController.class);
     public BooleanProperty stateChangeProperty = new SimpleBooleanProperty(false);
     @FXML
     private Text txtBrand;

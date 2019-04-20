@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/"
-            fx:controller="com.goexp.galgame.gui.view.brand.BrandTitleController">
+            fx:controller="com.goexp.galgame.gui.view.brand.TitlePartController">
     <center>
         <AnchorPane BorderPane.alignment="CENTER">
             <children>

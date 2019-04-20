@@ -22,7 +22,7 @@ public class BrandInfoController {
      */
 
     @FXML
-    public BrandTitleController titleController;
+    public TitlePartController titleController;
 
     @FXML
     public DataViewController dataViewController;

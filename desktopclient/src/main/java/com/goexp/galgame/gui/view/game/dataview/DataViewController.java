@@ -4,8 +4,6 @@ import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.Tags;
-import com.goexp.galgame.gui.view.game.dataview.sidebar.BrandGroupController;
-import com.goexp.galgame.gui.view.game.dataview.sidebar.DateGroupController;
 import com.goexp.galgame.gui.view.game.dataview.sidebar.FilterPanelController;
 import com.goexp.galgame.gui.view.game.dataview.tableview.TableController;
 import javafx.beans.property.BooleanProperty;
@@ -41,9 +39,9 @@ public class DataViewController extends DefaultController {
     @FXML
     private FilterPanelController filterPanelController;
     @FXML
-    private BrandGroupController brandGroupController;
+    private FilterPanelController.BrandGroupController brandGroupController;
     @FXML
-    private DateGroupController dateGroupController;
+    private FilterPanelController.DateGroupController dateGroupController;
     @FXML
     private Label lbItemCount;
     @FXML

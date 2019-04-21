@@ -37,6 +37,12 @@ public class Images {
             return Util.getImage(new CacheKey(game.id + "/game_l", url));
         }
 
+        public static void preloadLarge(Game game) {
+            final var url = GetchuURL.Game.LargeImg(game.id);
+
+            Util.preLoadRemoteImage(new CacheKey(game.id + "/game_l", url));
+        }
+
         public static class Simple {
 
             public static Image small(final int gameId, final int index, final String src) {
@@ -73,7 +79,7 @@ public class Images {
 
             logger.debug("LocalKey={},memCacheKey={}", cacheKey.getDiskCacheKey(), cacheKey.getMemCacheKey());
 
-            final var imageCache = AppCache.imageCache;
+            final var imageCache = AppCache.imageMemCache;
 
             //try heat cache
             return imageCache.get(cacheKey.getMemCacheKey())
@@ -102,6 +108,46 @@ public class Images {
                         imageCache.put(cacheKey.getMemCacheKey(), image);
                         return image;
                     });
+        }
+
+        private static void preLoadRemoteImage(final CacheKey cacheKey) {
+            Objects.requireNonNull(cacheKey);
+            Objects.requireNonNull(cacheKey.getDiskCacheKey());
+            Objects.requireNonNull(cacheKey.getMemCacheKey());
+
+            logger.debug("LocalKey={},memCacheKey={}", cacheKey.getDiskCacheKey(), cacheKey.getMemCacheKey());
+
+            final var imageCache = AppCache.imageMemCache;
+
+            //try heat cache
+
+            var cachedImage = imageCache.get(cacheKey.getMemCacheKey());
+
+            if (cachedImage.isEmpty()) {
+                //not heat cache
+                final var localPath = Config.IMG_PATH.resolve(cacheKey.getDiskCacheKey() + ".jpg");
+
+                logger.debug("localPath={}", localPath);
+
+
+                //heat disk cache or load from remote
+
+                if (!Files.exists(localPath))
+                    loadRemote(cacheKey.getMemCacheKey(), image1 -> {
+
+                        try {
+                            Files.createDirectories(localPath.getParent());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        saveImage(image1, localPath);
+
+                        //memCacheKey as cache key
+                        imageCache.put(cacheKey.getMemCacheKey(), image1);
+                    });
+            }
+
         }
 
         private static void saveImage(final Image image, final Path path) {
@@ -142,12 +188,14 @@ public class Images {
                     }
                 });
 
-            image.exceptionProperty().addListener((o, old, newValue) -> {
-                if (newValue != null) {
-                    newValue.printStackTrace();
+            image.exceptionProperty().addListener((o, old, e) -> {
+                if (e != null) {
 
-                    if (!(newValue instanceof FileNotFoundException))
-                        AppCache.imageCache.remove(url);
+                    if (!(e instanceof FileNotFoundException))
+                        AppCache.imageMemCache.remove(url);
+                    else {
+                        logger.error(e.getMessage());
+                    }
                 }
 
             });
@@ -176,14 +224,14 @@ public class Images {
     public static class Local {
 
         public static Image getLocal(final String name) {
-            return getLocal(name, AppCache.imageCache);
+            return getLocal(name, AppCache.imageMemCache);
         }
 
-        private static Image getLocal(final String name, final ImageCache imageCache) {
-            return imageCache.get(name).orElseGet(() -> {
+        private static Image getLocal(final String name, final ImageMemCache imageMemCache) {
+            return imageMemCache.get(name).orElseGet(() -> {
                 final var image = new Image(Images.class.getResource(name).toExternalForm());
 
-                imageCache.put(name, image);
+                imageMemCache.put(name, image);
                 return image;
 
             });

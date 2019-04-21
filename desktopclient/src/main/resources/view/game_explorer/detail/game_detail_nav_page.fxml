@@ -11,7 +11,7 @@
         <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                    AnchorPane.topAnchor="0.0">
             <children>
-                <fx:include fx:id="rootContainer" source="game_detail_page.fxml"/>
+                <fx:include fx:id="rootContainer" source="part/game_detail_page.fxml"/>
                 <!--<TitledPane animated="false" expanded="false" text="このブランドの作品" StackPane.alignment="BOTTOM_CENTER">-->
                 <!--<content>-->
                 <!--<ListView fx:id="listNav" orientation="HORIZONTAL" prefHeight="220.0" />-->
@@ -21,7 +21,7 @@
             </children>
         </StackPane>
 
-        <fx:include fx:id="header" source="detail_small_header.fxml" visible="false" AnchorPane.leftAnchor="0.0"
+        <fx:include fx:id="header" source="part/detail_small_header.fxml" visible="false" AnchorPane.leftAnchor="0.0"
                     AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
     </children>
 </AnchorPane>

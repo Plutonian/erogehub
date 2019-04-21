@@ -140,10 +140,10 @@ public class HomeController extends DefaultController {
         ));
         gameStateLikeLinkPanel.getChildren().setAll(links);
 
-        linkDate.setGraphic(new ImageView(Images.Local.getLocal("/date.png")));
-        linkCV.setGraphic(new ImageView(Images.Local.getLocal("/cv.png")));
-        linkSearch.setGraphic(new ImageView(Images.Local.getLocal("/search.png")));
-        linkTags.setGraphic(new ImageView(Images.Local.getLocal("/tag.png")));
+        linkDate.setGraphic(new ImageView(Images.Local.getLocal("/img/date.png")));
+        linkCV.setGraphic(new ImageView(Images.Local.getLocal("/img/cv.png")));
+        linkSearch.setGraphic(new ImageView(Images.Local.getLocal("/img/search.png")));
+        linkTags.setGraphic(new ImageView(Images.Local.getLocal("/img/tag.png")));
 
 
     }

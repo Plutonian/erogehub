@@ -15,7 +15,7 @@ public class Cache<K, V> {
     public Optional<V> get(K key) {
 
         return Optional.ofNullable(imageCache.get(key)).map(cache -> cache.get());
-//        var img = imageCache.get(key);
+//        var img = imageMemCache.get(key);
 //        if (img != null && img.get() != null) {
 //            return img.get();
 //        }

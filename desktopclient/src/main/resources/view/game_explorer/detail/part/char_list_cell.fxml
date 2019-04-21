@@ -11,7 +11,7 @@
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.game.detailview.ContentViewController$PersonCellController">
     <stylesheets>
-        <URL value="@../../view.css"/>
+        <URL value="@../../../view.css"/>
     </stylesheets>
     <center>
         <VBox>
@@ -34,7 +34,7 @@
                         <MenuButton fx:id="lbCV" mnemonicParsing="false" styleClass="copyablelabel" text="MenuButton">
                             <items>
                                 <MenuItem fx:id="truecv" text="関連ゲーム"/>
-                                <fx:include fx:id="cvsearch" source="../../jump/cvsearch.fxml"/>
+                                <fx:include fx:id="cvsearch" source="../../../jump/cvsearch.fxml"/>
                             </items>
                             <HBox.margin>
                                 <Insets left="5.0"/>

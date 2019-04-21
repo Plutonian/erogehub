@@ -6,7 +6,7 @@
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="800.0" xmlns="http://javafx.com/javafx/"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/"
             fx:controller="com.goexp.galgame.gui.view.game.detailview.ContentViewController$SimpleImgPartController">
     <center>
         <StackPane>
@@ -21,7 +21,7 @@
                     <graphic>
                         <ImageView pickOnBounds="true" preserveRatio="true" rotate="270.0">
                             <image>
-                                <Image url="@../../../up.png"/>
+                                <Image url="@../../../../img/up.png"/>
                             </image>
                         </ImageView>
                     </graphic>
@@ -34,7 +34,7 @@
                     <graphic>
                         <ImageView pickOnBounds="true" preserveRatio="true" rotate="90.0">
                             <image>
-                                <Image url="@../../../up.png"/>
+                                <Image url="@../../../../img/up.png"/>
                             </image>
                         </ImageView>
                     </graphic>

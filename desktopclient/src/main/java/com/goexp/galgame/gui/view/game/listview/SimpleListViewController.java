@@ -165,7 +165,7 @@ public class SimpleListViewController extends DefaultController {
                 }
 
                 //preload large
-                Images.GameImage.large(game);
+                Images.GameImage.preloadLarge(game);
 
 
             }

@@ -49,7 +49,7 @@
             <children>
                 <HBox spacing="5.0">
                     <children>
-                        <fx:include fx:id="changeState" source="../../detail/game_statechange.fxml"/>
+                        <fx:include fx:id="changeState" source="../../detail/control/game_statechange.fxml"/>
                     </children>
                 </HBox>
                 <Hyperlink fx:id="linkView" text="View" layoutX="256.0" layoutY="2.0" AnchorPane.bottomAnchor="0.0"

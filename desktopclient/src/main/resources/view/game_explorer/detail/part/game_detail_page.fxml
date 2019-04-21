@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
-<TabPane side="RIGHT" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1"
+<TabPane side="BOTTOM" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1"
          xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="com.goexp.galgame.gui.view.game.detailview.ContentViewController">
     <tabs>
@@ -12,7 +12,7 @@
             <content>
                 <ScrollPane fx:id="rootContainer" fitToWidth="true" hbarPolicy="NEVER">
                     <stylesheets>
-                        <URL value="@../../view.css"/>
+                        <URL value="@../../../view.css"/>
                     </stylesheets>
                     <content>
                         <VBox spacing="5.0">
@@ -29,20 +29,16 @@
         </Tab>
         <Tab text="キャラクター">
             <content>
-                <TitledPane animated="false" collapsible="false" text="キャラクター">
-                    <content>
-                        <ListView fx:id="persionListView" minHeight="800"/>
-                    </content>
-                </TitledPane>
+                <ListView fx:id="persionListView"/>
             </content>
         </Tab>
         <Tab text="サンプル画像">
             <content>
-                <TitledPane collapsible="false" text="サンプル画像">
-                    <content>
-                        <fx:include fx:id="simpleImg" source="detail_simple_img.fxml"/>
-                    </content>
-                </TitledPane>
+                <!--                <TitledPane collapsible="false" text="サンプル画像">-->
+                <!--                    <content>-->
+                <fx:include fx:id="simpleImg" source="detail_simple_img.fxml"/>
+                <!--                    </content>-->
+                <!--                </TitledPane>-->
             </content>
         </Tab>
     </tabs>

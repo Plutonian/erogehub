@@ -10,7 +10,7 @@
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.game.detailview.ContentViewController$HeaderPartController">
     <stylesheets>
-        <URL value="@../../view.css"/>
+        <URL value="@../../../view.css"/>
     </stylesheets>
     <center>
         <BorderPane>
@@ -30,7 +30,7 @@
                                               text="～小さくなって女の子の色んなトコロに入っちゃお～" HBox.hgrow="NEVER"/>
                                     </children>
                                 </HBox>
-                                <fx:include fx:id="brandJump" source="../../jump/brandjump.fxml"/>
+                                <fx:include fx:id="brandJump" source="../../../brand/brandjump.fxml"/>
                             </children>
                         </VBox>
                         <GridPane>
@@ -65,7 +65,7 @@
                         <HBox fx:id="boxTag" spacing="5.0"/>
                         <HBox fx:id="boxStar">
                         </HBox>
-                        <fx:include fx:id="starChange" source="game_star_choicebar.fxml"/>
+                        <fx:include fx:id="starChange" source="../control/game_star_choicebar.fxml"/>
                         <TextArea fx:id="txtStory" editable="false" prefHeight="500.0" wrapText="true">
                             <font>
                                 <Font size="14.0"/>
@@ -81,7 +81,8 @@
             <bottom>
                 <HBox spacing="20.0" BorderPane.alignment="CENTER">
                     <children>
-                        <fx:include fx:id="changeState" source="game_statechange.fxml" AnchorPane.bottomAnchor="0.0"
+                        <fx:include fx:id="changeState" source="../control/game_statechange.fxml"
+                                    AnchorPane.bottomAnchor="0.0"
                                     AnchorPane.leftAnchor="0.0" StackPane.alignment="BOTTOM_LEFT"/>
                     </children>
                 </HBox>
@@ -89,10 +90,10 @@
             <right>
                 <StackPane BorderPane.alignment="CENTER">
                     <children>
-                        <fx:include fx:id="dateview" source="date.fxml" AnchorPane.leftAnchor="0.0"
+                        <fx:include fx:id="dateview" source="../control/date.fxml" AnchorPane.leftAnchor="0.0"
                                     AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER"
                                     StackPane.alignment="TOP_LEFT"/>
-                        <fx:include fx:id="webjump" source="../../jump/websitejump.fxml"
+                        <fx:include fx:id="webjump" source="../../../jump/websitejump.fxml"
                                     StackPane.alignment="BOTTOM_CENTER"/>
                     </children>
                 </StackPane>

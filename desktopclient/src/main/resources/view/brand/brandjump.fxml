@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.*?>
 <MenuButton xmlns:fx="http://javafx.com/fxml/1" fx:id="brandLabel" mnemonicParsing="false" styleClass="copyablelabel"
             text="Jump" xmlns="http://javafx.com/javafx/8.0.172-ea"
             fx:controller="com.goexp.galgame.gui.view.common.jump.JumpBrandController">
@@ -11,6 +9,6 @@
         <MenuItem fx:id="linkWebsite" mnemonicParsing="false" text="公式サイト"/>
         <MenuItem fx:id="linkGetchu" mnemonicParsing="false" text="Getchu"/>
         <SeparatorMenuItem mnemonicParsing="false"/>
-        <fx:include fx:id="searchLink" source="search.fxml"/>
+        <fx:include fx:id="searchLink" source="../jump/search.fxml"/>
     </items>
 </MenuButton>

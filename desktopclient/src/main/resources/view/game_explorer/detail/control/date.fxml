@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../../view.css" xmlns="http://javafx.com/javafx/"
+<StackPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../../../view.css" xmlns="http://javafx.com/javafx/"
            fx:controller="com.goexp.galgame.gui.view.game.detailview.part.DateShowController">
     <children>
         <StackPane fx:id="strPanel" alignment="TOP_RIGHT" prefHeight="50.0">

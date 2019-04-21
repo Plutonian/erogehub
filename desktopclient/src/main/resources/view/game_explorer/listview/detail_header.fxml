@@ -33,7 +33,7 @@
                                       <Text fx:id="txtSubName" strokeType="OUTSIDE" strokeWidth="0.0" text="～小さくなって女の子の色んなトコロに入っちゃお～" />
                                   </children>
                               </HBox>
-                              <fx:include fx:id="brandJump" source="../../jump/brandjump.fxml" />
+                              <fx:include fx:id="brandJump" source="../../brand/brandjump.fxml"/>
                               <HBox fx:id="boxStar" />
       
                               <HBox fx:id="boxTag" spacing="5.0" />
@@ -78,7 +78,9 @@
                   </VBox>
                </bottom>
                <right>
-                        <fx:include fx:id="changeState" source="../detail/game_statechange.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" StackPane.alignment="BOTTOM_LEFT" />
+                   <fx:include fx:id="changeState" source="../detail/control/game_statechange.fxml"
+                               AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                               StackPane.alignment="BOTTOM_LEFT"/>
                </right>
             </BorderPane>
             </center>
@@ -107,7 +109,9 @@
    <left>
         <StackPane BorderPane.alignment="CENTER">
             <children>
-                <fx:include fx:id="dateview" source="../detail/date.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER" StackPane.alignment="TOP_LEFT" />
+                <fx:include fx:id="dateview" source="../detail/control/date.fxml" AnchorPane.leftAnchor="0.0"
+                            AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER"
+                            StackPane.alignment="TOP_LEFT"/>
                 <!--<fx:include fx:id="webjump" source="../../jump/websitejump.fxml" StackPane.alignment="BOTTOM_CENTER" />-->
             </children>
          <padding>

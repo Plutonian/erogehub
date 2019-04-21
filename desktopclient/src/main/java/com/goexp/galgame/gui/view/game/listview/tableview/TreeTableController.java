@@ -175,7 +175,7 @@ public class TreeTableController extends DefaultController {
 
         tableColBrand.setCellFactory(col -> {
 
-            final var loader = new FXMLLoaderProxy<Region, JumpBrandController>("view/jump/brandjump.fxml");
+            final var loader = new FXMLLoaderProxy<Region, JumpBrandController>("view/brand/brandjump.fxml");
 
             return new TreeTableCell<>() {
                 @Override

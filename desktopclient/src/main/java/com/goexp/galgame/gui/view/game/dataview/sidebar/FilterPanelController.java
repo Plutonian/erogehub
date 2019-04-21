@@ -21,8 +21,7 @@ public class FilterPanelController extends FilterController<Game> {
     @FXML
     private FlowPane statebox;
 
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
         reset();
     }

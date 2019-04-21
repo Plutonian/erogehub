@@ -1,12 +1,13 @@
 package com.goexp.galgame.gui.view.game.dataview.sidebar;
 
+import com.goexp.galgame.gui.util.DefaultController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 import java.util.List;
 import java.util.function.Predicate;
 
-public abstract class FilterController<T> {
+public abstract class FilterController<T> extends DefaultController {
     public BooleanProperty onSetProperty = new SimpleBooleanProperty(false);
     public Predicate<T> predicate;
 

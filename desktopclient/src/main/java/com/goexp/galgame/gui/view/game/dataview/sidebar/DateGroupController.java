@@ -20,8 +20,7 @@ public class DateGroupController extends FilterController<Game> {
     @FXML
     private TreeView<DateItemNode> dateTree;
 
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
         dateTree.setCellFactory(dateItemNodeTreeView -> {
             return new TreeCell<>() {

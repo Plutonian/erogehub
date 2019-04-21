@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.view.game.dataview;
 
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.game.dataview.sidebar.BrandGroupController;
 import com.goexp.galgame.gui.view.game.dataview.sidebar.DateGroupController;
@@ -18,8 +19,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Comparator;
 import java.util.List;
@@ -27,10 +26,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class DataViewController {
-
-
-    private final Logger logger = LoggerFactory.getLogger(DataViewController.class);
+public class DataViewController extends DefaultController {
 
     public BooleanProperty reloadProperty = new SimpleBooleanProperty(false);
 
@@ -78,9 +74,7 @@ public class DataViewController {
 
 //    private ObservableList<Game> cacheGames;
 
-
-    @FXML
-    private void initialize() {
+    protected void initialize() {
         initSwitchBar();
         initSideBar();
     }

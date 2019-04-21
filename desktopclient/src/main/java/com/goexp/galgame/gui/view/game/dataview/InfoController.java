@@ -1,23 +1,18 @@
 package com.goexp.galgame.gui.view.game.dataview;
 
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.DefaultController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class InfoController {
-
-
-    private final Logger logger = LoggerFactory.getLogger(InfoController.class);
-
+public class InfoController extends DefaultController {
 
     @FXML
     private PieChart pieChartTags;
@@ -55,6 +50,11 @@ public class InfoController {
 
 
         pieChartTags.setData(FXCollections.observableArrayList(PieData));
+
+    }
+
+    @Override
+    protected void initialize() {
 
     }
 }

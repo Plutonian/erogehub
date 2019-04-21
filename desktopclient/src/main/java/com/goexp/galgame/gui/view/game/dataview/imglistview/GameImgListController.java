@@ -1,6 +1,7 @@
 package com.goexp.galgame.gui.view.game.dataview.imglistview;
 
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,7 +11,7 @@ import javafx.scene.layout.Region;
 
 import java.util.stream.Collectors;
 
-public class GameImgListController {
+public class GameImgListController extends DefaultController {
 
     final private int pageSize = 5;
     @FXML
@@ -21,8 +22,8 @@ public class GameImgListController {
     private int index = 1;
     private int page = 0;
 
-    @FXML
-    private void initialize() {
+
+    protected void initialize() {
 
         rootPanel.vvalueProperty().addListener((observable, oldValue, newValue) -> {
 

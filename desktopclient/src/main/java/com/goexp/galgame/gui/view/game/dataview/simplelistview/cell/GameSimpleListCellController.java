@@ -1,10 +1,11 @@
 package com.goexp.galgame.gui.view.game.dataview.simplelistview.cell;
 
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.DefaultController;
 import javafx.fxml.FXML;
 
 
-public class GameSimpleListCellController {
+public class GameSimpleListCellController extends DefaultController {
 
     private Game game;
 
@@ -12,8 +13,7 @@ public class GameSimpleListCellController {
     private HeaderController headerController;
 
 
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
 
 //        imageImg.setOnMouseEntered(event -> {

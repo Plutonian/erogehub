@@ -4,10 +4,7 @@ import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.ChangeGameTask;
-import com.goexp.galgame.gui.util.FXMLLoaderProxy;
-import com.goexp.galgame.gui.util.LocalRes;
-import com.goexp.galgame.gui.util.Tags;
-import com.goexp.galgame.gui.util.TaskService;
+import com.goexp.galgame.gui.util.*;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
 import com.goexp.galgame.gui.view.game.HomeController;
@@ -20,8 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -29,10 +24,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class GameTableController {
+public class GameTableController extends DefaultController {
 
-
-    private final Logger logger = LoggerFactory.getLogger(GameTableController.class);
     @FXML
     public TableView<Game> table;
     @FXML
@@ -63,8 +56,7 @@ public class GameTableController {
     private Service<Void> changeGameService = new TaskService<>(() -> new ChangeGameTask.MultiLike(selectedGames));
 
 
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
         var items = Stream.of(GameState.values())
 //                .filter(value -> value != GameState.UNCHECKED)

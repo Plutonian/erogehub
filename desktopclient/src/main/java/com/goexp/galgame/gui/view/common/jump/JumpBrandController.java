@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.view.common.jump;
 
 import com.goexp.galgame.common.website.GetchuURL;
 import com.goexp.galgame.gui.model.Brand;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.Websites;
 import com.goexp.galgame.gui.view.game.HomeController;
 import javafx.fxml.FXML;
@@ -9,7 +10,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 
 
-public class JumpBrandController {
+public class JumpBrandController extends DefaultController {
 
     private Brand brand = new Brand();
 
@@ -29,9 +30,7 @@ public class JumpBrandController {
     @FXML
     private MenuItem linkGetchu;
 
-
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
         linkGetchu.setOnAction((e) -> {
             Websites.open(GetchuURL.GameList.byBrand(brand.id));

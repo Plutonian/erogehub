@@ -3,6 +3,7 @@ package com.goexp.galgame.gui.view.game.dataview.imglistview;
 import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.Images;
 import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.Tags;
@@ -18,7 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 
-public class GameImgListCellController {
+public class GameImgListCellController extends DefaultController {
 
     private Game game;
 
@@ -47,8 +48,7 @@ public class GameImgListCellController {
     @FXML
     private Hyperlink linkView;
 
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
 //        rightPanel.setVisible(false);
 //        rightPanel.setManaged(false);

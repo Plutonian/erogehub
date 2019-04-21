@@ -1,6 +1,7 @@
 package com.goexp.galgame.gui.view.game.dataview.simplelistview;
 
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.view.game.dataview.simplelistview.cell.GameSimpleListCellController;
 import javafx.fxml.FXML;
@@ -9,13 +10,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import org.slf4j.LoggerFactory;
 
-public class GameSimpleListController {
+public class GameSimpleListController extends DefaultController {
 
     @FXML
     private ListView<Game> listSimple;
 
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
         listSimple.setCellFactory(listView -> {
 

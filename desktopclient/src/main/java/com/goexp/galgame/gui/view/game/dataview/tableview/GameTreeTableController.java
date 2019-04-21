@@ -4,6 +4,7 @@ import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.ChangeGameTask;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.TaskService;
@@ -18,8 +19,6 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -27,10 +26,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class GameTreeTableController {
+public class GameTreeTableController extends DefaultController {
 
-
-    private final Logger logger = LoggerFactory.getLogger(GameTreeTableController.class);
     @FXML
     public TreeTableView<Game> table;
     @FXML
@@ -58,8 +55,7 @@ public class GameTreeTableController {
 
     private Service<Void> changeGameService = new TaskService<>(() -> new ChangeGameTask.MultiLike(selectedGames));
 
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
         var items = Stream.of(GameState.values())
 //                .filter(value -> value != GameState.UNCHECKED)

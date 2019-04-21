@@ -8,9 +8,8 @@ import java.util.function.Supplier;
 
 public class TabSelect {
 
-    private Supplier<Tab> notFind;
-
     private final TabPane root;
+    private Supplier<Tab> notFind;
 
     private TabSelect(TabPane root) {
         this.root = root;

@@ -23,6 +23,7 @@ public class CommonTabController {
 
         init();
     }
+
     public CommonTabController(Service<ObservableList<Game>> service) {
         this.gameSearchService = service;
 

@@ -1,8 +1,6 @@
 package com.goexp.galgame.gui.view.pagesource;
 
 import com.goexp.galgame.gui.model.Brand;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

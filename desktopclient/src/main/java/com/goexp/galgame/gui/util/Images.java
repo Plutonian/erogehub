@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.util;
 
-import com.goexp.galgame.gui.Config;
 import com.goexp.galgame.common.website.GetchuURL;
+import com.goexp.galgame.gui.Config;
 import com.goexp.galgame.gui.model.Game;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;

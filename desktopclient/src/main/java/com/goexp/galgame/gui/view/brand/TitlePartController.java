@@ -56,10 +56,7 @@ public class TitlePartController {
     private Brand changeBrand;
 
     private Service<Boolean> changeBrandStateService = new TaskService<>(() -> new BrandChangeTask(changeBrand));
-
     private Service<Void> changeGameStateService = new TaskService<>(() -> new ChangeGameTask.MultiLikeByBrand(changeBrand.id));
-
-
     private Service<ObservableList<Brand>> listBrandService = new TaskService<>(() -> new BrandListTask.ByComp(changeBrand.comp));
 
 

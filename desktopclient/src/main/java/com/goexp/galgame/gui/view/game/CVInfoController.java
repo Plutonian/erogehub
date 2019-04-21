@@ -38,7 +38,6 @@ public class CVInfoController {
     private Service<ObservableList<CV>> loadCVService = new TaskService<>(CVListTask::new);
 
 
-
     /**
      * Event
      */

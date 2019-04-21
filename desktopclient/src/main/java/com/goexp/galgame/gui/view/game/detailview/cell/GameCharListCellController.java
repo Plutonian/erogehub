@@ -2,8 +2,8 @@ package com.goexp.galgame.gui.view.game.detailview.cell;
 
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Images;
-import com.goexp.galgame.gui.view.game.detailview.part.CVSearchController;
 import com.goexp.galgame.gui.view.game.HomeController;
+import com.goexp.galgame.gui.view.game.detailview.part.CVSearchController;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;

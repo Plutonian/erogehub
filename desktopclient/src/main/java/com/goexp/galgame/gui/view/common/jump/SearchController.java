@@ -3,7 +3,6 @@ package com.goexp.galgame.gui.view.common.jump;
 import com.goexp.galgame.common.website.GGBasesURL;
 import com.goexp.galgame.common.website.WikiURL;
 import com.goexp.galgame.common.website._2DFURL;
-import com.goexp.galgame.gui.HGameApp;
 import com.goexp.galgame.gui.util.Websites;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -15,8 +14,7 @@ public class SearchController {
 
 //    public MenuButton searchLink;
 
-//    @FXML
-//    private MenuItem linkDlsite;
+//    @FXML//    private MenuItem linkDlsite;
 
     @FXML
     private MenuItem linkGGBases;
@@ -27,8 +25,7 @@ public class SearchController {
     @FXML
     private MenuItem link2DF;
 
-//    @FXML
-//    private MenuItem linkBangumi;
+//    @FXML//    private MenuItem linkBangumi;
 
     @FXML
     private void initialize() {

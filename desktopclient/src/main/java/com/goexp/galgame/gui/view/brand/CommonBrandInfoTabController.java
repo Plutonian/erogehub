@@ -2,7 +2,6 @@ package com.goexp.galgame.gui.view.brand;
 
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
-import com.goexp.galgame.gui.view.brand.BrandInfoController;
 import javafx.scene.layout.Region;
 
 public class CommonBrandInfoTabController {

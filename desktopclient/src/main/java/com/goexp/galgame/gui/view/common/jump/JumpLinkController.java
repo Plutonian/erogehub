@@ -1,7 +1,6 @@
 package com.goexp.galgame.gui.view.common.jump;
 
 import com.goexp.galgame.common.website.GetchuURL;
-import com.goexp.galgame.gui.HGameApp;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Websites;
 import javafx.fxml.FXML;

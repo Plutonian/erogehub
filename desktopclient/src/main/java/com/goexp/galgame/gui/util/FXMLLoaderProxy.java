@@ -6,10 +6,9 @@ import java.io.IOException;
 
 public class FXMLLoaderProxy<N, C> {
 
-    private final FXMLLoader loader;
-
     public final N node;
     public final C controller;
+    private final FXMLLoader loader;
 
     public FXMLLoaderProxy(final String path) {
         this.loader = new FXMLLoader(getClass().getClassLoader().getResource(path));

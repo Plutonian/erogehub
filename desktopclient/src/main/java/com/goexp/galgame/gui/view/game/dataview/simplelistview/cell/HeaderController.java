@@ -5,10 +5,10 @@ import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Images;
 import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.Tags;
-import com.goexp.galgame.gui.view.game.part.StateChangeController;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
-import com.goexp.galgame.gui.view.game.detailview.part.DateShowController;
 import com.goexp.galgame.gui.view.game.HomeController;
+import com.goexp.galgame.gui.view.game.detailview.part.DateShowController;
+import com.goexp.galgame.gui.view.game.part.StateChangeController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
@@ -31,14 +31,12 @@ public class HeaderController {
     private final Logger logger = LoggerFactory.getLogger(HeaderController.class);
 
 
-//    @FXML
-//    private StarChoiceBarController starChangeController;
+//    @FXML//    private StarChoiceBarController starChangeController;
 
     @FXML
     private DateShowController dateviewController;
 
-//    @FXML
-//    private JumpLinkController webjumpController;
+//    @FXML//    private JumpLinkController webjumpController;
 
     @FXML
     private Hyperlink linkView;
@@ -65,8 +63,7 @@ public class HeaderController {
     @FXML
     private FlowPane flowPainter;
 
-    //    @FXML
-//    public Label lbDate;
+    //    @FXML//    public Label lbDate;
     @FXML
     private Label txtWriter;
 

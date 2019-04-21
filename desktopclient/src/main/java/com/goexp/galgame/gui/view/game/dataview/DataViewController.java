@@ -37,8 +37,7 @@ public class DataViewController {
     @FXML
     public GameTableController tableViewController;
 
-    //    @FXML
-//    public GameImgListController imgViewController;
+    //    @FXML//    public GameImgListController imgViewController;
     @FXML
     public ProgressBar progessloading;
     @FXML

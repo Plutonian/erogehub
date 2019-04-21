@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/"
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.game.detailview.NavViewController">
     <stylesheets>
         <URL value="@../../view.css"/>
@@ -21,11 +20,6 @@
 
             </children>
         </StackPane>
-        <VBox fx:id="vboxNav" AnchorPane.bottomAnchor="150.0" AnchorPane.rightAnchor="20.0">
-            <Hyperlink onAction="#linkTop_OnAction" text="Top" AnchorPane.bottomAnchor="100.0"
-                       AnchorPane.rightAnchor="20.0">
-            </Hyperlink>
-        </VBox>
 
         <fx:include fx:id="header" source="detail_small_header.fxml" visible="false" AnchorPane.leftAnchor="0.0"
                     AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>

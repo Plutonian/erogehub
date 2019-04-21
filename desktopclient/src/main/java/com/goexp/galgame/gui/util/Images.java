@@ -21,14 +21,20 @@ public class Images {
 
     public static class GameImage {
 
-        public static Image tiny(final Game game) {
+        public static Image tiny(Game game) {
             return Util.getImage(new CacheKey(game.id + "/game_t", game.smallImg));
         }
 
-        public static Image small(final Game game) {
+        public static Image small(Game game) {
             final var url = GetchuURL.Game.SmallImg(game.id);
 
             return Util.getImage(new CacheKey(game.id + "/game_s", url));
+        }
+
+        public static Image large(Game game) {
+            final var url = GetchuURL.Game.LargeImg(game.id);
+
+            return Util.getImage(new CacheKey(game.id + "/game_l", url));
         }
 
         public static class Simple {

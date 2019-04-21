@@ -9,20 +9,15 @@ import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
 import com.goexp.galgame.gui.view.game.HomeController;
 import com.goexp.galgame.gui.view.game.detailview.part.StateChangeChoiceBarController;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 
 
 public class NavViewController extends DefaultController {
@@ -48,109 +43,58 @@ public class NavViewController extends DefaultController {
 
     protected void initialize() {
 
-//        gameListByBrandService.valueProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue != null) {
+//        ((VBox) (rootContainerController.rootContainer.getContent()))
+//                .getChildren()
+//                .stream()
+//                .filter(node -> node instanceof TitledPane)
+//                .forEach(node -> {
+//                    TitledPane pane = (TitledPane) node;
+//                    var link = new Hyperlink();
+//                    link.setText(pane.getText());
+//                    link.setUserData(pane);
+//                    link.setOnAction(event -> {
+//                        var l = (Hyperlink) event.getSource();
+//                        var p = (TitledPane) l.getUserData();
 //
 //
-//                listNav.setItems(newValue);
-//                listNav.getSelectionModel().select(game);
-//                listNav.scrollTo(game);
+//                        final var h = rootContainerController.rootContainer
+//                                .getContent()
+//                                .getLayoutBounds()
+//                                .getHeight()
+//                                - rootContainerController.rootContainer
+//                                .getViewportBounds()
+//                                .getHeight();
+//
+//                        timeline.stop();
+//                        timeline.getKeyFrames().setAll(
+//                                new KeyFrame(Duration.millis(200),
+//                                        new KeyValue(rootContainerController.rootContainer.vvalueProperty(), (p.getLayoutY() - header.getHeight()) / h))
+//                        );
+//                        timeline.play();
+//                    });
+//
+//                    vboxNav.getChildren().add(link);
+//                });
+//
+//
+//        rootContainerController.rootContainer.vvalueProperty().addListener((o, old, newV) -> {
+//            final var h = rootContainerController.rootContainer
+//                    .getContent()
+//                    .getLayoutBounds()
+//                    .getHeight()
+//                    - rootContainerController.rootContainer
+//                    .getViewportBounds()
+//                    .getHeight();
+//
+//            var v = rootContainerController.introPanel.getLayoutY() / h;
+//
+//            if (newV.doubleValue() > v) {
+//                header.setVisible(true);
+//            } else {
+//                header.setVisible(false);
 //            }
 //
 //        });
-//        gameListByBrandService.exceptionProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue != null)
-//                newValue.printStackTrace();
-//        });
-
-//        listNav.setCellFactory(new Callback<>() {
-//
-//            @Override
-//            public ListCell<Game> call(ListView<Game> param) {
-//
-//                // Must call super
-//                //super.updateItem(item, empty);
-//                return new ListCell<>() {
-//                    private static final String NAV_LIST_CELL_FXML = "view/game_explorer/detail/nav_list_cell.fxml";
-//
-//                    @Override
-//                    protected void updateItem(Game item, boolean empty) {
-//                        super.updateItem(item, empty);
-//
-//
-//                        if (item == null || empty) {
-//                            setGraphic(null);
-//                            setText(null);
-//                        } else {
-//
-//                            var loader = new FXMLLoaderProxy(NAV_LIST_CELL_FXML);
-//
-//                            var node = (Region) loader.load();
-//                            var controller = (CellController) loader.getController();
-//                            controller.game = item;
-//                            controller.init();
-//
-//                            setGraphic(node);
-//
-//                        }
-//
-//                    }
-//                };
-//            }
-//        });
-
-        ((VBox) (rootContainerController.rootContainer.getContent()))
-                .getChildren()
-                .stream()
-                .filter(node -> node instanceof TitledPane)
-                .forEach(node -> {
-                    TitledPane pane = (TitledPane) node;
-                    var link = new Hyperlink();
-                    link.setText(pane.getText());
-                    link.setUserData(pane);
-                    link.setOnAction(event -> {
-                        var l = (Hyperlink) event.getSource();
-                        var p = (TitledPane) l.getUserData();
-
-
-                        final var h = rootContainerController.rootContainer
-                                .getContent()
-                                .getLayoutBounds()
-                                .getHeight()
-                                - rootContainerController.rootContainer
-                                .getViewportBounds()
-                                .getHeight();
-
-                        timeline.stop();
-                        timeline.getKeyFrames().setAll(
-                                new KeyFrame(Duration.millis(200),
-                                        new KeyValue(rootContainerController.rootContainer.vvalueProperty(), (p.getLayoutY() - header.getHeight()) / h))
-                        );
-                        timeline.play();
-                    });
-
-                    vboxNav.getChildren().add(link);
-                });
-
-
-        rootContainerController.rootContainer.vvalueProperty().addListener((o, old, newV) -> {
-            final var h = rootContainerController.rootContainer
-                    .getContent()
-                    .getLayoutBounds()
-                    .getHeight()
-                    - rootContainerController.rootContainer
-                    .getViewportBounds()
-                    .getHeight();
-
-            var v = rootContainerController.introPanel.getLayoutY() / h;
-
-            if (newV.doubleValue() > v) {
-                header.setVisible(true);
-            } else {
-                header.setVisible(false);
-            }
-
-        });
 
 
     }
@@ -203,16 +147,6 @@ public class NavViewController extends DefaultController {
 
         headerController.load(g);
 
-    }
-
-    @FXML
-    private void linkTop_OnAction(ActionEvent event) {
-        timeline.stop();
-        timeline.getKeyFrames().setAll(
-                new KeyFrame(Duration.millis(200),
-                        new KeyValue(rootContainerController.rootContainer.vvalueProperty(), 0))
-        );
-        timeline.play();
     }
 
     public static class CellController extends DefaultController {

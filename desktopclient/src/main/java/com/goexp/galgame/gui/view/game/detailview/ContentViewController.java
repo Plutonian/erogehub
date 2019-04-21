@@ -42,11 +42,7 @@ public class ContentViewController extends DefaultController {
     private Game game;
 
     public ScrollPane rootContainer;
-    public Region introPanel;
-    @FXML
-    private Text txtIntro;
-    @FXML
-    private Text txtStory;
+
     @FXML
     private ListView<CommonGame.GameCharacter> persionListView;
 
@@ -101,16 +97,6 @@ public class ContentViewController extends DefaultController {
         this.game = game;
 
         headerController.load(game);
-
-        txtIntro.setText(game.intro);
-        txtStory.setText(game.story);
-
-//        var list = game.gameCharacters.stream()
-//                .map(gameCharacter ->
-//                        new GameCharListCell(game.id, gameCharacter).invoke())
-//                .collect(Collectors.toList());
-
-//        persionListView.getChildren().setAll(FXCollections.observableArrayList(list));
 
         charListByGameService.restart();
 
@@ -232,6 +218,9 @@ public class ContentViewController extends DefaultController {
         @FXML
         private HBox boxTag;
 
+        @FXML
+        private TextArea txtStory;
+
         private Game targetGame;
 
         protected void initialize() {
@@ -261,8 +250,7 @@ public class ContentViewController extends DefaultController {
             loadWithoutImage(game);
 
             if (game.smallImg != null && game.smallImg.startsWith("http")) {
-                imageImg.setImage(Images.GameImage.small(game));
-
+                imageImg.setImage(Images.GameImage.large(game));
             } else {
                 imageImg.setImage(null);
             }
@@ -290,6 +278,8 @@ public class ContentViewController extends DefaultController {
 
             flowPainter.getChildren().setAll(Tags.toNodes(game.painter, Hyperlink::new));
             txtWriter.setText(String.join(",", game.writer));
+
+            txtStory.setText(game.intro + "\n\n" + game.story);
 
             if (game.tag.size() > 0) {
                 var nodes = Tags.toNodes(game.tag, str -> {

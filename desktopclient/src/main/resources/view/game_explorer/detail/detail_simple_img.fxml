@@ -4,13 +4,10 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
-
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
-            fx:controller="com.goexp.galgame.gui.view.game.detailview.SimpleImgController">
+            fx:controller="com.goexp.galgame.gui.view.game.detailview.ContentViewController$SimpleImgPartController">
     <center>
         <StackPane>
             <children>
@@ -19,7 +16,7 @@
                         <DropShadow offsetX="3.0" offsetY="3.0"/>
                     </effect>
                 </ImageView>
-                <Hyperlink fx:id="btnPrve" mnemonicParsing="false" onAction="#btnPrev_OnAction"
+                <Hyperlink fx:id="btnPrve" onAction="#btnPrev_OnAction"
                            style="-fx-background-color: #00000010;" StackPane.alignment="CENTER_LEFT">
                     <graphic>
                         <ImageView pickOnBounds="true" preserveRatio="true" rotate="270.0">
@@ -32,7 +29,7 @@
                         <Insets left="150.0"/>
                     </StackPane.margin>
                 </Hyperlink>
-                <Hyperlink fx:id="btnNext" mnemonicParsing="false" onAction="#btnNext_OnAction"
+                <Hyperlink fx:id="btnNext" onAction="#btnNext_OnAction"
                            style="-fx-background-color: #00000010;" StackPane.alignment="CENTER_RIGHT">
                     <graphic>
                         <ImageView pickOnBounds="true" preserveRatio="true" rotate="90.0">

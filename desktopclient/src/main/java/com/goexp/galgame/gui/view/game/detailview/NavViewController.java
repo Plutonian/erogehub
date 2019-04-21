@@ -1,24 +1,34 @@
 package com.goexp.galgame.gui.view.game.detailview;
 
+import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.DefaultController;
-import com.goexp.galgame.gui.view.game.detailview.header.SmallHeaderController;
+import com.goexp.galgame.gui.util.Images;
+import com.goexp.galgame.gui.util.Tags;
+import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
+import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
+import com.goexp.galgame.gui.view.game.HomeController;
+import com.goexp.galgame.gui.view.game.detailview.part.StateChangeChoiceBarController;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 
 public class NavViewController extends DefaultController {
 
     @FXML
-    public FullContentViewController rootContainerController;
+    public ContentViewController rootContainerController;
 
     @FXML
     public SmallHeaderController headerController;
@@ -76,7 +86,7 @@ public class NavViewController extends DefaultController {
 //                            var loader = new FXMLLoaderProxy(NAV_LIST_CELL_FXML);
 //
 //                            var node = (Region) loader.load();
-//                            var controller = (NavCellController) loader.getController();
+//                            var controller = (CellController) loader.getController();
 //                            controller.game = item;
 //                            controller.init();
 //
@@ -205,4 +215,96 @@ public class NavViewController extends DefaultController {
         timeline.play();
     }
 
+    public static class CellController extends DefaultController {
+
+        public Game game;
+
+        @FXML
+        private ImageView imageImg;
+        @FXML
+        private Hyperlink linkTitle;
+
+        public void init() {
+
+            linkTitle.setText(game.name);
+            linkTitle.setOnAction(e -> {
+                HomeController.$this.loadDetail(game);
+            });
+
+
+            if (game.smallImg != null && game.smallImg.startsWith("http")) {
+
+                imageImg.setImage(Images.GameImage.tiny(game));
+            } else {
+                imageImg.setImage(null);
+            }
+
+            //        if (game.state.get() == GameState.PASS)
+            //            imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));
+            //        else
+            //            imageImg.setEffect(null);
+
+        }
+
+        @Override
+        protected void initialize() {
+
+        }
+    }
+
+    public static class SmallHeaderController extends DefaultController {
+
+        @FXML
+        private JumpLinkController webjumpController;
+
+        @FXML
+        private JumpBrandController brandJumpController;
+
+        @FXML
+        private StateChangeChoiceBarController changeStateController;
+
+        @FXML
+        private Text txtName;
+
+        @FXML
+        private Label lbDate;
+
+        @FXML
+        private HBox boxTag;
+
+        protected void initialize() {
+
+        }
+
+
+        public void load(Game game) {
+
+            webjumpController.load(game);
+
+            txtName.setText(game.name);
+
+
+            brandJumpController.load(game.brand);
+
+            changeStateController.load(game);
+
+
+            if (game.tag.size() > 0) {
+
+                boxTag.getChildren().setAll(Tags.toNodes(game.tag, str -> {
+                    var tagLabel = new Label(str);
+
+                    tagLabel.getStyleClass().add("tag");
+                    tagLabel.getStyleClass().add("tagbig");
+
+                    return tagLabel;
+                }));
+            } else {
+                boxTag.getChildren().clear();
+            }
+
+            lbDate.setText(DateUtil.formatDate(game.publishDate));
+
+        }
+    }
 }

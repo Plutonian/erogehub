@@ -83,10 +83,10 @@ public class SimpleListViewController extends DefaultController {
 
             //        if (game.smallImg != null && game.smallImg.startsWith("http")) {
             //
-            //            headerController.setImage(Images.GameImage.tiny(game, game.smallImg));
+            //            headerPartController.setImage(Images.GameImage.tiny(game, game.smallImg));
             //
             //        } else {
-            //            headerController.setImage(null);
+            //            headerPartController.setImage(null);
             //        }
         }
 

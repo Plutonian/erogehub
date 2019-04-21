@@ -2,12 +2,13 @@ package com.goexp.galgame.gui.view.game.detailview.part;
 
 import com.goexp.galgame.common.website.BangumiURL;
 import com.goexp.galgame.common.website.WikiURL;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.Websites;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 
 
-public class CVSearchController {
+public class CVSearchController extends DefaultController {
 
     private String keyword = "";
 
@@ -25,8 +26,7 @@ public class CVSearchController {
     @FXML
     private MenuItem linkBangumi;
 
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
 //        linkDlsite.setOnAction((e) -> {
 //            Websites.open(DlSiteURL.fromTitle(keyword));

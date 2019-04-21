@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.view.game.detailview.header;
 
 import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
@@ -10,13 +11,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
-public class SmallHeaderController {
-    private final Logger logger = LoggerFactory.getLogger(SmallHeaderController.class);
-
+public class SmallHeaderController extends DefaultController {
 
     @FXML
     private JumpLinkController webjumpController;
@@ -36,9 +33,7 @@ public class SmallHeaderController {
     @FXML
     private HBox boxTag;
 
-
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
     }
 

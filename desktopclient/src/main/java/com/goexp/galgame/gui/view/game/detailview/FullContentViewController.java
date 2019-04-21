@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.view.game.detailview;
 
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.GameCharListTask;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.util.TaskService;
 import com.goexp.galgame.gui.view.game.detailview.cell.GameCharListCellController;
@@ -15,14 +16,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.stream.Collectors;
 
 
-public class FullContentViewController {
-    private final Logger logger = LoggerFactory.getLogger(FullContentViewController.class);
+public class FullContentViewController extends DefaultController {
 
     @FXML
     public HeaderController headerController;
@@ -46,8 +44,7 @@ public class FullContentViewController {
     private Service<ObservableList<Game.GameCharacter>> charListByGameService = new TaskService<>(() -> new GameCharListTask(game.id));
 
 
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
         ChangeListener<Throwable> exceptionListener = ((observable, oldValue, newValue) -> {
             if (newValue != null)

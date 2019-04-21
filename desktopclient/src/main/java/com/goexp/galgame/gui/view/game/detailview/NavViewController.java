@@ -1,6 +1,7 @@
 package com.goexp.galgame.gui.view.game.detailview;
 
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.view.game.detailview.header.SmallHeaderController;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -12,13 +13,9 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
-public class NavViewController {
-    private final Logger logger = LoggerFactory.getLogger(NavViewController.class);
-
+public class NavViewController extends DefaultController {
 
     @FXML
     public FullContentViewController rootContainerController;
@@ -39,8 +36,7 @@ public class NavViewController {
     private Timeline timeline = new Timeline();
 
 
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
 //        gameListByBrandService.valueProperty().addListener((observable, oldValue, newValue) -> {
 //            if (newValue != null) {

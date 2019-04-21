@@ -1,6 +1,7 @@
 package com.goexp.galgame.gui.view.game.detailview.cell;
 
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.Images;
 import com.goexp.galgame.gui.view.game.HomeController;
 import com.goexp.galgame.gui.view.game.detailview.part.CVSearchController;
@@ -10,13 +11,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
-public class GameCharListCellController {
-
-    private final Logger logger = LoggerFactory.getLogger(GameCharListCellController.class);
+public class GameCharListCellController extends DefaultController {
     public Game.GameCharacter gameChar;
     public int gameId;
 
@@ -82,5 +79,8 @@ public class GameCharListCellController {
 
     }
 
+    @Override
+    protected void initialize() {
 
+    }
 }

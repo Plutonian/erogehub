@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.view.game.detailview.part;
 
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.ChangeGameTask;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.TaskService;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -12,16 +13,14 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
-public class StarChoiceBarController {
-    private final Logger logger = LoggerFactory.getLogger(StarChoiceBarController.class);
+public class StarChoiceBarController extends DefaultController {
+
     public BooleanProperty onStarChangeProperty = new SimpleBooleanProperty(false);
     private Game targetGame;
     private ChangeListener<Toggle> handler;
@@ -32,8 +31,7 @@ public class StarChoiceBarController {
     private Service<Void> changeStarService = new TaskService<>(() -> new ChangeGameTask.Star(targetGame));
 
 
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
         list = IntStream.rangeClosed(1, 5).boxed()
                 .map(star -> {

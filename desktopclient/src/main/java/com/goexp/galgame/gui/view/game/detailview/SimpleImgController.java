@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.view.game.detailview;
 
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.GameImgListTask;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.Images;
 import com.goexp.galgame.gui.util.TaskService;
 import javafx.beans.value.ChangeListener;
@@ -13,12 +14,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
-public class SimpleImgController {
-    private final Logger logger = LoggerFactory.getLogger(SimpleImgController.class);
+public class SimpleImgController extends DefaultController {
 
     private Game game;
 
@@ -31,8 +29,8 @@ public class SimpleImgController {
 
     private Service<ObservableList<Game.GameImg>> imgListService = new TaskService<>(() -> new GameImgListTask(game.id));
 
-    @FXML
-    private void initialize() {
+
+    protected void initialize() {
 
         ChangeListener<Throwable> exceptionListener = ((observable, oldValue, newValue) -> {
             if (newValue != null)

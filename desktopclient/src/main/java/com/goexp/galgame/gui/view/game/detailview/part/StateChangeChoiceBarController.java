@@ -3,6 +3,7 @@ package com.goexp.galgame.gui.view.game.detailview.part;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.ChangeGameTask;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.TaskService;
 import javafx.beans.value.ChangeListener;
 import javafx.concurrent.Service;
@@ -11,16 +12,13 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-public class StateChangeChoiceBarController {
-    private final Logger logger = LoggerFactory.getLogger(StateChangeChoiceBarController.class);
+public class StateChangeChoiceBarController extends DefaultController {
 
     private Game targetGame;
 
@@ -36,8 +34,8 @@ public class StateChangeChoiceBarController {
 
     private Service<Void> changeGameStateService = new TaskService<>(() -> new ChangeGameTask.Like(targetGame));
 
-    @FXML
-    private void initialize() {
+
+    protected void initialize() {
 
 
         list = Stream.of(GameState.values())

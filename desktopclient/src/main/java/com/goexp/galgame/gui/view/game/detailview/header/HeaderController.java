@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.view.game.detailview.header;
 
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.Images;
 import com.goexp.galgame.gui.util.LocalRes;
 import com.goexp.galgame.gui.util.Tags;
@@ -21,17 +22,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.stream.Collectors;
 
 import static com.goexp.galgame.common.util.GameName.NAME_SPLITER_REX;
 
 
-public class HeaderController {
-    private final Logger logger = LoggerFactory.getLogger(HeaderController.class);
-
+public class HeaderController extends DefaultController {
 
     @FXML
     private StarChoiceBarController starChangeController;
@@ -72,8 +69,7 @@ public class HeaderController {
 
     private Game targetGame;
 
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
         flowPainter.addEventFilter(ActionEvent.ACTION, event -> {
             if (event.getTarget() instanceof Hyperlink) {

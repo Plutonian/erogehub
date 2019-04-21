@@ -1,6 +1,7 @@
 package com.goexp.galgame.gui.view.game.detailview.cell;
 
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.Images;
 import com.goexp.galgame.gui.view.game.HomeController;
 import javafx.fxml.FXML;
@@ -8,7 +9,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 
 
-public class GameNavListCellController {
+public class GameNavListCellController extends DefaultController {
 
     public Game game;
 
@@ -39,5 +40,8 @@ public class GameNavListCellController {
 
     }
 
+    @Override
+    protected void initialize() {
 
+    }
 }

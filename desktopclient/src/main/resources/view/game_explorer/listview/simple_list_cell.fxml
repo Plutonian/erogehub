@@ -2,7 +2,7 @@
 
 <?import javafx.scene.layout.*?>
 <AnchorPane fx:id="rightPanel" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.goexp.galgame.gui.view.game.dataview.SimpleListViewController$CellController">
+            fx:controller="com.goexp.galgame.gui.view.game.listview.SimpleListViewController$CellController">
     <children>
         <fx:include fx:id="header" source="detail_header.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
     </children>

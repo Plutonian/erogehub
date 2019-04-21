@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.view.game.dataview.tableview;
+package com.goexp.galgame.gui.view.game.listview.tableview;
 
 import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;

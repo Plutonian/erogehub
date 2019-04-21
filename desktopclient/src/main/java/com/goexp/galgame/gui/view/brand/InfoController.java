@@ -5,7 +5,7 @@ import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.GameSearchTask;
 import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.TaskService;
-import com.goexp.galgame.gui.view.game.dataview.DataViewController;
+import com.goexp.galgame.gui.view.game.listview.DataViewController;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;

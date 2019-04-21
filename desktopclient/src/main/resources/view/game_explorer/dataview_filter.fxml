@@ -3,11 +3,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-
-<TitledPane text="Filter" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.dataview.sidebar.FilterPanelController">
+<?import javafx.scene.layout.*?>
+<TitledPane text="Filter" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController">
     <content>
         <StackPane>
             <children>

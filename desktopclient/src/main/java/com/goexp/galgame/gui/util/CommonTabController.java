@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.util;
 
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.view.game.dataview.DataViewController;
+import com.goexp.galgame.gui.view.game.listview.DataViewController;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;

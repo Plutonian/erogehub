@@ -8,7 +8,8 @@
         <URL value="@../../view.css"/>
     </stylesheets>
     <children>
-        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+        <StackPane style="-fx-background-color:#FFF" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0"
                    AnchorPane.topAnchor="0.0">
             <children>
                 <fx:include fx:id="rootContainer" source="part/game_detail_page.fxml"/>

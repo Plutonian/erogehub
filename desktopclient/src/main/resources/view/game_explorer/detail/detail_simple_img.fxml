@@ -45,7 +45,7 @@
             </children>
         </StackPane>
     </center>
-    <left>
-        <ListView fx:id="listSmallSimple" prefWidth="180.0" BorderPane.alignment="CENTER"/>
-    </left>
+    <bottom>
+        <ListView fx:id="listSmallSimple" orientation="HORIZONTAL" prefHeight="120" BorderPane.alignment="CENTER"/>
+    </bottom>
 </BorderPane>

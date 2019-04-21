@@ -107,78 +107,6 @@ public class ContentViewController extends DefaultController {
 
     }
 
-    public static class PersonCellController extends DefaultController {
-        public Game.GameCharacter gameChar;
-        public int gameId;
-
-        @FXML
-        private CVSearchController cvsearchController;
-
-        @FXML
-        private ImageView imageImg;
-
-        @FXML
-        private Text txtName;
-
-        @FXML
-        private MenuButton lbCV;
-
-        @FXML
-        private MenuItem truecv;
-
-        @FXML
-        private Text txtIntro;
-
-        @FXML
-        private Region cvPart;
-
-
-        public void init() {
-
-
-            logger.debug("{}", gameChar);
-
-            txtName.setText(gameChar.name);
-
-
-            boolean isTrueCV = gameChar.trueCV != null && gameChar.trueCV.length() > 0;
-
-            var cv = isTrueCV ? gameChar.trueCV : gameChar.cv;
-
-            if (cv != null && cv.length() > 0) {
-                cvPart.setVisible(true);
-                cvsearchController.load(cv);
-                lbCV.setText(cv);
-
-                truecv.setOnAction(event -> {
-                    HomeController.$this.loadCVTab(isTrueCV ? gameChar.trueCV : gameChar.cv, isTrueCV);
-                });
-            } else {
-                cvPart.setVisible(false);
-            }
-
-
-            if (gameChar.intro == null || gameChar.intro.trim().length() == 0) {
-                txtIntro.setVisible(false);
-            } else
-                txtIntro.setText(gameChar.intro);
-
-
-            if (gameChar.img != null && gameChar.img.length() > 0) {
-
-                imageImg.setImage(Images.GameImage.GameChar.small(gameId, gameChar.index, gameChar.img));
-            } else {
-                imageImg.setImage(null);
-            }
-
-        }
-
-        @Override
-        protected void initialize() {
-
-        }
-    }
-
     public static class HeaderPartController extends DefaultController {
 
         @FXML
@@ -312,6 +240,78 @@ public class ContentViewController extends DefaultController {
             for (var i = 0; i < game.star; i++) {
                 boxStar.getChildren().add(new ImageView(image));
             }
+        }
+    }
+
+    public static class PersonCellController extends DefaultController {
+        public Game.GameCharacter gameChar;
+        public int gameId;
+
+        @FXML
+        private CVSearchController cvsearchController;
+
+        @FXML
+        private ImageView imageImg;
+
+        @FXML
+        private Text txtName;
+
+        @FXML
+        private MenuButton lbCV;
+
+        @FXML
+        private MenuItem truecv;
+
+        @FXML
+        private Text txtIntro;
+
+        @FXML
+        private Region cvPart;
+
+
+        public void init() {
+
+
+            logger.debug("{}", gameChar);
+
+            txtName.setText(gameChar.name);
+
+
+            boolean isTrueCV = gameChar.trueCV != null && gameChar.trueCV.length() > 0;
+
+            var cv = isTrueCV ? gameChar.trueCV : gameChar.cv;
+
+            if (cv != null && cv.length() > 0) {
+                cvPart.setVisible(true);
+                cvsearchController.load(cv);
+                lbCV.setText(cv);
+
+                truecv.setOnAction(event -> {
+                    HomeController.$this.loadCVTab(isTrueCV ? gameChar.trueCV : gameChar.cv, isTrueCV);
+                });
+            } else {
+                cvPart.setVisible(false);
+            }
+
+
+            if (gameChar.intro == null || gameChar.intro.trim().length() == 0) {
+                txtIntro.setVisible(false);
+            } else
+                txtIntro.setText(gameChar.intro);
+
+
+            if (gameChar.img != null && gameChar.img.length() > 0) {
+
+                imageImg.setImage(Images.GameImage.GameChar.small(gameId, gameChar.index, gameChar.img));
+            } else {
+                imageImg.setImage(null);
+            }
+
+        }
+
+        @Override
+        protected void initialize() {
+
         }
     }
 

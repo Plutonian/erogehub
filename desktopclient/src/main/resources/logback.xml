@@ -24,6 +24,6 @@
 
 
     <root level="info">
-        <appender-ref ref="info"/>
+        <appender-ref ref="debug"/>
     </root>
 </configuration>

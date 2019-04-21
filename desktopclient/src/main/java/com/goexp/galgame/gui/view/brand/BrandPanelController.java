@@ -4,10 +4,7 @@ import com.goexp.common.util.Strings;
 import com.goexp.galgame.common.model.BrandType;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.task.brand.BrandSearchTask;
-import com.goexp.galgame.gui.util.LocalRes;
-import com.goexp.galgame.gui.util.TabSelect;
-import com.goexp.galgame.gui.util.TaskService;
-import com.goexp.galgame.gui.util.Websites;
+import com.goexp.galgame.gui.util.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
@@ -20,16 +17,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.util.StringConverter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BrandPanelController {
-
-    private final Logger logger = LoggerFactory.getLogger(BrandPanelController.class);
+public class BrandPanelController extends DefaultController {
 
     /**
      * UI Com
@@ -86,8 +79,8 @@ public class BrandPanelController {
     private Service<ObservableList<TreeItem<Brand>>> brandByCompService = new TaskService<>(() -> new BrandSearchTask.ByComp(keyword));
 
 
-    @FXML
-    private void initialize() {
+    @Override
+    protected void initialize() {
 
 //        btnSearch.disableProperty().bind(textBrandKey.textProperty().length().isEqualTo(0));
 

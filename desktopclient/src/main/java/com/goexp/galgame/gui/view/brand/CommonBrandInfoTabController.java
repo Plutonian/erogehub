@@ -1,10 +1,11 @@
 package com.goexp.galgame.gui.view.brand;
 
 import com.goexp.galgame.gui.model.Brand;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import javafx.scene.layout.Region;
 
-public class CommonBrandInfoTabController {
+public class CommonBrandInfoTabController extends DefaultController {
 
     public Region node;
     private BrandInfoController controller;
@@ -27,4 +28,8 @@ public class CommonBrandInfoTabController {
         controller.load(brand);
     }
 
+    @Override
+    protected void initialize() {
+
+    }
 }

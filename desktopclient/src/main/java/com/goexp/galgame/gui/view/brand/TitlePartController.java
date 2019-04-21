@@ -8,6 +8,7 @@ import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.brand.BrandChangeTask;
 import com.goexp.galgame.gui.task.brand.BrandListTask;
 import com.goexp.galgame.gui.task.game.ChangeGameTask;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.TaskService;
 import com.goexp.galgame.gui.view.common.control.URLHyperlink;
 import com.goexp.galgame.gui.view.game.HomeController;
@@ -27,8 +28,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Comparator;
 import java.util.List;
@@ -37,9 +36,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TitlePartController {
+public class TitlePartController extends DefaultController {
 
-    private final Logger logger = LoggerFactory.getLogger(TitlePartController.class);
     public BooleanProperty stateChangeProperty = new SimpleBooleanProperty(false);
     @FXML
     private Text txtBrand;
@@ -62,8 +60,7 @@ public class TitlePartController {
 
     private ChangeListener<BrandType> listener;
 
-    @FXML
-    private void initialize() {
+    protected void initialize() {
         var types = Stream.of(
                 BrandType.values()
         )

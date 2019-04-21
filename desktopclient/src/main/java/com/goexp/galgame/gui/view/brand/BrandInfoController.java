@@ -3,6 +3,7 @@ package com.goexp.galgame.gui.view.brand;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.GameSearchTask;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.TaskService;
 import com.goexp.galgame.gui.view.game.dataview.DataViewController;
 import javafx.beans.value.ChangeListener;
@@ -10,12 +11,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Service;
 import javafx.fxml.FXML;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class BrandInfoController {
-
-    private final Logger logger = LoggerFactory.getLogger(BrandInfoController.class);
+public class BrandInfoController extends DefaultController {
 
     /**
      * UI Com
@@ -48,8 +45,8 @@ public class BrandInfoController {
      * Event
      */
 
-    @FXML
-    private void initialize() {
+
+    protected void initialize() {
 
 
         ChangeListener<Throwable> exceptionHandler = (observable, oldValue, newValue) -> {

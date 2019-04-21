@@ -1,5 +1,6 @@
 package com.goexp.galgame.gui.view.game.detailview;
 
+import com.goexp.galgame.common.model.CommonGame;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.GameCharListTask;
@@ -25,10 +26,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
-import java.util.stream.Collectors;
 
 import static com.goexp.galgame.common.util.GameName.NAME_SPLITER_REX;
 
@@ -40,24 +38,45 @@ public class ContentViewController extends DefaultController {
 
     @FXML
     public SimpleImgPartController simpleImgController;
-    public ScrollPane rootContainer;
-    public Region introPanel;
+
     private Game game;
 
+    public ScrollPane rootContainer;
+    public Region introPanel;
     @FXML
     private Text txtIntro;
-
     @FXML
     private Text txtStory;
-
     @FXML
-    private VBox listChar;
+    private ListView<CommonGame.GameCharacter> persionListView;
 
 
     private Service<ObservableList<Game.GameCharacter>> charListByGameService = new TaskService<>(() -> new GameCharListTask(game.id));
 
 
     protected void initialize() {
+
+        persionListView.setCellFactory(listChar -> {
+
+            var loader = new FXMLLoaderProxy<Region, PersonCellController>("view/game_explorer/detail/char_list_cell.fxml");
+
+            return new ListCell<>() {
+                @Override
+                protected void updateItem(CommonGame.GameCharacter gameCharacter, boolean empty) {
+                    super.updateItem(gameCharacter, empty);
+                    setText(null);
+                    setGraphic(null);
+
+                    if (gameCharacter != null && !empty) {
+                        var controller = loader.controller;
+                        controller.gameId = game.id;
+                        controller.gameChar = gameCharacter;
+                        controller.init();
+                        setGraphic(loader.node);
+                    }
+                }
+            };
+        });
 
         ChangeListener<Throwable> exceptionListener = ((observable, oldValue, newValue) -> {
             if (newValue != null)
@@ -67,23 +86,7 @@ public class ContentViewController extends DefaultController {
         charListByGameService.exceptionProperty().addListener(exceptionListener);
         charListByGameService.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-
-
-                var list = newValue.stream()
-                        .map(gameCharacter -> {
-                            var loader = new FXMLLoaderProxy<Region, PersonCellController>("view/game_explorer/detail/char_list_cell.fxml");
-                            var controller = loader.controller;
-                            controller.gameId = game.id;
-                            controller.gameChar = gameCharacter;
-                            controller.init();
-                            return loader.node;
-//                            var cell=new GameCharListCell(game.id, gameCharacter).invoke();
-//                            return cell;
-                        })
-                        .collect(Collectors.toList());
-
-                listChar.getChildren().setAll(FXCollections.observableArrayList(list));
-
+                persionListView.setItems(newValue);
             }
         });
 
@@ -107,7 +110,7 @@ public class ContentViewController extends DefaultController {
 //                        new GameCharListCell(game.id, gameCharacter).invoke())
 //                .collect(Collectors.toList());
 
-//        listChar.getChildren().setAll(FXCollections.observableArrayList(list));
+//        persionListView.getChildren().setAll(FXCollections.observableArrayList(list));
 
         charListByGameService.restart();
 
@@ -285,12 +288,8 @@ public class ContentViewController extends DefaultController {
             txtName.setText(find ? game.name.substring(0, matcher.start()) : game.name);
             txtSubName.setText(find ? game.name.substring(matcher.start()) : "");
 
-            flowPainter.getChildren().setAll(Tags.toNodes(game.painter, str1 -> {
-                var tagLabel1 = new Hyperlink(str1);
-
-                return tagLabel1;
-            }));
-            txtWriter.setText(game.writer.stream().collect(Collectors.joining(",")));
+            flowPainter.getChildren().setAll(Tags.toNodes(game.painter, Hyperlink::new));
+            txtWriter.setText(String.join(",", game.writer));
 
             if (game.tag.size() > 0) {
                 var nodes = Tags.toNodes(game.tag, str -> {

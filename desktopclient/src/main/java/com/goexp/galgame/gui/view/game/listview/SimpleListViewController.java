@@ -163,6 +163,11 @@ public class SimpleListViewController extends DefaultController {
                 } else {
                     imageImg.setImage(null);
                 }
+
+                //preload large
+                Images.GameImage.large(game);
+
+
             }
 
 

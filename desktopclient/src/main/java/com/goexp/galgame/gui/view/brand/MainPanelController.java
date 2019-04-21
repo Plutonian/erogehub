@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BrandPanelController extends DefaultController {
+public class MainPanelController extends DefaultController {
 
     /**
      * UI Com
@@ -198,7 +198,7 @@ public class BrandPanelController extends DefaultController {
                 final var text = targetBrand.name;
 
                 TabSelect.from().ifNotFind(() -> {
-                    var conn = new CommonBrandInfoTabController();
+                    var conn = new CommonInfoTabController();
 
                     var tab = new Tab(text, conn.node);
                     tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG.get()));

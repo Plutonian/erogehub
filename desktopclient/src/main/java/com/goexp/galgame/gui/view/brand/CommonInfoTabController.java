@@ -5,19 +5,19 @@ import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import javafx.scene.layout.Region;
 
-public class CommonBrandInfoTabController extends DefaultController {
+public class CommonInfoTabController extends DefaultController {
 
     public Region node;
-    private BrandInfoController controller;
+    private InfoController controller;
 
 
-    public CommonBrandInfoTabController() {
+    public CommonInfoTabController() {
         init();
     }
 
     private void init() {
 
-        final var loader = new FXMLLoaderProxy<Region, BrandInfoController>("view/brand/brand_info.fxml");
+        final var loader = new FXMLLoaderProxy<Region, InfoController>("view/brand/brand_info.fxml");
         node = loader.node;
 
         controller = loader.controller;

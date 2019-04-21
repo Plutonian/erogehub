@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/"
-            fx:controller="com.goexp.galgame.gui.view.brand.BrandPanelController">
+            fx:controller="com.goexp.galgame.gui.view.brand.MainPanelController">
     <bottom>
         <HBox spacing="10.0">
             <children>

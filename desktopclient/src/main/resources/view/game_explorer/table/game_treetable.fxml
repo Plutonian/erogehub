@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import java.net.URL?>
-<?import javafx.scene.control.ContextMenu?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
-
 <TreeTableView xmlns:fx="http://javafx.com/fxml/1" fx:id="table" showRoot="false" tableMenuButtonVisible="true"
                xmlns="http://javafx.com/javafx/8.0.172-ea"
-               fx:controller="com.goexp.galgame.gui.view.game.dataview.tableview.GameTreeTableController">
+               fx:controller="com.goexp.galgame.gui.view.game.dataview.tableview.TreeTableController">
     <stylesheets>
         <URL value="@../../view.css"/>
     </stylesheets>

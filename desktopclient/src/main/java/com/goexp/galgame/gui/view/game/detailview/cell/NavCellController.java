@@ -9,7 +9,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 
 
-public class GameNavListCellController extends DefaultController {
+public class NavCellController extends DefaultController {
 
     public Game game;
 

@@ -7,7 +7,7 @@ import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.game.dataview.sidebar.BrandGroupController;
 import com.goexp.galgame.gui.view.game.dataview.sidebar.DateGroupController;
 import com.goexp.galgame.gui.view.game.dataview.sidebar.FilterPanelController;
-import com.goexp.galgame.gui.view.game.dataview.tableview.GameTableController;
+import com.goexp.galgame.gui.view.game.dataview.tableview.TableController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
@@ -31,9 +31,9 @@ public class DataViewController extends DefaultController {
     public BooleanProperty reloadProperty = new SimpleBooleanProperty(false);
 
     @FXML
-    public GameTableController tableViewController;
+    public TableController tableViewController;
 
-    //    @FXML//    public GameImgListController imgViewController;
+    //    @FXML//    public SimpleListViewController imgViewController;
     @FXML
     public ProgressBar progessloading;
     @FXML

@@ -11,7 +11,7 @@ import javafx.scene.layout.Region;
 
 import java.util.stream.Collectors;
 
-public class GameImgListController extends DefaultController {
+public class ListController extends DefaultController {
 
     final private int pageSize = 5;
     @FXML
@@ -55,7 +55,7 @@ public class GameImgListController extends DefaultController {
                     .skip((index - 1) * pageSize)
                     .limit(pageSize)
                     .map(game -> {
-                        final var loader = new FXMLLoaderProxy<Region, GameImgListCellController>("view/game_explorer/listview/img/img_list_cell.fxml");
+                        final var loader = new FXMLLoaderProxy<Region, CellController>("view/game_explorer/listview/img/img_list_cell.fxml");
 
                         loader.controller.load(game);
                         return loader.node;
@@ -68,6 +68,5 @@ public class GameImgListController extends DefaultController {
         }
 
     }
-
 
 }

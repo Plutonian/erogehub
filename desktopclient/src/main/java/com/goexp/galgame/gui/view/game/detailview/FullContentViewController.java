@@ -5,7 +5,7 @@ import com.goexp.galgame.gui.task.game.GameCharListTask;
 import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.util.TaskService;
-import com.goexp.galgame.gui.view.game.detailview.cell.GameCharListCellController;
+import com.goexp.galgame.gui.view.game.detailview.cell.PersonCellController;
 import com.goexp.galgame.gui.view.game.detailview.header.HeaderController;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -106,7 +106,7 @@ public class FullContentViewController extends DefaultController {
         }
 
         public Region invoke() {
-            var loader = new FXMLLoaderProxy<Region, GameCharListCellController>("view/game_explorer/detail/char_list_cell.fxml");
+            var loader = new FXMLLoaderProxy<Region, PersonCellController>("view/game_explorer/detail/char_list_cell.fxml");
             var controller = loader.controller;
             controller.gameId = gameid;
             controller.gameChar = gameCharacter;

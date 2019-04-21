@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class GameTableController extends DefaultController {
+public class TableController extends DefaultController {
 
     @FXML
     public TableView<Game> table;

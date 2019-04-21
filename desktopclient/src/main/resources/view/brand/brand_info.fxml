@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import java.net.URL?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/"
-            fx:controller="com.goexp.galgame.gui.view.brand.BrandInfoController">
+            fx:controller="com.goexp.galgame.gui.view.brand.InfoController">
     <stylesheets>
         <URL value="@../view.css"/>
     </stylesheets>

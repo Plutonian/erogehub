@@ -5,8 +5,8 @@ import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.GameSearchTask;
 import com.goexp.galgame.gui.util.*;
-import com.goexp.galgame.gui.view.brand.BrandPanelController;
-import com.goexp.galgame.gui.view.brand.CommonBrandInfoTabController;
+import com.goexp.galgame.gui.view.brand.CommonInfoTabController;
+import com.goexp.galgame.gui.view.brand.MainPanelController;
 import com.goexp.galgame.gui.view.game.detailview.NavViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -200,7 +200,7 @@ public class HomeController extends DefaultController {
         final var text = brand.name;
 
         TabSelect.from().ifNotFind(() -> {
-            var conn = new CommonBrandInfoTabController();
+            var conn = new CommonInfoTabController();
 
             var tab = new Tab(text, conn.node);
             tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG.get()));
@@ -301,7 +301,7 @@ public class HomeController extends DefaultController {
     private void linkBrand_OnAction(ActionEvent actionEvent) throws IOException {
 
         TabSelect.from().ifNotFind(() -> {
-            final var loader = new FXMLLoaderProxy<Region, BrandPanelController>(BRAND_PANEL_FXML);
+            final var loader = new FXMLLoaderProxy<Region, MainPanelController>(BRAND_PANEL_FXML);
 
             var tab = new Tab("Brand", loader.node);
             loader.controller.load();

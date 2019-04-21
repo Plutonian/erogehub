@@ -76,7 +76,7 @@ public class NavViewController extends DefaultController {
 //                            var loader = new FXMLLoaderProxy(NAV_LIST_CELL_FXML);
 //
 //                            var node = (Region) loader.load();
-//                            var controller = (GameNavListCellController) loader.getController();
+//                            var controller = (NavCellController) loader.getController();
 //                            controller.game = item;
 //                            controller.init();
 //

@@ -12,7 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Service;
 import javafx.fxml.FXML;
 
-public class BrandInfoController extends DefaultController {
+public class InfoController extends DefaultController {
 
     /**
      * UI Com

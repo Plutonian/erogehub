@@ -13,7 +13,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 
 
-public class GameCharListCellController extends DefaultController {
+public class PersonCellController extends DefaultController {
     public Game.GameCharacter gameChar;
     public int gameId;
 

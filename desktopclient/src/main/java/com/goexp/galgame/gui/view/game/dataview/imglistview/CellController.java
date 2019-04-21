@@ -19,7 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 
-public class GameImgListCellController extends DefaultController {
+public class CellController extends DefaultController {
 
     private Game game;
 

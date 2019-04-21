@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.view.game;
 
 import com.goexp.galgame.gui.task.game.GameSearchTask;
 import com.goexp.galgame.gui.util.CommonTabController;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.TabSelect;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -12,14 +13,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
-public class SearchController {
-
-    private final Logger logger = LoggerFactory.getLogger(SearchController.class);
+public class SearchController extends DefaultController {
 
     /**
      * UI Com
@@ -43,8 +40,8 @@ public class SearchController {
         return searchType;
     }
 
-    @FXML
-    private void initialize() {
+
+    protected void initialize() {
         onLoadProperty.addListener((observable, oldValue, newValue) -> {
             if (newValue != null && newValue) {
 

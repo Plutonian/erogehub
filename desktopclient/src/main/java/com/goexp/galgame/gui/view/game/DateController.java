@@ -1,22 +1,18 @@
 package com.goexp.galgame.gui.view.game;
 
+import com.goexp.galgame.gui.util.DefaultController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.TilePane;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class DateController {
-
-    private final Logger logger = LoggerFactory.getLogger(DateController.class);
-
+public class DateController extends DefaultController {
 
     public BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
 
@@ -38,8 +34,7 @@ public class DateController {
 
     private ToggleGroup monthSelect = new ToggleGroup();
 
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
         var monthNodes = IntStream.rangeClosed(1, 12).boxed()
                 .map(month -> {

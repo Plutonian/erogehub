@@ -1,6 +1,7 @@
 package com.goexp.galgame.gui.view.pagesource;
 
 import com.goexp.galgame.gui.model.Brand;
+import com.goexp.galgame.gui.util.DefaultController;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.FontSmoothingType;
 import javafx.scene.web.WebView;
 
-public class WebViewController {
+public class WebViewController extends DefaultController {
 
     /**
      * UI Com
@@ -28,8 +29,8 @@ public class WebViewController {
      * Event
      */
 
-    @FXML
-    private void initialize() {
+
+    protected void initialize() {
         webView.setFontSmoothingType(FontSmoothingType.GRAY);
 
 

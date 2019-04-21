@@ -3,10 +3,7 @@ package com.goexp.galgame.gui.view.game;
 import com.goexp.galgame.common.model.TagType;
 import com.goexp.galgame.gui.task.TagListTask;
 import com.goexp.galgame.gui.task.game.GameSearchTask;
-import com.goexp.galgame.gui.util.CommonTabController;
-import com.goexp.galgame.gui.util.LocalRes;
-import com.goexp.galgame.gui.util.TabSelect;
-import com.goexp.galgame.gui.util.TaskService;
+import com.goexp.galgame.gui.util.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
@@ -19,14 +16,11 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.stream.Collectors;
 
-public class TagExplorerController {
+public class TagExplorerController extends DefaultController {
 
-    private final Logger logger = LoggerFactory.getLogger(TagExplorerController.class);
 
     public BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
     public String tag;
@@ -39,8 +33,8 @@ public class TagExplorerController {
      * Event
      */
 
-    @FXML
-    private void initialize() {
+
+    protected void initialize() {
 
         tabType.addEventFilter(ActionEvent.ACTION, event -> {
 

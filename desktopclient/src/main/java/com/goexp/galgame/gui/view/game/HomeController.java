@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HomeController {
+public class HomeController extends DefaultController {
 
 
     private static final String GAME_DETAIL_NAV_PAGE_FXML = "view/game_explorer/detail/game_detail_nav_page.fxml";
@@ -79,8 +79,7 @@ public class HomeController {
     }
 
 
-    @FXML
-    private void initialize() {
+    protected void initialize() {
 
         $this = this;
 

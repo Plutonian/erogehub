@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.view.game;
 
 import com.goexp.galgame.common.model.CV;
 import com.goexp.galgame.gui.task.CVListTask;
+import com.goexp.galgame.gui.util.DefaultController;
 import com.goexp.galgame.gui.util.TaskService;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -13,16 +14,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.FlowPane;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Comparator;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class CVInfoController {
+public class CVInfoController extends DefaultController {
 
-    private final Logger logger = LoggerFactory.getLogger(CVInfoController.class);
     public BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
     /***
      * Biz
@@ -42,8 +40,8 @@ public class CVInfoController {
      * Event
      */
 
-    @FXML
-    private void initialize() {
+
+    protected void initialize() {
 
         ChangeListener<Throwable> exceptionHandler = (observable, oldValue, newValue) -> {
             if (newValue != null)

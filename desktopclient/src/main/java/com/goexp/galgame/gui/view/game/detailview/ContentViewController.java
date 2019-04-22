@@ -244,8 +244,8 @@ public class ContentViewController extends DefaultController {
     }
 
     public static class PersonCellController extends DefaultController {
-        public Game.GameCharacter gameChar;
-        public int gameId;
+        Game.GameCharacter gameChar;
+        int gameId;
 
         @FXML
         private CVSearchController cvsearchController;

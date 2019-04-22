@@ -9,6 +9,9 @@ plugins{
 
 dependencies {
     compile 'org.mongodb:mongo-java-driver:3.10.1'
+    // https://mvnrepository.com/artifact/org.mongodb.scala/mongo-scala-driver
+//    compile group: 'org.mongodb.scala', name: 'mongo-scala-driver_2.12', version: '2.6.0'
+
     compile 'org.scala-lang:scala-library:2.12.8'
 }
 

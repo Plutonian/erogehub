@@ -34,7 +34,7 @@ public class SimpleListViewController extends DefaultController {
 
         listSimple.setCellFactory(listView -> {
 
-            final var loader = new FXMLLoaderProxy<Region, CellController>("view/game_explorer/listview/simple_list_cell.fxml");
+            final var loader = new FXMLLoaderProxy<Region, CellController>("view/game_explorer/listview/cell.fxml");
             logger.debug("Load");
 
             return new ListCell<>() {

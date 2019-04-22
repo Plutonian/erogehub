@@ -17,7 +17,7 @@ public class CommonInfoTabController extends DefaultController {
 
     private void init() {
 
-        final var loader = new FXMLLoaderProxy<Region, InfoController>("view/brand/brand_info.fxml");
+        final var loader = new FXMLLoaderProxy<Region, InfoController>("view/brand/info.fxml");
         node = loader.node;
 
         controller = loader.controller;

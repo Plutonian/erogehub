@@ -9,10 +9,10 @@
         <BorderPane style="-fx-background-color: white;">
             <center>
                 <StackPane>
-                    <fx:include fx:id="imgView" source="listview/img/game_img_list.fxml"/>
+                    <fx:include fx:id="imgView" source="imglistview/list.fxml"/>
                     <!--<fx:include fx:id="treeTableView" source="table/game_treetable.fxml" />-->
-                    <fx:include fx:id="tableView" source="table/game_table.fxml"/>
-                    <fx:include fx:id="listSimple" source="listview/game_simple_list.fxml"/>
+                    <fx:include fx:id="tableView" source="table/table.fxml"/>
+                    <fx:include fx:id="listSimple" source="listview/list.fxml"/>
                 </StackPane>
             </center>
             <bottom>
@@ -63,7 +63,7 @@
             <center>
                 <Accordion fx:id="groupPanel" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0">
                     <panes>
-                        <fx:include fx:id="filterPanel" source="dataview_filter.fxml"/>
+                        <fx:include fx:id="filterPanel" source="sidebar/dataview_filter.fxml"/>
                         <TitledPane text="Group">
                             <content>
                                 <StackPane>

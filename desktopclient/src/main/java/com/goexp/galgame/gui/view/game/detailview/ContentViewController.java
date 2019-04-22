@@ -54,7 +54,7 @@ public class ContentViewController extends DefaultController {
 
         persionListView.setCellFactory(listChar -> {
 
-            var loader = new FXMLLoaderProxy<Region, PersonCellController>("view/game_explorer/detail/part/char_list_cell.fxml");
+            var loader = new FXMLLoaderProxy<Region, PersonCellController>("view/game_explorer/detail/part/person_cell.fxml");
 
             return new ListCell<>() {
                 @Override

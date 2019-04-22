@@ -32,7 +32,7 @@ public class CommonTabController {
 
     private void init() {
 
-        final var loader = new FXMLLoaderProxy<Region, DataViewController>("view/game_explorer/game_dataview.fxml");
+        final var loader = new FXMLLoaderProxy<Region, DataViewController>("view/game_explorer/dataview.fxml");
         node = loader.node;
         controller = loader.controller;
 

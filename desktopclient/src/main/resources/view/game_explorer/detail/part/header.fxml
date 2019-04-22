@@ -65,8 +65,16 @@
                         <HBox fx:id="boxTag" spacing="5.0"/>
                         <HBox fx:id="boxStar">
                         </HBox>
-                        <fx:include fx:id="starChange" source="../control/game_star_choicebar.fxml"/>
-                        <TextArea fx:id="txtStory" editable="false" prefHeight="500.0" wrapText="true">
+                        <fx:include fx:id="starChange" source="../control/star_choicebar.fxml"/>
+                        <HBox spacing="20.0">
+                            <children>
+                                <fx:include fx:id="changeState" source="../control/statechange.fxml"
+                                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                            StackPane.alignment="BOTTOM_LEFT"/>
+                            </children>
+                        </HBox>
+                        <TextArea fx:id="txtStory" editable="false" prefHeight="500.0"
+                                  style="-fx-background-color: #eee;" wrapText="true">
                             <font>
                                 <Font size="14.0"/>
                             </font>
@@ -78,15 +86,6 @@
             <BorderPane.margin>
                 <Insets left="10.0"/>
             </BorderPane.margin>
-            <bottom>
-                <HBox spacing="20.0" BorderPane.alignment="CENTER">
-                    <children>
-                        <fx:include fx:id="changeState" source="../control/game_statechange.fxml"
-                                    AnchorPane.bottomAnchor="0.0"
-                                    AnchorPane.leftAnchor="0.0" StackPane.alignment="BOTTOM_LEFT"/>
-                    </children>
-                </HBox>
-            </bottom>
             <right>
                 <StackPane BorderPane.alignment="CENTER">
                     <children>

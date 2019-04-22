@@ -78,7 +78,7 @@
                   </VBox>
                </bottom>
                <right>
-                   <fx:include fx:id="changeState" source="../detail/control/game_statechange.fxml"
+                   <fx:include fx:id="changeState" source="../detail/control/statechange.fxml"
                                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                                StackPane.alignment="BOTTOM_LEFT"/>
                </right>

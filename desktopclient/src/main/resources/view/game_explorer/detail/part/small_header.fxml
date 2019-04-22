@@ -32,7 +32,7 @@
             </font>
         </Label>
         <HBox AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
-            <fx:include fx:id="changeState" source="../control/game_change_state_choicebar.fxml"/>
+            <fx:include fx:id="changeState" source="../control/change_state_choicebar.fxml"/>
             <fx:include fx:id="webjump" source="../../../jump/websitejump.fxml"/>
         </HBox>
     </children>

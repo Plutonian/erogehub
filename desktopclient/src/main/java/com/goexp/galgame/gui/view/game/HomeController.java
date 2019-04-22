@@ -26,9 +26,9 @@ import java.util.stream.Collectors;
 public class HomeController extends DefaultController {
 
 
-    private static final String GAME_DETAIL_NAV_PAGE_FXML = "view/game_explorer/detail/game_detail_nav_page.fxml";
+    private static final String GAME_DETAIL_NAV_PAGE_FXML = "view/game_explorer/detail/out_page.fxml";
     private static final String SEARCH_TYPE_FXML = "view/search/type.fxml";
-    private static final String BRAND_PANEL_FXML = "view/search/brand_panel.fxml";
+    private static final String BRAND_PANEL_FXML = "view/brand/panel.fxml";
     private static final String SEARCH_FXML = "view/search/search.fxml";
     private static final String CVINFO_FXML = "view/search/cvinfo.fxml";
 

@@ -5,7 +5,7 @@ import java.util
 import com.goexp.common.db.mongo.DBOperatorTemplate
 import com.goexp.galgame.common.model.GameState
 import com.goexp.galgame.gui.model.Game
-import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Filters.{eq => equal}
 import com.mongodb.client.model.Updates.set
 import org.slf4j.LoggerFactory
 
@@ -18,7 +18,7 @@ object GameDB {
     def update(game: Game): Unit = {
       logger.debug("<update> {}", game)
       tlp.exec(documentMongoCollection => {
-        documentMongoCollection.updateOne(Filters.eq(game.id), set("star", game.star))
+        documentMongoCollection.updateOne(equal(game.id), set("star", game.star))
       })
     }
   }
@@ -26,19 +26,19 @@ object GameDB {
   object StateDB {
     def update(game: Game): Unit =
       tlp.exec(documentMongoCollection => {
-        documentMongoCollection.updateOne(Filters.eq(game.id), set("state", game.state.get.getValue))
+        documentMongoCollection.updateOne(equal(game.id), set("state", game.state.get.getValue))
       })
 
     def update(brandId: Int): Unit =
       tlp.exec(documentMongoCollection => {
-        documentMongoCollection.updateMany(Filters.eq("brandId", brandId), set("state", GameState.BLOCK.getValue))
+        documentMongoCollection.updateMany(equal("brandId", brandId), set("state", GameState.BLOCK.getValue))
 
       })
 
     def batchUpdate(games: util.List[Game]): Unit =
       tlp.exec(documentMongoCollection => {
         games.forEach((game: Game) => {
-          documentMongoCollection.updateOne(Filters.eq(game.id), set("state", game.state.get.getValue))
+          documentMongoCollection.updateOne(equal(game.id), set("state", game.state.get.getValue))
         })
       })
   }

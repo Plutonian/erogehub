@@ -53,7 +53,7 @@ public class TitlePartController extends DefaultController {
     private ChoiceBox<BrandType> choiceBrandState;
     private Brand changeBrand;
 
-    private Service<Boolean> changeBrandStateService = new TaskService<>(() -> new BrandChangeTask(changeBrand));
+    private Service changeBrandStateService = new TaskService(() -> new BrandChangeTask(changeBrand));
     private Service<Void> changeGameStateService = new TaskService<>(() -> new ChangeGameTask.MultiLikeByBrand(changeBrand.id));
     private Service<ObservableList<Brand>> listBrandService = new TaskService<>(() -> new BrandListTask.ByComp(changeBrand.comp));
 
@@ -96,7 +96,7 @@ public class TitlePartController extends DefaultController {
         };
 
         changeBrandStateService.valueProperty().addListener((o, old, newV) -> {
-            if (newV != null && newV) {
+            if (newV != null) {
                 stateChangeProperty.set(true);
             }
 

@@ -1,7 +1,6 @@
 package com.goexp.galgame.gui.db.mongo
 
 import java.util
-import java.util.{Date, Optional}
 
 import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
 import com.goexp.common.util.DateUtil
@@ -93,7 +92,10 @@ object Query {
           g.brand = new Brand
           g.brand.id = doc.getInteger("brandId")
 
-          Optional.ofNullable(doc.getDate("publishDate")).ifPresent((date: Date) => g.publishDate = DateUtil.toLocalDate(date))
+
+          g.publishDate = Option(doc.getDate("publishDate")).map(DateUtil.toLocalDate).orNull
+
+          //          Optional.ofNullable(doc.getDate("publishDate")).ifPresent((date: Date) => g.publishDate = DateUtil.toLocalDate(date))
           g.intro = doc.getString("intro")
           g.story = doc.getString("story")
           g.smallImg = doc.getString("smallImg")

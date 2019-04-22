@@ -78,12 +78,12 @@ class DBQueryTemplate[T] private(dbName: String,
     }
 
     private def getSet(userCreator: ObjectCreator[T]) =
-      getDocuments.map(userCreator.create(_)).into(new HashSet[T])
+      getDocuments.map(userCreator.create).into(new HashSet[T])
 
     def list: List[T] = getList(defaultCreator)
 
     private def getList(userCreator: ObjectCreator[T]) =
-      getDocuments.map(userCreator.create(_)).into(new ArrayList[T])
+      getDocuments.map(userCreator.create).into(new ArrayList[T])
 
     private def getDocuments = {
       var temp = collection.find()
@@ -106,14 +106,14 @@ class DBQueryTemplate[T] private(dbName: String,
       var temp = collection.find
       // choice where
       if (where != null) temp = temp.filter(where)
-      temp.limit(1).map(defaultCreator.create(_)).first
+      temp.limit(1).map(defaultCreator.create).first
     }
 
     def one(userCreator: ObjectCreator[T]): T = {
       Objects.requireNonNull(userCreator)
       var temp = collection.find
       if (where != null) temp = temp.filter(where)
-      temp.limit(1).map(userCreator.create(_)).first
+      temp.limit(1).map(userCreator.create).first
     }
 
     def exists: Boolean = collection.countDocuments(where) > 0

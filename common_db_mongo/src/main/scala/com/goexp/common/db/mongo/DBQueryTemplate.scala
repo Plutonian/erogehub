@@ -29,13 +29,13 @@ object DBQueryTemplate {
 
 }
 
-class DBQueryTemplate[T] private(private[this] val dbName: String,
-                                 private[this] val tableName: String,
+class DBQueryTemplate[T] private(dbName: String,
+                                 tableName: String,
                                  private[this] val defaultCreator: ObjectCreator[T]
-                                ) {
+                                ) extends AbstractDBTemplate(dbName, tableName) {
   Objects.requireNonNull(defaultCreator)
 
-  private val collection = AbstractDBTemplate.mongoClient.getDatabase(dbName).getCollection(tableName)
+  private val collection = mongoClient.getDatabase(dbName).getCollection(tableName)
   private var defaultSort: Bson = _
   private var defaultSelect: Bson = _
 

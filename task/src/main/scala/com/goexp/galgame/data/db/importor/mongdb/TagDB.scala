@@ -1,6 +1,7 @@
 package com.goexp.galgame.data.db.importor.mongdb
 
 import com.goexp.common.db.mongo.DBOperatorTemplate
+import com.goexp.galgame.common.db.mongo.DB_NAME
 import com.goexp.galgame.common.model.TagType
 import org.bson.Document
 
@@ -8,7 +9,7 @@ import scala.collection.JavaConverters._
 
 object TagDB {
 
-  lazy val tlp = new DBOperatorTemplate("galgame", "tag")
+  lazy val tlp = new DBOperatorTemplate(DB_NAME, "tag")
 
   def insert(item: List[TagType]) = {
     val docs = item

@@ -4,6 +4,7 @@ import java.util._
 
 import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
 import com.goexp.common.util.DateUtil
+import com.goexp.galgame.common.db.mongo.DB_NAME
 import com.goexp.galgame.common.model._
 import com.goexp.galgame.gui.db.mongo.Query.GameQuery.Creator.FullGame
 import com.goexp.galgame.gui.model.{Brand, Game}
@@ -15,12 +16,10 @@ import org.slf4j.LoggerFactory
 import scala.collection.JavaConverters._
 
 object Query {
-  private val DB = "galgame"
 
   object BrandQuery {
-
-    val tlp = new DBQueryTemplate.Builder[Brand](DB, "brand", creator).build
     private val logger = LoggerFactory.getLogger(BrandQuery.getClass)
+
     private val creator: ObjectCreator[Brand] = (doc: Document) => {
       val g = new Brand
       logger.debug("<create> doc={}", doc)
@@ -31,12 +30,12 @@ object Query {
       g.comp = doc.getString("comp")
       g
     }
+    val tlp = new DBQueryTemplate.Builder[Brand](DB_NAME, "brand", creator).build
 
   }
 
   object CVQuery {
 
-    val tlp = new DBQueryTemplate.Builder[CV](DB, "cv", creator).build
     private val logger = LoggerFactory.getLogger(CVQuery.getClass)
     private val creator: ObjectCreator[CV] = (doc: Document) => {
       val g = new CV
@@ -46,19 +45,20 @@ object Query {
       g.nameStr = doc.getString("names")
       g
     }
+    val tlp = new DBQueryTemplate.Builder[CV](DB_NAME, "cv", creator).build
 
   }
 
   object GameQuery {
-    val tlp = new DBQueryTemplate.Builder[Game](DB, TABLE_NAME, FullGame).defaultSelect(exclude("gamechar", "simpleImg")).defaultSort(descending("publishDate", "name")).build
     private val TABLE_NAME = "game"
+    val tlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, FullGame).defaultSelect(exclude("gamechar", "simpleImg")).defaultSort(descending("publishDate", "name")).build
 
     object GameCharQuery {
-      val tlp = new DBQueryTemplate.Builder[Game](DB, TABLE_NAME, FullGame).defaultSelect(include("gamechar")).build
+      val tlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, FullGame).defaultSelect(include("gamechar")).build
     }
 
     object GameImgQuery {
-      val tlp = new DBQueryTemplate.Builder[Game](DB, TABLE_NAME, FullGame).defaultSelect(include("simpleImg")).build
+      val tlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, FullGame).defaultSelect(include("simpleImg")).build
     }
 
     private[mongo] object Creator {
@@ -139,7 +139,6 @@ object Query {
   }
 
   object TagQuery {
-    val tlp = new DBQueryTemplate.Builder[TagType](DB, "tag", creator).build
     private val logger = LoggerFactory.getLogger(TagQuery.getClass)
     private val creator: ObjectCreator[TagType] = (doc: Document) => {
       val t = new TagType
@@ -148,6 +147,7 @@ object Query {
       t.tags = doc.get("tags", classOf[List[String]])
       t
     }
+    val tlp = new DBQueryTemplate.Builder[TagType](DB_NAME, "tag", creator).build
   }
 
 }

@@ -8,9 +8,11 @@ import com.goexp.galgame.gui.model.Game
 import com.mongodb.client.model.Filters.{eq => equal}
 import com.mongodb.client.model.Updates.set
 import org.slf4j.LoggerFactory
+import com.goexp.galgame.common.db.mongo.DB_NAME
+
 
 object GameDB {
-  private val tlp = new DBOperatorTemplate("galgame", "game")
+  private val tlp = new DBOperatorTemplate(DB_NAME, "game")
 
   object StarDB {
     private val logger = LoggerFactory.getLogger(StarDB.getClass)

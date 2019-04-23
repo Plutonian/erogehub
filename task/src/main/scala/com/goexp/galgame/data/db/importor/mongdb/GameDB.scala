@@ -1,6 +1,7 @@
 package com.goexp.galgame.data.db.importor.mongdb
 
 import com.goexp.common.db.mongo.DBOperatorTemplate
+import com.goexp.galgame.common.db.mongo.DB_NAME
 import com.goexp.galgame.data.db.query.mongdb.GameQuery
 import com.goexp.galgame.data.model.Game
 import com.mongodb.client.model.Filters
@@ -9,9 +10,8 @@ import org.bson.Document
 
 import scala.collection.JavaConverters._
 
-
 object GameDB {
-  lazy val tlp = new DBOperatorTemplate("galgame", "game")
+  lazy val tlp = new DBOperatorTemplate(DB_NAME, "game")
 
   def insert(game: Game) = {
     val gameDoc = new Document("_id", game.id)

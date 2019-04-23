@@ -1,12 +1,13 @@
 package com.goexp.galgame.data.db.query.mongdb
 
 import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
+import com.goexp.galgame.common.db.mongo.DB_NAME
 import com.goexp.galgame.common.model.CommonGame
 import org.bson.Document
 import org.slf4j.LoggerFactory
 
 object GuideQuery {
-  lazy val tlp = new DBQueryTemplate.Builder[CommonGame.Guide]("galgame", "guide", new Creator).build
+  lazy val tlp = new DBQueryTemplate.Builder[CommonGame.Guide](DB_NAME, "guide", new Creator).build
 
   private class Creator extends ObjectCreator[CommonGame.Guide] {
     private lazy val logger = LoggerFactory.getLogger(classOf[Creator])

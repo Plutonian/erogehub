@@ -1,13 +1,14 @@
 package com.goexp.galgame.data.db.importor.mongdb
 
 import com.goexp.common.db.mongo.DBOperatorTemplate
+import com.goexp.galgame.common.db.mongo.DB_NAME
 import com.goexp.galgame.data.model.Brand
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.set
 import org.bson.Document
 
 object BrandDB {
-  lazy val tlp = new DBOperatorTemplate("galgame", "brand")
+  lazy val tlp = new DBOperatorTemplate(DB_NAME, "brand")
 
   def insert(item: Brand) = {
     val doc = new Document("_id", item.id)

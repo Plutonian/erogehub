@@ -4,6 +4,7 @@ import java.util
 
 import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
 import com.goexp.common.util.DateUtil
+import com.goexp.galgame.common.db.mongo.DB_NAME
 import com.goexp.galgame.common.model.CommonGame.GameCharacter
 import com.goexp.galgame.common.model.{CommonGame, GameState}
 import com.goexp.galgame.data.model.Game
@@ -13,12 +14,11 @@ import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
 
-
 object GameQuery {
 
   type Person = GameCharacter
-  lazy val fullTlp = new DBQueryTemplate.Builder[Game]("galgame", "game", new Creator.FullGame).build
-  lazy val fullTlpWithChar = new DBQueryTemplate.Builder[Game]("galgame", "game", new Creator.FullGame)
+  lazy val fullTlp = new DBQueryTemplate.Builder[Game](DB_NAME, "game", new Creator.FullGame).build
+  lazy val fullTlpWithChar = new DBQueryTemplate.Builder[Game](DB_NAME, "game", new Creator.FullGame)
     .defaultSelect(exclude("simpleImg"))
     .build
 

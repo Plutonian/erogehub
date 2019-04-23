@@ -1,5 +1,6 @@
 package com.goexp.common.db.mongo
 
+import java.util
 import java.util._
 
 import org.bson.conversions.Bson
@@ -50,73 +51,125 @@ class DBQueryTemplate[T] private(dbName: String,
 
   def query = new QueryBuilder
 
+
   class QueryBuilder private[DBQueryTemplate] {
-    private var where: Bson = _
-    private var select: Bson = _
-    private var sort: Bson = _
+    private val part = new PartBuilder
+    private val finalPart = new FinalBuilder
 
     def where(where: Bson): QueryBuilder = {
-      this.where = where
+      part.where(where)
       this
     }
 
     def select(select: Bson): QueryBuilder = {
-      this.select = select
+      part.select(select)
       this
     }
 
     def sort(sort: Bson): QueryBuilder = {
-      this.sort = sort
+      part.sort(sort)
       this
     }
 
-    def set: Set[T] = getSet(defaultCreator)
+    def set: Set[T] = finalPart.set
 
     def set(userCreator: ObjectCreator[T]) = {
       Objects.requireNonNull(userCreator)
-      getSet(userCreator)
+      finalPart.set(userCreator)
     }
 
-    private def getSet(userCreator: ObjectCreator[T]) =
-      getDocuments.map(userCreator.create).into(new HashSet[T])
-
-    def list: List[T] = getList(defaultCreator)
-
-    private def getList(userCreator: ObjectCreator[T]) =
-      getDocuments.map(userCreator.create).into(new ArrayList[T])
-
-    private def getDocuments = {
-      var temp = collection.find()
-      if (where != null) temp = temp.filter(where)
-      // choice select
-      if (select != null) temp = temp.projection(select)
-      else if (defaultSelect != null) temp = temp.projection(defaultSelect)
-      // choice sort
-      if (sort != null) temp = temp.sort(sort)
-      else if (defaultSort != null) temp = temp.sort(defaultSort)
-      temp
-    }
+    def list: List[T] = finalPart.list
 
     def list(userCreator: ObjectCreator[T]) = {
       Objects.requireNonNull(userCreator)
-      getList(userCreator)
+      finalPart.list(userCreator)
     }
 
-    def one: T = {
-      var temp = collection.find
-      // choice where
-      if (where != null) temp = temp.filter(where)
-      temp.limit(1).map(defaultCreator.create).first
-    }
+    def one: T = finalPart.one
 
     def one(userCreator: ObjectCreator[T]): T = {
       Objects.requireNonNull(userCreator)
-      var temp = collection.find
-      if (where != null) temp = temp.filter(where)
-      temp.limit(1).map(userCreator.create).first
+      finalPart.one(userCreator)
     }
 
-    def exists: Boolean = collection.countDocuments(where) > 0
+    def exists: Boolean = finalPart.exists
+
+
+    class PartBuilder private[QueryBuilder] {
+      private var where: Bson = _
+      private var select: Bson = _
+      private var sort: Bson = _
+
+      def where(where: Bson): PartBuilder = {
+        this.where = where
+        this
+      }
+
+      def select(select: Bson): PartBuilder = {
+        this.select = select
+        this
+      }
+
+      def sort(sort: Bson): PartBuilder = {
+        this.sort = sort
+        this
+      }
+
+      def buildFileIterrableMany = {
+        var temp = collection.find()
+        if (where != null) temp = temp.filter(where)
+        // choice select
+        if (select != null) temp = temp.projection(select)
+        else if (defaultSelect != null) temp = temp.projection(defaultSelect)
+        // choice sort
+        if (sort != null) temp = temp.sort(sort)
+        else if (defaultSort != null) temp = temp.sort(defaultSort)
+        temp
+      }
+
+      def buildFileIterrableOne = {
+        var temp = collection.find
+        if (where != null) temp = temp.filter(where)
+        temp.limit(1)
+      }
+
+      def getDocumentCount = {
+        collection.countDocuments(where)
+      }
+    }
+
+    class FinalBuilder private[QueryBuilder] {
+      def set: Set[T] = docs2Collection(defaultCreator.create, new HashSet[T])
+
+      def set(userCreator: ObjectCreator[T]) = {
+        Objects.requireNonNull(userCreator)
+        docs2Collection(userCreator.create, new HashSet[T])
+      }
+
+      def list: List[T] = docs2Collection(defaultCreator.create, new ArrayList[T])
+
+      def list(userCreator: ObjectCreator[T]) = {
+        Objects.requireNonNull(userCreator)
+        docs2Collection(userCreator.create, new ArrayList[T])
+      }
+
+      def one: T = {
+        part.buildFileIterrableOne.map(defaultCreator.create).first
+      }
+
+      def one(userCreator: ObjectCreator[T]): T = {
+        Objects.requireNonNull(userCreator)
+        part.buildFileIterrableOne.map(userCreator.create).first
+      }
+
+      def exists: Boolean = part.getDocumentCount > 0
+
+
+      private def docs2Collection[A <: util.Collection[T]](userCreator: ObjectCreator[T], clazz: A) =
+        part.buildFileIterrableMany.map(userCreator.create).into(clazz)
+
+    }
+
   }
 
 }

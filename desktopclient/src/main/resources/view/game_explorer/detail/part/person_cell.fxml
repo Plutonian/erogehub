@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
@@ -45,12 +45,20 @@
                         </MenuButton>
                     </children>
                 </HBox>
-                <Text fx:id="txtIntro" fill="#363636" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"
-                      wrappingWidth="600.0">
-                    <font>
-                        <Font size="14.0"/>
-                    </font>
-                </Text>
+                <StackPane style="-fx-background-color: #ccc;">
+                    <children>
+                        <Text fx:id="txtIntro" fill="#515151" strokeType="OUTSIDE" strokeWidth="0.0"
+                              text="dsdssssssssssssssssss\nsssssssssssssssssssssssssssssssssssssssddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddsssssssssss"
+                              wrappingWidth="600.0" StackPane.alignment="TOP_LEFT">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Text>
+                    </children>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                </StackPane>
             </children>
             <BorderPane.margin>
                 <Insets left="10.0"/>

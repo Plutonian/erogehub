@@ -11,8 +11,8 @@ object DBQueryTemplate {
                    private[this] val tableName: String,
                    private[this] val creator: ObjectCreator[T]
                   ) {
-    private var defaultSort: Bson = _
-    private var defaultSelect: Bson = _
+    private[this] var defaultSort: Bson = _
+    private[this] var defaultSelect: Bson = _
 
     def defaultSort(defaultSort: Bson): Builder[T] = {
       this.defaultSort = defaultSort

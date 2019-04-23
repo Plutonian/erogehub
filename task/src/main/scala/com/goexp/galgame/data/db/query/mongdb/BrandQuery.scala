@@ -2,6 +2,7 @@ package com.goexp.galgame.data.db.query.mongdb
 
 import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
 import com.goexp.galgame.common.db.mongo.DB_NAME
+import com.goexp.galgame.common.db.mongo.query.CommonBrandCreator
 import com.goexp.galgame.data.model.Brand
 import org.bson.Document
 import org.slf4j.LoggerFactory
@@ -15,12 +16,8 @@ object BrandQuery {
     override def create(doc: Document): Brand = {
       logger.debug("<create> doc={}", doc)
 
-      val g = new Brand
-      g.id = doc.getInteger("_id")
-      g.name = doc.getString("name")
-      g.website = doc.getString("website")
-      g.comp = doc.getString("comp")
-      g
+      val parentCreator = new CommonBrandCreator(new Brand)
+      parentCreator.create(doc).asInstanceOf[Brand]
     }
   }
 

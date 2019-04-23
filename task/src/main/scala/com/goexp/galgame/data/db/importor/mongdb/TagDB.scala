@@ -6,7 +6,10 @@ import org.bson.Document
 
 import scala.collection.JavaConverters._
 
-object TagDB extends DBOperatorTemplate("galgame", "tag") {
+object TagDB {
+
+  lazy val tlp = new DBOperatorTemplate("galgame", "tag")
+
   def insert(item: List[TagType]) = {
     val docs = item
       .toStream
@@ -16,7 +19,7 @@ object TagDB extends DBOperatorTemplate("galgame", "tag") {
           .append("tags", tagType.tags)
       }).asJava
 
-    TagDB.exec(gameC => {
+    tlp.exec(gameC => {
       gameC.insertMany(docs)
     })
   }

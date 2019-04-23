@@ -16,7 +16,6 @@ import scala.collection.JavaConverters._
 
 class ProcessGameList extends DefaultMessageHandler[Int] {
   private lazy val logger = LoggerFactory.getLogger(classOf[ProcessGameList])
-  private lazy val importor = new GameDB
 
   override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]) = {
     val brandId = message.entity
@@ -31,7 +30,7 @@ class ProcessGameList extends DefaultMessageHandler[Int] {
       if (remoteGames.size != localGames.size) {
         logger.debug(s"Brand:$brandId,RemoteCount:${remoteGames.size},LocalCount:${localGames.size}")
 
-        remoteGames.toStream
+        remoteGames
           .filter(g => !localGames.contains(g.id))
           //New Game
           .foreach(game => {
@@ -39,7 +38,7 @@ class ProcessGameList extends DefaultMessageHandler[Int] {
           game.brandId = brandId
           game.state = GameState.UNCHECKED
           logger.info("<Insert> {}", game.simpleView)
-          importor.insert(game)
+          GameDB.insert(game)
 
           msgQueue.offer(new Message[Int](MesType.NEED_DOWN_GAME, game.id))
         })

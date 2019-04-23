@@ -12,7 +12,6 @@ object GroupBrandTask {
 
   def main(args: Array[String]) = {
     val logger = LoggerFactory.getLogger(GroupBrandTask.getClass)
-    val importor = new BrandDB
 
     BrandQuery.tlp.query.list.asScala.toStream
       .filter(b => Strings.isNotEmpty(b.website))
@@ -23,7 +22,7 @@ object GroupBrandTask {
           if (Strings.isEmpty(b.comp)) {
             logger.info(s"Raw:${b.comp} New:$comp")
             b.comp = comp
-            importor.updateComp(b)
+            BrandDB.updateComp(b)
           }
         })
       })

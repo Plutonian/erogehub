@@ -14,7 +14,6 @@ import scala.collection.JavaConverters._
 
 
 object GetTrueCVTask {
-  private val gameDB = new GameDB
   private val logger = LoggerFactory.getLogger(GetTrueCVTask.getClass)
 
   type Person = GameCharacter
@@ -68,7 +67,7 @@ object GetTrueCVTask {
       })
       .foreach {
         case (true, game) =>
-          gameDB.updateChar(game)
+          GameDB.updateChar(game)
         case _ =>
       }
   }

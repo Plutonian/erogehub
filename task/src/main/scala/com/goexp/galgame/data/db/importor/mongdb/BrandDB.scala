@@ -8,9 +8,7 @@ import org.bson.Document
 
 object BrandDB {
   lazy val tlp = new DBOperatorTemplate("galgame", "brand")
-}
 
-class BrandDB {
   def insert(item: Brand) = {
     val doc = new Document("_id", item.id)
       .append("name", item.name)

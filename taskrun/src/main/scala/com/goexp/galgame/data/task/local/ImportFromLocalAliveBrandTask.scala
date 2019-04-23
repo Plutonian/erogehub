@@ -42,7 +42,6 @@ object ImportFromLocalAliveBrandTask {
 
   class ProcessGameList extends DefaultMessageHandler[Int] {
     private val logger = LoggerFactory.getLogger(classOf[ProcessGameList])
-    private val importor = new GameDB
 
     override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]) = {
       val brandId = message.entity
@@ -66,7 +65,7 @@ object ImportFromLocalAliveBrandTask {
 
             logger.info(s"<Insert> ${game.simpleView}")
 
-            importor.insert(game)
+            GameDB.insert(game)
             msgQueue.offer(new Message[Int](MesType.Game, game.id))
           })
         }

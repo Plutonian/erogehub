@@ -6,9 +6,7 @@ import org.bson.Document
 
 object GuideDB {
   lazy val tlp = new DBOperatorTemplate("galgame", "guide")
-}
 
-class GuideDB {
   def insert(item: CommonGame.Guide) = {
     val doc = new Document("_id", item.id)
       .append("title", item.title)

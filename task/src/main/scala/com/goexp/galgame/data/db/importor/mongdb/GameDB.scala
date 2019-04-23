@@ -13,16 +13,6 @@ import scala.collection.JavaConverters._
 object GameDB {
   lazy val tlp = new DBOperatorTemplate("galgame", "game")
 
-  class StateDB {
-    def update(game: Game) =
-      tlp.exec(documentMongoCollection => {
-        documentMongoCollection.updateOne(Filters.eq(game.id), set("state", game.state.getValue))
-      })
-  }
-
-}
-
-class GameDB {
   def insert(game: Game) = {
     val gameDoc = new Document("_id", game.id)
       .append("name", game.name)
@@ -94,4 +84,14 @@ class GameDB {
   }
 
   def exist(id: Int): Boolean = GameQuery.fullTlp.query.where(Filters.eq(id)).exists
+
+
+  object StateDB {
+    def update(game: Game) =
+      tlp.exec(documentMongoCollection => {
+        documentMongoCollection.updateOne(Filters.eq(game.id), set("state", game.state.getValue))
+      })
+  }
+
 }
+

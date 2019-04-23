@@ -31,19 +31,17 @@ object UpdateBrandTask {
     val remotes = new GetchuBrandParser().parse(html).toSet
     logger.info(s"Remote: ${remotes.size}")
 
-    val brandDb = new BrandDB
-
     remotes.foreach(remote => {
       localMap.get(remote.id) match {
         // find in local
         case Some(local) =>
           if (Strings.isEmpty(local.website) && Strings.isNotEmpty(remote.website)) {
             logger.info(s"Local: $local,Remote: $remote")
-            brandDb.updateWebsite(remote)
+            BrandDB.updateWebsite(remote)
           }
         case None =>
           logger.info(s"<Insert> $remote")
-          brandDb.insert(remote)
+          BrandDB.insert(remote)
       }
 
     })

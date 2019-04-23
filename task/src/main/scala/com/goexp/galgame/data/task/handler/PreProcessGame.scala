@@ -9,19 +9,18 @@ import org.slf4j.LoggerFactory
 
 class PreProcessGame extends DefaultMessageHandler[Game] {
   final private val logger = LoggerFactory.getLogger(classOf[PreProcessGame])
-  final private val importor = new GameDB
 
   override def process(message: Message[Game], msgQueue: MessageQueueProxy[Message[_]]) = {
     val game = message.entity
     logger.debug("<Game> {}", game)
-    if (importor.exist(game.id)) {
+    if (GameDB.exist(game.id)) {
       logger.debug("<Update> {}", game.simpleView)
-      importor.update(game)
+      GameDB.update(game)
     }
     else {
       game.state = GameState.UNCHECKED
       logger.info("<Insert> {}", game.simpleView)
-      importor.insert(game)
+      GameDB.insert(game)
     }
     msgQueue.offer(new Message[Int](MesType.NEED_DOWN_GAME, game.id))
   }

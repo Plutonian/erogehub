@@ -18,7 +18,6 @@ import scala.collection.JavaConverters._
 
 class ProcessGameOK extends DefaultMessageHandler[Game] {
   final private val logger = LoggerFactory.getLogger(classOf[ProcessGameOK])
-  final private val gameDB = new GameDB
 
   private def merge(local: util.List[CommonGame.GameCharacter], remote: util.List[CommonGame.GameCharacter]): util.List[CommonGame.GameCharacter] = {
     if (local == null && remote == null) return null
@@ -52,13 +51,13 @@ class ProcessGameOK extends DefaultMessageHandler[Game] {
 
     if (!Objects.equals(localGame, remoteGame)) {
       logger.debug(s"\nOld:$localGame\nNew:$remoteGame\n")
-      gameDB.updateAll(remoteGame)
+      GameDB.updateAll(remoteGame)
     }
 
     remoteGame.gameCharacters = merge(localGame.gameCharacters, remoteGame.gameCharacters)
 
     if (remoteGame.gameCharacters != null)
-      gameDB.updateChar(remoteGame)
+      GameDB.updateChar(remoteGame)
 
     val localImgSize = Option(localGame.gameImgs).map(_.size).getOrElse(0)
     val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)
@@ -66,7 +65,7 @@ class ProcessGameOK extends DefaultMessageHandler[Game] {
     if (remoteImgSize > localImgSize) {
       logger.info("Game:{}", remoteGame.id)
       logger.info(s"Update GameImg:Local:$localImgSize,Remote:$remoteImgSize")
-      gameDB.updateImg(remoteGame)
+      GameDB.updateImg(remoteGame)
     }
   }
 }

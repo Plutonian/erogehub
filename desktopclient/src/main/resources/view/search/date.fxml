@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
-
+<?import java.net.URL?>
 <TitledPane xmlns:fx="http://javafx.com/fxml/1" maxWidth="200" animated="false" style="-fx-background-color: white;"
             text="Date" xmlns="http://javafx.com/javafx"
             fx:controller="com.goexp.galgame.gui.view.game.DateController">

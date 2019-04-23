@@ -4,20 +4,22 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.*?>
-<TitledPane text="Filter" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1"
+<TitledPane xmlns:fx="http://javafx.com/fxml/1" text="Filter" xmlns="http://javafx.com/javafx/"
             fx:controller="com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController">
     <content>
         <StackPane>
             <children>
                 <VBox spacing="3.0" StackPane.alignment="TOP_CENTER">
                     <children>
-                        <Label text="Star" />
-                        <FlowPane fx:id="starbox" hgap="10.0" orientation="VERTICAL" prefHeight="100.0" prefWidth="188.0" />
-                        <Label text="State" />
-                        <FlowPane fx:id="statebox" hgap="10.0" orientation="VERTICAL" prefHeight="115.0" />
+                        <Label text="Star"/>
+                        <FlowPane fx:id="starbox" hgap="10.0" orientation="VERTICAL" prefHeight="100.0"
+                                  prefWidth="188.0"/>
+                        <Label text="State"/>
+                        <FlowPane fx:id="statebox" hgap="10.0" orientation="VERTICAL" prefHeight="115.0"/>
                     </children>
                 </VBox>
-                <Button mnemonicParsing="false" onAction="#SetFilter_OnAction" text="OK" StackPane.alignment="BOTTOM_RIGHT" />
+                <Button mnemonicParsing="false" onAction="#SetFilter_OnAction" text="OK"
+                        StackPane.alignment="BOTTOM_RIGHT"/>
             </children>
         </StackPane>
     </content>

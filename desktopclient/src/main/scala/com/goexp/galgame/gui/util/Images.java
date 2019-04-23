@@ -45,13 +45,13 @@ public class Images {
 
         public static class Simple {
 
-            public static Image small(final int gameId, final int index, final String src) {
+            public static Image small(int gameId, int index, String src) {
                 final var url = GetchuURL.Game.smallSimpleImg(src);
 
                 return Util.getImage(new CacheKey(gameId + "/simple_s_" + index, url));
             }
 
-            public static Image large(final int gameId, final int index, final String src) {
+            public static Image large(int gameId, int index, String src) {
                 final var url = GetchuURL.Game.largeSimpleImg(src);
 
                 return Util.getImage(new CacheKey(gameId + "/simple_l_" + index, url));
@@ -60,7 +60,7 @@ public class Images {
 
         public static class GameChar {
 
-            public static Image small(final int gameId, final int index, final String src) {
+            public static Image small(int gameId, int index, String src) {
                 final var url = GetchuURL.Game.getUrlFromSrc(src);
 
                 return Util.getImage(new CacheKey(gameId + "/char_s_" + index, url));
@@ -72,7 +72,7 @@ public class Images {
     private static class Util {
         private static final Logger logger = LoggerFactory.getLogger(Util.class);
 
-        private static Image getImage(final CacheKey cacheKey) {
+        private static Image getImage(CacheKey cacheKey) {
             Objects.requireNonNull(cacheKey);
             Objects.requireNonNull(cacheKey.getDiskCacheKey());
             Objects.requireNonNull(cacheKey.getMemCacheKey());
@@ -110,7 +110,7 @@ public class Images {
                     });
         }
 
-        private static void preLoadRemoteImage(final CacheKey cacheKey) {
+        private static void preLoadRemoteImage(CacheKey cacheKey) {
             Objects.requireNonNull(cacheKey);
             Objects.requireNonNull(cacheKey.getDiskCacheKey());
             Objects.requireNonNull(cacheKey.getMemCacheKey());
@@ -150,7 +150,7 @@ public class Images {
 
         }
 
-        private static void saveImage(final Image image, final Path path) {
+        private static void saveImage(Image image, Path path) {
             Objects.requireNonNull(image);
             Objects.requireNonNull(path);
 
@@ -166,7 +166,7 @@ public class Images {
 
         }
 
-        private static Image fromDisk(final Path path) {
+        private static Image fromDisk(Path path) {
             Objects.requireNonNull(path);
 
             logger.debug("Local:{}", path);
@@ -174,7 +174,7 @@ public class Images {
         }
 
 
-        private static Image loadRemote(final String url, final Consumer<Image> callback) {
+        private static Image loadRemote(String url, Consumer<Image> callback) {
             Objects.requireNonNull(url);
 
             logger.debug("Remote:{}", url);
@@ -202,7 +202,7 @@ public class Images {
             return image;
         }
 
-        private static byte[] getImageBytes(final Image image) {
+        private static byte[] getImageBytes(Image image) {
             Objects.requireNonNull(image);
 
             final var bufferImage = SwingFXUtils.fromFXImage(image, null);
@@ -223,11 +223,11 @@ public class Images {
 
     public static class Local {
 
-        public static Image getLocal(final String name) {
+        public static Image getLocal(String name) {
             return getLocal(name, AppCache.imageMemCache);
         }
 
-        private static Image getLocal(final String name, final ImageMemCache imageMemCache) {
+        private static Image getLocal(String name, ImageMemCache imageMemCache) {
             return imageMemCache.get(name).orElseGet(() -> {
                 final var image = new Image(Images.class.getResource(name).toExternalForm());
 
@@ -242,7 +242,7 @@ public class Images {
         private final String diskCacheKey;
         private final String memCacheKey;
 
-        private CacheKey(final String diskCacheKey, final String memCacheKey) {
+        private CacheKey(String diskCacheKey, String memCacheKey) {
             this.diskCacheKey = diskCacheKey;
             this.memCacheKey = memCacheKey;
         }

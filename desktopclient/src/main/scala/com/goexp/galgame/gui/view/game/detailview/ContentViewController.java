@@ -38,11 +38,8 @@ public class ContentViewController extends DefaultController {
 
     @FXML
     public SimpleImgPartController simpleImgController;
-
-    private Game game;
-
     public ScrollPane rootContainer;
-
+    private Game game;
     @FXML
     private ListView<CommonGame.GameCharacter> persionListView;
 

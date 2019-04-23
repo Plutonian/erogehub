@@ -10,7 +10,7 @@ public class FXMLLoaderProxy<N, C> {
     public final C controller;
     private final FXMLLoader loader;
 
-    public FXMLLoaderProxy(final String path) {
+    public FXMLLoaderProxy(String path) {
         this.loader = new FXMLLoader(getClass().getClassLoader().getResource(path));
 
         node = load();

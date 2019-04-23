@@ -195,7 +195,7 @@ public class HomeController extends DefaultController {
     }
 
 
-    public void viewBrand(final Brand brand) {
+    public void viewBrand(Brand brand) {
 
         final var text = brand.name;
 
@@ -212,7 +212,7 @@ public class HomeController extends DefaultController {
 
     }
 
-    public void loadPainterTab(final String painter) {
+    public void loadPainterTab(String painter) {
 
         TabSelect.from().ifNotFind(() -> {
 
@@ -227,7 +227,7 @@ public class HomeController extends DefaultController {
 
     }
 
-    public void loadCVTab(final String cv, boolean real) {
+    public void loadCVTab(String cv, boolean real) {
 
         TabSelect.from().ifNotFind(() -> {
 

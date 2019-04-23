@@ -11,7 +11,7 @@ import javafx.concurrent.Task
 
 object BrandListTask {
 
-  class ByComp(name: String) extends Task[ObservableList[Brand]] {
+  class ByComp(private[this] val name: String) extends Task[ObservableList[Brand]] {
     override protected def call: ObservableList[Brand] = {
       val list = BrandQuery.tlp.query
         .where(and(

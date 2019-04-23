@@ -7,9 +7,9 @@ import org.bson.conversions.Bson
 
 object DBQueryTemplate {
 
-  class Builder[T](dbName: String,
-                   tableName: String,
-                   creator: ObjectCreator[T]
+  class Builder[T](private[this] val dbName: String,
+                   private[this] val tableName: String,
+                   private[this] val creator: ObjectCreator[T]
                   ) {
     private var defaultSort: Bson = _
     private var defaultSelect: Bson = _
@@ -29,9 +29,9 @@ object DBQueryTemplate {
 
 }
 
-class DBQueryTemplate[T] private(dbName: String,
-                                 tableName: String,
-                                 defaultCreator: ObjectCreator[T]
+class DBQueryTemplate[T] private(private[this] val dbName: String,
+                                 private[this] val tableName: String,
+                                 private[this] val defaultCreator: ObjectCreator[T]
                                 ) {
   Objects.requireNonNull(defaultCreator)
 
@@ -53,8 +53,8 @@ class DBQueryTemplate[T] private(dbName: String,
 
 
   class QueryBuilder private[DBQueryTemplate] {
-    private val part = new PartBuilder
-    private val finalPart = new FinalBuilder
+    private[this] val part = new PartBuilder
+    private[this] val finalPart = new FinalBuilder
 
     def where(where: Bson): QueryBuilder = {
       part.where(where)

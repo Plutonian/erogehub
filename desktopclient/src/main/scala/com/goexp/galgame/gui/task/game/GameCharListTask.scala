@@ -6,7 +6,7 @@ import com.mongodb.client.model.Filters
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Task
 
-class GameCharListTask(gameId: Int) extends Task[ObservableList[GameCharacter]] {
+class GameCharListTask(private[this] val gameId: Int) extends Task[ObservableList[GameCharacter]] {
   override protected def call: ObservableList[GameCharacter] = {
     val g = GameCharQuery.tlp.query.where(Filters.eq(gameId)).one
 

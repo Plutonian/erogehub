@@ -39,14 +39,14 @@ object BrandSearchTask {
       })
       .asJava
 
-  class ByName(name: String) extends Task[ObservableList[TreeItem[Brand]]] {
+  class ByName(private[this] val name: String) extends Task[ObservableList[TreeItem[Brand]]] {
     override protected def call: ObservableList[TreeItem[Brand]] = {
       val list = BrandQuery.tlp.query.where(regex("name", "^" + name)).list
       FXCollections.observableArrayList(makeTree(list))
     }
   }
 
-  class ByType(`type`: BrandType) extends Task[ObservableList[TreeItem[Brand]]] {
+  class ByType(private[this] val `type`: BrandType) extends Task[ObservableList[TreeItem[Brand]]] {
     override protected def call: ObservableList[TreeItem[Brand]] = {
       val list = if (`type` eq BrandType.ALL)
         BrandQuery.tlp.query.list
@@ -57,7 +57,7 @@ object BrandSearchTask {
     }
   }
 
-  class ByComp(name: String) extends Task[ObservableList[TreeItem[Brand]]] {
+  class ByComp(private[this] val name: String) extends Task[ObservableList[TreeItem[Brand]]] {
     override protected def call: ObservableList[TreeItem[Brand]] = {
       val list = BrandQuery.tlp.query.where(regex("comp", name)).list
       FXCollections.observableArrayList(makeTree(list))

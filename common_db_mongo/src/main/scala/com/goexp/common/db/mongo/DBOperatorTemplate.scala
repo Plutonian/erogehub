@@ -5,7 +5,8 @@ import java.util.Objects
 import com.mongodb.client.MongoCollection
 import org.bson.Document
 
-class DBOperatorTemplate(val dbName: String, val tableName: String) {
+class DBOperatorTemplate(private[this] val dbName: String,
+                         private[this] val tableName: String) {
   Objects.requireNonNull(dbName)
   Objects.requireNonNull(tableName)
 

@@ -36,7 +36,8 @@ object GameSearchTask {
       .asJava
   }
 
-  class ByCV(cv: String, real: Boolean) extends Task[ObservableList[Game]] {
+  class ByCV(private[this] val cv: String,
+             private[this] val real: Boolean) extends Task[ObservableList[Game]] {
     override protected def call: ObservableList[Game] = {
       val list = if (real)
         GameQuery.tlp.query.where(Filters.eq("gamechar.truecv", cv)).list
@@ -48,7 +49,7 @@ object GameSearchTask {
     }
   }
 
-  class ByPainter(cv: String) extends Task[ObservableList[Game]] {
+  class ByPainter(private[this] val cv: String) extends Task[ObservableList[Game]] {
     override protected def call: ObservableList[Game] = {
 
       val list = GameQuery.tlp.query
@@ -59,7 +60,7 @@ object GameSearchTask {
     }
   }
 
-  class ByDateRange(start: LocalDate, end: LocalDate) extends Task[ObservableList[Game]] {
+  class ByDateRange(private[this] val start: LocalDate, private[this] val end: LocalDate) extends Task[ObservableList[Game]] {
     override protected def call: ObservableList[Game] = {
       val list = GameQuery.tlp.query
         .where(and(
@@ -72,7 +73,7 @@ object GameSearchTask {
     }
   }
 
-  class ByName(name: String) extends Task[ObservableList[Game]] {
+  class ByName(private[this] val name: String) extends Task[ObservableList[Game]] {
     override protected def call: ObservableList[Game] = {
       val list = GameQuery.tlp.query
         .where(regex("name", "^" + name))
@@ -82,7 +83,7 @@ object GameSearchTask {
     }
   }
 
-  class ByNameEx(name: String) extends Task[ObservableList[Game]] {
+  class ByNameEx(private[this] val name: String) extends Task[ObservableList[Game]] {
     override protected def call: ObservableList[Game] = {
       val list = GameQuery.tlp.query
         .where(regex("name", name))
@@ -93,7 +94,7 @@ object GameSearchTask {
     }
   }
 
-  class ByTag(val tag: String) extends Task[ObservableList[Game]] {
+  class ByTag(private[this] val tag: String) extends Task[ObservableList[Game]] {
     override protected def call: ObservableList[Game] = {
       val list = GameQuery.tlp.query
         .where(Filters.eq("tag", tag))
@@ -104,7 +105,8 @@ object GameSearchTask {
     }
   }
 
-  class ByStarRange(begin: Int, end: Int) extends Task[ObservableList[Game]] {
+  class ByStarRange(private[this] val begin: Int,
+                    private[this] val end: Int) extends Task[ObservableList[Game]] {
     override protected def call: ObservableList[Game] = {
       val list = GameQuery.tlp.query
         .where(and(
@@ -116,7 +118,7 @@ object GameSearchTask {
     }
   }
 
-  class ByState(gameState: GameState) extends Task[ObservableList[Game]] {
+  class ByState(private[this] val gameState: GameState) extends Task[ObservableList[Game]] {
     override protected def call: ObservableList[Game] = {
       val list = GameQuery.tlp.query
         .where(Filters.eq("state", gameState.getValue))
@@ -126,7 +128,7 @@ object GameSearchTask {
     }
   }
 
-  class ByBrand(brandId: Int) extends Task[ObservableList[Game]] {
+  class ByBrand(private[this] val brandId: Int) extends Task[ObservableList[Game]] {
     override protected def call: ObservableList[Game] = {
 
       val list = GameQuery.tlp.query

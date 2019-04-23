@@ -8,14 +8,14 @@ import javafx.concurrent.Task
 
 object ChangeGameTask {
 
-  class Like(game: Game) extends Task[Void] {
+  class Like(private[this] val game: Game) extends Task[Void] {
     override protected def call: Void = {
       StateDB.update(game)
       null
     }
   }
 
-  class MultiLike(games: util.List[Game]) extends Task[Void] {
+  class MultiLike(private[this] val games: util.List[Game]) extends Task[Void] {
 
     override protected def call: Void = {
       StateDB.batchUpdate(games)
@@ -23,7 +23,7 @@ object ChangeGameTask {
     }
   }
 
-  class MultiLikeByBrand(brandId: Int) extends Task[Void] {
+  class MultiLikeByBrand(private[this] val brandId: Int) extends Task[Void] {
 
     override protected def call: Void = {
       StateDB.update(brandId)
@@ -31,7 +31,7 @@ object ChangeGameTask {
     }
   }
 
-  class Star(game: Game) extends Task[Void] {
+  class Star(private[this] val game: Game) extends Task[Void] {
     override protected def call: Void = {
       StarDB.update(game)
       null

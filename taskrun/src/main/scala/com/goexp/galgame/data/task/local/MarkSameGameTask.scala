@@ -35,9 +35,15 @@ object MarkSameGameTask {
   }
 
   class ProcessBrandGame extends DefaultMessageHandler[Int] {
-    private lazy val samelist = Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/same.list"))(Codec.UTF8).getLines().toList
-    private lazy val packagelist = Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/package.list"))(Codec.UTF8).getLines().toList
+    private lazy val samelist = {
+      val source = Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/same.list"))(Codec.UTF8)
+      try source.getLines().toList finally source.close()
+    }
 
+    private lazy val packagelist = {
+      val source = Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/package.list"))(Codec.UTF8)
+      try source.getLines().toList finally source.close()
+    }
 
     private val logger = LoggerFactory.getLogger(classOf[ProcessBrandGame])
 

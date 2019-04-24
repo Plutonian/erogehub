@@ -71,12 +71,7 @@ public class ContentViewController extends DefaultController {
             };
         });
 
-        ChangeListener<Throwable> exceptionListener = ((observable, oldValue, newValue) -> {
-            if (newValue != null)
-                newValue.printStackTrace();
-        });
 
-        charListByGameService.exceptionProperty().addListener(exceptionListener);
         charListByGameService.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 persionListView.setItems(newValue);
@@ -328,13 +323,7 @@ public class ContentViewController extends DefaultController {
 
         protected void initialize() {
 
-            ChangeListener<Throwable> exceptionListener = ((observable, oldValue, newValue) -> {
-                if (newValue != null)
-                    newValue.printStackTrace();
-            });
 
-
-            imgListService.exceptionProperty().addListener(exceptionListener);
             imgListService.valueProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
                     listSmallSimple.setItems(FXCollections.observableArrayList(newValue));

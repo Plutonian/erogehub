@@ -14,6 +14,11 @@ public class TaskService<V> extends Service<V> {
     public TaskService(Supplier<Task<V>> taskSupplier) {
         Objects.requireNonNull(taskSupplier);
         this.taskSupplier = taskSupplier;
+
+        this.exceptionProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null)
+                newValue.printStackTrace();
+        });
     }
 
     @Override

@@ -43,12 +43,7 @@ public class CVInfoController extends DefaultController {
 
     protected void initialize() {
 
-        ChangeListener<Throwable> exceptionHandler = (observable, oldValue, newValue) -> {
-            if (newValue != null)
-                newValue.printStackTrace();
-        };
 
-        loadCVService.exceptionProperty().addListener(exceptionHandler);
         loadCVService.valueProperty().addListener((observable, oldValue, newValue) -> {
 
             if (newValue != null) {

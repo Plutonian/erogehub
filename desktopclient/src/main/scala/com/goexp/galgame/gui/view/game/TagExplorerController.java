@@ -49,11 +49,6 @@ public class TagExplorerController extends DefaultController {
         });
 
 
-        ChangeListener<Throwable> exceptionHandler = (observable, oldValue, newValue) -> {
-            if (newValue != null)
-                newValue.printStackTrace();
-        };
-
         typeService.valueProperty().addListener((observable, oldValue, newValue) -> {
 
             if (newValue != null) {
@@ -96,7 +91,6 @@ public class TagExplorerController extends DefaultController {
             }
 
         });
-        typeService.exceptionProperty().addListener(exceptionHandler);
 
         onLoadProperty.addListener((observable, oldValue, newValue) -> {
             if (newValue != null && newValue) {

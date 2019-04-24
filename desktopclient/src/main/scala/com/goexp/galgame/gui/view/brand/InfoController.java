@@ -48,12 +48,6 @@ public class InfoController extends DefaultController {
 
     protected void initialize() {
 
-
-        ChangeListener<Throwable> exceptionHandler = (observable, oldValue, newValue) -> {
-            if (newValue != null)
-                newValue.printStackTrace();
-        };
-
         ChangeListener<ObservableList<Game>> searchHandler = (observable, oldValue, newValue) -> {
 
             if (newValue != null) {
@@ -63,7 +57,6 @@ public class InfoController extends DefaultController {
         };
 
         gameByBrand.valueProperty().addListener(searchHandler);
-        gameByBrand.exceptionProperty().addListener(exceptionHandler);
 
         dataViewController.progessloading.visibleProperty().bind(gameByBrand.runningProperty());
         dataViewController.reloadProperty.addListener((observable, oldValue, newValue) -> {

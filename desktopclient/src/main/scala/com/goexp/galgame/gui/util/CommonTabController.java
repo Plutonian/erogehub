@@ -49,11 +49,6 @@ public class CommonTabController {
 
         controller.progessloading.visibleProperty().bind(gameSearchService.runningProperty());
 
-        ChangeListener<Throwable> exceptionHandler = (observable, oldValue, newValue) -> {
-            if (newValue != null)
-                newValue.printStackTrace();
-        };
-        gameSearchService.exceptionProperty().addListener(exceptionHandler);
     }
 
     public void load() {

@@ -69,8 +69,6 @@ public class DataViewController extends DefaultController {
 
     private Service<List<HBox>> groupTagServ = new TaskService<>(() -> new PanelTask.GroupTag(filteredGames));
 
-//    private ObservableList<Game> cacheGames;
-
 
     protected void initialize() {
         initSwitchBar();
@@ -169,10 +167,14 @@ public class DataViewController extends DefaultController {
             }
         });
 
+
+        Predicate<Game> p=g -> g.state.get().getValue() > GameState.BLOCK.getValue() && !(g.star > 0 && g.star < 3);
+
         // set filter
-        filteredGames.setPredicate(g ->
-                g.state.get().getValue() > GameState.BLOCK.getValue() && !(g.star > 0 && g.star < 3)
-        );
+        filteredGames.setPredicate(p);
+
+        // set defaultPredicate
+        filterPanelController.predicate=p;
 
         var sortedData = new SortedList<>(filteredGames);
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
@@ -180,6 +182,8 @@ public class DataViewController extends DefaultController {
         loadItems(sortedData);
 
         setSideBarData(filteredGames);
+
+
     }
 
     private void setSideBarData(FilteredList<Game> filteredGames) {

@@ -10,6 +10,17 @@ import java.util.stream.Collectors;
 
 public class Tags {
 
+    public static Node toNodes(String tag) {
+        Objects.requireNonNull(tag);
+
+        return toNodes(List.of(tag), str -> {
+            var tagLabel = new Label(str);
+            tagLabel.getStyleClass().add("tag");
+
+            return tagLabel;
+        }).get(0);
+    }
+
     public static List<Node> toNodes(List<String> tag) {
         Objects.requireNonNull(tag);
 

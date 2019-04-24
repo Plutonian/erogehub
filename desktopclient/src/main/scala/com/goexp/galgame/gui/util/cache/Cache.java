@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.util;
+package com.goexp.galgame.gui.util.cache;
 
 import java.lang.ref.SoftReference;
 import java.util.HashMap;

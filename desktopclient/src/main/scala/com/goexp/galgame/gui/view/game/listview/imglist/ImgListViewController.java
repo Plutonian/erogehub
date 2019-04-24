@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.view.game.listview.imglist;
 
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.*;
+import com.goexp.galgame.gui.view.DefaultController;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;

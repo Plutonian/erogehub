@@ -2,8 +2,8 @@ package com.goexp.galgame.gui.view.game.detailview.part;
 
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.ChangeGameTask;
-import com.goexp.galgame.gui.util.DefaultController;
-import com.goexp.galgame.gui.util.TaskService;
+import com.goexp.galgame.gui.view.DefaultController;
+import com.goexp.galgame.gui.task.TaskService;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;

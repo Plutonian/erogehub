@@ -5,6 +5,9 @@ import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.GameSearchTask;
 import com.goexp.galgame.gui.util.*;
+import com.goexp.galgame.gui.util.res.Images;
+import com.goexp.galgame.gui.util.res.LocalRes;
+import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.brand.CommonInfoTabController;
 import com.goexp.galgame.gui.view.brand.MainPanelController;
 import com.goexp.galgame.gui.view.game.detailview.NavViewController;
@@ -342,7 +345,7 @@ public class HomeController extends DefaultController {
 
             var tab = new Tab(title, conn.node);
 
-            conn.load();
+            conn.load(g -> g.star < 3);
 
             return tab;
         }).select(title);
@@ -365,7 +368,7 @@ public class HomeController extends DefaultController {
 
             var tab = new Tab(title, conn.node);
 
-            conn.load();
+            conn.load(g -> g.star > 3);
 
             return tab;
         }).select(title);
@@ -387,7 +390,7 @@ public class HomeController extends DefaultController {
 
             var tab = new Tab(title, conn.node);
 
-            conn.load();
+            conn.load(g -> g.star == 3);
 
             return tab;
         }).select(title);

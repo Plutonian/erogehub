@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.util;
+package com.goexp.galgame.gui.view;
 
 import javafx.fxml.FXML;
 import org.slf4j.Logger;

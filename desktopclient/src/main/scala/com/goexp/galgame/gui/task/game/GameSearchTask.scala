@@ -7,7 +7,7 @@ import com.goexp.common.util.DateUtil
 import com.goexp.galgame.common.model.GameState
 import com.goexp.galgame.gui.db.mongo.Query.{BrandQuery, GameQuery}
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.util.AppCache
+import com.goexp.galgame.gui.util.cache.AppCache
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters._
 import javafx.collections.{FXCollections, ObservableList}

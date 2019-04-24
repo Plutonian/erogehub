@@ -2,11 +2,10 @@ package com.goexp.galgame.gui.view.game;
 
 import com.goexp.galgame.common.model.CV;
 import com.goexp.galgame.gui.task.CVListTask;
-import com.goexp.galgame.gui.util.DefaultController;
-import com.goexp.galgame.gui.util.TaskService;
+import com.goexp.galgame.gui.view.DefaultController;
+import com.goexp.galgame.gui.task.TaskService;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.event.ActionEvent;

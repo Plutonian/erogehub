@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.view.game.listview.sidebar;
 
-import com.goexp.galgame.gui.util.DefaultController;
+import com.goexp.galgame.gui.view.DefaultController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 

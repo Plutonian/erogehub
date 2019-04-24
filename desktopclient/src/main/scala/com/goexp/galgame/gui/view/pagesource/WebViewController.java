@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.view.pagesource;
 
 import com.goexp.galgame.gui.model.Brand;
-import com.goexp.galgame.gui.util.DefaultController;
+import com.goexp.galgame.gui.view.DefaultController;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

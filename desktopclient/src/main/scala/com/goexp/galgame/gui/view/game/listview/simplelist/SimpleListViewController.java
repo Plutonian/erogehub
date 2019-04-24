@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.view.game.listview.simplelist;
 
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.*;
+import com.goexp.galgame.gui.view.DefaultController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;

@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.util;
+package com.goexp.galgame.gui.util.cache;
 
 import com.goexp.galgame.gui.model.Brand;
 

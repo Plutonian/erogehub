@@ -3,8 +3,8 @@ package com.goexp.galgame.gui.view.brand;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.GameSearchTask;
-import com.goexp.galgame.gui.util.DefaultController;
-import com.goexp.galgame.gui.util.TaskService;
+import com.goexp.galgame.gui.view.DefaultController;
+import com.goexp.galgame.gui.task.TaskService;
 import com.goexp.galgame.gui.view.game.listview.DataViewController;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
@@ -70,7 +70,7 @@ public class InfoController extends DefaultController {
 
     private void load(ObservableList<Game> games) {
         filteredGames = new FilteredList<>(games);
-        dataViewController.setItems(filteredGames);
+        dataViewController.load(filteredGames);
     }
 
     public void load(Brand brand) {

@@ -3,8 +3,10 @@ package com.goexp.galgame.gui.view.game.listview;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.PanelTask;
-import com.goexp.galgame.gui.util.DefaultController;
-import com.goexp.galgame.gui.util.TaskService;
+import com.goexp.galgame.gui.view.DefaultController;
+import com.goexp.galgame.gui.task.TaskService;
+import com.goexp.galgame.gui.view.game.listview.sidebar.BrandGroupController;
+import com.goexp.galgame.gui.view.game.listview.sidebar.DateGroupController;
 import com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController;
 import com.goexp.galgame.gui.view.game.listview.tableview.TableController;
 import javafx.beans.property.BooleanProperty;
@@ -37,9 +39,9 @@ public class DataViewController extends DefaultController {
     @FXML
     private FilterPanelController filterPanelController;
     @FXML
-    private FilterPanelController.BrandGroupController brandGroupController;
+    private BrandGroupController brandGroupController;
     @FXML
-    private FilterPanelController.DateGroupController dateGroupController;
+    private DateGroupController dateGroupController;
     @FXML
     private Label lbItemCount;
     @FXML
@@ -151,10 +153,9 @@ public class DataViewController extends DefaultController {
     }
 
 
+    public void load(ObservableList<Game> games, Predicate<Game> initPredicate) {
 
-    public void setItems(ObservableList<Game> games) {
         filterPanel.setVisible(true);
-//        this.cacheGames = games;
 
         groupPredicate = null;
 
@@ -167,14 +168,11 @@ public class DataViewController extends DefaultController {
             }
         });
 
-
-        Predicate<Game> p=g -> g.state.get().getValue() > GameState.BLOCK.getValue() && !(g.star > 0 && g.star < 3);
-
         // set filter
-        filteredGames.setPredicate(p);
+        filteredGames.setPredicate(initPredicate);
 
         // set defaultPredicate
-        filterPanelController.predicate=p;
+        filterPanelController.predicate = initPredicate;
 
         var sortedData = new SortedList<>(filteredGames);
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
@@ -182,8 +180,12 @@ public class DataViewController extends DefaultController {
         loadItems(sortedData);
 
         setSideBarData(filteredGames);
+    }
 
 
+    public void load(ObservableList<Game> games) {
+        Predicate<Game> defaultP = g -> g.state.get().getValue() > GameState.BLOCK.getValue() && !(g.star > 0 && g.star < 3);
+        load(games, defaultP);
     }
 
     private void setSideBarData(FilteredList<Game> filteredGames) {
@@ -203,14 +205,14 @@ public class DataViewController extends DefaultController {
 
     }
 
-    private void loadItems(ObservableList<Game> sortedData) {
-        resetCount(sortedData);
-        tableView.setItems(sortedData);
-        tableView.scrollTo(0);
-
-        listSimple.setItems(sortedData);
-        listSimple.scrollTo(0);
-    }
+//    private void loadItems(ObservableList<Game> sortedData) {
+//        resetCount(sortedData);
+//        tableView.setItems(sortedData);
+//        tableView.scrollTo(0);
+//
+//        listSimple.setItems(sortedData);
+//        listSimple.scrollTo(0);
+//    }
 
     private void resetCount(List<Game> filteredGames) {
         lbItemCount.setText(String.format("%d 件", filteredGames.size()));

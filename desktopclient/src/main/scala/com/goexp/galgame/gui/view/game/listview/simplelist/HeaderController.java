@@ -2,9 +2,9 @@ package com.goexp.galgame.gui.view.game.listview.simplelist;
 
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.util.DefaultController;
-import com.goexp.galgame.gui.util.Images;
-import com.goexp.galgame.gui.util.LocalRes;
+import com.goexp.galgame.gui.view.DefaultController;
+import com.goexp.galgame.gui.util.res.Images;
+import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.game.HomeController;

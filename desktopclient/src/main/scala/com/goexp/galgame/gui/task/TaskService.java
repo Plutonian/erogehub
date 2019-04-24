@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.util;
+package com.goexp.galgame.gui.task;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;

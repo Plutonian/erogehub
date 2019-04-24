@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.util;
+package com.goexp.galgame.gui.util.res;
 
 import javafx.scene.image.Image;
 

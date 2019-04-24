@@ -2,11 +2,13 @@ package com.goexp.galgame.gui.view.game;
 
 import com.goexp.galgame.common.model.TagType;
 import com.goexp.galgame.gui.task.TagListTask;
+import com.goexp.galgame.gui.task.TaskService;
 import com.goexp.galgame.gui.task.game.GameSearchTask;
 import com.goexp.galgame.gui.util.*;
+import com.goexp.galgame.gui.util.res.LocalRes;
+import com.goexp.galgame.gui.view.DefaultController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.event.ActionEvent;

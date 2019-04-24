@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.view.common.jump;
 
 import com.goexp.galgame.common.website.GetchuURL;
 import com.goexp.galgame.gui.model.Brand;
-import com.goexp.galgame.gui.util.DefaultController;
+import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.util.Websites;
 import com.goexp.galgame.gui.view.game.HomeController;
 import javafx.fxml.FXML;

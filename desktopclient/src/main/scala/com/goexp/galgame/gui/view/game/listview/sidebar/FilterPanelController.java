@@ -1,9 +1,14 @@
 package com.goexp.galgame.gui.view.game.listview.sidebar;
 
-import com.goexp.galgame.common.model.DateRange;
 import com.goexp.galgame.common.model.GameState;
-import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.task.PanelTask;
+import com.goexp.galgame.gui.util.TaskService;
+import com.goexp.galgame.gui.view.game.listview.sidebar.node.BrandItemNode;
+import com.goexp.galgame.gui.view.game.listview.sidebar.node.CompItemNode;
+import com.goexp.galgame.gui.view.game.listview.sidebar.node.DateItemNode;
+import com.goexp.galgame.gui.view.game.listview.sidebar.node.DefaultItemNode;
+import javafx.concurrent.Service;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -12,16 +17,11 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.FlowPane;
 
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.groupingBy;
 
 public class FilterPanelController extends FilterController<Game> {
 
@@ -105,6 +105,11 @@ public class FilterPanelController extends FilterController<Game> {
         @FXML
         private TreeView<DefaultItemNode> compTree;
 
+        private List<Game> filteredGames;
+
+        private Service<TreeItem<DefaultItemNode>> groupBrandServ = new TaskService<>(() -> new PanelTask.GroupBrand(filteredGames));
+
+
         protected void initialize() {
             compTree.setCellFactory(itemNodeTreeView -> {
                 return new TreeCell<>() {
@@ -142,76 +147,34 @@ public class FilterPanelController extends FilterController<Game> {
                 }
             });
 
+            groupBrandServ.valueProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    compTree.setRoot(newValue);
+                }
+            });
+
         }
 
         @Override
         public void init(List<Game> filteredGames) {
-            createCompGroup(filteredGames);
-        }
+            this.filteredGames = filteredGames;
 
-        private void createCompGroup(List<Game> filteredGames) {
-
-            var comps = filteredGames.stream()
-                    .collect(groupingBy(game -> Optional.ofNullable(game.brand.comp).orElse("")
-                            , groupingBy(g -> g.brand)))
-                    .entrySet().stream()
-                    .map(d -> {
-
-                        final var yearNode = new TreeItem<DefaultItemNode>(new CompItemNode(
-                                d.getKey()
-                                , d.getValue().entrySet().stream().mapToInt(m -> m.getValue().size()).sum()
-                                , d.getKey()
-                        ));
-
-                        d.getValue().entrySet().stream().sorted(Comparator.comparing((Map.Entry<Brand, List<Game>> n1) -> n1.getValue().size()).reversed())
-                                .forEach(d1 -> {
-                                    final var monthNode = new TreeItem<DefaultItemNode>(new BrandItemNode(
-                                            d1.getKey().name
-                                            , d1.getValue().size()
-                                            , d1.getKey()));
-
-                                    yearNode.getChildren().add(monthNode);
-                                });
-
-                        return yearNode;
-
-                    })
-                    .sorted(Comparator.comparing((TreeItem<DefaultItemNode> item) -> item.getValue().count).reversed())
-                    .collect(Collectors.toList());
-
-
-            var root = new TreeItem<DefaultItemNode>();
-            root.getChildren().setAll(comps);
-
-
-            compTree.setRoot(root);
-        }
-
-        static class BrandItemNode extends DefaultItemNode {
-
-            Brand brand;
-
-            public BrandItemNode(String title, int count, Brand brand) {
-                super(title, count);
-                this.brand = brand;
-            }
+            groupBrandServ.restart();
 
         }
 
-        static class CompItemNode extends DefaultItemNode {
-            String comp;
 
-            public CompItemNode(String title, int count, String comp) {
-                super(title, count);
-                this.comp = comp;
-            }
-        }
     }
 
     public static class DateGroupController extends FilterController<Game> {
 
         @FXML
         private TreeView<DateItemNode> dateTree;
+
+        private List<Game> filteredGames;
+
+        private Service<TreeItem<DateItemNode>> groupDateServ = new TaskService<>(() -> new PanelTask.GroupDate(filteredGames));
+
 
         protected void initialize() {
 
@@ -241,80 +204,19 @@ public class FilterPanelController extends FilterController<Game> {
                 }
             });
 
+            groupDateServ.valueProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    dateTree.setRoot(newValue);
+                }
+            });
         }
 
         public void init(List<Game> filteredGames) {
+            this.filteredGames = filteredGames;
 
-            createDateGroup(filteredGames);
-        }
-
-        private void createDateGroup(List<Game> filteredGames) {
-            var yearsStream = filteredGames.stream()
-                    .filter(game -> game.publishDate != null)
-                    .collect(groupingBy(game -> game.publishDate != null ? game.publishDate.getYear() : 0
-                            , groupingBy(g -> g.publishDate != null ? g.publishDate.getMonthValue() : 0)))
-                    .entrySet().stream()
-                    .sorted(Comparator.comparing((Map.Entry n) -> (Integer) n.getKey()).reversed())
-                    .map(d -> {
-
-                        if (d.getKey() != 0) {
-                            var count = d.getValue().entrySet().stream().mapToInt(m -> m.getValue().size()).sum();
-                            var yearNode = new TreeItem<>(new DateItemNode(
-                                    String.format("%d (%d)", d.getKey(), count)
-                                    , LocalDate.of(d.getKey(), 1, 1).minusDays(1)
-                                    , LocalDate.of(d.getKey(), 12, 31).plusDays(1)
-                                    , count
-                                    , DateGroupController.DateItemNode.DateType.YEAR
-                            ));
-
-                            d.getValue().entrySet().stream().sorted(Comparator.comparing((Map.Entry n1) -> (Integer) n1.getKey()).reversed())
-                                    .forEach(d1 -> {
-                                        var monthNode = new TreeItem<>(new DateItemNode(
-                                                String.format("%d (%d)", d1.getKey(), d1.getValue().size())
-                                                , LocalDate.of(d.getKey(), d1.getKey(), 1).minusDays(1)
-                                                , LocalDate.of(d.getKey(), d1.getKey(), 1).plusMonths(1)
-                                                , d1.getValue().size()
-                                                , DateGroupController.DateItemNode.DateType.MONTH));
-
-                                        yearNode.getChildren().add(monthNode);
-                                    });
-
-                            return yearNode;
-                        }
-
-                        return null;
-
-                    })
-                    .collect(Collectors.toList());
-
-
-            var root = new TreeItem<DateItemNode>();
-            root.getChildren().setAll(yearsStream);
-
-
-            dateTree.setRoot(root);
-        }
-
-        static class DateItemNode extends DefaultItemNode {
-
-            DateRange range;
-            DateType dateType;
-
-            public DateItemNode(String title, LocalDate start, LocalDate end, int count, DateType dateType) {
-                this(title, new DateRange(start, end), count, dateType);
-            }
-
-
-            public DateItemNode(String title, DateRange range, int count, DateType dateType) {
-                super(title, count);
-                this.range = range;
-                this.dateType = dateType;
-            }
-
-            enum DateType {
-                YEAR,
-                MONTH
-            }
+            groupDateServ.restart();
         }
     }
+
+
 }

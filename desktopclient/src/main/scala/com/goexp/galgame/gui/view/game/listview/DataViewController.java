@@ -2,8 +2,9 @@ package com.goexp.galgame.gui.view.game.listview;
 
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.task.PanelTask;
 import com.goexp.galgame.gui.util.DefaultController;
-import com.goexp.galgame.gui.util.Tags;
+import com.goexp.galgame.gui.util.TaskService;
 import com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController;
 import com.goexp.galgame.gui.view.game.listview.tableview.TableController;
 import javafx.beans.property.BooleanProperty;
@@ -11,6 +12,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.concurrent.Service;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -18,11 +20,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class DataViewController extends DefaultController {
 
@@ -31,7 +30,6 @@ public class DataViewController extends DefaultController {
     @FXML
     public TableController tableViewController;
 
-    //    @FXML//    public SimpleListViewController imgViewController;
     @FXML
     public ProgressBar progessloading;
     @FXML
@@ -69,12 +67,23 @@ public class DataViewController extends DefaultController {
 
     private Predicate<Game> groupPredicate;
 
+    private Service<List<HBox>> groupTagServ = new TaskService<>(() -> new PanelTask.GroupTag(filteredGames));
 
 //    private ObservableList<Game> cacheGames;
+
 
     protected void initialize() {
         initSwitchBar();
         initSideBar();
+        initTagPanel();
+    }
+
+    private void initTagPanel() {
+        groupTagServ.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                tagFlow.getChildren().setAll(newValue);
+            }
+        });
     }
 
     private void initSwitchBar() {
@@ -144,32 +153,6 @@ public class DataViewController extends DefaultController {
     }
 
 
-    private void createTagGroup(List<Game> filteredGames) {
-
-        var data = filteredGames.stream()
-                .filter(g -> g.tag.size() > 0)
-                .flatMap(g -> g.tag.stream().filter(t -> !t.isEmpty()))
-                .collect(Collectors.groupingBy(str -> str))
-                .entrySet().stream()
-                .sorted(Comparator.comparing((Map.Entry<String, List<String>> v) -> {
-                    return v.getValue().size();
-                }).reversed())
-                .limit(20)
-                .map(k -> {
-
-                    var key = k.getKey();
-                    var value = k.getValue().size();
-
-
-                    logger.debug("<createTagGroup> Name:{},Value:{}", key, value);
-                    return new HBox(Tags.toNodes(List.of(key)).get(0), new Label("(" + value + ")"));
-                })
-                .collect(Collectors.toUnmodifiableList());
-
-
-        tagFlow.getChildren().setAll(data);
-
-    }
 
     public void setItems(ObservableList<Game> games) {
         filterPanel.setVisible(true);
@@ -202,7 +185,8 @@ public class DataViewController extends DefaultController {
     private void setSideBarData(FilteredList<Game> filteredGames) {
         dateGroupController.init(filteredGames);
         brandGroupController.init(filteredGames);
-        createTagGroup(filteredGames);
+
+        groupTagServ.restart();
     }
 
     private void loadItems(SortedList<Game> sortedData) {

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <ScrollPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootPanel" fitToWidth="true" hbarPolicy="NEVER" pannable="true"
             stylesheets="@../../view.css" vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/8.0.172-ea"
-            fx:controller="com.goexp.galgame.gui.view.game.listview.ImgListViewController">
+            fx:controller="com.goexp.galgame.gui.view.game.listview.imglist.ImgListViewController">
     <content>
         <FlowPane fx:id="imgList" hgap="5.0" rowValignment="TOP" vgap="5.0"/>
     </content>

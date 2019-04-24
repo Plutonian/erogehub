@@ -13,13 +13,4 @@ public abstract class FilterController<T> extends DefaultController {
 
     public abstract void init(List<T> filteredGames);
 
-    public static abstract class DefaultItemNode {
-        public String title;
-        public int count;
-
-        public DefaultItemNode(String title, int count) {
-            this.title = title;
-            this.count = count;
-        }
-    }
 }

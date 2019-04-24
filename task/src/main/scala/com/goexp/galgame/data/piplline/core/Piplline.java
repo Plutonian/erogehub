@@ -38,46 +38,46 @@ public class Piplline {
     }
 
 
-    private Piplline registry(int mesType, MessageHandler messageHandler, ExecutorService executor) {
-        configs.add(new HandlerConfig(mesType, messageHandler, executor));
+    private Piplline registry(int mesType, MessageHandler handler, ExecutorService executor) {
+        configs.add(new HandlerConfig(mesType, handler, executor));
         return this;
     }
 
-    private Piplline registry(int mesType, MessageHandler messageHandler, int threadCount) {
-        configs.add(new HandlerConfig<>(mesType, messageHandler, Executors.newFixedThreadPool(threadCount)));
+    private Piplline registry(int mesType, MessageHandler handler, int threadCount) {
+        configs.add(new HandlerConfig<>(mesType, handler, Executors.newFixedThreadPool(threadCount)));
         return this;
     }
 
 
-    public Piplline regForCPUType(int handleMesType, MessageHandler messageHandler) {
-        return registry(handleMesType, messageHandler, 2);
+    public Piplline regForCPUType(int mesCode, MessageHandler handler) {
+        return registry(mesCode, handler, 2);
     }
 
-    public Piplline regForCPUType(int handleMesType, MessageHandler messageHandler, int threadCount) {
-        return registry(handleMesType, messageHandler, threadCount);
+    public Piplline regForCPUType(int mesCode, MessageHandler handler, int threadCount) {
+        return registry(mesCode, handler, threadCount);
     }
 
-    public Piplline regForCPUType(int handleMesType, MessageHandler messageHandler, ExecutorService executor) {
-        return registry(handleMesType, messageHandler, executor);
+    public Piplline regForCPUType(int mesCode, MessageHandler handler, ExecutorService executor) {
+        return registry(mesCode, handler, executor);
     }
 
-    public Piplline regForIOType(int handleMesType, MessageHandler messageHandler) {
-        return registry(handleMesType, messageHandler, 30);
+    public Piplline regForIOType(int mesCode, MessageHandler handler) {
+        return registry(mesCode, handler, 30);
     }
 
-    public Piplline regForIOType(int handleMesType, MessageHandler messageHandler, int threadCount) {
-        return registry(handleMesType, messageHandler, threadCount);
+    public Piplline regForIOType(int mesCode, MessageHandler handler, int threadCount) {
+        return registry(mesCode, handler, threadCount);
     }
 
-    public Piplline regForIOType(int handleMesType, MessageHandler messageHandler, ExecutorService executor) {
-        return registry(handleMesType, messageHandler, executor);
+    public Piplline regForIOType(int mesCode, MessageHandler handler, ExecutorService executor) {
+        return registry(mesCode, handler, executor);
     }
 
     public void start() {
         starter.setQueue(msgQueueProxy);
 
-        var mesTypeMap = configs.stream().peek(c -> c.messageHandler().setQueue(msgQueueProxy))
-                .collect(Collectors.groupingBy(HandlerConfig::mesType));
+        var mesTypeMap = configs.stream().peek(c -> c.handler().setQueue(msgQueueProxy))
+                .collect(Collectors.groupingBy(HandlerConfig::mesCode));
 
         listenerExecutorService.execute(() -> {
 
@@ -94,7 +94,7 @@ public class Piplline {
                             for (var c : configs) {
                                 c.executor().execute(() -> {
                                     try {
-                                        c.messageHandler().process(mes);
+                                        c.handler().process(mes);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }

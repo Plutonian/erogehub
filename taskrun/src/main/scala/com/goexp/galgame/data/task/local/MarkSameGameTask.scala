@@ -19,8 +19,8 @@ object MarkSameGameTask {
 
   def main(args: Array[String]) =
     new Piplline(new FromAllBrand)
-      .registryCPUTypeMessageHandler(MesType.Brand, new ProcessBrandGame)
-      .registryIOTypeMessageHandler(UPDATE_STATE, new UpdateState)
+      .regForCPUType(MesType.Brand, new ProcessBrandGame)
+      .regForIOType(UPDATE_STATE, new UpdateState)
       .start()
 
   class FromAllBrand extends DefaultStarter {

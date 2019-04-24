@@ -23,7 +23,7 @@ object Seiya_saiga_com {
   def main(args: Array[String]) = {
     Network.initProxy()
     new Piplline(new Starter)
-      .registryIOTypeMessageHandler(1, new PageContentHandler)
+      .regForIOType(1, new PageContentHandler)
       .start()
   }
 

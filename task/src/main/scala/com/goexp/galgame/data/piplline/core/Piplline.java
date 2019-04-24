@@ -49,27 +49,27 @@ public class Piplline {
     }
 
 
-    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler messageHandler) {
+    public Piplline regForCPUType(int handleMesType, MessageHandler messageHandler) {
         return registry(handleMesType, messageHandler, 2);
     }
 
-    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler messageHandler, int threadCount) {
+    public Piplline regForCPUType(int handleMesType, MessageHandler messageHandler, int threadCount) {
         return registry(handleMesType, messageHandler, threadCount);
     }
 
-    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler messageHandler, ExecutorService executor) {
+    public Piplline regForCPUType(int handleMesType, MessageHandler messageHandler, ExecutorService executor) {
         return registry(handleMesType, messageHandler, executor);
     }
 
-    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler messageHandler) {
+    public Piplline regForIOType(int handleMesType, MessageHandler messageHandler) {
         return registry(handleMesType, messageHandler, 30);
     }
 
-    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler messageHandler, int threadCount) {
+    public Piplline regForIOType(int handleMesType, MessageHandler messageHandler, int threadCount) {
         return registry(handleMesType, messageHandler, threadCount);
     }
 
-    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler messageHandler, ExecutorService executor) {
+    public Piplline regForIOType(int handleMesType, MessageHandler messageHandler, ExecutorService executor) {
         return registry(handleMesType, messageHandler, executor);
     }
 

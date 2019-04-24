@@ -21,11 +21,11 @@ object ImportFromLocalAliveBrandTask {
     Network.initProxy()
 
     new Piplline(new ImportFromLocalAliveBrandTask.StartFromAllAliveBrand)
-      .registryCPUTypeMessageHandler(MesType.Brand, new ProcessGameList)
-      .registryCPUTypeMessageHandler(MesType.Game, new LocalGameHandler)
-      .registryCPUTypeMessageHandler(MesType.ContentBytes, new Bytes2Html)
-      .registryCPUTypeMessageHandler(MesType.ContentHtml, new Html2GameOK)
-      .registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameOK)
+      .regForCPUType(MesType.Brand, new ProcessGameList)
+      .regForCPUType(MesType.Game, new LocalGameHandler)
+      .regForCPUType(MesType.ContentBytes, new Bytes2Html)
+      .regForCPUType(MesType.ContentHtml, new Html2GameOK)
+      .regForCPUType(MesType.GAME_OK, new ProcessGameOK)
       .start()
   }
 

@@ -21,7 +21,7 @@ import scala.collection.JavaConverters._
 object Sagaoz_net {
   def main(args: Array[String]) =
     new Piplline(new Starter)
-      .registryIOTypeMessageHandler(1, new PageContentHandler)
+      .regForIOType(1, new PageContentHandler)
       .start()
 
   private class Starter extends DefaultStarter {

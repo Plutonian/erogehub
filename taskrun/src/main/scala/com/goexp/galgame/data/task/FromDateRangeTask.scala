@@ -16,12 +16,12 @@ object FromDateRangeTask {
     val end = LocalDate.now.withMonth(12).withDayOfMonth(31)
 
     new Piplline(new FromDateRange(start, end))
-      .registryCPUTypeMessageHandler(MesType.PRE_GAME, new PreProcessGame)
-      .registryIOTypeMessageHandler(MesType.NEED_DOWN_GAME, new DownloadGameHandler)
-      .registryCPUTypeMessageHandler(MesType.Game, new LocalGameHandler)
-      .registryCPUTypeMessageHandler(MesType.ContentBytes, new Bytes2Html)
-      .registryCPUTypeMessageHandler(MesType.ContentHtml, new Html2GameOK)
-      .registryCPUTypeMessageHandler(MesType.GAME_OK, new ProcessGameOK)
+      .regForCPUType(MesType.PRE_GAME, new PreProcessGame)
+      .regForIOType(MesType.NEED_DOWN_GAME, new DownloadGameHandler)
+      .regForCPUType(MesType.Game, new LocalGameHandler)
+      .regForCPUType(MesType.ContentBytes, new Bytes2Html)
+      .regForCPUType(MesType.ContentHtml, new Html2GameOK)
+      .regForCPUType(MesType.GAME_OK, new ProcessGameOK)
       .start()
   }
 }

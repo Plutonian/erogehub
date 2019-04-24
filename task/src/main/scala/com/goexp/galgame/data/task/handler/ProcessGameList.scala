@@ -17,7 +17,7 @@ import scala.collection.JavaConverters._
 class ProcessGameList extends DefaultMessageHandler[Int] {
   private lazy val logger = LoggerFactory.getLogger(classOf[ProcessGameList])
 
-  override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]) = {
+  override def process(message: Message[Int]) = {
     val brandId = message.entity
     logger.debug("<Brand> {}", brandId)
     try {
@@ -40,7 +40,7 @@ class ProcessGameList extends DefaultMessageHandler[Int] {
           logger.info("<Insert> {}", game.simpleView)
           GameDB.insert(game)
 
-          msgQueue.offer(new Message[Int](MesType.NEED_DOWN_GAME, game.id))
+          send(new Message[Int](MesType.NEED_DOWN_GAME, game.id))
         })
       }
     } catch {

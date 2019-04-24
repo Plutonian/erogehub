@@ -44,7 +44,7 @@ class ProcessGameOK extends DefaultMessageHandler[Game] {
     }).asJava
   }
 
-  override def process(message: Message[Game], msgQueue: MessageQueueProxy[Message[_]]) = {
+  override def process(message: Message[Game]) = {
     val remoteGame = message.entity
     logger.debug("Process {}", remoteGame)
     val localGame = GameQuery.fullTlp.query.where(Filters.eq(remoteGame.id)).one

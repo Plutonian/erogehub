@@ -11,13 +11,13 @@ import org.slf4j.LoggerFactory
 class Html2GameOK extends DefaultMessageHandler[(Int, String)] {
   final private val logger = LoggerFactory.getLogger(classOf[Html2GameOK])
 
-  override def process(message: Message[(Int, String)], msgQueue: MessageQueueProxy[Message[_]]) = {
+  override def process(message: Message[(Int, String)]) = {
     val (gameId, html) = message.entity
 
     logger.debug("<Html2GameOK> {}", gameId)
     try {
       val game = GetChu.GameService.getFrom(gameId, html)
-      msgQueue.offer(new Message[Game](MesType.GAME_OK, game))
+      send(new Message[Game](MesType.GAME_OK, game))
     } catch {
       case e: ParseException =>
         e.printStackTrace()

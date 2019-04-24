@@ -9,17 +9,17 @@ import com.goexp.galgame.data.task.client.GetChu
 import com.goexp.galgame.data.task.handler.MesType
 import org.slf4j.LoggerFactory
 
-class FromDateRange(val start: LocalDate, val end: LocalDate) extends DefaultStarter[Int] {
+class FromDateRange(val start: LocalDate, val end: LocalDate) extends DefaultStarter {
   private val logger = LoggerFactory.getLogger(classOf[FromDateRange])
 
-  override def process(msgQueue: MessageQueueProxy[Message[_]]) = {
+  override def process() = {
     logger.info(s"Start:$start,End:$end")
 
     val list = GetChu.BrandService.gamesFrom(start, end)
 
     logger.info(s"${list.size}")
     list.foreach(game => {
-      msgQueue.offer(new Message[Game](MesType.PRE_GAME, game))
+      send(new Message[Game](MesType.PRE_GAME, game))
     })
   }
 }

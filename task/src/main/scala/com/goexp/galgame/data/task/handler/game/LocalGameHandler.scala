@@ -13,12 +13,12 @@ import org.slf4j.LoggerFactory
 class LocalGameHandler extends DefaultMessageHandler[Int] {
   final private val logger = LoggerFactory.getLogger(classOf[LocalGameHandler])
 
-  override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]) = {
+  override def process(message: Message[Int]) = {
     val gid = message.entity
     logger.debug("<Game> {}", gid)
 
     val bytes = (gid, Objects.requireNonNull(getContent(gid), gid.toString))
-    msgQueue.offer(new Message[(Int, Array[Byte])](MesType.ContentBytes, bytes))
+    send(new Message[(Int, Array[Byte])](MesType.ContentBytes, bytes))
   }
 
   private def getContent(id: Int) =

@@ -4,7 +4,7 @@ import com.goexp.galgame.common.model.GameState
 import com.goexp.galgame.data.db.importor.mongdb.GameDB.StateDB
 import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, GameQuery}
 import com.goexp.galgame.data.model.Game
-import com.goexp.galgame.data.piplline.core.{Message, MessageQueueProxy, Piplline}
+import com.goexp.galgame.data.piplline.core.{Message, Piplline}
 import com.goexp.galgame.data.piplline.handler.{DefaultMessageHandler, DefaultStarter}
 import com.goexp.galgame.data.task.handler.MesType
 import com.mongodb.client.model.Filters
@@ -23,12 +23,12 @@ object MarkSameGameTask {
       .registryIOTypeMessageHandler(UPDATE_STATE, new UpdateState)
       .start()
 
-  class FromAllBrand extends DefaultStarter[Int] {
-    override def process(msgQueue: MessageQueueProxy[Message[_]]) = {
-      //            msgQueue.offer(new Message<>(MesType.Brand, 10143));
+  class FromAllBrand extends DefaultStarter {
+    override def process() = {
+      //            send(new Message<>(MesType.Brand, 10143));
       BrandQuery.tlp.query.list
         .forEach(brand => {
-          msgQueue.offer(new Message[Int](MesType.Brand, brand.id))
+          send(new Message[Int](MesType.Brand, brand.id))
 
         })
     }
@@ -47,7 +47,7 @@ object MarkSameGameTask {
 
     private val logger = LoggerFactory.getLogger(classOf[ProcessBrandGame])
 
-    override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]) = {
+    override def process(message: Message[Int]) = {
       val brandId = message.entity
       logger.debug("<Brand> {}", brandId)
 
@@ -91,7 +91,7 @@ object MarkSameGameTask {
         })
         .foreach(game => {
           logger.info(s"ID:${game.id} Name: ${game.name}  State: ${game.state}")
-          msgQueue.offer(new Message[Game](UPDATE_STATE, game))
+          send(new Message[Game](UPDATE_STATE, game))
         })
     }
 
@@ -105,7 +105,7 @@ object MarkSameGameTask {
   class UpdateState extends DefaultMessageHandler[Game] {
     private val logger = LoggerFactory.getLogger(classOf[UpdateState])
 
-    override def process(message: Message[Game], msgQueue: MessageQueueProxy[Message[_]]) = {
+    override def process(message: Message[Game]) = {
       val game = message.entity
       logger.debug("<Game> {}", game.id)
       StateDB.update(game)

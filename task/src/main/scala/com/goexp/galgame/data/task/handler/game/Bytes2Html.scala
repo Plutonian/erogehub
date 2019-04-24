@@ -12,13 +12,13 @@ import org.slf4j.LoggerFactory
 class Bytes2Html extends DefaultMessageHandler[(Int, Array[Byte])] {
   final private val logger = LoggerFactory.getLogger(classOf[Bytes2Html])
 
-  override def process(message: Message[(Int, Array[Byte])], msgQueue: MessageQueueProxy[Message[_]]) = {
+  override def process(message: Message[(Int, Array[Byte])]) = {
     val (id, bytes) = message.entity
 
     logger.debug("<Bytes2Html> {}", id)
 
     val html = (id, Objects.requireNonNull(WebUtil.decodeGzip(bytes, GetChu.DEFAULT_CHARSET)))
 
-    msgQueue.offer(new Message[(Int, String)](MesType.ContentHtml, html))
+    send(new Message[(Int, String)](MesType.ContentHtml, html))
   }
 }

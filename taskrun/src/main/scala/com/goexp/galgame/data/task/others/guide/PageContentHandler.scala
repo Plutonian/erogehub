@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory
 class PageContentHandler extends DefaultMessageHandler[CommonGame.Guide] {
   private val logger = LoggerFactory.getLogger(classOf[PageContentHandler])
 
-  override def process(message: Message[CommonGame.Guide], msgQueue: MessageQueueProxy[Message[_]]) = {
+  override def process(message: Message[CommonGame.Guide]) = {
     val guide = message.entity
     logger.info(s"insert:$guide")
     GuideDB.insert(guide)

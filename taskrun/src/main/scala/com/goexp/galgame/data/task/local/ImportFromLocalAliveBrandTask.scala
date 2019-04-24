@@ -29,11 +29,11 @@ object ImportFromLocalAliveBrandTask {
       .start()
   }
 
-  class StartFromAllAliveBrand extends DefaultStarter[Int] {
-    override def process(msgQueue: MessageQueueProxy[Message[_]]) = {
+  class StartFromAllAliveBrand extends DefaultStarter {
+    override def process() = {
       BrandQuery.tlp.query.list
         .forEach(brand => {
-          msgQueue.offer(new Message[Int](MesType.Brand, brand.id))
+          send(new Message[Int](MesType.Brand, brand.id))
         })
 
       println("All Done!!!")
@@ -43,7 +43,7 @@ object ImportFromLocalAliveBrandTask {
   class ProcessGameList extends DefaultMessageHandler[Int] {
     private val logger = LoggerFactory.getLogger(classOf[ProcessGameList])
 
-    override def process(message: Message[Int], msgQueue: MessageQueueProxy[Message[_]]) = {
+    override def process(message: Message[Int]) = {
       val brandId = message.entity
       logger.debug("<Brand> {}", brandId)
 
@@ -66,7 +66,7 @@ object ImportFromLocalAliveBrandTask {
             logger.info(s"<Insert> ${game.simpleView}")
 
             GameDB.insert(game)
-            msgQueue.offer(new Message[Int](MesType.Game, game.id))
+            send(new Message[Int](MesType.Game, game.id))
           })
         }
       } catch {

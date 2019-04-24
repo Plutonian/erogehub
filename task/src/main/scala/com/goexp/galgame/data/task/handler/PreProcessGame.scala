@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
 class PreProcessGame extends DefaultMessageHandler[Game] {
   final private val logger = LoggerFactory.getLogger(classOf[PreProcessGame])
 
-  override def process(message: Message[Game], msgQueue: MessageQueueProxy[Message[_]]) = {
+  override def process(message: Message[Game]) = {
     val game = message.entity
     logger.debug("<Game> {}", game)
     if (GameDB.exist(game.id)) {
@@ -22,6 +22,6 @@ class PreProcessGame extends DefaultMessageHandler[Game] {
       logger.info("<Insert> {}", game.simpleView)
       GameDB.insert(game)
     }
-    msgQueue.offer(new Message[Int](MesType.NEED_DOWN_GAME, game.id))
+    send(new Message[Int](MesType.NEED_DOWN_GAME, game.id))
   }
 }

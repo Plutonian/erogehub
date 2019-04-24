@@ -27,10 +27,10 @@ object Seiya_saiga_com {
       .start()
   }
 
-  private class Starter extends DefaultStarter[CommonGame.Guide] {
+  private class Starter extends DefaultStarter {
     private val logger = LoggerFactory.getLogger(classOf[Starter])
 
-    override def process(msgQueue: MessageQueueProxy[Message[_]]) = {
+    override def process() = {
       val locals = GuideQuery.tlp.query
         .where(Filters.eq("from", DataFrom.seiya_saiga_com.getValue))
         .set.asScala
@@ -47,7 +47,7 @@ object Seiya_saiga_com {
         logger.info(s"Insert:${insertlist.size}")
 
         insertlist.foreach(guide => {
-          msgQueue.offer(new Message[CommonGame.Guide](1, guide))
+          send(new Message[CommonGame.Guide](1, guide))
         })
       } catch {
         case e@(_: IOException | _: InterruptedException) =>

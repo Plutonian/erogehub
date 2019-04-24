@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 public class Piplline {
     final private Logger logger = LoggerFactory.getLogger(Piplline.class);
 
-    final private MessageQueueProxy<Message> msgQueueProxy;
+    final private MessageQueueProxy<Message<?>> msgQueueProxy;
 
 
     final private ExecutorService listenerExecutorService = Executors.newSingleThreadExecutor();
 
-    final private Set<HandlerConfig<?>> configs = new HashSet<>();
+    final private Set<HandlerConfig> configs = new HashSet<>();
 
     final private Starter starter;
 
@@ -38,44 +38,45 @@ public class Piplline {
     }
 
 
-    private Piplline registry(int mesType, MessageHandler<?> messageHandler, ExecutorService executor) {
-        configs.add(new HandlerConfig<>(mesType, messageHandler, executor));
+    private Piplline registry(int mesType, MessageHandler messageHandler, ExecutorService executor) {
+        configs.add(new HandlerConfig(mesType, messageHandler, executor));
         return this;
     }
 
-    private Piplline registry(int mesType, MessageHandler<?> messageHandler, int threadCount) {
+    private Piplline registry(int mesType, MessageHandler messageHandler, int threadCount) {
         configs.add(new HandlerConfig<>(mesType, messageHandler, Executors.newFixedThreadPool(threadCount)));
         return this;
     }
 
 
-    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler<?> messageHandler) {
+    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler messageHandler) {
         return registry(handleMesType, messageHandler, 2);
     }
 
-    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler<?> messageHandler, int threadCount) {
+    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler messageHandler, int threadCount) {
         return registry(handleMesType, messageHandler, threadCount);
     }
 
-    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler<?> messageHandler, ExecutorService executor) {
+    public Piplline registryCPUTypeMessageHandler(int handleMesType, MessageHandler messageHandler, ExecutorService executor) {
         return registry(handleMesType, messageHandler, executor);
     }
 
-    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler<?> messageHandler) {
+    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler messageHandler) {
         return registry(handleMesType, messageHandler, 30);
     }
 
-    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler<?> messageHandler, int threadCount) {
+    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler messageHandler, int threadCount) {
         return registry(handleMesType, messageHandler, threadCount);
     }
 
-    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler<?> messageHandler, ExecutorService executor) {
+    public Piplline registryIOTypeMessageHandler(int handleMesType, MessageHandler messageHandler, ExecutorService executor) {
         return registry(handleMesType, messageHandler, executor);
     }
 
     public void start() {
+        starter.setQueue(msgQueueProxy);
 
-        var mesTypeMap = configs.stream()
+        var mesTypeMap = configs.stream().peek(c -> c.messageHandler().setQueue(msgQueueProxy))
                 .collect(Collectors.groupingBy(HandlerConfig::mesType));
 
         listenerExecutorService.execute(() -> {
@@ -90,14 +91,15 @@ public class Piplline {
                         final var configs = mesTypeMap.get(mes.code);
 
                         if (configs != null)
-                            for (var c : configs)
+                            for (var c : configs) {
                                 c.executor().execute(() -> {
                                     try {
-                                        c.messageHandler().process(mes, msgQueueProxy);
+                                        c.messageHandler().process(mes);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
                                 });
+                            }
 
                     } else {
                         logger.info("listener task time out!!!");
@@ -117,7 +119,7 @@ public class Piplline {
             }
         });
 
-        starter.process(msgQueueProxy);
+        starter.process();
 
     }
 }

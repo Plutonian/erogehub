@@ -6,7 +6,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-public class MessageQueueProxy<T> {
+public class MessageQueueProxy<T extends Message> {
     final private BlockingQueue<T> msgQueue;
 
     public MessageQueueProxy(int capacity) {

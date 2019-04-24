@@ -2,7 +2,7 @@ package com.goexp.galgame.common.model;
 
 import java.util.StringJoiner;
 
-public class CommonBrand {
+public abstract class CommonBrand {
     public int id;
     public String name;
     public String website;

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class CommonGame {
+public abstract class CommonGame {
     public int id;
     public String name = "";
     public LocalDate publishDate;

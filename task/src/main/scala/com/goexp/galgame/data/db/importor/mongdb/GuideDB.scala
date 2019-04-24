@@ -14,7 +14,7 @@ object GuideDB {
       .append("href", item.href)
       .append("from", item.from.getValue)
 
-    GuideDB.tlp.exec(gameC => {
+    tlp.exec(gameC => {
       gameC.insertOne(doc)
     })
   }

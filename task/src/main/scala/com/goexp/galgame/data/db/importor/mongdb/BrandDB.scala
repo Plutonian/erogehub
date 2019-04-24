@@ -16,18 +16,18 @@ object BrandDB {
       .append("website", item.website)
       .append("type", 0)
 
-    BrandDB.tlp.exec(gameC => {
+    tlp.exec(gameC => {
       gameC.insertOne(doc)
     })
   }
 
   def updateWebsite(item: Brand) =
-    BrandDB.tlp.exec(documentMongoCollection => {
+    tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(item.id), set("website", item.website))
     })
 
   def updateComp(item: Brand) =
-    BrandDB.tlp.exec(documentMongoCollection => {
+    tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(item.id), set("comp", item.comp))
     })
 }

@@ -23,13 +23,13 @@ object GameDB {
       .append("state", game.state.getValue)
       .append("brandId", game.brandId)
 
-    GameDB.tlp.exec(documentMongoCollection => {
+    tlp.exec(documentMongoCollection => {
       documentMongoCollection.insertOne(gameDoc)
     })
   }
 
   def update(game: Game) =
-    GameDB.tlp.exec(documentMongoCollection => {
+    tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(
         Filters.eq(game.id),
         combine(
@@ -40,7 +40,7 @@ object GameDB {
     })
 
   def updateAll(game: Game) =
-    GameDB.tlp.exec(documentMongoCollection => {
+    tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(
         Filters.eq(game.id),
         combine(
@@ -66,7 +66,7 @@ object GameDB {
           .append("index", person.index)
       }).asJava
 
-    GameDB.tlp.exec(documentMongoCollection => {
+    tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(game.id), set("gamechar", gameCharDocs))
     })
   }
@@ -78,7 +78,7 @@ object GameDB {
         new Document("src", img.src)
           .append("index", img.index)
       }).asJava
-    GameDB.tlp.exec(documentMongoCollection => {
+    tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(game.id), set("simpleImg", imgdocs))
     })
   }

@@ -55,7 +55,7 @@ public class TitlePartController extends DefaultController {
 
     private Service changeBrandStateService = new TaskService(() -> new BrandChangeTask(changeBrand));
     private Service<Void> changeGameStateService = new TaskService<>(() -> new ChangeGameTask.MultiLikeByBrand(changeBrand.id));
-    private Service<ObservableList<Brand>> listBrandService = new TaskService<>(() -> new BrandListTask.ByComp(changeBrand.comp));
+    private Service<List<Brand>> listBrandService = new TaskService<>(() -> new BrandListTask.ByComp(changeBrand.comp));
 
 
     private ChangeListener<BrandType> listener;

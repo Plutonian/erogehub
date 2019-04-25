@@ -5,7 +5,7 @@ import com.goexp.galgame.data.piplline.core.{Message, MessageHandler, MessageQue
 abstract class DefaultMessageHandler[In] extends MessageHandler[In] {
   var queue: MessageQueueProxy[Message[_]] = _
 
-  override def setQueue(queue: MessageQueueProxy[Message[_]]): Unit = this.queue = queue
+  final override def setQueue(queue: MessageQueueProxy[Message[_]]): Unit = this.queue = queue
 
-  def send(mes: Message[_]) = queue.offer(mes)
+  final protected def send(mes: Message[_]) = queue.offer(mes)
 }

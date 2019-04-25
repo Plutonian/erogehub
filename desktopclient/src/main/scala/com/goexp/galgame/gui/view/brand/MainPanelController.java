@@ -5,14 +5,14 @@ import com.goexp.galgame.common.model.BrandType;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.task.TaskService;
 import com.goexp.galgame.gui.task.brand.BrandSearchTask;
-import com.goexp.galgame.gui.util.*;
+import com.goexp.galgame.gui.util.TabSelect;
+import com.goexp.galgame.gui.util.Websites;
 import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +21,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.util.StringConverter;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -75,11 +76,11 @@ public class MainPanelController extends DefaultController {
     private String keyword;
 
 
-    private Service<ObservableList<TreeItem<Brand>>> brandService = new TaskService<>(() -> new BrandSearchTask.ByType(brandType));
+    private Service<List<TreeItem<Brand>>> brandService = new TaskService<>(() -> new BrandSearchTask.ByType(brandType));
 
-    private Service<ObservableList<TreeItem<Brand>>> brandByNameService = new TaskService<>(() -> new BrandSearchTask.ByName(keyword));
+    private Service<List<TreeItem<Brand>>> brandByNameService = new TaskService<>(() -> new BrandSearchTask.ByName(keyword));
 
-    private Service<ObservableList<TreeItem<Brand>>> brandByCompService = new TaskService<>(() -> new BrandSearchTask.ByComp(keyword));
+    private Service<List<TreeItem<Brand>>> brandByCompService = new TaskService<>(() -> new BrandSearchTask.ByComp(keyword));
 
 
     @Override
@@ -163,11 +164,11 @@ public class MainPanelController extends DefaultController {
         });
 
 
-        ChangeListener<ObservableList<TreeItem<Brand>>> handler = (observable, oldValue, newValue) -> {
+        ChangeListener<List<TreeItem<Brand>>> handler = (observable, oldValue, newValue) -> {
 
             if (newValue != null) {
                 var root = new TreeItem<Brand>();
-                root.getChildren().setAll(newValue);
+                root.getChildren().setAll(FXCollections.observableArrayList(newValue));
                 tableBrand.setRoot(root);
             }
         };

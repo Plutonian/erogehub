@@ -8,7 +8,6 @@ import com.goexp.galgame.gui.db.mongo.Query.BrandQuery
 import com.goexp.galgame.gui.model.Brand
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters.regex
-import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Task
 import javafx.scene.control.TreeItem
 
@@ -39,28 +38,28 @@ object BrandSearchTask {
       })
       .asJava
 
-  class ByName(private[this] val name: String) extends Task[ObservableList[TreeItem[Brand]]] {
-    override protected def call: ObservableList[TreeItem[Brand]] = {
+  class ByName(private[this] val name: String) extends Task[util.List[TreeItem[Brand]]] {
+    override protected def call = {
       val list = BrandQuery.tlp.query.where(regex("name", "^" + name)).list
-      FXCollections.observableArrayList(makeTree(list))
+      makeTree(list)
     }
   }
 
-  class ByType(private[this] val `type`: BrandType) extends Task[ObservableList[TreeItem[Brand]]] {
-    override protected def call: ObservableList[TreeItem[Brand]] = {
+  class ByType(private[this] val `type`: BrandType) extends Task[util.List[TreeItem[Brand]]] {
+    override protected def call = {
       val list = if (`type` eq BrandType.ALL)
         BrandQuery.tlp.query.list
       else
         BrandQuery.tlp.query.where(Filters.eq("type", `type`.getValue)).list
 
-      FXCollections.observableArrayList(makeTree(list))
+      makeTree(list)
     }
   }
 
-  class ByComp(private[this] val name: String) extends Task[ObservableList[TreeItem[Brand]]] {
-    override protected def call: ObservableList[TreeItem[Brand]] = {
+  class ByComp(private[this] val name: String) extends Task[util.List[TreeItem[Brand]]] {
+    override protected def call = {
       val list = BrandQuery.tlp.query.where(regex("comp", name)).list
-      FXCollections.observableArrayList(makeTree(list))
+      makeTree(list)
     }
   }
 

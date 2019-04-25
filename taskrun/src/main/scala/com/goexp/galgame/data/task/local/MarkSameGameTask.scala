@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
 import scala.io.{Codec, Source}
-import scala.util.Try
 
 object MarkSameGameTask {
 
@@ -37,15 +36,13 @@ object MarkSameGameTask {
 
   class ProcessBrandGame extends DefaultMessageHandler[Int] {
     private lazy val samelist = {
-      Try(Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/same.list"))(Codec.UTF8))
-        .map(source => source.getLines().toList)
-        .get
+      val source = Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/same.list"))(Codec.UTF8)
+      try source.getLines().toList finally source.close()
     }
 
     private lazy val packagelist = {
-      Try(Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/package.list"))(Codec.UTF8))
-        .map(source => source.getLines().toList)
-        .get
+      val source = Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/package.list"))(Codec.UTF8)
+      try source.getLines().toList finally source.close()
     }
 
     private val logger = LoggerFactory.getLogger(classOf[ProcessBrandGame])

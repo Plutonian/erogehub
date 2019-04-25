@@ -88,7 +88,7 @@ public class Piplline {
                     final var mes = msgQueueProxy.poll(5, TimeUnit.MINUTES);
 
                     if (mes != null) {
-                        final var configs = mesTypeMap.get(mes.code);
+                        final var configs = mesTypeMap.get(mes.code());
 
                         if (configs != null)
                             for (var c : configs) {

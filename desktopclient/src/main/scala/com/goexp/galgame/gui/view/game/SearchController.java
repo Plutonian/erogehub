@@ -7,6 +7,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -30,6 +31,8 @@ public class SearchController extends DefaultController {
     private TextField textSearchGameKey;
     @FXML
     private ToggleGroup searchGroup;
+    @FXML
+    private Button btnSearchGame;
 
     public String getKey() {
         return key;
@@ -73,6 +76,8 @@ public class SearchController extends DefaultController {
                 }).select(text);
             }
         });
+
+        btnSearchGame.disableProperty().bind(textSearchGameKey.textProperty().isEmpty());
 
     }
 

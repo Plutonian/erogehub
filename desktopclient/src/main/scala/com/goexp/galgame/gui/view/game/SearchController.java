@@ -34,13 +34,13 @@ public class SearchController extends DefaultController {
     @FXML
     private Button btnSearchGame;
 
-    public String getKey() {
-        return key;
-    }
-
-    public SearchType getSearchType() {
-        return searchType;
-    }
+//    public String getKey() {
+//        return key;
+//    }
+//
+//    public SearchType getSearchType() {
+//        return searchType;
+//    }
 
 
     protected void initialize() {
@@ -82,7 +82,12 @@ public class SearchController extends DefaultController {
     }
 
     public void load() {
-        textSearchGameKey.setText("");
+
+        load("");
+    }
+
+    public void load(String title) {
+        textSearchGameKey.setText(title);
         resetEvent();
     }
 

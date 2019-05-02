@@ -4,7 +4,8 @@ import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.GameSearchTask;
-import com.goexp.galgame.gui.util.*;
+import com.goexp.galgame.gui.util.FXMLLoaderProxy;
+import com.goexp.galgame.gui.util.TabSelect;
 import com.goexp.galgame.gui.util.res.Images;
 import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
@@ -19,6 +20,8 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
@@ -268,13 +271,44 @@ public class HomeController extends DefaultController {
             var loader = new FXMLLoaderProxy<Region, SearchController>(SEARCH_FXML);
 
             var tab = new Tab("Search", loader.node);
-
             loader.controller.load();
 
             return tab;
         }).select("Search");
     }
 
+    @FXML
+    private void linkSearch_OnDragOver(DragEvent e) {
+
+        var board = e.getDragboard();
+
+        var files = board.getFiles();
+        if (files.size() == 1) {
+            e.acceptTransferModes(TransferMode.LINK);
+        }
+    }
+
+    @FXML
+    private void linkSearch_OnDragDropped(DragEvent e) {
+        var board = e.getDragboard();
+        var files = board.getFiles();
+
+        if (files.size() > 0) {
+            var f = files.get(0);
+            var title = f.getName().replaceFirst("\\.[^\\.]+", "");
+
+            TabSelect.from().ifNotFind(() -> {
+
+                var loader = new FXMLLoaderProxy<Region, SearchController>(SEARCH_FXML);
+
+                var tab = new Tab("Search", loader.node);
+
+                loader.controller.load(title);
+
+                return tab;
+            }).select("Search");
+        }
+    }
 
     @FXML
     private void linkTags_OnAction(ActionEvent actionEvent) throws IOException {

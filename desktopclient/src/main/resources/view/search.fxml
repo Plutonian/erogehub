@@ -52,7 +52,7 @@
                     <content>
                         <VBox>
                             <children>
-                                <Hyperlink fx:id="linkSearch" onAction="#linkSearch_OnAction"/>
+                                <Hyperlink fx:id="linkSearch" onAction="#linkSearch_OnAction" onDragOver="#linkSearch_OnDragOver" onDragDropped="#linkSearch_OnDragDropped"/>
                                 <Hyperlink fx:id="linkDate" onAction="#linkDate_OnAction">
                                 </Hyperlink>
                                 <Hyperlink fx:id="linkTags" onAction="#linkTags_OnAction"/>

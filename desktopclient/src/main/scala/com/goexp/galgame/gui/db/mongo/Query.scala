@@ -7,6 +7,8 @@ import com.goexp.galgame.common.db.mongo.DB_NAME
 import com.goexp.galgame.common.db.mongo.query.{CVCreator, CommonBrandCreator, CommonGameCreator}
 import com.goexp.galgame.common.model._
 import com.goexp.galgame.gui.model.{Brand, Game}
+import com.goexp.galgame.gui.util.cache.AppCache
+import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Projections.{exclude, include}
 import com.mongodb.client.model.Sorts.descending
 import org.bson.Document
@@ -44,8 +46,16 @@ object Query {
 
         val parentCreator = new CommonGameCreator(new Game)
         val g = parentCreator.create(doc).asInstanceOf[Game]
-        g.brand = new Brand
-        g.brand.id = doc.getInteger("brandId")
+        val brandId = doc.getInteger("brandId")
+
+        g.brand = Option(AppCache.brandCache.get(brandId))
+          .getOrElse {
+            val brand = BrandQuery.tlp.query.where(Filters.eq(brandId)).one
+            AppCache.brandCache.put(brandId, brand)
+            brand
+          }
+
+
         g.setState(GameState.from(doc.getInteger("state")))
         g.star = doc.getInteger("star")
         logger.debug("{}", g)

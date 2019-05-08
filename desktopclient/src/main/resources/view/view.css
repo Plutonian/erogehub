@@ -1,7 +1,7 @@
-label,text{
-/*-fx-font-family:"ゴシック",Helvetica, Arial, sans-serif,"微软雅黑";*/
+/*.label,.text{
+-fx-font-family:"微软雅黑","ゴシック",Helvetica, Arial, sans-serif;
 -fx-font-smoothing-type:gray;
-}
+}*/
 .back{
 -fx-background-color: white;
 }

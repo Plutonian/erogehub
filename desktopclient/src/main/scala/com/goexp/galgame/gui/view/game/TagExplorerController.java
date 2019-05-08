@@ -68,15 +68,6 @@ public class TagExplorerController extends DefaultController {
                                         var link = new Hyperlink(tag);
 //                                        link.setStyle("-fx-font-size:18px");
                                         link.getStyleClass().add("tag");
-//                                        link.setOnAction(e -> {
-//                                            tag = link.getText();
-//
-//                                            gameSearchByTagService.restart();
-//
-//                                            tagsPanel.setText("Tag:" + tag);
-//
-//                                            showSearch();
-//                                        });
 
                                         return link;
                                     }).collect(Collectors.toList());

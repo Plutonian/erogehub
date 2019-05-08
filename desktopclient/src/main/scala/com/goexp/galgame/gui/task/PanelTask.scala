@@ -90,15 +90,15 @@ object PanelTask {
         .sortBy({ case (_, v) => v.size }).reverse
         .map({ case (comp, v) => {
 
-          val yearNode = new TreeItem[DefaultItemNode](new CompItemNode(comp, v.size, comp))
+          val compNode = new TreeItem[DefaultItemNode](new CompItemNode(comp, v.size, comp))
 
           val brandNodes = v.groupBy(g => g.brand).toStream
             .map({ case (brand, games) => new TreeItem[DefaultItemNode](new BrandItemNode(brand.name, games.size, brand)) })
             .asJava
 
-          yearNode.getChildren.addAll(brandNodes)
+          compNode.getChildren.addAll(brandNodes)
 
-          yearNode
+          compNode
 
         }
         })

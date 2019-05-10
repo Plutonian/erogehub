@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -24,80 +23,78 @@
     <center>
         <BorderPane>
             <center>
-                <VBox spacing="5.0">
+                <AnchorPane>
                     <children>
-                        <VBox>
+                        <fx:include fx:id="dateview" source="../control/date.fxml" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER" />
+                        <VBox spacing="5.0">
                             <children>
-                                <HBox>
+                                <VBox>
                                     <children>
-                                        <Text fx:id="txtName" strokeType="OUTSIDE" strokeWidth="0.0" text="OH!!マイクロマン">
-                                            <font>
-                                                <Font name="System Bold" size="24.0" />
-                                            </font>
-                                        </Text>
-                                        <Text fx:id="txtSubName" strokeType="OUTSIDE" strokeWidth="0.0" text="～小さくなって女の子の色んなトコロに入っちゃお～" HBox.hgrow="NEVER" />
+                                        <HBox>
+                                            <children>
+                                                <Text fx:id="txtName" strokeType="OUTSIDE" strokeWidth="0.0" text="OH!!マイクロマン">
+                                                    <font>
+                                                        <Font name="System Bold" size="24.0" />
+                                                    </font>
+                                                </Text>
+                                                <Text fx:id="txtSubName" strokeType="OUTSIDE" strokeWidth="0.0" text="～小さくなって女の子の色んなトコロに入っちゃお～" HBox.hgrow="NEVER" />
+                                            </children>
+                                        </HBox>
+                                        <fx:include fx:id="brandJump" source="../../../brand/brandjump.fxml" />
                                     </children>
+                                </VBox>
+
+                                <HBox fx:id="boxTag" spacing="5.0" />
+                                <HBox fx:id="boxStar">
                                 </HBox>
-                                <fx:include fx:id="brandJump" source="../../../brand/brandjump.fxml" />
-                            </children>
-                        </VBox>
-                        <GridPane>
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="68.0" />
-                                <ColumnConstraints hgrow="ALWAYS" maxWidth="600.0" minWidth="10.0" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints fillHeight="false" minHeight="30.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                            <children>
-                                <Label text="原画" textFill="#6e6d6d" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                                <fx:include fx:id="starChange" source="../control/star_choicebar.fxml" />
+                                <GridPane>
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="68.0" />
+                                        <ColumnConstraints hgrow="ALWAYS" maxWidth="600.0" minWidth="10.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints fillHeight="false" minHeight="30.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+                                        <Label text="原画" textFill="#6e6d6d" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <FlowPane fx:id="flowPainter" rowValignment="TOP" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES" />
+                                        <Label text="シナリオ" textFill="#6e6d6d">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="txtWriter" text="XX" wrapText="true" GridPane.columnIndex="1" />
+                                    </children>
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                </GridPane>
+                                <TextArea fx:id="txtStory" editable="false" prefHeight="400.0" style="-fx-background-color: #eee;" wrapText="true">
                                     <font>
                                         <Font size="14.0" />
                                     </font>
-                                </Label>
-                                <FlowPane fx:id="flowPainter" rowValignment="TOP" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES" />
-                                <Label text="シナリオ" textFill="#6e6d6d">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="txtWriter" text="XX" wrapText="true" GridPane.columnIndex="1" />
-                            </children>
-                            <opaqueInsets>
-                                <Insets />
-                            </opaqueInsets>
-                        </GridPane>
+                                </TextArea>
+                                <fx:include fx:id="webjump" source="../../../jump/websitejump.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
 
-                        <HBox fx:id="boxTag" spacing="5.0" />
-                        <HBox fx:id="boxStar">
-                        </HBox>
-                        <fx:include fx:id="starChange" source="../control/star_choicebar.fxml" />
-                        <HBox spacing="20.0">
-                            <children>
-                                <fx:include fx:id="changeState" source="../control/statechange.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" StackPane.alignment="BOTTOM_LEFT" />
                             </children>
-                        </HBox>
-                        <TextArea fx:id="txtStory" editable="false" prefHeight="400.0" style="-fx-background-color: #eee;" wrapText="true">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                        </TextArea>
-
+                        </VBox>
+                          <HBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                              <children>
+                                  <fx:include fx:id="changeState" source="../control/statechange.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
+                              </children>
+                          </HBox>
                     </children>
-                </VBox>
+                </AnchorPane>
             </center>
             <BorderPane.margin>
                 <Insets left="10.0" />
             </BorderPane.margin>
-            <right>
-                <StackPane BorderPane.alignment="CENTER">
-                    <children>
-                        <fx:include fx:id="dateview" source="../control/date.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER" StackPane.alignment="TOP_LEFT" />
-                        <fx:include fx:id="webjump" source="../../../jump/websitejump.fxml" StackPane.alignment="BOTTOM_CENTER" />
-                    </children>
-                </StackPane>
-            </right>
         </BorderPane>
     </center>
     <padding>

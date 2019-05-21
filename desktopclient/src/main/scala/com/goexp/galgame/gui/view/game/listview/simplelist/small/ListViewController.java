@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.view.game.listview.simplelist;
+package com.goexp.galgame.gui.view.game.listview.simplelist.small;
 
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
@@ -9,11 +9,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import javafx.util.Callback;
 
-public class SimpleListViewController extends DefaultController {
+
+public class ListViewController extends DefaultController {
 
     public static final Callback<ListView<Game>, ListCell<Game>> cellFactory = listView -> {
 
-        final var loader = new FXMLLoaderProxy<Region, CellController>("view/game_explorer/listview/cell.fxml");
+        final var loader = new FXMLLoaderProxy<Region, CellController>("view/game_explorer/listview/small/cell.fxml");
 
         return new ListCell<>() {
 
@@ -31,13 +32,12 @@ public class SimpleListViewController extends DefaultController {
         };
     };
 
-
     @FXML
-    private ListView<Game> listSimple;
+    private ListView<Game> smallListSimple;
 
     protected void initialize() {
 
-        listSimple.setCellFactory(cellFactory);
+        smallListSimple.setCellFactory(cellFactory);
     }
 
 }

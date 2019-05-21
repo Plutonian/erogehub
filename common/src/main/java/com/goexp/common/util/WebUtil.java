@@ -1,13 +1,11 @@
 package com.goexp.common.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.net.ProxySelector;
 import java.net.http.HttpClient;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.time.Duration;
-import java.util.zip.GZIPInputStream;
+import java.util.Objects;
 
 public class WebUtil {
 
@@ -35,16 +33,4 @@ public class WebUtil {
     }
 
 
-    public static String decodeGzip(byte[] gzipBytes, Charset charset) {
-        return charset.decode(ByteBuffer.wrap(decodeGzip(gzipBytes))).toString();
-    }
-
-    public static byte[] decodeGzip(byte[] gzipBytes) {
-        try (var s = new GZIPInputStream(new ByteArrayInputStream(gzipBytes))) {
-            return s.readAllBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

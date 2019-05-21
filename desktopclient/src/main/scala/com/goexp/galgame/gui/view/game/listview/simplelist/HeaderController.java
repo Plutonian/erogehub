@@ -2,10 +2,10 @@ package com.goexp.galgame.gui.view.game.listview.simplelist;
 
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.view.DefaultController;
+import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.res.Images;
 import com.goexp.galgame.gui.util.res.LocalRes;
-import com.goexp.galgame.gui.util.Tags;
+import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.game.HomeController;
 import com.goexp.galgame.gui.view.game.detailview.part.DateShowController;
@@ -81,7 +81,7 @@ public class HeaderController extends DefaultController {
 
 
     public void load(Game game) {
-        this.targetGame = game;
+
 
         loadWithoutImage(game);
 
@@ -92,9 +92,6 @@ public class HeaderController extends DefaultController {
             imageImg.setImage(null);
         }
 
-        //preload large
-        Images.GameImage.preloadLarge(game);
-
 
     }
 
@@ -104,6 +101,9 @@ public class HeaderController extends DefaultController {
     }
 
     public void loadWithoutImage(Game game) {
+        this.targetGame = game;
+
+
         //        webjumpController.load(game);
         changeStateController.load(game);
         brandJumpController.load(game.brand);
@@ -148,6 +148,9 @@ public class HeaderController extends DefaultController {
             imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));
         else
             imageImg.setEffect(null);
+
+        //preload large
+        Images.GameImage.preloadLarge(game);
 
     }
 }

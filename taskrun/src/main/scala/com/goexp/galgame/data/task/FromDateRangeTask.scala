@@ -18,7 +18,7 @@ object FromDateRangeTask {
     new Piplline(new FromDateRange(start, end))
       .regForCPUType(MesType.PRE_GAME, new PreProcessGame)
       .regForIOType(MesType.NEED_DOWN_GAME, new DownloadGameHandler)
-      .regForCPUType(MesType.Game, new LocalGameHandler)
+      .regForIOType(MesType.Game, new LocalGameHandler,2)
       .regForCPUType(MesType.ContentBytes, new Bytes2Html)
       .regForCPUType(MesType.ContentHtml, new Html2GameOK)
       .regForCPUType(MesType.GAME_OK, new ProcessGameOK)

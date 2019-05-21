@@ -50,7 +50,7 @@ class ProcessGameOK extends DefaultMessageHandler[Game] {
     val localGame = GameQuery.fullTlp.query.where(Filters.eq(remoteGame.id)).one
 
     if (!Objects.equals(localGame, remoteGame)) {
-      logger.debug(s"\nOld:$localGame\nNew:$remoteGame\n")
+      logger.info(s"\nOld:${localGame.simpleView()}\nNew:${remoteGame.simpleView()}\n")
       GameDB.updateAll(remoteGame)
     }
 

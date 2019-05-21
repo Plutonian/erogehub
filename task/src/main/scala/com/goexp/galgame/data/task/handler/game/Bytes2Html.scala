@@ -1,9 +1,7 @@
 package com.goexp.galgame.data.task.handler.game
 
-import java.util.Objects
-
-import com.goexp.common.util.WebUtil
-import com.goexp.galgame.data.piplline.core.{Message, MessageQueueProxy}
+import com.goexp.common.util.{Gzip, WebUtil}
+import com.goexp.galgame.data.piplline.core.Message
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler
 import com.goexp.galgame.data.task.client.GetChu
 import com.goexp.galgame.data.task.handler.MesType
@@ -17,7 +15,7 @@ class Bytes2Html extends DefaultMessageHandler[(Int, Array[Byte])] {
 
     logger.debug("<Bytes2Html> {}", id)
 
-    val html = (id, Objects.requireNonNull(WebUtil.decodeGzip(bytes, GetChu.DEFAULT_CHARSET)))
+    val html = (id, Gzip.decode(bytes, GetChu.DEFAULT_CHARSET))
 
     send(new Message[(Int, String)](MesType.ContentHtml, html))
   }

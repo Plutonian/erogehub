@@ -7,7 +7,7 @@ import java.nio.charset.Charset
 import java.nio.file.{Files, Path, StandardCopyOption, StandardOpenOption}
 import java.time.LocalDate
 
-import com.goexp.common.util.WebUtil
+import com.goexp.common.util.{Gzip, WebUtil}
 import com.goexp.galgame.common.website.GetchuURL
 import com.goexp.galgame.common.website.GetchuURL.{GameList, Game => GameUrl}
 import com.goexp.galgame.data.Config
@@ -23,7 +23,7 @@ object GetChu {
   def getHtml(request: HttpRequest): String = {
     try {
       val bytes = WebUtil.httpClient.send(request, ofByteArray).body
-      return WebUtil.decodeGzip(bytes, DEFAULT_CHARSET)
+      return Gzip.decode(bytes, DEFAULT_CHARSET)
     } catch {
       case e@(_: InterruptedException | _: IOException) =>
         e.printStackTrace()
@@ -43,15 +43,6 @@ object GetChu {
       Files.move(tempPath, localPath, StandardCopyOption.REPLACE_EXISTING)
     }
 
-    @throws[ParseException]
-    def getFrom(gameId: Int, html: String): Game = {
-      val parser = new DetailPageParser
-      try parser.parse(gameId, html)
-      catch {
-        case e: Exception =>
-          throw new ParseException
-      }
-    }
   }
 
   object BrandService {
@@ -59,7 +50,7 @@ object GetChu {
       try {
         val request = GetchuURL.RequestBuilder.create(GameList.byBrand(brandId)).adaltFlag.build
         val bytes = WebUtil.httpClient.send(request, ofByteArray).body
-        val html = WebUtil.decodeGzip(bytes, DEFAULT_CHARSET)
+        val html = Gzip.decode(bytes, DEFAULT_CHARSET)
         new ListPageParser().parse(html)
       } catch {
         case e@(_: IOException | _: InterruptedException) =>
@@ -76,7 +67,7 @@ object GetChu {
 
         val bytes = WebUtil.httpClient.send(request, ofByteArray).body
 
-        val html = WebUtil.decodeGzip(bytes, DEFAULT_CHARSET)
+        val html = Gzip.decode(bytes, DEFAULT_CHARSET)
         return new ListPageParser().parse(html)
       } catch {
         case e@(_: IOException | _: InterruptedException) =>
@@ -87,7 +78,7 @@ object GetChu {
     }
 
     def gamesFrom(bytes: Array[Byte]): Stream[Game] = {
-      val html = WebUtil.decodeGzip(bytes, DEFAULT_CHARSET)
+      val html = Gzip.decode(bytes, DEFAULT_CHARSET)
       new ListPageParser().parse(html)
     }
 

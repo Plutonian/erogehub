@@ -3,11 +3,13 @@ package com.goexp.galgame.gui.view.game.listview;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.PanelTask;
-import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.task.TaskService;
+import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.game.listview.sidebar.BrandGroupController;
 import com.goexp.galgame.gui.view.game.listview.sidebar.DateGroupController;
 import com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController;
+import com.goexp.galgame.gui.view.game.listview.simplelist.SimpleListViewController;
+import com.goexp.galgame.gui.view.game.listview.simplelist.small.ListViewController;
 import com.goexp.galgame.gui.view.game.listview.tableview.TableController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -29,21 +31,31 @@ public class DataViewController extends DefaultController {
 
     public BooleanProperty reloadProperty = new SimpleBooleanProperty(false);
 
+    /**
+     * Controllers
+     */
     @FXML
     public TableController tableViewController;
-
-    @FXML
-    public ProgressBar progessloading;
-    @FXML
-    public Accordion groupPanel;
     @FXML
     private FilterPanelController filterPanelController;
     @FXML
     private BrandGroupController brandGroupController;
     @FXML
     private DateGroupController dateGroupController;
+
+
+    /**
+     * Status bar
+     */
     @FXML
     private Label lbItemCount;
+    @FXML
+    public ProgressBar progessloading;
+
+
+    /**
+     * Toggle
+     */
     @FXML
     private ToggleGroup gameViewChange;
     @FXML
@@ -51,19 +63,36 @@ public class DataViewController extends DefaultController {
     @FXML
     private ToggleButton toggGrid;
     @FXML
+    private ToggleButton toggSmall;
+    @FXML
     private ToggleButton toggImg;
+
+
+    /**
+     * main panel
+     */
     @FXML
     private TableView<Game> tableView;
     @FXML
     private ListView<Game> listSimple;
+//    @FXML
+//    private ListView<Game> smallListSimple;
     @FXML
     private Region imgView;
+
+
+    /**
+     * Sidebar
+     */
+    @FXML
+    public Accordion groupPanel;
     @FXML
     private Region filterPanel;
     @FXML
     private Button btnHide;
     @FXML
     private VBox tagFlow;
+
 
     private FilteredList<Game> filteredGames;
 
@@ -88,12 +117,20 @@ public class DataViewController extends DefaultController {
 
     private void initSwitchBar() {
         toggGrid.setUserData(tableView);
+        toggSmall.setUserData(listSimple);
         toggList.setUserData(listSimple);
         toggImg.setUserData(imgView);
 
         gameViewChange.selectedToggleProperty().addListener((observable, oldValue, checkedBox) -> {
             if (checkedBox != null) {
                 ((Region) checkedBox.getUserData()).toFront();
+
+                if (checkedBox == toggList) {
+                    listSimple.setCellFactory(SimpleListViewController.cellFactory);
+
+                } else if (checkedBox == toggSmall) {
+                    listSimple.setCellFactory(ListViewController.cellFactory);
+                }
             } else {
                 gameViewChange.selectToggle(oldValue);
             }
@@ -200,9 +237,10 @@ public class DataViewController extends DefaultController {
         tableView.setItems(sortedData);
         tableView.scrollTo(0);
 
+        listSimple.setCellFactory(ListViewController.cellFactory);
+
         listSimple.setItems(sortedData);
         listSimple.scrollTo(0);
-
     }
 
 //    private void loadItems(ObservableList<Game> sortedData) {

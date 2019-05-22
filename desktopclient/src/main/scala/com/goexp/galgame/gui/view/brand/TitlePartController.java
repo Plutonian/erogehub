@@ -1,15 +1,16 @@
 package com.goexp.galgame.gui.view.brand;
 
+import com.goexp.common.util.Strings;
 import com.goexp.galgame.common.model.BrandType;
 import com.goexp.galgame.common.website.GGBasesURL;
 import com.goexp.galgame.common.website.GetchuURL;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.task.TaskService;
 import com.goexp.galgame.gui.task.brand.BrandChangeTask;
 import com.goexp.galgame.gui.task.brand.BrandListTask;
 import com.goexp.galgame.gui.task.game.ChangeGameTask;
 import com.goexp.galgame.gui.view.DefaultController;
-import com.goexp.galgame.gui.task.TaskService;
 import com.goexp.galgame.gui.view.common.control.URLHyperlink;
 import com.goexp.galgame.gui.view.game.HomeController;
 import javafx.beans.property.BooleanProperty;
@@ -40,7 +41,7 @@ public class TitlePartController extends DefaultController {
 
     public BooleanProperty stateChangeProperty = new SimpleBooleanProperty(false);
     @FXML
-    private Text txtBrand;
+    private Text txtComp;
     @FXML
     private MenuButton menuComp;
     @FXML
@@ -140,14 +141,14 @@ public class TitlePartController extends DefaultController {
         stateChangeProperty.set(false);
 
         changeBrand = brand;
-        txtBrand.setText(brand.name);
+        menuComp.setText(brand.name);
 
-        if (brand.comp != null && !brand.comp.isEmpty()) {
-            menuComp.setVisible(true);
-            menuComp.setText(brand.comp);
+        if (Strings.isNotEmpty(brand.comp)) {
+            txtComp.setText(brand.comp);
             listBrandService.restart();
-        } else
-            menuComp.setVisible(false);
+        } else {
+//            menuComp.setVisible(false);
+        }
 
         boxWebsite.getChildren().clear();
 

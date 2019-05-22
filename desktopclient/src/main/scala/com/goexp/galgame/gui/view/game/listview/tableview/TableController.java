@@ -31,6 +31,10 @@ public class TableController extends DefaultController {
 
     @FXML
     public TableView<Game> table;
+
+    /**
+     * Columns
+     */
     @FXML
     public TableColumn<Game, List<String>> tableColTag;
     @FXML
@@ -49,8 +53,9 @@ public class TableController extends DefaultController {
     public TableColumn<Game, LocalDate> tableColDate;
     @FXML
     public TableColumn<Game, String> tableColTitle;
-    @FXML
-    public TableColumn<Game, String> tableColCommand;
+
+
+
     @FXML
     private ContextMenu menuPopup;
     private List<Game> selectedGames;
@@ -184,31 +189,6 @@ public class TableController extends DefaultController {
         });
 
 
-        tableColBrand.setCellFactory(col -> {
-            final var loader = new FXMLLoaderProxy<Region, JumpBrandController>("view/brand/brandjump.fxml");
-
-            return new TableCell<>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    this.setGraphic(null);
-                    this.setText(null);
-
-                    if (item != null && !empty) {
-
-                        var game = this.getTableRow().getItem();
-
-                        if (game != null) {
-                            loader.controller.load(game.brand);
-
-                            this.setGraphic(loader.node);
-                        }
-
-                    }
-                }
-            };
-        });
-
         tableColTitle.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -231,33 +211,6 @@ public class TableController extends DefaultController {
             }
         });
 
-        tableColCommand.setCellFactory(col -> {
-            final var loader = new FXMLLoaderProxy<Region, JumpLinkController>("view/jump/websitejump.fxml");
-
-            return new TableCell<>() {
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    this.setGraphic(null);
-                    this.setText(null);
-
-                    if (item != null && !empty) {
-
-                        var game = this.getTableRow().getItem();
-
-                        if (game != null) {
-                            Hyperlink viewLink = new Hyperlink("View");
-                            viewLink.setOnAction((e) -> {
-
-                                HomeController.$this.loadDetail(game);
-                            });
-                            loader.controller.load(game);
-
-                            this.setGraphic(new HBox(viewLink, loader.node));
-                        }
-                    }
-                }
-            };
-        });
 
         tableColState.setCellFactory(col -> new TableCell<>() {
             @Override

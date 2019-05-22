@@ -19,8 +19,6 @@
         <TableColumn fx:id="tableColPainter" prefWidth="200.0" text="原画"/>
         <TableColumn fx:id="tableColWriter" prefWidth="191.0" text="シナリオ" visible="false"/>
         <TableColumn fx:id="tableColTag" prefWidth="300.0" sortable="false" text="Tag"/>
-        <TableColumn fx:id="tableColCommand" editable="false" minWidth="79.0" prefWidth="120.0" resizable="false"
-                     sortable="false" text="Command"/>
     </columns>
     <contextMenu>
         <ContextMenu fx:id="menuPopup"/>

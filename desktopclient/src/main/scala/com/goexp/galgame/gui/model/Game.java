@@ -2,10 +2,12 @@ package com.goexp.galgame.gui.model;
 
 import com.goexp.galgame.common.model.CommonGame;
 import com.goexp.galgame.common.model.GameState;
+import javafx.beans.property.ObjectPropertyBase;
 import javafx.beans.property.SimpleObjectProperty;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
@@ -99,6 +101,13 @@ public class Game extends CommonGame {
                 .add("brand=" + brand)
                 .add("star=" + star)
                 .toString();
+    }
+
+    public boolean isOkState() {
+        return Optional.ofNullable(this.state)
+                .map(ObjectPropertyBase::get)
+                .map(gs -> gs.getValue() >= GameState.UNCHECKED.getValue())
+                .orElse(false);
     }
 
     //    @Override

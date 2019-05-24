@@ -2,6 +2,7 @@ package com.goexp.galgame.data.piplline.core;
 
 import com.goexp.galgame.data.piplline.exception.RuntimeInterruptedException;
 import com.goexp.galgame.data.piplline.handler.HandlerConfig;
+import com.goexp.galgame.data.piplline.handler.HandlerConfigGroup;
 import com.goexp.galgame.data.piplline.handler.Starter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,6 +72,17 @@ public class Piplline {
 
     public Piplline regForIOType(int mesCode, MessageHandler handler, ExecutorService executor) {
         return registry(mesCode, handler, executor);
+    }
+
+    public Piplline regGroup(HandlerConfigGroup group) {
+
+        var i = group.configs().iterator();
+
+        while (i.hasNext()) {
+            registry(i.next());
+        }
+
+        return this;
     }
 
     public void start() {

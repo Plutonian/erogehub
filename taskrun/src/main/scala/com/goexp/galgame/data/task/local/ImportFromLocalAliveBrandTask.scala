@@ -4,11 +4,11 @@ import com.goexp.galgame.common.model.GameState
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.db.importor.mongdb.GameDB
 import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, GameQuery}
-import com.goexp.galgame.data.piplline.core.{Message, MessageQueueProxy, Piplline}
+import com.goexp.galgame.data.piplline.core.{Message, Piplline}
 import com.goexp.galgame.data.piplline.handler.{DefaultMessageHandler, DefaultStarter}
 import com.goexp.galgame.data.task.download.contentprovider.brand.LocalProvider
 import com.goexp.galgame.data.task.handler.MesType
-import com.goexp.galgame.data.task.handler.game.{Bytes2Html, Html2GameOK, LocalGameHandler, ProcessGameOK}
+import com.goexp.galgame.data.task.handler.game.DefaultGameProcessGroup
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 
@@ -22,10 +22,7 @@ object ImportFromLocalAliveBrandTask {
 
     new Piplline(new ImportFromLocalAliveBrandTask.StartFromAllAliveBrand)
       .regForCPUType(MesType.Brand, new ProcessGameList)
-      .regForCPUType(MesType.Game, new LocalGameHandler)
-      .regForCPUType(MesType.ContentBytes, new Bytes2Html)
-      .regForCPUType(MesType.ContentHtml, new Html2GameOK)
-      .regForCPUType(MesType.GAME_OK, new ProcessGameOK)
+      .regGroup(DefaultGameProcessGroup)
       .start()
   }
 

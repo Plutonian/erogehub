@@ -6,7 +6,8 @@ import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
 import com.goexp.galgame.gui.task.game.GameCharListTask;
 import com.goexp.galgame.gui.task.game.GameImgListTask;
-import com.goexp.galgame.gui.util.*;
+import com.goexp.galgame.gui.util.FXMLLoaderProxy;
+import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.res.Images;
 import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
@@ -65,7 +66,7 @@ public class ContentViewController extends DefaultController {
 
                     if (gameCharacter != null && !empty) {
                         var controller = loader.controller;
-                        controller.gameId = game.id;
+                        controller.game = game;
                         controller.gameChar = gameCharacter;
                         controller.init();
                         setGraphic(loader.node);
@@ -240,7 +241,8 @@ public class ContentViewController extends DefaultController {
 
     public static class PersonCellController extends DefaultController {
         Game.GameCharacter gameChar;
-        int gameId;
+
+        private Game game;
 
         @FXML
         private CVSearchController cvsearchController;
@@ -297,7 +299,7 @@ public class ContentViewController extends DefaultController {
 
             if (gameChar.img != null && gameChar.img.length() > 0) {
 
-                imageImg.setImage(Images.GameImage.GameChar.small(gameId, gameChar.index, gameChar.img));
+                imageImg.setImage(Images.GameImage.GameChar.small(game, gameChar.index, gameChar.img));
             } else {
                 imageImg.setImage(null);
             }
@@ -347,7 +349,7 @@ public class ContentViewController extends DefaultController {
                         setText(null);
 
                         if (!empty) {
-                            setGraphic(new ImageView(Images.GameImage.Simple.small(game.id, item.index, item.src)));
+                            setGraphic(new ImageView(Images.GameImage.Simple.small(game, item.index, item.src)));
                         }
 
                     }
@@ -357,7 +359,7 @@ public class ContentViewController extends DefaultController {
             listSmallSimple.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, simpleLargeImage) -> {
 
                 if (simpleLargeImage != null) {
-                    largeSimple.setImage(Images.GameImage.Simple.large(game.id, simpleLargeImage.index, simpleLargeImage.src));
+                    largeSimple.setImage(Images.GameImage.Simple.large(game, simpleLargeImage.index, simpleLargeImage.src));
                 }
             });
 

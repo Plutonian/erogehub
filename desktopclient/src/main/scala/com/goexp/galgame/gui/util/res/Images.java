@@ -24,19 +24,19 @@ public class Images {
     public static class GameImage {
 
         public static Image tiny(Game game) {
-            return Util.getImage(new CacheKey(game.id + "/game_t", game.smallImg));
+            return Util.getImage(game, new CacheKey(game.id + "/game_t", game.smallImg));
         }
 
         public static Image small(Game game) {
             final var url = GetchuURL.Game.SmallImg(game.id);
 
-            return Util.getImage(new CacheKey(game.id + "/game_s", url));
+            return Util.getImage(game, new CacheKey(game.id + "/game_s", url));
         }
 
         public static Image large(Game game) {
             final var url = GetchuURL.Game.LargeImg(game.id);
 
-            return Util.getImage(new CacheKey(game.id + "/game_l", url));
+            return Util.getImage(game, new CacheKey(game.id + "/game_l", url));
         }
 
         public static void preloadLarge(Game game) {
@@ -47,25 +47,25 @@ public class Images {
 
         public static class Simple {
 
-            public static Image small(int gameId, int index, String src) {
+            public static Image small(Game game, int index, String src) {
                 final var url = GetchuURL.Game.smallSimpleImg(src);
 
-                return Util.getImage(new CacheKey(gameId + "/simple_s_" + index, url));
+                return Util.getImage(game, new CacheKey(game.id + "/simple_s_" + index, url));
             }
 
-            public static Image large(int gameId, int index, String src) {
+            public static Image large(Game game, int index, String src) {
                 final var url = GetchuURL.Game.largeSimpleImg(src);
 
-                return Util.getImage(new CacheKey(gameId + "/simple_l_" + index, url));
+                return Util.getImage(game, new CacheKey(game.id + "/simple_l_" + index, url));
             }
         }
 
         public static class GameChar {
 
-            public static Image small(int gameId, int index, String src) {
+            public static Image small(Game game, int index, String src) {
                 final var url = GetchuURL.Game.getUrlFromSrc(src);
 
-                return Util.getImage(new CacheKey(gameId + "/char_s_" + index, url));
+                return Util.getImage(game, new CacheKey(game.id + "/char_s_" + index, url));
             }
         }
 
@@ -74,7 +74,7 @@ public class Images {
     private static class Util {
         private static final Logger logger = LoggerFactory.getLogger(Util.class);
 
-        private static Image getImage(CacheKey cacheKey) {
+        private static Image getImage(Game game, CacheKey cacheKey) {
             Objects.requireNonNull(cacheKey);
             Objects.requireNonNull(cacheKey.getDiskCacheKey());
             Objects.requireNonNull(cacheKey.getMemCacheKey());
@@ -97,13 +97,18 @@ public class Images {
                                 fromDisk(localPath) :
                                 loadRemote(cacheKey.getMemCacheKey(), image1 -> {
 
-                                    try {
-                                        Files.createDirectories(localPath.getParent());
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+
+                                    // only save not blocked
+                                    if (game.isOkState()) {
+                                        try {
+                                            Files.createDirectories(localPath.getParent());
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        saveImage(image1, localPath);
                                     }
 
-                                    saveImage(image1, localPath);
                                 });
 
                         //memCacheKey as cache key

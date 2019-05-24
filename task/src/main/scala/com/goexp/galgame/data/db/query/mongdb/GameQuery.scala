@@ -15,6 +15,10 @@ object GameQuery {
   lazy val fullTlpWithChar = new DBQueryTemplate.Builder[Game](DB_NAME, "game", SimpleGame)
     .defaultSelect(exclude("simpleImg"))
     .build
+  lazy val simpleTlp = new DBQueryTemplate.Builder[Game](DB_NAME, "game", SimpleGame)
+    .defaultSelect(exclude("gamechar"))
+    .defaultSelect(exclude("simpleImg"))
+    .build
 
 
   object SimpleGame extends ObjectCreator[Game] {

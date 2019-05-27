@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<TabPane side="RIGHT" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.detailview.ContentViewController">
+<TabPane fx:id="contentTabPane" side="RIGHT" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.detailview.ContentViewController">
     <tabs>
         <Tab text="Home">
             <content>
@@ -30,12 +30,12 @@
                 </ScrollPane>
             </content>
         </Tab>
-        <Tab text="キャラクター">
+        <Tab fx:id="tabPerson" text="キャラクター">
             <content>
                 <ListView fx:id="persionListView" />
             </content>
         </Tab>
-        <Tab text="サンプル画像">
+        <Tab fx:id="tabSimple" text="サンプル画像">
             <content>
                 <!--                <TitledPane collapsible="false" text="サンプル画像">-->
                 <!--                    <content>-->

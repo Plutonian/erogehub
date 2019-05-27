@@ -4,7 +4,6 @@ import com.goexp.galgame.common.model.CommonGame;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
-import com.goexp.galgame.gui.task.game.GameCharListTask;
 import com.goexp.galgame.gui.task.game.GameImgListTask;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.util.Tags;
@@ -32,6 +31,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 
+import java.util.List;
+import java.util.Optional;
+
 import static com.goexp.galgame.common.util.GameName.NAME_SPLITER_REX;
 
 
@@ -47,8 +49,15 @@ public class ContentViewController extends DefaultController {
     @FXML
     private ListView<CommonGame.GameCharacter> persionListView;
 
+    @FXML
+    private TabPane contentTabPane;
+    @FXML
+    private Tab tabPerson;
+    @FXML
+    private Tab tabSimple;
 
-    private Service<ObservableList<Game.GameCharacter>> charListByGameService = new TaskService<>(() -> new GameCharListTask(game.id));
+
+//    private Service<ObservableList<Game.GameCharacter>> charListByGameService = new TaskService<>(() -> new GameCharListTask(game.id));
 
 
     protected void initialize() {
@@ -76,11 +85,11 @@ public class ContentViewController extends DefaultController {
         });
 
 
-        charListByGameService.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                persionListView.setItems(newValue);
-            }
-        });
+//        charListByGameService.valueProperty().addListener((observable, oldValue, newValue) -> {
+//            if (newValue != null) {
+//                persionListView.setItems(newValue);
+//            }
+//        });
 
     }
 
@@ -94,9 +103,26 @@ public class ContentViewController extends DefaultController {
 
         headerController.load(game);
 
-        charListByGameService.restart();
+        /**
+         * pserion
+         */
+        var persionSize = Optional.ofNullable(game.gameCharacters).map(List::size).orElse(0);
 
-        simpleImgController.load(game);
+        if (persionSize == 0) {
+            contentTabPane.getTabs().remove(tabPerson);
+        } else {
+            persionListView.setItems(FXCollections.observableList(game.gameCharacters));
+        }
+
+
+        var imgsSize = Optional.ofNullable(game.gameImgs).map(List::size).orElse(0);
+
+        if (imgsSize == 0) {
+            contentTabPane.getTabs().remove(tabSimple);
+        } else {
+            simpleImgController.load(game);
+        }
+
 
         logger.debug("{}", game);
 
@@ -323,21 +349,21 @@ public class ContentViewController extends DefaultController {
         private ImageView largeSimple;
 
 
-        private Service<ObservableList<Game.GameImg>> imgListService = new TaskService<>(() -> new GameImgListTask(game.id));
+//        private Service<ObservableList<Game.GameImg>> imgListService = new TaskService<>(() -> new GameImgListTask(game.id));
 
 
         protected void initialize() {
 
 
-            imgListService.valueProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue != null) {
-                    listSmallSimple.setItems(FXCollections.observableArrayList(newValue));
-
-                    if (newValue.size() > 0) {
-                        listSmallSimple.getSelectionModel().select(0);
-                    }
-                }
-            });
+//            imgListService.valueProperty().addListener((observable, oldValue, newValue) -> {
+//                if (newValue != null) {
+//                    listSmallSimple.setItems(FXCollections.observableArrayList(newValue));
+//
+//                    if (newValue.size() > 0) {
+//                        listSmallSimple.getSelectionModel().select(0);
+//                    }
+//                }
+//            });
 
             listSmallSimple.setCellFactory(gameImgListView -> {
                 return new ListCell<>() {
@@ -372,17 +398,10 @@ public class ContentViewController extends DefaultController {
             listSmallSimple.getSelectionModel().clearSelection();
             largeSimple.setImage(null);
 
-
-            //        listSmallSimple.setItems(FXCollections.observableArrayList(game.gameImgs));
-            //
-            //        if (game.gameImgs.size() > 0) {
-            //            listSmallSimple.getSelectionModel().select(0);
-            //        }
-
-            imgListService.restart();
+            listSmallSimple.setItems(FXCollections.observableArrayList(game.gameImgs));
+            listSmallSimple.getSelectionModel().select(0);
 
             logger.debug("{}", game);
-
 
         }
 

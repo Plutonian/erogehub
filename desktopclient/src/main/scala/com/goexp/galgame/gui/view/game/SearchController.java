@@ -2,17 +2,16 @@ package com.goexp.galgame.gui.view.game;
 
 import com.goexp.galgame.gui.task.game.GameSearchTask;
 import com.goexp.galgame.gui.view.DefaultController;
-import com.goexp.galgame.gui.util.TabSelect;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.BorderPane;
 
 import java.util.Arrays;
 
@@ -34,46 +33,32 @@ public class SearchController extends DefaultController {
     @FXML
     private Button btnSearchGame;
 
-//    public String getKey() {
-//        return key;
-//    }
-//
-//    public SearchType getSearchType() {
-//        return searchType;
-//    }
-
+    @FXML
+    private BorderPane searchPanel;
 
     protected void initialize() {
         onLoadProperty.addListener((observable, oldValue, newValue) -> {
             if (newValue != null && newValue) {
 
-                final var text = searchType.name() + ":" + key;
-
-                TabSelect.from().ifNotFind(() -> {
-
-                    var conn = new CommonTabController(() -> {
-                        switch (searchType) {
-                            case Simple: {
-                                return new GameSearchTask.ByName(key);
-                            }
-                            case Extend: {
-                                return new GameSearchTask.ByNameEx(key);
-                            }
-                            case Full: {
-                                return new GameSearchTask.ByTag(key);
-                            }
+                var conn = new CommonTabController(() -> {
+                    switch (searchType) {
+                        case Simple: {
+                            return new GameSearchTask.ByName(key);
                         }
+                        case Extend: {
+                            return new GameSearchTask.ByNameEx(key);
+                        }
+                        case Full: {
+                            return new GameSearchTask.ByTag(key);
+                        }
+                    }
 
-                        return null;
-                    });
+                    return null;
+                });
 
+                searchPanel.setCenter(conn.node);
+                conn.load();
 
-                    var tab = new Tab(text, conn.node);
-//                            tab.setGraphic(new ImageView(LocalRes.SEARCH_16_PNG.get()));
-
-                    conn.load();
-                    return tab;
-                }).select(text);
             }
         });
 

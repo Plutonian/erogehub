@@ -113,7 +113,7 @@
                 <Insets />
             </BorderPane.margin>
             <left>
-                <AnchorPane BorderPane.alignment="CENTER">
+                <AnchorPane prefHeight="180.0" prefWidth="120.0" BorderPane.alignment="CENTER">
                     <children>
                         <ImageView fx:id="imageImg" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <image>

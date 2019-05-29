@@ -185,8 +185,8 @@ public class MainPanelController extends DefaultController {
         choiceBrandType.setItems(FXCollections.observableArrayList(types));
         choiceBrandType.setConverter(new StringConverter<>() {
             @Override
-            public String toString(BrandType object) {
-                return object.getName();
+            public String toString(BrandType brandType) {
+                return brandType.name;
             }
 
             @Override

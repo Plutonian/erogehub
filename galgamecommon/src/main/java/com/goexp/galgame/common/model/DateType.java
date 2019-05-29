@@ -11,9 +11,9 @@ public enum DateType {
     NEXTMONTH("来月", LocalDate.now().withDayOfMonth(1).plusMonths(1), LocalDate.now().withDayOfMonth(1).plusMonths(2).minusDays(1));
 
 
-    private String name;
-    private LocalDate start;
-    private LocalDate end;
+    public final String name;
+    public final LocalDate start;
+    public final LocalDate end;
 
     DateType(String name, LocalDate start, LocalDate end) {
         this.name = name;
@@ -21,15 +21,4 @@ public enum DateType {
         this.end = end;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public LocalDate getStart() {
-        return start;
-    }
-
-    public LocalDate getEnd() {
-        return end;
-    }
 }

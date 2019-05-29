@@ -43,7 +43,7 @@ public class StateChangeChoiceBarController extends DefaultController {
                 .map(gameType -> {
                     var toggle = new ToggleButton();
                     toggle.setUserData(gameType);
-                    toggle.setText(gameType.getName());
+                    toggle.setText(gameType.name);
                     toggle.setToggleGroup(groupLike);
 
                     return toggle;

@@ -12,7 +12,7 @@ object GuideDB {
     val doc = new Document("_id", item.id)
       .append("title", item.title)
       .append("href", item.href)
-      .append("from", item.from.getValue)
+      .append("from", item.from.value)
 
     tlp.exec(gameC => {
       gameC.insertOne(doc)

@@ -221,7 +221,7 @@ public class DataViewController extends DefaultController {
 
 
     public void load(ObservableList<Game> games) {
-        Predicate<Game> defaultP = g -> g.state.get().getValue() > GameState.BLOCK.getValue() && !(g.star > 0 && g.star < 3);
+        Predicate<Game> defaultP = g -> g.state.get().value > GameState.BLOCK.value && !(g.star > 0 && g.star < 3);
         load(games, defaultP);
     }
 

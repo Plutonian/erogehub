@@ -174,7 +174,7 @@ public class HomeController extends DefaultController {
         return gameState.stream()
                 .map(type -> {
                     var link = new Hyperlink();
-                    link.setText(type.getName());
+                    link.setText(type.name);
                     link.setUserData(type);
                     link.setOnAction(event -> {
                         var conn = new CommonTabController(() -> new GameSearchTask.ByState(type));
@@ -182,7 +182,7 @@ public class HomeController extends DefaultController {
                         conn.controller.tableViewController.tableColStar.setVisible(false);
                         conn.controller.tableViewController.tableColState.setVisible(false);
 
-                        final var text = type.getName();
+                        final var text = type.name;
 
                         TabSelect.from().ifNotFind(() -> {
 
@@ -346,6 +346,19 @@ public class HomeController extends DefaultController {
             return tab;
         }).select("Brand");
 
+    }
+
+    @FXML
+    private void linkGuide_OnAction(ActionEvent actionEvent) throws IOException {
+
+        TabSelect.from().ifNotFind(() -> {
+            final var loader = new FXMLLoaderProxy<Region, com.goexp.galgame.gui.view.guide.SearchController>("view/guide/panel.fxml");
+
+            var tab = new Tab("攻略", loader.node);
+            loader.controller.load();
+
+            return tab;
+        }).select("攻略");
 
     }
 

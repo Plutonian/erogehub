@@ -14,8 +14,8 @@ public enum BrandType {
     MARK("mark", 100);
 
 
-    private String name;
-    private int value;
+    public final String name;
+    public final int value;
 
     BrandType(String name, int value) {
         this.name = name;
@@ -38,14 +38,6 @@ public enum BrandType {
                     return type.name.equals(name);
                 })
                 .findFirst().orElseThrow();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getValue() {
-        return value;
     }
 
     @Override

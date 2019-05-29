@@ -58,6 +58,7 @@
                                 <Hyperlink fx:id="linkTags" onAction="#linkTags_OnAction"/>
                                 <Hyperlink fx:id="linkCV" onAction="#linkCV_OnAction"/>
                                 <Hyperlink fx:id="linkBrand" onAction="#linkBrand_OnAction" text="ブランド"/>
+                                <Hyperlink fx:id="linkGuide" onAction="#linkGuide_OnAction" text="攻略"/>
                             </children>
                         </VBox>
                     </content>

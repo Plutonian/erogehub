@@ -4,13 +4,13 @@ import java.util._
 
 import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
 import com.goexp.galgame.common.db.mongo.DB_NAME
-import com.goexp.galgame.common.db.mongo.query.{CVCreator, CommonBrandCreator, CommonGameCreator}
+import com.goexp.galgame.common.db.mongo.query.{CVCreator, CommonBrandCreator, CommonGameCreator, GuideCreator}
 import com.goexp.galgame.common.model._
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.util.cache.AppCache
 import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Projections.{exclude, include}
-import com.mongodb.client.model.Sorts.descending
+import com.mongodb.client.model.Projections.include
+import com.mongodb.client.model.Sorts.{ascending, descending}
 import org.bson.Document
 import org.slf4j.LoggerFactory
 
@@ -39,6 +39,7 @@ object Query {
 
   object GameQuery {
     private val TABLE_NAME = "game"
+
     object SimpleGame extends ObjectCreator[Game] {
       final private val logger = LoggerFactory.getLogger(SimpleGame.getClass)
 
@@ -64,7 +65,7 @@ object Query {
     }
 
     val tlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
-//      .defaultSelect(exclude("gamechar", "simpleImg"))
+      //      .defaultSelect(exclude("gamechar", "simpleImg"))
       .defaultSort(descending("publishDate", "name")).build
     val imgTlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame).defaultSelect(include("simpleImg")).build
     val personTlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame).defaultSelect(include("gamechar")).build
@@ -80,6 +81,15 @@ object Query {
       t
     }
     val tlp = new DBQueryTemplate.Builder[TagType](DB_NAME, "tag", creator).build
+  }
+
+  object GuideQuery {
+    //    private val logger = LoggerFactory.getLogger(GuideQuery.getClass)
+
+    val tlp = new DBQueryTemplate.Builder[CommonGame.Guide](DB_NAME, "guide", GuideCreator)
+      .defaultSort(ascending("title"))
+      .build
+
   }
 
 }

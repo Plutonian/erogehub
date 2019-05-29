@@ -29,12 +29,12 @@ object Sagaoz_net {
 
     override def process() = {
       val locals = GuideQuery.tlp.query
-        .where(Filters.eq("from", DataFrom.sagaoz_net.getValue))
+        .where(Filters.eq("from", DataFrom.sagaoz_net.value))
         .set.asScala
 
       logger.info(s"Local:${locals.size}")
 
-      val req = HttpRequest.newBuilder.uri(URI.create("http://sagaoz.net/foolmaker/game.html")).build
+      val req = HttpRequest.newBuilder.uri(URI.create(DataFrom.sagaoz_net.href)).build
       try {
         val html = noneProxyClient.send(req, ofString(CHARSET)).body
 

@@ -20,7 +20,7 @@ object GameDB {
       .append("smallImg", game.smallImg)
       .append("state", 0)
       .append("star", 0)
-      .append("state", game.state.getValue)
+      .append("state", game.state.value)
       .append("brandId", game.brandId)
 
     tlp.exec(documentMongoCollection => {
@@ -89,7 +89,7 @@ object GameDB {
   object StateDB {
     def update(game: Game) =
       tlp.exec(documentMongoCollection => {
-        documentMongoCollection.updateOne(Filters.eq(game.id), set("state", game.state.getValue))
+        documentMongoCollection.updateOne(Filters.eq(game.id), set("state", game.state.value))
       })
   }
 

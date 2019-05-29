@@ -28,19 +28,19 @@ object GameDB {
   object StateDB {
     def update(game: Game): Unit =
       tlp.exec(documentMongoCollection => {
-        documentMongoCollection.updateOne(equal(game.id), set("state", game.state.get.getValue))
+        documentMongoCollection.updateOne(equal(game.id), set("state", game.state.get.value))
       })
 
     def update(brandId: Int): Unit =
       tlp.exec(documentMongoCollection => {
-        documentMongoCollection.updateMany(equal("brandId", brandId), set("state", GameState.BLOCK.getValue))
+        documentMongoCollection.updateMany(equal("brandId", brandId), set("state", GameState.BLOCK.value))
 
       })
 
     def batchUpdate(games: util.List[Game]): Unit =
       tlp.exec(documentMongoCollection => {
         games.forEach((game: Game) => {
-          documentMongoCollection.updateOne(equal(game.id), set("state", game.state.get.getValue))
+          documentMongoCollection.updateOne(equal(game.id), set("state", game.state.get.value))
         })
       })
   }

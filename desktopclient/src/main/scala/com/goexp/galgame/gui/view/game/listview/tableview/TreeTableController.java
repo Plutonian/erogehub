@@ -63,11 +63,11 @@ public class TreeTableController extends DefaultController {
                 .map(brandType -> {
                     var menuItem = new MenuItem();
                     menuItem.setUserData(brandType);
-                    menuItem.setText(brandType.getName());
+                    menuItem.setText(brandType.name);
                     menuItem.setOnAction((e) -> {
 
                         var type = (GameState) (((MenuItem) (e.getSource())).getUserData());
-                        logger.debug("<MenuItem>:{}", type.getName());
+                        logger.debug("<MenuItem>:{}", type.name);
 
 
                         selectedGames = table.getSelectionModel().getSelectedItems()
@@ -257,7 +257,7 @@ public class TreeTableController extends DefaultController {
 //                            this.getTreeTableRow().getStyleClass().add("gray");
 //                        }
 
-                        this.setGraphic(new Label(item.getName()));
+                        this.setGraphic(new Label(item.name));
                     }
                 }
             }

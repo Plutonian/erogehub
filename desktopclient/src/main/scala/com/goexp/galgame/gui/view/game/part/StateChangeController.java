@@ -34,8 +34,8 @@ public class StateChangeController extends DefaultController {
                 .collect(Collectors.toList());
 
         choiceState.setConverter(new StringConverter<>() {
-            public String toString(GameState object) {
-                return object.getName();
+            public String toString(GameState gameState) {
+                return gameState.name;
             }
 
             public GameState fromString(String string) {

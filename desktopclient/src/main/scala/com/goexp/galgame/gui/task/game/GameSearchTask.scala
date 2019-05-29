@@ -98,7 +98,7 @@ object GameSearchTask {
   class ByState(private[this] val gameState: GameState) extends Task[ObservableList[Game]] {
     override protected def call: ObservableList[Game] = {
       val list = GameQuery.tlp.query
-        .where(Filters.eq("state", gameState.getValue))
+        .where(Filters.eq("state", gameState.value))
         .list
 
       FXCollections.observableArrayList(list)

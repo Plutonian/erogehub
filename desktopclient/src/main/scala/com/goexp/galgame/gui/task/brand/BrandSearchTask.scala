@@ -50,7 +50,7 @@ object BrandSearchTask {
       val list = if (`type` eq BrandType.ALL)
         BrandQuery.tlp.query.list
       else
-        BrandQuery.tlp.query.where(Filters.eq("type", `type`.getValue)).list
+        BrandQuery.tlp.query.where(Filters.eq("type", `type`.value)).list
 
       makeTree(list)
     }

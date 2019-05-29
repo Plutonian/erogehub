@@ -13,8 +13,8 @@ public enum GameState {
     PLAYING("進行中", 80),
     PLAYED("プレイ済み", 90);
 
-    private String name;
-    private int value;
+    public final String name;
+    public final int value;
 
     GameState(String name, int value) {
         this.name = name;
@@ -37,13 +37,6 @@ public enum GameState {
                 .findFirst().orElseThrow();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getValue() {
-        return value;
-    }
 
     @Override
     public String toString() {

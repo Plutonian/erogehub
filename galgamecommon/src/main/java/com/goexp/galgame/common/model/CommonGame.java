@@ -133,21 +133,27 @@ public abstract class CommonGame {
         }
 
         public enum DataFrom {
-            seiya_saiga_com(1),
-            sagaoz_net(2);
+            seiya_saiga_com(1, "誠也の部屋", "http://seiya-saiga.com/game/kouryaku.html"),
+            sagaoz_net(2, "愚者の館", "http://sagaoz.net/foolmaker/game.html");
 
-            private int value;
+            public final int value;
+            public final String name;
+            public final String href;
 
-            DataFrom(int value) {
+
+            DataFrom(int value, String name, String href) {
                 this.value = value;
+                this.name = name;
+                this.href = href;
             }
 
             public static DataFrom from(int value) {
-                return Arrays.stream(values()).filter(from -> from.value == value).findFirst().orElseThrow(() -> new RuntimeException("Error DataFrom value:" + value));
+                return Arrays.stream(values()).filter(from -> from.value == value).findFirst().orElseThrow(() -> new RuntimeException("Error create DataFrom from:" + value));
             }
 
-            public int getValue() {
-                return value;
+            @Override
+            public String toString() {
+                return this.name;
             }
         }
     }

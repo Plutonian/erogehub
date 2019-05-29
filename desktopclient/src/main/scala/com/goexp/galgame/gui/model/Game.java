@@ -106,7 +106,7 @@ public class Game extends CommonGame {
     public boolean isOkState() {
         return Optional.ofNullable(this.state)
                 .map(ObjectPropertyBase::get)
-                .map(gs -> gs.getValue() >= GameState.UNCHECKED.getValue())
+                .map(gs -> gs.value >= GameState.UNCHECKED.value)
                 .orElse(false);
     }
 

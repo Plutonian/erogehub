@@ -28,12 +28,12 @@ public class FilterPanelController extends FilterController<Game> {
 
     public void reset() {
         var nodes = Stream.of(GameState.values())
-                .sorted(Comparator.comparing(GameState::getValue).reversed())
+                .sorted(Comparator.comparing((GameState state)->state.value).reversed())
                 .map(gameType -> {
-                    var btn = new CheckBox(gameType.getName());
+                    var btn = new CheckBox(gameType.name);
                     btn.setUserData(gameType);
 
-                    if (gameType.getValue() > GameState.BLOCK.getValue())
+                    if (gameType.value > GameState.BLOCK.value)
                         btn.setSelected(true);
 
                     return btn;

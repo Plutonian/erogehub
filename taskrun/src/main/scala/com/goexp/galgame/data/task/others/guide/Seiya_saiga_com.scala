@@ -11,7 +11,7 @@ import com.goexp.galgame.common.model.CommonGame.Guide.DataFrom
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.db.query.mongdb.GuideQuery
 import com.goexp.galgame.data.parser.GameGuideParser
-import com.goexp.galgame.data.piplline.core.{Message, MessageQueueProxy, Piplline}
+import com.goexp.galgame.data.piplline.core.{Message, Piplline}
 import com.goexp.galgame.data.piplline.handler.DefaultStarter
 import com.goexp.galgame.data.task.others.guide.UpdateGameGuideTask.CHARSET
 import com.mongodb.client.model.Filters
@@ -32,12 +32,12 @@ object Seiya_saiga_com {
 
     override def process() = {
       val locals = GuideQuery.tlp.query
-        .where(Filters.eq("from", DataFrom.seiya_saiga_com.getValue))
+        .where(Filters.eq("from", DataFrom.seiya_saiga_com.value))
         .set.asScala
 
       logger.info(s"Local:${locals.size}")
 
-      val req = HttpRequest.newBuilder.uri(URI.create("http://seiya-saiga.com/game/kouryaku.html")).build
+      val req = HttpRequest.newBuilder.uri(URI.create(DataFrom.seiya_saiga_com.href)).build
       try {
         val html = httpClient.send(req, ofString(CHARSET)).body
         val remotes = new GameGuideParser.Seiya_saiga().parse(html).toSet

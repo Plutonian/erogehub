@@ -71,8 +71,8 @@ public class TitlePartController extends DefaultController {
 
         choiceBrandState.setItems(FXCollections.observableArrayList(types));
         choiceBrandState.setConverter(new StringConverter<>() {
-            public String toString(BrandType object) {
-                return object.getName();
+            public String toString(BrandType brandType) {
+                return brandType.name();
             }
 
             public BrandType fromString(String string) {

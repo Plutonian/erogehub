@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.view.game.listview.simplelist;
+package com.goexp.galgame.gui.view.game.listview.simplelist.small;
 
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
@@ -86,7 +86,7 @@ public class HeaderController extends DefaultController {
         loadWithoutImage(game);
 
         if (game.smallImg != null && game.smallImg.startsWith("http")) {
-            imageImg.setImage(Images.GameImage.small(game));
+            imageImg.setImage(Images.GameImage.tiny(game));
 
         } else {
             imageImg.setImage(null);
@@ -139,7 +139,7 @@ public class HeaderController extends DefaultController {
         dateviewController.load(game.publishDate);
 
         boxStar.getChildren().clear();
-        var image = LocalRes.HEART_32_PNG.get();
+        var image = LocalRes.HEART_16_PNG.get();
         for (var i = 0; i < game.star; i++) {
             boxStar.getChildren().add(new ImageView(image));
         }

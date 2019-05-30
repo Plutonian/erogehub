@@ -4,7 +4,7 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rightPanel" xmlns="http://javafx.com/javafx/"
             fx:controller="com.goexp.galgame.gui.view.game.listview.simplelist.small.CellController">
     <children>
-        <fx:include fx:id="header" source="../header.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+        <fx:include fx:id="header" source="header.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                     AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
     </children>
 </AnchorPane>

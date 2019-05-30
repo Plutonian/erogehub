@@ -1,9 +1,7 @@
 package com.goexp.galgame.gui.view.game.listview.simplelist.small;
 
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.util.res.Images;
 import com.goexp.galgame.gui.view.DefaultController;
-import com.goexp.galgame.gui.view.game.listview.simplelist.HeaderController;
 import javafx.fxml.FXML;
 
 public class CellController extends DefaultController {
@@ -31,15 +29,7 @@ public class CellController extends DefaultController {
 
         this.game = game;
 
-        headerController.loadWithoutImage(game);
-
-        if (game.smallImg != null && game.smallImg.startsWith("http")) {
-            headerController.setImage(Images.GameImage.tiny(game));
-        } else {
-            headerController.setImage(null);
-        }
-
-
+        headerController.load(game);
     }
 
 }

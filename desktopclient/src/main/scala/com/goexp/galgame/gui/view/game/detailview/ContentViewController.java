@@ -211,7 +211,7 @@ public class ContentViewController extends DefaultController {
             imageImg.setImage(image);
         }
 
-        public void loadWithoutImage(Game game) {
+        private void loadWithoutImage(Game game) {
             this.targetGame = game;
 
             webjumpController.load(game);

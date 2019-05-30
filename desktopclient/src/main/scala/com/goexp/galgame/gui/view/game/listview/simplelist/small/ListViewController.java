@@ -15,6 +15,7 @@ public class ListViewController extends DefaultController {
     public static final Callback<ListView<Game>, ListCell<Game>> cellFactory = listView -> {
 
         final var loader = new FXMLLoaderProxy<Region, CellController>("view/game/listview/small/cell.fxml");
+//        final var loaderLarge = new FXMLLoaderProxy<Region, com.goexp.galgame.gui.view.game.listview.simplelist.CellController>("view/game/listview/cell.fxml");
 
         return new ListCell<>() {
 
@@ -24,9 +25,20 @@ public class ListViewController extends DefaultController {
                 setGraphic(null);
 
                 if (item != null && !empty) {
-                    loader.controller.load(item);
 
-                    setGraphic(loader.node);
+//                    if (this.isSelected()) {
+//                        loaderLarge.controller.load(item);
+//
+//                        setGraphic(loaderLarge.node);
+//
+//                    } else {
+
+                        loader.controller.load(item);
+
+                        setGraphic(loader.node);
+//                    }
+
+//                    this.layout();
                 }
             }
         };

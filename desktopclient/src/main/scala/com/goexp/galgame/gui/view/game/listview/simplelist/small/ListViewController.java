@@ -14,7 +14,7 @@ public class ListViewController extends DefaultController {
 
     public static final Callback<ListView<Game>, ListCell<Game>> cellFactory = listView -> {
 
-        final var loader = new FXMLLoaderProxy<Region, CellController>("view/game_explorer/listview/small/cell.fxml");
+        final var loader = new FXMLLoaderProxy<Region, CellController>("view/game/listview/small/cell.fxml");
 
         return new ListCell<>() {
 

@@ -92,7 +92,7 @@
 
                                 <HBox fx:id="boxTag" spacing="5.0" />
 
-                                <!--<fx:include fx:id="starChange" source="/view/game_explorer/detail/game_star_choicebar.fxml" />-->
+                                <!--<fx:include fx:id="starChange" source="/view/game/detail/game_star_choicebar.fxml" />-->
 
                             </children>
                         </VBox>

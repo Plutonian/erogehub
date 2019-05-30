@@ -34,7 +34,7 @@ public class CommonTabController {
 
     private void init() {
 
-        final var loader = new FXMLLoaderProxy<Region, DataViewController>("view/game_explorer/dataview.fxml");
+        final var loader = new FXMLLoaderProxy<Region, DataViewController>("view/game/dataview.fxml");
         node = loader.node;
         controller = loader.controller;
 

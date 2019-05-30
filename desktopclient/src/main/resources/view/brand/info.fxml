@@ -18,7 +18,7 @@
     <center>
         <StackPane maxHeight="-Infinity" prefHeight="800.0">
             <children>
-                <fx:include fx:id="dataView" source="../game_explorer/dataview.fxml"
+                <fx:include fx:id="dataView" source="../game/dataview.fxml"
                             StackPane.alignment="TOP_LEFT"/>
             </children>
         </StackPane>

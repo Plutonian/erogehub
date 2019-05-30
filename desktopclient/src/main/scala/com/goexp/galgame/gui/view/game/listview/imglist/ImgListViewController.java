@@ -55,7 +55,7 @@ public class ImgListViewController extends DefaultController {
                     .skip((index - 1) * pageSize)
                     .limit(pageSize)
                     .map(game -> {
-                        final var loader = new FXMLLoaderProxy<Region, CellController>("view/game_explorer/imglistview/img_list_cell.fxml");
+                        final var loader = new FXMLLoaderProxy<Region, CellController>("view/game/imglistview/img_list_cell.fxml");
 
                         loader.controller.load(game);
                         return loader.node;

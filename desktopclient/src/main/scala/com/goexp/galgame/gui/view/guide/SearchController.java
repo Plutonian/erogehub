@@ -1,8 +1,10 @@
 package com.goexp.galgame.gui.view.guide;
 
+import com.goexp.common.util.Strings;
 import com.goexp.galgame.common.model.CommonGame;
 import com.goexp.galgame.gui.task.TaskService;
 import com.goexp.galgame.gui.task.game.GuideSearchTask;
+import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.util.Websites;
 import com.goexp.galgame.gui.view.DefaultController;
 import javafx.beans.property.BooleanProperty;
@@ -11,10 +13,14 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.stage.Stage;
 
 public class SearchController extends DefaultController {
 
@@ -55,19 +61,41 @@ public class SearchController extends DefaultController {
 
 
         guideListView.setCellFactory(guideListView -> {
+
+            final var guideShowLoader = new FXMLLoaderProxy<Region, ShowPageController>("view/guide/show.fxml");
+
             return new ListCell<>() {
                 @Override
-                protected void updateItem(CommonGame.Guide item, boolean empty) {
-                    super.updateItem(item, empty);
+                protected void updateItem(CommonGame.Guide guide, boolean empty) {
+                    super.updateItem(guide, empty);
 
                     setText(null);
                     setGraphic(null);
-                    if (item != null && !empty) {
-                        final var link = new Hyperlink("[" + item.from + "] " + item.title);
+                    if (guide != null && !empty) {
+                        final var link = new Hyperlink("[" + guide.from + "] " + guide.title);
                         link.setOnAction(event -> {
-                            Websites.open(item.href);
+                            Websites.open(guide.href);
                         });
-                        setGraphic(link);
+
+                        if (Strings.isNotEmpty(guide.html)) {
+                            final var viewlink = new Hyperlink("View");
+                            viewlink.setOnAction(event -> {
+                                var view = new Stage();
+                                view.setTitle(guide.title);
+                                view.setScene(new Scene(guideShowLoader.node));
+                                view.show();
+
+                                guideShowLoader.controller.load(guide.html);
+
+                            });
+
+                            HBox hBox = new HBox(link, viewlink);
+                            hBox.setSpacing(10);
+                            setGraphic(hBox);
+                        } else {
+
+                            setGraphic(link);
+                        }
                     }
                 }
             };

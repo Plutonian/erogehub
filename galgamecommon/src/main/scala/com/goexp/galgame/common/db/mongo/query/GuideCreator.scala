@@ -16,6 +16,7 @@ object GuideCreator extends ObjectCreator[CommonGame.Guide] {
     guide.id = doc.getString("_id")
     guide.title = doc.getString("title")
     guide.href = doc.getString("href")
+    guide.html = doc.getString("html")
     guide.from = Guide.DataFrom.from(doc.getInteger("from"))
     guide
   }

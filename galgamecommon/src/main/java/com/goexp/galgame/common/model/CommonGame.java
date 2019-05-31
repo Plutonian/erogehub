@@ -107,6 +107,7 @@ public abstract class CommonGame {
         public String id;
         public String title;
         public String href;
+        public String html;
         public DataFrom from;
 
         @Override

@@ -3,6 +3,7 @@ package com.goexp.galgame.data.db.importor.mongdb
 import com.goexp.common.db.mongo.DBOperatorTemplate
 import com.goexp.galgame.common.db.mongo.DB_NAME
 import com.goexp.galgame.common.model.CommonGame
+import com.mongodb.client.model.{Filters, Updates}
 import org.bson.Document
 
 object GuideDB {
@@ -16,6 +17,13 @@ object GuideDB {
 
     tlp.exec(gameC => {
       gameC.insertOne(doc)
+    })
+  }
+
+  def update(item: CommonGame.Guide) = {
+    tlp.exec(gameC => {
+      gameC.updateOne(
+        Filters.eq("_id", item.id), Updates.set("html", item.html))
     })
   }
 }

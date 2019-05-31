@@ -30,7 +30,7 @@
                         <Insets left="10.0" />
                     </BorderPane.margin>
                     <center>
-                        <VBox spacing="5.0">
+                        <VBox spacing="3.0">
                             <children>
                         <VBox>
                            <children>
@@ -113,11 +113,11 @@
                 <Insets />
             </BorderPane.margin>
             <left>
-                <AnchorPane prefHeight="180.0" prefWidth="120.0" BorderPane.alignment="CENTER">
+                <AnchorPane prefWidth="120.0" BorderPane.alignment="CENTER">
                     <children>
                         <ImageView fx:id="imageImg" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <image>
-                                <Image url="@../../../../../../../../../gal_data/img/game/3369/game_s.jpg" />
+                                <Image url="@../../../../../../../../../gal_data/img/game/1007502/game_t.jpg" />
                             </image>
                         </ImageView>
                     </children>

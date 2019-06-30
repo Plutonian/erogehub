@@ -10,7 +10,7 @@ import com.goexp.galgame.data.db.query.mongdb.{CVQuery, GameQuery}
 import com.mongodb.client.model.Filters.{not, eq => same}
 import org.slf4j.LoggerFactory
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 
 object GetTrueCVTask {
@@ -20,7 +20,7 @@ object GetTrueCVTask {
 
   def getMap(cvList: util.List[CV]) =
     cvList.asScala
-      .toStream
+      .to(LazyList)
       .flatMap(cv => {
         cv.nameStr.split("[=＝]")
           .map((name: String) => {
@@ -42,7 +42,7 @@ object GetTrueCVTask {
 
     val games = GameQuery.fullTlpWithChar.query.where(not(same("gamechar", null))).list.asScala
 
-    games.par
+    games.to(LazyList)
       .filter(g => Option(g.gameCharacters).map(_.size).getOrElse(0) > 0)
       .map(g => {
         var change = false

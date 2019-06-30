@@ -7,7 +7,7 @@ import com.goexp.galgame.data.model.Game
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 private object ListPageParser {
   private lazy val DATE_REGEX = "発売日：(?<date>\\d{4}/[0-1]\\d/[0-3]\\d)".r
@@ -44,9 +44,9 @@ class ListPageParser {
   }
 
 
-  def parse(html: String): Stream[Game] =
+  def parse(html: String): LazyList[Game] =
     Jsoup.parse(html)
       .select("ul.display>li>div.content_block")
-      .asScala.toStream
+      .asScala.to(LazyList)
       .map(parse)
 }

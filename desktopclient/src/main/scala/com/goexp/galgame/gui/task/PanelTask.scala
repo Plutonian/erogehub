@@ -12,7 +12,7 @@ import javafx.scene.control.{Label, TreeItem}
 import javafx.scene.layout.HBox
 import org.slf4j.LoggerFactory
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 object PanelTask {
 
@@ -22,12 +22,12 @@ object PanelTask {
     override protected def call = createTagGroup(groupGames)
 
     private def createTagGroup(filteredGames: util.List[Game]) = {
-      filteredGames.asScala.toStream
+      filteredGames.asScala.to(LazyList)
         .filter(g => g.tag.size > 0)
-        .flatMap(g => g.tag.asScala.toStream.filter(t => Strings.isNotEmpty(t)))
+        .flatMap(g => g.tag.asScala.to(LazyList).filter(t => Strings.isNotEmpty(t)))
 
         //Stream{String,String,String,String...}
-        .groupBy(s => s).toStream
+        .groupBy(s => s).to(LazyList)
         .sortBy({ case (_, v) => v.size }).reverse
         .take(20)
         .map({ case (key, value) => {
@@ -43,9 +43,9 @@ object PanelTask {
     override protected def call: TreeItem[DateItemNode] = createDateGroup(groupGames)
 
     private def createDateGroup(filteredGames: util.List[Game]) = {
-      val yearsStream = filteredGames.asScala.toStream
+      val yearsStream = filteredGames.asScala.to(LazyList)
         .filter(game => game.publishDate != null)
-        .groupBy(game => Option(game.publishDate).map(date => date.getYear).getOrElse(0)).toStream
+        .groupBy(game => Option(game.publishDate).map(date => date.getYear).getOrElse(0)).to(LazyList)
         .filter({ case (year, _) => year != 0 })
         .sortBy({ case (k, _) => k }).reverse
         .map({ case (year, games) =>
@@ -59,7 +59,7 @@ object PanelTask {
               DateItemNode.DateType.YEAR))
           }
 
-          val monthNode = games.groupBy(game => Option(game.publishDate).map(date => date.getMonthValue).getOrElse(0)).toStream
+          val monthNode = games.groupBy(game => Option(game.publishDate).map(date => date.getMonthValue).getOrElse(0)).to(LazyList)
             .sortBy({ case (k, _) => k }).reverse
             .map({ case (month, v) =>
               new TreeItem[DateItemNode](new DateItemNode(s"$month 月 (${v.size})",
@@ -85,14 +85,14 @@ object PanelTask {
     override protected def call: TreeItem[DefaultItemNode] = createCompGroup(groupGames)
 
     private def createCompGroup(filteredGames: util.List[Game]) = {
-      val compsNodes = filteredGames.asScala.toStream
-        .groupBy(game => Option(game.brand.comp).getOrElse("")).toStream
+      val compsNodes = filteredGames.asScala.to(LazyList)
+        .groupBy(game => Option(game.brand.comp).getOrElse("")).to(LazyList)
         .sortBy({ case (_, v) => v.size }).reverse
         .map({ case (comp, v) => {
 
           val compNode = new TreeItem[DefaultItemNode](new CompItemNode(comp, v.size, comp))
 
-          val brandNodes = v.groupBy(g => g.brand).toStream
+          val brandNodes = v.groupBy(g => g.brand).to(LazyList)
             .map({ case (brand, games) => new TreeItem[DefaultItemNode](new BrandItemNode(brand.name, games.size, brand)) })
             .asJava
 

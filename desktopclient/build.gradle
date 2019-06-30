@@ -5,7 +5,7 @@
 plugins {
     id 'scala'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.5'
+    id 'org.openjfx.javafxplugin' version '0.0.7'
 }
 
 javafx {
@@ -18,7 +18,7 @@ dependencies {
     compile project(':common')
     compile project(':common-db-mongo')
     compile project(':galgamecommon')
-    compile 'org.scala-lang:scala-library:2.12.8'
+    compile 'org.scala-lang:scala-library:2.13.0'
 //    compile 'org.openjfx:javafx-base:12'
 //    compile 'org.openjfx:javafx-controls:12'
 //    compile 'org.openjfx:javafx-graphics:12'

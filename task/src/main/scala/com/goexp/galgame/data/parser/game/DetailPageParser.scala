@@ -6,7 +6,7 @@ import com.goexp.galgame.data.parser.game.DetailPageParser.{DetailParser, GameCh
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 private object DetailPageParser {
 
@@ -23,10 +23,10 @@ private object DetailPageParser {
       val ele = root.select("#soft_table >tbody>tr:nth-of-type(2)")
       val g = new Game
       g.id = gameId
-      g.painter = ele.select("td:contains(原画)").next.text.split("、").toStream.map(s => s.trim).asJava
-      g.writer = ele.select("td:contains(シナリオ)").next.text.split("、").toStream.map(s => s.trim).asJava
-      g.`type` = ele.select("td:contains(サブジャンル)").next.text.replace("[一覧]", "").split("、").toStream.map(s => s.trim).asJava
-      g.tag = ele.select("td:contains(カテゴリ)").next.text.replace("[一覧]", "").split("、").toStream.map(s => s.trim).asJava
+      g.painter = ele.select("td:contains(原画)").next.text.split("、").to(LazyList).map(s => s.trim).asJava
+      g.writer = ele.select("td:contains(シナリオ)").next.text.split("、").to(LazyList).map(s => s.trim).asJava
+      g.`type` = ele.select("td:contains(サブジャンル)").next.text.replace("[一覧]", "").split("、").to(LazyList).map(s => s.trim).asJava
+      g.tag = ele.select("td:contains(カテゴリ)").next.text.replace("[一覧]", "").split("、").to(LazyList).map(s => s.trim).asJava
       g.story = root.select("#wrapper div.tabletitle:contains(ストーリー)").next.html.replaceAll("\\<[^\\>]*\\>", "").replace("<br>", "").trim
       g.intro = root.select("#wrapper div.tabletitle:contains(商品紹介)").next.html.replaceAll("\\<[^\\>]*\\>", "").replace("<br>", "").trim
       val brandUrl = ele.select("a:contains(このブランドの作品一覧)").attr("href")
@@ -52,7 +52,7 @@ private object DetailPageParser {
 
     def parse(root: Document) =
       root.select("#wrapper div.tabletitle:contains(キャラクター)").next.select("tbody>tr:nth-of-type(2n+1)").asScala
-        .toStream
+        .to(LazyList)
         .map(tr => {
           val person = new CommonGame.GameCharacter
           person.index = index
@@ -72,7 +72,7 @@ private object DetailPageParser {
 
     def parse(root: Document) =
       root.select("#wrapper div.tabletitle:contains(サンプル画像)").next.select("a.highslide")
-        .asScala.toStream
+        .asScala.to(LazyList)
         .map(a => {
           val img = new CommonGame.GameImg
           img.src = a.attr("href")

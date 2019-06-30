@@ -8,7 +8,7 @@ import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.{combine, set}
 import org.bson.Document
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 object GameDB {
   lazy val tlp = new DBOperatorTemplate(DB_NAME, "game")
@@ -56,7 +56,7 @@ object GameDB {
 
   def updateChar(game: Game) = {
     val gameCharDocs = game.gameCharacters
-      .asScala.toStream
+      .asScala.to(LazyList)
       .map(person => {
         new Document("name", person.name)
           .append("intro", person.intro)
@@ -73,7 +73,7 @@ object GameDB {
 
   def updateImg(game: Game) = {
     val imgdocs = game.gameImgs
-      .asScala.toStream
+      .asScala.to(LazyList)
       .map(img => {
         new Document("src", img.src)
           .append("index", img.index)

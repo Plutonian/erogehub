@@ -6,7 +6,7 @@ apply plugin: 'scala'
 apply plugin: 'application'
 
 dependencies {
-    compile 'org.scala-lang:scala-library:2.12.8'
+    compile 'org.scala-lang:scala-library:2.13.0'
     compile project(':common')
     compile project(':common-db-mongo')
     compile project(':galgamecommon')

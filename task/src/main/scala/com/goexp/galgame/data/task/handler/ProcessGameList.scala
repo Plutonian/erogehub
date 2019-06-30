@@ -11,7 +11,7 @@ import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Projections.include
 import org.slf4j.LoggerFactory
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 
 class ProcessGameList extends DefaultMessageHandler[Int] {
@@ -24,7 +24,7 @@ class ProcessGameList extends DefaultMessageHandler[Int] {
       val remoteGames = LocalProvider.getList(brandId)
       val localGames = GameQuery.fullTlp.query.select(include("_id"))
         .where(Filters.eq("brandId", brandId))
-        .list.asScala.toStream.map((game: Game) => game.id).toSet
+        .list.asScala.to(LazyList).map((game: Game) => game.id).toSet
 
 
       if (remoteGames.size != localGames.size) {

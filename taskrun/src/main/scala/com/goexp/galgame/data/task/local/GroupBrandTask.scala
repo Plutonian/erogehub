@@ -6,14 +6,14 @@ import com.goexp.galgame.data.db.query.mongdb.BrandQuery
 import com.goexp.galgame.data.task.local.GroupBrandTask.Extracker.getHost
 import org.slf4j.LoggerFactory
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 object GroupBrandTask {
 
   def main(args: Array[String]) = {
     val logger = LoggerFactory.getLogger(GroupBrandTask.getClass)
 
-    BrandQuery.tlp.query.list.asScala.toStream
+    BrandQuery.tlp.query.list.asScala.to(LazyList)
       .filter(b => Strings.isNotEmpty(b.website))
       .groupBy(b => Extracker.getComp(b.website))
       .filter({ case (comp, v) => !comp.isEmpty && v.size > 1 })
@@ -41,7 +41,7 @@ object GroupBrandTask {
 
     def getComp(url: String) = {
 
-      def clean(host: String) = host.split("\\.").toStream.filter(!rem.contains(_))
+      def clean(host: String) = host.split("\\.").to(LazyList).filter(!rem.contains(_))
 
       val host = getHost(url)
       clean(host).lastOption.getOrElse("")
@@ -58,9 +58,9 @@ object GroupBrandTask {
 object GetRemove {
   def main(args: Array[String]) =
 
-    BrandQuery.tlp.query.list.asScala.toStream
+    BrandQuery.tlp.query.list.asScala.to(LazyList)
       .filter(b => Strings.isNotEmpty(b.website))
-      .flatMap(b => getHost(b.website).split(raw"\.").toStream.drop(1))
+      .flatMap(b => getHost(b.website).split(raw"\.").to(LazyList).drop(1))
       .filter(!_.isEmpty)
       .distinct
       .sortBy(_.length)

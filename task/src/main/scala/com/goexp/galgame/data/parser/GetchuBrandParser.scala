@@ -4,7 +4,7 @@ import com.goexp.galgame.data.model.Brand
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 private object GetchuBrandParser {
   private lazy val ID_REGEX = "search_brand_id=(?<id>\\d+)".r
@@ -13,11 +13,11 @@ private object GetchuBrandParser {
 
 class GetchuBrandParser {
 
-  def parse(html: String): Stream[Brand] = {
+  def parse(html: String): LazyList[Brand] = {
     Jsoup.parse(html)
       .select("#wrapper > table > tbody > tr > td:nth-child(2) > table > tbody > tr > td table[cellpadding=1]")
       .asScala
-      .toStream
+      .to(LazyList)
       .drop(1)
       .flatMap(parse)
   }
@@ -30,7 +30,7 @@ class GetchuBrandParser {
     item.nextElementSibling
       .select("tr:nth-of-type(2) tr")
       .asScala
-      .toStream
+      .to(LazyList)
       .filter(_.html.length > 0)
       .map((ele: Element) => {
         val brand = new Brand

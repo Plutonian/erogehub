@@ -8,7 +8,8 @@ import com.goexp.galgame.common.model.CommonGame
 import org.bson.Document
 import org.slf4j.LoggerFactory
 
-import scala.collection.JavaConverters._
+//import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters._
 
 
 class CommonGameCreator(private[this] val game: CommonGame) extends ObjectCreator[CommonGame] {
@@ -32,7 +33,7 @@ class CommonGameCreator(private[this] val game: CommonGame) extends ObjectCreato
     game.gameCharacters =
       Option(doc.get("gamechar").asInstanceOf[List[Document]])
         .map({
-          _.asScala.toStream.map(p => personCreator.create(p)).asJava
+          _.asScala.to(LazyList).map(p => personCreator.create(p)).asJava
         })
         .getOrElse(List.of[CommonGame.GameCharacter]())
 
@@ -40,7 +41,7 @@ class CommonGameCreator(private[this] val game: CommonGame) extends ObjectCreato
     game.gameImgs =
       Option(doc.get("simpleImg").asInstanceOf[List[Document]])
         .map({
-          _.asScala.toStream.map(p => imgCreator.create(p)).asJava
+          _.asScala.to(LazyList).map(p => imgCreator.create(p)).asJava
         })
         .getOrElse(List.of[CommonGame.GameImg]())
 

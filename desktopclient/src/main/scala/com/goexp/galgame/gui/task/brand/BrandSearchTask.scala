@@ -11,13 +11,13 @@ import com.mongodb.client.model.Filters.regex
 import javafx.concurrent.Task
 import javafx.scene.control.TreeItem
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 object BrandSearchTask {
   private def makeTree(brands: util.List[Brand]) =
 
-    brands.asScala.toStream
-      .groupBy(b => if (Strings.isNotEmpty(b.comp)) b.comp else "").toStream
+    brands.asScala.to(LazyList)
+      .groupBy(b => if (Strings.isNotEmpty(b.comp)) b.comp else "").to(LazyList)
       .sortBy({ case (key, _) => key })
 
       .map({ case (k, v) =>

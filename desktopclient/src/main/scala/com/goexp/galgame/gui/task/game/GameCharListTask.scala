@@ -7,7 +7,7 @@ import com.mongodb.client.model.Filters
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Task
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class GameCharListTask(private[this] val gameId: Int) extends Task[ObservableList[GameCharacter]] {
   override protected def call: ObservableList[GameCharacter] = {
@@ -15,12 +15,12 @@ class GameCharListTask(private[this] val gameId: Int) extends Task[ObservableLis
 
     Option(g.gameCharacters)
       .map(persons => {
-        persons.asScala.toStream
+        persons.asScala.to(LazyList)
           .groupBy(p => {
             if (Strings.isEmpty(p.cv)) {
               if (Strings.isEmpty(p.img)) 3 else 2
             } else 1
-          }).toStream
+          }).to(LazyList)
           .sortBy({ case (k, _) => k })
           .flatMap({ case (_, v) => v }).asJava
       })

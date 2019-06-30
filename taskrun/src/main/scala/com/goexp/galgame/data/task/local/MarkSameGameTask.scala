@@ -10,7 +10,7 @@ import com.goexp.galgame.data.task.handler.MesType
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.io.{Codec, Source}
 
 object MarkSameGameTask {
@@ -59,21 +59,21 @@ object MarkSameGameTask {
         })
         .flatMap({
           case ("same", value) =>
-            value.toStream
+            value.to(LazyList)
               .filter(_.state eq GameState.UNCHECKED)
               .map(game => {
                 game.state = GameState.SAME
                 game
               })
           case ("package", value) =>
-            value.toStream
+            value.to(LazyList)
               .filter(_.state eq GameState.UNCHECKED)
               .map({ game =>
                 game.state = GameState.PACKAGE
                 game
               })
           case ("other", value) =>
-            value.toStream
+            value.to(LazyList)
               .filter(_.publishDate != null)
               .groupBy(_.publishDate)
               .values

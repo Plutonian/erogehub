@@ -4,18 +4,18 @@ import com.goexp.galgame.common.model.TagType
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 
 class GetchuTagParser {
-  def parse(html: String): Stream[TagType] =
+  def parse(html: String): LazyList[TagType] =
     Jsoup.parse(html)
       .select("#wrapper div.pc_headword:contains(カテゴリ一覧)")
       .first
       .parent
       .select("div.category_pc_t")
       .asScala
-      .toStream
+      .to(LazyList)
       .map(parse)
 
   private def parse(item: Element) = {
@@ -26,7 +26,7 @@ class GetchuTagParser {
       .nextElementSibling
       .select("a")
       .asScala
-      .toStream
+      .to(LazyList)
       .map(ele => ele.text.trim)
       .asJava
 

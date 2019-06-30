@@ -29,7 +29,7 @@ object ImporterStart {
 
     Objects.requireNonNull(args)
 
-    funcTable.toStream
+    funcTable.to(LazyList)
       .find({ case (name, _, _) => args(0) == name })
     match {
       case Some(peer) =>

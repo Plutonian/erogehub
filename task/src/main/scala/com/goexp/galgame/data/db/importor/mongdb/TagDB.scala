@@ -5,7 +5,7 @@ import com.goexp.galgame.common.db.mongo.DB_NAME
 import com.goexp.galgame.common.model.TagType
 import org.bson.Document
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 object TagDB {
 
@@ -13,7 +13,7 @@ object TagDB {
 
   def insert(item: List[TagType]) = {
     val docs = item
-      .toStream
+      .to(LazyList)
       .map(tagType => {
         new Document("type", tagType.`type`)
           .append("order", tagType.order)

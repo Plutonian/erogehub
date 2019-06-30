@@ -12,7 +12,7 @@ import com.goexp.galgame.data.task.handler.game.DefaultGameProcessGroup
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 
 object ImportFromLocalAliveBrandTask {

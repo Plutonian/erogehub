@@ -5,7 +5,7 @@ import java.util.Objects
 import com.goexp.galgame.common.model.CommonGame
 import org.jsoup.Jsoup
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 
 object GameGuideParser {
@@ -18,7 +18,7 @@ object GameGuideParser {
         .select("table[width=720]:not(:nth-of-type(1))")
         .select("a")
         .asScala
-        .toStream
+        .to(LazyList)
         .filter(a => !a.attr("href").isEmpty)
         .map(a => {
           val guide = new CommonGame.Guide
@@ -39,12 +39,12 @@ object GameGuideParser {
       Jsoup.parse(html)
         .select("body > div > table > tbody > tr > th> table")
         .asScala
-        .toStream
+        .to(LazyList)
         .drop(4)
         .flatMap(node => {
           node.select("a")
             .asScala
-            .toStream
+            .to(LazyList)
             .map(a => {
               val guide = new CommonGame.Guide
               guide.title = a.text

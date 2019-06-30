@@ -9,7 +9,7 @@ import com.goexp.galgame.data.parser.GetchuBrandParser
 import com.goexp.galgame.data.task.client.GetChu
 import org.slf4j.LoggerFactory
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 object UpdateBrandTask {
   private val logger = LoggerFactory.getLogger(UpdateBrandTask.getClass)
@@ -19,7 +19,7 @@ object UpdateBrandTask {
     Network.initProxy()
 
     val localMap = BrandQuery.tlp.query
-      .list.asScala.toStream
+      .list.asScala.to(LazyList)
       .map(b => b.id -> b)
       .toMap
 

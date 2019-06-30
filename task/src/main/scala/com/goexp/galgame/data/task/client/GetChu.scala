@@ -46,7 +46,7 @@ object GetChu {
   }
 
   object BrandService {
-    def gamesFrom(brandId: Int): Stream[Game] = {
+    def gamesFrom(brandId: Int): LazyList[Game] = {
       try {
         val request = GetchuURL.RequestBuilder.create(GameList.byBrand(brandId)).adaltFlag.build
         val bytes = WebUtil.httpClient.send(request, ofByteArray).body
@@ -60,7 +60,7 @@ object GetChu {
       null
     }
 
-    def gamesFrom(from: LocalDate, to: LocalDate): Stream[Game] = {
+    def gamesFrom(from: LocalDate, to: LocalDate): LazyList[Game] = {
       try {
 
         val request = GetchuURL.RequestBuilder.create(GameList.byDateRange(from, to)).adaltFlag.build
@@ -77,7 +77,7 @@ object GetChu {
       null
     }
 
-    def gamesFrom(bytes: Array[Byte]): Stream[Game] = {
+    def gamesFrom(bytes: Array[Byte]): LazyList[Game] = {
       val html = Gzip.decode(bytes, DEFAULT_CHARSET)
       new ListPageParser().parse(html)
     }

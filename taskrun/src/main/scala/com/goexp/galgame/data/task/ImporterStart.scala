@@ -10,8 +10,7 @@ object ImporterStart {
 
   private val funcTable =
     List(
-      ("upgrade-game-date", "Upgrade game info from date to another", FromDateRangeTask.main _),
-      //      ("upgrade-game-brand", "Upgrade game info brand by brand", FromAliveBrandTask.main _),
+      ("upgrade-game", "Upgrade game info from one date to another", FromDateRangeTask.main _),
       ("upgrade-brand", "Upgrade brand info ", UpdateBrandTask.main _),
       ("upgrade-guide", "Upgrade game guide", Seiya_saiga_com.main _),
       ("get-truecv", "Get real CV name", GetTrueCVTask.main _),

@@ -5,7 +5,7 @@ import java.nio.file.Files
 
 import com.goexp.galgame.data.Config
 import com.goexp.galgame.data.model.Game
-import com.goexp.galgame.data.task.client.GetChu
+import com.goexp.galgame.data.task.client.GetChu.GameService
 
 object LocalProvider {
   def getList(id: Int): LazyList[Game] = {
@@ -14,7 +14,7 @@ object LocalProvider {
 
       val bytes = Files.readAllBytes(path)
 
-      GetChu.BrandService.gamesFrom(bytes)
+      GameService.from(bytes)
     } catch {
       case e: IOException =>
         e.printStackTrace()

@@ -11,9 +11,9 @@ import com.goexp.common.util.{Gzip, WebUtil}
 import com.goexp.galgame.common.website.GetchuURL
 import com.goexp.galgame.common.website.GetchuURL.{GameList, Game => GameUrl}
 import com.goexp.galgame.data.Config
-import com.goexp.galgame.data.model.Game
-import com.goexp.galgame.data.parser.ParseException
-import com.goexp.galgame.data.parser.game.{DetailPageParser, ListPageParser}
+import com.goexp.galgame.data.model.{Brand, Game}
+import com.goexp.galgame.data.parser.GetchuBrandParser
+import com.goexp.galgame.data.parser.game.ListPageParser
 import org.slf4j.LoggerFactory
 
 object GetChu {
@@ -43,10 +43,7 @@ object GetChu {
       Files.move(tempPath, localPath, StandardCopyOption.REPLACE_EXISTING)
     }
 
-  }
-
-  object BrandService {
-    def gamesFrom(brandId: Int): LazyList[Game] = {
+    def from(brandId: Int): LazyList[Game] = {
       try {
         val request = GetchuURL.RequestBuilder.create(GameList.byBrand(brandId)).adaltFlag.build
         val bytes = WebUtil.httpClient.send(request, ofByteArray).body
@@ -60,7 +57,7 @@ object GetChu {
       null
     }
 
-    def gamesFrom(from: LocalDate, to: LocalDate): LazyList[Game] = {
+    def from(from: LocalDate, to: LocalDate): LazyList[Game] = {
       try {
 
         val request = GetchuURL.RequestBuilder.create(GameList.byDateRange(from, to)).adaltFlag.build
@@ -77,28 +74,22 @@ object GetChu {
       null
     }
 
-    def gamesFrom(bytes: Array[Byte]): LazyList[Game] = {
+    def from(bytes: Array[Byte]): LazyList[Game] = {
       val html = Gzip.decode(bytes, DEFAULT_CHARSET)
       new ListPageParser().parse(html)
     }
+  }
 
-    @throws[IOException]
-    @throws[InterruptedException]
-    def download(brandId: Int) =
-      try {
-        val localPath = Config.BRAND_CACHE_ROOT.resolve(s"$brandId.bytes")
-        val tempPath = Path.of(s"${localPath}_")
+  object BrandService {
 
-        val request = GetchuURL.RequestBuilder.create(GameList.byBrand(brandId)).adaltFlag.build
+    def all(): LazyList[Brand] = {
 
-        WebUtil.httpClient.send(request, ofFile(tempPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE))
-        Files.move(tempPath, localPath, StandardCopyOption.REPLACE_EXISTING)
-        logger.debug(s"Download: Brand:$brandId")
-      } catch {
-        case e@(_: IOException | _: InterruptedException) =>
-          logger.error(s"<Brand> $brandId Mes:${e.getMessage}")
-          throw e
-      }
+      val request = GetchuURL.RequestBuilder.create("http://www.getchu.com/all/brand.html?genre=pc_soft").adaltFlag.build
+      val html = GetChu.getHtml(request)
+
+      new GetchuBrandParser().parse(html)
+
+    }
   }
 
 }

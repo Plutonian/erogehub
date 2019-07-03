@@ -15,7 +15,9 @@ import org.slf4j.LoggerFactory
 
 import scala.jdk.CollectionConverters._
 
-
+/**
+  * process game detail(upgrade content,cv,simple img)
+  */
 class ProcessGameOK extends DefaultMessageHandler[Game] {
   final private val logger = LoggerFactory.getLogger(classOf[ProcessGameOK])
 
@@ -49,16 +51,28 @@ class ProcessGameOK extends DefaultMessageHandler[Game] {
     logger.debug("Process {}", remoteGame)
     val localGame = GameQuery.fullTlp.query.where(Filters.eq(remoteGame.id)).one
 
+
+    /**
+      * upgrade base content
+      */
     if (!Objects.equals(localGame, remoteGame)) {
-      logger.info(s"\nOld:${localGame.simpleView()}\nNew:${remoteGame.simpleView()}\n")
+      //      logger.info(s"\nOld:${localGame.simpleView()}\nNew:${remoteGame.simpleView()}\n")
       GameDB.updateAll(remoteGame)
     }
 
+
+    /**
+      * upgrade person
+      */
     remoteGame.gameCharacters = merge(localGame.gameCharacters, remoteGame.gameCharacters)
 
     if (remoteGame.gameCharacters != null)
       GameDB.updateChar(remoteGame)
 
+
+    /**
+      * upgrade simple img
+      */
     val localImgSize = Option(localGame.gameImgs).map(_.size).getOrElse(0)
     val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)
 

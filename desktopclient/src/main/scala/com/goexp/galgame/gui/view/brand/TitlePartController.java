@@ -90,7 +90,7 @@ public class TitlePartController extends DefaultController {
 
                 changeBrandStateService.restart();
 
-                if (newValue == BrandType.PASS) {
+                if (newValue == BrandType.BLOCK) {
                     changeGameStateService.restart();
                 }
             }

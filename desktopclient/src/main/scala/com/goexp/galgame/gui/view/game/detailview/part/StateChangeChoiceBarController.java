@@ -54,7 +54,7 @@ public class StateChangeChoiceBarController extends DefaultController {
 
 //        btnHope.setUserData(GameState.HOPE);
 //        btnLike.setUserData(GameState.LIKE);
-//        btnPass.setUserData(GameState.PASS);
+//        btnPass.setUserData(GameState.BLOCK);
 //        btnDefault.setUserData(GameState.UNCHECKED);
 //        btnNormal.setUserData(GameState.NORMAL);
 

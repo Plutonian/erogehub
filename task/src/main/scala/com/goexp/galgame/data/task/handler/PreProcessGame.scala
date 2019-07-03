@@ -19,6 +19,7 @@ class PreProcessGame extends DefaultMessageHandler[Game] {
     }
     else {
       game.state = GameState.UNCHECKED
+      game.isNew = true
       logger.info("<Insert> {}", game.simpleView)
       GameDB.insert(game)
     }

@@ -13,7 +13,9 @@ import org.slf4j.LoggerFactory
 
 import scala.jdk.CollectionConverters._
 
-
+/**
+  * only get game object to know new or old
+  */
 class ProcessGameList extends DefaultMessageHandler[Int] {
   private lazy val logger = LoggerFactory.getLogger(classOf[ProcessGameList])
 
@@ -27,6 +29,9 @@ class ProcessGameList extends DefaultMessageHandler[Int] {
         .list.asScala.to(LazyList).map((game: Game) => game.id).toSet
 
 
+      /**
+        * check game is new or old
+        */
       if (remoteGames.size != localGames.size) {
         logger.debug(s"Brand:$brandId,RemoteCount:${remoteGames.size},LocalCount:${localGames.size}")
 
@@ -37,6 +42,7 @@ class ProcessGameList extends DefaultMessageHandler[Int] {
 
           game.brandId = brandId
           game.state = GameState.UNCHECKED
+          game.isNew = true
           logger.info("<Insert> {}", game.simpleView)
           GameDB.insert(game)
 

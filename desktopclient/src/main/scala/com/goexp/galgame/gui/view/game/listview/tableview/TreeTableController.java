@@ -253,7 +253,7 @@ public class TreeTableController extends DefaultController {
                 this.getTreeTableRow().getStyleClass().remove("gray");
                 if (!empty) {
                     if (this.getTreeTableRow().getTreeItem().isLeaf()) {
-//                        if (item == GameState.PASS) {
+//                        if (item == GameState.BLOCK) {
 //                            this.getTreeTableRow().getStyleClass().add("gray");
 //                        }
 

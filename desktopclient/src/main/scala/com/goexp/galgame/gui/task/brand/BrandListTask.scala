@@ -17,7 +17,7 @@ object BrandListTask {
       BrandQuery.tlp.query
         .where(and(
           Filters.eq("comp", name),
-          Filters.ne("type", BrandType.PASS.value)
+          Filters.ne("type", BrandType.BLOCK.value)
         ))
         .sort(and(descending("type"), descending("name")))
         .list

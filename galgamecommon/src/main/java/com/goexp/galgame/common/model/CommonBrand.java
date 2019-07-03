@@ -8,6 +8,8 @@ public abstract class CommonBrand {
     public String website;
     public String comp;
 
+    public BrandType isLike;
+
     public int getId() {
         return id;
     }
@@ -22,6 +24,10 @@ public abstract class CommonBrand {
 
     public String getComp() {
         return comp;
+    }
+
+    public BrandType getIsLike() {
+        return isLike;
     }
 
     @Override

@@ -22,6 +22,8 @@ public abstract class CommonGame {
     public List<GameCharacter> gameCharacters;
     public List<GameImg> gameImgs;
 
+    public boolean isNew = false;
+
 
     @Override
     public boolean equals(Object o) {
@@ -61,6 +63,7 @@ public abstract class CommonGame {
                 ", name='" + name + '\'' +
                 ", publishDate=" + publishDate +
                 ", imgUrl='" + smallImg + '\'' +
+                ", isNew='" + isNew + '\'' +
                 '}';
     }
 

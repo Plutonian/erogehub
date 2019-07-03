@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 
 public enum BrandType {
     ALL("ALL", -99),
-    PASS("ブロック", -2),
+    BLOCK("ブロック", -2),
     UNCHECKED("...", 0),
     NORMAL("普通", 4),
     HOPE("欲しい", 80),

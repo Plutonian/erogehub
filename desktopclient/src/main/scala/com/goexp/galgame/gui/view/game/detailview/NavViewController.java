@@ -173,7 +173,7 @@ public class NavViewController extends DefaultController {
                 imageImg.setImage(null);
             }
 
-            //        if (game.state.get() == GameState.PASS)
+            //        if (game.state.get() == GameState.BLOCK)
             //            imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));
             //        else
             //            imageImg.setEffect(null);

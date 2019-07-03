@@ -23,10 +23,7 @@ object Query {
       logger.debug("<create> doc={}", doc)
 
       val parentCreator = new CommonBrandCreator(new Brand)
-      val brand = parentCreator.create(doc).asInstanceOf[Brand]
-
-      brand.isLike = BrandType.from(doc.getInteger("type"))
-      brand
+      parentCreator.create(doc).asInstanceOf[Brand]
 
     }
     val tlp = new DBQueryTemplate.Builder[Brand](DB_NAME, "brand", creator).build

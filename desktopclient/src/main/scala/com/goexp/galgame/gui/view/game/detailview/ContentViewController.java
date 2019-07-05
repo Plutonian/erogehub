@@ -302,7 +302,7 @@ public class ContentViewController extends DefaultController {
 
             boolean isTrueCV = gameChar.trueCV != null && gameChar.trueCV.length() > 0;
 
-            var cv = isTrueCV ? gameChar.trueCV : gameChar.cv;
+            var cv = isTrueCV ? "*"+gameChar.trueCV +"*": gameChar.cv;
 
             if (cv != null && cv.length() > 0) {
                 cvPart.setVisible(true);

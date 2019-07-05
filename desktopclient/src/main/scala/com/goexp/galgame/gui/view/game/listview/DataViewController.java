@@ -105,6 +105,7 @@ public class DataViewController extends DefaultController {
         initSwitchBar();
         initSideBar();
         initTagPanel();
+        btnHide.fire();
     }
 
     private void initTagPanel() {

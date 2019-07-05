@@ -5,11 +5,9 @@ import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
 import com.goexp.galgame.gui.task.game.ChangeGameTask;
-import com.goexp.galgame.gui.util.*;
+import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
-import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
-import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
 import com.goexp.galgame.gui.view.game.HomeController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Service;
@@ -19,7 +17,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -35,8 +32,8 @@ public class TableController extends DefaultController {
     /**
      * Columns
      */
-    @FXML
-    public TableColumn<Game, List<String>> tableColTag;
+//    @FXML
+//    public TableColumn<Game, List<String>> tableColTag;
     @FXML
     public TableColumn<Game, String> tableColType;
     @FXML
@@ -53,7 +50,6 @@ public class TableController extends DefaultController {
     public TableColumn<Game, LocalDate> tableColDate;
     @FXML
     public TableColumn<Game, String> tableColTitle;
-
 
 
     @FXML
@@ -151,7 +147,7 @@ public class TableController extends DefaultController {
         tableColPainter.setCellValueFactory(new PropertyValueFactory<>("painter"));
         tableColWriter.setCellValueFactory(new PropertyValueFactory<>("writer"));
         tableColDate.setCellValueFactory(new PropertyValueFactory<>("publishDate"));
-        tableColTag.setCellValueFactory(new PropertyValueFactory<>("tag"));
+//        tableColTag.setCellValueFactory(new PropertyValueFactory<>("tag"));
         tableColTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
         tableColType.setCellValueFactory(new PropertyValueFactory<>("type"));
 
@@ -169,24 +165,24 @@ public class TableController extends DefaultController {
             }
         });
 
-        tableColTag.setCellFactory(col -> new TableCell<>() {
-            @Override
-            protected void updateItem(List<String> item, boolean empty) {
-                super.updateItem(item, empty);
-                this.setGraphic(null);
-                this.setText(null);
-
-                if (item != null && !empty) {
-
-                    if (item.size() > 0) {
-                        var hbox = new HBox();
-                        hbox.setSpacing(5);
-                        hbox.getChildren().setAll(Tags.toNodes(item));
-                        this.setGraphic(hbox);
-                    }
-                }
-            }
-        });
+//        tableColTag.setCellFactory(col -> new TableCell<>() {
+//            @Override
+//            protected void updateItem(List<String> item, boolean empty) {
+//                super.updateItem(item, empty);
+//                this.setGraphic(null);
+//                this.setText(null);
+//
+//                if (item != null && !empty) {
+//
+//                    if (item.size() > 0) {
+//                        var hbox = new HBox();
+//                        hbox.setSpacing(5);
+//                        hbox.getChildren().setAll(Tags.toNodes(item));
+//                        this.setGraphic(hbox);
+//                    }
+//                }
+//            }
+//        });
 
 
         tableColTitle.setCellFactory(col -> new TableCell<>() {
@@ -203,10 +199,15 @@ public class TableController extends DefaultController {
                         var title = game.name;
                         var titleLabel = title.replaceAll("＜[^＞]*＞", "");
 
-                        this.setText(titleLabel);
+                        if (game.tag.size() > 0) {
+                            var hbox = new HBox();
+                            hbox.setSpacing(5);
+                            hbox.getChildren().setAll(Tags.toNodes(game.tag));
+                            this.setGraphic(new HBox(new Label(title), hbox));
+                        } else {
+                            this.setText(titleLabel);
+                        }
                     }
-
-
                 }
             }
         });

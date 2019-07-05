@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -31,7 +32,8 @@ public class CVInfoController extends DefaultController {
      */
 
     @FXML
-    private FlowPane cvFlow;
+//    private FlowPane cvFlow;
+    private VBox cvFlow;
     private Service<ObservableList<CV>> loadCVService = new TaskService<>(CVListTask::new);
 
 
@@ -54,7 +56,7 @@ public class CVInfoController extends DefaultController {
                             var flow = new FlowPane();
                             var panel = new TitledPane(entry.getKey().toString(), flow);
                             panel.setCollapsible(false);
-                            panel.setPrefWidth(300);
+                            panel.setPrefWidth(1000);
 
                             var links = entry.getValue().stream()
                                     .map(cv -> {

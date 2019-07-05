@@ -3,13 +3,15 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" styleClass="back" stylesheets="@../view.css"
             xmlns="http://javafx.com/javafx/"
             fx:controller="com.goexp.galgame.gui.view.game.CVInfoController">
     <center>
         <ScrollPane fitToHeight="true" pannable="true" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
             <content>
-                <FlowPane fx:id="cvFlow" hgap="3.0" orientation="VERTICAL" prefWrapLength="600.0" vgap="3.0"/>
+<!--                <FlowPane fx:id="cvFlow" hgap="3.0" orientation="VERTICAL" prefWrapLength="600.0" vgap="3.0"/>-->
+                <VBox fx:id="cvFlow"/>
             </content>
         </ScrollPane>
     </center>

@@ -86,9 +86,13 @@ object GameSearchTask {
                     private[this] val end: Int) extends Task[ObservableList[Game]] {
     override protected def call: ObservableList[Game] = {
       val list = GameQuery.tlp.query
-        .where(and(
+        .where(
+          and(
+          Filters.eq("state", GameState.PLAYED.value),
           gte("star", begin),
-          lte("star", end)))
+          lte("star", end)
+          )
+        )
         .list
 
       FXCollections.observableArrayList(list)

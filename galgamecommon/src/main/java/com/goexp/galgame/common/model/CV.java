@@ -9,6 +9,19 @@ public class CV {
     public int star;
     public String trueName;
 
+
+    public String getName() {
+        return name;
+    }
+
+    public int getStar() {
+        return star;
+    }
+
+    public String getTrueName() {
+        return trueName;
+    }
+
     @Override
     public String toString() {
         return new StringJoiner(", ", CV.class.getSimpleName() + "[", "]")

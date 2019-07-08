@@ -7,6 +7,7 @@
 <MenuButton mnemonicParsing="false" styleClass="copyablelabel" text="More" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.common.jump.JumpLinkController">
     <items>
         <MenuItem fx:id="linkGetchu" mnemonicParsing="false" text="Getchu" />
+        <MenuItem fx:id="linkGuide" mnemonicParsing="false" text="攻略" />
         <SeparatorMenuItem mnemonicParsing="false" />
         <fx:include fx:id="searchLink" source="search.fxml" />
     </items>

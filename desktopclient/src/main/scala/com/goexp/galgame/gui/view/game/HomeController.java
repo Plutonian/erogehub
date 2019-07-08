@@ -263,6 +263,19 @@ public class HomeController extends DefaultController {
         }).select(game.name);
     }
 
+    public void loadGuide(String name) {
+        final var title="攻略:" +name;
+
+        TabSelect.from().ifNotFind(() -> {
+            final var loader = new FXMLLoaderProxy<Region, com.goexp.galgame.gui.view.guide.SearchController>("view/guide/panel.fxml");
+
+            var tab = new Tab(title, loader.node);
+            loader.controller.load(name);
+
+            return tab;
+        }).select(title);
+    }
+
 
     @FXML
     private void linkSearch_OnAction(ActionEvent actionEvent) throws IOException {
@@ -348,19 +361,19 @@ public class HomeController extends DefaultController {
 
     }
 
-    @FXML
-    private void linkGuide_OnAction(ActionEvent actionEvent) throws IOException {
-
-        TabSelect.from().ifNotFind(() -> {
-            final var loader = new FXMLLoaderProxy<Region, com.goexp.galgame.gui.view.guide.SearchController>("view/guide/panel.fxml");
-
-            var tab = new Tab("攻略", loader.node);
-            loader.controller.load();
-
-            return tab;
-        }).select("攻略");
-
-    }
+//    @FXML
+//    private void linkGuide_OnAction(ActionEvent actionEvent) throws IOException {
+//
+//        TabSelect.from().ifNotFind(() -> {
+//            final var loader = new FXMLLoaderProxy<Region, com.goexp.galgame.gui.view.guide.SearchController>("view/guide/panel.fxml");
+//
+//            var tab = new Tab("攻略", loader.node);
+//            loader.controller.load();
+//
+//            return tab;
+//        }).select("攻略");
+//
+//    }
 
     @FXML
     private void linkCV_OnAction(ActionEvent actionEvent) {

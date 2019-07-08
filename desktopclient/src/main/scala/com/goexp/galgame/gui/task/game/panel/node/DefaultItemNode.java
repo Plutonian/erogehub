@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.view.game.listview.sidebar.node;
+package com.goexp.galgame.gui.task.game.panel.node;
 
 public abstract class DefaultItemNode {
     public String title;

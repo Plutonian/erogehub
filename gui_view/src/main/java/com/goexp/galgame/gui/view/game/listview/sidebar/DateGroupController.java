@@ -1,9 +1,9 @@
 package com.goexp.galgame.gui.view.game.listview.sidebar;
 
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.task.PanelTask;
 import com.goexp.galgame.gui.task.TaskService;
-import com.goexp.galgame.gui.view.game.listview.sidebar.node.DateItemNode;
+import com.goexp.galgame.gui.task.game.panel.PanelTask;
+import com.goexp.galgame.gui.task.game.panel.node.DateItemNode;
 import javafx.concurrent.Service;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeCell;

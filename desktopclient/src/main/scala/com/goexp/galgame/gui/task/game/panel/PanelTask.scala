@@ -1,12 +1,12 @@
-package com.goexp.galgame.gui.task
+package com.goexp.galgame.gui.task.game.panel
 
 import java.time.LocalDate
 import java.util
 
 import com.goexp.common.util.Strings
 import com.goexp.galgame.gui.model.Game
+import com.goexp.galgame.gui.task.game.panel.node.{BrandItemNode, CompItemNode, DateItemNode, DefaultItemNode}
 import com.goexp.galgame.gui.util.Tags
-import com.goexp.galgame.gui.view.game.listview.sidebar.node.{BrandItemNode, CompItemNode, DateItemNode, DefaultItemNode}
 import javafx.concurrent.Task
 import javafx.scene.control.{Label, TreeItem}
 import javafx.scene.layout.HBox
@@ -25,6 +25,33 @@ object PanelTask {
       filteredGames.asScala.to(LazyList)
         .filter(g => g.tag.size > 0)
         .flatMap(g => g.tag.asScala.to(LazyList).filter(t => Strings.isNotEmpty(t)))
+
+        //Stream{String,String,String,String...}
+        .groupBy(s => s).to(LazyList)
+        .sortBy({ case (_, v) => v.size }).reverse
+        .take(20)
+        .map({ case (key, value) => {
+          logger.debug(s"<createTagGroup> Name:$key,Value:${value.size}")
+          new HBox(Tags.toNodes(key), new Label(s"(${value.size})"))
+        }
+        }).asJava
+    }
+
+  }
+
+  class GroupCV(val groupGames: util.List[Game]) extends Task[util.List[HBox]] {
+    private[task] val logger = LoggerFactory.getLogger(getClass)
+
+    override protected def call = createTagGroup(groupGames)
+
+    private def createTagGroup(filteredGames: util.List[Game]) = {
+      filteredGames.asScala.to(LazyList)
+        .filter(g => Option(g.gameCharacters).map(_.size()).getOrElse(0) > 0)
+        .flatMap(g =>
+          g.gameCharacters.asScala.to(LazyList)
+          .map(p=>if(Strings.isNotEmpty(p.trueCV))p.trueCV else if(Strings.isNotEmpty(p.cv))p.cv else "")
+          .filter(t => Strings.isNotEmpty(t))
+        )
 
         //Stream{String,String,String,String...}
         .groupBy(s => s).to(LazyList)

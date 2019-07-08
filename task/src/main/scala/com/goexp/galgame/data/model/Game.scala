@@ -1,7 +1,8 @@
 package com.goexp.galgame.data.model
 
-import java.util.Objects
+import java.util.{Objects, StringJoiner}
 
+import com.goexp.common.util.ConsoleColors.RED
 import com.goexp.galgame.common.model.{CommonGame, GameState}
 
 class Game extends CommonGame {
@@ -27,6 +28,25 @@ class Game extends CommonGame {
     }
   }
 
+  def simpleView: String = "Game{" + "id=" + RED.s(String.valueOf(id)) + ", name='" + RED.s(name) + '\'' + ", publishDate=" + publishDate + ", imgUrl='" + smallImg + '\'' + ", isNew='" + isNew + '\'' + '}'
+
+
+  override def toString: String = {
+    return new StringJoiner(", ", classOf[Game].getSimpleName + "[", "]")
+      .add("id=" + id)
+      .add("name='" + RED.s(name) + "'")
+      .add("publishDate=" + publishDate)
+      .add("smallImg='" + smallImg + "'")
+      .add("website='" + website + "'")
+      .add("writer=" + writer)
+      .add("painter=" + painter)
+      .add("type=" + `type`)
+      .add("tag=" + tag)
+      .add("gameCharacters=" + gameCharacters)
+    //                .add("story='" + story + "'")
+    //                .add("intro='" + intro + "'")
+      .add("gameImgs=" + gameImgs).toString
+  }
 
   override def hashCode: Int =
     Objects.hash(

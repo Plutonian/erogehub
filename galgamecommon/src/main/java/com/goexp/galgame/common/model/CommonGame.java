@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import static com.goexp.common.util.ConsoleColors.RED;
+
 public abstract class CommonGame {
     public int id;
     public String name = "";
@@ -38,34 +40,6 @@ public abstract class CommonGame {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", CommonGame.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("name='" + name + "'")
-                .add("publishDate=" + publishDate)
-                .add("smallImg='" + smallImg + "'")
-                .add("website='" + website + "'")
-                .add("writer=" + writer)
-                .add("painter=" + painter)
-                .add("type=" + type)
-                .add("tag=" + tag)
-//                .add("story='" + story + "'")
-//                .add("intro='" + intro + "'")
-                .add("gameCharacters=" + gameCharacters)
-                .add("gameImgs=" + gameImgs)
-                .toString();
-    }
-
-    public String simpleView() {
-        return "Game{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", publishDate=" + publishDate +
-                ", imgUrl='" + smallImg + '\'' +
-                ", isNew='" + isNew + '\'' +
-                '}';
-    }
 
     public static class GameImg {
 
@@ -95,13 +69,13 @@ public abstract class CommonGame {
 
         @Override
         public String toString() {
-            return new StringJoiner(", ", GameCharacter.class.getSimpleName() + "[", "]")
+            return new StringJoiner(", ", "\n" +GameCharacter.class.getSimpleName() + "[", "]")
+                    .add("index=" + index)
                     .add("name='" + name + "'")
                     .add("cv='" + cv + "'")
 //                    .add("intro='" + intro + "'")
                     .add("trueCV='" + trueCV + "'")
-                    .add("img='" + img + "'")
-                    .add("index=" + index)
+//                    .add("img='" + img + "'")
                     .toString();
         }
     }

@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
+import static com.goexp.common.util.ConsoleColors.RED;
+
 public class Game extends CommonGame {
     public SimpleObjectProperty<GameState> state = new SimpleObjectProperty<GameState>();
     public Brand brand;
@@ -83,9 +85,14 @@ public class Game extends CommonGame {
 
     @Override
     public String toString() {
+        return infoView();
+    }
+
+
+    public String debugView() {
         return new StringJoiner(", ", Game.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("name='" + name + "'")
+                .add("id=" + RED.s(String.valueOf(id)))
+                .add("name='" + RED.s(name) + "'")
                 .add("publishDate=" + publishDate)
                 .add("smallImg='" + smallImg + "'")
                 .add("website='" + website + "'")
@@ -100,6 +107,27 @@ public class Game extends CommonGame {
                 .add("state=" + state)
                 .add("brand=" + brand)
                 .add("star=" + star)
+                .toString();
+    }
+
+    public String infoView() {
+        return new StringJoiner(", ", Game.class.getSimpleName() + "[", "]")
+                .add("id=" + RED.s(String.valueOf(id)))
+                .add("name='" + RED.s(name) + "'")
+                .add("publishDate=" + publishDate)
+                .add("smallImg='" + smallImg + "'")
+//                .add("website='" + website + "'")
+                .add("writer=" + writer)
+                .add("painter=" + painter)
+                .add("type=" + type)
+                .add("tag=" + tag)
+//                .add("story='" + story + "'")
+//                .add("intro='" + intro + "'")
+                .add("\ngameCharacters=" + gameCharacters)
+                .add("\ngameImgs=" + Optional.ofNullable(gameImgs).map(List::size).orElse(0))
+                .add("state=" + state.get())
+                .add("\nbrand=" + brand)
+                .add("\nstar=" + star)
                 .toString();
     }
 

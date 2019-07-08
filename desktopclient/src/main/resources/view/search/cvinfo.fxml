@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.VBox?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" styleClass="back" stylesheets="@../view.css"
-            xmlns="http://javafx.com/javafx/"
-            fx:controller="com.goexp.galgame.gui.view.game.CVInfoController">
-    <center>
-        <ScrollPane fitToHeight="true" pannable="true" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
-            <content>
-<!--                <FlowPane fx:id="cvFlow" hgap="3.0" orientation="VERTICAL" prefWrapLength="600.0" vgap="3.0"/>-->
-                <VBox fx:id="cvFlow"/>
-            </content>
-        </ScrollPane>
-    </center>
+
+<BorderPane styleClass="back" stylesheets="@../view.css" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.CVInfoController">
+   <center>
+      <TableView fx:id="tableCV" prefHeight="651.0" prefWidth="1120.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="colName" editable="false" prefWidth="150.00001525878906" text="Name" />
+          <TableColumn fx:id="colStar" editable="false" minWidth="0.0" prefWidth="245.0" text="Star" />
+        </columns>
+      </TableView>
+   </center>
 </BorderPane>

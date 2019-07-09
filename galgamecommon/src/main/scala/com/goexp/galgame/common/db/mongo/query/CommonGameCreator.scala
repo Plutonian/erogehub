@@ -3,12 +3,11 @@ package com.goexp.galgame.common.db.mongo.query
 import java.util.List
 
 import com.goexp.common.db.mongo.ObjectCreator
-import com.goexp.common.util.DateUtil
+import com.goexp.common.util.{DateUtil, Strings}
 import com.goexp.galgame.common.model.CommonGame
 import org.bson.Document
 import org.slf4j.LoggerFactory
 
-//import scala.jdk.CollectionConverters._
 import scala.jdk.CollectionConverters._
 
 
@@ -33,7 +32,14 @@ class CommonGameCreator(private[this] val game: CommonGame) extends ObjectCreato
     game.gameCharacters =
       Option(doc.get("gamechar").asInstanceOf[List[Document]])
         .map({
-          _.asScala.to(LazyList).map(p => personCreator.create(p)).asJava
+          _.asScala.to(LazyList).map(p => personCreator.create(p))
+            .groupBy(p => {
+              if (Strings.isEmpty(p.cv)) {
+                if (Strings.isEmpty(p.img)) 3 else 2
+              } else 1
+            }).to(LazyList)
+            .sortBy({ case (k, _) => k })
+            .flatMap({ case (_, v) => v }).asJava
         })
         .getOrElse(List.of[CommonGame.GameCharacter]())
 

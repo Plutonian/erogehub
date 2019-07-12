@@ -85,7 +85,8 @@ public class DataViewController extends DefaultController {
      * Sidebar
      */
     @FXML
-    public Accordion groupPanel;
+    public Region groupPanel;
+
     @FXML
     private Region filterPanel;
     @FXML
@@ -155,8 +156,8 @@ public class DataViewController extends DefaultController {
         });
 
 
-        // #2
-        groupPanel.setExpandedPane(groupPanel.getPanes().get(1));
+//         #2
+//        groupPanel.setExpandedPane(groupPanel.getPanes().get(0));
 
         initSidebarContentView();
     }

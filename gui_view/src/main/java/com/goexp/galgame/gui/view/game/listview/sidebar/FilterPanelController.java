@@ -5,7 +5,8 @@ import com.goexp.galgame.gui.model.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.TextAlignment;
 
 import java.util.Comparator;
 import java.util.List;
@@ -16,10 +17,10 @@ import java.util.stream.Stream;
 public class FilterPanelController extends FilterController<Game> {
 
     @FXML
-    private FlowPane starbox;
+    private HBox starbox;
 
     @FXML
-    private FlowPane statebox;
+    private HBox statebox;
 
     protected void initialize() {
 
@@ -28,7 +29,7 @@ public class FilterPanelController extends FilterController<Game> {
 
     public void reset() {
         var nodes = Stream.of(GameState.values())
-                .sorted(Comparator.comparing((GameState state)->state.value).reversed())
+                .sorted(Comparator.comparing((GameState state) -> state.value).reversed())
                 .map(gameType -> {
                     var btn = new CheckBox(gameType.name);
                     btn.setUserData(gameType);
@@ -48,7 +49,8 @@ public class FilterPanelController extends FilterController<Game> {
                 .map(star -> {
                     var btn = new CheckBox(star.toString());
 
-                    btn.setSelected(true);
+                    if (star != 1 && star != 2)
+                        btn.setSelected(true);
 
                     btn.setUserData(star);
 

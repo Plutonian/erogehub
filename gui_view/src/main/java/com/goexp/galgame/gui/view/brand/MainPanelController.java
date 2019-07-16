@@ -228,7 +228,7 @@ public class MainPanelController extends DefaultController {
 
 
     public void load() {
-        choiceBrandType.setValue(BrandType.LIKE);
+        choiceBrandType.setValue(BrandType.CHECKING);
     }
 
 

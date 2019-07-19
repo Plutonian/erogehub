@@ -5,7 +5,7 @@ import java.util
 
 import com.goexp.common.util.Strings
 import com.goexp.galgame.gui.model.{Brand, Game}
-import com.goexp.galgame.gui.task.game.panel.node.{BrandItemNode, CompItemNode, DateItemNode, DefaultItemNode}
+import com.goexp.galgame.gui.task.game.panel.node.{BrandItemNode, CVItemNode, CompItemNode, DateItemNode, DefaultItemNode}
 import com.goexp.galgame.gui.util.Tags
 import javafx.concurrent.Task
 import javafx.scene.control.{Label, TreeItem}
@@ -38,10 +38,10 @@ object PanelTask {
 
   }
 
-  class GroupCV(val groupGames: util.List[Game]) extends Task[util.List[HBox]] {
+  class GroupCV(val groupGames: util.List[Game]) extends Task[util.List[CVItemNode]] {
     private[task] val logger = LoggerFactory.getLogger(getClass)
 
-    override protected def call: util.List[HBox] = createTagGroup(groupGames)
+    override protected def call: util.List[CVItemNode] = createTagGroup(groupGames)
 
     private def createTagGroup(filteredGames: util.List[Game]) = {
       filteredGames.asScala.to(LazyList)
@@ -58,7 +58,8 @@ object PanelTask {
         //        .take(20)
         .map({ case (key, value) =>
         logger.debug(s"<createTagGroup> Name:$key,Value:${value.size}")
-        new HBox(Tags.toNodes(key), new Label(s"(${value.size})"))
+        new CVItemNode(key, value.size)
+
       }).asJava
     }
 

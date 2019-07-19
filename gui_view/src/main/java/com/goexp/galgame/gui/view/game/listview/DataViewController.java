@@ -4,6 +4,8 @@ import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
 import com.goexp.galgame.gui.task.game.panel.PanelTask;
+import com.goexp.galgame.gui.task.game.panel.node.CVItemNode;
+import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.game.listview.sidebar.BrandGroupController;
 import com.goexp.galgame.gui.view.game.listview.sidebar.DateGroupController;
@@ -13,6 +15,7 @@ import com.goexp.galgame.gui.view.game.listview.simplelist.small.ListViewControl
 import com.goexp.galgame.gui.view.game.listview.tableview.TableController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -22,7 +25,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -75,7 +77,7 @@ public class DataViewController extends DefaultController {
     private TableView<Game> tableView;
     @FXML
     private ListView<Game> listSimple;
-//    @FXML
+    //    @FXML
 //    private ListView<Game> smallListSimple;
     @FXML
     private Region imgView;
@@ -92,14 +94,14 @@ public class DataViewController extends DefaultController {
     @FXML
     private Button btnHide;
     @FXML
-    private VBox cvList;
+    private ListView<CVItemNode> cvList;
 
 
     private FilteredList<Game> filteredGames;
 
     private Predicate<Game> groupPredicate;
 
-    private Service<List<HBox>> groupCVServ = new TaskService<>(() -> new PanelTask.GroupCV(filteredGames));
+    private Service<List<CVItemNode>> groupCVServ = new TaskService<>(() -> new PanelTask.GroupCV(filteredGames));
 
 
     protected void initialize() {
@@ -110,9 +112,24 @@ public class DataViewController extends DefaultController {
     }
 
     private void initCVPanel() {
+        cvList.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(CVItemNode cvItemNode, boolean empty) {
+                super.updateItem(cvItemNode, empty);
+                setText(null);
+                setGraphic(null);
+
+                if (cvItemNode != null && !empty) {
+                    setGraphic(new HBox(Tags.toNodes(cvItemNode.cv), new Label(String.valueOf(cvItemNode.count))));
+                }
+
+            }
+        });
+
+
         groupCVServ.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                cvList.getChildren().setAll(newValue);
+                cvList.setItems(FXCollections.observableList(newValue));
             }
         });
     }

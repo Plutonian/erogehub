@@ -16,6 +16,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ListView?>
 <BorderPane xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.listview.DataViewController">
     <center>
         <BorderPane style="-fx-background-color: white;">
@@ -84,23 +85,19 @@
          <center>
                       <TabPane fx:id="groupPanel" prefHeight="200.0" prefWidth="200.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
                           <tabs>
-                              <Tab text="Brand">
-                                  <content>
-                                      <fx:include fx:id="brandGroup" source="sidebar/brandgroup.fxml" />
-                                  </content>
-                              </Tab>
                               <Tab text="Date">
                                   <content>
                                       <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml" />
                                   </content>
                               </Tab>
+                              <Tab text="Brand">
+                                  <content>
+                                      <fx:include fx:id="brandGroup" source="sidebar/brandgroup.fxml" />
+                                  </content>
+                              </Tab>
                               <Tab text="CV">
                                   <content>
-                                      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                          <content>
-                                              <VBox fx:id="cvList" prefHeight="100.0" />
-                                          </content>
-                                      </ScrollPane>
+                                      <ListView fx:id="cvList" prefHeight="100.0" />
                                   </content>
                               </Tab>
                           </tabs>

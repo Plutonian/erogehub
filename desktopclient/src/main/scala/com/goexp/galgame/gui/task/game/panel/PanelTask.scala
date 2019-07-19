@@ -4,7 +4,7 @@ import java.time.LocalDate
 import java.util
 
 import com.goexp.common.util.Strings
-import com.goexp.galgame.gui.model.Game
+import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.game.panel.node.{BrandItemNode, CompItemNode, DateItemNode, DefaultItemNode}
 import com.goexp.galgame.gui.util.Tags
 import javafx.concurrent.Task
@@ -19,7 +19,7 @@ object PanelTask {
   class GroupTag(val groupGames: util.List[Game]) extends Task[util.List[HBox]] {
     private[task] val logger = LoggerFactory.getLogger(getClass)
 
-    override protected def call = createTagGroup(groupGames)
+    override protected def call: util.List[HBox] = createTagGroup(groupGames)
 
     private def createTagGroup(filteredGames: util.List[Game]) = {
       filteredGames.asScala.to(LazyList)
@@ -30,10 +30,9 @@ object PanelTask {
         .groupBy(s => s).to(LazyList)
         .sortBy({ case (_, v) => v.size }).reverse
         .take(20)
-        .map({ case (key, value) => {
+        .map({ case (key, value) =>
           logger.debug(s"<createTagGroup> Name:$key,Value:${value.size}")
           new HBox(Tags.toNodes(key), new Label(s"(${value.size})"))
-        }
         }).asJava
     }
 
@@ -42,26 +41,25 @@ object PanelTask {
   class GroupCV(val groupGames: util.List[Game]) extends Task[util.List[HBox]] {
     private[task] val logger = LoggerFactory.getLogger(getClass)
 
-    override protected def call = createTagGroup(groupGames)
+    override protected def call: util.List[HBox] = createTagGroup(groupGames)
 
     private def createTagGroup(filteredGames: util.List[Game]) = {
       filteredGames.asScala.to(LazyList)
         .filter(g => Option(g.gameCharacters).map(_.size()).getOrElse(0) > 0)
         .flatMap(g =>
           g.gameCharacters.asScala.to(LazyList)
-          .map(p=>if(Strings.isNotEmpty(p.trueCV))p.trueCV else if(Strings.isNotEmpty(p.cv))p.cv else "")
-          .filter(t => Strings.isNotEmpty(t))
+            .map(p => if (Strings.isNotEmpty(p.trueCV)) p.trueCV else if (Strings.isNotEmpty(p.cv)) p.cv else "")
+            .filter(t => Strings.isNotEmpty(t))
         )
 
         //Stream{String,String,String,String...}
         .groupBy(s => s).to(LazyList)
         .sortBy({ case (_, v) => v.size }).reverse
-        .take(20)
-        .map({ case (key, value) => {
-          logger.debug(s"<createTagGroup> Name:$key,Value:${value.size}")
-          new HBox(Tags.toNodes(key), new Label(s"(${value.size})"))
-        }
-        }).asJava
+        //        .take(20)
+        .map({ case (key, value) =>
+        logger.debug(s"<createTagGroup> Name:$key,Value:${value.size}")
+        new HBox(Tags.toNodes(key), new Label(s"(${value.size})"))
+      }).asJava
     }
 
   }
@@ -113,21 +111,24 @@ object PanelTask {
 
     private def createCompGroup(filteredGames: util.List[Game]) = {
       val compsNodes = filteredGames.asScala.to(LazyList)
-        .groupBy(game => Option(game.brand.comp).getOrElse("")).to(LazyList)
+        .groupBy(game => Option(game.brand.comp).getOrElse(game.brand)).to(LazyList)
         .sortBy({ case (_, v) => v.size }).reverse
-        .map({ case (comp, v) => {
+        .map({
+          case (comp: String, v) =>
 
-          val compNode = new TreeItem[DefaultItemNode](new CompItemNode(comp, v.size, comp))
+            val compNode = new TreeItem[DefaultItemNode](new CompItemNode(comp, v.size, comp))
 
-          val brandNodes = v.groupBy(g => g.brand).to(LazyList)
-            .map({ case (brand, games) => new TreeItem[DefaultItemNode](new BrandItemNode(brand.name, games.size, brand)) })
-            .asJava
+            val brandNodes = v.groupBy(g => g.brand).to(LazyList)
+              .map({ case (brand, games) => new TreeItem[DefaultItemNode](new BrandItemNode(brand.name, games.size, brand)) })
+              .asJava
 
-          compNode.getChildren.addAll(brandNodes)
+            compNode.getChildren.addAll(brandNodes)
 
-          compNode
+            compNode
+          case (brand: Brand, v) =>
 
-        }
+            val compNode = new TreeItem[DefaultItemNode](new BrandItemNode(brand.name, v.size, brand))
+            compNode
         })
         .asJava
 

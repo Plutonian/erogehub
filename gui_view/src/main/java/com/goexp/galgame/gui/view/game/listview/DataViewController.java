@@ -92,27 +92,27 @@ public class DataViewController extends DefaultController {
     @FXML
     private Button btnHide;
     @FXML
-    private VBox tagFlow;
+    private VBox cvList;
 
 
     private FilteredList<Game> filteredGames;
 
     private Predicate<Game> groupPredicate;
 
-    private Service<List<HBox>> groupTagServ = new TaskService<>(() -> new PanelTask.GroupCV(filteredGames));
+    private Service<List<HBox>> groupCVServ = new TaskService<>(() -> new PanelTask.GroupCV(filteredGames));
 
 
     protected void initialize() {
         initSwitchBar();
         initSideBar();
-        initTagPanel();
+        initCVPanel();
         btnHide.fire();
     }
 
-    private void initTagPanel() {
-        groupTagServ.valueProperty().addListener((observable, oldValue, newValue) -> {
+    private void initCVPanel() {
+        groupCVServ.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                tagFlow.getChildren().setAll(newValue);
+                cvList.getChildren().setAll(newValue);
             }
         });
     }
@@ -231,7 +231,7 @@ public class DataViewController extends DefaultController {
         dateGroupController.init(filteredGames);
         brandGroupController.init(filteredGames);
 
-        groupTagServ.restart();
+        groupCVServ.restart();
     }
 
     private void loadItems(SortedList<Game> sortedData) {

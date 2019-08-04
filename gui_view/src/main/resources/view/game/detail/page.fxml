@@ -32,7 +32,7 @@
         </Tab>
         <Tab fx:id="tabPerson" text="キャラクター">
             <content>
-                <ListView fx:id="persionListView" />
+                <ListView fx:id="personListView" />
             </content>
         </Tab>
         <Tab fx:id="tabSimple" text="サンプル画像">

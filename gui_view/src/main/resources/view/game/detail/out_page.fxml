@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
 <?import java.net.URL?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1"
+<BorderPane style="-fx-background-color:#FFF"
+            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="com.goexp.galgame.gui.view.game.detailview.NavViewController">
+
     <stylesheets>
         <URL value="@../../view.css"/>
     </stylesheets>
-    <children>
-        <StackPane style="-fx-background-color:#FFF" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                   AnchorPane.rightAnchor="0.0"
-                   AnchorPane.topAnchor="0.0">
-            <children>
-                <fx:include fx:id="rootContainer" source="page.fxml"/>
-                <!--<TitledPane animated="false" expanded="false" text="このブランドの作品" StackPane.alignment="BOTTOM_CENTER">-->
-                <!--<content>-->
-                <!--<ListView fx:id="listNav" orientation="HORIZONTAL" prefHeight="220.0" />-->
-                <!--</content>-->
-                <!--</TitledPane>-->
+    <center>
+        <fx:include fx:id="rootContainer" source="page.fxml"/>
+        <!--<TitledPane animated="false" expanded="false" text="このブランドの作品" StackPane.alignment="BOTTOM_CENTER">-->
+        <!--<content>-->
+        <!--<ListView fx:id="listNav" orientation="HORIZONTAL" prefHeight="220.0" />-->
+        <!--</content>-->
+        <!--</TitledPane>-->
+    </center>
+    <bottom>
+        <fx:include fx:id="header" source="part/small_header.fxml"/>
+    </bottom>
 
-            </children>
-        </StackPane>
-
-        <fx:include fx:id="header" source="part/small_header.fxml" visible="false" AnchorPane.leftAnchor="0.0"
-                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
-    </children>
-</AnchorPane>
+</BorderPane>

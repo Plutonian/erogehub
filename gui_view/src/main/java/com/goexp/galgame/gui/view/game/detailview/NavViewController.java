@@ -1,23 +1,34 @@
 package com.goexp.galgame.gui.view.game.detailview;
 
 import com.goexp.common.util.DateUtil;
+import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
+import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.util.res.Images;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
 import com.goexp.galgame.gui.view.game.HomeController;
+import com.goexp.galgame.gui.view.game.detailview.part.DateShowController;
+import com.goexp.galgame.gui.view.game.detailview.part.StarChoiceBarController;
 import com.goexp.galgame.gui.view.game.detailview.part.StateChangeChoiceBarController;
+import com.goexp.galgame.gui.view.game.part.StateChangeController;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+
+import static com.goexp.galgame.common.util.GameName.NAME_SPLITER_REX;
 
 
 public class NavViewController extends DefaultController {
@@ -189,55 +200,64 @@ public class NavViewController extends DefaultController {
     public static class SmallHeaderController extends DefaultController {
 
         @FXML
+        private StarChoiceBarController starChangeController;
+
+        @FXML
         private JumpLinkController webjumpController;
 
         @FXML
-        private JumpBrandController brandJumpController;
+        private StateChangeController changeStateController;
 
         @FXML
-        private StateChangeChoiceBarController changeStateController;
+        private HBox boxStar;
 
-        @FXML
-        private Text txtName;
-
-        @FXML
-        private Label lbDate;
-
-        @FXML
-        private HBox boxTag;
+        private Game targetGame;
 
         protected void initialize() {
 
+            starChangeController.onStarChangeProperty.addListener((observable, oldValue, changed) -> {
+
+                if (changed) {
+                    loadStar(targetGame);
+                }
+            });
         }
 
+        public void loadStar(Game game) {
+            boxStar.getChildren().clear();
+            var image = LocalRes.HEART_16_PNG.get();
+            for (var i = 0; i < game.star; i++) {
+                boxStar.getChildren().add(new ImageView(image));
+            }
+        }
 
         public void load(Game game) {
 
-            webjumpController.load(game);
 
-            txtName.setText(game.name);
+            loadWithoutImage(game);
+
+//            if (game.smallImg != null && game.smallImg.startsWith("http")) {
+//                imageImg.setImage(Images.GameImage.tiny(game));
+//
+//            } else {
+//                imageImg.setImage(null);
+//            }
 
 
-            brandJumpController.load(game.brand);
+        }
+
+        private void loadWithoutImage(Game game) {
+            this.targetGame = game;
 
             changeStateController.load(game);
+            starChangeController.load(game);
+            webjumpController.load(game);
 
-
-            if (game.tag.size() > 0) {
-
-                boxTag.getChildren().setAll(Tags.toNodes(game.tag, str -> {
-                    var tagLabel = new Label(str);
-
-                    tagLabel.getStyleClass().add("tag");
-                    tagLabel.getStyleClass().add("tagbig");
-
-                    return tagLabel;
-                }));
-            } else {
-                boxTag.getChildren().clear();
+            boxStar.getChildren().clear();
+            var image = LocalRes.HEART_16_PNG.get();
+            for (var i = 0; i < game.star; i++) {
+                boxStar.getChildren().add(new ImageView(image));
             }
-
-            lbDate.setText(DateUtil.formatDate(game.publishDate));
 
         }
     }

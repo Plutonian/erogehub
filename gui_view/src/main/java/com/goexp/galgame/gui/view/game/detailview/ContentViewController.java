@@ -104,11 +104,11 @@ public class ContentViewController extends DefaultController {
         headerController.load(game);
 
         /**
-         * pserion
+         * person
          */
-        var persionSize = Optional.ofNullable(game.gameCharacters).map(List::size).orElse(0);
+        var personSize = Optional.ofNullable(game.gameCharacters).map(List::size).orElse(0);
 
-        if (persionSize == 0) {
+        if (personSize == 0) {
             contentTabPane.getTabs().remove(tabPerson);
         } else {
             persionListView.setItems(FXCollections.observableList(game.gameCharacters));

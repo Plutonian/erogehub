@@ -1,75 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-
-<?import javafx.scene.control.ListView?>
-<BorderPane xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.listview.DataViewController">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.goexp.galgame.gui.view.game.listview.DataViewController">
     <center>
         <BorderPane style="-fx-background-color: white;">
+            <top>
+                <fx:include fx:id="filterPanel" source="sidebar/dataview_filter.fxml"/>
+            </top>
             <center>
                 <StackPane>
-                    <fx:include fx:id="imgView" source="imglistview/list.fxml" />
+                    <fx:include fx:id="imgView" source="imglistview/list.fxml"/>
                     <!--<fx:include fx:id="treeTableView" source="table/game_treetable.fxml" />-->
-                    <fx:include fx:id="tableView" source="table/table.fxml" />
-                    <fx:include fx:id="listSimple" source="listview/list.fxml" />
+                    <fx:include fx:id="tableView" source="table/table.fxml"/>
+                    <fx:include fx:id="listSimple" source="listview/list.fxml"/>
                     <!--                    <fx:include fx:id="smallListSimple" source="listview/small/list.fxml"/>-->
                 </StackPane>
             </center>
             <bottom>
                 <AnchorPane BorderPane.alignment="CENTER">
-                    <children>
-                        <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
-                            <children>
-                                <ToggleButton fx:id="toggSmall" mnemonicParsing="false" selected="true" styleClass="left-pill" text="Small">
-                                    <toggleGroup>
-                                        <ToggleGroup fx:id="gameViewChange" />
-                                    </toggleGroup>
-                                </ToggleButton>
-                                <ToggleButton fx:id="toggList" mnemonicParsing="false" styleClass="center-pill" text="Middle" toggleGroup="$gameViewChange" />
-                                <ToggleButton fx:id="toggGrid" mnemonicParsing="false" styleClass="center-pill" text="Grid" toggleGroup="$gameViewChange" />
-                                <!--<ToggleButton fx:id="toggTreeGrid" mnemonicParsing="false" styleClass="center-pill" text="TreeGrid" toggleGroup="$gameViewChange" />-->
-                                <ToggleButton fx:id="toggImg" mnemonicParsing="false" styleClass="right-pill" text="Img" toggleGroup="$gameViewChange" />
-                            </children>
-                        </HBox>
-                        <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
-                            <children>
-                                <StackPane>
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                    <children>
-                                        <Label fx:id="lbItemCount" prefWidth="80.0" />
-                                    </children>
-                                </StackPane>
-                                <ProgressBar fx:id="progessloading" prefHeight="25.0" prefWidth="77.0" visible="false" />
-                            </children>
-                        </HBox>
-                    </children>
                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
+                        <Insets bottom="5.0" top="5.0"/>
                     </padding>
                     <BorderPane.margin>
-                        <Insets />
+                        <Insets/>
                     </BorderPane.margin>
+                    <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+                        <ToggleButton fx:id="toggSmall" mnemonicParsing="false" selected="true"
+                                      styleClass="left-pill" text="Small">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="gameViewChange"/>
+                            </toggleGroup>
+                        </ToggleButton>
+                        <ToggleButton fx:id="toggList" mnemonicParsing="false" styleClass="center-pill"
+                                      text="Middle" toggleGroup="$gameViewChange"/>
+                        <ToggleButton fx:id="toggGrid" mnemonicParsing="false" styleClass="center-pill"
+                                      text="Grid" toggleGroup="$gameViewChange"/>
+                        <!--<ToggleButton fx:id="toggTreeGrid" mnemonicParsing="false" styleClass="center-pill" text="TreeGrid" toggleGroup="$gameViewChange" />-->
+                        <ToggleButton fx:id="toggImg" mnemonicParsing="false" styleClass="right-pill" text="Img"
+                                      toggleGroup="$gameViewChange"/>
+                    </HBox>
+                    <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
+                        <StackPane>
+                            <HBox.margin>
+                                <Insets/>
+                            </HBox.margin>
+                            <Label fx:id="lbItemCount" prefWidth="80.0"/>
+                        </StackPane>
+                        <ProgressBar fx:id="progessloading" prefHeight="25.0" prefWidth="77.0" visible="false"/>
+                    </HBox>
                 </AnchorPane>
             </bottom>
-         <top>
-                  <fx:include fx:id="filterPanel" source="sidebar/dataview_filter.fxml" />
-         </top>
+
         </BorderPane>
     </center>
     <right>
@@ -77,32 +61,25 @@
             <left>
                 <ToolBar orientation="VERTICAL">
                     <items>
-                        <Button fx:id="btnHide" mnemonicParsing="false" text="+" />
-                        <Button mnemonicParsing="false" onAction="#reload_OnAction" text="R" />
+                        <Button fx:id="btnHide" mnemonicParsing="false" text="+"/>
+                        <Button mnemonicParsing="false" onAction="#reload_OnAction" text="R"/>
                     </items>
                 </ToolBar>
             </left>
-         <center>
-                      <TabPane fx:id="groupPanel" prefHeight="200.0" prefWidth="200.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-                          <tabs>
-                              <Tab text="Date">
-                                  <content>
-                                      <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml" />
-                                  </content>
-                              </Tab>
-                              <Tab text="Brand">
-                                  <content>
-                                      <fx:include fx:id="brandGroup" source="sidebar/brandgroup.fxml" />
-                                  </content>
-                              </Tab>
-                              <Tab text="CV">
-                                  <content>
-                                      <ListView fx:id="cvList" prefHeight="100.0" />
-                                  </content>
-                              </Tab>
-                          </tabs>
-                      </TabPane>
-         </center>
+            <center>
+                <TabPane fx:id="groupPanel" prefHeight="200.0" prefWidth="200.0" side="RIGHT"
+                         tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                    <Tab text="Date">
+                        <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml"/>
+                    </Tab>
+                    <Tab text="Brand">
+                        <fx:include fx:id="brandGroup" source="sidebar/brandgroup.fxml"/>
+                    </Tab>
+                    <Tab text="CV">
+                        <ListView fx:id="cvList" prefHeight="100.0"/>
+                    </Tab>
+                </TabPane>
+            </center>
         </BorderPane>
     </right>
 </BorderPane>

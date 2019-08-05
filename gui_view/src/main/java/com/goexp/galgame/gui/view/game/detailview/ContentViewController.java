@@ -38,7 +38,7 @@ public class ContentViewController extends DefaultController {
 
     @FXML
     public SimpleImgPartController simpleImgController;
-    public ScrollPane rootContainer;
+//    public ScrollPane rootContainer;
     private Game game;
     @FXML
     private ListView<CommonGame.GameCharacter> personListView;
@@ -91,7 +91,7 @@ public class ContentViewController extends DefaultController {
     public void load(Game game) {
 
 
-        rootContainer.setVvalue(0);
+//        rootContainer.setVvalue(0);
 
         this.game = game;
 
@@ -197,7 +197,7 @@ public class ContentViewController extends DefaultController {
             loadWithoutImage(game);
 
             if (game.smallImg != null && game.smallImg.startsWith("http")) {
-                imageImg.setImage(Images.GameImage.large(game));
+                imageImg.setImage(Images.GameImage.small(game));
             } else {
                 imageImg.setImage(null);
             }
@@ -249,10 +249,10 @@ public class ContentViewController extends DefaultController {
 
             loadStar(game);
 
-            if (game.state.get().value <= GameState.BLOCK.value)
-                imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));
-            else
-                imageImg.setEffect(null);
+//            if (game.state.get().value <= GameState.BLOCK.value)
+//                imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));
+//            else
+//                imageImg.setEffect(null);
 
         }
 

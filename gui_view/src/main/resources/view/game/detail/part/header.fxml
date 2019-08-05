@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.detailview.ContentViewController$HeaderPartController">
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.net.URL?>
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.goexp.galgame.gui.view.game.detailview.ContentViewController$HeaderPartController">
     <stylesheets>
-        <URL value="@../../../view.css" />
+        <URL value="@../../../view.css"/>
     </stylesheets>
     <left>
         <AnchorPane BorderPane.alignment="CENTER">
-            <ImageView fx:id="imageImg" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fx:id="imageImg" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0"
+                       AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             </ImageView>
         </AnchorPane>
     </left>
@@ -31,80 +23,87 @@
         <BorderPane>
             <center>
                 <AnchorPane>
-               <StackPane opacity="0.5" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                  <effect>
-                     <GaussianBlur />
-                  </effect>
-               </StackPane>
-                    <fx:include fx:id="dateview" source="../control/date.fxml" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER" />
+
+                    <fx:include fx:id="dateview" source="../control/date.fxml" AnchorPane.rightAnchor="0.0"
+                                AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER"/>
                     <VBox spacing="5.0">
                         <VBox>
                             <HBox>
-                                <Text fx:id="txtName" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="OH!!マイクロマン">
+                                <Text fx:id="txtName" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
+                                      text="OH!!マイクロマン">
                                     <font>
-                                        <Font name="System Bold" size="24.0" />
+                                        <Font name="System Bold" size="24.0"/>
                                     </font>
                                 </Text>
-                                <Text fx:id="txtSubName" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="～小さくなって女の子の色んなトコロに入っちゃお～" HBox.hgrow="NEVER" />
+                                <Text fx:id="txtSubName" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
+                                      text="～小さくなって女の子の色んなトコロに入っちゃお～" HBox.hgrow="NEVER"/>
                             </HBox>
-                            <fx:include fx:id="brandJump" source="../../../brand/brandjump.fxml" />
+                            <fx:include fx:id="brandJump" source="../../../brand/brandjump.fxml"/>
                         </VBox>
 
-                        <HBox fx:id="boxTag" spacing="5.0" />
+                        <HBox fx:id="boxTag" spacing="5.0"/>
                         <HBox fx:id="boxStar">
                         </HBox>
                         <!--                        <fx:include fx:id="starChange" source="../control/star_choicebar.fxml"/>-->
                         <GridPane>
                             <columnConstraints>
-                                <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="68.0" />
-                                <ColumnConstraints hgrow="ALWAYS" maxWidth="600.0" minWidth="10.0" />
+                                <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="68.0"/>
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="600.0" minWidth="10.0"/>
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints minHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints fillHeight="false" minHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints fillHeight="false" minHeight="30.0" vgrow="SOMETIMES"/>
                             </rowConstraints>
                             <opaqueInsets>
-                                <Insets />
+                                <Insets/>
                             </opaqueInsets>
                             <Label text="原画" textFill="#6e6d6d" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                 <font>
-                                    <Font size="14.0" />
+                                    <Font size="14.0"/>
                                 </font>
                             </Label>
-                            <FlowPane fx:id="flowPainter" rowValignment="TOP" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES" />
+                            <FlowPane fx:id="flowPainter" rowValignment="TOP" GridPane.columnIndex="1"
+                                      GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES"/>
                             <Label text="シナリオ" textFill="#6e6d6d">
                                 <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="14.0"/>
                                 </font>
                             </Label>
-                            <Label fx:id="txtWriter" text="XX" wrapText="true" GridPane.columnIndex="1" />
+                            <Label fx:id="txtWriter" text="XX" wrapText="true" GridPane.columnIndex="1"/>
                         </GridPane>
-                  <AnchorPane>
-                     <children>
-                        <VBox>
-                           <children>
-                                    <Text fx:id="txtStory" fill="WHITE" style="-fx-margin-top:10px" wrappingWidth="600">
-                                        <font>
-                                            <Font size="16.0" />
-                                        </font>
-                                    </Text>
-                                    <Text fx:id="txtIntro" fill="WHITE" wrappingWidth="600">
-                        </Text>
-                           </children>
-                        </VBox>
-                     </children>
-                  </AnchorPane>
+                        <AnchorPane>
+                            <children>
+                                <StackPane opacity="0.5" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: black;"
+                                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                           AnchorPane.topAnchor="0.0">
+                                    <effect>
+                                        <GaussianBlur/>
+                                    </effect>
+                                </StackPane>
+                                <VBox>
+                                    <children>
+                                        <Text fx:id="txtIntro" fill="WHITE">
+                                        </Text>
+                                        <Text fx:id="txtStory" fill="WHITE" style="-fx-margin-top:10px" wrappingWidth="800">
+                                            <font>
+                                                <Font size="16.0"/>
+                                            </font>
+                                        </Text>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </AnchorPane>
 
                     </VBox>
                 </AnchorPane>
             </center>
             <BorderPane.margin>
-                <Insets left="10.0" />
+                <Insets left="10.0"/>
             </BorderPane.margin>
         </BorderPane>
     </center>
 
     <padding>
-        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
     </padding>
 </BorderPane>

@@ -93,7 +93,7 @@ public enum ConsoleColors {
         return code;
     }
 
-    public  String s(String str){
+    public String s(String str) {
 
         return this.code + str + RESET;
 

@@ -8,7 +8,7 @@ import com.goexp.galgame.common.model.CommonGame
 import com.goexp.galgame.data.db.importor.mongdb.GameDB
 import com.goexp.galgame.data.db.query.mongdb.GameQuery
 import com.goexp.galgame.data.model.Game
-import com.goexp.galgame.data.piplline.core.{Message, MessageQueueProxy}
+import com.goexp.galgame.data.piplline.core.Message
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
@@ -22,14 +22,26 @@ class ProcessGameOK extends DefaultMessageHandler[Game] {
   final private val logger = LoggerFactory.getLogger(classOf[ProcessGameOK])
 
   private def merge(local: util.List[CommonGame.GameCharacter], remote: util.List[CommonGame.GameCharacter]): util.List[CommonGame.GameCharacter] = {
-    if (local == null && remote == null) return null
-    if (local == null) return remote
+    val localSize = Option(local).map(_.size()).getOrElse(0)
+    val remoteSize = Option(remote).map(_.size()).getOrElse(0)
+
+    //do nothing
+    if (localSize == 0 && remoteSize == 0) return null
+    if (localSize > remoteSize) return null
+    if (localSize == 0) return remote
+
     // make local cache
     val localMap = local.asScala.to(LazyList).map(cc => cc.index -> cc).toMap
     //merge local to remote
     remote.asScala.map((rc: CommonGame.GameCharacter) => {
       localMap.get(rc.index) match {
         case Some(localC) =>
+
+          /**
+            * merge local to remote
+            */
+
+          // copy trueCV
           if (Strings.isNotEmpty(localC.trueCV)) {
             logger.debug("Merge trueCV {}", rc)
             rc.trueCV = localC.trueCV
@@ -39,6 +51,15 @@ class ProcessGameOK extends DefaultMessageHandler[Game] {
             logger.debug("Merge cv {}", rc)
             rc.cv = localC.cv
           }
+
+          /**
+            * log
+            */
+
+          if (Strings.isEmpty(localC.cv) && Strings.isNotEmpty(rc.cv))
+            logger.info("New cv {}", rc.cv)
+
+
         case _ =>
       }
 

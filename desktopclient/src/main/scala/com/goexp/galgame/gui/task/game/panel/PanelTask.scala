@@ -5,7 +5,7 @@ import java.util
 
 import com.goexp.common.util.Strings
 import com.goexp.galgame.gui.model.{Brand, Game}
-import com.goexp.galgame.gui.task.game.panel.node.{BrandItemNode, CVItemNode, CompItemNode, DateItemNode, DefaultItemNode}
+import com.goexp.galgame.gui.task.game.panel.node._
 import com.goexp.galgame.gui.util.Tags
 import javafx.concurrent.Task
 import javafx.scene.control.{Label, TreeItem}
@@ -57,10 +57,10 @@ object PanelTask {
         .sortBy({ case (_, v) => v.size }).reverse
         //        .take(20)
         .map({ case (key, value) =>
-        logger.debug(s"<createTagGroup> Name:$key,Value:${value.size}")
-        new CVItemNode(key, value.size)
+          logger.debug(s"<createTagGroup> Name:$key,Value:${value.size}")
+          new CVItemNode(key, value.size)
 
-      }).asJava
+        }).asJava
     }
 
   }
@@ -103,6 +103,11 @@ object PanelTask {
 
       val root = new TreeItem[DateItemNode]
       root.getChildren.setAll(yearsStream)
+
+      // only one
+      if (yearsStream.size == 1)
+        yearsStream.get(0).setExpanded(true)
+
       root
     }
   }
@@ -117,15 +122,18 @@ object PanelTask {
         .map({
           case (comp: String, v) =>
 
-            val compNode = new TreeItem[DefaultItemNode](new CompItemNode(comp, v.size, comp))
-
             val brandNodes = v.groupBy(g => g.brand).to(LazyList)
               .map({ case (brand, games) => new TreeItem[DefaultItemNode](new BrandItemNode(brand.name, games.size, brand)) })
               .asJava
 
-            compNode.getChildren.addAll(brandNodes)
+            if (brandNodes.size > 1) {
+              val compNode = new TreeItem[DefaultItemNode](new CompItemNode(comp, v.size, comp))
+              compNode.getChildren.addAll(brandNodes)
 
-            compNode
+              compNode
+            } else {
+              brandNodes.get(0)
+            }
           case (brand: Brand, v) =>
 
             val compNode = new TreeItem[DefaultItemNode](new BrandItemNode(brand.name, v.size, brand))

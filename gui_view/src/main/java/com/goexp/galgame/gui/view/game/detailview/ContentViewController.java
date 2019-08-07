@@ -166,7 +166,7 @@ public class ContentViewController extends DefaultController {
         private Text txtIntro;
 
         @FXML
-        private Text txtStory;
+        private TextArea txtStory;
 
         private Game targetGame;
 

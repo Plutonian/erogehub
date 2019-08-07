@@ -14,35 +14,40 @@
     </stylesheets>
     <center>
         <StackPane>
-            <children>
-                <StackPane styleClass="datecolor">
-                    <children>
-                        <Text strokeLineCap="ROUND" text="ようこそ、エロゲー世界へ">
-                            <font>
-                                <Font name="System Bold" size="96.0"/>
-                            </font>
-                            <effect>
-                                <Reflection bottomOpacity="0.15" fraction="0.59" topOffset="-10.0" topOpacity="0.37">
-                                    <input>
-                                        <InnerShadow color="#0a0707" height="0.0" radius="0.0" width="0.0"/>
-                                    </input>
-                                </Reflection>
-                            </effect>
-                        </Text>
-                    </children>
-                </StackPane>
-                <TabPane fx:id="mainTabPanel" tabMaxWidth="150.0">
-                    <contextMenu>
-                        <ContextMenu>
-                            <items>
-                                <MenuItem mnemonicParsing="false" onAction="#miCloseOther_OnAction" text="Close Other"/>
-                                <MenuItem mnemonicParsing="false" onAction="#miCloseRight_OnAction" text="Close Right"/>
-                            </items>
-                        </ContextMenu>
-                    </contextMenu>
-                </TabPane>
-                <fx:include fx:id="date" source="search/date.fxml" StackPane.alignment="BOTTOM_RIGHT"/>
-            </children>
+            <StackPane styleClass="datecolor">
+                <Text strokeLineCap="ROUND" text="ようこそ、エロゲー世界へ">
+                    <font>
+                        <Font name="System Bold" size="96.0"/>
+                    </font>
+                    <effect>
+                        <Reflection bottomOpacity="0.15" fraction="0.59" topOffset="-10.0" topOpacity="0.37">
+                            <input>
+                                <InnerShadow color="#0a0707" height="0.0" radius="0.0" width="0.0"/>
+                            </input>
+                        </Reflection>
+                    </effect>
+                </Text>
+            </StackPane>
+            <BorderPane>
+                <center>
+                    <TabPane fx:id="mainTabPanel" tabMaxWidth="150.0">
+                        <contextMenu>
+                            <ContextMenu>
+                                <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#miCloseOther_OnAction"
+                                              text="Close Other"/>
+                                    <MenuItem mnemonicParsing="false" onAction="#miCloseRight_OnAction"
+                                              text="Close Right"/>
+                                </items>
+                            </ContextMenu>
+                        </contextMenu>
+                    </TabPane>
+
+                </center>
+                <bottom>
+                    <fx:include fx:id="date" source="search/date.fxml"/>
+                </bottom>
+            </BorderPane>
         </StackPane>
     </center>
     <left>
@@ -52,13 +57,15 @@
                     <content>
                         <VBox>
                             <children>
-                                <Hyperlink fx:id="linkSearch" onAction="#linkSearch_OnAction" onDragOver="#linkSearch_OnDragOver" onDragDropped="#linkSearch_OnDragDropped"/>
+                                <Hyperlink fx:id="linkSearch" onAction="#linkSearch_OnAction"
+                                           onDragOver="#linkSearch_OnDragOver"
+                                           onDragDropped="#linkSearch_OnDragDropped"/>
                                 <Hyperlink fx:id="linkDate" onAction="#linkDate_OnAction">
                                 </Hyperlink>
                                 <Hyperlink fx:id="linkTags" onAction="#linkTags_OnAction"/>
                                 <Hyperlink fx:id="linkCV" onAction="#linkCV_OnAction"/>
                                 <Hyperlink fx:id="linkBrand" onAction="#linkBrand_OnAction" text="ブランド"/>
-<!--                                <Hyperlink fx:id="linkGuide" onAction="#linkGuide_OnAction" text="攻略"/>-->
+                                <!--                                <Hyperlink fx:id="linkGuide" onAction="#linkGuide_OnAction" text="攻略"/>-->
                             </children>
                         </VBox>
                     </content>
@@ -92,7 +99,5 @@
             </children>
         </VBox>
     </left>
-    <!--<bottom>-->
-    <!--<ListView fx:id="listPageHis" orientation="HORIZONTAL" prefHeight="50.0" BorderPane.alignment="CENTER" />-->
-    <!--</bottom>-->
+
 </BorderPane>

@@ -479,6 +479,7 @@ public class HomeController extends DefaultController {
 
     private void switchVisiable(Node node) {
         node.setVisible(!node.isVisible());
+        node.setManaged(!node.isManaged());
     }
 
 

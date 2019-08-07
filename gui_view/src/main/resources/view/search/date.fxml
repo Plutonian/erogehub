@@ -2,20 +2,20 @@
 
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.TilePane?>
-<?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
-<TitledPane xmlns:fx="http://javafx.com/fxml/1" maxWidth="200" animated="false" style="-fx-background-color: white;"
+<?import javafx.scene.layout.HBox?>
+<TitledPane xmlns:fx="http://javafx.com/fxml/1" managed="false"  animated="false" style="-fx-background-color: white;"
             text="Date" xmlns="http://javafx.com/javafx"
             fx:controller="com.goexp.galgame.gui.view.game.DateController">
     <stylesheets>
         <URL value="@../view.css"/>
     </stylesheets>
     <content>
-        <VBox spacing="10">
+        <HBox spacing="10">
             <children>
-                <TilePane fx:id="dateCon" prefColumns="3"/>
                 <TilePane fx:id="flowYear" prefColumns="10"/>
+                <TilePane fx:id="dateCon" prefColumns="6"/>
             </children>
-        </VBox>
+        </HBox>
     </content>
 </TitledPane>

@@ -20,87 +20,81 @@
         </AnchorPane>
     </left>
     <center>
-        <BorderPane>
-            <center>
-                <AnchorPane>
+        <AnchorPane>
+            <BorderPane.margin>
+                <Insets left="10"/>
+            </BorderPane.margin>
 
-                    <fx:include fx:id="dateview" source="../control/date.fxml" AnchorPane.rightAnchor="0.0"
-                                AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER"/>
-                    <VBox spacing="5.0">
+            <fx:include fx:id="dateview" source="../control/date.fxml" AnchorPane.rightAnchor="0.0"
+                        AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER"/>
+            <VBox spacing="5.0">
+                <VBox>
+                    <HBox>
+                        <Text fx:id="txtName">
+                            <font>
+                                <Font name="System Bold" size="24.0"/>
+                            </font>
+                        </Text>
+                        <Text fx:id="txtSubName"/>
+                    </HBox>
+                    <fx:include fx:id="brandJump" source="../../../brand/brandjump.fxml"/>
+                </VBox>
+
+                <HBox fx:id="boxTag" spacing="5.0"/>
+                <HBox fx:id="boxStar">
+                </HBox>
+                <!--                        <fx:include fx:id="starChange" source="../control/star_choicebar.fxml"/>-->
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="68.0"/>
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="600.0" minWidth="10.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints fillHeight="false" minHeight="30.0" vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                    <Label text="原画" textFill="#6e6d6d" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                        <font>
+                            <Font size="14.0"/>
+                        </font>
+                    </Label>
+                    <FlowPane fx:id="flowPainter" rowValignment="TOP" GridPane.columnIndex="1"
+                              GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES"/>
+                    <Label text="シナリオ" textFill="#6e6d6d">
+                        <font>
+                            <Font name="System Bold" size="14.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="txtWriter" text="XX" wrapText="true" GridPane.columnIndex="1"/>
+                </GridPane>
+                <AnchorPane>
+                    <children>
+                        <!--                                <StackPane opacity="0.5" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: black;"-->
+                        <!--                                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"-->
+                        <!--                                           AnchorPane.topAnchor="0.0">-->
+                        <!--                                    <effect>-->
+                        <!--                                        <GaussianBlur/>-->
+                        <!--                                    </effect>-->
+                        <!--                                </StackPane>-->
                         <VBox>
-                            <HBox>
-                                <Text fx:id="txtName" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="OH!!マイクロマン">
+                            <children>
+                                <Text fx:id="txtIntro" wrappingWidth="800" fill="grey">
+                                </Text>
+                                <Text fx:id="txtStory" style="-fx-margin-top:10px" wrappingWidth="800">
                                     <font>
-                                        <Font name="System Bold" size="24.0"/>
+                                        <Font size="16.0"/>
                                     </font>
                                 </Text>
-                                <Text fx:id="txtSubName" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="～小さくなって女の子の色んなトコロに入っちゃお～" HBox.hgrow="NEVER"/>
-                            </HBox>
-                            <fx:include fx:id="brandJump" source="../../../brand/brandjump.fxml"/>
-                        </VBox>
-
-                        <HBox fx:id="boxTag" spacing="5.0"/>
-                        <HBox fx:id="boxStar">
-                        </HBox>
-                        <!--                        <fx:include fx:id="starChange" source="../control/star_choicebar.fxml"/>-->
-                        <GridPane>
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="68.0"/>
-                                <ColumnConstraints hgrow="ALWAYS" maxWidth="600.0" minWidth="10.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints fillHeight="false" minHeight="30.0" vgrow="SOMETIMES"/>
-                            </rowConstraints>
-                            <opaqueInsets>
-                                <Insets/>
-                            </opaqueInsets>
-                            <Label text="原画" textFill="#6e6d6d" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
-                                <font>
-                                    <Font size="14.0"/>
-                                </font>
-                            </Label>
-                            <FlowPane fx:id="flowPainter" rowValignment="TOP" GridPane.columnIndex="1"
-                                      GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES"/>
-                            <Label text="シナリオ" textFill="#6e6d6d">
-                                <font>
-                                    <Font name="System Bold" size="14.0"/>
-                                </font>
-                            </Label>
-                            <Label fx:id="txtWriter" text="XX" wrapText="true" GridPane.columnIndex="1"/>
-                        </GridPane>
-                        <AnchorPane>
-                            <children>
-                                <StackPane opacity="0.5" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: black;"
-                                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                                           AnchorPane.topAnchor="0.0">
-                                    <effect>
-                                        <GaussianBlur/>
-                                    </effect>
-                                </StackPane>
-                                <VBox>
-                                    <children>
-                                        <Text fx:id="txtIntro" fill="WHITE">
-                                        </Text>
-                                        <Text fx:id="txtStory" fill="WHITE" style="-fx-margin-top:10px" wrappingWidth="800">
-                                            <font>
-                                                <Font size="16.0"/>
-                                            </font>
-                                        </Text>
-                                    </children>
-                                </VBox>
                             </children>
-                        </AnchorPane>
-
-                    </VBox>
+                        </VBox>
+                    </children>
                 </AnchorPane>
-            </center>
-            <BorderPane.margin>
-                <Insets left="10.0"/>
-            </BorderPane.margin>
-        </BorderPane>
+
+            </VBox>
+        </AnchorPane>
     </center>
 
     <padding>

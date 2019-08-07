@@ -86,7 +86,7 @@ public class OutPageController extends DefaultController {
     public void load(Game game) {
         this.game = game;
 
-        loadBackgroundImage(game);
+//        loadBackgroundImage(game);
 
         loadInnerPage(game);
 

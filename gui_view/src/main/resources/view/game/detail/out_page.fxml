@@ -15,9 +15,6 @@
     <center>
         <StackPane>
             <ImageView fx:id="imgBackground" scaleX="5.0" scaleY="5.0">
-            <image>
-               <Image url="@../../../../../../../../../../../run/media/benbear/2686DA0586D9D601/Users/K/work/gal_data/img/game/1052963/game_l.jpg" />
-            </image>
             <effect>
                <GaussianBlur radius="20.0" />
             </effect></ImageView>

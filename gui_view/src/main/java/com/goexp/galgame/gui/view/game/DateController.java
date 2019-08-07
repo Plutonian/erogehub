@@ -43,7 +43,7 @@ public class DateController extends DefaultController {
 
                     if (month.equals(LocalDate.now().getMonthValue())) {
                         tog.setText("今月");
-                        tog.getStyleClass().add("highlight_date");
+//                        tog.getStyleClass().add("highlight_date");
                     } else
                     {
                         tog.setText(month + "月");
@@ -85,7 +85,7 @@ public class DateController extends DefaultController {
 
                     if (year.equals(LocalDate.now().getYear())) {
                         tog.setText("今年");
-                        tog.getStyleClass().add("highlight_date");
+//                        tog.getStyleClass().add("highlight_date");
                     } else {
 //                        tog.getStyleClass().add("datecolor");
                         tog.setText(year + "年");

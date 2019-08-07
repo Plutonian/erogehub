@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -70,29 +70,24 @@
                     </Label>
                     <Label fx:id="txtWriter" text="XX" wrapText="true" GridPane.columnIndex="1"/>
                 </GridPane>
-                <AnchorPane>
-                    <children>
-                        <!--                                <StackPane opacity="0.5" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: black;"-->
-                        <!--                                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"-->
-                        <!--                                           AnchorPane.topAnchor="0.0">-->
-                        <!--                                    <effect>-->
-                        <!--                                        <GaussianBlur/>-->
-                        <!--                                    </effect>-->
-                        <!--                                </StackPane>-->
-                        <VBox>
-                            <children>
-                                <Text fx:id="txtIntro" wrappingWidth="800" fill="grey">
-                                </Text>
-                                <Text fx:id="txtStory" style="-fx-margin-top:10px" wrappingWidth="800">
-                                    <font>
-                                        <Font size="16.0"/>
-                                    </font>
-                                </Text>
-                            </children>
-                        </VBox>
-                    </children>
-                </AnchorPane>
-
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
+                    <!--                                <StackPane opacity="0.5" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: black;"-->
+                    <!--                                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"-->
+                    <!--                                           AnchorPane.topAnchor="0.0">-->
+                    <!--                                    <effect>-->
+                    <!--                                        <GaussianBlur/>-->
+                    <!--                                    </effect>-->
+                    <!--                                </StackPane>-->
+                    <VBox>
+                        <Text fx:id="txtIntro" wrappingWidth="800" fill="grey">
+                        </Text>
+                        <Text fx:id="txtStory" style="-fx-margin-top:10px" wrappingWidth="800">
+                            <font>
+                                <Font size="16.0"/>
+                            </font>
+                        </Text>
+                    </VBox>
+                </ScrollPane>
             </VBox>
         </AnchorPane>
     </center>

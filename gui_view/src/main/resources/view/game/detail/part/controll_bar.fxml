@@ -9,16 +9,14 @@
     </stylesheets>
     <center>
         <HBox spacing="3.0">
-            <HBox fx:id="boxTag" spacing="5.0"/>
             <HBox fx:id="boxStar"/>
             <fx:include fx:id="starChange" source="/view/game/detail/control/star_choicebar.fxml"/>
-
         </HBox>
     </center>
     <right>
         <HBox>
-            <fx:include fx:id="changeState" source="../../detail/control/statechange.fxml"/>
             <fx:include fx:id="webjump" source="../../../jump/websitejump.fxml"/>
+            <fx:include fx:id="changeState" source="../../detail/control/statechange.fxml"/>
         </HBox>
     </right>
 </BorderPane>

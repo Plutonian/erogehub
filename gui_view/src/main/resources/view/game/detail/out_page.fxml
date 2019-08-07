@@ -22,7 +22,7 @@
         </StackPane>
     </center>
     <bottom>
-        <fx:include  fx:id="header" source="part/small_header.fxml"/>
+        <fx:include  fx:id="header" source="part/controll_bar.fxml"/>
     </bottom>
 
 </BorderPane>

@@ -13,7 +13,7 @@
     <content>
         <HBox spacing="10">
             <children>
-                <TilePane fx:id="flowYear" prefColumns="10"/>
+                <TilePane fx:id="flowYear" prefColumns="10" />
                 <TilePane fx:id="dateCon" prefColumns="6"/>
             </children>
         </HBox>

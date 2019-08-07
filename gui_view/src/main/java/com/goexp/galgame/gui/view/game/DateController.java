@@ -41,10 +41,14 @@ public class DateController extends DefaultController {
                     var tog = new ToggleButton();
                     tog.setUserData(month);
 
-                    if (month.equals(LocalDate.now().getMonthValue()))
+                    if (month.equals(LocalDate.now().getMonthValue())) {
                         tog.setText("今月");
-                    else
+                        tog.getStyleClass().add("highlight_date");
+                    } else
+                    {
                         tog.setText(month + "月");
+//                        tog.getStyleClass().add("datecolor");
+                    }
 
                     tog.setToggleGroup(monthSelect);
 
@@ -79,10 +83,13 @@ public class DateController extends DefaultController {
                     tog.setUserData(year);
 
 
-                    if (year.equals(LocalDate.now().getYear()))
+                    if (year.equals(LocalDate.now().getYear())) {
                         tog.setText("今年");
-                    else
+                        tog.getStyleClass().add("highlight_date");
+                    } else {
+//                        tog.getStyleClass().add("datecolor");
                         tog.setText(year + "年");
+                    }
 
                     tog.setToggleGroup(yearSelect);
 

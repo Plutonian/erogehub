@@ -1,24 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
 <?import java.net.URL?>
-<TabPane fx:id="contentTabPane" side="RIGHT" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1"
-         xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="com.goexp.galgame.gui.view.game.detailview.ContentViewController">
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+
+<TabPane fx:id="contentTabPane" side="RIGHT" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.detailview.ContentViewController">
     <stylesheets>
-        <URL value="@../../view.css"/>
+        <URL value="@../../view.css" />
     </stylesheets>
     <Tab text="Home">
 
-        <fx:include fx:id="header" source="part/header.fxml"/>
+        <fx:include fx:id="header" source="part/header.fxml" />
     </Tab>
+   <Tab text="Image">
+     <content>
+         <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true">
+            <content>
+               <BorderPane>
+                  <center>
+                     <ImageView fx:id="imgLarge" pickOnBounds="true" preserveRatio="true" />
+                  </center>
+               </BorderPane>
+            </content>
+         </ScrollPane>
+     </content>
+   </Tab>
     <Tab fx:id="tabPerson" text="キャラクター">
-        <ListView fx:id="personListView" styleClass="copyablelabel"/>
+        <ListView fx:id="personListView" styleClass="copyablelabel" />
     </Tab>
     <Tab fx:id="tabSimple" text="サンプル画像">
         <!--                <TitledPane collapsible="false" text="サンプル画像">-->
         <!--                    <content>-->
-        <fx:include fx:id="simpleImg" source="part/simple_img.fxml"/>
+        <fx:include fx:id="simpleImg" source="part/simple_img.fxml" />
         <!--                    </content>-->
         <!--                </TitledPane>-->
     </Tab>

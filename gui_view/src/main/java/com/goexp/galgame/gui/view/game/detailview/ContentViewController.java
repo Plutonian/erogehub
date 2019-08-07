@@ -2,7 +2,6 @@ package com.goexp.galgame.gui.view.game.detailview;
 
 import com.goexp.common.util.Strings;
 import com.goexp.galgame.common.model.CommonGame;
-import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.util.Tags;
@@ -17,7 +16,6 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -38,7 +36,8 @@ public class ContentViewController extends DefaultController {
 
     @FXML
     public SimpleImgPartController simpleImgController;
-//    public ScrollPane rootContainer;
+    public ImageView imgLarge;
+    //    public ScrollPane rootContainer;
     private Game game;
     @FXML
     private ListView<CommonGame.GameCharacter> personListView;
@@ -49,7 +48,6 @@ public class ContentViewController extends DefaultController {
     private Tab tabPerson;
     @FXML
     private Tab tabSimple;
-
 
 //    private Service<ObservableList<Game.GameCharacter>> charListByGameService = new TaskService<>(() -> new GameCharListTask(game.id));
 
@@ -90,8 +88,11 @@ public class ContentViewController extends DefaultController {
 
     public void load(Game game) {
 
-
-//        rootContainer.setVvalue(0);
+        if (game.smallImg != null && game.smallImg.startsWith("http")) {
+            imgLarge.setImage(Images.GameImage.large(game));
+        } else {
+            imgLarge.setImage(null);
+        }
 
         this.game = game;
 

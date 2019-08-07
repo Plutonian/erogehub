@@ -2,8 +2,6 @@ package com.goexp.galgame.gui.view.brand;
 
 import com.goexp.common.util.Strings;
 import com.goexp.galgame.common.model.BrandType;
-import com.goexp.galgame.common.website.GGBasesURL;
-import com.goexp.galgame.common.website.GetchuURL;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
@@ -11,7 +9,6 @@ import com.goexp.galgame.gui.task.brand.BrandChangeTask;
 import com.goexp.galgame.gui.task.brand.BrandListTask;
 import com.goexp.galgame.gui.task.game.ChangeGameTask;
 import com.goexp.galgame.gui.view.DefaultController;
-import com.goexp.galgame.gui.view.common.control.URLHyperlink;
 import com.goexp.galgame.gui.view.game.HomeController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -151,22 +148,6 @@ public class TitlePartController extends DefaultController {
         }
 
         boxWebsite.getChildren().clear();
-
-        var getchuLink = new URLHyperlink("Getchu");
-        getchuLink.setHref(GetchuURL.GameList.byBrand(brand.id));
-        boxWebsite.getChildren().add(getchuLink);
-
-        var ggBasesLink = new URLHyperlink("GGBases");
-        ggBasesLink.setHref(GGBasesURL.fromTitle(brand.name));
-        boxWebsite.getChildren().add(ggBasesLink);
-
-
-        if (brand.website != null && brand.website.length() > 0) {
-            var brandLink = new URLHyperlink("公式", brand.website);
-
-            boxWebsite.getChildren().add(brandLink);
-
-        }
 
 
         choiceBrandState.valueProperty().removeListener(listener);

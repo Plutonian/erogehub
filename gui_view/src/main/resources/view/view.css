@@ -60,6 +60,9 @@
 -fx-background-color: rgba(220,220,220,1);
 }
 
+.highlight_date{
+-fx-background-color: rgb(210,210,210);
+}
 
 
 .toggle-button .left-pill {

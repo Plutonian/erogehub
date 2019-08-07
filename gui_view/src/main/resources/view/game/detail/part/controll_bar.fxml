@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color:grey"
+            fx:controller="com.goexp.galgame.gui.view.game.detailview.OutPageController$ControllBarController">
+    <stylesheets>
+        <URL value="@../../../view.css"/>
+    </stylesheets>
+    <center>
+        <HBox spacing="3.0">
+            <HBox fx:id="boxStar"/>
+            <fx:include fx:id="starChange" source="/view/game/detail/control/star_choicebar.fxml"/>
+        </HBox>
+    </center>
+    <right>
+        <HBox>
+            <fx:include fx:id="webjump" source="../../../jump/websitejump.fxml"/>
+            <fx:include fx:id="changeState" source="../../detail/control/statechange.fxml"/>
+        </HBox>
+    </right>
+</BorderPane>

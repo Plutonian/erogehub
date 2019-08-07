@@ -11,7 +11,7 @@ import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.brand.CommonInfoTabController;
 import com.goexp.galgame.gui.view.brand.MainPanelController;
-import com.goexp.galgame.gui.view.game.detailview.NavViewController;
+import com.goexp.galgame.gui.view.game.detailview.OutPageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -252,7 +252,7 @@ public class HomeController extends DefaultController {
     public void loadDetail(Game game) {
         TabSelect.from().ifNotFind(() -> {
 
-            var loader = new FXMLLoaderProxy<Region, NavViewController>(GAME_DETAIL_NAV_PAGE_FXML);
+            var loader = new FXMLLoaderProxy<Region, OutPageController>(GAME_DETAIL_NAV_PAGE_FXML);
 
             var tab = new Tab(game.name, loader.node);
             tab.setGraphic(new ImageView(LocalRes.GAME_16_PNG.get()));
@@ -479,6 +479,7 @@ public class HomeController extends DefaultController {
 
     private void switchVisiable(Node node) {
         node.setVisible(!node.isVisible());
+        node.setManaged(!node.isManaged());
     }
 
 

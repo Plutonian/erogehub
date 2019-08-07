@@ -10,12 +10,11 @@ public final class UrlBuilder {
 
     private final String host;
 
-    private final Map<String, String> params;
+    private final Map<String, String> params = new HashMap<>();
 
 
     private UrlBuilder(final String host) {
         this.host = host;
-        params = new HashMap<>();
     }
 
     public static UrlBuilder create(final String host) {

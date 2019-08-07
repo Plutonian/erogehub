@@ -2,10 +2,7 @@ package com.goexp.common.util;
 
 import java.net.ProxySelector;
 import java.net.http.HttpClient;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.time.Duration;
-import java.util.Objects;
 
 public class WebUtil {
 

@@ -150,7 +150,7 @@ public class HeaderController extends DefaultController {
             imageImg.setEffect(null);
 
         //preload large
-        Images.GameImage.preloadLarge(game);
+//        Images.GameImage.preloadLarge(game);
 
     }
 }

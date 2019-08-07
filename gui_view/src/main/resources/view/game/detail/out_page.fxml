@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1"
-            fx:controller="com.goexp.galgame.gui.view.game.detailview.NavViewController">
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane style="-fx-background-color:#FFF" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.detailview.OutPageController">
+
     <stylesheets>
-        <URL value="@../../view.css"/>
+        <URL value="@../../view.css" />
     </stylesheets>
-    <children>
-        <StackPane style="-fx-background-color:#FFF" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                   AnchorPane.rightAnchor="0.0"
-                   AnchorPane.topAnchor="0.0">
-            <children>
-                <fx:include fx:id="rootContainer" source="page.fxml"/>
-                <!--<TitledPane animated="false" expanded="false" text="このブランドの作品" StackPane.alignment="BOTTOM_CENTER">-->
-                <!--<content>-->
-                <!--<ListView fx:id="listNav" orientation="HORIZONTAL" prefHeight="220.0" />-->
-                <!--</content>-->
-                <!--</TitledPane>-->
-
-            </children>
+    <center>
+        <StackPane>
+            <ImageView fx:id="imgBackground" scaleX="5.0" scaleY="5.0">
+            <effect>
+               <GaussianBlur radius="20.0" />
+            </effect></ImageView>
+            <fx:include fx:id="rootContainer" source="page.fxml" />
         </StackPane>
+    </center>
+    <bottom>
+        <fx:include  fx:id="header" source="part/controll_bar.fxml"/>
+    </bottom>
 
-        <fx:include fx:id="header" source="part/small_header.fxml" visible="false" AnchorPane.leftAnchor="0.0"
-                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
-    </children>
-</AnchorPane>
+</BorderPane>

@@ -1,48 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import java.net.URL?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.VBox?>
+<TabPane fx:id="contentTabPane" side="RIGHT" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="com.goexp.galgame.gui.view.game.detailview.ContentViewController">
+    <stylesheets>
+        <URL value="@../../view.css"/>
+    </stylesheets>
+    <Tab text="Home">
 
-
-<TabPane fx:id="contentTabPane" side="RIGHT" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.detailview.ContentViewController">
-    <tabs>
-        <Tab text="Home">
-            <content>
-                <ScrollPane fx:id="rootContainer" fitToWidth="true" hbarPolicy="NEVER">
-                    <stylesheets>
-                        <URL value="@../../view.css" />
-                    </stylesheets>
-                    <content>
-                        <VBox spacing="5.0">
-                            <children>
-                                <fx:include fx:id="header" source="part/header.fxml" />
-                            </children>
-                            <padding>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                            </padding>
-                        </VBox>
-                    </content>
-                </ScrollPane>
-            </content>
-        </Tab>
-        <Tab fx:id="tabPerson" text="キャラクター">
-            <content>
-                <ListView fx:id="personListView" />
-            </content>
-        </Tab>
-        <Tab fx:id="tabSimple" text="サンプル画像">
-            <content>
-                <!--                <TitledPane collapsible="false" text="サンプル画像">-->
-                <!--                    <content>-->
-                <fx:include fx:id="simpleImg" source="part/simple_img.fxml" />
-                <!--                    </content>-->
-                <!--                </TitledPane>-->
-            </content>
-        </Tab>
-    </tabs>
+        <fx:include fx:id="header" source="part/header.fxml"/>
+    </Tab>
+    <Tab fx:id="tabPerson" text="キャラクター">
+        <ListView fx:id="personListView" styleClass="copyablelabel"/>
+    </Tab>
+    <Tab fx:id="tabSimple" text="サンプル画像">
+        <!--                <TitledPane collapsible="false" text="サンプル画像">-->
+        <!--                    <content>-->
+        <fx:include fx:id="simpleImg" source="part/simple_img.fxml"/>
+        <!--                    </content>-->
+        <!--                </TitledPane>-->
+    </Tab>
 </TabPane>

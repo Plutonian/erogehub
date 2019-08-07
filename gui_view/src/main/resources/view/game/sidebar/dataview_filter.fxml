@@ -7,7 +7,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<TitledPane expanded="false" text="Filter" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController">
+<?import java.net.URL?>
+<TitledPane styleClass="copyablelabel" expanded="false" text="Filter" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController">
+    <stylesheets>
+        <URL value="@../../view.css"/>
+    </stylesheets>
     <content>
         <StackPane>
             <children>

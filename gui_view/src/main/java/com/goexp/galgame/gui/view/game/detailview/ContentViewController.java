@@ -1,5 +1,6 @@
 package com.goexp.galgame.gui.view.game.detailview;
 
+import com.goexp.common.util.Strings;
 import com.goexp.galgame.common.model.CommonGame;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
@@ -9,12 +10,9 @@ import com.goexp.galgame.gui.util.res.Images;
 import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
-import com.goexp.galgame.gui.view.common.jump.JumpLinkController;
 import com.goexp.galgame.gui.view.game.HomeController;
 import com.goexp.galgame.gui.view.game.detailview.part.CVSearchController;
 import com.goexp.galgame.gui.view.game.detailview.part.DateShowController;
-import com.goexp.galgame.gui.view.game.detailview.part.StarChoiceBarController;
-import com.goexp.galgame.gui.view.game.part.StateChangeController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,7 +38,7 @@ public class ContentViewController extends DefaultController {
 
     @FXML
     public SimpleImgPartController simpleImgController;
-    public ScrollPane rootContainer;
+//    public ScrollPane rootContainer;
     private Game game;
     @FXML
     private ListView<CommonGame.GameCharacter> personListView;
@@ -93,7 +91,7 @@ public class ContentViewController extends DefaultController {
     public void load(Game game) {
 
 
-        rootContainer.setVvalue(0);
+//        rootContainer.setVvalue(0);
 
         this.game = game;
 
@@ -127,20 +125,20 @@ public class ContentViewController extends DefaultController {
 
     public static class HeaderPartController extends DefaultController {
 
-        @FXML
-        private StarChoiceBarController starChangeController;
+//        @FXML
+//        private StarChoiceBarController starChangeController;
 
         @FXML
         private DateShowController dateviewController;
 
-        @FXML
-        private JumpLinkController webjumpController;
+//        @FXML
+//        private JumpLinkController webjumpController;
 
         @FXML
         private JumpBrandController brandJumpController;
 
-        @FXML
-        private StateChangeController changeStateController;
+//        @FXML
+//        private StateChangeController changeStateController;
 
         @FXML
         private ImageView imageImg;
@@ -165,6 +163,9 @@ public class ContentViewController extends DefaultController {
         private HBox boxTag;
 
         @FXML
+        private Text txtIntro;
+
+        @FXML
         private TextArea txtStory;
 
         private Game targetGame;
@@ -181,12 +182,12 @@ public class ContentViewController extends DefaultController {
                 }
             });
 
-            starChangeController.onStarChangeProperty.addListener((observable, oldValue, changed) -> {
-
-                if (changed) {
-                    loadStar(targetGame);
-                }
-            });
+//            starChangeController.onStarChangeProperty.addListener((observable, oldValue, changed) -> {
+//
+//                if (changed) {
+//                    loadStar(targetGame);
+//                }
+//            });
         }
 
 
@@ -196,7 +197,7 @@ public class ContentViewController extends DefaultController {
             loadWithoutImage(game);
 
             if (game.smallImg != null && game.smallImg.startsWith("http")) {
-                imageImg.setImage(Images.GameImage.large(game));
+                imageImg.setImage(Images.GameImage.small(game));
             } else {
                 imageImg.setImage(null);
             }
@@ -210,10 +211,10 @@ public class ContentViewController extends DefaultController {
         private void loadWithoutImage(Game game) {
             this.targetGame = game;
 
-            webjumpController.load(game);
-            changeStateController.load(game);
+//            webjumpController.load(game);
+//            changeStateController.load(game);
             brandJumpController.load(game.brand);
-            starChangeController.load(game);
+//            starChangeController.load(game);
 
             var matcher = NAME_SPLITER_REX.matcher(game.name);
             final var find = matcher.find();
@@ -225,7 +226,10 @@ public class ContentViewController extends DefaultController {
             flowPainter.getChildren().setAll(Tags.toNodes(game.painter, Hyperlink::new));
             txtWriter.setText(String.join(",", game.writer));
 
-            txtStory.setText(game.intro + "\n\n" + game.story);
+            if (Strings.isNotEmpty(game.intro))
+                txtIntro.setText(game.intro + "\n\n");
+
+            txtStory.setText(game.story);
 
             if (game.tag.size() > 0) {
                 var nodes = Tags.toNodes(game.tag, str -> {
@@ -245,10 +249,10 @@ public class ContentViewController extends DefaultController {
 
             loadStar(game);
 
-            if (game.state.get().value <= GameState.BLOCK.value)
-                imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));
-            else
-                imageImg.setEffect(null);
+//            if (game.state.get().value <= GameState.BLOCK.value)
+//                imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));
+//            else
+//                imageImg.setEffect(null);
 
         }
 
@@ -298,7 +302,7 @@ public class ContentViewController extends DefaultController {
 
             boolean isTrueCV = gameChar.trueCV != null && gameChar.trueCV.length() > 0;
 
-            var cv = isTrueCV ? "*"+gameChar.trueCV +"*": gameChar.cv;
+            var cv = isTrueCV ? "*" + gameChar.trueCV + "*" : gameChar.cv;
 
             if (cv != null && cv.length() > 0) {
                 cvPart.setVisible(true);

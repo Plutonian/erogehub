@@ -7,49 +7,34 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
-import javafx.util.Callback;
 
 
 public class ListViewController extends DefaultController {
-
-    public static final Callback<ListView<Game>, ListCell<Game>> cellFactory = listView -> {
-
-        final var loader = new FXMLLoaderProxy<Region, CellController>("view/game/listview/small/cell.fxml");
-//        final var loaderLarge = new FXMLLoaderProxy<Region, com.goexp.galgame.gui.view.game.listview.simplelist.CellController>("view/game/listview/cell.fxml");
-
-        return new ListCell<>() {
-
-            @Override
-            protected void updateItem(Game item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(null);
-
-                if (item != null && !empty) {
-
-//                    if (this.isSelected()) {
-//                        loaderLarge.controller.load(item);
-//
-//                        setGraphic(loaderLarge.node);
-//
-//                    } else {
-
-                        loader.controller.load(item);
-
-                        setGraphic(loader.node);
-//                    }
-
-//                    this.layout();
-                }
-            }
-        };
-    };
 
     @FXML
     private ListView<Game> smallListSimple;
 
     protected void initialize() {
 
-        smallListSimple.setCellFactory(cellFactory);
+        smallListSimple.setCellFactory(listView -> {
+
+            final var loader = new FXMLLoaderProxy<Region, CellController>("view/game/listview/small/cell.fxml");
+
+            return new ListCell<>() {
+
+                @Override
+                protected void updateItem(Game item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(null);
+
+                    if (item != null && !empty) {
+                        loader.controller.load(item);
+
+                        setGraphic(loader.node);
+                    }
+                }
+            };
+        });
     }
 
 }

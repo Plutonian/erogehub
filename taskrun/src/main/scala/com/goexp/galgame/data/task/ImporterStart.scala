@@ -17,7 +17,6 @@ object ImporterStart {
       ("mark-same", "Mark the same game", MarkSameGameTask.main _),
       ("group-brand", "Group brand", GroupBrandTask.main _)
       //      ("import-tag", "Import tag info once", ImportOnceTagTask.main _),
-      //      ("import-game-local", "Import from local cache once", ImportFromLocalAliveBrandTask.main _)
     )
 
   def main(args: Array[String]) = {

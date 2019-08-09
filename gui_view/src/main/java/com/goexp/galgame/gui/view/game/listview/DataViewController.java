@@ -7,11 +7,10 @@ import com.goexp.galgame.gui.task.game.panel.PanelTask;
 import com.goexp.galgame.gui.task.game.panel.node.CVItemNode;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.DefaultController;
+import com.goexp.galgame.gui.view.game.listview.imglist.ImgListViewController;
 import com.goexp.galgame.gui.view.game.listview.sidebar.BrandGroupController;
 import com.goexp.galgame.gui.view.game.listview.sidebar.DateGroupController;
 import com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController;
-import com.goexp.galgame.gui.view.game.listview.simplelist.SimpleListViewController;
-import com.goexp.galgame.gui.view.game.listview.simplelist.small.ListViewController;
 import com.goexp.galgame.gui.view.game.listview.tableview.TableController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -37,6 +36,9 @@ public class DataViewController extends DefaultController {
      * Controllers
      */
     @FXML
+    private ImgListViewController imgViewController;
+
+    @FXML
     public TableController tableViewController;
     @FXML
     private FilterPanelController filterPanelController;
@@ -60,8 +62,8 @@ public class DataViewController extends DefaultController {
      */
     @FXML
     private ToggleGroup gameViewChange;
-    @FXML
-    private ToggleButton toggList;
+    //    @FXML
+//    private ToggleButton toggList;
     @FXML
     private ToggleButton toggGrid;
     @FXML
@@ -76,7 +78,7 @@ public class DataViewController extends DefaultController {
     @FXML
     private TableView<Game> tableView;
     @FXML
-    private ListView<Game> listSimple;
+    private ListView<Game> smallListSimple;
     //    @FXML
 //    private ListView<Game> smallListSimple;
     @FXML
@@ -136,20 +138,14 @@ public class DataViewController extends DefaultController {
 
     private void initSwitchBar() {
         toggGrid.setUserData(tableView);
-        toggSmall.setUserData(listSimple);
-        toggList.setUserData(listSimple);
+        toggSmall.setUserData(smallListSimple);
+//        toggList.setUserData(listSimple);
         toggImg.setUserData(imgView);
 
         gameViewChange.selectedToggleProperty().addListener((observable, oldValue, checkedBox) -> {
             if (checkedBox != null) {
                 ((Region) checkedBox.getUserData()).toFront();
 
-                if (checkedBox == toggList) {
-                    listSimple.setCellFactory(SimpleListViewController.cellFactory);
-
-                } else if (checkedBox == toggSmall) {
-                    listSimple.setCellFactory(ListViewController.cellFactory);
-                }
             } else {
                 gameViewChange.selectToggle(oldValue);
             }
@@ -219,7 +215,7 @@ public class DataViewController extends DefaultController {
         filteredGames.predicateProperty().addListener((o, old, newV) -> {
             if (newV != null) {
                 tableView.scrollTo(0);
-                listSimple.scrollTo(0);
+                smallListSimple.scrollTo(0);
                 resetCount(filteredGames);
             }
         });
@@ -256,10 +252,10 @@ public class DataViewController extends DefaultController {
         tableView.setItems(sortedData);
         tableView.scrollTo(0);
 
-        listSimple.setCellFactory(ListViewController.cellFactory);
+        smallListSimple.setItems(sortedData);
+        smallListSimple.scrollTo(0);
 
-        listSimple.setItems(sortedData);
-        listSimple.scrollTo(0);
+        imgViewController.load(sortedData);
     }
 
 //    private void loadItems(ObservableList<Game> sortedData) {

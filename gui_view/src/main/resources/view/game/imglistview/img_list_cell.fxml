@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
@@ -7,54 +8,52 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import java.net.URL?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.172-ea"
-      fx:controller="com.goexp.galgame.gui.view.game.listview.imglist.CellController">
-    <stylesheets>
-        <URL value="@../../view.css"/>
-    </stylesheets>
-    <children>
-        <StackPane>
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.goexp.galgame.gui.view.game.listview.imglist.CellController">
+    <center>
+        <VBox spacing="5">
             <children>
-                <ImageView fx:id="imageImg" pickOnBounds="true" preserveRatio="true"/>
-                <AnchorPane maxHeight="-Infinity" prefHeight="20.0" style="-fx-background-color: #00000025;"
-                            StackPane.alignment="TOP_CENTER">
+                <StackPane>
                     <children>
-                        <Label fx:id="lbDate" text="2001-5-6" textFill="WHITE" AnchorPane.rightAnchor="10.0"
-                               AnchorPane.topAnchor="0.0">
-                            <font>
-                                <Font size="14.0"/>
-                            </font>
-                        </Label>
+                        <ImageView fx:id="imageImg" preserveRatio="true"/>
+                        <AnchorPane maxHeight="-Infinity" prefHeight="20.0" style="-fx-background-color: #00000050;"
+                                    StackPane.alignment="TOP_CENTER">
+                            <children>
+                                <Label fx:id="lbDate" text="2001-5-6" textFill="WHITE" AnchorPane.rightAnchor="10.0"
+                                       AnchorPane.topAnchor="0.0">
+                                    <font>
+                                        <Font size="14.0"/>
+                                    </font>
+                                </Label>
+                            </children>
+                            <padding>
+                                <Insets bottom="3.0" top="3.0"/>
+                            </padding>
+                        </AnchorPane>
+                        <HBox fx:id="boxStar" maxHeight="-Infinity" prefHeight="30" StackPane.alignment="BOTTOM_RIGHT"/>
                     </children>
-                    <padding>
-                        <Insets bottom="3.0" top="3.0"/>
-                    </padding>
-                </AnchorPane>
-                <HBox fx:id="boxStar" maxHeight="-Infinity" prefHeight="32.0" StackPane.alignment="BOTTOM_RIGHT"/>
-            </children>
-        </StackPane>
-        <VBox>
-            <children>
-                <Text fx:id="txtName" strokeType="OUTSIDE" strokeWidth="0.0" text="緋奈沢智花の絶対女王政" wrappingWidth="300.0">
-                    <font>
-                        <Font size="18.0"/>
-                    </font>
-                </Text>
-                <Label fx:id="lbBrand" text="Brand"/>
-                <FlowPane fx:id="flowTag" prefWrapLength="200.0"/>
+                </StackPane>
+                <VBox spacing="3">
+                    <children>
+                        <Text fx:id="txtName" wrappingWidth="280.0">
+                            <font>
+                                <Font size="18.0"/>
+                            </font>
+                        </Text>
+                        <Label fx:id="lbBrand" text="Brand"/>
+                        <FlowPane fx:id="flowTag" prefWrapLength="200.0"/>
+                    </children>
+                </VBox>
             </children>
         </VBox>
-        <AnchorPane>
+    </center>
+    <bottom>
+        <AnchorPane BorderPane.alignment="CENTER">
             <children>
-                <HBox spacing="5.0">
-                    <children>
-                        <fx:include fx:id="changeState" source="../detail/control/statechange.fxml"/>
-                    </children>
-                </HBox>
-                <Hyperlink fx:id="linkView" text="View" layoutX="256.0" layoutY="2.0" AnchorPane.bottomAnchor="0.0"
+                <fx:include fx:id="changeState" source="../detail/control/statechange.fxml"/>
+                <Hyperlink text="View" AnchorPane.bottomAnchor="0.0" onAction="#link_OnAction"
                            AnchorPane.rightAnchor="10.0"/>
             </children>
         </AnchorPane>
-    </children>
-</VBox>
+    </bottom>
+</BorderPane>

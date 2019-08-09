@@ -19,6 +19,7 @@ dependencies {
     compile project(':common-db-mongo')
     compile project(':galgamecommon')
     compile project(':gui')
+    compile group: 'org.controlsfx', name: 'controlsfx', version: '11.0.0'
 }
 
 jar {
@@ -28,5 +29,11 @@ jar {
     }
 }
 
+applicationDefaultJvmArgs = [
+        // For accessing VirtualFlow field from the base class in GridViewSkin
+        "--add-opens=javafx.controls/javafx.scene.control.skin=ALL-UNNAMED",
+        // For accessing InputMap used in RangeSliderBehavior
+        "--add-exports=javafx.controls/com.sun.javafx.scene.control.inputmap=ALL-UNNAMED"
+]
 
 group = 'com.goexp.galgame'

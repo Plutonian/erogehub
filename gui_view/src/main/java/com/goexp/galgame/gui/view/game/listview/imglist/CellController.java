@@ -3,12 +3,13 @@ package com.goexp.galgame.gui.view.game.listview.imglist;
 import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.view.DefaultController;
+import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.res.Images;
 import com.goexp.galgame.gui.util.res.LocalRes;
-import com.goexp.galgame.gui.util.Tags;
+import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.game.HomeController;
 import com.goexp.galgame.gui.view.game.part.StateChangeController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -31,7 +32,6 @@ public class CellController extends DefaultController {
     @FXML
     private HBox boxStar;
 
-
     @FXML
     private Text txtName;
 
@@ -44,28 +44,10 @@ public class CellController extends DefaultController {
     @FXML
     private FlowPane flowTag;
 
-    @FXML
-    private Hyperlink linkView;
 
     protected void initialize() {
 
-        //        rightPanel.setVisible(false);
-        //        rightPanel.setManaged(false);
-        //
-        //        rightPanel.setLayoutX(300);
 
-        linkView.setOnAction((e) -> {
-
-            HomeController.$this.loadDetail(game);
-        });
-
-        //        imageImg.setOnMouseEntered(event -> {
-        //            rightPanel.setVisible(true);
-        //        });
-        //
-        //        imageImg.setOnMouseExited(event -> {
-        //            rightPanel.setVisible(false);
-        //        });
     }
 
 
@@ -97,5 +79,11 @@ public class CellController extends DefaultController {
             boxStar.getChildren().add(new ImageView(image));
         }
 
+    }
+
+    public void link_OnAction(ActionEvent actionEvent) {
+        System.out.println("go");
+
+        HomeController.$this.loadDetail(game);
     }
 }

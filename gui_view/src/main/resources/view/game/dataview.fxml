@@ -15,8 +15,8 @@
                     <fx:include fx:id="imgView" source="imglistview/list.fxml"/>
                     <!--<fx:include fx:id="treeTableView" source="table/game_treetable.fxml" />-->
                     <fx:include fx:id="tableView" source="table/table.fxml"/>
-                    <fx:include fx:id="listSimple" source="listview/list.fxml"/>
-                    <!--                    <fx:include fx:id="smallListSimple" source="listview/small/list.fxml"/>-->
+                    <fx:include fx:id="smallListSimple" source="listview/small/list.fxml"/>
+<!--                    <fx:include fx:id="smallListSimple" source="listview/small/list.fxml"/>-->
                 </StackPane>
             </center>
             <bottom>
@@ -29,13 +29,13 @@
                     </BorderPane.margin>
                     <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
                         <ToggleButton fx:id="toggSmall" mnemonicParsing="false" selected="true"
-                                      styleClass="left-pill" text="Small">
+                                      styleClass="left-pill" text="List">
                             <toggleGroup>
                                 <ToggleGroup fx:id="gameViewChange"/>
                             </toggleGroup>
                         </ToggleButton>
-                        <ToggleButton fx:id="toggList" mnemonicParsing="false" styleClass="center-pill"
-                                      text="Middle" toggleGroup="$gameViewChange"/>
+<!--                        <ToggleButton fx:id="toggList" mnemonicParsing="false" styleClass="center-pill"-->
+<!--                                      text="Middle" toggleGroup="$gameViewChange"/>-->
                         <ToggleButton fx:id="toggGrid" mnemonicParsing="false" styleClass="center-pill"
                                       text="Grid" toggleGroup="$gameViewChange"/>
                         <!--<ToggleButton fx:id="toggTreeGrid" mnemonicParsing="false" styleClass="center-pill" text="TreeGrid" toggleGroup="$gameViewChange" />-->

@@ -21,8 +21,6 @@ public class ImgListViewController extends DefaultController {
 
                 @Override
                 protected void updateItem(Game game, boolean empty) {
-
-
                     super.updateItem(game, empty);
                     setGraphic(null);
 
@@ -32,19 +30,6 @@ public class ImgListViewController extends DefaultController {
                         setGraphic(loader.node);
                     }
 
-//                var imageImg = new ImageView();
-//                    if (!empty) {
-//                    if (game.smallImg != null && game.smallImg.startsWith("http")) {
-//
-//                        imageImg.setImage(Images.GameImage.small(game));
-//
-//                        if (game.state.get() == GameState.BLOCK)
-//                            imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));
-//                        else
-//                            imageImg.setEffect(null);
-//                    }
-//                    setGraphic(imageImg);
-//                    }
                 }
             };
 

@@ -11,7 +11,6 @@ import com.goexp.galgame.gui.view.game.HomeController;
 import com.goexp.galgame.gui.view.game.part.StateChangeController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
@@ -71,6 +70,8 @@ public class CellController extends DefaultController {
                 imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));
             else
                 imageImg.setEffect(null);
+        } else {
+            imageImg.setImage(null);
         }
 
         var image = LocalRes.HEART_32_PNG.get();

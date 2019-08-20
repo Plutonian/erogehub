@@ -6,8 +6,8 @@ import java.time.LocalDate;
 
 public class DateItemNode extends DefaultItemNode {
 
-    public DateRange range;
-    public DateType dateType;
+    public final DateRange range;
+    public final DateType dateType;
 
     public DateItemNode(String title, LocalDate start, LocalDate end, int count, DateType dateType) {
         this(title, new DateRange(start, end), count, dateType);

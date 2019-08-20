@@ -6,20 +6,18 @@ import java.util
 import com.goexp.common.util.Strings
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.game.panel.node._
-import com.goexp.galgame.gui.util.Tags
 import javafx.concurrent.Task
-import javafx.scene.control.{Label, TreeItem}
-import javafx.scene.layout.HBox
+import javafx.scene.control.TreeItem
 import org.slf4j.LoggerFactory
 
 import scala.jdk.CollectionConverters._
 
 object PanelTask {
 
-  class GroupTag(val groupGames: util.List[Game]) extends Task[util.List[HBox]] {
+  class GroupTag(val groupGames: util.List[Game]) extends Task[util.List[DefaultItemNode]] {
     private[task] val logger = LoggerFactory.getLogger(getClass)
 
-    override protected def call: util.List[HBox] = createTagGroup(groupGames)
+    override protected def call: util.List[DefaultItemNode] = createTagGroup(groupGames)
 
     private def createTagGroup(filteredGames: util.List[Game]) = {
       filteredGames.asScala.to(LazyList)
@@ -29,19 +27,19 @@ object PanelTask {
         //Stream{String,String,String,String...}
         .groupBy(s => s).to(LazyList)
         .sortBy({ case (_, v) => v.size }).reverse
-        .take(20)
+//        .take(20)
         .map({ case (key, value) =>
           logger.debug(s"<createTagGroup> Name:$key,Value:${value.size}")
-          new HBox(Tags.toNodes(key), new Label(s"(${value.size})"))
+          new DefaultItemNode(key, value.size)
         }).asJava
     }
 
   }
 
-  class GroupCV(val groupGames: util.List[Game]) extends Task[util.List[CVItemNode]] {
+  class GroupCV(val groupGames: util.List[Game]) extends Task[util.List[DefaultItemNode]] {
     private[task] val logger = LoggerFactory.getLogger(getClass)
 
-    override protected def call: util.List[CVItemNode] = createTagGroup(groupGames)
+    override protected def call: util.List[DefaultItemNode] = createTagGroup(groupGames)
 
     private def createTagGroup(filteredGames: util.List[Game]) = {
       filteredGames.asScala.to(LazyList)
@@ -58,7 +56,7 @@ object PanelTask {
         //        .take(20)
         .map({ case (key, value) =>
           logger.debug(s"<createTagGroup> Name:$key,Value:${value.size}")
-          new CVItemNode(key, value.size)
+          new DefaultItemNode(key, value.size)
 
         }).asJava
     }

@@ -1,8 +1,8 @@
 package com.goexp.galgame.gui.task.game.panel.node;
 
-public abstract class DefaultItemNode {
-    public String title;
-    public int count;
+public class DefaultItemNode {
+    public final String title;
+    public final int count;
 
     public DefaultItemNode(String title, int count) {
         this.title = title;

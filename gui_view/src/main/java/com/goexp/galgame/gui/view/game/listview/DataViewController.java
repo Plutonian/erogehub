@@ -4,7 +4,7 @@ import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
 import com.goexp.galgame.gui.task.game.panel.PanelTask;
-import com.goexp.galgame.gui.task.game.panel.node.CVItemNode;
+import com.goexp.galgame.gui.task.game.panel.node.DefaultItemNode;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.game.listview.imglist.ImgListViewController;
@@ -31,6 +31,7 @@ import java.util.function.Predicate;
 public class DataViewController extends DefaultController {
 
     public BooleanProperty reloadProperty = new SimpleBooleanProperty(false);
+
 
     /**
      * Controllers
@@ -96,14 +97,16 @@ public class DataViewController extends DefaultController {
     @FXML
     private Button btnHide;
     @FXML
-    private ListView<CVItemNode> cvList;
+    private ListView<DefaultItemNode> cvList;
+    public ListView<DefaultItemNode> tagList;
 
 
     private FilteredList<Game> filteredGames;
 
     private Predicate<Game> groupPredicate;
 
-    private Service<List<CVItemNode>> groupCVServ = new TaskService<>(() -> new PanelTask.GroupCV(filteredGames));
+    private Service<List<DefaultItemNode>> groupCVServ = new TaskService<>(() -> new PanelTask.GroupCV(filteredGames));
+    private Service<List<DefaultItemNode>> groupTagServ = new TaskService<>(() -> new PanelTask.GroupTag(filteredGames));
 
 
     protected void initialize() {
@@ -116,13 +119,27 @@ public class DataViewController extends DefaultController {
     private void initCVPanel() {
         cvList.setCellFactory(param -> new ListCell<>() {
             @Override
-            protected void updateItem(CVItemNode cvItemNode, boolean empty) {
+            protected void updateItem(DefaultItemNode cvItemNode, boolean empty) {
                 super.updateItem(cvItemNode, empty);
                 setText(null);
                 setGraphic(null);
 
                 if (cvItemNode != null && !empty) {
-                    setGraphic(new HBox(Tags.toNodes(cvItemNode.cv), new Label(String.valueOf(cvItemNode.count))));
+                    setGraphic(new HBox(Tags.toNodes(cvItemNode.title), new Label(String.valueOf(cvItemNode.count))));
+                }
+
+            }
+        });
+
+        tagList.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(DefaultItemNode tagNode, boolean empty) {
+                super.updateItem(tagNode, empty);
+                setText(null);
+                setGraphic(null);
+
+                if (tagNode != null && !empty) {
+                    setGraphic(new HBox(Tags.toNodes(tagNode.title), new Label(String.valueOf(tagNode.count))));
                 }
 
             }
@@ -132,6 +149,11 @@ public class DataViewController extends DefaultController {
         groupCVServ.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 cvList.setItems(FXCollections.observableList(newValue));
+            }
+        });
+        groupTagServ.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                tagList.setItems(FXCollections.observableList(newValue));
             }
         });
     }
@@ -245,6 +267,7 @@ public class DataViewController extends DefaultController {
         brandGroupController.init(filteredGames);
 
         groupCVServ.restart();
+        groupTagServ.restart();
     }
 
     private void loadItems(SortedList<Game> sortedData) {

@@ -75,6 +75,9 @@
                     <Tab text="Brand">
                         <fx:include fx:id="brandGroup" source="sidebar/brandgroup.fxml"/>
                     </Tab>
+                    <Tab text="Tag">
+                        <ListView fx:id="tagList" prefHeight="100.0"/>
+                    </Tab>
                     <Tab text="CV">
                         <ListView fx:id="cvList" prefHeight="100.0"/>
                     </Tab>

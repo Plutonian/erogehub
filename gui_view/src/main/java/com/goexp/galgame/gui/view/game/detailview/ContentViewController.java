@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.view.game.detailview;
 
 import com.goexp.common.util.Strings;
 import com.goexp.galgame.common.model.CommonGame;
+import com.goexp.galgame.common.util.GameName;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.util.Tags;
@@ -25,8 +26,6 @@ import javafx.scene.text.Text;
 
 import java.util.List;
 import java.util.Optional;
-
-import static com.goexp.galgame.common.util.GameName.NAME_SPLITER_REX;
 
 
 public class ContentViewController extends DefaultController {
@@ -217,12 +216,9 @@ public class ContentViewController extends DefaultController {
             brandJumpController.load(game.brand);
 //            starChangeController.load(game);
 
-            var matcher = NAME_SPLITER_REX.matcher(game.name);
-            final var find = matcher.find();
 
-
-            txtName.setText(find ? game.name.substring(0, matcher.start()) : game.name);
-            txtSubName.setText(find ? game.name.substring(matcher.start()) : "");
+            txtName.setText(GameName.getMainName(game.name));
+            txtSubName.setText(GameName.getSubName(game.name));
 
             flowPainter.getChildren().setAll(Tags.toNodes(game.painter, Hyperlink::new));
             txtWriter.setText(String.join(",", game.writer));

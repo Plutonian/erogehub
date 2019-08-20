@@ -1,6 +1,7 @@
 package com.goexp.galgame.gui.view.game.listview.simplelist.small;
 
 import com.goexp.galgame.common.model.GameState;
+import com.goexp.galgame.common.util.GameName;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.res.Images;
@@ -20,8 +21,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-
-import static com.goexp.galgame.common.util.GameName.NAME_SPLITER_REX;
 
 public class HeaderController extends DefaultController {
 
@@ -109,12 +108,9 @@ public class HeaderController extends DefaultController {
         brandJumpController.load(game.brand);
         //        starChangeController.load(game);
 
-        final var matcher = NAME_SPLITER_REX.matcher(game.name);
-        final var find = matcher.find();
 
-
-        txtName.setText(find ? game.name.substring(0, matcher.start()) : game.name);
-        txtSubName.setText(find ? game.name.substring(matcher.start()) : "");
+        txtName.setText(GameName.getMainName(game.name));
+        txtSubName.setText(GameName.getSubName(game.name));
 
         flowPainter.getChildren().setAll(Tags.toNodes(game.painter, str1 -> {
             var tagLabel1 = new Hyperlink(str1);

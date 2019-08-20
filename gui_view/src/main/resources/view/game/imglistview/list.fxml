@@ -2,6 +2,6 @@
 
 <?import org.controlsfx.control.GridView?>
 <GridView xmlns:fx="http://javafx.com/fxml/1" fx:id="imgList" stylesheets="@../../view.css" cellWidth="280"
-          cellHeight="500" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11"
+          cellHeight="520" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11"
           fx:controller="com.goexp.galgame.gui.view.game.listview.imglist.ImgListViewController">
 </GridView>

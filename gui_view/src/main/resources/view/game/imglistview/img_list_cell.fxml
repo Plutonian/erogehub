@@ -40,6 +40,8 @@
                                 <Font size="18.0"/>
                             </font>
                         </Text>
+                        <Text fx:id="txtSubName" wrappingWidth="280.0" fill="#666">
+                        </Text>
                         <Label fx:id="lbBrand" text="Brand"/>
                         <FlowPane fx:id="flowTag" prefWrapLength="200.0"/>
                     </children>
@@ -51,7 +53,8 @@
         <AnchorPane BorderPane.alignment="CENTER">
             <children>
                 <fx:include fx:id="changeState" source="../detail/control/statechange.fxml"/>
-                <Hyperlink text="View" AnchorPane.bottomAnchor="0.0" onAction="#link_OnAction"
+                <Hyperlink text="View" AnchorPane.bottomAnchor="0.0" onMousePressed="#onClick"
+
                            AnchorPane.rightAnchor="10.0"/>
             </children>
         </AnchorPane>

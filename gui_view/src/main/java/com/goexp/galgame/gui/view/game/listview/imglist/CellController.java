@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.view.game.listview.imglist;
 
 import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;
+import com.goexp.galgame.common.util.GameName;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.res.Images;
@@ -14,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -35,6 +37,9 @@ public class CellController extends DefaultController {
     private Text txtName;
 
     @FXML
+    private Text txtSubName;
+
+    @FXML
     private Label lbDate;
 
     @FXML
@@ -53,7 +58,9 @@ public class CellController extends DefaultController {
     public void load(Game game) {
         this.game = game;
 
-        txtName.setText(game.name);
+        txtName.setText(GameName.getMainName(game.name));
+        txtSubName.setText(GameName.getSubName(game.name));
+
         lbBrand.setText(game.brand.name);
         lbDate.setText(DateUtil.formatDate(game.publishDate));
         changeStateController.load(game);
@@ -82,9 +89,13 @@ public class CellController extends DefaultController {
 
     }
 
-    public void link_OnAction(ActionEvent actionEvent) {
-        System.out.println("go");
+//    public void link_OnAction(ActionEvent actionEvent) {
+//        System.out.println("go");
+//
+//    }
 
+    public void onClick(MouseEvent mouseEvent) {
         HomeController.$this.loadDetail(game);
     }
+
 }

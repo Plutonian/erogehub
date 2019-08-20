@@ -11,7 +11,7 @@ import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.brand.CommonInfoTabController;
 import com.goexp.galgame.gui.view.brand.MainPanelController;
-import com.goexp.galgame.gui.view.game.detailview.out.OutPageController;
+import com.goexp.galgame.gui.view.game.detailview.outer.OutPageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;

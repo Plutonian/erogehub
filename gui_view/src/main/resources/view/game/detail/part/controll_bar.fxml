@@ -6,7 +6,7 @@
 <?import java.net.URL?>
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             style="-fx-background-color:grey"
-            fx:controller="com.goexp.galgame.gui.view.game.detailview.out.ControllBarController">
+            fx:controller="com.goexp.galgame.gui.view.game.detailview.outer.ControllBarController">
     <stylesheets>
         <URL value="@../../../view.css"/>
     </stylesheets>

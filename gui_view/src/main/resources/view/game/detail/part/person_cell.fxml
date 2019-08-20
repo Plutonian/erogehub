@@ -9,7 +9,7 @@
 <?import javafx.scene.text.*?>
 <?import java.net.URL?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1"
-            fx:controller="com.goexp.galgame.gui.view.game.detailview.ContentViewController$PersonCellController">
+            fx:controller="com.goexp.galgame.gui.view.game.detailview.inner.PersonCellController">
     <stylesheets>
         <URL value="@../../../view.css"/>
     </stylesheets>

@@ -8,7 +8,7 @@
 <?import javafx.scene.text.*?>
 <?import java.net.URL?>
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.goexp.galgame.gui.view.game.detailview.ContentViewController$HeaderPartController">
+            fx:controller="com.goexp.galgame.gui.view.game.detailview.inner.HeaderPartController">
     <stylesheets>
         <URL value="@../../../view.css"/>
     </stylesheets>

@@ -37,10 +37,7 @@ object CalBrandGameTask {
           .map(_.publishDate)
           .maxOption.orNull
 
-        val count = games.asScala.to(LazyList)
-          .filter(_.publishDate != null)
-          .map(_.publishDate)
-          .size
+        val count = games.size()
 
         BrandDB.updateStatistics(b, start, end, count)
 

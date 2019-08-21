@@ -21,6 +21,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.util.StringConverter;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,6 +36,9 @@ public class MainPanelController extends DefaultController {
     public BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
 
     public Brand targetBrand;
+    public TreeTableColumn<Brand, LocalDate> colStart;
+    public TreeTableColumn<Brand, LocalDate> colEnd;
+    public TreeTableColumn<Brand, Integer> colSize;
 
     @FXML
     private TextField textBrandKey;
@@ -92,6 +96,9 @@ public class MainPanelController extends DefaultController {
         colName.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
         colWebsite.setCellValueFactory(new TreeItemPropertyValueFactory<>("website"));
         colState.setCellValueFactory(new TreeItemPropertyValueFactory<>("isLike"));
+        colStart.setCellValueFactory(new TreeItemPropertyValueFactory<>("start"));
+        colEnd.setCellValueFactory(new TreeItemPropertyValueFactory<>("end"));
+        colSize.setCellValueFactory(new TreeItemPropertyValueFactory<>("size"));
 
         colComp.setCellFactory(col -> new TreeTableCell<>() {
             @Override
@@ -107,6 +114,63 @@ public class MainPanelController extends DefaultController {
                         .map(TreeItem::getValue)
                         .ifPresent(brand -> {
                             this.setText(brand.comp());
+                        });
+
+            }
+        });
+
+        colStart.setCellFactory(col -> new TreeTableCell<>() {
+            @Override
+            protected void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+
+                this.setText(null);
+                this.setGraphic(null);
+
+                Optional.ofNullable(this.getTreeTableRow())
+                        .map(TreeTableRow::getTreeItem)
+                        .filter(TreeItem::isLeaf)
+                        .map(TreeItem::getValue)
+                        .ifPresent(brand -> {
+                            this.setText(Optional.ofNullable(brand.start()).map(d -> String.valueOf(d.getYear())).orElse("-"));
+                        });
+
+            }
+        });
+
+        colEnd.setCellFactory(col -> new TreeTableCell<>() {
+            @Override
+            protected void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+
+                this.setText(null);
+                this.setGraphic(null);
+
+                Optional.ofNullable(this.getTreeTableRow())
+                        .map(TreeTableRow::getTreeItem)
+                        .filter(TreeItem::isLeaf)
+                        .map(TreeItem::getValue)
+                        .ifPresent(brand -> {
+                            this.setText(Optional.ofNullable(brand.end()).map(d -> String.valueOf(d.getYear())).orElse("-"));
+                        });
+
+            }
+        });
+
+        colSize.setCellFactory(col -> new TreeTableCell<>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+
+                this.setText(null);
+                this.setGraphic(null);
+
+                Optional.ofNullable(this.getTreeTableRow())
+                        .map(TreeTableRow::getTreeItem)
+                        .filter(TreeItem::isLeaf)
+                        .map(TreeItem::getValue)
+                        .ifPresent(brand -> {
+                            this.setText(String.valueOf(brand.size()));
                         });
 
             }

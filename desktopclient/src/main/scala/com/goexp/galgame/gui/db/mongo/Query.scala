@@ -3,6 +3,7 @@ package com.goexp.galgame.gui.db.mongo
 import java.util._
 
 import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
+import com.goexp.common.util.DateUtil
 import com.goexp.galgame.common.db.mongo.DB_NAME
 import com.goexp.galgame.common.db.mongo.query.{CVCreator, CommonBrandCreator, CommonGameCreator, GuideCreator}
 import com.goexp.galgame.common.model._
@@ -23,7 +24,12 @@ object Query {
       logger.debug("<create> doc={}", doc)
 
       val parentCreator = new CommonBrandCreator(new Brand)
-      parentCreator.create(doc).asInstanceOf[Brand]
+      val b = parentCreator.create(doc).asInstanceOf[Brand]
+      //      b.start=doc.getDate("start").
+      b.start = Option(doc.getDate("start")).map(DateUtil.toLocalDate).orNull
+      b.end = Option(doc.getDate("end")).map(DateUtil.toLocalDate).orNull
+      b.size = doc.getInteger("size")
+      b
 
     }
     val tlp = new DBQueryTemplate.Builder[Brand](DB_NAME, "brand", creator).build

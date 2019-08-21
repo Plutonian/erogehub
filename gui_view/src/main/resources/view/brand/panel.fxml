@@ -45,6 +45,9 @@
                     <TreeTableColumn fx:id="colComp" prefWidth="120.0" resizable="false" text="Comp" />
                     <TreeTableColumn fx:id="colName" prefWidth="200.0" resizable="false" text="Name" />
                     <TreeTableColumn fx:id="colWebsite" prefWidth="500.0" text="Url" />
+                    <TreeTableColumn fx:id="colStart" prefWidth="50.0" resizable="false" text="Start" />
+                    <TreeTableColumn fx:id="colEnd" prefWidth="50.0" resizable="false" text="End" />
+                    <TreeTableColumn fx:id="colSize" prefWidth="50.0" resizable="false" text="Size" />
                     <TreeTableColumn fx:id="colState" prefWidth="75.0" text="State" />
                     <TreeTableColumn fx:id="colCommand" prefWidth="75.0" text="Command" />
                 </columns>

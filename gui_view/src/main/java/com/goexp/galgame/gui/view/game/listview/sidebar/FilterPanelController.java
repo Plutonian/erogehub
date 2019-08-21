@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.TextAlignment;
 
 import java.util.Comparator;
 import java.util.List;

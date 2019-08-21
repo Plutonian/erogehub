@@ -5,10 +5,26 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
-
-import static com.goexp.common.util.ConsoleColors.RED;
+import java.util.regex.Pattern;
 
 public abstract class CommonGame {
+    private static final Pattern NAME_SPLITER_REX = Pattern.compile("[〜\\s　＜「＋]");
+
+    public String getMainName() {
+        final var matcher = NAME_SPLITER_REX.matcher(name);
+        final var find = matcher.find();
+
+        return find ? name.substring(0, matcher.start()) : name;
+    }
+
+    public String getSubName() {
+        final var matcher = NAME_SPLITER_REX.matcher(name);
+        final var find = matcher.find();
+
+        return find ? name.substring(matcher.start()) : "";
+    }
+
+
     public int id;
     public String name = "";
     public LocalDate publishDate;
@@ -69,7 +85,7 @@ public abstract class CommonGame {
 
         @Override
         public String toString() {
-            return new StringJoiner(", ", "\n" +GameCharacter.class.getSimpleName() + "[", "]")
+            return new StringJoiner(", ", "\n" + GameCharacter.class.getSimpleName() + "[", "]")
                     .add("index=" + index)
                     .add("name='" + name + "'")
                     .add("cv='" + cv + "'")

@@ -7,7 +7,10 @@ import com.goexp.galgame.gui.util.res.Images;
 import com.goexp.galgame.gui.view.DefaultController;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 

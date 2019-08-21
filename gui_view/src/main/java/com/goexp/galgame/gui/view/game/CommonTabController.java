@@ -1,8 +1,8 @@
 package com.goexp.galgame.gui.view.game;
 
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.task.TaskService;
+import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.view.game.listview.DataViewController;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;

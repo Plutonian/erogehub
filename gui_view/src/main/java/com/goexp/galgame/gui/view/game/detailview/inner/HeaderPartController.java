@@ -1,7 +1,6 @@
 package com.goexp.galgame.gui.view.game.detailview.inner;
 
 import com.goexp.common.util.Strings;
-import com.goexp.galgame.common.util.GameName;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.res.Images;
@@ -115,8 +114,9 @@ public class HeaderPartController extends DefaultController {
 //            starChangeController.load(game);
 
 
-        txtName.setText(GameName.getMainName(game.name));
-        txtSubName.setText(GameName.getSubName(game.name));
+        txtName.setText(game.getMainName());
+        txtSubName.setText(game.getSubName());
+
 
         flowPainter.getChildren().setAll(Tags.toNodes(game.painter, Hyperlink::new));
         txtWriter.setText(String.join(",", game.writer));

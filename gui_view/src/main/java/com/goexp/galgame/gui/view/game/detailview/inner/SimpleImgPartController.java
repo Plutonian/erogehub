@@ -1,6 +1,5 @@
 package com.goexp.galgame.gui.view.game.detailview.inner;
 
-import com.goexp.galgame.common.model.CommonGame;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.res.Images;
 import com.goexp.galgame.gui.view.DefaultController;

@@ -4,7 +4,7 @@ import com.goexp.common.util.UrlBuilder;
 
 public final class WikiURL {
 
-    public static final String searchUrl = "https://ja.wikipedia.org/w/index.php";
+    private static final String searchUrl = "https://ja.wikipedia.org/w/index.php";
 
     public static String fromTitle(String title) {
         return UrlBuilder

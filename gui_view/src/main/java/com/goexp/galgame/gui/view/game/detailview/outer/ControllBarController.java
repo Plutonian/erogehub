@@ -1,6 +1,5 @@
 package com.goexp.galgame.gui.view.game.detailview.outer;
 
-import com.goexp.galgame.common.util.GameName;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.res.LocalRes;
@@ -83,8 +82,9 @@ public class ControllBarController extends DefaultController {
         starChangeController.load(game);
         webjumpController.load(game);
 
-        txtName.setText(GameName.getMainName(game.name));
-        txtSubName.setText(GameName.getSubName(game.name));
+        txtName.setText(game.getMainName());
+        txtSubName.setText(game.getSubName());
+
 
         brandJumpController.load(game.brand);
 

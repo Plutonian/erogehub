@@ -2,7 +2,6 @@ package com.goexp.galgame.gui.view.game.listview.imglist;
 
 import com.goexp.common.util.DateUtil;
 import com.goexp.galgame.common.model.GameState;
-import com.goexp.galgame.common.util.GameName;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.res.Images;
@@ -10,7 +9,6 @@ import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.game.HomeController;
 import com.goexp.galgame.gui.view.game.part.StateChangeController;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
@@ -58,8 +56,8 @@ public class CellController extends DefaultController {
     public void load(Game game) {
         this.game = game;
 
-        txtName.setText(GameName.getMainName(game.name));
-        txtSubName.setText(GameName.getSubName(game.name));
+        txtName.setText(game.getMainName());
+        txtSubName.setText(game.getSubName());
 
         lbBrand.setText(game.brand.name);
         lbDate.setText(DateUtil.formatDate(game.publishDate));

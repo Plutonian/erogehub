@@ -1,7 +1,6 @@
 package com.goexp.galgame.gui.view.game.listview.simplelist.small;
 
 import com.goexp.galgame.common.model.GameState;
-import com.goexp.galgame.common.util.GameName;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.res.Images;
@@ -109,8 +108,9 @@ public class HeaderController extends DefaultController {
         //        starChangeController.load(game);
 
 
-        txtName.setText(GameName.getMainName(game.name));
-        txtSubName.setText(GameName.getSubName(game.name));
+        txtName.setText(game.getMainName());
+        txtSubName.setText(game.getSubName());
+
 
         flowPainter.getChildren().setAll(Tags.toNodes(game.painter, str1 -> {
             var tagLabel1 = new Hyperlink(str1);

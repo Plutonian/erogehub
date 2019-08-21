@@ -4,7 +4,7 @@ import com.goexp.common.util.UrlBuilder;
 
 public final class GGBasesURL {
 
-    public static final String searchUrl = "https://www.ggbases.com/search.so";
+    private static final String searchUrl = "https://www.ggbases.com/search.so";
 
     public static String fromTitle(String title) {
         return UrlBuilder

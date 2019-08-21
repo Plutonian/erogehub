@@ -106,7 +106,7 @@ public class MainPanelController extends DefaultController {
                         .filter(TreeItem::isLeaf)
                         .map(TreeItem::getValue)
                         .ifPresent(brand -> {
-                            this.setText(brand.comp);
+                            this.setText(brand.comp());
                         });
 
             }
@@ -129,7 +129,7 @@ public class MainPanelController extends DefaultController {
                                     var titleLabel = new Hyperlink();
                                     titleLabel.setText(item);
                                     titleLabel.setOnAction(event -> {
-                                        Websites.open(brand.website);
+                                        Websites.open(brand.website());
                                     });
                                     this.setGraphic(titleLabel);
                                 });
@@ -199,7 +199,7 @@ public class MainPanelController extends DefaultController {
         onLoadProperty.addListener((observable, oldValue, newValue) -> {
             if (newValue != null && newValue) {
 
-                final var text = targetBrand.name;
+                final var text = targetBrand.name();
 
                 TabSelect.from().ifNotFind(() -> {
                     var conn = new CommonInfoTabController();

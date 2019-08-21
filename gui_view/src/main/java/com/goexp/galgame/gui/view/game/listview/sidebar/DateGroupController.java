@@ -43,7 +43,7 @@ public class DateGroupController extends FilterController<Game> {
         dateTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 
             if (newValue != null) {
-                predicate = game -> game.publishDate != null && game.publishDate.isBefore(newValue.getValue().range.end) && game.publishDate.isAfter(newValue.getValue().range.start);
+                predicate = game -> game.publishDate != null && game.publishDate.isBefore(newValue.getValue().range.end()) && game.publishDate.isAfter(newValue.getValue().range.start());
 
                 onSetProperty.set(true);
                 onSetProperty.set(false);

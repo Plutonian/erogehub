@@ -89,7 +89,7 @@ public class WebViewController extends DefaultController {
 
     public void load(Brand brand) {
         webView
-                .getEngine().load(brand.website);
+                .getEngine().load(brand.website());
     }
 
     @FXML

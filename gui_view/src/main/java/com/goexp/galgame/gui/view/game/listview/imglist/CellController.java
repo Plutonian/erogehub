@@ -59,7 +59,7 @@ public class CellController extends DefaultController {
         txtName.setText(game.getMainName());
         txtSubName.setText(game.getSubName());
 
-        lbBrand.setText(game.brand.name);
+        lbBrand.setText(game.brand.name());
         lbDate.setText(DateUtil.formatDate(game.publishDate));
         changeStateController.load(game);
 

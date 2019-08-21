@@ -52,8 +52,8 @@ public class TitlePartController extends DefaultController {
     private Brand changeBrand;
 
     private Service changeBrandStateService = new TaskService(() -> new BrandChangeTask(changeBrand));
-    private Service<Void> changeGameStateService = new TaskService<>(() -> new ChangeGameTask.MultiLikeByBrand(changeBrand.id));
-    private Service<List<Brand>> listBrandService = new TaskService<>(() -> new BrandListTask.ByComp(changeBrand.comp));
+    private Service<Void> changeGameStateService = new TaskService<>(() -> new ChangeGameTask.MultiLikeByBrand(changeBrand.id()));
+    private Service<List<Brand>> listBrandService = new TaskService<>(() -> new BrandListTask.ByComp(changeBrand.comp()));
 
 
     private ChangeListener<BrandType> listener;
@@ -83,7 +83,7 @@ public class TitlePartController extends DefaultController {
             if (newValue != null) {
                 logger.debug("<Action>Value:{},New:{}", choiceBrandState.getValue(), newValue);
 
-                changeBrand.isLike = newValue;
+                changeBrand.setIsLike(newValue);
 
                 changeBrandStateService.restart();
 
@@ -106,7 +106,7 @@ public class TitlePartController extends DefaultController {
                 var items = newValue.stream()
                         .map(brand -> {
                             var item = new MenuItem();
-                            item.setText(brand.name);
+                            item.setText(brand.name());
                             item.setUserData(brand);
                             item.setOnAction(event -> {
                                 HomeController.$this.viewBrand(brand);
@@ -138,10 +138,10 @@ public class TitlePartController extends DefaultController {
         stateChangeProperty.set(false);
 
         changeBrand = brand;
-        menuComp.setText(brand.name);
+        menuComp.setText(brand.name());
 
-        if (Strings.isNotEmpty(brand.comp)) {
-            txtComp.setText(brand.comp);
+        if (Strings.isNotEmpty(brand.comp())) {
+            txtComp.setText(brand.comp());
             listBrandService.restart();
         } else {
 //            menuComp.setVisible(false);
@@ -151,7 +151,7 @@ public class TitlePartController extends DefaultController {
 
 
         choiceBrandState.valueProperty().removeListener(listener);
-        choiceBrandState.setValue(brand.isLike);
+        choiceBrandState.setValue(brand.isLike());
         choiceBrandState.valueProperty().addListener(listener);
 
     }

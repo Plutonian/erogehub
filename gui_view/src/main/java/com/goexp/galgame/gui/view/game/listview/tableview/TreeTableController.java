@@ -123,7 +123,7 @@ public class TreeTableController extends DefaultController {
 
         tableColState.setCellValueFactory(new TreeItemPropertyValueFactory<>("state"));
 
-        tableColBrand.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().brand.name));
+        tableColBrand.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().brand.name()));
 
 
         tableColPainter.setCellValueFactory(new TreeItemPropertyValueFactory<>("painter"));

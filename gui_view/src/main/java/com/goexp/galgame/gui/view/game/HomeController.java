@@ -203,7 +203,7 @@ public class HomeController extends DefaultController {
 
     public void viewBrand(Brand brand) {
 
-        final var text = brand.name;
+        final var text = brand.name();
 
         TabSelect.from().ifNotFind(() -> {
             var conn = new CommonInfoTabController();

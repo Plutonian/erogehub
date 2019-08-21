@@ -38,7 +38,7 @@ public class InfoController extends DefaultController {
      */
 
 
-    private Service<ObservableList<Game>> gameByBrand = new TaskService<>(() -> new GameSearchTask.ByBrand(brand.id));
+    private Service<ObservableList<Game>> gameByBrand = new TaskService<>(() -> new GameSearchTask.ByBrand(brand.id()));
 
 
     /**

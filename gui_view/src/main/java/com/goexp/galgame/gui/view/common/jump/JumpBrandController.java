@@ -33,7 +33,7 @@ public class JumpBrandController extends DefaultController {
     protected void initialize() {
 
         linkGetchu.setOnAction((e) -> {
-            Websites.open(GetchuURL.GameList.byBrand(brand.id));
+            Websites.open(GetchuURL.GameList.byBrand(brand.id()));
         });
         jumpBrand.setOnAction((e) -> {
             HomeController.$this.viewBrand(brand);
@@ -41,7 +41,7 @@ public class JumpBrandController extends DefaultController {
         linkWebsite.setOnAction((e) -> {
 
 
-            Websites.open(brand.website);
+            Websites.open(brand.website());
 
         });
     }
@@ -49,15 +49,15 @@ public class JumpBrandController extends DefaultController {
     public void load(Brand brand) {
         this.brand = brand;
 
-        brandLabel.setText(brand.name);
+        brandLabel.setText(brand.name());
 
-        if (brand.website != null && brand.website.length() > 0) {
+        if (brand.website() != null && brand.website().length() > 0) {
             linkWebsite.setVisible(true);
         } else {
             linkWebsite.setVisible(false);
         }
 
-        searchLinkController.load(brand.name);
+        searchLinkController.load(brand.name());
 
     }
 

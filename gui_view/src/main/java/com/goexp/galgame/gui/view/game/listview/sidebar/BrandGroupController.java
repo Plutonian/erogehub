@@ -47,7 +47,7 @@ public class BrandGroupController extends FilterController<Game> {
                 if (item.getValue() instanceof CompItemNode) {
                     predicate = game -> {
                         // target comp can be null,so...change null to empty
-                        var comp = game.brand.comp != null ? game.brand.comp : "";
+                        var comp = game.brand.comp() != null ? game.brand.comp() : "";
 
                         return comp.equals(((CompItemNode) item.getValue()).comp);
                     };

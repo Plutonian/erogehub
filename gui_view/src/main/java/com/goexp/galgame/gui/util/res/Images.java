@@ -87,7 +87,7 @@ public class Images {
             return imageCache.get(cacheKey.getMemCacheKey())
                     //not heat cache
                     .orElseGet(() -> {
-                        final var localPath = Config.IMG_PATH.resolve(cacheKey.getDiskCacheKey() + ".jpg");
+                        final var localPath = Config.IMG_PATH().resolve(cacheKey.getDiskCacheKey() + ".jpg");
 
                         logger.debug("localPath={}", localPath);
 
@@ -132,7 +132,7 @@ public class Images {
 
             if (cachedImage.isEmpty()) {
                 //not heat cache
-                final var localPath = Config.IMG_PATH.resolve(cacheKey.getDiskCacheKey() + ".jpg");
+                final var localPath = Config.IMG_PATH().resolve(cacheKey.getDiskCacheKey() + ".jpg");
 
                 logger.debug("localPath={}", localPath);
 

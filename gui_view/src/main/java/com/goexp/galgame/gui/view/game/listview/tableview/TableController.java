@@ -141,7 +141,7 @@ public class TableController extends DefaultController {
 
         tableColState.setCellValueFactory(new PropertyValueFactory<>("state"));
 
-        tableColBrand.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().brand.name));
+        tableColBrand.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().brand.name()));
 
         tableColStar.setCellValueFactory(new PropertyValueFactory<>("star"));
         tableColPainter.setCellValueFactory(new PropertyValueFactory<>("painter"));

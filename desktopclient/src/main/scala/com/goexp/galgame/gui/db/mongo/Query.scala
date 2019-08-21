@@ -32,7 +32,7 @@ object Query {
       b
 
     }
-    val tlp = new DBQueryTemplate.Builder[Brand](DB_NAME, "brand", creator).build
+    val tlp = new DBQueryTemplate.Builder[Brand](DB_NAME, "brand", creator).defaultSort(ascending("comp")).build
 
   }
 

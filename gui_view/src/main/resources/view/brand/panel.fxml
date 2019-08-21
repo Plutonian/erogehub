@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.brand.MainPanelController">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.goexp.galgame.gui.view.brand.MainPanelController">
     <bottom>
         <HBox spacing="10.0">
             <children>
@@ -21,42 +13,43 @@
                     <children>
                         <ToggleButton mnemonicParsing="false" styleClass="left-pill" text="Comp" userData="1">
                             <toggleGroup>
-                                <ToggleGroup fx:id="typeGroup" />
+                                <ToggleGroup fx:id="typeGroup"/>
                             </toggleGroup>
                         </ToggleButton>
-                        <ToggleButton mnemonicParsing="false" selected="true" styleClass="right-pill" text="Brand" toggleGroup="$typeGroup" userData="0" />
+                        <ToggleButton mnemonicParsing="false" selected="true" styleClass="right-pill" text="Brand"
+                                      toggleGroup="$typeGroup" userData="0"/>
                     </children>
                 </HBox>
                 <TextField fx:id="textBrandKey" promptText="SearchKey" HBox.hgrow="ALWAYS">
                     <font>
-                        <Font size="14.0" />
+                        <Font size="14.0"/>
                     </font>
                 </TextField>
-                <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#search_OnAction" text="Search" />
+                <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#search_OnAction" text="Search"/>
             </children>
             <padding>
-                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
             </padding>
         </HBox>
     </bottom>
     <center>
-            <TreeTableView fx:id="tableBrand" prefHeight="600.0" showRoot="false" tableMenuButtonVisible="true">
-                <columns>
-                    <TreeTableColumn fx:id="colComp" prefWidth="120.0" resizable="false" text="Comp" />
-                    <TreeTableColumn fx:id="colName" prefWidth="200.0" resizable="false" text="Name" />
-                    <TreeTableColumn fx:id="colWebsite" prefWidth="500.0" text="Url" />
-                    <TreeTableColumn fx:id="colStart" prefWidth="50.0" resizable="false" text="Start" />
-                    <TreeTableColumn fx:id="colEnd" prefWidth="50.0" resizable="false" text="End" />
-                    <TreeTableColumn fx:id="colSize" prefWidth="50.0" resizable="false" text="Size" />
-                    <TreeTableColumn fx:id="colState" prefWidth="75.0" text="State" />
-                    <TreeTableColumn fx:id="colCommand" prefWidth="75.0" text="Command" />
-                </columns>
-            </TreeTableView>
+        <TableView fx:id="tableBrand" prefHeight="600.0" tableMenuButtonVisible="true">
+            <columns>
+                <TableColumn fx:id="colComp" prefWidth="120.0" resizable="false" text="Comp"/>
+                <TableColumn fx:id="colName" prefWidth="200.0" resizable="false" text="Name"/>
+                <TableColumn fx:id="colWebsite" prefWidth="500.0" text="Url"/>
+                <TableColumn fx:id="colStart" prefWidth="50.0" resizable="false" text="Start"/>
+                <TableColumn fx:id="colEnd" prefWidth="50.0" resizable="false" text="End"/>
+                <TableColumn fx:id="colSize" prefWidth="50.0" resizable="false" text="Size"/>
+                <TableColumn fx:id="colState" prefWidth="75.0" text="State"/>
+                <TableColumn fx:id="colCommand" prefWidth="75.0" text="Command" sortable="false"/>
+            </columns>
+        </TableView>
     </center>
     <top>
         <ToolBar BorderPane.alignment="CENTER">
             <items>
-                <ChoiceBox fx:id="choiceBrandType" onAction="#choiceBrandType_OnAction" />
+                <ChoiceBox fx:id="choiceBrandType" onAction="#choiceBrandType_OnAction"/>
             </items>
         </ToolBar>
     </top>

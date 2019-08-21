@@ -38,28 +38,35 @@ object BrandSearchTask {
       })
       .asJava
 
-  class ByName(private[this] val name: String) extends Task[util.List[TreeItem[Brand]]] {
+  class ByName(private[this] val name: String) extends Task[util.List[Brand]] {
     override protected def call = {
-      val list = BrandQuery.tlp.query.where(regex("name", "^" + name)).list
-      makeTree(list)
+      BrandQuery.tlp.query
+        .where(regex("name", "^" + name))
+        .list
+      //      makeTree(list)
     }
   }
 
-  class ByType(private[this] val `type`: BrandType) extends Task[util.List[TreeItem[Brand]]] {
+  class ByType(private[this] val `type`: BrandType) extends Task[util.List[Brand]] {
     override protected def call = {
-      val list = if (`type` eq BrandType.ALL)
-        BrandQuery.tlp.query.list
+      if (`type` eq BrandType.ALL)
+        BrandQuery.tlp.query
+          .list
       else
-        BrandQuery.tlp.query.where(Filters.eq("type", `type`.value)).list
+        BrandQuery.tlp.query
+          .where(Filters.eq("type", `type`.value))
+          .list
 
-      makeTree(list)
+      //      makeTree(list)
     }
   }
 
-  class ByComp(private[this] val name: String) extends Task[util.List[TreeItem[Brand]]] {
+  class ByComp(private[this] val name: String) extends Task[util.List[Brand]] {
     override protected def call = {
-      val list = BrandQuery.tlp.query.where(regex("comp", name)).list
-      makeTree(list)
+      BrandQuery.tlp.query
+        .where(regex("comp", name))
+        .list
+      //      makeTree(list)
     }
   }
 

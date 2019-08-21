@@ -17,13 +17,12 @@ import javafx.concurrent.Service;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.util.StringConverter;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,32 +35,32 @@ public class MainPanelController extends DefaultController {
     public BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
 
     public Brand targetBrand;
-    public TreeTableColumn<Brand, LocalDate> colStart;
-    public TreeTableColumn<Brand, LocalDate> colEnd;
-    public TreeTableColumn<Brand, Integer> colSize;
+    public TableColumn<Brand, LocalDate> colStart;
+    public TableColumn<Brand, LocalDate> colEnd;
+    public TableColumn<Brand, Integer> colSize;
 
     @FXML
     private TextField textBrandKey;
 
 
     @FXML
-    private TreeTableView<Brand> tableBrand;
+    private TableView<Brand> tableBrand;
 
     @FXML
-    private TreeTableColumn<Brand, String> colComp;
+    private TableColumn<Brand, String> colComp;
 
     @FXML
-    private TreeTableColumn<Brand, String> colName;
+    private TableColumn<Brand, String> colName;
 
     @FXML
-    private TreeTableColumn<Brand, String> colWebsite;
+    private TableColumn<Brand, String> colWebsite;
 
 
     @FXML
-    private TreeTableColumn<Brand, BrandType> colState;
+    private TableColumn<Brand, BrandType> colState;
 
     @FXML
-    private TreeTableColumn<Brand, Void> colCommand;
+    private TableColumn<Brand, Void> colCommand;
 
 
     @FXML
@@ -80,11 +79,11 @@ public class MainPanelController extends DefaultController {
     private String keyword;
 
 
-    private Service<List<TreeItem<Brand>>> brandService = new TaskService<>(() -> new BrandSearchTask.ByType(brandType));
+    private Service<List<Brand>> brandService = new TaskService<>(() -> new BrandSearchTask.ByType(brandType));
 
-    private Service<List<TreeItem<Brand>>> brandByNameService = new TaskService<>(() -> new BrandSearchTask.ByName(keyword));
+    private Service<List<Brand>> brandByNameService = new TaskService<>(() -> new BrandSearchTask.ByName(keyword));
 
-    private Service<List<TreeItem<Brand>>> brandByCompService = new TaskService<>(() -> new BrandSearchTask.ByComp(keyword));
+    private Service<List<Brand>> brandByCompService = new TaskService<>(() -> new BrandSearchTask.ByComp(keyword));
 
 
     @Override
@@ -92,34 +91,15 @@ public class MainPanelController extends DefaultController {
 
 //        btnSearch.disableProperty().bind(textBrandKey.textProperty().length().isEqualTo(0));
 
-        colComp.setCellValueFactory(new TreeItemPropertyValueFactory<>("comp"));
-        colName.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
-        colWebsite.setCellValueFactory(new TreeItemPropertyValueFactory<>("website"));
-        colState.setCellValueFactory(new TreeItemPropertyValueFactory<>("isLike"));
-        colStart.setCellValueFactory(new TreeItemPropertyValueFactory<>("start"));
-        colEnd.setCellValueFactory(new TreeItemPropertyValueFactory<>("end"));
-        colSize.setCellValueFactory(new TreeItemPropertyValueFactory<>("size"));
+        colComp.setCellValueFactory(new PropertyValueFactory<>("comp"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colWebsite.setCellValueFactory(new PropertyValueFactory<>("website"));
+        colState.setCellValueFactory(new PropertyValueFactory<>("isLike"));
+        colStart.setCellValueFactory(new PropertyValueFactory<>("start"));
+        colEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
+        colSize.setCellValueFactory(new PropertyValueFactory<>("size"));
 
-        colComp.setCellFactory(col -> new TreeTableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-
-                this.setText(null);
-                this.setGraphic(null);
-
-                Optional.ofNullable(this.getTreeTableRow())
-                        .map(TreeTableRow::getTreeItem)
-                        .filter(TreeItem::isLeaf)
-                        .map(TreeItem::getValue)
-                        .ifPresent(brand -> {
-                            this.setText(brand.comp());
-                        });
-
-            }
-        });
-
-        colStart.setCellFactory(col -> new TreeTableCell<>() {
+        colStart.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
@@ -127,18 +107,12 @@ public class MainPanelController extends DefaultController {
                 this.setText(null);
                 this.setGraphic(null);
 
-                Optional.ofNullable(this.getTreeTableRow())
-                        .map(TreeTableRow::getTreeItem)
-                        .filter(TreeItem::isLeaf)
-                        .map(TreeItem::getValue)
-                        .ifPresent(brand -> {
-                            this.setText(Optional.ofNullable(brand.start()).map(d -> String.valueOf(d.getYear())).orElse("-"));
-                        });
-
+                if (item != null && !empty)
+                    this.setText(String.valueOf(item.getYear()));
             }
         });
 
-        colEnd.setCellFactory(col -> new TreeTableCell<>() {
+        colEnd.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
@@ -146,94 +120,55 @@ public class MainPanelController extends DefaultController {
                 this.setText(null);
                 this.setGraphic(null);
 
-                Optional.ofNullable(this.getTreeTableRow())
-                        .map(TreeTableRow::getTreeItem)
-                        .filter(TreeItem::isLeaf)
-                        .map(TreeItem::getValue)
-                        .ifPresent(brand -> {
-                            this.setText(Optional.ofNullable(brand.end()).map(d -> String.valueOf(d.getYear())).orElse("-"));
-                        });
-
-            }
-        });
-
-        colSize.setCellFactory(col -> new TreeTableCell<>() {
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-
-                this.setText(null);
-                this.setGraphic(null);
-
-                Optional.ofNullable(this.getTreeTableRow())
-                        .map(TreeTableRow::getTreeItem)
-                        .filter(TreeItem::isLeaf)
-                        .map(TreeItem::getValue)
-                        .ifPresent(brand -> {
-                            this.setText(String.valueOf(brand.size()));
-                        });
-
+                if (item != null && !empty)
+                    this.setText(String.valueOf(item.getYear()));
             }
         });
 
         colWebsite.setCellFactory(col -> {
 
-            return new TreeTableCell<>() {
+            return new TableCell<>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
                     this.setGraphic(null);
 
                     if (!empty && !Strings.isEmpty(item)) {
-                        Optional.ofNullable(this.getTreeTableRow())
-                                .map(TreeTableRow::getTreeItem)
-                                .filter(TreeItem::isLeaf)
-                                .map(TreeItem::getValue)
-                                .ifPresent(brand -> {
-                                    var titleLabel = new Hyperlink();
-                                    titleLabel.setText(item);
-                                    titleLabel.setOnAction(event -> {
-                                        Websites.open(brand.website());
-                                    });
-                                    this.setGraphic(titleLabel);
-                                });
+                        var titleLabel = new Hyperlink();
+                        titleLabel.setText(item);
+                        titleLabel.setOnAction(event -> {
+                            Websites.open(item);
+                        });
+                        this.setGraphic(titleLabel);
                     }
                 }
             };
         });
 
-        colCommand.setCellFactory(col -> new TreeTableCell<>() {
+        colCommand.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
                 this.setGraphic(null);
 
                 if (!empty) {
-                    Optional.ofNullable(this.getTreeTableRow())
-                            .map(TreeTableRow::getTreeItem)
-                            .filter(TreeItem::isLeaf)
-                            .map(TreeItem::getValue)
-                            .ifPresent(brand -> {
-                                var link = new Hyperlink("関連ゲーム");
-                                link.setOnAction(event -> {
-                                    targetBrand = brand;
-                                    onLoadProperty.set(true);
-                                    onLoadProperty.set(false);
-                                });
-                                this.setGraphic(link);
-                            });
+                    var link = new Hyperlink("関連ゲーム");
+                    link.setOnAction(event -> {
+                        targetBrand = this.getTableRow().getItem();
+                        onLoadProperty.set(true);
+                        onLoadProperty.set(false);
+                    });
+                    this.setGraphic(link);
 
                 }
             }
         });
 
 
-        ChangeListener<List<TreeItem<Brand>>> handler = (observable, oldValue, newValue) -> {
+        ChangeListener<List<Brand>> handler = (observable, oldValue, newValue) -> {
 
             if (newValue != null) {
-                var root = new TreeItem<Brand>();
-                root.getChildren().setAll(FXCollections.observableArrayList(newValue));
-                tableBrand.setRoot(root);
+                tableBrand.setItems(FXCollections.observableArrayList(newValue));
             }
         };
 

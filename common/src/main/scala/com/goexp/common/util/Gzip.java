@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.zip.GZIPInputStream;
 
 public class Gzip {
-    public static byte[] unGzip(byte[] compressedBytes) {
+    private static byte[] unGzip(byte[] compressedBytes) {
         try (var s = new GZIPInputStream(new ByteArrayInputStream(compressedBytes))) {
             return s.readAllBytes();
         } catch (IOException e) {

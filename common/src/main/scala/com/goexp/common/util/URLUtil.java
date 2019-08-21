@@ -15,8 +15,7 @@ public class URLUtil {
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-        TransformerFactory
-                .newInstance()
+        TransformerFactory.newInstance()
                 .newTransformer()
                 .transform(new DOMSource(doc), new StreamResult(bos));
 

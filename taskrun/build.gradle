@@ -16,5 +16,5 @@ dependencies {
 
 group = 'com.goexp.galgame'
 
-//mainClassName="com.goexp.galgame.data.task.ImporterStart"
-mainClassName="com.goexp.galgame.data.task.local.CalBrandGameTask"
+mainClassName="com.goexp.galgame.data.task.ImporterStart"
+// mainClassName="com.goexp.galgame.data.task.local.CalBrandGameTask"

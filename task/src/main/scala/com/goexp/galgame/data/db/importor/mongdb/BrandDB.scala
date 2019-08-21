@@ -1,10 +1,12 @@
 package com.goexp.galgame.data.db.importor.mongdb
 
+import java.time.LocalDate
+
 import com.goexp.common.db.mongo.DBOperatorTemplate
 import com.goexp.galgame.common.db.mongo.DB_NAME
 import com.goexp.galgame.data.model.Brand
 import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Updates.set
+import com.mongodb.client.model.Updates.{combine, set}
 import org.bson.Document
 
 object BrandDB {
@@ -29,5 +31,15 @@ object BrandDB {
   def updateComp(item: Brand) =
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(item.id), set("comp", item.comp))
+    })
+
+
+  def updateStatistics(item: Brand, start: LocalDate, end: LocalDate, size: Int) =
+    tlp.exec(documentMongoCollection => {
+      documentMongoCollection.updateOne(Filters.eq(item.id), combine(
+        set("start", start),
+        set("end", end),
+        set("size", size)
+      ))
     })
 }

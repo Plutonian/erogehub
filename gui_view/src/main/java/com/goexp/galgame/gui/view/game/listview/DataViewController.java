@@ -283,7 +283,9 @@ public class DataViewController extends DefaultController {
         smallListSimple.setItems(sortedData);
         smallListSimple.scrollTo(0);
 
-        imgViewController.load(sortedData);
+
+        //::TODO GridView bug
+//        imgViewController.load(sortedData);
     }
 
 //    private void loadItems(ObservableList<Game> sortedData) {

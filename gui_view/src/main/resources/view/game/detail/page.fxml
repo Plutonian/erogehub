@@ -12,10 +12,6 @@
     <stylesheets>
         <URL value="@../../view.css" />
     </stylesheets>
-    <Tab text="Home">
-
-        <fx:include fx:id="header" source="part/header.fxml" />
-    </Tab>
    <Tab text="Image">
      <content>
          <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true">
@@ -29,6 +25,9 @@
          </ScrollPane>
      </content>
    </Tab>
+    <Tab text="Intro">
+        <fx:include fx:id="header" source="part/header.fxml" />
+    </Tab>
     <Tab fx:id="tabPerson" text="キャラクター">
         <ListView fx:id="personListView" styleClass="copyablelabel" />
     </Tab>

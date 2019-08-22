@@ -200,9 +200,14 @@ public class DataViewController extends DefaultController {
     private void initSidebarContentView() {
         filterPanelController.onSetProperty.addListener((o, old, newV) -> {
             if (newV != null && newV) {
+                var load = groupPredicate == null;
+
                 var filterPredicate = filterPanelController.predicate;
                 var p = groupPredicate != null ? filterPredicate.and(groupPredicate) : filterPredicate;
                 filteredGames.setPredicate(p);
+
+                if(load)
+                    setSideBarData(filteredGames);
             }
         });
 

@@ -10,14 +10,12 @@ import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.game.HomeController;
 import com.goexp.galgame.gui.view.game.detailview.part.DateShowController;
 import com.goexp.galgame.gui.view.game.part.StateChangeController;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
@@ -48,11 +46,6 @@ public class HeaderController extends DefaultController {
     @FXML
     private Text txtSubName;
 
-    @FXML
-    private FlowPane flowPainter;
-
-    @FXML
-    private Label txtWriter;
 
     @FXML
     private HBox boxTag;
@@ -66,15 +59,6 @@ public class HeaderController extends DefaultController {
             HomeController.$this.loadDetail(targetGame);
         });
 
-        flowPainter.addEventFilter(ActionEvent.ACTION, event -> {
-            if (event.getTarget() instanceof Hyperlink) {
-
-                var painter = (Hyperlink) event.getTarget();
-
-                var str = painter.getText().replaceAll("（[^）]+）", "");
-                HomeController.$this.loadPainterTab(str);
-            }
-        });
     }
 
 
@@ -111,13 +95,6 @@ public class HeaderController extends DefaultController {
         txtName.setText(game.getMainName());
         txtSubName.setText(game.getSubName());
 
-
-        flowPainter.getChildren().setAll(Tags.toNodes(game.painter, str1 -> {
-            var tagLabel1 = new Hyperlink(str1);
-            return tagLabel1;
-        }));
-        txtWriter.setText(String.join(",", game.writer));
-
         if (game.tag.size() > 0) {
 
             boxTag.getChildren().setAll(Tags.toNodes(game.tag, str -> {
@@ -144,9 +121,6 @@ public class HeaderController extends DefaultController {
             imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));
         else
             imageImg.setEffect(null);
-
-        //preload large
-//        Images.GameImage.preloadLarge(game);
 
     }
 }

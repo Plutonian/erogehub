@@ -5,6 +5,7 @@ import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
+import com.goexp.galgame.gui.view.game.detailview.part.DateShowController;
 import com.goexp.galgame.gui.view.game.detailview.part.StarChoiceBarController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -13,6 +14,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 public class TopController extends DefaultController {
+
+    @FXML
+    private DateShowController dateviewController;
 
     @FXML
     private StarChoiceBarController starChangeController;
@@ -75,6 +79,8 @@ public class TopController extends DefaultController {
 
         txtName.setText(game.getMainName());
         txtSubName.setText(game.getSubName());
+
+        dateviewController.load(game.publishDate);
 
 
         brandJumpController.load(game.brand);

@@ -8,7 +8,7 @@ public enum GameState {
     SAME("SAME", -2),
     BLOCK("ブロック", -1),
     UNCHECKED("...", 0),
-    READYTOVIEW("あとで見る", 2),
+    READYTOVIEW("後で見る", 2),
     HOPE("気になり", 3),
     PLAYING("進行中", 80),
     PLAYED("プレイ済み", 90);

@@ -8,6 +8,6 @@
         <URL value="@view/view.css"/>
     </stylesheets>
     <children>
-        <fx:include fx:id="search" source="view/search.fxml"/>
+        <fx:include fx:id="home" source="view/home.fxml"/>
     </children>
 </StackPane>

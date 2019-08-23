@@ -29,7 +29,7 @@ public class ControllBarController extends DefaultController {
     @FXML
     private JumpBrandController brandJumpController;
 
-    public ImageView imageImg;
+//    public ImageView imageImg;
     @FXML
     private HBox boxStar;
 
@@ -67,12 +67,12 @@ public class ControllBarController extends DefaultController {
 
         loadWithoutImage(game);
 
-            if (game.smallImg != null && game.smallImg.startsWith("http")) {
-                imageImg.setImage(Images.GameImage.tiny(game));
-
-            } else {
-                imageImg.setImage(null);
-            }
+//            if (game.smallImg != null && game.smallImg.startsWith("http")) {
+//                imageImg.setImage(Images.GameImage.tiny(game));
+//
+//            } else {
+//                imageImg.setImage(null);
+//            }
 
 
     }

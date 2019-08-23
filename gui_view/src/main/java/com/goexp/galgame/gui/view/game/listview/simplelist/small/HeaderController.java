@@ -117,7 +117,7 @@ public class HeaderController extends DefaultController {
             boxStar.getChildren().add(new ImageView(image));
         }
 
-        if (game.state.get().value <= GameState.BLOCK.value)
+        if (game.state.get() == GameState.BLOCK || game.state.get() == GameState.SAME)
             imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));
         else
             imageImg.setEffect(null);

@@ -112,11 +112,11 @@ public class DataViewController extends DefaultController {
     protected void initialize() {
         initSwitchBar();
         initSideBar();
-        initCVPanel();
+        initGroupPanel();
         btnHide.fire();
     }
 
-    private void initCVPanel() {
+    private void initGroupPanel() {
         cvList.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(DefaultItemNode cvItemNode, boolean empty) {
@@ -206,7 +206,7 @@ public class DataViewController extends DefaultController {
                 var p = groupPredicate != null ? filterPredicate.and(groupPredicate) : filterPredicate;
                 filteredGames.setPredicate(p);
 
-                if(load)
+                if (load)
                     setSideBarData(filteredGames);
             }
         });
@@ -263,7 +263,10 @@ public class DataViewController extends DefaultController {
 
 
     public void load(ObservableList<Game> games) {
-        Predicate<Game> defaultP = g -> g.state.get().value > GameState.BLOCK.value && !(g.star > 0 && g.star < 3);
+        Predicate<Game> defaultP = g ->
+                g.state.get() != GameState.SAME && g.state.get() != GameState.BLOCK
+                        && !(g.star > 0 && g.star < 3);
+
         load(games, defaultP);
     }
 

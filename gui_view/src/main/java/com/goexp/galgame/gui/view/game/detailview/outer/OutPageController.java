@@ -11,10 +11,13 @@ import javafx.scene.image.ImageView;
 public class OutPageController extends DefaultController {
 
     @FXML
-    public ContentViewController rootContainerController;
+    public ContentViewController innerPageController;
 
     @FXML
     public ControllBarController headerController;
+
+    @FXML
+    public TopController topController;
 
 
     public ImageView imgBackground;
@@ -101,8 +104,8 @@ public class OutPageController extends DefaultController {
 
     public void loadInnerPage(Game g) {
 
-        rootContainerController.load(g);
-
+        topController.load(g);
+        innerPageController.load(g);
         headerController.load(g);
 
     }

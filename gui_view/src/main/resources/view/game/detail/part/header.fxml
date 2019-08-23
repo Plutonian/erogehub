@@ -25,24 +25,24 @@
                 <Insets left="10"/>
             </BorderPane.margin>
 
-            <fx:include fx:id="dateview" source="../control/date.fxml" AnchorPane.rightAnchor="0.0"
-                        AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER"/>
+<!--            <fx:include fx:id="dateview" source="../control/date.fxml" AnchorPane.rightAnchor="0.0"-->
+<!--                        AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER"/>-->
             <VBox spacing="5.0">
-                <VBox>
-                    <HBox>
-                        <Text fx:id="txtName">
-                            <font>
-                                <Font name="System Bold" size="24.0"/>
-                            </font>
-                        </Text>
-                        <Text fx:id="txtSubName"/>
-                    </HBox>
-                    <fx:include fx:id="brandJump" source="../../../brand/brandjump.fxml"/>
-                </VBox>
+<!--                <VBox>-->
+<!--                    <HBox>-->
+<!--                        <Text fx:id="txtName">-->
+<!--                            <font>-->
+<!--                                <Font name="System Bold" size="24.0"/>-->
+<!--                            </font>-->
+<!--                        </Text>-->
+<!--                        <Text fx:id="txtSubName"/>-->
+<!--                    </HBox>-->
+<!--                    <fx:include fx:id="brandJump" source="../../../brand/brandjump.fxml"/>-->
+<!--                </VBox>-->
 
-                <HBox fx:id="boxTag" spacing="5.0"/>
-                <HBox fx:id="boxStar">
-                </HBox>
+<!--                <HBox fx:id="boxTag" spacing="5.0"/>-->
+<!--                <HBox fx:id="boxStar">-->
+<!--                </HBox>-->
                 <!--                        <fx:include fx:id="starChange" source="../control/star_choicebar.fxml"/>-->
                 <GridPane>
                     <columnConstraints>

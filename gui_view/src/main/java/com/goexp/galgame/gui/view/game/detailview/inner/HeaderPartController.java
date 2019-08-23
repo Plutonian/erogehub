@@ -4,7 +4,6 @@ import com.goexp.common.util.Strings;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.res.Images;
-import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
 import com.goexp.galgame.gui.view.game.HomeController;
@@ -17,7 +16,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 public class HeaderPartController extends DefaultController {
@@ -25,14 +23,14 @@ public class HeaderPartController extends DefaultController {
 //        @FXML
 //        private StarChoiceBarController starChangeController;
 
-    @FXML
-    private DateShowController dateviewController;
+//    @FXML
+//    private DateShowController dateviewController;
 
 //        @FXML
 //        private JumpLinkController webjumpController;
 
-    @FXML
-    private JumpBrandController brandJumpController;
+//    @FXML
+//    private JumpBrandController brandJumpController;
 
 //        @FXML
 //        private StateChangeController changeStateController;
@@ -40,14 +38,14 @@ public class HeaderPartController extends DefaultController {
     @FXML
     private ImageView imageImg;
 
-    @FXML
-    private HBox boxStar;
-
-    @FXML
-    private Text txtName;
-
-    @FXML
-    private Text txtSubName;
+//    @FXML
+//    private HBox boxStar;
+//
+//    @FXML
+//    private Text txtName;
+//
+//    @FXML
+//    private Text txtSubName;
 
     @FXML
     private FlowPane flowPainter;
@@ -56,8 +54,8 @@ public class HeaderPartController extends DefaultController {
     @FXML
     private Label txtWriter;
 
-    @FXML
-    private HBox boxTag;
+//    @FXML
+//    private HBox boxTag;
 
     @FXML
     private Text txtIntro;
@@ -110,12 +108,12 @@ public class HeaderPartController extends DefaultController {
 
 //            webjumpController.load(game);
 //            changeStateController.load(game);
-        brandJumpController.load(game.brand);
+//        brandJumpController.load(game.brand);
 //            starChangeController.load(game);
 
 
-        txtName.setText(game.getMainName());
-        txtSubName.setText(game.getSubName());
+//        txtName.setText(game.getMainName());
+//        txtSubName.setText(game.getSubName());
 
 
         flowPainter.getChildren().setAll(Tags.toNodes(game.painter, Hyperlink::new));
@@ -126,23 +124,23 @@ public class HeaderPartController extends DefaultController {
 
         txtStory.setText(game.story);
 
-        if (game.tag.size() > 0) {
-            var nodes = Tags.toNodes(game.tag, str -> {
-                var tagLabel = new Label(str);
-                tagLabel.getStyleClass().add("tag");
-                tagLabel.getStyleClass().add("tagbig");
+//        if (game.tag.size() > 0) {
+//            var nodes = Tags.toNodes(game.tag, str -> {
+//                var tagLabel = new Label(str);
+//                tagLabel.getStyleClass().add("tag");
+//                tagLabel.getStyleClass().add("tagbig");
+//
+//                return tagLabel;
+//            });
+//
+//            boxTag.getChildren().setAll(nodes);
+//        } else {
+//            boxTag.getChildren().clear();
+//        }
 
-                return tagLabel;
-            });
+//        dateviewController.load(game.publishDate);
 
-            boxTag.getChildren().setAll(nodes);
-        } else {
-            boxTag.getChildren().clear();
-        }
-
-        dateviewController.load(game.publishDate);
-
-        loadStar(game);
+//        loadStar(game);
 
 //            if (game.state.get().value <= GameState.BLOCK.value)
 //                imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));
@@ -151,11 +149,11 @@ public class HeaderPartController extends DefaultController {
 
     }
 
-    public void loadStar(Game game) {
-        boxStar.getChildren().clear();
-        var image = LocalRes.HEART_32_PNG.get();
-        for (var i = 0; i < game.star; i++) {
-            boxStar.getChildren().add(new ImageView(image));
-        }
-    }
+//    public void loadStar(Game game) {
+//        boxStar.getChildren().clear();
+//        var image = LocalRes.HEART_32_PNG.get();
+//        for (var i = 0; i < game.star; i++) {
+//            boxStar.getChildren().add(new ImageView(image));
+//        }
+//    }
 }

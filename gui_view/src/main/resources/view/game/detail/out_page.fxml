@@ -12,13 +12,16 @@
     <stylesheets>
         <URL value="@../../view.css" />
     </stylesheets>
+    <top>
+        <fx:include  fx:id="top" source="part/top.fxml"/>
+    </top>
     <center>
         <StackPane>
             <ImageView fx:id="imgBackground" scaleX="5.0" scaleY="5.0">
             <effect>
                <GaussianBlur radius="20.0" />
             </effect></ImageView>
-            <fx:include fx:id="rootContainer" source="page.fxml" />
+            <fx:include fx:id="innerPage" source="page.fxml" />
         </StackPane>
     </center>
     <bottom>

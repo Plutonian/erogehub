@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.view.game.detailview.outer;
 
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
+import com.goexp.galgame.gui.util.res.Images;
 import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
@@ -28,6 +29,7 @@ public class ControllBarController extends DefaultController {
     @FXML
     private JumpBrandController brandJumpController;
 
+    public ImageView imageImg;
     @FXML
     private HBox boxStar;
 
@@ -65,12 +67,12 @@ public class ControllBarController extends DefaultController {
 
         loadWithoutImage(game);
 
-//            if (game.smallImg != null && game.smallImg.startsWith("http")) {
-//                imageImg.setImage(Images.GameImage.tiny(game));
-//
-//            } else {
-//                imageImg.setImage(null);
-//            }
+            if (game.smallImg != null && game.smallImg.startsWith("http")) {
+                imageImg.setImage(Images.GameImage.tiny(game));
+
+            } else {
+                imageImg.setImage(null);
+            }
 
 
     }

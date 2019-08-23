@@ -67,7 +67,7 @@ public class CellController extends DefaultController {
             flowTag.getChildren().setAll(Tags.toNodes(game.tag));
 
 
-        if (game.smallImg != null && game.smallImg.startsWith("http")) {
+        if (game.isOkImg()) {
 
             imageImg.setImage(Images.GameImage.small(game));
 

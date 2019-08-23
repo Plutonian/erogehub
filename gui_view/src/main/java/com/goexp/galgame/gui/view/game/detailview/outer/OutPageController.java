@@ -92,7 +92,7 @@ public class OutPageController extends DefaultController {
     }
 
     private void loadBackgroundImage(Game game) {
-        if (game.smallImg != null && game.smallImg.startsWith("http")) {
+        if (game.isOkImg()) {
             imgBackground.setImage(Images.GameImage.large(game));
         } else {
             imgBackground.setImage(null);

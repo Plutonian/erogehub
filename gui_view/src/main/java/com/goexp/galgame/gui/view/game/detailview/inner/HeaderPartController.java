@@ -93,7 +93,7 @@ public class HeaderPartController extends DefaultController {
 
         loadWithoutImage(game);
 
-        if (game.smallImg != null && game.smallImg.startsWith("http")) {
+        if (game.isOkImg()) {
             imageImg.setImage(Images.GameImage.small(game));
         } else {
             imageImg.setImage(null);

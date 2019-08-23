@@ -1,5 +1,6 @@
 package com.goexp.galgame.gui.model;
 
+import com.goexp.common.util.Strings;
 import com.goexp.galgame.common.model.CommonGame;
 import com.goexp.galgame.common.model.GameState;
 import javafx.beans.property.ObjectPropertyBase;
@@ -136,6 +137,10 @@ public class Game extends CommonGame {
                 .map(ObjectPropertyBase::get)
                 .map(gs -> gs.value >= GameState.UNCHECKED.value)
                 .orElse(false);
+    }
+
+    public boolean isOkImg() {
+        return Strings.isNotEmpty(smallImg) && smallImg.startsWith("http");
     }
 
     //    @Override

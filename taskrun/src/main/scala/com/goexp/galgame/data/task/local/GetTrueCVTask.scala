@@ -19,8 +19,7 @@ object GetTrueCVTask {
   type Person = GameCharacter
 
   def getMap(cvList: util.List[CV]) =
-    cvList.asScala
-      .to(LazyList)
+    cvList.asScala.to(LazyList)
       .flatMap(cv => {
         cv.nameStr.split("[=＝]")
           .map((name: String) => {
@@ -40,7 +39,9 @@ object GetTrueCVTask {
 
     logger.info("Init OK")
 
-    val games = GameQuery.fullTlpWithChar.query.where(not(same("gamechar", null))).list.asScala
+    val games = GameQuery.fullTlpWithChar.query
+      .where(not(same("gamechar", null)))
+      .list.asScala
 
     games.to(LazyList)
       .filter(g => Option(g.gameCharacters).map(_.size).getOrElse(0) > 0)

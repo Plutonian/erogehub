@@ -32,7 +32,7 @@ class Game extends CommonGame {
 
 
   override def toString: String = {
-    return new StringJoiner(", ", classOf[Game].getSimpleName + "[", "]")
+    new StringJoiner(", ", classOf[Game].getSimpleName + "[", "]")
       .add("id=" + id)
       .add("name='" + RED.s(name) + "'")
       .add("publishDate=" + publishDate)

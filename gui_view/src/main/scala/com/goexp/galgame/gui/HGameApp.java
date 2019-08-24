@@ -13,7 +13,6 @@ public class HGameApp extends Application {
     public static HGameApp app;
 
     public static void main(String[] args) {
-
         Application.launch();
     }
 

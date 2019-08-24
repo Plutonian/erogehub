@@ -3,7 +3,8 @@
  */
 
 plugins {
-    id 'java'
+//    id 'java'
+    id 'scala'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.7'
 }
@@ -19,6 +20,7 @@ dependencies {
     compile project(':common-db-mongo')
     compile project(':galgamecommon')
     compile project(':gui')
+    compile 'org.scala-lang:scala-library:2.13.0'
     compile group: 'org.controlsfx', name: 'controlsfx', version: '11.0.0'
 }
 

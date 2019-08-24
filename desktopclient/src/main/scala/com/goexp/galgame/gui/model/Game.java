@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
-import static com.goexp.common.util.ConsoleColors.RED;
+import static com.goexp.common.util.string.ConsoleColors.RED;
 
 public class Game extends CommonGame {
     public SimpleObjectProperty<GameState> state = new SimpleObjectProperty<GameState>();

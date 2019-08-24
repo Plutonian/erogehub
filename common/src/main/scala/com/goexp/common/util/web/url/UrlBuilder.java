@@ -1,4 +1,4 @@
-package com.goexp.common.util;
+package com.goexp.common.util.web.url;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;

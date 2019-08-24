@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.task.game
 
-import com.goexp.common.util.Strings
+import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.CommonGame.GameCharacter
 import com.goexp.galgame.gui.db.mongo.Query.GameQuery
 import com.mongodb.client.model.Filters

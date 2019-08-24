@@ -1,8 +1,8 @@
-package com.goexp.common.util
+package com.goexp.common.util.date
 
 import java.text.{ParseException, SimpleDateFormat}
-import java.time.{LocalDate, ZoneId}
 import java.time.format.DateTimeFormatter
+import java.time.{LocalDate, ZoneId}
 import java.util.Date
 
 object DateUtil {

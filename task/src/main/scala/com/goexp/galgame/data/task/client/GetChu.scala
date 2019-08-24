@@ -7,7 +7,8 @@ import java.nio.charset.Charset
 import java.nio.file.{Files, Path, StandardCopyOption, StandardOpenOption}
 import java.time.LocalDate
 
-import com.goexp.common.util.{Gzip, WebUtil}
+import com.goexp.common.util.Gzip
+import com.goexp.common.util.web.HttpUtil
 import com.goexp.galgame.common.website.GetchuURL
 import com.goexp.galgame.common.website.GetchuURL.{GameList, Game => GameUrl}
 import com.goexp.galgame.data.Config
@@ -22,7 +23,7 @@ object GetChu {
 
   def getHtml(request: HttpRequest): String = {
     try {
-      val bytes = WebUtil.httpClient.send(request, ofByteArray).body
+      val bytes = HttpUtil.httpClient.send(request, ofByteArray).body
       return Gzip.decode(bytes, DEFAULT_CHARSET)
     } catch {
       case e@(_: InterruptedException | _: IOException) =>
@@ -39,14 +40,14 @@ object GetChu {
       val tempPath = Path.of(localPath.toString + "_")
       logger.debug("Download:Game: ${}", gameId)
       val request = GetchuURL.RequestBuilder.create(GameUrl.byId(gameId)).adaltFlag.build
-      WebUtil.httpClient.send(request, ofFile(tempPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE))
+      HttpUtil.httpClient.send(request, ofFile(tempPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE))
       Files.move(tempPath, localPath, StandardCopyOption.REPLACE_EXISTING)
     }
 
     def from(brandId: Int): LazyList[Game] = {
       try {
         val request = GetchuURL.RequestBuilder.create(GameList.byBrand(brandId)).adaltFlag.build
-        val bytes = WebUtil.httpClient.send(request, ofByteArray).body
+        val bytes = HttpUtil.httpClient.send(request, ofByteArray).body
         val html = Gzip.decode(bytes, DEFAULT_CHARSET)
         new ListPageParser().parse(html)
       } catch {
@@ -62,7 +63,7 @@ object GetChu {
 
         val request = GetchuURL.RequestBuilder.create(GameList.byDateRange(from, to)).adaltFlag.build
 
-        val bytes = WebUtil.httpClient.send(request, ofByteArray).body
+        val bytes = HttpUtil.httpClient.send(request, ofByteArray).body
 
         val html = Gzip.decode(bytes, DEFAULT_CHARSET)
         return new ListPageParser().parse(html)

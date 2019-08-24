@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.task.game.panel
 import java.time.LocalDate
 import java.util
 
-import com.goexp.common.util.Strings
+import com.goexp.common.util.string.Strings
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.game.panel.node._
 import javafx.concurrent.Task

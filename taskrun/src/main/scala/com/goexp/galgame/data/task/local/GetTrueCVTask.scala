@@ -2,7 +2,7 @@ package com.goexp.galgame.data.task.local
 
 import java.util
 
-import com.goexp.common.util.Strings
+import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.CV
 import com.goexp.galgame.common.model.CommonGame.GameCharacter
 import com.goexp.galgame.data.db.importor.mongdb.GameDB

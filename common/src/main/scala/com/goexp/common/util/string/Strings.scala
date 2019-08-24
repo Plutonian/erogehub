@@ -1,4 +1,4 @@
-package com.goexp.common.util
+package com.goexp.common.util.string
 
 object Strings {
   def isEmpty(str: String): Boolean = str == null || str.isEmpty

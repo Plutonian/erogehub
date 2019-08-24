@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.db.mongo
 import java.util._
 
 import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
-import com.goexp.common.util.DateUtil
+import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.db.mongo.DB_NAME
 import com.goexp.galgame.common.db.mongo.query.{CVCreator, CommonBrandCreator, CommonGameCreator, GuideCreator}
 import com.goexp.galgame.common.model._

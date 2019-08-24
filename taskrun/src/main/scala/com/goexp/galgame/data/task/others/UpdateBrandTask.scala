@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.task.others
 
-import com.goexp.common.util.Strings
+import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.db.importor.mongdb.BrandDB
 import com.goexp.galgame.data.db.query.mongdb.BrandQuery

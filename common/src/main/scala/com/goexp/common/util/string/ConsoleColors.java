@@ -1,4 +1,4 @@
-package com.goexp.common.util;
+package com.goexp.common.util.string;
 
 public enum ConsoleColors {
     RESET("\033[0m"),

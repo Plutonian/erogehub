@@ -1,10 +1,10 @@
-package com.goexp.common.util;
+package com.goexp.common.util.web;
 
 import java.net.ProxySelector;
 import java.net.http.HttpClient;
 import java.time.Duration;
 
-public class WebUtil {
+public class HttpUtil {
 
     public static HttpClient httpClient = HttpClient
             .newBuilder()

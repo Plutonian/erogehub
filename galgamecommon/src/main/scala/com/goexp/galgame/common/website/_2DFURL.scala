@@ -1,6 +1,6 @@
 package com.goexp.galgame.common.website
 
-import com.goexp.common.util.UrlBuilder
+import com.goexp.common.util.web.url.UrlBuilder
 
 object _2DFURL {
   private val searchUrl = "https://www.2dfan.com/subjects/search"

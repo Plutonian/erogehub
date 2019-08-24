@@ -5,7 +5,7 @@ import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse.BodyHandlers.ofString
 
-import com.goexp.common.util.WebUtil.httpClient
+import com.goexp.common.util.web.HttpUtil.httpClient
 import com.goexp.galgame.common.model.CommonGame
 import com.goexp.galgame.common.model.CommonGame.Guide.DataFrom
 import com.goexp.galgame.common.util.Network

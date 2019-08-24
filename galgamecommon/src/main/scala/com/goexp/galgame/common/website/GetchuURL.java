@@ -1,6 +1,6 @@
 package com.goexp.galgame.common.website;
 
-import com.goexp.common.util.UrlBuilder;
+import com.goexp.common.util.web.url.UrlBuilder;
 
 import java.net.URI;
 import java.net.URLEncoder;

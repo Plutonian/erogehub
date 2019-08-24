@@ -69,7 +69,7 @@ public class CVInfoController extends DefaultController {
         });
 //
         colStar.setCellFactory(col -> {
-                    final var image = LocalRes.HEART_16_PNG.get();
+                    final var image = LocalRes.HEART_16_PNG().get();
                     return new TableCell<>() {
                         protected void updateItem(Integer star, boolean empty) {
                             super.updateItem(star, empty);

@@ -112,7 +112,7 @@ public class HeaderController extends DefaultController {
         dateviewController.load(game.publishDate);
 
         boxStar.getChildren().clear();
-        var image = LocalRes.HEART_16_PNG.get();
+        var image = LocalRes.HEART_16_PNG().get();
         for (var i = 0; i < game.star; i++) {
             boxStar.getChildren().add(new ImageView(image));
         }

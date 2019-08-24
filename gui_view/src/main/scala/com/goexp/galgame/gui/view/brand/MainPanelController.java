@@ -204,7 +204,7 @@ public class MainPanelController extends DefaultController {
                     var conn = new CommonInfoTabController();
 
                     var tab = new Tab(text, conn.node);
-                    tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG.get()));
+                    tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG().get()));
                     conn.load(targetBrand);
 
                     return tab;

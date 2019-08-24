@@ -79,7 +79,7 @@ public class CellController extends DefaultController {
             imageImg.setImage(null);
         }
 
-        var image = LocalRes.HEART_32_PNG.get();
+        var image = LocalRes.HEART_32_PNG().get();
         boxStar.getChildren().clear();
         for (var i = 0; i < game.star; i++) {
             boxStar.getChildren().add(new ImageView(image));

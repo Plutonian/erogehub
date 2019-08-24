@@ -28,7 +28,7 @@ public class TagExplorerController extends DefaultController {
     public String tag;
     @FXML
     private FlowPane tabType;
-    private Service<ObservableList<TagType>> typeService = new TaskService<>(() -> new TagListTask());
+    private Service<ObservableList<TagType>> typeService = new TaskService<>(TagListTask::new);
 
 
     /**
@@ -95,7 +95,7 @@ public class TagExplorerController extends DefaultController {
                             var conn = new CommonTabController(() -> new GameSearchTask.ByTag(targetTag));
 
                             var tab = new Tab(targetTag, conn.node);
-                            tab.setGraphic(new ImageView(LocalRes.TAG_16_PNG.get()));
+                            tab.setGraphic(new ImageView(LocalRes.TAG_16_PNG().get()));
                             conn.load();
 
                             return tab;

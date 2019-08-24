@@ -102,7 +102,7 @@ public class HomeController extends DefaultController {
                     var conn = new CommonTabController(() -> new GameSearchTask.ByDateRange(start, end));
 
                     var tab = new Tab(text, conn.node);
-                    tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG.get()));
+                    tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG().get()));
 
                     conn.load();
 
@@ -124,7 +124,7 @@ public class HomeController extends DefaultController {
                     var conn = new CommonTabController(() -> new GameSearchTask.ByDateRange(from, to));
 
                     var tab = new Tab(text, conn.node);
-                    tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG.get()));
+                    tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG().get()));
 
                     conn.load();
 
@@ -209,7 +209,7 @@ public class HomeController extends DefaultController {
             var conn = new CommonInfoTabController();
 
             var tab = new Tab(text, conn.node);
-            tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG.get()));
+            tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG().get()));
 
             conn.load(brand);
 
@@ -240,7 +240,7 @@ public class HomeController extends DefaultController {
             var conn = new CommonTabController(() -> new GameSearchTask.ByCV(cv, real));
 
             var tab = new Tab(cv, conn.node);
-            tab.setGraphic(new ImageView(LocalRes.CV_16_PNG.get()));
+            tab.setGraphic(new ImageView(LocalRes.CV_16_PNG().get()));
 
             conn.load();
 
@@ -255,7 +255,7 @@ public class HomeController extends DefaultController {
             var loader = new FXMLLoaderProxy<Region, OutPageController>(GAME_DETAIL_NAV_PAGE_FXML);
 
             var tab = new Tab(game.name, loader.node);
-            tab.setGraphic(new ImageView(LocalRes.GAME_16_PNG.get()));
+            tab.setGraphic(new ImageView(LocalRes.GAME_16_PNG().get()));
 
             loader.controller.load(game);
 
@@ -264,7 +264,7 @@ public class HomeController extends DefaultController {
     }
 
     public void loadGuide(String name) {
-        final var title="攻略:" +name;
+        final var title = "攻略:" + name;
 
         TabSelect.from().ifNotFind(() -> {
             final var loader = new FXMLLoaderProxy<Region, com.goexp.galgame.gui.view.guide.SearchController>("view/guide/panel.fxml");
@@ -383,7 +383,7 @@ public class HomeController extends DefaultController {
             final var loader = new FXMLLoaderProxy<Region, CVInfoController>(CVINFO_FXML);
 
             var tab = new Tab("CV", loader.node);
-            tab.setGraphic(new ImageView(LocalRes.CV_16_PNG.get()));
+            tab.setGraphic(new ImageView(LocalRes.CV_16_PNG().get()));
 
             loader.controller.load();
 

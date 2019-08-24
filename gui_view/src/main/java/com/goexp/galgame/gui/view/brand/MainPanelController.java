@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.view.brand;
 
-import com.goexp.common.util.Strings;
+import com.goexp.common.util.string.Strings;
 import com.goexp.galgame.common.model.BrandType;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.task.TaskService;

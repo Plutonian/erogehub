@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.model;
 
-import com.goexp.common.util.Strings;
+import com.goexp.common.util.string.Strings;
 import com.goexp.galgame.common.model.CommonGame;
 import com.goexp.galgame.common.model.GameState;
 import javafx.beans.property.ObjectPropertyBase;
@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringJoiner;
-import java.util.stream.Collectors;
 
 import static com.goexp.common.util.string.ConsoleColors.RED;
 
@@ -18,7 +17,6 @@ public class Game extends CommonGame {
     public SimpleObjectProperty<GameState> state = new SimpleObjectProperty<GameState>();
     public Brand brand;
     public int star;
-
 
     public LocalDate getPublishDate() {
         return publishDate;
@@ -45,15 +43,15 @@ public class Game extends CommonGame {
     }
 
     public String getWriter() {
-        return writer.stream().collect(Collectors.joining(","));
+        return String.join(",", writer);
     }
 
     public String getPainter() {
-        return painter.stream().collect(Collectors.joining(","));
+        return String.join(",", painter);
     }
 
     public String getType() {
-        return type.stream().collect(Collectors.joining(","));
+        return String.join(",", type);
     }
 
     public List<String> getTag() {
@@ -143,11 +141,4 @@ public class Game extends CommonGame {
         return Strings.isNotEmpty(smallImg) && smallImg.startsWith("http");
     }
 
-    //    @Override
-//    public String toString() {
-//        return "Game{" +
-//                "state=" + state +
-//                ", brand=" + brand +
-//                "} " + super.toString();
-//    }
 }

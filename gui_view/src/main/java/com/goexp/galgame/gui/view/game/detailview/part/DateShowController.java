@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.view.game.detailview.part;
 
-import com.goexp.common.util.DateUtil;
+import com.goexp.common.util.date.DateUtil;
 import com.goexp.galgame.gui.view.DefaultController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

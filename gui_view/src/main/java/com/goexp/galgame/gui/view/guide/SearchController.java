@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.view.guide;
 
-import com.goexp.common.util.Strings;
+import com.goexp.common.util.string.Strings;
 import com.goexp.galgame.common.model.CommonGame;
 import com.goexp.galgame.gui.task.TaskService;
 import com.goexp.galgame.gui.task.game.GuideSearchTask;

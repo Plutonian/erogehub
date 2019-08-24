@@ -27,10 +27,4 @@ class Brand extends CommonBrand {
       .add("size=" + size)
       .toString
 
-  //    @Override
-  //    public String toString() {
-  //        return super.toString() + "Brand{" +
-  //                "isLike=" + isLike +
-  //                "} ";
-  //    }
 }

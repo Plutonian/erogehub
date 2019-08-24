@@ -81,7 +81,7 @@ public class Images {
 
             logger.debug("LocalKey={},memCacheKey={}", cacheKey.getDiskCacheKey(), cacheKey.getMemCacheKey());
 
-            final var imageCache = AppCache.imageMemCache;
+            final var imageCache = AppCache.imageMemCache();
 
             //try heat cache
             return imageCache.get(cacheKey.getMemCacheKey())
@@ -124,7 +124,7 @@ public class Images {
 
             logger.debug("LocalKey={},memCacheKey={}", cacheKey.getDiskCacheKey(), cacheKey.getMemCacheKey());
 
-            final var imageCache = AppCache.imageMemCache;
+            final var imageCache = AppCache.imageMemCache();
 
             //try heat cache
 
@@ -199,7 +199,7 @@ public class Images {
                 if (e != null) {
 
                     if (!(e instanceof FileNotFoundException))
-                        AppCache.imageMemCache.remove(url);
+                        AppCache.imageMemCache().remove(url);
                     else {
                         logger.error(e.getMessage());
                     }
@@ -231,7 +231,7 @@ public class Images {
     public static class Local {
 
         public static Image getLocal(String name) {
-            return getLocal(name, AppCache.imageMemCache);
+            return getLocal(name, AppCache.imageMemCache());
         }
 
         private static Image getLocal(String name, ImageMemCache imageMemCache) {

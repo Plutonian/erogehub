@@ -31,7 +31,6 @@ public class HGameApp extends Application {
 
         primaryStage.setWidth(1400);
         primaryStage.setMinWidth(1200);
-//        primaryStage.setMaxWidth(1280);
 
         primaryStage.setHeight(800);
         primaryStage.setMinHeight(800);

@@ -6,6 +6,7 @@ import java.time.{LocalDate, ZoneId}
 import java.util.Date
 
 object DateUtil {
+
   def formatDate(date: LocalDate): String = {
     if (date == null) return ""
     val now = LocalDate.now

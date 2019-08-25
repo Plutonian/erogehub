@@ -16,7 +16,7 @@ object ImportOnceTagTask {
     /**
       * download page from getchu
       */
-    val request = GetchuURL.RequestBuilder.create("http://www.getchu.com/pc/genre.html").adaltFlag.build
+    val request = GetchuURL.RequestBuilder("http://www.getchu.com/pc/genre.html").adaltFlag.build
     val html = GetChu.getHtml(request)
 
     /**

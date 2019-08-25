@@ -39,14 +39,14 @@ object GetChu {
       val localPath = Config.GAME_CACHE_ROOT.resolve(s"$gameId.bytes")
       val tempPath = Path.of(localPath.toString + "_")
       logger.debug("Download:Game: ${}", gameId)
-      val request = GetchuURL.RequestBuilder.create(GameUrl.byId(gameId)).adaltFlag.build
+      val request = GetchuURL.RequestBuilder(GameUrl.byId(gameId)).adaltFlag.build
       HttpUtil.httpClient.send(request, ofFile(tempPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE))
       Files.move(tempPath, localPath, StandardCopyOption.REPLACE_EXISTING)
     }
 
     def from(brandId: Int): LazyList[Game] = {
       try {
-        val request = GetchuURL.RequestBuilder.create(GameList.byBrand(brandId)).adaltFlag.build
+        val request = GetchuURL.RequestBuilder(GameList.byBrand(brandId)).adaltFlag.build
         val bytes = HttpUtil.httpClient.send(request, ofByteArray).body
         val html = Gzip.decode(bytes, DEFAULT_CHARSET)
         new ListPageParser().parse(html)
@@ -61,7 +61,7 @@ object GetChu {
     def from(from: LocalDate, to: LocalDate): LazyList[Game] = {
       try {
 
-        val request = GetchuURL.RequestBuilder.create(GameList.byDateRange(from, to)).adaltFlag.build
+        val request = GetchuURL.RequestBuilder(GameList.byDateRange(from, to)).adaltFlag.build
 
         val bytes = HttpUtil.httpClient.send(request, ofByteArray).body
 
@@ -85,7 +85,7 @@ object GetChu {
 
     def all(): LazyList[Brand] = {
 
-      val request = GetchuURL.RequestBuilder.create("http://www.getchu.com/all/brand.html?genre=pc_soft").adaltFlag.build
+      val request = GetchuURL.RequestBuilder("http://www.getchu.com/all/brand.html?genre=pc_soft").adaltFlag.build
       val html = GetChu.getHtml(request)
 
       new GetchuBrandParser().parse(html)

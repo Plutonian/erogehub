@@ -1,7 +1,5 @@
 package com.goexp.galgame.data.task.local
 
-import java.time.LocalDate
-
 import com.goexp.galgame.common.model.{BrandType, GameState}
 import com.goexp.galgame.data.db.importor.mongdb.BrandDB
 import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, GameQuery}

@@ -6,8 +6,8 @@ object GGBasesURL {
   private val searchUrl = "https://www.ggbases.com/search.so"
 
   def fromTitle(title: String): String =
-    UrlBuilder.create(searchUrl)
-      .param("p", "0")
+    UrlBuilder(searchUrl)
+      .param("p", 0)
       .param("title", title)
       .param("advanced", "")
       .build

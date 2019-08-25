@@ -4,7 +4,7 @@ import com.goexp.common.util.date.DateUtil;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
-import com.goexp.galgame.gui.task.game.ChangeGameTask;
+import com.goexp.galgame.gui.task.game.change;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.DefaultController;
@@ -53,7 +53,7 @@ public class TreeTableController extends DefaultController {
     private List<Game> selectedGames;
 
 
-    private Service<Void> changeGameService = new TaskService<>(() -> new ChangeGameTask.MultiLike(selectedGames));
+    private Service<Void> changeGameService = new TaskService<>(() -> new change.MultiLike(selectedGames));
 
     protected void initialize() {
 

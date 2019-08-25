@@ -5,9 +5,9 @@ import com.goexp.galgame.common.model.BrandType;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
-import com.goexp.galgame.gui.task.brand.BrandChangeTask;
-import com.goexp.galgame.gui.task.brand.BrandListTask;
-import com.goexp.galgame.gui.task.game.ChangeGameTask;
+import com.goexp.galgame.gui.task.brand.ChangeIsLikeTask;
+import com.goexp.galgame.gui.task.brand.list.ByComp;
+import com.goexp.galgame.gui.task.game.change.MultiLikeByBrand;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.game.HomeController;
 import javafx.beans.property.BooleanProperty;
@@ -51,9 +51,9 @@ public class TitlePartController extends DefaultController {
     private ChoiceBox<BrandType> choiceBrandState;
     private Brand changeBrand;
 
-    private Service changeBrandStateService = new TaskService(() -> new BrandChangeTask(changeBrand));
-    private Service<Void> changeGameStateService = new TaskService<>(() -> new ChangeGameTask.MultiLikeByBrand(changeBrand.id()));
-    private Service<List<Brand>> listBrandService = new TaskService<>(() -> new BrandListTask.ByComp(changeBrand.comp()));
+    private Service changeBrandStateService = new TaskService(() -> new ChangeIsLikeTask(changeBrand));
+    private Service<Void> changeGameStateService = new TaskService<>(() -> new MultiLikeByBrand(changeBrand.id()));
+    private Service<List<Brand>> listBrandService = new TaskService<>(() -> new ByComp(changeBrand.comp()));
 
 
     private ChangeListener<BrandType> listener;

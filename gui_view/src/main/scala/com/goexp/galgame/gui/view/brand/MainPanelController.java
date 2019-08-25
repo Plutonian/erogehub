@@ -4,7 +4,9 @@ import com.goexp.common.util.string.Strings;
 import com.goexp.galgame.common.model.BrandType;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.task.TaskService;
-import com.goexp.galgame.gui.task.brand.BrandSearchTask;
+import com.goexp.galgame.gui.task.brand.search.ByComp;
+import com.goexp.galgame.gui.task.brand.search.ByName;
+import com.goexp.galgame.gui.task.brand.search.ByType;
 import com.goexp.galgame.gui.util.TabSelect;
 import com.goexp.galgame.gui.util.Websites;
 import com.goexp.galgame.gui.util.res.LocalRes;
@@ -79,11 +81,11 @@ public class MainPanelController extends DefaultController {
     private String keyword;
 
 
-    private Service<List<Brand>> brandService = new TaskService<>(() -> new BrandSearchTask.ByType(brandType));
+    private Service<List<Brand>> brandService = new TaskService<>(() -> new ByType(brandType));
 
-    private Service<List<Brand>> brandByNameService = new TaskService<>(() -> new BrandSearchTask.ByName(keyword));
+    private Service<List<Brand>> brandByNameService = new TaskService<>(() -> new ByName(keyword));
 
-    private Service<List<Brand>> brandByCompService = new TaskService<>(() -> new BrandSearchTask.ByComp(keyword));
+    private Service<List<Brand>> brandByCompService = new TaskService<>(() -> new ByComp(keyword));
 
 
     @Override

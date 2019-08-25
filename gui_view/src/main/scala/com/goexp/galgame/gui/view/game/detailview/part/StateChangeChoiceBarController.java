@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game.detailview.part;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
-import com.goexp.galgame.gui.task.game.ChangeGameTask;
+import com.goexp.galgame.gui.task.game.change;
 import com.goexp.galgame.gui.view.DefaultController;
 import javafx.beans.value.ChangeListener;
 import javafx.concurrent.Service;
@@ -32,7 +32,7 @@ public class StateChangeChoiceBarController extends DefaultController {
 
     private ToggleGroup groupLike = new ToggleGroup();
 
-    private Service<Void> changeGameStateService = new TaskService<>(() -> new ChangeGameTask.Like(targetGame));
+    private Service<Void> changeGameStateService = new TaskService<>(() -> new change.Like(targetGame));
 
 
     protected void initialize() {

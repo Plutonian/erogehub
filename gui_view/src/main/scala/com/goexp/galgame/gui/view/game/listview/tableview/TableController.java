@@ -4,7 +4,7 @@ import com.goexp.common.util.date.DateUtil;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
-import com.goexp.galgame.gui.task.game.ChangeGameTask;
+import com.goexp.galgame.gui.task.game.change.MultiLike;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
@@ -57,7 +57,7 @@ public class TableController extends DefaultController {
     private List<Game> selectedGames;
 
 
-    private Service<Void> changeGameService = new TaskService<>(() -> new ChangeGameTask.MultiLike(selectedGames));
+    private Service<Void> changeGameService = new TaskService<>(() -> new MultiLike(selectedGames));
 
 
     protected void initialize() {

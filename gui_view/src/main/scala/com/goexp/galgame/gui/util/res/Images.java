@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.util.res;
 
-import com.goexp.galgame.common.website.GetchuURL;
+import com.goexp.galgame.common.website.getchu.GetchuGame;
 import com.goexp.galgame.gui.Config;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.cache.AppCache;
@@ -28,19 +28,19 @@ public class Images {
         }
 
         public static Image small(Game game) {
-            final var url = GetchuURL.Game.SmallImg(game.id);
+            final var url = GetchuGame.SmallImg(game.id);
 
             return Util.getImage(game, new CacheKey(game.id + "/game_s", url));
         }
 
         public static Image large(Game game) {
-            final var url = GetchuURL.Game.LargeImg(game.id);
+            final var url = GetchuGame.LargeImg(game.id);
 
             return Util.getImage(game, new CacheKey(game.id + "/game_l", url));
         }
 
         public static void preloadLarge(Game game) {
-            final var url = GetchuURL.Game.LargeImg(game.id);
+            final var url = GetchuGame.LargeImg(game.id);
 
             Util.preLoadRemoteImage(new CacheKey(game.id + "/game_l", url));
         }
@@ -48,13 +48,13 @@ public class Images {
         public static class Simple {
 
             public static Image small(Game game, int index, String src) {
-                final var url = GetchuURL.Game.smallSimpleImg(src);
+                final var url = GetchuGame.smallSimpleImg(src);
 
                 return Util.getImage(game, new CacheKey(game.id + "/simple_s_" + index, url));
             }
 
             public static Image large(Game game, int index, String src) {
-                final var url = GetchuURL.Game.largeSimpleImg(src);
+                final var url = GetchuGame.largeSimpleImg(src);
 
                 return Util.getImage(game, new CacheKey(game.id + "/simple_l_" + index, url));
             }
@@ -63,7 +63,7 @@ public class Images {
         public static class GameChar {
 
             public static Image small(Game game, int index, String src) {
-                final var url = GetchuURL.Game.getUrlFromSrc(src);
+                final var url = GetchuGame.getUrlFromSrc(src);
 
                 return Util.getImage(game, new CacheKey(game.id + "/char_s_" + index, url));
             }

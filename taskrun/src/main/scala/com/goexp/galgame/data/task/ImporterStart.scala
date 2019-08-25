@@ -29,8 +29,7 @@ object ImporterStart {
     Objects.requireNonNull(args)
 
     funcTable.to(LazyList)
-      .find({ case (name, _, _) => args(0) == name })
-    match {
+      .find({ case (name, _, _) => args(0) == name }) match {
       case Some(peer) =>
         val (_, _, func) = peer
         func(args)

@@ -3,14 +3,13 @@ package com.goexp.galgame.data.task.client
 import java.io.IOException
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse.BodyHandlers.{ofByteArray, ofFile}
-import java.nio.charset.Charset
 import java.nio.file.{Files, Path, StandardCopyOption, StandardOpenOption}
 import java.time.LocalDate
 
-import com.goexp.common.util.Gzip
+import com.goexp.common.util.Gzip._
+import com.goexp.common.util.charset._
 import com.goexp.common.util.web.HttpUtil
-import com.goexp.galgame.common.website.GetchuURL
-import com.goexp.galgame.common.website.GetchuURL.{GameList, Game => GameUrl}
+import com.goexp.galgame.common.website.getchu.{GetchuGame => GameUrl, _}
 import com.goexp.galgame.data.Config
 import com.goexp.galgame.data.model.{Brand, Game}
 import com.goexp.galgame.data.parser.GetchuBrandParser
@@ -18,13 +17,13 @@ import com.goexp.galgame.data.parser.game.ListPageParser
 import org.slf4j.LoggerFactory
 
 object GetChu {
-  lazy val DEFAULT_CHARSET: Charset = Charset.forName("EUC-JP")
+  val DEFAULT_CHARSET = "EUC-JP"
   private val logger = LoggerFactory.getLogger(GetChu.getClass)
 
   def getHtml(request: HttpRequest): String = {
     try {
       val bytes = HttpUtil.httpClient.send(request, ofByteArray).body
-      return Gzip.decode(bytes, DEFAULT_CHARSET)
+      return bytes.unGzip().decode(DEFAULT_CHARSET)
     } catch {
       case e@(_: InterruptedException | _: IOException) =>
         e.printStackTrace()
@@ -39,16 +38,16 @@ object GetChu {
       val localPath = Config.GAME_CACHE_ROOT.resolve(s"$gameId.bytes")
       val tempPath = Path.of(localPath.toString + "_")
       logger.debug("Download:Game: ${}", gameId)
-      val request = GetchuURL.RequestBuilder(GameUrl.byId(gameId)).adaltFlag.build
+      val request = RequestBuilder(GameUrl.byId(gameId)).adaltFlag.build
       HttpUtil.httpClient.send(request, ofFile(tempPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE))
       Files.move(tempPath, localPath, StandardCopyOption.REPLACE_EXISTING)
     }
 
     def from(brandId: Int): LazyList[Game] = {
       try {
-        val request = GetchuURL.RequestBuilder(GameList.byBrand(brandId)).adaltFlag.build
+        val request = RequestBuilder(GameList.byBrand(brandId)).adaltFlag.build
         val bytes = HttpUtil.httpClient.send(request, ofByteArray).body
-        val html = Gzip.decode(bytes, DEFAULT_CHARSET)
+        val html = bytes.unGzip().decode(DEFAULT_CHARSET)
         new ListPageParser().parse(html)
       } catch {
         case e@(_: IOException | _: InterruptedException) =>
@@ -61,11 +60,11 @@ object GetChu {
     def from(from: LocalDate, to: LocalDate): LazyList[Game] = {
       try {
 
-        val request = GetchuURL.RequestBuilder(GameList.byDateRange(from, to)).adaltFlag.build
+        val request = RequestBuilder(GameList.byDateRange(from, to)).adaltFlag.build
 
         val bytes = HttpUtil.httpClient.send(request, ofByteArray).body
 
-        val html = Gzip.decode(bytes, DEFAULT_CHARSET)
+        val html = bytes.unGzip().decode(DEFAULT_CHARSET)
         return new ListPageParser().parse(html)
       } catch {
         case e@(_: IOException | _: InterruptedException) =>
@@ -76,7 +75,7 @@ object GetChu {
     }
 
     def from(bytes: Array[Byte]): LazyList[Game] = {
-      val html = Gzip.decode(bytes, DEFAULT_CHARSET)
+      val html = bytes.unGzip().decode(DEFAULT_CHARSET)
       new ListPageParser().parse(html)
     }
   }
@@ -85,7 +84,7 @@ object GetChu {
 
     def all(): LazyList[Brand] = {
 
-      val request = GetchuURL.RequestBuilder("http://www.getchu.com/all/brand.html?genre=pc_soft").adaltFlag.build
+      val request = RequestBuilder("http://www.getchu.com/all/brand.html?genre=pc_soft").adaltFlag.build
       val html = GetChu.getHtml(request)
 
       new GetchuBrandParser().parse(html)

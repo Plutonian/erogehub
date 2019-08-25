@@ -7,6 +7,13 @@ import java.util.Objects
 import java.util.zip.GZIPInputStream
 
 object Gzip {
+
+  implicit class GzipSupport(compressedBytes: Array[Byte]) {
+    def unGzip() = {
+      Gzip.unGzip(compressedBytes)
+    }
+  }
+
   private def unGzip(compressedBytes: Array[Byte]): Array[Byte] = {
     val s = new GZIPInputStream(new ByteArrayInputStream(compressedBytes))
     try return s.readAllBytes

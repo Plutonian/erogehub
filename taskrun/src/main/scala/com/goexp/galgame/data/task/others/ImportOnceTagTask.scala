@@ -1,7 +1,7 @@
 package com.goexp.galgame.data.task.others
 
 import com.goexp.galgame.common.util.Network
-import com.goexp.galgame.common.website.GetchuURL
+import com.goexp.galgame.common.website.getchu
 import com.goexp.galgame.data.db.importor.mongdb.TagDB
 import com.goexp.galgame.data.parser.GetchuTagParser
 import com.goexp.galgame.data.task.client.GetChu
@@ -16,7 +16,7 @@ object ImportOnceTagTask {
     /**
       * download page from getchu
       */
-    val request = GetchuURL.RequestBuilder("http://www.getchu.com/pc/genre.html").adaltFlag.build
+    val request = getchu.RequestBuilder("http://www.getchu.com/pc/genre.html").adaltFlag.build
     val html = GetChu.getHtml(request)
 
     /**

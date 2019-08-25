@@ -5,6 +5,10 @@ import java.nio.charset.Charset
 
 package object url {
 
+  implicit def uri(url: String) = {
+    url.toURI()
+  }
+
   implicit class URLSupport(val url: String) {
     def toURI() = {
       URI.create(url)

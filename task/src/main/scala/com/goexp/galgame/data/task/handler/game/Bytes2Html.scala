@@ -1,9 +1,10 @@
 package com.goexp.galgame.data.task.handler.game
 
-import com.goexp.common.util.Gzip
+import com.goexp.common.util.Gzip._
+import com.goexp.common.util.charset._
 import com.goexp.galgame.data.piplline.core.Message
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler
-import com.goexp.galgame.data.task.client.GetChu
+import com.goexp.galgame.data.task.client.GetChu.DEFAULT_CHARSET
 import com.goexp.galgame.data.task.handler.MesType
 import org.slf4j.LoggerFactory
 
@@ -15,7 +16,7 @@ class Bytes2Html extends DefaultMessageHandler[(Int, Array[Byte])] {
 
     logger.debug("<Bytes2Html> {}", id)
 
-    val html = (id, Gzip.decode(bytes, GetChu.DEFAULT_CHARSET))
+    val html = (id, bytes.unGzip().decode(DEFAULT_CHARSET))
 
     send(new Message[(Int, String)](MesType.ContentHtml, html))
   }

@@ -1,9 +1,9 @@
 package com.goexp.galgame.gui.view.common.jump;
 
-import com.goexp.galgame.common.website.GetchuURL;
+import com.goexp.galgame.common.website.getchu.GameList;
 import com.goexp.galgame.gui.model.Brand;
-import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.util.Websites;
+import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.game.HomeController;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
@@ -33,7 +33,7 @@ public class JumpBrandController extends DefaultController {
     protected void initialize() {
 
         linkGetchu.setOnAction((e) -> {
-            Websites.open(GetchuURL.GameList.byBrand(brand.id()));
+            Websites.open(GameList.byBrand(brand.id()));
         });
         jumpBrand.setOnAction((e) -> {
             HomeController.$this.viewBrand(brand);

@@ -3,7 +3,6 @@
  */
 
 plugins {
-    id 'scala'
     id 'org.openjfx.javafxplugin' version '0.0.7'
 }
 
@@ -16,11 +15,6 @@ dependencies {
     compile project(':common')
     compile project(':common-db-mongo')
     compile project(':galgamecommon')
-    compile 'org.scala-lang:scala-library:2.13.0'
-}
-
-tasks.withType(ScalaCompile) {
-    options.encoding = 'UTF-8'
 }
 
 group = 'com.goexp.galgame'

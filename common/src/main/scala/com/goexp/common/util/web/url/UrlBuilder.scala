@@ -21,7 +21,7 @@ final class UrlBuilder private(val host: String) {
   }
 
   def build: String = {
-    val queryString = params.toStream
+    val queryString = params.to(LazyList)
       .map({ case (k, v) =>
         s"$k=${v.urlEncode(UTF_8)}"
       })

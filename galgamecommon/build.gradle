@@ -9,7 +9,7 @@ plugins {
 dependencies {
     compile project(':common')
     compile project(':common-db-mongo')
-    compile 'org.scala-lang:scala-library:2.12.8'
+    compile 'org.scala-lang:scala-library:2.13.0'
     compile 'ch.qos.logback:logback-classic:1.2.3'
 }
 

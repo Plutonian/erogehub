@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.task.game
 
 import java.util
 
-import com.goexp.galgame.gui.db.mongo.GameDB.{StarDB, StateDB}
+import com.goexp.galgame.gui.db.mongo.gamedb.{StarDB, StateDB}
 import com.goexp.galgame.gui.model.Game
 import javafx.concurrent.Task
 

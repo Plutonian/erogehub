@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.task.game
+package com.goexp.galgame.gui.task.game.search.sub
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.CommonGame.GameCharacter

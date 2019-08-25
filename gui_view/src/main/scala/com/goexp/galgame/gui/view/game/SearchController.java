@@ -1,6 +1,8 @@
 package com.goexp.galgame.gui.view.game;
 
-import com.goexp.galgame.gui.task.game.GameSearchTask;
+import com.goexp.galgame.gui.task.game.search.ByName;
+import com.goexp.galgame.gui.task.game.search.ByNameEx;
+import com.goexp.galgame.gui.task.game.search.ByTag;
 import com.goexp.galgame.gui.view.DefaultController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -43,13 +45,13 @@ public class SearchController extends DefaultController {
                 var conn = new CommonTabController(() -> {
                     switch (searchType) {
                         case Simple: {
-                            return new GameSearchTask.ByName(key);
+                            return new ByName(key);
                         }
                         case Extend: {
-                            return new GameSearchTask.ByNameEx(key);
+                            return new ByNameEx(key);
                         }
                         case Full: {
-                            return new GameSearchTask.ByTag(key);
+                            return new ByTag(key);
                         }
                     }
 

@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.view.game.detailview.part;
 
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
-import com.goexp.galgame.gui.task.game.change;
+import com.goexp.galgame.gui.task.game.change.Star;
 import com.goexp.galgame.gui.view.DefaultController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -28,7 +28,7 @@ public class StarChoiceBarController extends DefaultController {
     @FXML
     private HBox groupLikeCon;
     private ToggleGroup groupLike = new ToggleGroup();
-    private Service<Void> changeStarService = new TaskService<>(() -> new change.Star(targetGame));
+    private Service<Void> changeStarService = new TaskService<>(() -> new Star(targetGame));
 
 
     protected void initialize() {

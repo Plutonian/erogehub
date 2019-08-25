@@ -3,8 +3,9 @@ package com.goexp.galgame.gui.view.game.listview;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
-import com.goexp.galgame.gui.task.game.panel.PanelTask;
-import com.goexp.galgame.gui.task.game.panel.node.DefaultItemNode;
+import com.goexp.galgame.gui.task.game.panel.group.ByCV;
+import com.goexp.galgame.gui.task.game.panel.group.ByTag;
+import com.goexp.galgame.gui.task.game.panel.group.node.DefaultItem;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.game.listview.imglist.ImgListViewController;
@@ -97,16 +98,16 @@ public class DataViewController extends DefaultController {
     @FXML
     private Button btnHide;
     @FXML
-    private ListView<DefaultItemNode> cvList;
-    public ListView<DefaultItemNode> tagList;
+    private ListView<DefaultItem> cvList;
+    public ListView<DefaultItem> tagList;
 
 
     private FilteredList<Game> filteredGames;
 
     private Predicate<Game> groupPredicate;
 
-    private Service<List<DefaultItemNode>> groupCVServ = new TaskService<>(() -> new PanelTask.GroupCV(filteredGames));
-    private Service<List<DefaultItemNode>> groupTagServ = new TaskService<>(() -> new PanelTask.GroupTag(filteredGames));
+    private Service<List<DefaultItem>> groupCVServ = new TaskService<>(() -> new ByCV(filteredGames));
+    private Service<List<DefaultItem>> groupTagServ = new TaskService<>(() -> new ByTag(filteredGames));
 
 
     protected void initialize() {
@@ -119,7 +120,7 @@ public class DataViewController extends DefaultController {
     private void initGroupPanel() {
         cvList.setCellFactory(param -> new ListCell<>() {
             @Override
-            protected void updateItem(DefaultItemNode cvItemNode, boolean empty) {
+            protected void updateItem(DefaultItem cvItemNode, boolean empty) {
                 super.updateItem(cvItemNode, empty);
                 setText(null);
                 setGraphic(null);
@@ -133,7 +134,7 @@ public class DataViewController extends DefaultController {
 
         tagList.setCellFactory(param -> new ListCell<>() {
             @Override
-            protected void updateItem(DefaultItemNode tagNode, boolean empty) {
+            protected void updateItem(DefaultItem tagNode, boolean empty) {
                 super.updateItem(tagNode, empty);
                 setText(null);
                 setGraphic(null);

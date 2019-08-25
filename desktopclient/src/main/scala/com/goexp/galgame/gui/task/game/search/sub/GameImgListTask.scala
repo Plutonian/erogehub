@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.task.game
+package com.goexp.galgame.gui.task.game.search.sub
 
 import com.goexp.galgame.common.model.CommonGame.GameImg
 import com.goexp.galgame.gui.db.mongo.query.GameQuery

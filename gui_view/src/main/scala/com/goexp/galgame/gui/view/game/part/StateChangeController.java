@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game.part;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
-import com.goexp.galgame.gui.task.game.change;
+import com.goexp.galgame.gui.task.game.change.Like;
 import com.goexp.galgame.gui.view.DefaultController;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -23,7 +23,7 @@ public class StateChangeController extends DefaultController {
 
     private ChangeListener<GameState> listener;
     private Game targetGame;
-    private Service<Void> changeGameStateService = new TaskService<>(() -> new change.Like(targetGame));
+    private Service<Void> changeGameStateService = new TaskService<>(() -> new Like(targetGame));
 
 
     protected void initialize() {

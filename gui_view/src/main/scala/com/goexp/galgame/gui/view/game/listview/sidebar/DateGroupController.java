@@ -2,8 +2,8 @@ package com.goexp.galgame.gui.view.game.listview.sidebar;
 
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
-import com.goexp.galgame.gui.task.game.panel.PanelTask;
-import com.goexp.galgame.gui.task.game.panel.node.DateItemNode;
+import com.goexp.galgame.gui.task.game.panel.group.ByDate;
+import com.goexp.galgame.gui.task.game.panel.group.node.DateItem;
 import javafx.concurrent.Service;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeCell;
@@ -15,11 +15,11 @@ import java.util.List;
 public class DateGroupController extends FilterController<Game> {
 
     @FXML
-    private TreeView<DateItemNode> dateTree;
+    private TreeView<DateItem> dateTree;
 
     private List<Game> filteredGames;
 
-    private Service<TreeItem<DateItemNode>> groupDateServ = new TaskService<>(() -> new PanelTask.GroupDate(filteredGames));
+    private Service<TreeItem<DateItem>> groupDateServ = new TaskService<>(() -> new ByDate(filteredGames));
 
 
     protected void initialize() {
@@ -28,7 +28,7 @@ public class DateGroupController extends FilterController<Game> {
             return new TreeCell<>() {
 
                 @Override
-                protected void updateItem(DateItemNode item, boolean empty) {
+                protected void updateItem(DateItem item, boolean empty) {
                     super.updateItem(item, empty);
 
                     setGraphic(null);

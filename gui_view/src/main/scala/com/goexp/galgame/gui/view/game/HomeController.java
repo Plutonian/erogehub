@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.task.game.GameSearchTask;
+import com.goexp.galgame.gui.task.game.search.*;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.util.TabSelect;
 import com.goexp.galgame.gui.util.res.Images;
@@ -99,7 +99,7 @@ public class HomeController extends DefaultController {
 
                 TabSelect.from().ifNotFind(() -> {
 
-                    var conn = new CommonTabController(() -> new GameSearchTask.ByDateRange(start, end));
+                    var conn = new CommonTabController(() -> new ByDateRange(start, end));
 
                     var tab = new Tab(text, conn.node);
                     tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG().get()));
@@ -121,7 +121,7 @@ public class HomeController extends DefaultController {
 
                 TabSelect.from().ifNotFind(() -> {
 
-                    var conn = new CommonTabController(() -> new GameSearchTask.ByDateRange(from, to));
+                    var conn = new CommonTabController(() -> new ByDateRange(from, to));
 
                     var tab = new Tab(text, conn.node);
                     tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG().get()));
@@ -177,7 +177,7 @@ public class HomeController extends DefaultController {
                     link.setText(type.name);
                     link.setUserData(type);
                     link.setOnAction(event -> {
-                        var conn = new CommonTabController(() -> new GameSearchTask.ByState(type));
+                        var conn = new CommonTabController(() -> new ByState(type));
 
                         conn.controller.tableViewController.tableColStar.setVisible(false);
                         conn.controller.tableViewController.tableColState.setVisible(false);
@@ -222,7 +222,7 @@ public class HomeController extends DefaultController {
 
         TabSelect.from().ifNotFind(() -> {
 
-            var conn = new CommonTabController(() -> new GameSearchTask.ByPainter(painter));
+            var conn = new CommonTabController(() -> new ByPainter(painter));
 
             var tab = new Tab(painter, conn.node);
 //                    tab.setGraphic(new ImageView(LocalRes.CV_16_PNG.get()));
@@ -237,7 +237,7 @@ public class HomeController extends DefaultController {
 
         TabSelect.from().ifNotFind(() -> {
 
-            var conn = new CommonTabController(() -> new GameSearchTask.ByCV(cv, real));
+            var conn = new CommonTabController(() -> new ByCV(cv, real));
 
             var tab = new Tab(cv, conn.node);
             tab.setGraphic(new ImageView(LocalRes.CV_16_PNG().get()));
@@ -399,7 +399,7 @@ public class HomeController extends DefaultController {
         TabSelect.from().ifNotFind(() -> {
 
 
-            var conn = new CommonTabController(() -> new GameSearchTask.ByStarRange(1, 2));
+            var conn = new CommonTabController(() -> new ByStarRange(1, 2));
 
             conn.controller.tableViewController.tableColState.setVisible(false);
 
@@ -422,7 +422,7 @@ public class HomeController extends DefaultController {
         TabSelect.from().ifNotFind(() -> {
 
 
-            var conn = new CommonTabController(() -> new GameSearchTask.ByStarRange(4, 5));
+            var conn = new CommonTabController(() -> new ByStarRange(4, 5));
 
             conn.controller.tableViewController.tableColState.setVisible(false);
 
@@ -444,7 +444,7 @@ public class HomeController extends DefaultController {
         TabSelect.from().ifNotFind(() -> {
 
 
-            var conn = new CommonTabController(() -> new GameSearchTask.ByStarRange(3, 3));
+            var conn = new CommonTabController(() -> new ByStarRange(3, 3));
 
             conn.controller.tableViewController.tableColState.setVisible(false);
 

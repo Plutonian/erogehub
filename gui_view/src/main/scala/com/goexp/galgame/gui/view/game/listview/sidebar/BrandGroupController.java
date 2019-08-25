@@ -2,10 +2,10 @@ package com.goexp.galgame.gui.view.game.listview.sidebar;
 
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
-import com.goexp.galgame.gui.task.game.panel.PanelTask;
-import com.goexp.galgame.gui.task.game.panel.node.BrandItemNode;
-import com.goexp.galgame.gui.task.game.panel.node.CompItemNode;
-import com.goexp.galgame.gui.task.game.panel.node.DefaultItemNode;
+import com.goexp.galgame.gui.task.game.panel.group.ByBrand;
+import com.goexp.galgame.gui.task.game.panel.group.node.BrandItem;
+import com.goexp.galgame.gui.task.game.panel.group.node.CompItem;
+import com.goexp.galgame.gui.task.game.panel.group.node.DefaultItem;
 import javafx.concurrent.Service;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeCell;
@@ -17,18 +17,18 @@ import java.util.List;
 public class BrandGroupController extends FilterController<Game> {
 
     @FXML
-    private TreeView<DefaultItemNode> compTree;
+    private TreeView<DefaultItem> compTree;
 
     private List<Game> filteredGames;
 
-    private Service<TreeItem<DefaultItemNode>> groupBrandServ = new TaskService<>(() -> new PanelTask.GroupBrand(filteredGames));
+    private Service<TreeItem<DefaultItem>> groupBrandServ = new TaskService<>(() -> new ByBrand(filteredGames));
 
 
     protected void initialize() {
         compTree.setCellFactory(itemNodeTreeView -> {
             return new TreeCell<>() {
                 @Override
-                protected void updateItem(DefaultItemNode item, boolean empty) {
+                protected void updateItem(DefaultItem item, boolean empty) {
                     super.updateItem(item, empty);
 
                     setGraphic(null);
@@ -44,16 +44,16 @@ public class BrandGroupController extends FilterController<Game> {
         compTree.getSelectionModel().selectedItemProperty().addListener((o, old, item) -> {
             if (item != null) {
 
-                if (item.getValue() instanceof CompItemNode) {
+                if (item.getValue() instanceof CompItem) {
                     predicate = game -> {
                         // target comp can be null,so...change null to empty
                         var comp = game.brand.comp() != null ? game.brand.comp() : "";
 
-                        return comp.equals(((CompItemNode) item.getValue()).comp);
+                        return comp.equals(((CompItem) item.getValue()).comp);
                     };
 
                 } else {
-                    predicate = game -> (game.brand.equals(((BrandItemNode) item.getValue()).brand));
+                    predicate = game -> (game.brand.equals(((BrandItem) item.getValue()).brand));
                 }
 
                 onSetProperty.set(true);

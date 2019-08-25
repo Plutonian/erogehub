@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game;
 import com.goexp.galgame.common.model.TagType;
 import com.goexp.galgame.gui.task.TagListTask;
 import com.goexp.galgame.gui.task.TaskService;
-import com.goexp.galgame.gui.task.game.GameSearchTask;
+import com.goexp.galgame.gui.task.game.search.ByTag;
 import com.goexp.galgame.gui.util.TabSelect;
 import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
@@ -92,7 +92,7 @@ public class TagExplorerController extends DefaultController {
 
                 TabSelect.from()
                         .ifNotFind(() -> {
-                            var conn = new CommonTabController(() -> new GameSearchTask.ByTag(targetTag));
+                            var conn = new CommonTabController(() -> new ByTag(targetTag));
 
                             var tab = new Tab(targetTag, conn.node);
                             tab.setGraphic(new ImageView(LocalRes.TAG_16_PNG().get()));

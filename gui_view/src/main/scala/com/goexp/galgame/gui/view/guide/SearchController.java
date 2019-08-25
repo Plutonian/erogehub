@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.guide;
 import com.goexp.common.util.string.Strings;
 import com.goexp.galgame.common.model.CommonGame;
 import com.goexp.galgame.gui.task.TaskService;
-import com.goexp.galgame.gui.task.game.GuideSearchTask;
+import com.goexp.galgame.gui.task.game.search.sub.GuideSearchTask;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.util.Websites;
 import com.goexp.galgame.gui.view.DefaultController;
@@ -43,7 +43,7 @@ public class SearchController extends DefaultController {
 
     private ListView<CommonGame.Guide> guideListView = new ListView<>();
 
-    private Service<ObservableList<CommonGame.Guide>> guideService = new TaskService<>(() -> new GuideSearchTask.ByName(key));
+    private Service<ObservableList<CommonGame.Guide>> guideService = new TaskService<>(() -> new GuideSearchTask(key));
 
     protected void initialize() {
         onLoadProperty.addListener((observable, oldValue, newValue) -> {

@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.task.brand
 import java.util
 
 import com.goexp.galgame.common.model.BrandType
-import com.goexp.galgame.gui.db.mongo.Query.BrandQuery
+import com.goexp.galgame.gui.db.mongo.query.BrandQuery
 import com.goexp.galgame.gui.model.Brand
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters._

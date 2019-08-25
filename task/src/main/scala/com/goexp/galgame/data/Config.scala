@@ -1,11 +1,9 @@
 package com.goexp.galgame.data
 
-import java.nio.file.Path
-
-import com.goexp.galgame.common
+import com.goexp.galgame.common.Config.DATA_ROOT
 
 object Config {
-  private lazy val CACHE_ROOT = common.Config.DATA_ROOT.resolve("cache")
-  lazy val GAME_CACHE_ROOT: Path = CACHE_ROOT.resolve("getchu/game/")
-  lazy val BRAND_CACHE_ROOT: Path = CACHE_ROOT.resolve("getchu/brand/")
+  private val CACHE_ROOT = DATA_ROOT.resolve("cache")
+  val GAME_CACHE_ROOT = CACHE_ROOT.resolve("getchu/game/")
+  val BRAND_CACHE_ROOT = CACHE_ROOT.resolve("getchu/brand/")
 }

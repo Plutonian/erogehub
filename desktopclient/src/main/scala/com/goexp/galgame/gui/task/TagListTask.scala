@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.task
 
 import com.goexp.galgame.common.model.TagType
-import com.goexp.galgame.gui.db.mongo.Query.TagQuery
+import com.goexp.galgame.gui.db.mongo.query.TagQuery
 import com.mongodb.client.model.Sorts.ascending
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Task

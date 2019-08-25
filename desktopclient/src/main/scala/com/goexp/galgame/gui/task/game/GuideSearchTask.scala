@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.task.game
 
 import com.goexp.galgame.common.model.CommonGame
-import com.goexp.galgame.gui.db.mongo.Query.GuideQuery
+import com.goexp.galgame.gui.db.mongo.query.GuideQuery
 import com.mongodb.client.model.Filters.regex
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Task

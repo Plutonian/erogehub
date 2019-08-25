@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.task.game
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.CommonGame.GameCharacter
-import com.goexp.galgame.gui.db.mongo.Query.GameQuery
+import com.goexp.galgame.gui.db.mongo.query.GameQuery
 import com.mongodb.client.model.Filters
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Task

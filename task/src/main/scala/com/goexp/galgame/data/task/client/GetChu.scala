@@ -37,7 +37,7 @@ object GetChu {
     def download(gameId: Int) = {
       val localPath = Config.GAME_CACHE_ROOT.resolve(s"$gameId.bytes")
       val tempPath = Path.of(localPath.toString + "_")
-      logger.debug("Download:Game: ${}", gameId)
+      logger.debug(s"Download:Game: $gameId")
       val request = RequestBuilder(GameUrl.byId(gameId)).adaltFlag.build
       HttpUtil.httpClient.send(request, ofFile(tempPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE))
       Files.move(tempPath, localPath, StandardCopyOption.REPLACE_EXISTING)

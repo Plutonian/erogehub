@@ -10,6 +10,9 @@ import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler
 import com.goexp.galgame.data.task.handler.MesType
 import org.slf4j.LoggerFactory
 
+/**
+  *Parse String => Game
+  */
 class Html2GameOK extends DefaultMessageHandler[(Int, String)] {
   final private val logger = LoggerFactory.getLogger(classOf[Html2GameOK])
 
@@ -24,7 +27,7 @@ class Html2GameOK extends DefaultMessageHandler[(Int, String)] {
 
       val parser = new DetailPageParser
       val game = parser.parse(gameId, html)
-      send(new Message[Game](MesType.GAME_OK, game))
+      send(Message[Game](MesType.GAME_OK, game))
     } catch {
       case e: ParseException =>
         e.printStackTrace()

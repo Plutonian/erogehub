@@ -28,7 +28,7 @@ object MarkSameGameTask {
       //            send(new Message<>(MesType.Brand, 10143));
       BrandQuery.tlp.query.list
         .forEach(brand => {
-          send(new Message[Int](MesType.Brand, brand.id))
+          send(Message[Int](MesType.Brand, brand.id))
 
         })
     }
@@ -91,7 +91,7 @@ object MarkSameGameTask {
         })
         .foreach(game => {
           logger.info(s"ID:${game.id} Name: ${game.name}  State: ${game.state}")
-          send(new Message[Game](UPDATE_STATE, game))
+          send(Message[Game](UPDATE_STATE, game))
         })
     }
 

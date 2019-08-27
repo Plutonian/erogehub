@@ -19,7 +19,7 @@ class FromDateRange(val start: LocalDate, val end: LocalDate) extends DefaultSta
 
     logger.info(s"${list.size}")
     list.foreach(game => {
-      send(new Message[Game](MesType.PRE_GAME, game))
+      send(Message[Game](MesType.PRE_GAME, game))
     })
   }
 }

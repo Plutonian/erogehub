@@ -21,6 +21,6 @@ class Bytes2Html extends DefaultMessageHandler[(Int, Array[Byte])] {
 
     val html = bytes.unGzip().decode(DEFAULT_CHARSET)
 
-    send(new Message[(Int, String)](MesType.ContentHtml, (id, html)))
+    send(Message[(Int, String)](MesType.ContentHtml, (id, html)))
   }
 }

@@ -47,7 +47,7 @@ object Seiya_saiga_com {
         logger.info(s"Insert:${insertlist.size}")
 
         insertlist.foreach(guide => {
-          send(new Message[CommonGame.Guide](1, guide))
+          send(Message[CommonGame.Guide](1, guide))
         })
       } catch {
         case e@(_: IOException | _: InterruptedException) =>

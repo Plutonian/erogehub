@@ -13,7 +13,7 @@
         <URL value="@../../../view.css"/>
     </stylesheets>
     <left>
-        <HBox>
+        <HBox spacing="5">
             <fx:include fx:id="dateview" source="../../detail/control/date.fxml"/>
             <ImageView fx:id="imageImg" pickOnBounds="true"/>
         </HBox>

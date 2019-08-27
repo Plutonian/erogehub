@@ -18,7 +18,7 @@
             <content>
                <BorderPane>
                   <center>
-                     <ImageView fx:id="imgLarge" pickOnBounds="true" preserveRatio="true" />
+                     <ImageView fx:id="imgLarge" pickOnBounds="true" />
                   </center>
                </BorderPane>
             </content>

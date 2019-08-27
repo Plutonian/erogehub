@@ -43,6 +43,15 @@ object GetChu {
       Files.move(tempPath, localPath, StandardCopyOption.REPLACE_EXISTING)
     }
 
+    @throws[IOException]
+    def getBytes(gameId: Int): Array[Byte] = {
+      //      val localPath = Config.GAME_CACHE_ROOT.resolve(s"$gameId.bytes")
+      //      val tempPath = Path.of(localPath.toString + "_")
+      logger.debug(s"Download:Game: $gameId")
+      val request = RequestBuilder(GameUrl.byId(gameId)).adaltFlag.build
+      HttpUtil.httpClient.send(request, ofByteArray()).body()
+    }
+
     def from(brandId: Int): LazyList[Game] = {
       try {
         val request = RequestBuilder(GameList.byBrand(brandId)).adaltFlag.build

@@ -32,25 +32,20 @@ object GetChu {
   }
 
   object GameService {
-    @throws[IOException]
-    @throws[InterruptedException]
-    def download(gameId: Int) = {
-      val localPath = Config.GAME_CACHE_ROOT.resolve(s"$gameId.bytes")
-      val tempPath = Path.of(localPath.toString + "_")
-      logger.debug(s"Download:Game: $gameId")
-      val request = RequestBuilder(GameUrl.byId(gameId)).adaltFlag.build
-      HttpUtil.httpClient.send(request, ofFile(tempPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE))
-      Files.move(tempPath, localPath, StandardCopyOption.REPLACE_EXISTING)
+
+
+    object Download {
+
+      @throws[IOException]
+      def getBytes(gameId: Int): Array[Byte] = {
+        //      val localPath = Config.GAME_CACHE_ROOT.resolve(s"$gameId.bytes")
+        //      val tempPath = Path.of(localPath.toString + "_")
+        logger.debug(s"Download:Game: $gameId")
+        val request = RequestBuilder(GameUrl.byId(gameId)).adaltFlag.build
+        HttpUtil.httpClient.send(request, ofByteArray()).body()
+      }
     }
 
-    @throws[IOException]
-    def getBytes(gameId: Int): Array[Byte] = {
-      //      val localPath = Config.GAME_CACHE_ROOT.resolve(s"$gameId.bytes")
-      //      val tempPath = Path.of(localPath.toString + "_")
-      logger.debug(s"Download:Game: $gameId")
-      val request = RequestBuilder(GameUrl.byId(gameId)).adaltFlag.build
-      HttpUtil.httpClient.send(request, ofByteArray()).body()
-    }
 
     def from(brandId: Int): LazyList[Game] = {
       try {

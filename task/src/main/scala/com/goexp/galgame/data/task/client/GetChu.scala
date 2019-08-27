@@ -2,15 +2,13 @@ package com.goexp.galgame.data.task.client
 
 import java.io.IOException
 import java.net.http.HttpRequest
-import java.net.http.HttpResponse.BodyHandlers.{ofByteArray, ofFile}
-import java.nio.file.{Files, Path, StandardCopyOption, StandardOpenOption}
+import java.net.http.HttpResponse.BodyHandlers.ofByteArray
 import java.time.LocalDate
 
 import com.goexp.common.util.Gzip._
 import com.goexp.common.util.charset._
 import com.goexp.common.util.web.HttpUtil
 import com.goexp.galgame.common.website.getchu.{GetchuGame => GameUrl, _}
-import com.goexp.galgame.data.Config
 import com.goexp.galgame.data.model.{Brand, Game}
 import com.goexp.galgame.data.parser.GetchuBrandParser
 import com.goexp.galgame.data.parser.game.ListPageParser
@@ -33,13 +31,10 @@ object GetChu {
 
   object GameService {
 
-
     object Download {
 
       @throws[IOException]
       def getBytes(gameId: Int): Array[Byte] = {
-        //      val localPath = Config.GAME_CACHE_ROOT.resolve(s"$gameId.bytes")
-        //      val tempPath = Path.of(localPath.toString + "_")
         logger.debug(s"Download:Game: $gameId")
         val request = RequestBuilder(GameUrl.byId(gameId)).adaltFlag.build
         HttpUtil.httpClient.send(request, ofByteArray()).body()

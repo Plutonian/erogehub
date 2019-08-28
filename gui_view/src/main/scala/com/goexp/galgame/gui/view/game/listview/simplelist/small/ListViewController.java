@@ -18,7 +18,7 @@ public class ListViewController extends DefaultController {
 
         smallListSimple.setCellFactory(listView -> {
 
-            final var loader = new FXMLLoaderProxy<Region, CellController>("view/game/listview/small/cell.fxml");
+            final var loader = new FXMLLoaderProxy<Region, HeaderController>("view/game/listview/small/header.fxml");
 
             return new ListCell<>() {
 

@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game.detailview.inner;
 import com.goexp.common.util.string.Strings;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
-import com.goexp.galgame.gui.util.res.GameImage;
+import com.goexp.galgame.gui.util.res.gameimg.GameImage;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.game.HomeController;
 import javafx.event.ActionEvent;

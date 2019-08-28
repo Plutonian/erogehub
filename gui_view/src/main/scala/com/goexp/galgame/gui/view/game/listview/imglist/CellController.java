@@ -4,7 +4,7 @@ import com.goexp.common.util.date.DateUtil;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
-import com.goexp.galgame.gui.util.res.GameImage;
+import com.goexp.galgame.gui.util.res.gameimg.GameImage;
 import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.game.HomeController;

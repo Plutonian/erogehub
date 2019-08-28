@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.view.game.detailview.inner;
 
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.util.res.GameImage;
+import com.goexp.galgame.gui.util.res.gameimg.PersonImage;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.game.HomeController;
 import com.goexp.galgame.gui.view.game.detailview.part.CVSearchController;
@@ -72,7 +72,7 @@ public class PersonCellController extends DefaultController {
 
         if (gameChar.img != null && gameChar.img.length() > 0) {
 
-            imageImg.setImage(GameImage.PersonImage.small(game, gameChar.index, gameChar.img));
+            imageImg.setImage(PersonImage.small(game, gameChar.index, gameChar.img));
         } else {
             imageImg.setImage(null);
         }

@@ -8,8 +8,9 @@
    <center>
       <TableView fx:id="tableCV" prefHeight="651.0" prefWidth="1120.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="colName" editable="false" prefWidth="150.00001525878906" text="Name" />
-          <TableColumn fx:id="colStar" editable="false" minWidth="0.0" prefWidth="245.0" text="Star" />
+            <TableColumn fx:id="colStar" editable="false" resizable="false" minWidth="0.0" prefWidth="120.0" text="Star" />
+            <TableColumn fx:id="colName" editable="false" prefWidth="120" text="Name" />
+            <TableColumn fx:id="colTag" editable="false" sortable="false" prefWidth="400" text="Tag" />
         </columns>
       </TableView>
    </center>

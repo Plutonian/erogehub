@@ -3,6 +3,7 @@ package com.goexp.galgame.gui.view.game;
 import com.goexp.galgame.common.model.CV;
 import com.goexp.galgame.gui.task.CVListTask;
 import com.goexp.galgame.gui.task.TaskService;
+import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
 import javafx.collections.ObservableList;
@@ -16,14 +17,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+import java.util.List;
+
 public class CVInfoController extends DefaultController {
 
-//    public BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
     /***
      * Biz
      */
 
-//    public String cv;
     /**
      * UI Com
      */
@@ -32,11 +33,10 @@ public class CVInfoController extends DefaultController {
 
     public TableColumn<CV, String> colName;
     public TableColumn<CV, Integer> colStar;
+    public TableColumn<CV, List<String>> colTag;
 
 
     @FXML
-//    private FlowPane cvFlow;
-//    private VBox cvFlow;
     private Service<ObservableList<CV>> loadCVService = new TaskService<>(CVListTask::new);
 
 
@@ -49,8 +49,34 @@ public class CVInfoController extends DefaultController {
 
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colStar.setCellValueFactory(new PropertyValueFactory<>("star"));
+        colTag.setCellValueFactory(new PropertyValueFactory<>("tag"));
+
+        colStar.setCellFactory(col -> {
+            final var image = LocalRes.HEART_16_PNG().get();
+            return new TableCell<>() {
+                protected void updateItem(Integer star, boolean empty) {
+                    super.updateItem(star, empty);
+                    this.setGraphic(null);
+                    this.setText(null);
 
 
+                    if (star != null && !empty) {
+
+                        if (star > 0) {
+                            var starBox = new HBox();
+                            for (var i = 0; i < star; i++) {
+                                starBox.getChildren().add(new ImageView(image));
+                            }
+
+                            this.setGraphic(starBox);
+
+                        } else {
+                            this.setText(star.toString());
+                        }
+                    }
+                }
+            };
+        });
         colName.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -67,36 +93,25 @@ public class CVInfoController extends DefaultController {
                 }
             }
         });
-//
-        colStar.setCellFactory(col -> {
-                    final var image = LocalRes.HEART_16_PNG().get();
-                    return new TableCell<>() {
-                        protected void updateItem(Integer star, boolean empty) {
-                            super.updateItem(star, empty);
-                            this.setGraphic(null);
-                            this.setText(null);
 
 
-                            if (star != null && !empty) {
+        colTag.setCellFactory(col -> {
+            return new TableCell<>() {
+                protected void updateItem(List<String> tag, boolean empty) {
+                    super.updateItem(tag, empty);
+                    this.setGraphic(null);
+                    this.setText(null);
 
-                                if(star>0)
-                                {
-                                    var starBox = new HBox();
-                                    for (var i = 0; i < star; i++) {
-                                        starBox.getChildren().add(new ImageView(image));
-                                    }
+                    if (tag != null && !empty) {
 
-                                    this.setGraphic(starBox);
-
-                                }else{
-                                    this.setText(star.toString());
-                                }
-                            }
-                        }
-                    };
+                        var hbox = new HBox();
+                        hbox.setSpacing(5);
+                        hbox.getChildren().setAll(Tags.toNodes(tag));
+                        this.setGraphic(hbox);
+                    }
                 }
-
-        );
+            };
+        });
 
 
         loadCVService.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -137,22 +152,6 @@ public class CVInfoController extends DefaultController {
             }
 
         });
-
-//        onLoadProperty.addListener((observable, oldValue, newValue) -> {
-//            if (newValue != null && newValue) {
-//                HomeController.$this.loadCVTab(cv, true);
-//            }
-//        });
-
-//        cvFlow.addEventFilter(ActionEvent.ACTION, event -> {
-//
-//            if (event.getTarget() instanceof Hyperlink) {
-//                var link = (Hyperlink) event.getTarget();
-//                cv = link.getText();
-//                onLoadProperty.set(true);
-//                onLoadProperty.set(false);
-//            }
-//        });
 
 
     }

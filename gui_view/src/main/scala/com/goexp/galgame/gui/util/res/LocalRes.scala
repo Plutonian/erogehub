@@ -17,5 +17,14 @@ object LocalRes {
 }
 
 final class LocalRes private(val path: String) {
-  def get: Image = Local.getLocal(path)
+  private[this] var cacheImage: Image = _
+
+  def get: Image =
+    if (cacheImage == null) {
+      cacheImage = new Image(this.getClass.getResource(path).toExternalForm)
+
+      cacheImage
+    }
+    else
+      cacheImage
 }

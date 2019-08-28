@@ -78,7 +78,7 @@ public class ContentViewController extends DefaultController {
     public void load(Game game) {
 
         if (game.isOkImg()) {
-            imgLarge.setImage(GameImage.large(game));
+            imgLarge.setImage(new GameImage(game).large());
         } else {
             imgLarge.setImage(null);
         }

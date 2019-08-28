@@ -96,7 +96,7 @@ public class OutPageController extends DefaultController {
 
     private void loadBackgroundImage(Game game) {
         if (game.isOkImg()) {
-            imgBackground.setImage(GameImage.large(game));
+            imgBackground.setImage(new GameImage(game).large());
         } else {
             imgBackground.setImage(null);
         }

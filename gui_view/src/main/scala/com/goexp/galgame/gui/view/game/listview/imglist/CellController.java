@@ -18,6 +18,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
+import static com.goexp.galgame.gui.util.res.gameimg.GameImage.*;
+
 public class CellController extends DefaultController {
 
     private Game game;
@@ -69,7 +71,7 @@ public class CellController extends DefaultController {
 
         if (game.isOkImg()) {
 
-            imageImg.setImage(GameImage.small(game));
+            imageImg.setImage(new GameImage(game).small());
 
             if (game.state.get() == GameState.BLOCK)
                 imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));

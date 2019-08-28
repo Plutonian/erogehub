@@ -11,20 +11,16 @@ object GameImage {
 class GameImage(private[this] val game: Game) {
 
   def tiny(): Image =
-    Util.getImage(game, (s"${game.id}/game_t", game.smallImg))
+    Util.getImage(game)(s"${game.id}/game_t", game.smallImg)
 
   def small(): Image = {
     val url = GetchuGame.SmallImg(game.id)
-    Util.getImage(game, (s"${game.id}/game_s", url))
+    Util.getImage(game)(s"${game.id}/game_s", url)
   }
 
   def large(): Image = {
     val url = GetchuGame.LargeImg(game.id)
-    Util.getImage(game, (s"${game.id}/game_l", url))
+    Util.getImage(game)(s"${game.id}/game_l", url)
   }
 
-  def preloadLarge(): Unit = {
-    val url = GetchuGame.LargeImg(game.id)
-    Util.preLoadRemoteImage((s"${game.id}/game_l", url))
-  }
 }

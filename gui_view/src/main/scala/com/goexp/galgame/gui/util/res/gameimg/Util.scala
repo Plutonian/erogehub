@@ -1,10 +1,10 @@
 package com.goexp.galgame.gui.util.res.gameimg
 
-import java.io.{ByteArrayOutputStream, FileNotFoundException, IOException}
+import java.io.{FileNotFoundException, IOException}
 import java.nio.file.{Files, Path}
 import java.util.Objects
 
-import com.goexp.galgame.gui.Config
+import com.goexp.galgame.gui.Config.IMG_PATH
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.cache.AppCache
 import javafx.embed.swing.SwingFXUtils
@@ -15,11 +15,7 @@ import org.slf4j.LoggerFactory
 object Util {
   private val logger = LoggerFactory.getLogger(this.getClass)
 
-  def getImage(game: Game, cacheKey: (String, String)): Image = {
-
-    val (diskCacheKey, memCacheKey) = cacheKey
-
-    Objects.requireNonNull(cacheKey)
+  def getImage(game: Game)(diskCacheKey: String, memCacheKey: String): Image = {
     Objects.requireNonNull(diskCacheKey)
     Objects.requireNonNull(memCacheKey)
 
@@ -30,110 +26,70 @@ object Util {
     imageCache.get(memCacheKey) match {
       case Some(img) => img
       case None =>
-        val localPath = Config.IMG_PATH.resolve(diskCacheKey + ".jpg")
+        val localPath = IMG_PATH.resolve(diskCacheKey + ".jpg")
         logger.debug("localPath={}", localPath)
 
         //heat disk cache or load from remote
         val image =
-          if (Files.exists(localPath))
-            fromDisk(localPath)
-          else
-            loadRemote(memCacheKey) { img =>
-              if (game.isOkState) {
-                try Files.createDirectories(localPath.getParent)
+        //load from disk
+          if (Files.exists(localPath)) {
+            new Image("file:" + localPath.toString)
+          }
+          else {
+            def loadFromRemote1(url: String): Image = {
+              Objects.requireNonNull(url)
+              logger.debug("Remote:{}", url)
+
+              val image = new Image(url, true)
+              image.exceptionProperty.addListener((_, _, e: Exception) => {
+                if (e != null)
+                  if (!e.isInstanceOf[FileNotFoundException])
+                    AppCache.imageMemCache.remove(url)
+                  else
+                    logger.error(e.getMessage)
+              })
+
+              image
+            }
+
+            def loadFromRemote(url: String)(onLoadOK: (Image) => Unit): Image = {
+              val image = loadFromRemote1(url)
+
+              image.progressProperty.addListener((_, _, newValue: Number) => {
+                if (newValue != null && newValue.doubleValue == 1)
+                  onLoadOK(image)
+              })
+
+              image
+            }
+
+            //load from remote
+            loadFromRemote(memCacheKey) { img =>
+              def saveImage(image: Image, path: Path): Unit = {
+                Objects.requireNonNull(image)
+                Objects.requireNonNull(path)
+                val bufferImage = SwingFXUtils.fromFXImage(image, null)
+                if (bufferImage == null) return
+                try
+                  ImageIO.write(bufferImage, "jpg", path.toFile)
                 catch {
                   case e: IOException =>
+                    println(game)
                     e.printStackTrace()
                 }
+              }
+
+              if (game.isOkState) {
+                Files.createDirectories(localPath.getParent)
+
                 saveImage(img, localPath)
               }
             }
+          }
 
         //memCacheKey as cache key
         imageCache.put(memCacheKey, image)
         image
     }
-  }
-
-
-  def preLoadRemoteImage(cacheKey: (String, String)): Unit = {
-
-    val (diskCacheKey, memCacheKey) = cacheKey
-
-    Objects.requireNonNull(cacheKey)
-    Objects.requireNonNull(diskCacheKey)
-    Objects.requireNonNull(memCacheKey)
-    logger.debug("LocalKey={},memCacheKey={}", diskCacheKey, memCacheKey)
-    val imageCache = AppCache.imageMemCache
-    val cachedImage = imageCache.get(memCacheKey)
-    if (cachedImage.isEmpty) {
-      val localPath = Config.IMG_PATH.resolve(diskCacheKey + ".jpg")
-      logger.debug("localPath={}", localPath)
-      if (!Files.exists(localPath))
-        loadRemote(memCacheKey) { (image1: Image) => {
-          Files.createDirectories(localPath.getParent)
-          saveImage(image1, localPath)
-          imageCache.put(memCacheKey, image1)
-        }
-        }
-    }
-  }
-
-  def saveImage(image: Image, path: Path): Unit = {
-    Objects.requireNonNull(image)
-    Objects.requireNonNull(path)
-    val bufferImage = SwingFXUtils.fromFXImage(image, null)
-    if (bufferImage == null) return
-    try
-      ImageIO.write(bufferImage, "jpg", path.toFile)
-    catch {
-      case e: IOException =>
-        e.printStackTrace()
-    }
-  }
-
-  def fromDisk(path: Path): Image = {
-    Objects.requireNonNull(path)
-    logger.debug("Local:{}", path)
-    new Image("file:" + path.toString)
-  }
-
-  def loadRemote(url: String)(callback: (Image) => Unit): Image = {
-    Objects.requireNonNull(url)
-    logger.debug("Remote:{}", url)
-    val image = new Image(url, true)
-
-    if (callback != null)
-      image.progressProperty.addListener((_, _, newValue: Number) => {
-        if (newValue != null && newValue.doubleValue == 1)
-          callback(image)
-      })
-
-    image.exceptionProperty.addListener((_, _, e: Exception) => {
-      if (e != null)
-        if (!e.isInstanceOf[FileNotFoundException])
-          AppCache.imageMemCache.remove(url)
-        else
-          logger.error(e.getMessage)
-    })
-    image
-  }
-
-  def getImageBytes(image: Image): Array[Byte] = {
-    Objects.requireNonNull(image)
-    val bufferImage = SwingFXUtils.fromFXImage(image, null)
-    if (bufferImage == null) return null
-
-    val stream = new ByteArrayOutputStream
-    try {
-      ImageIO.write(bufferImage, "jpg", stream)
-      return stream.toByteArray
-    } catch {
-      case e: IOException =>
-        e.printStackTrace()
-    } finally {
-      stream.close()
-    }
-    null
   }
 }

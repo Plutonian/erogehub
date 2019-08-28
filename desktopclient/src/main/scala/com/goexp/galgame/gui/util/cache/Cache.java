@@ -8,7 +8,7 @@ public class Cache<K, V> {
 
     private final HashMap<K, SoftReference<V>> imageCache;
 
-    Cache() {
+    public Cache() {
         this.imageCache = new HashMap<>();
     }
 

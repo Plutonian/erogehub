@@ -4,7 +4,7 @@ import com.goexp.galgame.common.website.getchu.GetchuGame;
 import com.goexp.galgame.gui.Config;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.cache.AppCache;
-import com.goexp.galgame.gui.util.cache.ImageMemCache;
+import com.goexp.galgame.gui.util.cache.Cache;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import org.slf4j.Logger;
@@ -234,7 +234,7 @@ public class Images {
             return getLocal(name, AppCache.imageMemCache());
         }
 
-        private static Image getLocal(String name, ImageMemCache imageMemCache) {
+        private static Image getLocal(String name, Cache<String, Image> imageMemCache) {
             return imageMemCache.get(name).orElseGet(() -> {
                 final var image = new Image(Images.class.getResource(name).toExternalForm());
 

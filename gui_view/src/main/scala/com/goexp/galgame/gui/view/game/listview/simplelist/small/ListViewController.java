@@ -2,19 +2,14 @@ package com.goexp.galgame.gui.view.game.listview.simplelist.small;
 
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
-import com.goexp.galgame.gui.util.cache.Cache;
-import com.goexp.galgame.gui.util.cache.CellCache;
 import com.goexp.galgame.gui.view.DefaultController;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 
 
 public class ListViewController extends DefaultController {
-
-//    static Cache cache=new CellCache<Integer, Node>();
 
     @FXML
     private ListView<Game> smallListSimple;

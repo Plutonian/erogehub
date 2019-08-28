@@ -14,5 +14,5 @@ object LocalRes {
 }
 
 final class LocalRes private(val path: String) {
-  def get: Image = Images.Local.getLocal(path)
+  def get: Image = Local.getLocal(path)
 }

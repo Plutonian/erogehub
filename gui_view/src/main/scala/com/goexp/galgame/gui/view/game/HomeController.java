@@ -6,7 +6,7 @@ import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.game.search.*;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
 import com.goexp.galgame.gui.util.TabSelect;
-import com.goexp.galgame.gui.util.res.Images;
+import com.goexp.galgame.gui.util.res.Local;
 import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.brand.CommonInfoTabController;
@@ -146,10 +146,10 @@ public class HomeController extends DefaultController {
         ));
         gameStateLikeLinkPanel.getChildren().setAll(links);
 
-        linkDate.setGraphic(new ImageView(Images.Local.getLocal("/img/date.png")));
-        linkCV.setGraphic(new ImageView(Images.Local.getLocal("/img/cv.png")));
-        linkSearch.setGraphic(new ImageView(Images.Local.getLocal("/img/search.png")));
-        linkTags.setGraphic(new ImageView(Images.Local.getLocal("/img/tag.png")));
+        linkDate.setGraphic(new ImageView(Local.getLocal("/img/date.png")));
+        linkCV.setGraphic(new ImageView(Local.getLocal("/img/cv.png")));
+        linkSearch.setGraphic(new ImageView(Local.getLocal("/img/search.png")));
+        linkTags.setGraphic(new ImageView(Local.getLocal("/img/tag.png")));
 
 
     }

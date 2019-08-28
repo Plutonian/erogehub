@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.view.game.detailview.outer;
 
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.util.res.Images;
+import com.goexp.galgame.gui.util.res.GameImage;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.game.detailview.inner.ContentViewController;
 import javafx.fxml.FXML;
@@ -96,7 +96,7 @@ public class OutPageController extends DefaultController {
 
     private void loadBackgroundImage(Game game) {
         if (game.isOkImg()) {
-            imgBackground.setImage(Images.GameImage.large(game));
+            imgBackground.setImage(GameImage.large(game));
         } else {
             imgBackground.setImage(null);
         }

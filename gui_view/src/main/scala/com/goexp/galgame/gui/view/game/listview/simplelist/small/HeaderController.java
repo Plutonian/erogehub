@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game.listview.simplelist.small;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
-import com.goexp.galgame.gui.util.res.Images;
+import com.goexp.galgame.gui.util.res.GameImage;
 import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController;
@@ -68,7 +68,7 @@ public class HeaderController extends DefaultController {
         loadWithoutImage(game);
 
         if (game.isOkImg()) {
-            imageImg.setImage(Images.GameImage.tiny(game));
+            imageImg.setImage(GameImage.tiny(game));
 
         } else {
             imageImg.setImage(null);

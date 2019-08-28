@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.view.game.detailview.inner;
 
 import com.goexp.galgame.gui.model.Game;
-import com.goexp.galgame.gui.util.res.Images;
+import com.goexp.galgame.gui.util.res.GameImage;
 import com.goexp.galgame.gui.view.DefaultController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -47,7 +47,7 @@ public class SimpleImgPartController extends DefaultController {
                     setText(null);
 
                     if (!empty) {
-                        setGraphic(new ImageView(Images.GameImage.Simple.small(game, item.index, item.src)));
+                        setGraphic(new ImageView(GameImage.SimpleImage.small(game, item.index, item.src)));
                     }
 
                 }
@@ -57,7 +57,7 @@ public class SimpleImgPartController extends DefaultController {
         listSmallSimple.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, simpleLargeImage) -> {
 
             if (simpleLargeImage != null) {
-                largeSimple.setImage(Images.GameImage.Simple.large(game, simpleLargeImage.index, simpleLargeImage.src));
+                largeSimple.setImage(GameImage.SimpleImage.large(game, simpleLargeImage.index, simpleLargeImage.src));
             }
         });
 

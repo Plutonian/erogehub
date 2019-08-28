@@ -4,7 +4,7 @@ import com.goexp.common.util.date.DateUtil;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
-import com.goexp.galgame.gui.util.res.Images;
+import com.goexp.galgame.gui.util.res.GameImage;
 import com.goexp.galgame.gui.util.res.LocalRes;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.game.HomeController;
@@ -69,7 +69,7 @@ public class CellController extends DefaultController {
 
         if (game.isOkImg()) {
 
-            imageImg.setImage(Images.GameImage.small(game));
+            imageImg.setImage(GameImage.small(game));
 
             if (game.state.get() == GameState.BLOCK)
                 imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));

@@ -4,7 +4,6 @@ import com.goexp.galgame.common.website.getchu.GetchuGame;
 import com.goexp.galgame.gui.Config;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.cache.AppCache;
-import com.goexp.galgame.gui.util.cache.Cache;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import org.slf4j.Logger;
@@ -19,56 +18,52 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class Images {
+public class GameImage {
 
-    public static class GameImage {
+    public static Image tiny(Game game) {
+        return Util.getImage(game, new CacheKey(game.id + "/game_t", game.smallImg));
+    }
 
-        public static Image tiny(Game game) {
-            return Util.getImage(game, new CacheKey(game.id + "/game_t", game.smallImg));
+    public static Image small(Game game) {
+        final var url = GetchuGame.SmallImg(game.id);
+
+        return Util.getImage(game, new CacheKey(game.id + "/game_s", url));
+    }
+
+    public static Image large(Game game) {
+        final var url = GetchuGame.LargeImg(game.id);
+
+        return Util.getImage(game, new CacheKey(game.id + "/game_l", url));
+    }
+
+    public static void preloadLarge(Game game) {
+        final var url = GetchuGame.LargeImg(game.id);
+
+        Util.preLoadRemoteImage(new CacheKey(game.id + "/game_l", url));
+    }
+
+    public static class SimpleImage {
+
+        public static Image small(Game game, int index, String src) {
+            final var url = GetchuGame.smallSimpleImg(src);
+
+            return Util.getImage(game, new CacheKey(game.id + "/simple_s_" + index, url));
         }
 
-        public static Image small(Game game) {
-            final var url = GetchuGame.SmallImg(game.id);
+        public static Image large(Game game, int index, String src) {
+            final var url = GetchuGame.largeSimpleImg(src);
 
-            return Util.getImage(game, new CacheKey(game.id + "/game_s", url));
+            return Util.getImage(game, new CacheKey(game.id + "/simple_l_" + index, url));
         }
+    }
 
-        public static Image large(Game game) {
-            final var url = GetchuGame.LargeImg(game.id);
+    public static class PersonImage {
 
-            return Util.getImage(game, new CacheKey(game.id + "/game_l", url));
+        public static Image small(Game game, int index, String src) {
+            final var url = GetchuGame.getUrlFromSrc(src);
+
+            return Util.getImage(game, new CacheKey(game.id + "/char_s_" + index, url));
         }
-
-        public static void preloadLarge(Game game) {
-            final var url = GetchuGame.LargeImg(game.id);
-
-            Util.preLoadRemoteImage(new CacheKey(game.id + "/game_l", url));
-        }
-
-        public static class Simple {
-
-            public static Image small(Game game, int index, String src) {
-                final var url = GetchuGame.smallSimpleImg(src);
-
-                return Util.getImage(game, new CacheKey(game.id + "/simple_s_" + index, url));
-            }
-
-            public static Image large(Game game, int index, String src) {
-                final var url = GetchuGame.largeSimpleImg(src);
-
-                return Util.getImage(game, new CacheKey(game.id + "/simple_l_" + index, url));
-            }
-        }
-
-        public static class GameChar {
-
-            public static Image small(Game game, int index, String src) {
-                final var url = GetchuGame.getUrlFromSrc(src);
-
-                return Util.getImage(game, new CacheKey(game.id + "/char_s_" + index, url));
-            }
-        }
-
     }
 
     private static class Util {
@@ -228,23 +223,6 @@ public class Images {
         }
     }
 
-    public static class Local {
-
-        public static Image getLocal(String name) {
-            return getLocal(name, AppCache.imageMemCache());
-        }
-
-        private static Image getLocal(String name, Cache<String, Image> imageMemCache) {
-            return imageMemCache.get(name).orElseGet(() -> {
-                final var image = new Image(Images.class.getResource(name).toExternalForm());
-
-                imageMemCache.put(name, image);
-                return image;
-
-            });
-        }
-    }
-
     private static class CacheKey {
         private final String diskCacheKey;
         private final String memCacheKey;
@@ -262,4 +240,5 @@ public class Images {
             return memCacheKey;
         }
     }
+
 }

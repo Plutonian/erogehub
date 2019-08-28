@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game.detailview.inner;
 import com.goexp.galgame.common.model.CommonGame;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
-import com.goexp.galgame.gui.util.res.Images;
+import com.goexp.galgame.gui.util.res.GameImage;
 import com.goexp.galgame.gui.view.DefaultController;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -78,7 +78,7 @@ public class ContentViewController extends DefaultController {
     public void load(Game game) {
 
         if (game.isOkImg()) {
-            imgLarge.setImage(Images.GameImage.large(game));
+            imgLarge.setImage(GameImage.large(game));
         } else {
             imgLarge.setImage(null);
         }

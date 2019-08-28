@@ -7,6 +7,6 @@ import javafx.scene.image.Image
 object PersonImage {
   def small(game: Game, index: Int, src: String): Image = {
     val url = GetchuGame.getUrlFromSrc(src)
-    Util.getImage(game)(s"${game.id}/char_s_$index", url)
+    GameImages.get(game)(s"${game.id}/char_s_$index", url)
   }
 }

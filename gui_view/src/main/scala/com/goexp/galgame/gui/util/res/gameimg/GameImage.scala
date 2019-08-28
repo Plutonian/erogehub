@@ -11,16 +11,16 @@ object GameImage {
 class GameImage(private[this] val game: Game) {
 
   def tiny(): Image =
-    Util.getImage(game)(s"${game.id}/game_t", game.smallImg)
+    GameImages.get(game)(s"${game.id}/game_t", game.smallImg)
 
   def small(): Image = {
     val url = GetchuGame.SmallImg(game.id)
-    Util.getImage(game)(s"${game.id}/game_s", url)
+    GameImages.get(game)(s"${game.id}/game_s", url)
   }
 
   def large(): Image = {
     val url = GetchuGame.LargeImg(game.id)
-    Util.getImage(game)(s"${game.id}/game_l", url)
+    GameImages.get(game)(s"${game.id}/game_l", url)
   }
 
 }

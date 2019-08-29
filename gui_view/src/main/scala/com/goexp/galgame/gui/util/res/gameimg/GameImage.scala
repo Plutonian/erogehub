@@ -9,18 +9,25 @@ object GameImage {
 }
 
 class GameImage(private[this] val game: Game) {
+  private val images = GameImages(game)
 
-  def tiny(): Image =
-    GameImages.get(game)(s"${game.id}/game_t", game.smallImg)
-
-  def small(): Image = {
-    val url = GetchuGame.SmallImg(game.id)
-    GameImages.get(game)(s"${game.id}/game_s", url)
+  def onOK(f: (Image) => Unit) = {
+    images.onOK = f
+    this
   }
 
-  def large(): Image = {
+  def tiny() = {
+    images.get(s"${game.id}/game_t", game.smallImg)
+  }
+
+  def small() = {
+    val url = GetchuGame.SmallImg(game.id)
+    images.get(s"${game.id}/game_s", url)
+  }
+
+  def large() = {
     val url = GetchuGame.LargeImg(game.id)
-    GameImages.get(game)(s"${game.id}/game_l", url)
+    images.get(s"${game.id}/game_l", url)
   }
 
 }

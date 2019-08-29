@@ -4,8 +4,8 @@ import com.goexp.common.util.date.DateUtil;
 import com.goexp.galgame.common.model.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
-import com.goexp.galgame.gui.util.res.gameimg.GameImage;
 import com.goexp.galgame.gui.util.res.LocalRes;
+import com.goexp.galgame.gui.util.res.gameimg.GameImage;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.game.HomeController;
 import com.goexp.galgame.gui.view.game.part.StateChangeController;
@@ -17,8 +17,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-
-import static com.goexp.galgame.gui.util.res.gameimg.GameImage.*;
 
 public class CellController extends DefaultController {
 
@@ -71,12 +69,17 @@ public class CellController extends DefaultController {
 
         if (game.isOkImg()) {
 
-            imageImg.setImage(new GameImage(game).small());
+            new GameImage(game).onOK((img) -> {
+                imageImg.setImage(img);
 
-            if (game.state.get() == GameState.BLOCK)
-                imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));
-            else
-                imageImg.setEffect(null);
+                if (game.state.get() == GameState.BLOCK)
+                    imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));
+                else
+                    imageImg.setEffect(null);
+                return null;
+            }).small();
+
+
         } else {
             imageImg.setImage(null);
         }

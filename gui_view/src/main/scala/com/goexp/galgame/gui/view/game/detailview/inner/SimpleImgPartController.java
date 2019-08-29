@@ -47,7 +47,11 @@ public class SimpleImgPartController extends DefaultController {
                     setText(null);
 
                     if (!empty) {
-                        setGraphic(new ImageView(SimpleImage.small(game, item.index, item.src)));
+
+                        new SimpleImage(game).onOK((img) -> {
+                            setGraphic(new ImageView(img));
+                            return null;
+                        }).small(item.index, item.src);
                     }
 
                 }
@@ -57,7 +61,13 @@ public class SimpleImgPartController extends DefaultController {
         listSmallSimple.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, simpleLargeImage) -> {
 
             if (simpleLargeImage != null) {
-                largeSimple.setImage(SimpleImage.large(game, simpleLargeImage.index, simpleLargeImage.src));
+
+                new SimpleImage(game).onOK((img) -> {
+                    largeSimple.setImage(img);
+                    return null;
+                }).large(simpleLargeImage.index, simpleLargeImage.src);
+
+//                largeSimple.setImage(SimpleImage.large(game, simpleLargeImage.index, simpleLargeImage.src));
             }
         });
 

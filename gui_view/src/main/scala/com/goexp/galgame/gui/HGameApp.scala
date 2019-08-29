@@ -2,6 +2,7 @@ package com.goexp.galgame.gui
 
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.gui.util.FXMLLoaderProxy
+import com.goexp.galgame.gui.util.res.gameimg.GameImages
 import com.goexp.galgame.gui.view.MainController
 import javafx.application.Application
 import javafx.scene.paint.Color
@@ -32,5 +33,9 @@ class HGameApp extends Application {
     primaryStage.setMinHeight(800)
     primaryStage.setScene(new Scene(proxy.node, Color.BLACK))
     primaryStage.show()
+  }
+
+  override def stop(): Unit = {
+    GameImages.executers.shutdown()
   }
 }

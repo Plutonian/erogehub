@@ -23,7 +23,7 @@ subprojects {
         }
     }
 
-    sourceCompatibility = '12'
+    sourceCompatibility = '12.0.2'
 
     publishing {
         publications {

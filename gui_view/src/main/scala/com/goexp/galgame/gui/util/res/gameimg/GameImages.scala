@@ -1,47 +1,78 @@
 package com.goexp.galgame.gui.util.res.gameimg
 
-import java.io.{FileNotFoundException, IOException}
+import java.io.{ByteArrayInputStream, IOException}
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.{Files, Path}
 import java.util.Objects
+import java.util.concurrent.Executors
 
+import com.goexp.common.util.web.HttpUtil
+import com.goexp.common.util.web.url._
 import com.goexp.galgame.gui.Config.IMG_PATH
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.cache.AppCache
+import javafx.application.Platform
 import javafx.embed.swing.SwingFXUtils
 import javafx.scene.image.Image
 import javax.imageio.ImageIO
 import org.slf4j.LoggerFactory
 
+import scala.beans.BeanProperty
+
 object GameImages {
   private val logger = LoggerFactory.getLogger(this.getClass)
 
-  def get(game: Game)(diskCacheKey: String, memCacheKey: String): Image = {
+  def apply(game: Game): GameImages = new GameImages(game)
+
+  // thread pool
+  val executers = Executors.newFixedThreadPool(30)
+
+  def load(url: String): Array[Byte] = {
+
+    val request: HttpRequest = HttpRequest.newBuilder.uri(url)
+      .header("Cookie", "getchu_adalt_flag=getchu.com")
+      .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+      //                .header("Accept", "image/webp,*/*")
+      .header("Accept-Encoding", "gzip, deflate")
+      .header("Accept-Language", "ja,en-US;q=0.7,en;q=0.3")
+      .header("Cache-Control", "max-age=0")
+      .header("Upgrade-Insecure-Requests", "1")
+      .header("Referer", "http://www.getchu.com")
+      .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36")
+      .build()
+
+    val res = HttpUtil.httpClient.send(request, BodyHandlers.ofByteArray())
+    //      println(res.statusCode())
+    res.body()
+
+  }
+
+  def get(game: Game)(diskCacheKey: String, memCacheKey: String, onOK: (Image) => Unit) = {
     Objects.requireNonNull(diskCacheKey)
     Objects.requireNonNull(memCacheKey)
 
-    def loadFromRemote1(url: String): Image = {
+
+    def loadFromRemote(url: String)(onLoadOK: (Image) => Unit) = {
       Objects.requireNonNull(url)
       logger.debug("Remote:{}", url)
 
-      val image = new Image(url, true)
-      image.exceptionProperty.addListener((_, _, e: Exception) => {
-        if (e != null)
-          if (!e.isInstanceOf[FileNotFoundException])
-            AppCache.imageMemCache.remove(url)
-          else
-            logger.error(e.getMessage)
-      })
+      executers.submit(new Runnable {
+        override def run(): Unit = {
 
-      image
-    }
+          try {
+            val bytes = load(url)
 
-    def loadFromRemote(url: String)(onLoadOK: (Image) => Unit): Image = {
-      val image = loadFromRemote1(url)
-      image.progressProperty.addListener((_, _, newValue: Number) => {
-        if (newValue != null && newValue.doubleValue == 1)
-          onLoadOK(image)
+            Platform.runLater(() => {
+              onLoadOK(new Image(new ByteArrayInputStream(bytes)))
+            })
+          }
+          catch {
+            case e: IOException =>
+              e.printStackTrace()
+          }
+        }
       })
-      image
     }
 
     def saveImage(image: Image, path: Path): Unit = {
@@ -62,8 +93,8 @@ object GameImages {
     val imageCache = AppCache.imageMemCache
     //try heat cache
 
-    val image = imageCache.get(memCacheKey) match {
-      case Some(img) => img
+    imageCache.get(memCacheKey) match {
+      case Some(img) => onOK(img)
       case None =>
         val localPath = IMG_PATH.resolve(diskCacheKey + ".jpg")
         logger.debug("localPath={}", localPath)
@@ -71,25 +102,43 @@ object GameImages {
         //heat disk cache or load from remote
         Files.exists(localPath) match {
           //load from disk
-          case true => new Image("file:" + localPath.toString)
+          case true =>
+            val image = new Image("file:" + localPath.toString)
+            imageCache.put(memCacheKey, image)
+            onOK(image)
           //load from remote
           case false =>
             if (game.isOkState) {
               //cache to disk
               loadFromRemote(memCacheKey) { img =>
+                imageCache.put(memCacheKey, img)
+                onOK(img)
                 Files.createDirectories(localPath.getParent)
                 saveImage(img, localPath)
               }
             } else {
               //without save
-              loadFromRemote1(memCacheKey)
+              loadFromRemote(memCacheKey) { img =>
+                imageCache.put(memCacheKey, img)
+                onOK(img)
+              }
             }
         }
     }
 
-    //memCacheKey as cache key
-    imageCache.put(memCacheKey, image)
-    image
   }
 
+}
+
+class GameImages(private[this] val game: Game) {
+
+  @BeanProperty
+  var onOK: (Image) => Unit = _
+
+  def get(diskCacheKey: String, memCacheKey: String): Unit = {
+    Objects.requireNonNull(onOK, "onOK must init")
+
+    GameImages.get(game)(diskCacheKey, memCacheKey, onOK)
+
+  }
 }

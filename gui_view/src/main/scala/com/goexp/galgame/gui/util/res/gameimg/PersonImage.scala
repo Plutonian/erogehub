@@ -4,9 +4,18 @@ import com.goexp.galgame.common.website.getchu.GetchuGame
 import com.goexp.galgame.gui.model.Game
 import javafx.scene.image.Image
 
-object PersonImage {
-  def small(game: Game, index: Int, src: String): Image = {
+
+class PersonImage(private[this] val game: Game) {
+
+  private val images = GameImages(game)
+
+  def onOK(f: (Image) => Unit) = {
+    images.onOK = f
+    this
+  }
+
+  def small(index: Int, src: String) = {
     val url = GetchuGame.getUrlFromSrc(src)
-    GameImages.get(game)(s"${game.id}/char_s_$index", url)
+    images.get(s"${game.id}/char_s_$index", url)
   }
 }

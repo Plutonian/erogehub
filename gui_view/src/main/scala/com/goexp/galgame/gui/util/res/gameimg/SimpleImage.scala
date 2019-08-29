@@ -4,14 +4,21 @@ import com.goexp.galgame.common.website.getchu.GetchuGame
 import com.goexp.galgame.gui.model.Game
 import javafx.scene.image.Image
 
-object SimpleImage {
-  def small(game: Game, index: Int, src: String): Image = {
-    val url = GetchuGame.smallSimpleImg(src)
-    GameImages.get(game)(s"${game.id}/simple_s_$index", url)
+class SimpleImage(private[this] val game: Game) {
+  private val images = GameImages(game)
+
+  def onOK(f: (Image) => Unit) = {
+    images.onOK = f
+    this
   }
 
-  def large(game: Game, index: Int, src: String): Image = {
+  def small(index: Int, src: String) = {
+    val url = GetchuGame.smallSimpleImg(src)
+    images.get(s"${game.id}/simple_s_$index", url)
+  }
+
+  def large(index: Int, src: String) = {
     val url = GetchuGame.largeSimpleImg(src)
-    GameImages.get(game)(s"${game.id}/simple_l_$index", url)
+    images.get(s"${game.id}/simple_l_$index", url)
   }
 }

@@ -72,7 +72,13 @@ public class PersonCellController extends DefaultController {
 
         if (gameChar.img != null && gameChar.img.length() > 0) {
 
-            imageImg.setImage(PersonImage.small(game, gameChar.index, gameChar.img));
+
+            new PersonImage(game).onOK((img) -> {
+                imageImg.setImage(img);
+                return null;
+            }).small(gameChar.index, gameChar.img);
+
+
         } else {
             imageImg.setImage(null);
         }

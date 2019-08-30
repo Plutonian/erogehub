@@ -49,7 +49,7 @@ object GameImages {
     Objects.requireNonNull(onOK, "onOK must init")
 
 
-    def loadFromRemote(url: String)(onLoadOK: (Image) => Unit, onLoadError: () => Unit) = {
+    def loadFromRemote(url: String)(onLoadOK: (Image) => Unit, onLoadError: (String) => Unit) = {
       Objects.requireNonNull(url)
       logger.debug("Remote:{}", url)
 
@@ -68,8 +68,8 @@ object GameImages {
           }
           catch {
             case e: IOException =>
-              onLoadError()
-              e.printStackTrace()
+              onLoadError(url)
+              logger.error(e.getMessage)
           }
         }
       })
@@ -100,36 +100,35 @@ object GameImages {
         logger.trace("localPath={}", localPath)
 
         //heat disk cache or load from remote
-        Files.exists(localPath) match {
-          //load from disk
-          case true =>
-            val image = new Image("file:" + localPath.toString)
-            imageCache.put(memCacheKey, image)
-            onOK(image)
-          //load from remote
-          case false =>
-            if (game.isOkState) {
-              //cache to disk
-              loadFromRemote(memCacheKey)(
-                onLoadOK = img => {
-                  imageCache.put(memCacheKey, img)
-                  onOK(img)
+        if (Files.exists(localPath)) {
+          val image = new Image("file:" + localPath.toString)
+          imageCache.put(memCacheKey, image)
+          onOK(image)
+        } else {
+          if (game.isOkState) {
+            //cache to disk
+            loadFromRemote(memCacheKey)(
+              onLoadOK = img => {
+                imageCache.put(memCacheKey, img)
+                onOK(img)
 
-                  Files.createDirectories(localPath.getParent)
-                  saveImage(img, localPath)
-                }
-                , onLoadError = () => {
-                })
-            } else {
-              //without save
-              loadFromRemote(memCacheKey)(
-                onLoadOK = img => {
-                  imageCache.put(memCacheKey, img)
-                  onOK(img)
-                }
-                , onLoadError = () => {
-                })
-            }
+                Files.createDirectories(localPath.getParent)
+                saveImage(img, localPath)
+              }
+              , onLoadError = (url) => {
+                imageCache.remove(url)
+              })
+          } else {
+            //without save
+            loadFromRemote(memCacheKey)(
+              onLoadOK = img => {
+                imageCache.put(memCacheKey, img)
+                onOK(img)
+              }
+              , onLoadError = (url) => {
+                imageCache.remove(url)
+              })
+          }
         }
     }
 

@@ -89,7 +89,7 @@ object GameImages {
       }
     }
 
-    logger.debug("LocalKey={},memCacheKey={}", diskCacheKey, memCacheKey)
+    logger.trace("LocalKey={},memCacheKey={}", diskCacheKey, memCacheKey)
     val imageCache = AppCache.imageMemCache
     //try heat cache
 
@@ -97,7 +97,7 @@ object GameImages {
       case Some(img) => onOK(img)
       case None =>
         val localPath = IMG_PATH.resolve(diskCacheKey + ".jpg")
-        logger.debug("localPath={}", localPath)
+        logger.trace("localPath={}", localPath)
 
         //heat disk cache or load from remote
         Files.exists(localPath) match {

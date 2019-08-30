@@ -2,8 +2,9 @@ package com.goexp.galgame.data.db.importor.mongdb
 
 import com.goexp.common.db.mongo.DBOperatorTemplate
 import com.goexp.galgame.common.db.mongo.DB_NAME
+import com.goexp.galgame.common.model.GameState
 import com.goexp.galgame.data.db.query.mongdb.GameQuery
-import com.goexp.galgame.data.model.Game
+import com.goexp.galgame.data.model.{Brand, Game}
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.{combine, set}
 import org.bson.Document
@@ -83,6 +84,13 @@ object GameDB {
       documentMongoCollection.updateOne(Filters.eq(game.id), set("simpleImg", imgdocs))
     })
   }
+
+  def blockAllGame(item: Brand) =
+    tlp.exec(documentMongoCollection => {
+      documentMongoCollection.updateMany(Filters.eq("brandId", item.id), combine(
+        set("state", GameState.BLOCK.value)
+      ))
+    })
 
   def exist(id: Int): Boolean = GameQuery.fullTlp.query.where(Filters.eq(id)).exists
 

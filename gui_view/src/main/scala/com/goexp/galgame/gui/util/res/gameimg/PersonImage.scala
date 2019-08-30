@@ -6,16 +6,15 @@ import javafx.scene.image.Image
 
 
 class PersonImage(private[this] val game: Game) {
-
-  private val images = GameImages(game)
+  protected var onOKEvent: (Image) => Unit = _
 
   def onOK(f: (Image) => Unit) = {
-    images.onOK = f
+    this.onOKEvent = f
     this
   }
 
   def small(index: Int, src: String) = {
     val url = GetchuGame.getUrlFromSrc(src)
-    images.get(s"${game.id}/char_s_$index", url)
+    GameImages.get(game)(s"${game.id}/char_s_$index", url)(onOKEvent)
   }
 }

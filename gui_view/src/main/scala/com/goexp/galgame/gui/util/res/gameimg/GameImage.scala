@@ -8,26 +8,27 @@ object GameImage {
   def apply(game: Game): GameImage = new GameImage(game)
 }
 
-class GameImage(private[this] val game: Game) {
-  private val images = GameImages(game)
+class GameImage(private[this] val game: Game)  {
+
+  protected var onOKEvent: (Image) => Unit = _
 
   def onOK(f: (Image) => Unit) = {
-    images.onOK = f
+    this.onOKEvent = f
     this
   }
 
   def tiny() = {
-    images.get(s"${game.id}/game_t", game.smallImg)
+    GameImages.get(game)(s"${game.id}/game_t", game.smallImg)(onOKEvent)
   }
 
   def small() = {
     val url = GetchuGame.SmallImg(game.id)
-    images.get(s"${game.id}/game_s", url)
+    GameImages.get(game)(s"${game.id}/game_s", url)(onOKEvent)
   }
 
   def large() = {
     val url = GetchuGame.LargeImg(game.id)
-    images.get(s"${game.id}/game_l", url)
+    GameImages.get(game)(s"${game.id}/game_l", url)(onOKEvent)
   }
 
 }

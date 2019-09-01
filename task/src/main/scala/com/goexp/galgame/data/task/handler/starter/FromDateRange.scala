@@ -2,7 +2,6 @@ package com.goexp.galgame.data.task.handler.starter
 
 import java.time.LocalDate
 
-import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.piplline.core.Message
 import com.goexp.galgame.data.piplline.handler.DefaultStarter
 import com.goexp.galgame.data.task.client.GetChu.GameService
@@ -19,7 +18,7 @@ class FromDateRange(val start: LocalDate, val end: LocalDate) extends DefaultSta
 
     logger.info(s"${list.size}")
     list.foreach(game => {
-      send(Message[Game](MesType.PRE_GAME, game))
+      send(Message(MesType.PRE_GAME, game))
     })
   }
 }

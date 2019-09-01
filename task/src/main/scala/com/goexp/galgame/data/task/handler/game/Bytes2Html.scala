@@ -11,16 +11,17 @@ import org.slf4j.LoggerFactory
 /**
   * unzip  && decode
   */
-class Bytes2Html extends DefaultMessageHandler[(Int, Array[Byte])] {
+class Bytes2Html extends DefaultMessageHandler {
   final private val logger = LoggerFactory.getLogger(classOf[Bytes2Html])
 
-  override def process(message: Message[(Int, Array[Byte])]) = {
-    val (id, bytes) = message.entity
+  override def process(message: Message) = {
+    message.entity match {
+      case (id: Int, bytes: Array[Byte]) =>
+        logger.debug("<Bytes2Html> {}", id)
 
-    logger.debug("<Bytes2Html> {}", id)
+        val html = bytes.unGzip().decode(DEFAULT_CHARSET)
 
-    val html = bytes.unGzip().decode(DEFAULT_CHARSET)
-
-    send(Message[(Int, String)](MesType.ContentHtml, (id, html)))
+        send(Message(MesType.ContentHtml, (id, html)))
+    }
   }
 }

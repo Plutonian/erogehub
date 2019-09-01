@@ -1,5 +1,5 @@
 package com.goexp.galgame.data.piplline.core
 
-case class Message[T](code: Int, entity: T) {
+case class Message(code: Int, entity: Any) {
   override def toString: String = "Message{" + "code=" + code + '}'
 }

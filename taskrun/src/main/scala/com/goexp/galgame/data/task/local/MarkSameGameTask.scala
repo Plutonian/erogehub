@@ -10,8 +10,8 @@ import com.goexp.galgame.data.task.handler.MesType
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 
-import scala.jdk.CollectionConverters._
 import scala.io.{Codec, Source}
+import scala.jdk.CollectionConverters._
 
 object MarkSameGameTask {
 
@@ -28,13 +28,13 @@ object MarkSameGameTask {
       //            send(new Message<>(MesType.Brand, 10143));
       BrandQuery.tlp.query.list
         .forEach(brand => {
-          send(Message[Int](MesType.Brand, brand.id))
+          send(Message(MesType.Brand, brand.id))
 
         })
     }
   }
 
-  class ProcessBrandGame extends DefaultMessageHandler[Int] {
+  class ProcessBrandGame extends DefaultMessageHandler {
     private lazy val samelist = {
       val source = Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/same.list"))(Codec.UTF8)
       try source.getLines().toList finally source.close()
@@ -47,52 +47,56 @@ object MarkSameGameTask {
 
     private val logger = LoggerFactory.getLogger(classOf[ProcessBrandGame])
 
-    override def process(message: Message[Int]) = {
-      val brandId = message.entity
-      logger.debug("<Brand> {}", brandId)
+    override def process(message: Message) = {
+      message.entity match {
+        case brandId: Int =>
+          logger.debug("<Brand> {}", brandId)
 
-      GameQuery.fullTlp.query
-        .where(Filters.eq("brandId", brandId))
-        .list.asScala
-        .groupBy(game => {
-          if (isSameGame(game)) "same" else if (isPackageGame(game)) "package" else "other"
-        })
-        .flatMap({
-          case ("same", value) =>
-            value.to(LazyList)
-              .filter(_.state eq GameState.UNCHECKED)
-              .map(game => {
-                game.state = GameState.SAME
-                game
-              })
-          case ("package", value) =>
-            value.to(LazyList)
-              .filter(_.state eq GameState.UNCHECKED)
-              .map({ game =>
-                game.state = GameState.PACKAGE
-                game
-              })
-          case ("other", value) =>
-            value.to(LazyList)
-              .filter(_.publishDate != null)
-              .groupBy(_.publishDate)
-              .values
-              .filter(_.size > 1)
-              .flatMap(games =>
-                //games by date
+          GameQuery.fullTlp.query
+            .where(Filters.eq("brandId", brandId))
+            .list.asScala
+            .groupBy(game => {
+              if (isSameGame(game)) "same" else if (isPackageGame(game)) "package" else "other"
+            })
+            .flatMap({
+              case ("same", value) =>
+                value.to(LazyList)
+                  .filter(_.state eq GameState.UNCHECKED)
+                  .map(game => {
+                    game.state = GameState.SAME
+                    game
+                  })
+              case ("package", value) =>
+                value.to(LazyList)
+                  .filter(_.state eq GameState.UNCHECKED)
+                  .map({ game =>
+                    game.state = GameState.PACKAGE
+                    game
+                  })
+              case ("other", value) =>
+                value.to(LazyList)
+                  .filter(_.publishDate != null)
+                  .groupBy(_.publishDate)
+                  .values
+                  .filter(_.size > 1)
+                  .flatMap(games =>
+                    //games by date
 
-                games.sortBy(_.name.length).drop(1).filter(_.state eq GameState.UNCHECKED).map({ game =>
-                  game.state = GameState.SAME
-                  game
-                })
-              )
-          case _ =>
-            throw new RuntimeException("Error")
-        })
-        .foreach(game => {
-          logger.info(s"ID:${game.id} Name: ${game.name}  State: ${game.state}")
-          send(Message[Game](UPDATE_STATE, game))
-        })
+                    games.sortBy(_.name.length).drop(1).filter(_.state eq GameState.UNCHECKED).map({ game =>
+                      game.state = GameState.SAME
+                      game
+                    })
+                  )
+//              case _ =>
+//                throw new RuntimeException("Error")
+            })
+            .foreach(game => {
+              logger.info(s"ID:${game.id} Name: ${game.name}  State: ${game.state}")
+              send(Message(UPDATE_STATE, game))
+            })
+      }
+
+
     }
 
     private def isSameGame = (game: Game) => samelist.exists(str => game.name.contains(str))
@@ -100,15 +104,19 @@ object MarkSameGameTask {
     private def isPackageGame = (game: Game) =>
       Option(game.`type`).map(_.asScala).getOrElse(List.empty).contains("セット商品") ||
         packagelist.exists(str => game.name.contains(str))
+
   }
 
-  class UpdateState extends DefaultMessageHandler[Game] {
+  class UpdateState extends DefaultMessageHandler {
     private val logger = LoggerFactory.getLogger(classOf[UpdateState])
 
-    override def process(message: Message[Game]) = {
-      val game = message.entity
-      logger.debug("<Game> {}", game.id)
-      StateDB.update(game)
+    override def process(message: Message) = {
+      message.entity match {
+        case game: Game =>
+          logger.debug("<Game> {}", game.id)
+          StateDB.update(game)
+      }
+
     }
   }
 

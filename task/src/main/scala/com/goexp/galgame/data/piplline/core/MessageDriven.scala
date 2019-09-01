@@ -5,7 +5,7 @@ import scala.beans.BeanProperty
 trait MessageDriven {
 
   @BeanProperty
-  var queue: MessageQueueProxy[Message[_]] = _
+  var queue: MessageQueueProxy[Message] = _
 
-  def send(mes: Message[_]) = queue.offer(mes)
+  def send(mes: Message) = queue.offer(mes)
 }

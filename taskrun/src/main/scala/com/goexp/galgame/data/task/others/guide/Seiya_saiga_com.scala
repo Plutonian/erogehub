@@ -6,7 +6,6 @@ import java.net.http.HttpResponse.BodyHandlers.ofString
 
 import com.goexp.common.util.web.HttpUtil.httpClient
 import com.goexp.common.util.web.url._
-import com.goexp.galgame.common.model.CommonGame
 import com.goexp.galgame.common.model.CommonGame.Guide.DataFrom
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.db.query.mongdb.GuideQuery
@@ -47,7 +46,7 @@ object Seiya_saiga_com {
         logger.info(s"Insert:${insertlist.size}")
 
         insertlist.foreach(guide => {
-          send(Message[CommonGame.Guide](1, guide))
+          send(Message(1, guide))
         })
       } catch {
         case e@(_: IOException | _: InterruptedException) =>

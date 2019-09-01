@@ -4,7 +4,7 @@ import java.util.concurrent.{ArrayBlockingQueue, TimeUnit}
 
 import com.goexp.galgame.data.piplline.exception.RuntimeInterruptedException
 
-class MessageQueueProxy[T <: Message[_]](val capacity: Int) {
+class MessageQueueProxy[T <: Message](val capacity: Int) {
   private val msgQueue = new ArrayBlockingQueue[T](capacity)
 
   def offer(o: T): Boolean = try msgQueue.offer(o, 60, TimeUnit.MINUTES)

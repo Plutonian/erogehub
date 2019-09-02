@@ -3,7 +3,7 @@ package com.goexp.galgame.data.piplline.core
 import java.util.concurrent.{ExecutorService, Executors, TimeUnit}
 
 import com.goexp.galgame.data.piplline.exception.RuntimeInterruptedException
-import com.goexp.galgame.data.piplline.handler.{HandlerConfig, HandlerConfigGroup}
+import com.goexp.galgame.data.piplline.handler.HandlerConfig
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
@@ -63,11 +63,8 @@ class Piplline(private[this] val starter: Starter) {
   }
 
 
-  def regGroup(group: HandlerConfigGroup): Piplline = {
-    val i = group.configs.iterator
-    while ( {
-      i.hasNext
-    }) registry(i.next)
+  def regGroup(group: Set[HandlerConfig]): Piplline = {
+    configs.addAll(group)
     this
   }
 

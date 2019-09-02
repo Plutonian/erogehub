@@ -13,7 +13,7 @@ class Piplline(private[this] val starter: Starter) {
 
   private val logger = LoggerFactory.getLogger(classOf[Piplline])
 
-  private var msgQueueProxy = new MessageQueueProxy[Message](1000)
+  private val msgQueueProxy = new MessageQueueProxy[Message](1000)
 
 
   private val listenerExecutorService = Executors.newSingleThreadExecutor

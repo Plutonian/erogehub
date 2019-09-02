@@ -1,7 +1,6 @@
 package com.goexp.galgame.data.task.handler
 
-import com.goexp.galgame.data.piplline.core.Message
-import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler
+import com.goexp.galgame.data.piplline.core.{Message, MessageHandler}
 import com.goexp.galgame.data.task.client.GetChu.GameService.Download
 import com.goexp.galgame.data.task.handler.game.Bytes2Html
 import org.slf4j.LoggerFactory
@@ -9,7 +8,7 @@ import org.slf4j.LoggerFactory
 /**
   * Net IO
   */
-class DownloadGameHandler extends DefaultMessageHandler {
+class DownloadGameHandler extends MessageHandler {
   final private val logger = LoggerFactory.getLogger(classOf[DownloadGameHandler])
 
   override def process(message: Message) = {

@@ -8,8 +8,7 @@ import com.goexp.galgame.common.model.CommonGame
 import com.goexp.galgame.data.db.importor.mongdb.GameDB
 import com.goexp.galgame.data.db.query.mongdb.GameQuery
 import com.goexp.galgame.data.model.Game
-import com.goexp.galgame.data.piplline.core.Message
-import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler
+import com.goexp.galgame.data.piplline.core.{Message, MessageHandler}
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 
@@ -18,7 +17,7 @@ import scala.jdk.CollectionConverters._
 /**
   * process game detail(upgrade content,cv,simple img)
   */
-class ProcessGameOK extends DefaultMessageHandler {
+class ProcessGameOK extends MessageHandler {
   final private val logger = LoggerFactory.getLogger(classOf[ProcessGameOK])
 
   private def merge(local: util.List[CommonGame.GameCharacter], remote: util.List[CommonGame.GameCharacter]): util.List[CommonGame.GameCharacter] = {

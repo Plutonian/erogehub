@@ -10,8 +10,7 @@ import com.goexp.galgame.common.model.CommonGame.Guide.DataFrom
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.db.query.mongdb.GuideQuery
 import com.goexp.galgame.data.parser.GameGuideParser
-import com.goexp.galgame.data.piplline.core.{Message, Piplline}
-import com.goexp.galgame.data.piplline.handler.DefaultStarter
+import com.goexp.galgame.data.piplline.core.{Message, Piplline, Starter}
 import com.goexp.galgame.data.task.others.guide.Config.CHARSET
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
@@ -21,13 +20,13 @@ import scala.jdk.CollectionConverters._
 object Seiya_saiga_com {
   def main(args: Array[String]) = {
     Network.initProxy()
-    new Piplline(new Starter)
+    new Piplline(new AStarter)
       .regForIOType(new PageContentHandler)
       .start()
   }
 
-  private class Starter extends DefaultStarter {
-    private val logger = LoggerFactory.getLogger(classOf[Starter])
+  private class AStarter extends Starter {
+    private val logger = LoggerFactory.getLogger(classOf[AStarter])
 
     override def process() = {
       val locals = GuideQuery.tlp.query

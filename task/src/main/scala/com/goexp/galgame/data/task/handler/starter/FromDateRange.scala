@@ -2,13 +2,12 @@ package com.goexp.galgame.data.task.handler.starter
 
 import java.time.LocalDate
 
-import com.goexp.galgame.data.piplline.core.Message
-import com.goexp.galgame.data.piplline.handler.DefaultStarter
+import com.goexp.galgame.data.piplline.core.{Message, Starter}
 import com.goexp.galgame.data.task.client.GetChu.GameService
 import com.goexp.galgame.data.task.handler.PreProcessGame
 import org.slf4j.LoggerFactory
 
-class FromDateRange(val start: LocalDate, val end: LocalDate) extends DefaultStarter {
+class FromDateRange(val start: LocalDate, val end: LocalDate) extends Starter {
   private val logger = LoggerFactory.getLogger(classOf[FromDateRange])
 
   override def process() = {

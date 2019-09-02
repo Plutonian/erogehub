@@ -4,8 +4,7 @@ import com.goexp.galgame.common.model.GameState
 import com.goexp.galgame.data.db.importor.mongdb.GameDB.StateDB
 import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, GameQuery}
 import com.goexp.galgame.data.model.Game
-import com.goexp.galgame.data.piplline.core.{Message, Piplline}
-import com.goexp.galgame.data.piplline.handler.{DefaultMessageHandler, DefaultStarter}
+import com.goexp.galgame.data.piplline.core.{Message, MessageHandler, Piplline, Starter}
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 
@@ -20,7 +19,7 @@ object MarkSameGameTask {
       .regForIOType(new UpdateState)
       .start()
 
-  class FromAllBrand extends DefaultStarter {
+  class FromAllBrand extends Starter {
     override def process() = {
       BrandQuery.tlp.query.list
         .forEach(brand => {
@@ -29,7 +28,7 @@ object MarkSameGameTask {
     }
   }
 
-  class ProcessBrandGame extends DefaultMessageHandler {
+  class ProcessBrandGame extends MessageHandler {
     private lazy val samelist = {
       val source = Source.fromInputStream(classOf[ProcessBrandGame].getResourceAsStream("/same.list"))(Codec.UTF8)
       try source.getLines().toList finally source.close()
@@ -102,7 +101,7 @@ object MarkSameGameTask {
 
   }
 
-  class UpdateState extends DefaultMessageHandler {
+  class UpdateState extends MessageHandler {
     private val logger = LoggerFactory.getLogger(classOf[UpdateState])
 
     override def process(message: Message) = {

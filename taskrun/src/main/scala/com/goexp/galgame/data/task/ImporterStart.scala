@@ -2,7 +2,7 @@ package com.goexp.galgame.data.task
 
 import java.util.Objects
 
-import com.goexp.galgame.data.task.local.{CalBrandGameTask, CleanGameTask, GetTrueCVTask, GroupBrandTask}
+import com.goexp.galgame.data.task.local.{CalBrandGameTask, CleanGameTask, GetTrueCVTask, GroupBrandTask, MarkSameGameTask}
 import com.goexp.galgame.data.task.others.UpdateBrandTask
 import com.goexp.galgame.data.task.others.guide.Seiya_saiga_com
 
@@ -15,7 +15,7 @@ object ImporterStart {
       ("upgrade-guide", "Upgrade game guide", Seiya_saiga_com.main _),
       ("get-truecv", "Get real CV name", GetTrueCVTask.main _),
       ("cal-statistics", "Get statistics of brand", CalBrandGameTask.main _),
-      ("mark-same", "Mark the same game", CleanGameTask.main _),
+      ("mark-same", "Mark the same game", MarkSameGameTask.main _),
       ("group-brand", "Group brand", GroupBrandTask.main _),
       ("clean", "Clean blocked game img cache", CleanGameTask.main _)
     )

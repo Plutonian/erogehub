@@ -3,6 +3,7 @@ package com.goexp.galgame.data.task.handler
 import com.goexp.galgame.data.piplline.core.Message
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler
 import com.goexp.galgame.data.task.client.GetChu.GameService.Download
+import com.goexp.galgame.data.task.handler.game.Bytes2Html
 import org.slf4j.LoggerFactory
 
 /**
@@ -20,12 +21,12 @@ class DownloadGameHandler extends DefaultMessageHandler {
           val zipBytes = Download.getBytes(gid)
           logger.debug("Download OK:{}", gid)
 
-          send(Message(MesType.ContentBytes, (gid, zipBytes)))
+          send(Message(classOf[Bytes2Html].hashCode(), (gid, zipBytes)))
         }
         catch {
           case e: Exception =>
             logger.error("Re-down:{} IOException:{}", gid, e.getMessage)
-            send(Message(MesType.NEED_DOWN_GAME, gid))
+            send(Message(classOf[DownloadGameHandler].hashCode(), gid))
 
         }
     }

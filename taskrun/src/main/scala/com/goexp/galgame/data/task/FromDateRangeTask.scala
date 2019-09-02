@@ -6,7 +6,7 @@ import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.piplline.core.Piplline
 import com.goexp.galgame.data.task.handler.game.DefaultGameProcessGroup
 import com.goexp.galgame.data.task.handler.starter.FromDateRange
-import com.goexp.galgame.data.task.handler.{DownloadGameHandler, MesType, PreProcessGame}
+import com.goexp.galgame.data.task.handler.{DownloadGameHandler, PreProcessGame}
 
 object FromDateRangeTask {
   def main(args: Array[String]) = {
@@ -17,8 +17,8 @@ object FromDateRangeTask {
 
 
     new Piplline(new FromDateRange(start, end))
-      .regForCPUType(MesType.PRE_GAME, new PreProcessGame)
-      .regForIOType(MesType.NEED_DOWN_GAME, new DownloadGameHandler)
+      .regForCPUType(new PreProcessGame)
+      .regForIOType(new DownloadGameHandler)
       .regGroup(DefaultGameProcessGroup)
       .start()
   }

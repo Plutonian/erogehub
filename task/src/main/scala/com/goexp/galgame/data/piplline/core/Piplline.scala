@@ -27,39 +27,39 @@ class Piplline(private[this] val starter: Starter) {
   }
 
 
-  private def registry(mesType: Int, handler: MessageHandler, executor: ExecutorService): Piplline = {
-    configs.add(HandlerConfig(mesType, handler, executor))
+  private def registry(handler: MessageHandler, executor: ExecutorService): Piplline = {
+    configs.add(HandlerConfig(handler, executor))
     return this
   }
 
-  private def registry(mesType: Int, handler: MessageHandler, threadCount: Int): Piplline = {
-    configs.add(new HandlerConfig(mesType, handler, Executors.newFixedThreadPool(threadCount)))
+  private def registry(handler: MessageHandler, threadCount: Int): Piplline = {
+    configs.add(new HandlerConfig(handler, Executors.newFixedThreadPool(threadCount)))
     return this
   }
 
 
-  def regForCPUType(mesCode: Int, handler: MessageHandler): Piplline = {
-    return registry(mesCode, handler, Runtime.getRuntime.availableProcessors)
+  def regForCPUType(handler: MessageHandler): Piplline = {
+    return registry(handler, Runtime.getRuntime.availableProcessors)
   }
 
-  def regForCPUType(mesCode: Int, handler: MessageHandler, threadCount: Int): Piplline = {
-    return registry(mesCode, handler, threadCount)
+  def regForCPUType(handler: MessageHandler, threadCount: Int): Piplline = {
+    return registry(handler, threadCount)
   }
 
-  def regForCPUType(mesCode: Int, handler: MessageHandler, executor: ExecutorService): Piplline = {
-    return registry(mesCode, handler, executor)
+  def regForCPUType(handler: MessageHandler, executor: ExecutorService): Piplline = {
+    return registry(handler, executor)
   }
 
-  def regForIOType(mesCode: Int, handler: MessageHandler): Piplline = {
-    return registry(mesCode, handler, 30)
+  def regForIOType(handler: MessageHandler): Piplline = {
+    return registry(handler, 30)
   }
 
-  def regForIOType(mesCode: Int, handler: MessageHandler, threadCount: Int): Piplline = {
-    return registry(mesCode, handler, threadCount)
+  def regForIOType(handler: MessageHandler, threadCount: Int): Piplline = {
+    return registry(handler, threadCount)
   }
 
-  def regForIOType(mesCode: Int, handler: MessageHandler, executor: ExecutorService): Piplline = {
-    return registry(mesCode, handler, executor)
+  def regForIOType(handler: MessageHandler, executor: ExecutorService): Piplline = {
+    return registry(handler, executor)
   }
 
 
@@ -75,7 +75,7 @@ class Piplline(private[this] val starter: Starter) {
         c.handler.setQueue(msgQueueProxy)
         c
       })
-      .groupBy(_.mesCode)
+      .groupBy(_.handler.getClass.hashCode())
     //      .collect(Collectors.groupingBy(HandlerConfig.mesCode))
     //start message driven
     listenerExecutorService.execute(() => {

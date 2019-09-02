@@ -6,7 +6,6 @@ import com.goexp.galgame.data.parser.ParseException
 import com.goexp.galgame.data.parser.game.DetailPageParser
 import com.goexp.galgame.data.piplline.core.Message
 import com.goexp.galgame.data.piplline.handler.DefaultMessageHandler
-import com.goexp.galgame.data.task.handler.MesType
 import org.slf4j.LoggerFactory
 
 /**
@@ -27,7 +26,7 @@ class Html2GameOK extends DefaultMessageHandler {
 
           val parser = new DetailPageParser
           val game = parser.parse(gameId, html)
-          send(Message(MesType.GAME_OK, game))
+          send(Message(classOf[ProcessGameOK].hashCode(), game))
         } catch {
           case e: ParseException =>
             e.printStackTrace()

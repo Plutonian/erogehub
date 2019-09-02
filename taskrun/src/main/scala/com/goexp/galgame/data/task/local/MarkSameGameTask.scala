@@ -6,7 +6,6 @@ import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, GameQuery}
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.piplline.core.{Message, Piplline}
 import com.goexp.galgame.data.piplline.handler.{DefaultMessageHandler, DefaultStarter}
-import com.goexp.galgame.data.task.handler.MesType
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 
@@ -15,21 +14,17 @@ import scala.jdk.CollectionConverters._
 
 object MarkSameGameTask {
 
-  val UPDATE_STATE = 8
-
   def main(args: Array[String]) =
     new Piplline(new FromAllBrand)
-      .regForCPUType(MesType.Brand, new ProcessBrandGame)
-      .regForIOType(UPDATE_STATE, new UpdateState)
+      .regForCPUType(new ProcessBrandGame)
+      .regForIOType(new UpdateState)
       .start()
 
   class FromAllBrand extends DefaultStarter {
     override def process() = {
-      //            send(new Message<>(MesType.Brand, 10143));
       BrandQuery.tlp.query.list
         .forEach(brand => {
-          send(Message(MesType.Brand, brand.id))
-
+          send(Message(classOf[ProcessBrandGame].hashCode(), brand.id))
         })
     }
   }
@@ -87,12 +82,12 @@ object MarkSameGameTask {
                       game
                     })
                   )
-//              case _ =>
-//                throw new RuntimeException("Error")
+              //              case _ =>
+              //                throw new RuntimeException("Error")
             })
             .foreach(game => {
               logger.info(s"ID:${game.id} Name: ${game.name}  State: ${game.state}")
-              send(Message(UPDATE_STATE, game))
+              send(Message(classOf[UpdateState].hashCode(), game))
             })
       }
 

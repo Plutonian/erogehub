@@ -6,7 +6,6 @@ import java.net.http.HttpResponse.BodyHandlers.ofString
 
 import com.goexp.common.util.web.HttpUtil.noneProxyHttpClient
 import com.goexp.common.util.web.url._
-import com.goexp.galgame.common.model.CommonGame
 import com.goexp.galgame.common.model.CommonGame.Guide.DataFrom
 import com.goexp.galgame.data.db.query.mongdb.GuideQuery
 import com.goexp.galgame.data.parser.GameGuideParser
@@ -21,7 +20,7 @@ import scala.jdk.CollectionConverters._
 object Sagaoz_net {
   def main(args: Array[String]) =
     new Piplline(new Starter)
-      .regForIOType(1, new PageContentHandler)
+      .regForIOType(new PageContentHandler)
       .start()
 
   private class Starter extends DefaultStarter {
@@ -47,7 +46,7 @@ object Sagaoz_net {
 
         logger.info(s"Insert:${insertlist.size}")
         insertlist.foreach(guide => {
-          send(Message(1, guide))
+          send(Message(classOf[PageContentHandler].hashCode(), guide))
         })
       } catch {
         case e@(_: IOException | _: InterruptedException) =>

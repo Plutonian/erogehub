@@ -22,7 +22,7 @@ object Seiya_saiga_com {
   def main(args: Array[String]) = {
     Network.initProxy()
     new Piplline(new Starter)
-      .regForIOType(1, new PageContentHandler)
+      .regForIOType(new PageContentHandler)
       .start()
   }
 
@@ -46,7 +46,7 @@ object Seiya_saiga_com {
         logger.info(s"Insert:${insertlist.size}")
 
         insertlist.foreach(guide => {
-          send(Message(1, guide))
+          send(Message(classOf[PageContentHandler].hashCode(), guide))
         })
       } catch {
         case e@(_: IOException | _: InterruptedException) =>

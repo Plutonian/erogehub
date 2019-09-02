@@ -32,7 +32,7 @@ class PreProcessGame extends DefaultMessageHandler {
           logger.info("<Insert> {}", game.simpleView)
           GameDB.insert(game)
         }
-        send(Message(MesType.NEED_DOWN_GAME, game.id))
+        send(Message(classOf[DownloadGameHandler].hashCode(), game.id))
     }
   }
 }

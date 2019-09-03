@@ -1,5 +1,6 @@
 package com.goexp.galgame.common.model
 
+import java.time.LocalDate
 import java.util
 import java.util.StringJoiner
 
@@ -18,6 +19,13 @@ class CV {
 
   @BeanProperty
   var trueName: String = _
+
+  @BeanProperty
+  var start:LocalDate=_
+  @BeanProperty
+  var end:LocalDate=_
+  @BeanProperty
+  var size:Int=_
 
   @BeanProperty
   var tag: util.List[String] = _

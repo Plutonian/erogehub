@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class CVInfoController extends DefaultController {
@@ -34,6 +35,9 @@ public class CVInfoController extends DefaultController {
     public TableColumn<CV, String> colName;
     public TableColumn<CV, Integer> colStar;
     public TableColumn<CV, List<String>> colTag;
+    public TableColumn<CV, LocalDate> colStart;
+    public TableColumn<CV, LocalDate> colEnd;
+    public TableColumn<CV, Integer> colSize;
 
 
     @FXML
@@ -49,6 +53,10 @@ public class CVInfoController extends DefaultController {
 
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colStar.setCellValueFactory(new PropertyValueFactory<>("star"));
+        colStart.setCellValueFactory(new PropertyValueFactory<>("start"));
+        colEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
+        colSize.setCellValueFactory(new PropertyValueFactory<>("size"));
+
         colTag.setCellValueFactory(new PropertyValueFactory<>("tag"));
 
         colStar.setCellFactory(col -> {
@@ -93,6 +101,33 @@ public class CVInfoController extends DefaultController {
                 }
             }
         });
+
+        colStart.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+
+                this.setText(null);
+                this.setGraphic(null);
+
+                if (item != null && !empty)
+                    this.setText(String.valueOf(item.getYear()));
+            }
+        });
+
+        colEnd.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+
+                this.setText(null);
+                this.setGraphic(null);
+
+                if (item != null && !empty)
+                    this.setText(String.valueOf(item.getYear()));
+            }
+        });
+
 
 
         colTag.setCellFactory(col -> {

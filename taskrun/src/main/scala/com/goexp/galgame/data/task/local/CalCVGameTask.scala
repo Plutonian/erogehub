@@ -1,8 +1,8 @@
 package com.goexp.galgame.data.task.local
 
-import com.goexp.galgame.common.model.{BrandType, GameState}
-import com.goexp.galgame.data.db.importor.mongdb.{BrandDB, CVDB}
-import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, CVQuery, GameQuery}
+import com.goexp.galgame.common.model.GameState
+import com.goexp.galgame.data.db.importor.mongdb.CVDB
+import com.goexp.galgame.data.db.query.mongdb.{CVQuery, GameQuery}
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 
@@ -21,7 +21,12 @@ object CalCVGameTask {
       .list.asScala.to(LazyList)
       .foreach(cv => {
         val games = GameQuery.simpleTlp.query
-          .where(Filters.and(Filters.eq("gamechar.truecv", cv.name), Filters.ne("state", GameState.SAME.value)))
+          .where(
+            Filters.and(
+              Filters.eq("gamechar.truecv", cv.name),
+              Filters.ne("state", GameState.SAME.value),
+              Filters.ne("state", GameState.BLOCK.value))
+          )
           .list
 
         val start = games.asScala.to(LazyList)

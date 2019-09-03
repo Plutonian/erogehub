@@ -14,6 +14,7 @@ object CVCreator extends ObjectCreator[CV] {
     logger.debug("<create> doc={}", doc)
 
     val cv = new CV
+    cv.id = doc.getInteger("_id")
     cv.name = doc.getString("name")
     cv.star = doc.getInteger("star")
     cv.tag = doc.get("tag", classOf[List[String]])

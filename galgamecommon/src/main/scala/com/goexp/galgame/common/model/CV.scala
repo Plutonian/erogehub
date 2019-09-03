@@ -6,12 +6,15 @@ import java.util.StringJoiner
 import scala.beans.BeanProperty
 
 class CV {
+
+  var id: Int = _
+
   @BeanProperty
   var name: String = _
   var nameStr: String = _
 
   @BeanProperty
-  var star:Int = _
+  var star: Int = _
 
   @BeanProperty
   var trueName: String = _

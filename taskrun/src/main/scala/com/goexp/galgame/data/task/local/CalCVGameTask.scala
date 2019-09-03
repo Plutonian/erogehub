@@ -1,6 +1,5 @@
 package com.goexp.galgame.data.task.local
 
-import com.goexp.galgame.common.model.GameState
 import com.goexp.galgame.data.db.importor.mongdb.CVDB
 import com.goexp.galgame.data.db.query.mongdb.{CVQuery, GameQuery}
 import com.mongodb.client.model.Filters
@@ -23,9 +22,10 @@ object CalCVGameTask {
         val games = GameQuery.simpleTlp.query
           .where(
             Filters.and(
-              Filters.eq("gamechar.truecv", cv.name),
-              Filters.ne("state", GameState.SAME.value),
-              Filters.ne("state", GameState.BLOCK.value))
+              Filters.eq("gamechar.truecv", cv.name) //,
+              //              Filters.ne("state", GameState.SAME.value),
+              //              Filters.ne("state", GameState.BLOCK.value)
+            )
           )
           .list
 

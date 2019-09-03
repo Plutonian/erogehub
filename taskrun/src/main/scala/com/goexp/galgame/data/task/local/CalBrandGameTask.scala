@@ -24,9 +24,9 @@ object CalBrandGameTask {
         val games = GameQuery.simpleTlp.query
           .where(
             Filters.and(
-              Filters.eq("brandId", b.id),
-              Filters.ne("state", GameState.SAME.value),
-              Filters.ne("state", GameState.BLOCK.value)
+              Filters.eq("brandId", b.id)//,
+//              Filters.ne("state", GameState.SAME.value),
+//              Filters.ne("state", GameState.BLOCK.value)
             )
           )
           .list

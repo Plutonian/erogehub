@@ -5,9 +5,9 @@
 <StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/"
            fx:controller="com.goexp.galgame.gui.view.MainController">
     <stylesheets>
-        <URL value="@view/view.css"/>
+        <URL value="@/view/view.css"/>
     </stylesheets>
     <children>
-        <fx:include fx:id="home" source="view/home.fxml"/>
+        <fx:include fx:id="home" source="view/game/home.fxml"/>
     </children>
 </StackPane>

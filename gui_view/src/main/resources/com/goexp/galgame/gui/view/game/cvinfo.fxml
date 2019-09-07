@@ -4,7 +4,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane styleClass="back" stylesheets="@../view.css" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.CVInfoController">
+<BorderPane styleClass="back" stylesheets="@/view/view.css" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.CVInfoController">
    <center>
       <TableView fx:id="tableCV" prefHeight="651.0" prefWidth="1120.0" BorderPane.alignment="CENTER">
         <columns>

@@ -25,6 +25,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,10 +33,10 @@ public class HomeController extends DefaultController {
 
 
     private static final String GAME_DETAIL_NAV_PAGE_FXML = "view/game/detail/out_page.fxml";
-    private static final String SEARCH_TYPE_FXML = "view/search/type.fxml";
+    private static final URL SEARCH_TYPE_FXML = TagController.class.getResource("tag.fxml");
     private static final String BRAND_PANEL_FXML = "view/brand/panel.fxml";
-    private static final String SEARCH_FXML = "view/search/search.fxml";
-    private static final String CVINFO_FXML = "view/search/cvinfo.fxml";
+    private static final URL SEARCH_FXML = SearchController.class.getResource("search.fxml");
+    private static final URL CVINFO_FXML = CVInfoController.class.getResource("cvinfo.fxml");
 
 
     public static HomeController $this;
@@ -326,7 +327,7 @@ public class HomeController extends DefaultController {
     private void linkTags_OnAction(ActionEvent actionEvent) throws IOException {
 
         TabSelect.from().ifNotFind(() -> {
-            var loader = new FXMLLoaderProxy<Region, TagExplorerController>(SEARCH_TYPE_FXML);
+            var loader = new FXMLLoaderProxy<Region, TagController>(SEARCH_TYPE_FXML);
 
             var tab = new Tab("Tags", loader.node);
             loader.controller.load();

@@ -21,7 +21,7 @@ import javafx.scene.layout.FlowPane;
 
 import java.util.stream.Collectors;
 
-public class TagExplorerController extends DefaultController {
+public class TagController extends DefaultController {
 
 
     public BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);

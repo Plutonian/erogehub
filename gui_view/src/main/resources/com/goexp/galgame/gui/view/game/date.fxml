@@ -8,7 +8,7 @@
             text="Date" xmlns="http://javafx.com/javafx"
             fx:controller="com.goexp.galgame.gui.view.game.DateController">
     <stylesheets>
-        <URL value="@../view.css"/>
+        <URL value="@/view/view.css"/>
     </stylesheets>
     <content>
         <HBox spacing="10">

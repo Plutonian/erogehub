@@ -25,7 +25,7 @@ class HGameApp extends Application {
   }
 
   override def start(primaryStage: Stage): Unit = {
-    val proxy = new FXMLLoaderProxy[Parent, MainController]("HGame.fxml")
+    val proxy = new FXMLLoaderProxy[Parent, MainController](getClass.getResource("HGameApp.fxml"))
     primaryStage.setTitle("エロゲ まとめ")
     primaryStage.setWidth(1400)
     primaryStage.setMinWidth(1200)

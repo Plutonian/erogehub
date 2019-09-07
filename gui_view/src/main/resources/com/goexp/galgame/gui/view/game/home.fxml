@@ -10,7 +10,7 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx"
             fx:controller="com.goexp.galgame.gui.view.game.HomeController">
     <stylesheets>
-        <URL value="@view.css"/>
+        <URL value="@/view/view.css"/>
     </stylesheets>
     <center>
         <StackPane>
@@ -45,7 +45,7 @@
 
                 </center>
                 <bottom>
-                    <fx:include fx:id="date" source="search/date.fxml"/>
+                    <fx:include fx:id="date" source="date.fxml"/>
                 </bottom>
             </BorderPane>
         </StackPane>

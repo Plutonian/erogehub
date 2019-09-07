@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            style="-fx-background-color:#ddd"
+            fx:controller="com.goexp.galgame.gui.view.game.detailview.outer.ControllBarController">
+    <stylesheets>
+        <URL value="@/view/view.css"/>
+    </stylesheets>
+    <center>
+        <AnchorPane>
+            <HBox AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+                <fx:include fx:id="webjump" source="../../../common/jump/jumplink.fxml"/>
+                <fx:include fx:id="changeState" source="../../part/statechange.fxml"/>
+            </HBox>
+        </AnchorPane>
+    </center>
+
+    <padding>
+        <Insets left="5.0" right="5.0"/>
+    </padding>
+</BorderPane>

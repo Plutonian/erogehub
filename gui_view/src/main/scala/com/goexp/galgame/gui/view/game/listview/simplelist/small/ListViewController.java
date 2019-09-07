@@ -8,9 +8,12 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 
+import java.net.URL;
+
 
 public class ListViewController extends DefaultController {
 
+    private static final URL VIEW_GAME_LISTVIEW_SMALL_HEADER_FXML = HeaderController.class.getResource("header.fxml");
     @FXML
     private ListView<Game> smallListSimple;
 
@@ -18,7 +21,7 @@ public class ListViewController extends DefaultController {
 
         smallListSimple.setCellFactory(listView -> {
 
-            final var loader = new FXMLLoaderProxy<Region, HeaderController>("view/game/listview/small/header.fxml");
+            final var loader = new FXMLLoaderProxy<Region, HeaderController>(VIEW_GAME_LISTVIEW_SMALL_HEADER_FXML);
 
             return new ListCell<>() {
 

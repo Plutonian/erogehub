@@ -20,6 +20,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -28,6 +29,8 @@ import java.util.stream.Stream;
 
 public class TreeTableController extends DefaultController {
 
+    private static final URL VIEW_BRAND_BRANDJUMP_FXML = JumpBrandController.class.getResource("jumpbrand.fxml");
+    private static final URL VIEW_JUMP_WEBSITEJUMP_FXML = JumpLinkController.class.getResource("jumplink.fxml");
     @FXML
     public TreeTableView<Game> table;
     @FXML
@@ -175,7 +178,7 @@ public class TreeTableController extends DefaultController {
 
         tableColBrand.setCellFactory(col -> {
 
-            final var loader = new FXMLLoaderProxy<Region, JumpBrandController>("view/brand/brandjump.fxml");
+            final var loader = new FXMLLoaderProxy<Region, JumpBrandController>(VIEW_BRAND_BRANDJUMP_FXML);
 
             return new TreeTableCell<>() {
                 @Override
@@ -216,7 +219,7 @@ public class TreeTableController extends DefaultController {
 
         tableColCommand.setCellFactory(col -> {
 
-            final var loader = new FXMLLoaderProxy<Region, JumpLinkController>("view/jump/websitejump.fxml");
+            final var loader = new FXMLLoaderProxy<Region, JumpLinkController>(VIEW_JUMP_WEBSITEJUMP_FXML);
 
             return new TreeTableCell<>() {
                 protected void updateItem(String item, boolean empty) {

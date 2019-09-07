@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane style="-fx-background-color:#FFF" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.detailview.outer.OutPageController">
+
+    <stylesheets>
+        <URL value="@/view/view.css" />
+    </stylesheets>
+    <top>
+        <fx:include  fx:id="top" source="top.fxml"/>
+    </top>
+    <center>
+        <StackPane>
+<!--            <ImageView fx:id="imgBackground" scaleX="5.0" scaleY="5.0">-->
+<!--            <effect>-->
+<!--               <GaussianBlur radius="20.0" />-->
+<!--            </effect>-->
+<!--            </ImageView>-->
+            <fx:include fx:id="innerPage" source="../inner/innerpage.fxml" />
+        </StackPane>
+    </center>
+    <bottom>
+        <fx:include  fx:id="header" source="controll_bar.fxml"/>
+    </bottom>
+
+</BorderPane>

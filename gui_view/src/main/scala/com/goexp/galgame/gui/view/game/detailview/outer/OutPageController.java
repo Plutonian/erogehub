@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game.detailview.outer;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.res.gameimg.GameImage;
 import com.goexp.galgame.gui.view.DefaultController;
-import com.goexp.galgame.gui.view.game.detailview.inner.ContentViewController;
+import com.goexp.galgame.gui.view.game.detailview.inner.InnerPageController;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 
@@ -11,7 +11,7 @@ import javafx.scene.image.ImageView;
 public class OutPageController extends DefaultController {
 
     @FXML
-    public ContentViewController innerPageController;
+    public InnerPageController innerPageController;
 
     @FXML
     public ControllBarController headerController;

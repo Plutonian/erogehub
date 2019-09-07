@@ -9,6 +9,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.layout.Region;
 
+import java.net.URL;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -18,6 +19,7 @@ public class CommonTabController {
     public DataViewController controller;
 
     private Service<ObservableList<Game>> gameSearchService;
+    private URL resource = DataViewController.class.getResource("dataview.fxml");
 
 
     public CommonTabController(Supplier<Task<ObservableList<Game>>> task) {
@@ -34,7 +36,7 @@ public class CommonTabController {
 
     private void init() {
 
-        final var loader = new FXMLLoaderProxy<Region, DataViewController>("view/game/dataview.fxml");
+        final var loader = new FXMLLoaderProxy<Region, DataViewController>(resource);
         node = loader.node;
         controller = loader.controller;
 

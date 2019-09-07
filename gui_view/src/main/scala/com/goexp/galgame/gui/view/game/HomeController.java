@@ -11,6 +11,7 @@ import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.brand.CommonInfoTabController;
 import com.goexp.galgame.gui.view.brand.MainPanelController;
 import com.goexp.galgame.gui.view.game.detailview.outer.OutPageController;
+import com.goexp.galgame.gui.view.guide.SearchGuideController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -32,11 +33,12 @@ import java.util.stream.Collectors;
 public class HomeController extends DefaultController {
 
 
-    private static final String GAME_DETAIL_NAV_PAGE_FXML = "view/game/detail/out_page.fxml";
+    private static final URL GAME_DETAIL_NAV_PAGE_FXML = OutPageController.class.getResource("out_page.fxml");
     private static final URL SEARCH_TYPE_FXML = TagController.class.getResource("tag.fxml");
-    private static final String BRAND_PANEL_FXML = "view/brand/panel.fxml";
+    private static final URL BRAND_PANEL_FXML = MainPanelController.class.getResource("mainpanel.fxml");
     private static final URL SEARCH_FXML = SearchController.class.getResource("search.fxml");
     private static final URL CVINFO_FXML = CVInfoController.class.getResource("cvinfo.fxml");
+    private static final URL VIEW_GUIDE_PANEL_FXML = SearchGuideController.class.getResource("searchguide.fxml");
 
 
     public static HomeController $this;
@@ -267,7 +269,7 @@ public class HomeController extends DefaultController {
         final var title = "攻略:" + name;
 
         TabSelect.from().ifNotFind(() -> {
-            final var loader = new FXMLLoaderProxy<Region, com.goexp.galgame.gui.view.guide.SearchController>("view/guide/panel.fxml");
+            final var loader = new FXMLLoaderProxy<Region, SearchGuideController>(VIEW_GUIDE_PANEL_FXML);
 
             var tab = new Tab(title, loader.node);
             loader.controller.load(name);

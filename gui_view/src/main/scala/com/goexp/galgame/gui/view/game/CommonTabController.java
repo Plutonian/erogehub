@@ -19,7 +19,7 @@ public class CommonTabController {
     public DataViewController controller;
 
     private Service<ObservableList<Game>> gameSearchService;
-    private URL resource = DataViewController.class.getResource("dataview.fxml");
+    private static URL resource = DataViewController.class.getResource("dataview.fxml");
 
 
     public CommonTabController(Supplier<Task<ObservableList<Game>>> task) {

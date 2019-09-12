@@ -23,13 +23,11 @@ object GameImages {
   private val logger = LoggerFactory.getLogger(this.getClass)
 
   // thread pool
-  val executers = Executors.newFixedThreadPool(30, new ThreadFactory {
-    override def newThread(r: Runnable): Thread = {
-      val thread = new Thread(r)
-      thread.setPriority(Thread.MIN_PRIORITY)
-      thread.setDaemon(true)
-      thread
-    }
+  val executers = Executors.newFixedThreadPool(30, (r: Runnable) => {
+    val thread = new Thread(r)
+    thread.setPriority(Thread.MIN_PRIORITY)
+    thread.setDaemon(true)
+    thread
   })
 
   def loadFrom(url: String): Array[Byte] = {

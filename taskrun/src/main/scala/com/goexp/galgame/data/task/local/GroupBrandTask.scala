@@ -63,14 +63,13 @@ object GroupBrandTask extends App {
 
 }
 
-object GetRemove {
-  def main(args: Array[String]) =
+object GetRemove extends App {
 
-    BrandQuery.tlp.query.list.asScala.to(LazyList)
-      .filter(b => Strings.isNotEmpty(b.website))
-      .flatMap(b => getHost(b.website).split(raw"\.").to(LazyList).drop(1))
-      .filter(!_.isEmpty)
-      .distinct
-      .sortBy(_.length)
-      .foreach(k => println(s"'$k',"))
+  BrandQuery.tlp.query.list.asScala.to(LazyList)
+    .filter(b => Strings.isNotEmpty(b.website))
+    .flatMap(b => getHost(b.website).split(raw"\.").to(LazyList).drop(1))
+    .filter(!_.isEmpty)
+    .distinct
+    .sortBy(_.length)
+    .foreach(k => println(s"'$k',"))
 }

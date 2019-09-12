@@ -9,7 +9,7 @@ import com.goexp.common.util.web.url._
 import com.goexp.galgame.common.model.CommonGame.Guide.DataFrom
 import com.goexp.galgame.data.db.query.mongdb.GuideQuery
 import com.goexp.galgame.data.parser.GameGuideParser
-import com.goexp.galgame.data.piplline.core.{Message, Piplline, Starter}
+import com.goexp.galgame.data.piplline.core.{Message, Pipeline, Starter}
 import com.goexp.galgame.data.task.others.guide.Config.CHARSET
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
@@ -18,7 +18,7 @@ import scala.jdk.CollectionConverters._
 
 object Sagaoz_net {
   def main(args: Array[String]) =
-    new Piplline(new AStarter)
+    new Pipeline(new AStarter)
       .regForIOType(new PageContentHandler)
       .start()
 

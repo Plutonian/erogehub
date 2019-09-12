@@ -8,10 +8,10 @@ import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
 
-class Piplline(private[this] val starter: Starter) {
+class Pipeline(private[this] val starter: Starter) {
 
 
-  private val logger = LoggerFactory.getLogger(classOf[Piplline])
+  private val logger = LoggerFactory.getLogger(classOf[Pipeline])
 
   private val msgQueueProxy = new MessageQueueProxy[Message](1000)
 
@@ -21,49 +21,49 @@ class Piplline(private[this] val starter: Starter) {
   private val configs = mutable.Set[HandlerConfig]()
 
 
-  def registry(config: HandlerConfig): Piplline = {
+  def registry(config: HandlerConfig): Pipeline = {
     configs.add(config)
     return this
   }
 
 
-  private def registry(handler: MessageHandler, executor: ExecutorService): Piplline = {
+  private def registry(handler: MessageHandler, executor: ExecutorService): Pipeline = {
     configs.add(HandlerConfig(handler, executor))
     return this
   }
 
-  private def registry(handler: MessageHandler, threadCount: Int): Piplline = {
+  private def registry(handler: MessageHandler, threadCount: Int): Pipeline = {
     configs.add(new HandlerConfig(handler, Executors.newFixedThreadPool(threadCount)))
     return this
   }
 
 
-  def regForCPUType(handler: MessageHandler): Piplline = {
+  def regForCPUType(handler: MessageHandler): Pipeline = {
     return registry(handler, Runtime.getRuntime.availableProcessors)
   }
 
-  def regForCPUType(handler: MessageHandler, threadCount: Int): Piplline = {
+  def regForCPUType(handler: MessageHandler, threadCount: Int): Pipeline = {
     return registry(handler, threadCount)
   }
 
-  def regForCPUType(handler: MessageHandler, executor: ExecutorService): Piplline = {
+  def regForCPUType(handler: MessageHandler, executor: ExecutorService): Pipeline = {
     return registry(handler, executor)
   }
 
-  def regForIOType(handler: MessageHandler): Piplline = {
+  def regForIOType(handler: MessageHandler): Pipeline = {
     return registry(handler, 30)
   }
 
-  def regForIOType(handler: MessageHandler, threadCount: Int): Piplline = {
+  def regForIOType(handler: MessageHandler, threadCount: Int): Pipeline = {
     return registry(handler, threadCount)
   }
 
-  def regForIOType(handler: MessageHandler, executor: ExecutorService): Piplline = {
+  def regForIOType(handler: MessageHandler, executor: ExecutorService): Pipeline = {
     return registry(handler, executor)
   }
 
 
-  def regGroup(group: Set[HandlerConfig]): Piplline = {
+  def regGroup(group: Set[HandlerConfig]): Pipeline = {
     configs.addAll(group)
     this
   }

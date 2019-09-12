@@ -4,7 +4,7 @@ import com.goexp.galgame.common.model.GameState
 import com.goexp.galgame.data.db.importor.mongdb.GameDB.StateDB
 import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, GameQuery}
 import com.goexp.galgame.data.model.Game
-import com.goexp.galgame.data.piplline.core.{Message, MessageHandler, Piplline, Starter}
+import com.goexp.galgame.data.piplline.core.{Message, MessageHandler, Pipeline, Starter}
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 
@@ -14,7 +14,7 @@ import scala.jdk.CollectionConverters._
 object MarkSameGameTask {
 
   def main(args: Array[String]) =
-    new Piplline(new FromAllBrand)
+    new Pipeline(new FromAllBrand)
       .regForCPUType(new ProcessBrandGame)
       .regForIOType(new UpdateState)
       .start()

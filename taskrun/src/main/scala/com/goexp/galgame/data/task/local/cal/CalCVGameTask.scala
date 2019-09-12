@@ -4,6 +4,7 @@ import java.time.LocalDate
 
 import com.goexp.galgame.data.db.importor.mongdb.CVDB
 import com.goexp.galgame.data.db.query.mongdb.{CVQuery, GameQuery}
+import com.goexp.galgame.data.task.ansyn.Pool._
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 

@@ -5,6 +5,7 @@ import java.time.LocalDate
 import com.goexp.galgame.common.model.BrandType
 import com.goexp.galgame.data.db.importor.mongdb.BrandDB
 import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, GameQuery}
+import com.goexp.galgame.data.task.ansyn.Pool._
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 

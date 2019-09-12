@@ -3,9 +3,12 @@ package com.goexp.galgame.data.task.local
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.data.db.importor.mongdb.BrandDB
 import com.goexp.galgame.data.db.query.mongdb.BrandQuery
+import com.goexp.galgame.data.task.ansyn.Pool._
 import com.goexp.galgame.data.task.local.GroupBrandTask.Extracker.getHost
 import org.slf4j.LoggerFactory
 
+import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
 import scala.jdk.CollectionConverters._
 
 object GroupBrandTask extends App {
@@ -21,7 +24,13 @@ object GroupBrandTask extends App {
         if (Strings.isEmpty(b.comp)) {
           logger.info(s"Raw:${b.comp} New:$comp")
           b.comp = comp
-          BrandDB.updateComp(b)
+          val f = Future {
+            BrandDB.updateComp(b)
+
+          }(ioPool)
+
+          Await.result(f, 10.minutes)
+
         }
       })
     })

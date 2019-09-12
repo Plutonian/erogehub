@@ -69,20 +69,6 @@ object GameImages {
       }
     }
 
-    //    def saveImage(image: Image, path: Path): Unit = {
-    //      Objects.requireNonNull(image)
-    //      Objects.requireNonNull(path)
-    //      val bufferImage = SwingFXUtils.fromFXImage(image, null)
-    //      if (bufferImage == null) return
-    //      try
-    //        ImageIO.write(bufferImage, "jpg", path.toFile)
-    //      catch {
-    //        case e: IOException =>
-    //          println(game)
-    //          e.printStackTrace()
-    //      }
-    //    }
-
     logger.trace("LocalKey={},memCacheKey={}", diskCacheKey, memCacheKey)
     val imageCache = AppCache.imageMemCache
     //try heat cache

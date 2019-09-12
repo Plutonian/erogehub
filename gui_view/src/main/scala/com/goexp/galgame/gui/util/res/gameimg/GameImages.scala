@@ -53,9 +53,6 @@ object GameImages {
       Objects.requireNonNull(url)
       logger.debug("Remote:{}", url)
 
-      //placeholder
-      AppCache.imageMemCache.put(memCacheKey, new WritableImage(1, 1))
-
       executers.submit(new Runnable {
         override def run(): Unit = {
 
@@ -73,6 +70,7 @@ object GameImages {
           }
         }
       })
+
     }
 
     def saveImage(image: Image, path: Path): Unit = {
@@ -105,6 +103,9 @@ object GameImages {
           imageCache.put(memCacheKey, image)
           onOK(image)
         } else {
+          //placeholder
+          AppCache.imageMemCache.put(memCacheKey, new WritableImage(1, 1))
+
           if (game.isOkState) {
             //cache to disk
             loadFromRemote(memCacheKey)(

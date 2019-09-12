@@ -16,6 +16,9 @@ import javafx.application.Platform
 import javafx.scene.image.{Image, WritableImage}
 import org.slf4j.LoggerFactory
 
+import scala.concurrent.{ExecutionContext, Future}
+import scala.util.Failure
+
 object GameImages {
   private val logger = LoggerFactory.getLogger(this.getClass)
 
@@ -29,7 +32,7 @@ object GameImages {
     }
   })
 
-  def load(url: String): Array[Byte] = {
+  def loadFrom(url: String): Array[Byte] = {
 
     val request: HttpRequest = HttpRequest.newBuilder.uri(url)
       .header("Cookie", "getchu_adalt_flag=getchu.com")
@@ -99,38 +102,35 @@ object GameImages {
           //placeholder
           AppCache.imageMemCache.put(memCacheKey, new WritableImage(1, 1))
 
-          //load remote
-          executers.submit(new Runnable {
-            override def run(): Unit = {
 
-              try {
-                val bytes = load(memCacheKey)
+          implicit val executor = ExecutionContext.fromExecutor(executers)
 
-                val img = new Image(new ByteArrayInputStream(bytes))
+          Future {
+            loadFrom(memCacheKey)
+          }
+            .map(bytes => {
+              val img = new Image(new ByteArrayInputStream(bytes))
+              Platform.runLater(() => {
+                imageCache.put(memCacheKey, img)
+                onOK(img)
+              })
+
+              if (game.isOkState) {
+                //Save anys
+                Future {
+                  Files.createDirectories(localPath.getParent)
+                  saveImage(bytes, localPath)
+
+                }
+              }
+            })
+            .onComplete {
+              case Failure(e) =>
                 Platform.runLater(() => {
-                  imageCache.put(memCacheKey, img)
-                  onOK(img)
-
-                  if (game.isOkState) {
-
-                    //Save anys
-                    executers.submit(new Runnable {
-                      override def run(): Unit = {
-                        Files.createDirectories(localPath.getParent)
-                        saveImage(bytes, localPath)
-                      }
-                    })
-                  }
-                })
-              }
-              catch {
-                case e: IOException =>
                   imageCache.remove(memCacheKey)
-                  logger.error(e.getMessage)
-              }
+                })
+                logger.error(e.getMessage)
             }
-          })
-
         }
     }
 

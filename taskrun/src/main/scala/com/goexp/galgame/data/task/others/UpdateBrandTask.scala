@@ -26,6 +26,7 @@ object UpdateBrandTask extends App {
   logger.info(s"Local:${localMap.size}")
 
 
+  //::TODO zip 2 future
   val remotes = BrandService.all().toSet
   logger.info(s"Remote: ${remotes.size}")
 

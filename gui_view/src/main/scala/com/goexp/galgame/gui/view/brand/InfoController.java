@@ -48,15 +48,13 @@ public class InfoController extends DefaultController {
 
     protected void initialize() {
 
-        ChangeListener<ObservableList<Game>> searchHandler = (observable, oldValue, newValue) -> {
+        gameByBrand.valueProperty().addListener((observable1, oldValue1, newValue1) -> {
 
-            if (newValue != null) {
-                load(newValue);
+            if (newValue1 != null) {
+                load(newValue1);
             }
 
-        };
-
-        gameByBrand.valueProperty().addListener(searchHandler);
+        });
 
         dataViewController.progessloading.visibleProperty().bind(gameByBrand.runningProperty());
         dataViewController.reloadProperty.addListener((observable, oldValue, newValue) -> {

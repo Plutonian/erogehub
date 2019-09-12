@@ -113,16 +113,16 @@ object GameImages {
               Platform.runLater(() => {
                 imageCache.put(memCacheKey, img)
                 onOK(img)
-              })
 
-              if (game.isOkState) {
-                //Save anys
-                Future {
-                  Files.createDirectories(localPath.getParent)
-                  saveImage(bytes, localPath)
+                if (game.isOkState) {
+                  //Save anys
+                  Future {
+                    Files.createDirectories(localPath.getParent)
+                    saveImage(bytes, localPath)
 
+                  }
                 }
-              }
+              })
             })
             .onComplete {
               case Failure(e) =>

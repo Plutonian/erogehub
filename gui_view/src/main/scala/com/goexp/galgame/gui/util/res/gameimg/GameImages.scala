@@ -5,7 +5,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.{Files, Path}
 import java.util.Objects
-import java.util.concurrent.{Executors, ThreadFactory}
+import java.util.concurrent.Executors
 
 import com.goexp.common.util.web.HttpUtil
 import com.goexp.common.util.web.url._
@@ -114,6 +114,7 @@ object GameImages {
                   imageCache.remove(memCacheKey)
                 })
                 logger.error(e.getMessage)
+              case _ =>
             }
         }
     }

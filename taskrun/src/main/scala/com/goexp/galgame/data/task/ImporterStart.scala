@@ -2,7 +2,8 @@ package com.goexp.galgame.data.task
 
 import java.util.Objects
 
-import com.goexp.galgame.data.task.local.{CalBrandGameTask, CalCVGameTask, CleanGameTask, GetTrueCVTask, GroupBrandTask, MarkSameGameTask}
+import com.goexp.galgame.data.task.local.cal.{CalBrandGameTask, CalCVGameTask}
+import com.goexp.galgame.data.task.local.{CleanGameTask, GetTrueCVTask, GroupBrandTask, MarkSameGameTask}
 import com.goexp.galgame.data.task.others.UpdateBrandTask
 import com.goexp.galgame.data.task.others.guide.Seiya_saiga_com
 

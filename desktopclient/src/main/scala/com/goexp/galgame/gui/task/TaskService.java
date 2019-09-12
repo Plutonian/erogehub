@@ -1,5 +1,6 @@
 package com.goexp.galgame.gui.task;
 
+import javafx.beans.value.WeakChangeListener;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
@@ -15,10 +16,11 @@ public class TaskService<V> extends Service<V> {
         Objects.requireNonNull(taskSupplier);
         this.taskSupplier = taskSupplier;
 
-        this.exceptionProperty().addListener((observable, oldValue, newValue) -> {
+        this.exceptionProperty().addListener(new WeakChangeListener<>((observable, oldValue, newValue) -> {
             if (newValue != null)
                 newValue.printStackTrace();
-        });
+        }));
+
     }
 
     @Override

@@ -69,13 +69,13 @@ object GetTrueCVTask extends App {
             }).asJava
         (change, g)
 
-      }(cpuPool)
+      }(CPU_POOL)
 
       f.foreach {
         case (true, game) =>
           GameDB.updateChar(game)
         case _ =>
-      }(ioPool)
+      }(IO_POOL)
 
       Await.result(f, 10.minutes)
 

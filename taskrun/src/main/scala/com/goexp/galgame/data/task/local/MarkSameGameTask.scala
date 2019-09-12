@@ -43,7 +43,7 @@ object MarkSameGameTask extends App {
           .where(Filters.eq("brandId", brand.id))
           .list.asScala.to(LazyList)
 
-      }(ioPool)
+      }(IO_POOL)
         .map(list => {
           list.groupBy(game => {
             if (isSameGame(game)) "same" else if (isPackageGame(game)) "package" else "other"
@@ -81,14 +81,14 @@ object MarkSameGameTask extends App {
                 throw new RuntimeException("Error")
             })
 
-        })(cpuPool)
+        })(CPU_POOL)
 
       f.foreach {
         case (game: Game) =>
           logger.info(s"ID:${game.id} Name: ${game.name}  State: ${game.state}")
           StateDB.update(game)
         case _ =>
-      }(ioPool)
+      }(IO_POOL)
 
       Await.result(f, 10.minutes)
 

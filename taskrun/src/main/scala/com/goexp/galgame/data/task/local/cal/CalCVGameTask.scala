@@ -32,7 +32,7 @@ object CalCVGameTask extends App {
           )
           .list.asScala.to(LazyList)
 
-      }(ioPool)
+      }(IO_POOL)
         .map(games => {
           val start = games
             .filter(_.publishDate != null)
@@ -48,11 +48,11 @@ object CalCVGameTask extends App {
 
           (start, end, count)
 
-        })(cpuPool)
+        })(CPU_POOL)
 
       f.foreach { case (start: Option[LocalDate], end: Option[LocalDate], count: Int) =>
         CVDB.updateStatistics(cv, start.orNull, end.orNull, count)
-      }(ioPool)
+      }(IO_POOL)
 
       Await.result(f, 10.minutes)
 

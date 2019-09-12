@@ -27,7 +27,7 @@ object GroupBrandTask extends App {
           val f = Future {
             BrandDB.updateComp(b)
 
-          }(ioPool)
+          }(IO_POOL)
 
           Await.result(f, 10.minutes)
 

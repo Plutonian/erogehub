@@ -36,7 +36,7 @@ object CalBrandGameTask extends App {
           )
           .list.asScala.to(LazyList)
 
-      }(ioPool)
+      }(IO_POOL)
         .map(games => {
           val start = games
             .filter(_.publishDate != null)
@@ -52,13 +52,13 @@ object CalBrandGameTask extends App {
 
           (start, end, count)
 
-        })(cpuPool)
+        })(CPU_POOL)
 
       f.foreach {
         case (start: Option[LocalDate], end: Option[LocalDate], count: Int) =>
           BrandDB.updateStatistics(b, start.orNull, end.orNull, count)
         case _ =>
-      }(ioPool)
+      }(IO_POOL)
 
 
       Await.result(f, 10.minutes)

@@ -8,25 +8,24 @@ import org.slf4j.LoggerFactory
 
 import scala.jdk.CollectionConverters._
 
-object GroupBrandTask {
+object GroupBrandTask extends App {
 
-  def main(args: Array[String]) = {
-    val logger = LoggerFactory.getLogger(GroupBrandTask.getClass)
+  val logger = LoggerFactory.getLogger(GroupBrandTask.getClass)
 
-    BrandQuery.tlp.query.list.asScala.to(LazyList)
-      .filter(b => Strings.isNotEmpty(b.website))
-      .groupBy(b => Extracker.getComp(b.website))
-      .filter({ case (comp, v) => !comp.isEmpty && v.size > 1 })
-      .foreach({ case (comp, v) =>
-        v.foreach(b => {
-          if (Strings.isEmpty(b.comp)) {
-            logger.info(s"Raw:${b.comp} New:$comp")
-            b.comp = comp
-            BrandDB.updateComp(b)
-          }
-        })
+  BrandQuery.tlp.query.list.asScala.to(LazyList)
+    .filter(b => Strings.isNotEmpty(b.website))
+    .groupBy(b => Extracker.getComp(b.website))
+    .filter({ case (comp, v) => !comp.isEmpty && v.size > 1 })
+    .foreach({ case (comp, v) =>
+      v.foreach(b => {
+        if (Strings.isEmpty(b.comp)) {
+          logger.info(s"Raw:${b.comp} New:$comp")
+          b.comp = comp
+          BrandDB.updateComp(b)
+        }
       })
-  }
+    })
+
 
   object Extracker {
     private lazy val hostRegex = "http[s]?://(?:ww[^\\.]+\\.)?(?<host>[^/]+)[/]?".r

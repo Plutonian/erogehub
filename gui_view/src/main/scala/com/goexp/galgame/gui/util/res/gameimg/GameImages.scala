@@ -5,7 +5,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.{Files, Path}
 import java.util.Objects
-import java.util.concurrent.Executors
+import java.util.concurrent.{Executors, ThreadFactory}
 
 import com.goexp.common.util.web.HttpUtil
 import com.goexp.common.util.web.url._
@@ -13,16 +13,21 @@ import com.goexp.galgame.gui.Config.IMG_PATH
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.cache.AppCache
 import javafx.application.Platform
-import javafx.embed.swing.SwingFXUtils
 import javafx.scene.image.{Image, WritableImage}
-import javax.imageio.ImageIO
 import org.slf4j.LoggerFactory
 
 object GameImages {
   private val logger = LoggerFactory.getLogger(this.getClass)
 
   // thread pool
-  val executers = Executors.newFixedThreadPool(30)
+  val executers = Executors.newFixedThreadPool(30, new ThreadFactory {
+    override def newThread(r: Runnable): Thread = {
+      val thread = new Thread(r)
+      thread.setPriority(Thread.MIN_PRIORITY)
+      thread.setDaemon(true)
+      thread
+    }
+  })
 
   def load(url: String): Array[Byte] = {
 
@@ -49,43 +54,31 @@ object GameImages {
     Objects.requireNonNull(onOK, "onOK must init")
 
 
-    def loadFromRemote(url: String)(onLoadOK: (Image) => Unit, onLoadError: (String) => Unit) = {
-      Objects.requireNonNull(url)
-      logger.debug("Remote:{}", url)
-
-      executers.submit(new Runnable {
-        override def run(): Unit = {
-
-          try {
-            val bytes = load(url)
-
-            Platform.runLater(() => {
-              onLoadOK(new Image(new ByteArrayInputStream(bytes)))
-            })
-          }
-          catch {
-            case e: IOException =>
-              onLoadError(url)
-              logger.error(e.getMessage)
-          }
-        }
-      })
-
-    }
-
-    def saveImage(image: Image, path: Path): Unit = {
-      Objects.requireNonNull(image)
+    def saveImage(bytes: Array[Byte], path: Path): Unit = {
+      Objects.requireNonNull(bytes)
       Objects.requireNonNull(path)
-      val bufferImage = SwingFXUtils.fromFXImage(image, null)
-      if (bufferImage == null) return
       try
-        ImageIO.write(bufferImage, "jpg", path.toFile)
+        Files.write(path, bytes)
       catch {
         case e: IOException =>
           println(game)
           e.printStackTrace()
       }
     }
+
+    //    def saveImage(image: Image, path: Path): Unit = {
+    //      Objects.requireNonNull(image)
+    //      Objects.requireNonNull(path)
+    //      val bufferImage = SwingFXUtils.fromFXImage(image, null)
+    //      if (bufferImage == null) return
+    //      try
+    //        ImageIO.write(bufferImage, "jpg", path.toFile)
+    //      catch {
+    //        case e: IOException =>
+    //          println(game)
+    //          e.printStackTrace()
+    //      }
+    //    }
 
     logger.trace("LocalKey={},memCacheKey={}", diskCacheKey, memCacheKey)
     val imageCache = AppCache.imageMemCache
@@ -106,30 +99,38 @@ object GameImages {
           //placeholder
           AppCache.imageMemCache.put(memCacheKey, new WritableImage(1, 1))
 
-          if (game.isOkState) {
-            //cache to disk
-            loadFromRemote(memCacheKey)(
-              onLoadOK = img => {
-                imageCache.put(memCacheKey, img)
-                onOK(img)
+          //load remote
+          executers.submit(new Runnable {
+            override def run(): Unit = {
 
-                Files.createDirectories(localPath.getParent)
-                saveImage(img, localPath)
+              try {
+                val bytes = load(memCacheKey)
+
+                val img = new Image(new ByteArrayInputStream(bytes))
+                Platform.runLater(() => {
+                  imageCache.put(memCacheKey, img)
+                  onOK(img)
+
+                  if (game.isOkState) {
+
+                    //Save anys
+                    executers.submit(new Runnable {
+                      override def run(): Unit = {
+                        Files.createDirectories(localPath.getParent)
+                        saveImage(bytes, localPath)
+                      }
+                    })
+                  }
+                })
               }
-              , onLoadError = (url) => {
-                imageCache.remove(url)
-              })
-          } else {
-            //without save
-            loadFromRemote(memCacheKey)(
-              onLoadOK = img => {
-                imageCache.put(memCacheKey, img)
-                onOK(img)
+              catch {
+                case e: IOException =>
+                  imageCache.remove(memCacheKey)
+                  logger.error(e.getMessage)
               }
-              , onLoadError = (url) => {
-                imageCache.remove(url)
-              })
-          }
+            }
+          })
+
         }
     }
 

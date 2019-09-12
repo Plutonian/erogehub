@@ -11,19 +11,16 @@ import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.db.query.mongdb.GuideQuery
 import com.goexp.galgame.data.parser.GameGuideParser
 import com.goexp.galgame.data.piplline.core.{Message, Pipeline, Starter}
-import com.goexp.galgame.data.task.others.guide.Config.CHARSET
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 
 import scala.jdk.CollectionConverters._
 
-object Seiya_saiga_com {
-  def main(args: Array[String]) = {
-    Network.initProxy()
-    new Pipeline(new AStarter)
-      .regForIOType(new PageContentHandler)
-      .start()
-  }
+object Seiya_saiga_com extends App {
+  Network.initProxy()
+  new Pipeline(new AStarter)
+    .regForIOType(new PageContentHandler)
+    .start()
 
   private class AStarter extends Starter {
     private val logger = LoggerFactory.getLogger(classOf[AStarter])

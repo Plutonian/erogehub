@@ -10,17 +10,15 @@ import com.goexp.galgame.common.model.CommonGame.Guide.DataFrom
 import com.goexp.galgame.data.db.query.mongdb.GuideQuery
 import com.goexp.galgame.data.parser.GameGuideParser
 import com.goexp.galgame.data.piplline.core.{Message, Pipeline, Starter}
-import com.goexp.galgame.data.task.others.guide.Config.CHARSET
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 
 import scala.jdk.CollectionConverters._
 
-object Sagaoz_net {
-  def main(args: Array[String]) =
-    new Pipeline(new AStarter)
-      .regForIOType(new PageContentHandler)
-      .start()
+object Sagaoz_net extends App {
+  new Pipeline(new AStarter)
+    .regForIOType(new PageContentHandler)
+    .start()
 
   private class AStarter extends Starter {
     private val logger = LoggerFactory.getLogger(classOf[Starter])

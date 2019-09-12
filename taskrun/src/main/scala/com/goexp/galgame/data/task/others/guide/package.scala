@@ -1,7 +1,9 @@
-package com.goexp.galgame.data.task.others.guide
+package com.goexp.galgame.data.task.others
 
 import java.nio.charset.Charset
 
-object Config {
+package object guide {
+
   val CHARSET = Charset.forName("shift-jis")
+
 }

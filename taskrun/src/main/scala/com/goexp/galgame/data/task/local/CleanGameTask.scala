@@ -25,7 +25,7 @@ object CleanGameTask {
 
         logger.info(s"Clean:$path")
 
-        Files.walk(path).iterator().asScala.to(LazyList)
+        Files.list(path).iterator().asScala.to(LazyList)
           .foreach(Files.delete)
 
         Files.deleteIfExists(path)
@@ -36,24 +36,28 @@ object CleanGameTask {
 
     BrandQuery.tlp.query
       .list.asScala.to(LazyList)
-      .foreach(b => {
-        val list = if (b.isLike eq BrandType.BLOCK) {
-          GameDB.blockAllGame(b)
+      .foreach {
+        b =>
+          val list = if (b.isLike eq BrandType.BLOCK) {
+            GameDB.blockAllGame(b)
 
-          GameQuery.simpleTlp.query
-            .where(Filters.eq("brandId", b.id))
-            .list.asScala.to(LazyList)
-        } else {
-          GameQuery.simpleTlp.query
-            .where(Filters.eq("brandId", b.id))
-            .list.asScala.to(LazyList)
-            .filter(g => (g.state eq GameState.BLOCK) || (g.state eq GameState.SAME))
-        }
+            GameQuery.simpleTlp.query
+              .where(Filters.eq("brandId", b.id))
+              .list.asScala.to(LazyList)
+          } else {
+            GameQuery.simpleTlp.query
+              .where(Filters.eq("brandId", b.id))
+              .list.asScala.to(LazyList)
+              .filter(g => (g.state eq GameState.BLOCK) || (g.state eq GameState.SAME))
+          }
 
-        list.foreach(g => {
-          remove(g)
-        })
+          list.foreach {
+            g =>
+              remove(g)
 
-      })
+          }
+
+
+      }
   }
 }

@@ -6,11 +6,9 @@
 <Menu xmlns:fx="http://javafx.com/fxml/1" mnemonicParsing="false" text="Search"
       xmlns="http://javafx.com/javafx/8.0.172-ea"
       fx:controller="com.goexp.galgame.gui.view.game.detailview.part.CVSearchController">
-    <items>
-        <!--<MenuItem fx:id="linkDlsite" mnemonicParsing="false" text="Dlsite" />-->
-        <!--<SeparatorMenuItem mnemonicParsing="false" />-->
-        <MenuItem fx:id="linkWiki" mnemonicParsing="false" text="Wiki"/>
-        <!--<MenuItem fx:id="link2DF" mnemonicParsing="false" text="2DF" />-->
-        <MenuItem fx:id="linkBangumi" mnemonicParsing="false" text="Bangumi"/>
-    </items>
+    <!--<MenuItem fx:id="linkDlsite" mnemonicParsing="false" text="Dlsite" />-->
+    <!--<SeparatorMenuItem mnemonicParsing="false" />-->
+    <MenuItem fx:id="linkWiki" mnemonicParsing="false" text="Wiki"/>
+    <!--<MenuItem fx:id="link2DF" mnemonicParsing="false" text="2DF" />-->
+    <MenuItem fx:id="linkBangumi" mnemonicParsing="false" text="Bangumi"/>
 </Menu>

@@ -31,15 +31,11 @@ public class CVSearchController extends DefaultController {
 //        linkDlsite.setOnAction((e) -> {
 //            Websites.open(DlSiteURL.fromTitle(keyword));
 //        });
-        linkWiki.setOnAction((e) -> {
-            Websites.open(WikiURL.fromTitle(keyword));
-        });
+        linkWiki.setOnAction((e) -> Websites.open(WikiURL.fromTitle(keyword)));
 //        link2DF.setOnAction((e) -> {
 //            Websites.open(_2DFURL.fromTitle(keyword));
 //        });
-        linkBangumi.setOnAction((e) -> {
-            Websites.open(BangumiURL.fromTitle(keyword));
-        });
+        linkBangumi.setOnAction((e) -> Websites.open(BangumiURL.fromTitle(keyword)));
     }
 
     public void load(String keyword) {

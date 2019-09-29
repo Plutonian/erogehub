@@ -6,7 +6,6 @@ import com.goexp.galgame.gui.task.TaskService;
 import com.goexp.galgame.gui.task.game.search.ByBrand;
 import com.goexp.galgame.gui.view.DefaultController;
 import com.goexp.galgame.gui.view.game.listview.DataViewController;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Service;
@@ -24,8 +23,6 @@ public class InfoController extends DefaultController {
     @FXML
     public DataViewController dataViewController;
 
-    private FilteredList<Game> filteredGames;
-
 
     /***
      * Biz
@@ -38,7 +35,7 @@ public class InfoController extends DefaultController {
      */
 
 
-    private Service<ObservableList<Game>> gameByBrand = new TaskService<>(() -> new ByBrand(brand.id()));
+    private final Service<ObservableList<Game>> gameByBrand = new TaskService<>(() -> new ByBrand(brand.id()));
 
 
     /**
@@ -67,7 +64,7 @@ public class InfoController extends DefaultController {
 
 
     private void load(ObservableList<Game> games) {
-        filteredGames = new FilteredList<>(games);
+        FilteredList<Game> filteredGames = new FilteredList<>(games);
         dataViewController.load(filteredGames);
     }
 

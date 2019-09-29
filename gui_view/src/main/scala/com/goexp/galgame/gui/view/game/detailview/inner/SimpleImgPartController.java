@@ -37,25 +37,23 @@ public class SimpleImgPartController extends DefaultController {
 //                }
 //            });
 
-        listSmallSimple.setCellFactory(gameImgListView -> {
-            return new ListCell<>() {
-                @Override
-                protected void updateItem(Game.GameImg item, boolean empty) {
-                    super.updateItem(item, empty);
+        listSmallSimple.setCellFactory(gameImgListView -> new ListCell<>() {
+            @Override
+            protected void updateItem(Game.GameImg item, boolean empty) {
+                super.updateItem(item, empty);
 
-                    setGraphic(null);
-                    setText(null);
+                setGraphic(null);
+                setText(null);
 
-                    if (!empty) {
+                if (!empty) {
 
-                        new SimpleImage(game).onOK((img) -> {
-                            setGraphic(new ImageView(img));
-                            return null;
-                        }).small(item.index, item.src);
-                    }
-
+                    new SimpleImage(game).onOK((img) -> {
+                        setGraphic(new ImageView(img));
+                        return null;
+                    }).small(item.index, item.src);
                 }
-            };
+
+            }
         });
 
         listSmallSimple.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, simpleLargeImage) -> {

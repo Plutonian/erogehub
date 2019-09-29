@@ -10,46 +10,40 @@
     <center>
         <StackPane onDragDropped="#textSearchGameKey_OnDragDropped" onDragOver="#textSearchGameKey_OnDragOver"
                    prefHeight="150.0" prefWidth="200.0">
-            <children>
-                <Text fill="#4d4d4d" strokeType="OUTSIDE" strokeWidth="0.0" text="Drag file hear">
-                    <font>
-                        <Font size="72.0"/>
-                    </font>
-                </Text>
-            </children>
+            <Text fill="#4d4d4d" strokeType="OUTSIDE" strokeWidth="0.0" text="Drag file hear">
+                <font>
+                    <Font size="72.0"/>
+                </font>
+            </Text>
         </StackPane>
     </center>
     <top>
 
         <HBox spacing="5.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
 
-            <children>
-                <HBox>
-                    <children>
-                        <ToggleButton mnemonicParsing="false" selected="true" styleClass="left-pill" text="Simple"
-                                      userData="0">
-                            <toggleGroup>
-                                <ToggleGroup fx:id="searchGroup"/>
-                            </toggleGroup>
-                        </ToggleButton>
-                        <ToggleButton mnemonicParsing="false" styleClass="center-pill" text="Extend"
-                                      toggleGroup="$searchGroup" userData="2"/>
-                        <ToggleButton mnemonicParsing="false" styleClass="right-pill" text="Full"
-                                      toggleGroup="$searchGroup" userData="1"/>
-                    </children>
-                </HBox>
-                <TextField fx:id="textSearchGameKey" promptText="好みのゲームネイムをここで入れでください" HBox.hgrow="ALWAYS">
-                    <font>
-                        <Font size="14.0"/>
-                    </font>
-                </TextField>
-                <Button fx:id="btnSearchGame" defaultButton="true" mnemonicParsing="false"
-                        onAction="#btnSearchGame_OnAction" text="Search">
-                    <font>
-                        <Font size="14.0"/>
-                    </font>
-                </Button>
-            </children>
+            <HBox>
+                <ToggleButton mnemonicParsing="false" selected="true" styleClass="left-pill" text="Simple"
+                              userData="0">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="searchGroup"/>
+                    </toggleGroup>
+                </ToggleButton>
+                <ToggleButton mnemonicParsing="false" styleClass="center-pill" text="Extend"
+                              toggleGroup="$searchGroup" userData="2"/>
+                <ToggleButton mnemonicParsing="false" styleClass="right-pill" text="Full"
+                              toggleGroup="$searchGroup" userData="1"/>
+            </HBox>
+            <TextField fx:id="textSearchGameKey" promptText="好みのゲームネイムをここで入れでください" HBox.hgrow="ALWAYS">
+                <font>
+                    <Font size="14.0"/>
+                </font>
+            </TextField>
+            <Button fx:id="btnSearchGame" defaultButton="true" mnemonicParsing="false"
+                    onAction="#btnSearchGame_OnAction" text="Search">
+                <font>
+                    <Font size="14.0"/>
+                </font>
+            </Button>
         </HBox>
     </top>
 </BorderPane>

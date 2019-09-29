@@ -23,7 +23,7 @@ public class StateChangeController extends DefaultController {
 
     private ChangeListener<GameState> listener;
     private Game targetGame;
-    private Service<Void> changeGameStateService = new TaskService<>(() -> new Like(targetGame));
+    private final Service<Void> changeGameStateService = new TaskService<>(() -> new Like(targetGame));
 
 
     protected void initialize() {

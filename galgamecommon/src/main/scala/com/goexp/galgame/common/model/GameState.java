@@ -31,9 +31,7 @@ public enum GameState {
     public static GameState from(String name) {
 
         return Stream.of(GameState.values())
-                .filter(type -> {
-                    return type.name.equals(name);
-                })
+                .filter(type -> type.name.equals(name))
                 .findFirst().orElseThrow();
     }
 

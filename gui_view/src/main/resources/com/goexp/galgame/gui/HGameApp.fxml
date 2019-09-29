@@ -7,7 +7,5 @@
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
-    <children>
-        <fx:include fx:id="home" source="view/game/home.fxml"/>
-    </children>
+    <fx:include fx:id="home" source="view/game/home.fxml"/>
 </StackPane>

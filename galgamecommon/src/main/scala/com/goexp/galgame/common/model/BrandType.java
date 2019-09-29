@@ -25,18 +25,14 @@ public enum BrandType {
     public static BrandType from(int value) {
 
         return Stream.of(BrandType.values())
-                .filter(type -> {
-                    return type.value == value;
-                })
+                .filter(type -> type.value == value)
                 .findFirst().orElseThrow();
     }
 
     public static BrandType from(String name) {
 
         return Stream.of(BrandType.values())
-                .filter(type -> {
-                    return type.name.equals(name);
-                })
+                .filter(type -> type.name.equals(name))
                 .findFirst().orElseThrow();
     }
 

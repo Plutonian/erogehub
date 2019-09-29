@@ -10,7 +10,7 @@ import org.jsoup.nodes.Element
 import scala.jdk.CollectionConverters._
 
 private object ListPageParser {
-  private lazy val DATE_REGEX = "発売日：(?<date>\\d{4}/[0-1]\\d/[0-3]\\d)".r
+  private lazy val DATE_REGEX = """発売日：(\d{4}/[0-1]\d/[0-3]\d)""".r("date")
 }
 
 class ListPageParser {
@@ -18,16 +18,18 @@ class ListPageParser {
 
   def parse(item: Element): Game = {
     def parseId(url: String) = {
-      "id=(?<id>\\d+)".r.findFirstMatchIn(url).map(_.group("id").toInt).getOrElse(0)
+      """id=(\d+)""".r("id").findFirstMatchIn(url).map(_.group("id").toInt).getOrElse(0)
     }
 
     def parseDate(str: String) = {
       import ListPageParser._
 
       DATE_REGEX.findFirstMatchIn(str)
-        .map(m => try LocalDate.parse(m.group("date"), DateTimeFormatter.ofPattern("yyyy/MM/dd")) catch {
-          case e: DateTimeParseException => null
-        })
+        .map { m =>
+          try LocalDate.parse(m.group("date"), DateTimeFormatter.ofPattern("yyyy/MM/dd")) catch {
+            case _: DateTimeParseException => null
+          }
+        }
         .orNull
     }
 

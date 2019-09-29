@@ -57,7 +57,7 @@ public class TableController extends DefaultController {
     private List<Game> selectedGames;
 
 
-    private Service<Void> changeGameService = new TaskService<>(() -> new MultiLike(selectedGames));
+    private final Service<Void> changeGameService = new TaskService<>(() -> new MultiLike(selectedGames));
 
 
     protected void initialize() {

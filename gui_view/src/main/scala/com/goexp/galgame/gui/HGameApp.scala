@@ -1,6 +1,7 @@
 package com.goexp.galgame.gui
 
 import com.goexp.galgame.common.util.Network
+import com.goexp.galgame.gui.HGameApp.app
 import com.goexp.galgame.gui.util.FXMLLoaderProxy
 import com.goexp.galgame.gui.util.res.gameimg.GameImages
 import com.goexp.galgame.gui.view.MainController
@@ -20,7 +21,7 @@ object HGameApp extends App {
 
 class HGameApp extends Application {
   override def init(): Unit = {
-    HGameApp.app = this
+    app = this
     Network.initProxy()
   }
 

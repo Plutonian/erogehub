@@ -56,9 +56,7 @@ public class PersonCellController extends DefaultController {
             cvsearchController.load(cv);
             lbCV.setText(cv);
 
-            truecv.setOnAction(event -> {
-                HomeController.$this.loadCVTab(isTrueCV ? gameChar.trueCV : gameChar.cv, isTrueCV);
-            });
+            truecv.setOnAction(event -> HomeController.$this.loadCVTab(isTrueCV ? gameChar.trueCV : gameChar.cv, isTrueCV));
         } else {
             cvPart.setVisible(false);
         }

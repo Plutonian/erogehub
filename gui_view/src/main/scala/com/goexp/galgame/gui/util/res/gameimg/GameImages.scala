@@ -49,7 +49,7 @@ object GameImages {
 
   }
 
-  def get(game: Game)(diskCacheKey: String, memCacheKey: String)(onOK: (Image) => Unit) = {
+  def get(game: Game)(diskCacheKey: String, memCacheKey: String)(onOK: Image => Unit) = {
     Objects.requireNonNull(diskCacheKey)
     Objects.requireNonNull(memCacheKey)
     Objects.requireNonNull(onOK, "onOK must init")

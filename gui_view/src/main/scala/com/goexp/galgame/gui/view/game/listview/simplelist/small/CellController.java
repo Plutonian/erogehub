@@ -6,8 +6,6 @@ import javafx.fxml.FXML;
 
 public class CellController extends DefaultController {
 
-    private Game game;
-
     @FXML
     private HeaderController headerController;
 
@@ -26,8 +24,6 @@ public class CellController extends DefaultController {
 
 
     public void load(Game game) {
-
-        this.game = game;
 
         headerController.load(game);
     }

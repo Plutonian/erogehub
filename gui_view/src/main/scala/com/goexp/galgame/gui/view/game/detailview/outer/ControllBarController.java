@@ -17,8 +17,6 @@ public class ControllBarController extends DefaultController {
 
 //    public ImageView imageImg;
 
-    private Game targetGame;
-
     protected void initialize() {
 
     }
@@ -37,7 +35,6 @@ public class ControllBarController extends DefaultController {
     }
 
     private void loadWithoutImage(Game game) {
-        this.targetGame = game;
 
         changeStateController.load(game);
         webjumpController.load(game);

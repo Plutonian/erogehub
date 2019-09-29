@@ -1,6 +1,6 @@
 package com.goexp.galgame.common.db.mongo.query
 
-import java.util.List
+import java.util
 
 import com.goexp.common.db.mongo.ObjectCreator
 import com.goexp.common.util.date.DateUtil
@@ -23,15 +23,15 @@ class CommonGameCreator(private[this] val game: CommonGame) extends ObjectCreato
     game.intro = doc.getString("intro")
     game.story = doc.getString("story")
     game.smallImg = doc.getString("smallImg")
-    game.painter = doc.get("painter", classOf[List[String]])
-    game.writer = doc.get("writer", classOf[List[String]])
-    game.tag = doc.get("tag", classOf[List[String]])
-    game.`type` = doc.get("type", classOf[List[String]])
+    game.painter = doc.get("painter", classOf[util.List[String]])
+    game.writer = doc.get("writer", classOf[util.List[String]])
+    game.tag = doc.get("tag", classOf[util.List[String]])
+    game.`type` = doc.get("type", classOf[util.List[String]])
 
     import Creator._
 
     game.gameCharacters =
-      Option(doc.get("gamechar").asInstanceOf[List[Document]])
+      Option(doc.get("gamechar").asInstanceOf[util.List[Document]])
         .map({
           _.asScala.to(LazyList).map(p => personCreator.create(p))
             .groupBy(p => {
@@ -42,15 +42,15 @@ class CommonGameCreator(private[this] val game: CommonGame) extends ObjectCreato
             .sortBy({ case (k, _) => k })
             .flatMap({ case (_, v) => v }).asJava
         })
-        .getOrElse(List.of[CommonGame.GameCharacter]())
+        .getOrElse(util.List.of[CommonGame.GameCharacter]())
 
 
     game.gameImgs =
-      Option(doc.get("simpleImg").asInstanceOf[List[Document]])
+      Option(doc.get("simpleImg").asInstanceOf[util.List[Document]])
         .map({
           _.asScala.to(LazyList).map(p => imgCreator.create(p)).asJava
         })
-        .getOrElse(List.of[CommonGame.GameImg]())
+        .getOrElse(util.List.of[CommonGame.GameImg]())
 
     logger.debug("{}", game)
     game

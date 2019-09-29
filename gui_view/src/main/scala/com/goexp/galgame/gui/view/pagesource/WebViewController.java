@@ -34,11 +34,7 @@ public class WebViewController extends DefaultController {
         webView.setFontSmoothingType(FontSmoothingType.GRAY);
 
 
-        /**
-         * WebView setting
-         */
-
-//        webView.getEngine().setConfirmHandler(new Callback<String, Boolean>() {
+        //        webView.getEngine().setConfirmHandler(new Callback<String, Boolean>() {
 //            @Override
 //            public Boolean call(String param) {
 //                return null;
@@ -53,10 +49,7 @@ public class WebViewController extends DefaultController {
 //        });
 
         webView
-                .getEngine().getLoadWorker().messageProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Mess:" + newValue);
-
-        });
+                .getEngine().getLoadWorker().messageProperty().addListener((observable, oldValue, newValue) -> System.out.println("Mess:" + newValue));
 
         webView
                 .getEngine().getLoadWorker().exceptionProperty().addListener((ov, t, t1) -> {

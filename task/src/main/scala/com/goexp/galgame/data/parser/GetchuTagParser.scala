@@ -27,7 +27,9 @@ class GetchuTagParser {
       .select("a")
       .asScala
       .to(LazyList)
-      .map(ele => ele.text.trim)
+      .map {
+        _.text.trim
+      }
       .asJava
 
     tagType

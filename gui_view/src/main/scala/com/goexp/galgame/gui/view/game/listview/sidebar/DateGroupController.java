@@ -19,26 +19,24 @@ public class DateGroupController extends FilterController<Game> {
 
     private List<Game> filteredGames;
 
-    private Service<TreeItem<DateItem>> groupDateServ = new TaskService<>(() -> new ByDate(filteredGames));
+    private final Service<TreeItem<DateItem>> groupDateServ = new TaskService<>(() -> new ByDate(filteredGames));
 
 
     protected void initialize() {
 
-        dateTree.setCellFactory(dateItemNodeTreeView -> {
-            return new TreeCell<>() {
+        dateTree.setCellFactory(dateItemNodeTreeView -> new TreeCell<>() {
 
-                @Override
-                protected void updateItem(DateItem item, boolean empty) {
-                    super.updateItem(item, empty);
+            @Override
+            protected void updateItem(DateItem item, boolean empty) {
+                super.updateItem(item, empty);
 
-                    setGraphic(null);
-                    setText(null);
+                setGraphic(null);
+                setText(null);
 
-                    if (!empty && item != null) {
-                        setText(item.title);
-                    }
+                if (!empty && item != null) {
+                    setText(item.title);
                 }
-            };
+            }
         });
         dateTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 

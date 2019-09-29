@@ -19,16 +19,17 @@ object GameGuideParser {
         .select("a")
         .asScala
         .to(LazyList)
-        .filter(a => !a.attr("href").isEmpty)
-        .map(a => {
+        .filter {
+          !_.attr("href").isEmpty
+        }
+        .map { a =>
           val guide = new CommonGame.Guide
           guide.title = a.text
           guide.from = CommonGame.Guide.DataFrom.sagaoz_net
           guide.href = a.attr("href")
           guide.id = guide.href
           guide
-
-        })
+        }
     }
   }
 
@@ -41,20 +42,19 @@ object GameGuideParser {
         .asScala
         .to(LazyList)
         .drop(4)
-        .flatMap(node => {
+        .flatMap { node =>
           node.select("a")
             .asScala
             .to(LazyList)
-            .map(a => {
+            .map { a =>
               val guide = new CommonGame.Guide
               guide.title = a.text
               guide.from = CommonGame.Guide.DataFrom.seiya_saiga_com
               guide.href = s"http://seiya-saiga.com/game/${a.attr("href")}"
               guide.id = guide.href
               guide
-            })
-
-        })
+            }
+        }
     }
   }
 

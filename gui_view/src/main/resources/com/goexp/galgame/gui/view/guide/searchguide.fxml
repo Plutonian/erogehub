@@ -10,31 +10,28 @@
     <center>
         <StackPane onDragDropped="#textSearchGameKey_OnDragDropped" onDragOver="#textSearchGameKey_OnDragOver"
                    prefHeight="150.0" prefWidth="200.0">
-            <children>
-                <Text fill="#4d4d4d" strokeType="OUTSIDE" strokeWidth="0.0" text="Drag file hear">
-                    <font>
-                        <Font size="72.0"/>
-                    </font>
-                </Text>
-            </children>
+            <Text fill="#4d4d4d" strokeType="OUTSIDE" strokeWidth="0.0" text="Drag file hear">
+                <font>
+                    <Font size="72.0"/>
+                </font>
+            </Text>
         </StackPane>
     </center>
     <top>
         <HBox spacing="5.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
 
-            <children>
-                <TextField fx:id="textSearchGameKey" promptText="好みのゲームネイムをここで入れでください" HBox.hgrow="ALWAYS" onDragDropped="#textSearchGameKey_OnDragDropped" onDragOver="#textSearchGameKey_OnDragOver">
-                    <font>
-                        <Font size="14.0"/>
-                    </font>
-                </TextField>
-                <Button fx:id="btnSearchGame" defaultButton="true" mnemonicParsing="false"
-                        onAction="#btnSearchGame_OnAction" text="Search">
-                    <font>
-                        <Font size="14.0"/>
-                    </font>
-                </Button>
-            </children>
+            <TextField fx:id="textSearchGameKey" promptText="好みのゲームネイムをここで入れでください" HBox.hgrow="ALWAYS"
+                       onDragDropped="#textSearchGameKey_OnDragDropped" onDragOver="#textSearchGameKey_OnDragOver">
+                <font>
+                    <Font size="14.0"/>
+                </font>
+            </TextField>
+            <Button fx:id="btnSearchGame" defaultButton="true" mnemonicParsing="false"
+                    onAction="#btnSearchGame_OnAction" text="Search">
+                <font>
+                    <Font size="14.0"/>
+                </font>
+            </Button>
         </HBox>
     </top>
 </BorderPane>

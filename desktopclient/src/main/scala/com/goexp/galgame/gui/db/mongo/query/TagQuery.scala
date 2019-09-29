@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.db.mongo.query
 
-import java.util.List
+import java.util
 
 import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
 import com.goexp.galgame.common.db.mongo.DB_NAME
@@ -14,7 +14,7 @@ object TagQuery {
     val t = new TagType
     t.`type` = doc.getString("type")
     t.order = doc.getInteger("order")
-    t.tags = doc.get("tags", classOf[List[String]])
+    t.tags = doc.get("tags", classOf[util.List[String]])
     t
   }
   val tlp = new DBQueryTemplate.Builder[TagType](DB_NAME, "tag", creator).build

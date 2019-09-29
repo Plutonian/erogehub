@@ -93,9 +93,6 @@ public class InnerPageController extends DefaultController {
 
         headerController.load(game);
 
-        /**
-         * person
-         */
         var personSize = Optional.ofNullable(game.gameCharacters).map(List::size).orElse(0);
 
         if (personSize == 0) {

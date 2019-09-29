@@ -31,7 +31,7 @@ public class SearchGuideController extends DefaultController {
      * UI Com
      */
 
-    public BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
+    public final BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
 
     private String key;
 
@@ -44,9 +44,9 @@ public class SearchGuideController extends DefaultController {
     private BorderPane searchPanel;
 
 
-    private ListView<CommonGame.Guide> guideListView = new ListView<>();
+    private final ListView<CommonGame.Guide> guideListView = new ListView<>();
 
-    private Service<ObservableList<CommonGame.Guide>> guideService = new TaskService<>(() -> new GuideSearchTask(key));
+    private final Service<ObservableList<CommonGame.Guide>> guideService = new TaskService<>(() -> new GuideSearchTask(key));
 
     protected void initialize() {
         onLoadProperty.addListener((observable, oldValue, newValue) -> {
@@ -76,9 +76,7 @@ public class SearchGuideController extends DefaultController {
                     setGraphic(null);
                     if (guide != null && !empty) {
                         final var link = new Hyperlink("[" + guide.from + "] " + guide.title);
-                        link.setOnAction(event -> {
-                            Websites.open(guide.href);
-                        });
+                        link.setOnAction(event -> Websites.open(guide.href));
 
                         if (Strings.isNotEmpty(guide.html)) {
                             final var viewlink = new Hyperlink("View");
@@ -149,7 +147,7 @@ public class SearchGuideController extends DefaultController {
 
         if (files.size() > 0) {
             var f = files.get(0);
-            var title = f.getName().replaceFirst("\\.[^\\.]+", "");
+            var title = f.getName().replaceFirst("\\.[^.]+", "");
 
             textSearchGameKey.setText(title);
         }

@@ -14,9 +14,9 @@ import java.util.stream.IntStream;
 
 public class DateController extends DefaultController {
 
-    public BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
+    public final BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
 
-    public BooleanProperty onYearLoadProperty = new SimpleBooleanProperty(false);
+    public final BooleanProperty onYearLoadProperty = new SimpleBooleanProperty(false);
 
     public String title;
 
@@ -30,9 +30,9 @@ public class DateController extends DefaultController {
     @FXML
     private TilePane flowYear;
 
-    private ToggleGroup yearSelect = new ToggleGroup();
+    private final ToggleGroup yearSelect = new ToggleGroup();
 
-    private ToggleGroup monthSelect = new ToggleGroup();
+    private final ToggleGroup monthSelect = new ToggleGroup();
 
     protected void initialize() {
 

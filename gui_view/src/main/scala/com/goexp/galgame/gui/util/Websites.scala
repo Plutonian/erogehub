@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.util
 
-import com.goexp.galgame.gui.HGameApp
+import com.goexp.galgame.gui.HGameApp.app
 
 object Websites {
-  def open(url: String): Unit = HGameApp.app.getHostServices.showDocument(url)
+  def open(url: String): Unit = app.getHostServices.showDocument(url)
 }

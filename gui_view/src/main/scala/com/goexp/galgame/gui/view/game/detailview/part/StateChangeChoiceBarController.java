@@ -30,9 +30,9 @@ public class StateChangeChoiceBarController extends DefaultController {
     @FXML
     private HBox groupLikeCon;
 
-    private ToggleGroup groupLike = new ToggleGroup();
+    private final ToggleGroup groupLike = new ToggleGroup();
 
-    private Service<Void> changeGameStateService = new TaskService<>(() -> new Like(targetGame));
+    private final Service<Void> changeGameStateService = new TaskService<>(() -> new Like(targetGame));
 
 
     protected void initialize() {
@@ -81,15 +81,9 @@ public class StateChangeChoiceBarController extends DefaultController {
 
         groupLike.selectedToggleProperty().removeListener(handler);
 
-        list.forEach(bt -> {
-            bt.setSelected(false);
-        });
+        list.forEach(bt -> bt.setSelected(false));
 
-        list.stream().filter(btn -> {
-            return (btn.getUserData()) == game.state.get();
-        }).findAny().ifPresent((targetBtn) -> {
-            targetBtn.setSelected(true);
-        });
+        list.stream().filter(btn -> (btn.getUserData()) == game.state.get()).findAny().ifPresent((targetBtn) -> targetBtn.setSelected(true));
 
 
         groupLike.selectedToggleProperty().addListener(handler);

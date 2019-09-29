@@ -6,11 +6,9 @@
 <?import javafx.scene.layout.FlowPane?>
 <ScrollPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootScroll" fitToHeight="true" pannable="true" prefHeight="500.0"
             xmlns="http://javafx.com/javafx/" fx:controller="com.goexp.galgame.gui.view.game.TagController">
-    <content>
-        <FlowPane fx:id="tabType" hgap="5.0" orientation="VERTICAL" rowValignment="TOP" vgap="5.0">
-            <padding>
-                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
-            </padding>
-        </FlowPane>
-    </content>
+    <FlowPane fx:id="tabType" hgap="5.0" orientation="VERTICAL" rowValignment="TOP" vgap="5.0">
+        <padding>
+            <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+        </padding>
+    </FlowPane>
 </ScrollPane>

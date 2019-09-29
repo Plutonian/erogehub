@@ -37,7 +37,7 @@ object GroupBrandTask extends App {
 
 
   object Extracker {
-    private lazy val hostRegex = "http[s]?://(?:ww[^\\.]+\\.)?(?<host>[^/]+)[/]?".r
+    private lazy val hostRegex = """http[s]?://(?:ww[^.]+\.)?([^/]+)[/]?""".r("host")
 
     private lazy val rem = Set("x", "ad", "bz", "cc", "co", "ea", "gr", "id", "in", "jp", "kt", "la", "me", "ne", "nu", "nz", "or", "oz", "ph", "pw", "sc", "tk", "to", "tv", "vc", "com", "net", "app", "ass", "fc2", "web", "jpn", "biz", "dti", //            "ssw",
       //            "q-x",
@@ -49,7 +49,7 @@ object GroupBrandTask extends App {
 
     def getComp(url: String) = {
 
-      def clean(host: String) = host.split("\\.").to(LazyList).filter(!rem.contains(_))
+      def clean(host: String) = host.split("""\.""").to(LazyList).filter(!rem.contains(_))
 
       val host = getHost(url)
       clean(host).lastOption.getOrElse("")
@@ -67,7 +67,7 @@ object GetRemove extends App {
 
   BrandQuery.tlp.query.list.asScala.to(LazyList)
     .filter(b => Strings.isNotEmpty(b.website))
-    .flatMap(b => getHost(b.website).split(raw"\.").to(LazyList).drop(1))
+    .flatMap(b => getHost(b.website).split("""\.""").to(LazyList).drop(1))
     .filter(!_.isEmpty)
     .distinct
     .sortBy(_.length)

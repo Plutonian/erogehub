@@ -31,7 +31,7 @@ import java.util.function.Predicate;
 
 public class DataViewController extends DefaultController {
 
-    public BooleanProperty reloadProperty = new SimpleBooleanProperty(false);
+    public final BooleanProperty reloadProperty = new SimpleBooleanProperty(false);
 
 
     /**
@@ -91,7 +91,7 @@ public class DataViewController extends DefaultController {
      * Sidebar
      */
     @FXML
-    public Region groupPanel;
+    private Region groupPanel;
 
     @FXML
     private Region filterPanel;
@@ -99,15 +99,16 @@ public class DataViewController extends DefaultController {
     private Button btnHide;
     @FXML
     private ListView<DefaultItem> cvList;
-    public ListView<DefaultItem> tagList;
+    @FXML
+    private ListView<DefaultItem> tagList;
 
 
     private FilteredList<Game> filteredGames;
 
     private Predicate<Game> groupPredicate;
 
-    private Service<List<DefaultItem>> groupCVServ = new TaskService<>(() -> new ByCV(filteredGames));
-    private Service<List<DefaultItem>> groupTagServ = new TaskService<>(() -> new ByTag(filteredGames));
+    private final Service<List<DefaultItem>> groupCVServ = new TaskService<>(() -> new ByCV(filteredGames));
+    private final Service<List<DefaultItem>> groupTagServ = new TaskService<>(() -> new ByTag(filteredGames));
 
 
     protected void initialize() {

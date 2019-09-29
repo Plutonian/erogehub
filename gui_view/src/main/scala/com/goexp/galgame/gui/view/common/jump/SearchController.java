@@ -33,15 +33,9 @@ public class SearchController extends DefaultController {
 //        linkDlsite.setOnAction((e) -> {
 //            Websites.open(DlSiteURL.fromTitle(keyword));
 //        });
-        linkGGBases.setOnAction((e) -> {
-            Websites.open(GGBasesURL.fromTitle(keyword));
-        });
-        linkWiki.setOnAction((e) -> {
-            Websites.open(WikiURL.fromTitle(keyword));
-        });
-        link2DF.setOnAction((e) -> {
-            Websites.open(_2DFURL.fromTitle(keyword));
-        });
+        linkGGBases.setOnAction((e) -> Websites.open(GGBasesURL.fromTitle(keyword)));
+        linkWiki.setOnAction((e) -> Websites.open(WikiURL.fromTitle(keyword)));
+        link2DF.setOnAction((e) -> Websites.open(_2DFURL.fromTitle(keyword)));
 //        linkBangumi.setOnAction((e) -> {
 //            Websites.open(BangumiURL.fromTitle(keyword));
 //        });

@@ -84,7 +84,7 @@ object MarkSameGameTask extends App {
         })(CPU_POOL)
 
       f.foreach {
-        case (game: Game) =>
+        case game: Game =>
           logger.info(s"ID:${game.id} Name: ${game.name}  State: ${game.state}")
           StateDB.update(game)
         case _ =>

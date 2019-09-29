@@ -2,7 +2,6 @@ package com.goexp.galgame.gui.view.guide;
 
 import com.goexp.galgame.gui.view.DefaultController;
 import javafx.concurrent.Worker;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.text.FontSmoothingType;
 import javafx.scene.web.WebView;
@@ -23,16 +22,8 @@ public class ShowPageController extends DefaultController {
         webView.setFontSmoothingType(FontSmoothingType.GRAY);
 
 
-        /**
-         * WebView setting
-         */
-
-
         webView
-                .getEngine().getLoadWorker().messageProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Mess:" + newValue);
-
-        });
+                .getEngine().getLoadWorker().messageProperty().addListener((observable, oldValue, newValue) -> System.out.println("Mess:" + newValue));
 
         webView
                 .getEngine().getLoadWorker().exceptionProperty().addListener((ov, t, t1) -> {

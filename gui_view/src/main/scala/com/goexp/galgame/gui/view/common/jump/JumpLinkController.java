@@ -25,13 +25,9 @@ public class JumpLinkController extends DefaultController {
 
     protected void initialize() {
 
-        linkGetchu.setOnAction((e) -> {
-            Websites.open(GetchuGame.byId(game.id));
-        });
+        linkGetchu.setOnAction((e) -> Websites.open(GetchuGame.byId(game.id)));
 
-        linkGuide.setOnAction((e) -> {
-            HomeController.$this.loadGuide(game.name);
-        });
+        linkGuide.setOnAction((e) -> HomeController.$this.loadGuide(game.name));
     }
 
     public void load(Game game) {

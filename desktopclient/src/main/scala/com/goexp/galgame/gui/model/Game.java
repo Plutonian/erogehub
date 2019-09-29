@@ -14,7 +14,7 @@ import java.util.StringJoiner;
 import static com.goexp.common.util.string.ConsoleColors.RED;
 
 public class Game extends CommonGame {
-    public SimpleObjectProperty<GameState> state = new SimpleObjectProperty<GameState>();
+    public SimpleObjectProperty<GameState> state = new SimpleObjectProperty<>();
     public Brand brand;
     public int star;
 

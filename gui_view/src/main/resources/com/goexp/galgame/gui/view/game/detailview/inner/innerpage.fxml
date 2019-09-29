@@ -12,19 +12,15 @@
     <stylesheets>
         <URL value="@/view/view.css" />
     </stylesheets>
-   <Tab text="Image">
-     <content>
-         <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true">
-            <content>
-               <BorderPane>
-                  <center>
-                     <ImageView fx:id="imgLarge" pickOnBounds="true" />
-                  </center>
-               </BorderPane>
-            </content>
-         </ScrollPane>
-     </content>
-   </Tab>
+    <Tab text="Image">
+        <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true">
+            <BorderPane>
+                <center>
+                    <ImageView fx:id="imgLarge" pickOnBounds="true"/>
+                </center>
+            </BorderPane>
+        </ScrollPane>
+    </Tab>
     <Tab text="Intro">
         <fx:include fx:id="header" source="header.fxml" />
     </Tab>

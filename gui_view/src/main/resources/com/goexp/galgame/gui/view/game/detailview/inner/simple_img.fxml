@@ -16,37 +16,33 @@
     </stylesheets>
     <center>
         <StackPane>
-            <children>
-                <ImageView fx:id="largeSimple" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
-                    <effect>
-                        <DropShadow offsetX="3.0" offsetY="3.0" />
-                    </effect>
-                </ImageView>
-                <Hyperlink fx:id="btnPrve" onAction="#btnPrev_OnAction" style="-fx-background-color: #00000010;" StackPane.alignment="CENTER_LEFT">
-                    <graphic>
-                        <ImageView pickOnBounds="true" preserveRatio="true" rotate="270.0">
-                            <image>
-                                <Image url="@/img/up.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                    <StackPane.margin>
-                        <Insets left="150.0" />
-                    </StackPane.margin>
-                </Hyperlink>
-                <Hyperlink fx:id="btnNext" onAction="#btnNext_OnAction" style="-fx-background-color: #00000010;" StackPane.alignment="CENTER_RIGHT">
-                    <graphic>
-                        <ImageView pickOnBounds="true" preserveRatio="true" rotate="90.0">
-                            <image>
-                                <Image url="@/img/up.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                    <StackPane.margin>
-                        <Insets right="150.0" />
-                    </StackPane.margin>
-                </Hyperlink>
-            </children>
+            <ImageView fx:id="largeSimple" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                <effect>
+                    <DropShadow offsetX="3.0" offsetY="3.0"/>
+                </effect>
+            </ImageView>
+            <Hyperlink fx:id="btnPrve" onAction="#btnPrev_OnAction" style="-fx-background-color: #00000010;"
+                       StackPane.alignment="CENTER_LEFT">
+                <graphic>
+                    <ImageView pickOnBounds="true" preserveRatio="true" rotate="270.0">
+                        <Image url="@/img/up.png"/>
+                    </ImageView>
+                </graphic>
+                <StackPane.margin>
+                    <Insets left="150.0"/>
+                </StackPane.margin>
+            </Hyperlink>
+            <Hyperlink fx:id="btnNext" onAction="#btnNext_OnAction" style="-fx-background-color: #00000010;"
+                       StackPane.alignment="CENTER_RIGHT">
+                <graphic>
+                    <ImageView pickOnBounds="true" preserveRatio="true" rotate="90.0">
+                        <Image url="@/img/up.png"/>
+                    </ImageView>
+                </graphic>
+                <StackPane.margin>
+                    <Insets right="150.0"/>
+                </StackPane.margin>
+            </Hyperlink>
         </StackPane>
     </center>
     <bottom>

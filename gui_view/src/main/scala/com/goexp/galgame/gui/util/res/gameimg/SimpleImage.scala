@@ -6,9 +6,9 @@ import javafx.scene.image.Image
 
 class SimpleImage(private[this] val game: Game) {
 
-  protected var onOKEvent: (Image) => Unit = _
+  protected var onOKEvent: Image => Unit = _
 
-  def onOK(f: (Image) => Unit) = {
+  def onOK(f: Image => Unit) = {
     this.onOKEvent = f
     this
   }

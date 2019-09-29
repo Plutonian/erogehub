@@ -23,7 +23,7 @@ public class SearchController extends DefaultController {
      * UI Com
      */
 
-    public BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
+    public final BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
 
     private String key;
 
@@ -87,7 +87,7 @@ public class SearchController extends DefaultController {
     private void btnSearchGame_OnAction(ActionEvent actionEvent) {
 
         key = textSearchGameKey.getText().trim();
-        searchType = SearchType.from(Integer.valueOf((String) searchGroup.getSelectedToggle().getUserData()));
+        searchType = SearchType.from(Integer.parseInt((String) searchGroup.getSelectedToggle().getUserData()));
         onLoadProperty.set(true);
         resetEvent();
     }
@@ -110,7 +110,7 @@ public class SearchController extends DefaultController {
 
         if (files.size() > 0) {
             var f = files.get(0);
-            var title = f.getName().replaceFirst("\\.[^\\.]+", "");
+            var title = f.getName().replaceFirst("\\.[^.]+", "");
 
             textSearchGameKey.setText(title);
         }
@@ -121,7 +121,7 @@ public class SearchController extends DefaultController {
         Full(1),
         Extend(2);
 
-        private int value;
+        private final int value;
 
         SearchType(int value) {
             this.value = value;

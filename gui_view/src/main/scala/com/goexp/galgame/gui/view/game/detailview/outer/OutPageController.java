@@ -22,8 +22,6 @@ public class OutPageController extends DefaultController {
 
     public ImageView imgBackground;
 
-    private Game game;
-
     protected void initialize() {
 
 //        ((VBox) (rootContainerController.rootContainer.getContent()))
@@ -83,7 +81,6 @@ public class OutPageController extends DefaultController {
     }
 
     public void load(Game game) {
-        this.game = game;
 
 //        loadBackgroundImage(game);
 

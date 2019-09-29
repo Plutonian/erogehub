@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public abstract class FilterController<T> extends DefaultController {
-    public BooleanProperty onSetProperty = new SimpleBooleanProperty(false);
+    public final BooleanProperty onSetProperty = new SimpleBooleanProperty(false);
     public Predicate<T> predicate;
 
     public abstract void init(List<T> filteredGames);

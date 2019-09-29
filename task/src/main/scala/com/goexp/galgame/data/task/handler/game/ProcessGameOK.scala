@@ -30,9 +30,9 @@ class ProcessGameOK extends MessageHandler {
     if (localSize == 0) return remote
 
     // make local cache
-    val localMap = local.asScala.to(LazyList).map(cc => cc.index -> cc).toMap
+    val localMap = local.asScala.to(LazyList).map { cc => cc.index -> cc }.toMap
     //merge local to remote
-    remote.asScala.map((rc: CommonGame.GameCharacter) => {
+    remote.asScala.map { rc =>
       localMap.get(rc.index) match {
         case Some(localC) =>
 
@@ -63,7 +63,8 @@ class ProcessGameOK extends MessageHandler {
       }
 
       rc
-    }).asJava
+
+    }.asJava
   }
 
   override def process(message: Message) = {

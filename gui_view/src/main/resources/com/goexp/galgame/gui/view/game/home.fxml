@@ -52,50 +52,36 @@
     </center>
     <left>
         <VBox>
-            <children>
-                <TitledPane animated="false" collapsible="false" text="Search">
-                    <content>
-                        <VBox>
-                            <children>
-                                <Hyperlink fx:id="linkSearch" onAction="#linkSearch_OnAction"
-                                           onDragOver="#linkSearch_OnDragOver"
-                                           onDragDropped="#linkSearch_OnDragDropped"/>
-                                <Hyperlink fx:id="linkDate" onAction="#linkDate_OnAction">
-                                </Hyperlink>
-                                <Hyperlink fx:id="linkTags" onAction="#linkTags_OnAction"/>
-                                <Hyperlink fx:id="linkCV" onAction="#linkCV_OnAction"/>
-                                <Hyperlink fx:id="linkBrand" onAction="#linkBrand_OnAction" text="ブランド"/>
-                            </children>
+            <TitledPane animated="false" collapsible="false" text="Search">
+                <VBox>
+                    <Hyperlink fx:id="linkSearch" onAction="#linkSearch_OnAction"
+                               onDragOver="#linkSearch_OnDragOver"
+                               onDragDropped="#linkSearch_OnDragDropped"/>
+                    <Hyperlink fx:id="linkDate" onAction="#linkDate_OnAction">
+                    </Hyperlink>
+                    <Hyperlink fx:id="linkTags" onAction="#linkTags_OnAction"/>
+                    <Hyperlink fx:id="linkCV" onAction="#linkCV_OnAction"/>
+                    <Hyperlink fx:id="linkBrand" onAction="#linkBrand_OnAction" text="ブランド"/>
+                </VBox>
+            </TitledPane>
+            <Accordion fx:id="menuPanel">
+                <panes>
+                    <TitledPane text="State">
+                        <VBox spacing="20.0">
+                            <VBox fx:id="gameStateLinkPanel">
+                            </VBox>
+                            <VBox fx:id="gameStateLikeLinkPanel"/>
                         </VBox>
-                    </content>
-                </TitledPane>
-                <Accordion fx:id="menuPanel">
-                    <panes>
-                        <TitledPane text="State">
-                            <content>
-                                <VBox spacing="20.0">
-                                    <children>
-                                        <VBox fx:id="gameStateLinkPanel">
-                                        </VBox>
-                                        <VBox fx:id="gameStateLikeLinkPanel"/>
-                                    </children>
-                                </VBox>
-                            </content>
-                        </TitledPane>
-                        <TitledPane text="Type">
-                            <content>
-                                <VBox fx:id="gameStarlinkPanel">
-                                    <children>
-                                        <Hyperlink onAction="#like_OnAction" text="优"/>
-                                        <Hyperlink onAction="#normal_OnAction" text="良"/>
-                                        <Hyperlink onAction="#pass_OnAction" text="差"/>
-                                    </children>
-                                </VBox>
-                            </content>
-                        </TitledPane>
-                    </panes>
-                </Accordion>
-            </children>
+                    </TitledPane>
+                    <TitledPane text="Type">
+                        <VBox fx:id="gameStarlinkPanel">
+                            <Hyperlink onAction="#like_OnAction" text="优"/>
+                            <Hyperlink onAction="#normal_OnAction" text="良"/>
+                            <Hyperlink onAction="#pass_OnAction" text="差"/>
+                        </VBox>
+                    </TitledPane>
+                </panes>
+            </Accordion>
         </VBox>
     </left>
 

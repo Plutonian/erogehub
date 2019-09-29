@@ -1,6 +1,6 @@
 package com.goexp.galgame.common.db.mongo.query
 
-import java.util.List
+import java.util
 
 import com.goexp.common.db.mongo.ObjectCreator
 import com.goexp.common.util.date.DateUtil
@@ -23,7 +23,7 @@ object CVCreator extends ObjectCreator[CV] {
     cv.end = Option(doc.getDate("end")).map(DateUtil.toLocalDate).orNull
     cv.size = doc.getInteger("size")
 
-    cv.tag = doc.get("tag", classOf[List[String]])
+    cv.tag = doc.get("tag", classOf[util.List[String]])
     cv.nameStr = doc.getString("names")
     cv
   }

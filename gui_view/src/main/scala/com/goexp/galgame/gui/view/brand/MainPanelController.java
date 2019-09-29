@@ -34,7 +34,7 @@ public class MainPanelController extends DefaultController {
      * UI Com
      */
 
-    public BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
+    public final BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
 
     public Brand targetBrand;
     public TableColumn<Brand, LocalDate> colStart;
@@ -81,11 +81,11 @@ public class MainPanelController extends DefaultController {
     private String keyword;
 
 
-    private Service<List<Brand>> brandService = new TaskService<>(() -> new ByType(brandType));
+    private final Service<List<Brand>> brandService = new TaskService<>(() -> new ByType(brandType));
 
-    private Service<List<Brand>> brandByNameService = new TaskService<>(() -> new ByName(keyword));
+    private final Service<List<Brand>> brandByNameService = new TaskService<>(() -> new ByName(keyword));
 
-    private Service<List<Brand>> brandByCompService = new TaskService<>(() -> new ByComp(keyword));
+    private final Service<List<Brand>> brandByCompService = new TaskService<>(() -> new ByComp(keyword));
 
 
     @Override
@@ -127,24 +127,19 @@ public class MainPanelController extends DefaultController {
             }
         });
 
-        colWebsite.setCellFactory(col -> {
+        colWebsite.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                this.setGraphic(null);
 
-            return new TableCell<>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    this.setGraphic(null);
-
-                    if (!empty && !Strings.isEmpty(item)) {
-                        var titleLabel = new Hyperlink();
-                        titleLabel.setText(item);
-                        titleLabel.setOnAction(event -> {
-                            Websites.open(item);
-                        });
-                        this.setGraphic(titleLabel);
-                    }
+                if (!empty && !Strings.isEmpty(item)) {
+                    var titleLabel = new Hyperlink();
+                    titleLabel.setText(item);
+                    titleLabel.setOnAction(event -> Websites.open(item));
+                    this.setGraphic(titleLabel);
                 }
-            };
+            }
         });
 
         colCommand.setCellFactory(col -> new TableCell<>() {

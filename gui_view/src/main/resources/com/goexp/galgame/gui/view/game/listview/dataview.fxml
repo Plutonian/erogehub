@@ -58,10 +58,8 @@
         <BorderPane>
             <left>
                 <ToolBar orientation="VERTICAL">
-                    <items>
-                        <Button fx:id="btnHide" mnemonicParsing="false" text="+"/>
-                        <Button mnemonicParsing="false" onAction="#reload_OnAction" text="R"/>
-                    </items>
+                    <Button fx:id="btnHide" mnemonicParsing="false" text="+"/>
+                    <Button mnemonicParsing="false" onAction="#reload_OnAction" text="R"/>
                 </ToolBar>
             </left>
             <center>

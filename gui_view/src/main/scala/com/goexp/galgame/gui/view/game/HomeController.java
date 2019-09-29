@@ -25,7 +25,6 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -280,7 +279,7 @@ public class HomeController extends DefaultController {
 
 
     @FXML
-    private void linkSearch_OnAction(ActionEvent actionEvent) throws IOException {
+    private void linkSearch_OnAction(ActionEvent actionEvent) {
         TabSelect.from().ifNotFind(() -> {
 
             var loader = new FXMLLoaderProxy<Region, SearchController>(SEARCH_FXML);
@@ -310,7 +309,7 @@ public class HomeController extends DefaultController {
 
         if (files.size() > 0) {
             var f = files.get(0);
-            var title = f.getName().replaceFirst("\\.[^\\.]+", "");
+            var title = f.getName().replaceFirst("\\.[^.]+", "");
 
             TabSelect.from().ifNotFind(() -> {
 
@@ -326,7 +325,7 @@ public class HomeController extends DefaultController {
     }
 
     @FXML
-    private void linkTags_OnAction(ActionEvent actionEvent) throws IOException {
+    private void linkTags_OnAction(ActionEvent actionEvent) {
 
         TabSelect.from().ifNotFind(() -> {
             var loader = new FXMLLoaderProxy<Region, TagController>(SEARCH_TYPE_FXML);
@@ -340,7 +339,7 @@ public class HomeController extends DefaultController {
 
 
     @FXML
-    private void linkDate_OnAction(ActionEvent actionEvent) throws IOException {
+    private void linkDate_OnAction(ActionEvent actionEvent) {
         switchVisiable(date);
 
         if (date.isVisible())
@@ -350,7 +349,7 @@ public class HomeController extends DefaultController {
 
 
     @FXML
-    private void linkBrand_OnAction(ActionEvent actionEvent) throws IOException {
+    private void linkBrand_OnAction(ActionEvent actionEvent) {
 
         TabSelect.from().ifNotFind(() -> {
             final var loader = new FXMLLoaderProxy<Region, MainPanelController>(BRAND_PANEL_FXML);

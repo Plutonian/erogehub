@@ -8,8 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 
 import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class InfoController extends DefaultController {
@@ -30,9 +28,7 @@ public class InfoController extends DefaultController {
                 .flatMap(g -> g.tag.stream())
                 .collect(Collectors.groupingBy(str -> str))
                 .entrySet().stream()
-                .sorted(Comparator.comparing((Map.Entry<String, List<String>> v) -> {
-                    return v.getValue().size();
-                }).reversed())
+                .sorted(Comparator.comparing(v -> v.getValue().size(), Comparator.reverseOrder()))
                 .collect(Collectors.toList());
 
         // top 10

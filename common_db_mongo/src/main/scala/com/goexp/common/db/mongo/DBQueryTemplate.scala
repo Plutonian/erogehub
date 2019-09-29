@@ -71,14 +71,14 @@ class DBQueryTemplate[T] private(dbName: String,
       this
     }
 
-    def set: Set[T] = finalPart.set
+    def set: util.Set[T] = finalPart.set
 
     def set(userCreator: ObjectCreator[T]) = {
       Objects.requireNonNull(userCreator)
       finalPart.set(userCreator)
     }
 
-    def list: List[T] = finalPart.list
+    def list: util.List[T] = finalPart.list
 
     def list(userCreator: ObjectCreator[T]) = {
       Objects.requireNonNull(userCreator)
@@ -139,18 +139,18 @@ class DBQueryTemplate[T] private(dbName: String,
     }
 
     class FinalBuilder private[QueryBuilder] {
-      def set: Set[T] = docs2Collection(defaultCreator.create, new HashSet[T])
+      def set: util.Set[T] = docs2Collection(defaultCreator.create, new util.HashSet[T])
 
       def set(userCreator: ObjectCreator[T]) = {
         Objects.requireNonNull(userCreator)
-        docs2Collection(userCreator.create, new HashSet[T])
+        docs2Collection(userCreator.create, new util.HashSet[T])
       }
 
-      def list: List[T] = docs2Collection(defaultCreator.create, new ArrayList[T])
+      def list: util.List[T] = docs2Collection(defaultCreator.create, new util.ArrayList[T])
 
       def list(userCreator: ObjectCreator[T]) = {
         Objects.requireNonNull(userCreator)
-        docs2Collection(userCreator.create, new ArrayList[T])
+        docs2Collection(userCreator.create, new util.ArrayList[T])
       }
 
       def one: T = {

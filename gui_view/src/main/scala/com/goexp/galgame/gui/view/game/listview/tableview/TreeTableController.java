@@ -56,7 +56,7 @@ public class TreeTableController extends DefaultController {
     private List<Game> selectedGames;
 
 
-    private Service<Void> changeGameService = new TaskService<>(() -> new MultiLike(selectedGames));
+    private final Service<Void> changeGameService = new TaskService<>(() -> new MultiLike(selectedGames));
 
     protected void initialize() {
 
@@ -75,7 +75,7 @@ public class TreeTableController extends DefaultController {
 
                         selectedGames = table.getSelectionModel().getSelectedItems()
                                 .stream()
-                                .map(gameTreeItem -> gameTreeItem.getValue())
+                                .map(TreeItem::getValue)
                                 .collect(Collectors.toUnmodifiableList());
 
                         selectedGames.forEach(game -> game.state.set(type));
@@ -233,9 +233,7 @@ public class TreeTableController extends DefaultController {
 
                             if (game != null) {
                                 Hyperlink viewLink = new Hyperlink("View");
-                                viewLink.setOnAction((e) -> {
-                                    HomeController.$this.loadDetail(game);
-                                });
+                                viewLink.setOnAction((e) -> HomeController.$this.loadDetail(game));
 
                                 loader.controller.load(game);
 

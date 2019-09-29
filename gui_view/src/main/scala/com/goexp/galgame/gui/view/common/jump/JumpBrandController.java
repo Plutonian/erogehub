@@ -32,18 +32,9 @@ public class JumpBrandController extends DefaultController {
 
     protected void initialize() {
 
-        linkGetchu.setOnAction((e) -> {
-            Websites.open(GameList.byBrand(brand.id()));
-        });
-        jumpBrand.setOnAction((e) -> {
-            HomeController.$this.viewBrand(brand);
-        });
-        linkWebsite.setOnAction((e) -> {
-
-
-            Websites.open(brand.website());
-
-        });
+        linkGetchu.setOnAction((e) -> Websites.open(GameList.byBrand(brand.id())));
+        jumpBrand.setOnAction((e) -> HomeController.$this.viewBrand(brand));
+        linkWebsite.setOnAction((e) -> Websites.open(brand.website()));
     }
 
     public void load(Brand brand) {

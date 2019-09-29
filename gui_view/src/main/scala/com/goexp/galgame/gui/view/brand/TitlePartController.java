@@ -29,14 +29,13 @@ import javafx.util.StringConverter;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TitlePartController extends DefaultController {
 
-    public BooleanProperty stateChangeProperty = new SimpleBooleanProperty(false);
+    public final BooleanProperty stateChangeProperty = new SimpleBooleanProperty(false);
     @FXML
     private Text txtComp;
     @FXML
@@ -51,9 +50,9 @@ public class TitlePartController extends DefaultController {
     private ChoiceBox<BrandType> choiceBrandState;
     private Brand changeBrand;
 
-    private Service changeBrandStateService = new TaskService(() -> new ChangeIsLikeTask(changeBrand));
-    private Service<Void> changeGameStateService = new TaskService<>(() -> new MultiLikeByBrand(changeBrand.id()));
-    private Service<List<Brand>> listBrandService = new TaskService<>(() -> new ByComp(changeBrand.comp()));
+    private final Service changeBrandStateService = new TaskService(() -> new ChangeIsLikeTask(changeBrand));
+    private final Service<Void> changeGameStateService = new TaskService<>(() -> new MultiLikeByBrand(changeBrand.id()));
+    private final Service<List<Brand>> listBrandService = new TaskService<>(() -> new ByComp(changeBrand.comp()));
 
 
     private ChangeListener<BrandType> listener;
@@ -108,9 +107,7 @@ public class TitlePartController extends DefaultController {
                             var item = new MenuItem();
                             item.setText(brand.name());
                             item.setUserData(brand);
-                            item.setOnAction(event -> {
-                                HomeController.$this.viewBrand(brand);
-                            });
+                            item.setOnAction(event -> HomeController.$this.viewBrand(brand));
 
                             return item;
                         })
@@ -165,7 +162,7 @@ public class TitlePartController extends DefaultController {
                     .collect(Collectors.groupingBy(str -> str))
                     .entrySet()
                     .stream()
-                    .sorted(Comparator.comparing(stringListEntry -> ((Map.Entry<String, List<String>>) stringListEntry).getValue().size()).reversed())
+                    .sorted(Comparator.comparing(stringListEntry -> stringListEntry.getValue().size(), Comparator.reverseOrder()))
                     .limit(10)
                     .map(entry -> {
                         var lb = new Label();

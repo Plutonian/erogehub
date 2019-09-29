@@ -8,31 +8,24 @@
 <?import javafx.scene.layout.StackPane?>
 
 <?import java.net.URL?>
-<TitledPane styleClass="copyablelabel" animated="false" expanded="false" text="Filter" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController">
+<TitledPane styleClass="copyablelabel" animated="false" expanded="false" text="Filter"
+            xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController">
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
-    <content>
-        <StackPane>
-            <children>
-            <FlowPane hgap="50.0">
-               <children>
-                  <HBox spacing="5.0">
-                     <children>
-                              <Label text="Star" />
-                        <HBox fx:id="starbox" spacing="5.0" />
-                     </children>
-                  </HBox>
-                  <HBox spacing="5.0">
-                     <children>
-                              <Label text="State" />
-                        <HBox fx:id="statebox" spacing="5.0" />
-                     </children>
-                  </HBox>
-               </children>
-            </FlowPane>
-                <Button mnemonicParsing="false" onAction="#SetFilter_OnAction" text="OK" StackPane.alignment="BOTTOM_RIGHT" />
-            </children>
-        </StackPane>
-    </content>
+    <StackPane>
+        <FlowPane hgap="50.0">
+            <HBox spacing="5.0">
+                <Label text="Star"/>
+                <HBox fx:id="starbox" spacing="5.0"/>
+            </HBox>
+            <HBox spacing="5.0">
+                <Label text="State"/>
+                <HBox fx:id="statebox" spacing="5.0"/>
+            </HBox>
+        </FlowPane>
+        <Button mnemonicParsing="false" onAction="#SetFilter_OnAction" text="OK"
+                StackPane.alignment="BOTTOM_RIGHT"/>
+    </StackPane>
 </TitledPane>

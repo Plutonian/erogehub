@@ -24,11 +24,11 @@ import java.util.stream.Collectors;
 public class TagController extends DefaultController {
 
 
-    public BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
+    public final BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
     public String tag;
     @FXML
     private FlowPane tabType;
-    private Service<ObservableList<TagType>> typeService = new TaskService<>(TagListTask::new);
+    private final Service<ObservableList<TagType>> typeService = new TaskService<>(TagListTask::new);
 
 
     /**

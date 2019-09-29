@@ -4,18 +4,14 @@
 <?import javafx.scene.layout.TilePane?>
 <?import java.net.URL?>
 <?import javafx.scene.layout.HBox?>
-<TitledPane xmlns:fx="http://javafx.com/fxml/1" managed="false"  animated="false" style="-fx-background-color: white;"
+<TitledPane xmlns:fx="http://javafx.com/fxml/1" managed="false" animated="false" style="-fx-background-color: white;"
             text="Date" xmlns="http://javafx.com/javafx"
             fx:controller="com.goexp.galgame.gui.view.game.DateController">
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
-    <content>
-        <HBox spacing="10">
-            <children>
-                <TilePane fx:id="flowYear" prefColumns="10" />
-                <TilePane fx:id="dateCon" prefColumns="6"/>
-            </children>
-        </HBox>
-    </content>
+    <HBox spacing="10">
+        <TilePane fx:id="flowYear" prefColumns="10"/>
+        <TilePane fx:id="dateCon" prefColumns="6"/>
+    </HBox>
 </TitledPane>

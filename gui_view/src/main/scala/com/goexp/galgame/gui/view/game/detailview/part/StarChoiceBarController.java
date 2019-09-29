@@ -21,14 +21,14 @@ import java.util.stream.IntStream;
 
 public class StarChoiceBarController extends DefaultController {
 
-    public BooleanProperty onStarChangeProperty = new SimpleBooleanProperty(false);
+    public final BooleanProperty onStarChangeProperty = new SimpleBooleanProperty(false);
     private Game targetGame;
     private ChangeListener<Toggle> handler;
     private List<ToggleButton> list;
     @FXML
     private HBox groupLikeCon;
-    private ToggleGroup groupLike = new ToggleGroup();
-    private Service<Void> changeStarService = new TaskService<>(() -> new Star(targetGame));
+    private final ToggleGroup groupLike = new ToggleGroup();
+    private final Service<Void> changeStarService = new TaskService<>(() -> new Star(targetGame));
 
 
     protected void initialize() {
@@ -86,15 +86,9 @@ public class StarChoiceBarController extends DefaultController {
 
         groupLike.selectedToggleProperty().removeListener(handler);
 
-        list.forEach(bt -> {
-            bt.setSelected(false);
-        });
+        list.forEach(bt -> bt.setSelected(false));
 
-        list.stream().filter(btn -> {
-            return (int) (btn.getUserData()) == g.star;
-        }).findAny().ifPresent((targetBtn) -> {
-            targetBtn.setSelected(true);
-        });
+        list.stream().filter(btn -> (int) (btn.getUserData()) == g.star).findAny().ifPresent((targetBtn) -> targetBtn.setSelected(true));
 
 
         groupLike.selectedToggleProperty().addListener(handler);

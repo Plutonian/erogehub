@@ -22,26 +22,32 @@ import java.util.List;
 
 public class CVInfoController extends DefaultController {
 
-    /***
-     * Biz
+    /**
+     Biz
      */
 
     /**
      * UI Com
      */
 
-    public TableView<CV> tableCV;
-
-    public TableColumn<CV, String> colName;
-    public TableColumn<CV, Integer> colStar;
-    public TableColumn<CV, List<String>> colTag;
-    public TableColumn<CV, LocalDate> colStart;
-    public TableColumn<CV, LocalDate> colEnd;
-    public TableColumn<CV, Integer> colSize;
-
+    @FXML
+    private TableView<CV> tableCV;
 
     @FXML
-    private Service<ObservableList<CV>> loadCVService = new TaskService<>(CVListTask::new);
+    private TableColumn<CV, String> colName;
+    @FXML
+    private TableColumn<CV, Integer> colStar;
+    @FXML
+    private TableColumn<CV, List<String>> colTag;
+    @FXML
+    private TableColumn<CV, LocalDate> colStart;
+    @FXML
+    private TableColumn<CV, LocalDate> colEnd;
+    @FXML
+    private TableColumn<CV, Integer> colSize;
+
+
+    private final Service<ObservableList<CV>> loadCVService = new TaskService<>(CVListTask::new);
 
 
     /**
@@ -94,9 +100,7 @@ public class CVInfoController extends DefaultController {
 
                 if (item != null && !empty) {
                     var link = new Hyperlink(item);
-                    link.setOnAction(event -> {
-                        HomeController.$this.loadCVTab(item, true);
-                    });
+                    link.setOnAction(event -> HomeController.$this.loadCVTab(item, true));
                     this.setGraphic(link);
                 }
             }
@@ -129,23 +133,20 @@ public class CVInfoController extends DefaultController {
         });
 
 
+        colTag.setCellFactory(col -> new TableCell<>() {
+            protected void updateItem(List<String> tag, boolean empty) {
+                super.updateItem(tag, empty);
+                this.setGraphic(null);
+                this.setText(null);
 
-        colTag.setCellFactory(col -> {
-            return new TableCell<>() {
-                protected void updateItem(List<String> tag, boolean empty) {
-                    super.updateItem(tag, empty);
-                    this.setGraphic(null);
-                    this.setText(null);
+                if (tag != null && !empty) {
 
-                    if (tag != null && !empty) {
-
-                        var hbox = new HBox();
-                        hbox.setSpacing(5);
-                        hbox.getChildren().setAll(Tags.toNodes(tag));
-                        this.setGraphic(hbox);
-                    }
+                    var hbox = new HBox();
+                    hbox.setSpacing(5);
+                    hbox.getChildren().setAll(Tags.toNodes(tag));
+                    this.setGraphic(hbox);
                 }
-            };
+            }
         });
 
 

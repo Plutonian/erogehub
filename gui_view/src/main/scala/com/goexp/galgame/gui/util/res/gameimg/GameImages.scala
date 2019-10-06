@@ -9,6 +9,7 @@ import java.util.concurrent.Executors
 
 import com.goexp.common.util.web.HttpUtil
 import com.goexp.common.util.web.url._
+import com.goexp.galgame.gui.Config
 import com.goexp.galgame.gui.Config.IMG_PATH
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.cache.AppCache
@@ -83,39 +84,48 @@ object GameImages {
           imageCache.put(memCacheKey, image)
           onOK(image)
         } else {
-          //placeholder
-          AppCache.imageMemCache.put(memCacheKey, new WritableImage(1, 1))
+
+          // only load local
+          if (Config.DOWNLOAD_REMOTE_IMG) {
+            //placeholder
+            AppCache.imageMemCache.put(memCacheKey, new WritableImage(1, 1))
 
 
-          implicit val executor = ExecutionContext.fromExecutor(executers)
+            implicit val executor = ExecutionContext.fromExecutor(executers)
 
-          Future {
-            loadFrom(memCacheKey)
-          }
-            .map(bytes => {
-              val img = new Image(new ByteArrayInputStream(bytes))
-              Platform.runLater(() => {
-                imageCache.put(memCacheKey, img)
-                onOK(img)
-
-                if (game.isOkState) {
-                  //Save anys
-                  Future {
-                    Files.createDirectories(localPath.getParent)
-                    saveImage(bytes, localPath)
-
-                  }
-                }
-              })
-            })
-            .onComplete {
-              case Failure(e) =>
-                Platform.runLater(() => {
-                  imageCache.remove(memCacheKey)
-                })
-                logger.error(e.getMessage)
-              case _ =>
+            Future {
+              loadFrom(memCacheKey)
             }
+              .map(bytes => {
+                val img = new Image(new ByteArrayInputStream(bytes))
+                Platform.runLater(() => {
+                  imageCache.put(memCacheKey, img)
+                  onOK(img)
+
+                  if (game.isOkState) {
+                    //Save anys
+                    Future {
+                      Files.createDirectories(localPath.getParent)
+                      saveImage(bytes, localPath)
+
+                    }
+                  }
+                })
+              })
+              .onComplete {
+                case Failure(e) =>
+                  Platform.runLater(() => {
+                    imageCache.remove(memCacheKey)
+                  })
+                  logger.error(e.getMessage)
+                case _ =>
+              }
+          } else {
+            imageCache.put(memCacheKey, null)
+            onOK(null)
+          }
+
+
         }
     }
 

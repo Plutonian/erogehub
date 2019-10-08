@@ -13,7 +13,9 @@ object FromDateRangeTask {
     Network.initProxy()
 
     val start = LocalDate.now.minusMonths(1).withDayOfMonth(1)
-    val end = LocalDate.now.withMonth(12).withDayOfMonth(31)
+
+    val end = start.plusMonths(6)
+//    val end = LocalDate.now.withMonth(12).withDayOfMonth(31)
 
 
     new Pipeline(new FromDateRange(start, end))

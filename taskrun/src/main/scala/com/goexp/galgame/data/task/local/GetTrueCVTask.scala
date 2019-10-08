@@ -7,12 +7,9 @@ import com.goexp.galgame.common.model.CV
 import com.goexp.galgame.common.model.CommonGame.GameCharacter
 import com.goexp.galgame.data.db.importor.mongdb.GameDB
 import com.goexp.galgame.data.db.query.mongdb.{CVQuery, GameQuery}
-import com.goexp.galgame.data.task.ansyn.Pool._
 import com.mongodb.client.model.Filters.{not, eq => same}
 import org.slf4j.LoggerFactory
 
-import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
 import scala.jdk.CollectionConverters._
 
 
@@ -45,40 +42,33 @@ object GetTrueCVTask extends App {
     .where(not(same("gamechar", null)))
     .list.asScala.to(LazyList)
     .filter(g => Option(g.gameCharacters).map(_.size).getOrElse(0) > 0)
-    .foreach(g => {
+    .map(g => {
 
-      val f = Future {
-        var change = false
+      var change = false
 
-        g.gameCharacters =
-          g.gameCharacters.asScala
-            .map(p => {
-              //              def isTarget(p: Person) = Strings.isNotEmpty(p.cv)
-              def isTarget(p: Person) = Strings.isNotEmpty(p.cv) && Strings.isEmpty(p.trueCV)
+      g.gameCharacters = g.gameCharacters.asScala
+        .map(p => {
+          def isTarget(p: Person) = Strings.isNotEmpty(p.cv) && Strings.isEmpty(p.trueCV)
 
-              val cv = p.cv.trim.toLowerCase
-              if (isTarget(p) && localCV.contains(cv)) {
-                val trueCV = localCV(cv)
-                p.trueCV = trueCV.name
+          val cv = p.cv.trim.toLowerCase
+          if (isTarget(p) && localCV.contains(cv)) {
+            val trueCV = localCV(cv)
+            p.trueCV = trueCV.name
 
-                logger.info(s"CV:${p.cv},trueCV:${p.trueCV}  Game: ${g.name} ")
-                change = true
-              }
+            logger.info(s"CV:${p.cv},trueCV:${p.trueCV}  Game: ${g.name} ")
+            change = true
+          }
 
-              p
-            }).asJava
-        (change, g)
+          p
+        }).asJava
 
-      }(CPU_POOL)
-
-      f.foreach {
-        case (true, game) =>
-          GameDB.updateChar(game)
-        case _ =>
-      }(IO_POOL)
-
-      Await.result(f, 10.minutes)
+      (change, g)
 
     })
+    .foreach {
+      case (true, game) =>
+        GameDB.updateChar(game)
+      case _ =>
+    }
 
 }

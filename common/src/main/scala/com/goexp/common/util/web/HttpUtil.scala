@@ -6,16 +6,15 @@ import java.time.Duration
 import java.util.concurrent.Executors
 
 object HttpUtil {
-  val httpClient: HttpClient = HttpClient.newBuilder
+  val httpClient = HttpClient.newBuilder
     .followRedirects(HttpClient.Redirect.ALWAYS)
     .executor(Executors.newCachedThreadPool(r => {
       val t = new Thread(r)
       t.setDaemon(true)
       t
-    }
-    ))
+    }))
     .proxy(ProxySelector.getDefault)
-    .connectTimeout(Duration.ofSeconds(60))
+    .connectTimeout(Duration.ofMinutes(5))
     .build
   val noneProxyHttpClient = HttpClient.newBuilder
     .followRedirects(HttpClient.Redirect.ALWAYS)

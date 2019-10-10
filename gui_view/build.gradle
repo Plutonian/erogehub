@@ -8,8 +8,8 @@ plugins {
 }
 
 javafx {
-    version = "12"
-    modules = ['javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.base', 'javafx.media', 'javafx.swing', 'javafx.web']
+    version = "13"
+    modules = ['javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.base', 'javafx.web']
 }
 mainClassName = 'com.goexp.galgame.gui.HGameApp'
 

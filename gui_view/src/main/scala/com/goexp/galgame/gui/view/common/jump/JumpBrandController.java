@@ -1,5 +1,6 @@
 package com.goexp.galgame.gui.view.common.jump;
 
+import com.goexp.common.util.string.Strings;
 import com.goexp.galgame.common.website.getchu.GameList;
 import com.goexp.galgame.gui.model.Brand;
 import com.goexp.galgame.gui.util.Websites;
@@ -42,11 +43,7 @@ public class JumpBrandController extends DefaultController {
 
         brandLabel.setText(brand.name());
 
-        if (brand.website() != null && brand.website().length() > 0) {
-            linkWebsite.setVisible(true);
-        } else {
-            linkWebsite.setVisible(false);
-        }
+        linkWebsite.setVisible(Strings.isNotEmpty(brand.website()));
 
         searchLinkController.load(brand.name());
 

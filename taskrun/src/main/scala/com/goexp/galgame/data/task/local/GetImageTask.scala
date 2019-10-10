@@ -24,10 +24,20 @@ object GetImageTask {
 
   def main(args: Array[String]): Unit = {
 
+    if (args.length != 2) {
+      println("<start> <end>")
+      return
+    }
     Network.initProxy()
 
-    val start = LocalDate.of(2019, 1, 1)
-    val end = start.plusYears(1)
+    val start = LocalDate.parse(args(0))
+    val end = LocalDate.parse(args(1))
+
+    logger.info("{}--{}", start, end)
+
+
+    //    val start = LocalDate.of(2018, 1, 1)
+    //    val end = start.plusYears(1)
 
     val games = GameQuery.fullTlp.query
       .where(and(
@@ -112,19 +122,25 @@ object GetImageTask {
     val latch = new CountDownLatch(counts)
     imgs.foreach {
       case (local: Path, remote: String) =>
-        logger.info(s"Local:$local --> Remote:$remote")
+        def rPath(path: Path) =
+          path.iterator().asScala.to(LazyList)
+            .takeRight(2)
+            .foldLeft("") { (s, r) => s"$s/$r" }
+
+
+        val tempLocal = rPath(local)
+        logger.info(s"Local:${tempLocal} --> Remote:$remote")
 
         try {
 
           ImageUtil.loadFromAsyn(remote)
             .thenApply[Array[Byte]] { res => res.body() }
-            //              .exceptionally(e=>)
             .thenAccept { bytes =>
               Files.createDirectories(local.getParent)
               Files.write(local, bytes)
 
 
-              logger.info(s"OK with:${local} Left:${atomicCount.decrementAndGet()}")
+              logger.info(s"OK with:${tempLocal} Left:${atomicCount.decrementAndGet()}")
 
 
               latch.countDown()
@@ -133,8 +149,8 @@ object GetImageTask {
 
 
           count += 1
-          if (count % 10 == 0)
-            TimeUnit.SECONDS.sleep(5)
+          if (count % 20 == 0)
+            TimeUnit.SECONDS.sleep(10)
         }
         catch {
           case e: Exception =>

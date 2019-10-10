@@ -140,9 +140,9 @@ public class TitlePartController extends DefaultController {
         if (Strings.isNotEmpty(brand.comp())) {
             txtComp.setText(brand.comp());
             listBrandService.restart();
-        } else {
-//            menuComp.setVisible(false);
         }
+        //            menuComp.setVisible(false);
+
 
         boxWebsite.getChildren().clear();
 
@@ -160,8 +160,7 @@ public class TitlePartController extends DefaultController {
                     .flatMap(game -> game.tag.stream())
                     .filter(s -> s.trim().length() > 0)
                     .collect(Collectors.groupingBy(str -> str))
-                    .entrySet()
-                    .stream()
+                    .entrySet().stream()
                     .sorted(Comparator.comparing(stringListEntry -> stringListEntry.getValue().size(), Comparator.reverseOrder()))
                     .limit(10)
                     .map(entry -> {

@@ -19,6 +19,7 @@ object GameQuery {
     final private val logger = LoggerFactory.getLogger(SimpleGame.getClass)
 
     override def create(doc: Document): Game = {
+      logger.debug("Doc={}", doc)
 
       val parentCreator = new CommonGameCreator(new Game)
       val g = parentCreator.create(doc).asInstanceOf[Game]
@@ -34,7 +35,7 @@ object GameQuery {
 
       g.setState(GameState.from(doc.getInteger("state")))
       g.star = doc.getInteger("star")
-      logger.debug("{}", g)
+      logger.debug("Game={}", g)
       g
     }
   }

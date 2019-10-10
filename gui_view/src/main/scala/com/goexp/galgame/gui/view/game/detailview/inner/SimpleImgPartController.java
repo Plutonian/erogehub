@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class SimpleImgPartController extends DefaultController {
@@ -46,11 +47,8 @@ public class SimpleImgPartController extends DefaultController {
                 setText(null);
 
                 if (!empty) {
-
-                    new SimpleImage(game).onOK((img) -> {
-                        setGraphic(new ImageView(img));
-                        return null;
-                    }).small(item.index, item.src);
+                    Image image = new SimpleImage(game).small(item.index, item.src);
+                    setGraphic(new ImageView(image));
                 }
 
             }
@@ -60,12 +58,9 @@ public class SimpleImgPartController extends DefaultController {
 
             if (simpleLargeImage != null) {
 
-                new SimpleImage(game).onOK((img) -> {
-                    largeSimple.setImage(img);
-                    return null;
-                }).large(simpleLargeImage.index, simpleLargeImage.src);
+                Image img = new SimpleImage(game).large(simpleLargeImage.index, simpleLargeImage.src);
 
-//                largeSimple.setImage(SimpleImage.large(game, simpleLargeImage.index, simpleLargeImage.src));
+                largeSimple.setImage(img);
             }
         });
 

@@ -15,7 +15,7 @@ class Bytes2Html extends MessageHandler {
   override def process(message: Message) = {
     message.entity match {
       case (id: Int, bytes: Array[Byte]) =>
-        logger.debug("<Bytes2Html> {}", id)
+//        logger.debug("<Bytes2Html> {}", id)
 
         val html = bytes.unGzip().decode(DEFAULT_CHARSET)
 

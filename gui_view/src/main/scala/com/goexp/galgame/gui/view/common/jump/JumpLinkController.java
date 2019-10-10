@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.view.common.jump;
 
-import com.goexp.galgame.common.website.getchu.GetchuGame;
+import com.goexp.galgame.common.website.getchu.GetchuGameRemote;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Websites;
 import com.goexp.galgame.gui.view.DefaultController;
@@ -25,7 +25,7 @@ public class JumpLinkController extends DefaultController {
 
     protected void initialize() {
 
-        linkGetchu.setOnAction((e) -> Websites.open(GetchuGame.byId(game.id)));
+        linkGetchu.setOnAction((e) -> Websites.open(GetchuGameRemote.byId(game.id)));
 
         linkGuide.setOnAction((e) -> HomeController.$this.loadGuide(game.name));
     }

@@ -90,10 +90,7 @@ public class HeaderPartController extends DefaultController {
         loadWithoutImage(game);
 
         if (game.isOkImg()) {
-            new GameImage(game).onOK((img) -> {
-                imageImg.setImage(img);
-                return null;
-            }).small();
+            imageImg.setImage(new GameImage(game).small());
         } else {
             imageImg.setImage(null);
         }

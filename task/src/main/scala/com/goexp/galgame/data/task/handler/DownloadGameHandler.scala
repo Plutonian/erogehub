@@ -1,7 +1,7 @@
 package com.goexp.galgame.data.task.handler
 
 import com.goexp.galgame.data.piplline.core.{Message, MessageHandler}
-import com.goexp.galgame.data.task.client.GetChu.GameService.Download
+import com.goexp.galgame.data.task.client.GetChu.GameRemote.Download
 import com.goexp.galgame.data.task.handler.game.Bytes2Html
 import org.slf4j.LoggerFactory
 

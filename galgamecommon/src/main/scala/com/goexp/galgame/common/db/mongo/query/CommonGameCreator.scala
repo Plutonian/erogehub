@@ -12,8 +12,11 @@ import org.slf4j.LoggerFactory
 import scala.jdk.CollectionConverters._
 
 
-class CommonGameCreator(private[this] val game: CommonGame) extends ObjectCreator[CommonGame] {
-  private lazy val logger = LoggerFactory.getLogger(classOf[CommonGameCreator])
+class CommonGameCreator(
+                         private[this] val game: CommonGame
+                       ) extends ObjectCreator[CommonGame] {
+
+  private val logger = LoggerFactory.getLogger(classOf[CommonGameCreator])
 
   override def create(doc: Document): CommonGame = {
 
@@ -67,7 +70,7 @@ class CommonGameCreator(private[this] val game: CommonGame) extends ObjectCreato
       person.trueCV = doc.getString("truecv")
       person.img = doc.getString("img")
       person.index = doc.getInteger("index")
-      logger.debug("{}", person)
+      logger.trace("{}", person)
       person
     }
 
@@ -75,7 +78,7 @@ class CommonGameCreator(private[this] val game: CommonGame) extends ObjectCreato
       val gameImg = new CommonGame.GameImg
       gameImg.src = doc.getString("src")
       gameImg.index = doc.getInteger("index")
-      logger.debug("{}", gameImg)
+      logger.trace("{}", gameImg)
       gameImg
     }
   }

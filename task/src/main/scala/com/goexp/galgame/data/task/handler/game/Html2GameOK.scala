@@ -17,7 +17,7 @@ class Html2GameOK extends MessageHandler {
     message.entity match {
       case (gameId: Int, html: String) =>
 
-        logger.debug("<Html2GameOK> {}", gameId)
+//        logger.debug("<Html2GameOK> {}", gameId)
 
         Objects.requireNonNull(html)
 

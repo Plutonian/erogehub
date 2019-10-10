@@ -1,25 +1,19 @@
 package com.goexp.galgame.gui.util.res.gameimg
 
-import com.goexp.galgame.common.website.getchu.GetchuGame
+import com.goexp.galgame.common.website.getchu.{GetchuGameLocal, GetchuGameRemote}
 import com.goexp.galgame.gui.model.Game
-import javafx.scene.image.Image
 
 class SimpleImage(private[this] val game: Game) {
 
-  protected var onOKEvent: Image => Unit = _
-
-  def onOK(f: Image => Unit) = {
-    this.onOKEvent = f
-    this
-  }
-
   def small(index: Int, src: String) = {
-    val url = GetchuGame.smallSimpleImg(src)
-    GameImages.get(game)(s"${game.id}/simple_s_$index", url)(onOKEvent)
+    val remote = GetchuGameRemote.smallSimpleImg(src)
+    val local = GetchuGameLocal.smallSimpleImg(game.id, index)
+    GameImages.get(game)(local, remote)
   }
 
   def large(index: Int, src: String) = {
-    val url = GetchuGame.largeSimpleImg(src)
-    GameImages.get(game)(s"${game.id}/simple_l_$index", url)(onOKEvent)
+    val remote = GetchuGameRemote.largeSimpleImg(src)
+    val local = GetchuGameLocal.largeSimpleImg(game.id, index)
+    GameImages.get(game)(local, remote)
   }
 }

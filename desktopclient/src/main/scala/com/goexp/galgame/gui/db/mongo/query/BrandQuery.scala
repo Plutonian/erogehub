@@ -13,7 +13,7 @@ object BrandQuery {
   private val logger = LoggerFactory.getLogger(BrandQuery.getClass)
 
   private val creator: ObjectCreator[Brand] = (doc: Document) => {
-    logger.debug("<create> doc={}", doc)
+    logger.debug("<Doc>{}", doc)
 
     val parentCreator = new CommonBrandCreator(new Brand)
     val b = parentCreator.create(doc).asInstanceOf[Brand]
@@ -21,6 +21,8 @@ object BrandQuery {
     b.start = Option(doc.getDate("start")).map(DateUtil.toLocalDate).orNull
     b.end = Option(doc.getDate("end")).map(DateUtil.toLocalDate).orNull
     b.size = doc.getInteger("size")
+
+    logger.debug("<brand>{}", b)
     b
 
   }

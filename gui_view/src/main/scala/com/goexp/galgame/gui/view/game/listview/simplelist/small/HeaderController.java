@@ -65,10 +65,7 @@ public class HeaderController extends DefaultController {
         loadWithoutImage(game);
 
         if (game.isOkImg()) {
-            new GameImage(game).onOK((img) -> {
-                imageImg.setImage(img);
-                return null;
-            }).tiny();
+            imageImg.setImage(new GameImage(game).tiny());
         } else {
             imageImg.setImage(null);
         }

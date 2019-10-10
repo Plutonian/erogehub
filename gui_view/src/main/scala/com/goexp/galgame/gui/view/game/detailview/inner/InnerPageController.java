@@ -80,11 +80,7 @@ public class InnerPageController extends DefaultController {
     public void load(Game game) {
 
         if (game.isOkImg()) {
-            new GameImage(game).onOK((img) -> {
-                imgLarge.setImage(img);
-                return null;
-            }).large();
-
+            imgLarge.setImage(new GameImage(game).large());
         } else {
             imgLarge.setImage(null);
         }

@@ -3,12 +3,12 @@ package com.goexp.galgame.gui
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.gui.HGameApp.app
 import com.goexp.galgame.gui.util.FXMLLoaderProxy
-import com.goexp.galgame.gui.util.res.gameimg.GameImages
 import com.goexp.galgame.gui.view.MainController
 import javafx.application.Application
 import javafx.scene.paint.Color
 import javafx.scene.{Parent, Scene}
 import javafx.stage.Stage
+import org.slf4j.{Logger, LoggerFactory}
 
 object HGameApp extends App {
   var app: HGameApp = _
@@ -20,12 +20,17 @@ object HGameApp extends App {
 }
 
 class HGameApp extends Application {
+  protected val logger: Logger = LoggerFactory.getLogger(classOf[HGameApp])
+
   override def init(): Unit = {
     app = this
     Network.initProxy()
   }
 
   override def start(primaryStage: Stage): Unit = {
+
+    logger.info("Starting App")
+
     val proxy = new FXMLLoaderProxy[Parent, MainController](getClass.getResource("HGameApp.fxml"))
     primaryStage.setTitle("エロゲ まとめ")
     primaryStage.setWidth(1400)
@@ -34,9 +39,14 @@ class HGameApp extends Application {
     primaryStage.setMinHeight(800)
     primaryStage.setScene(new Scene(proxy.node, Color.BLACK))
     primaryStage.show()
+
+    logger.info("Start App OK")
   }
 
   override def stop(): Unit = {
-    GameImages.executers.shutdown()
+    logger.info("Stopping App")
+
+    logger.info("Stop App OK")
+
   }
 }

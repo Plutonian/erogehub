@@ -8,7 +8,7 @@ import java.time.LocalDate
 import com.goexp.common.util.Gzip._
 import com.goexp.common.util.charset._
 import com.goexp.common.util.web.HttpUtil
-import com.goexp.galgame.common.website.getchu.{GetchuGame => GameUrl, _}
+import com.goexp.galgame.common.website.getchu.{GetchuGameRemote => GameUrl, _}
 import com.goexp.galgame.data.model.{Brand, Game}
 import com.goexp.galgame.data.parser.GetchuBrandParser
 import com.goexp.galgame.data.parser.game.ListPageParser
@@ -29,7 +29,7 @@ object GetChu {
     null
   }
 
-  object GameService {
+  object GameRemote {
 
     object Download {
 
@@ -37,7 +37,11 @@ object GetChu {
       def getBytes(gameId: Int): Array[Byte] = {
         logger.debug(s"Download:Game: $gameId")
         val request = RequestBuilder(GameUrl.byId(gameId)).adaltFlag.build
-        HttpUtil.httpClient.send(request, ofByteArray()).body()
+        val response = HttpUtil.httpClient.send(request, ofByteArray())
+
+        logger.debug("Id:{}\t\tRes code:{}", gameId, response.statusCode())
+
+        response.body()
       }
     }
 

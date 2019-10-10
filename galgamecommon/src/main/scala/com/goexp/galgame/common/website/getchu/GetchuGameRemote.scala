@@ -2,16 +2,16 @@ package com.goexp.galgame.common.website.getchu
 
 import com.goexp.common.util.web.url.UrlBuilder
 
-object GetchuGame {
+object GetchuGameRemote {
   def byId(gameId: Int): String =
     UrlBuilder("http://www.getchu.com/soft.phtml")
       .param("id", gameId)
       .build //                .param("gc", "gc")
 
-  def SmallImg(gameId: Int): String =
+  def smallImg(gameId: Int): String =
     s"http://www.getchu.com/brandnew/$gameId/rc${gameId}package.jpg"
 
-  def LargeImg(gameId: Int): String =
+  def largeImg(gameId: Int): String =
     s"http://www.getchu.com/brandnew/$gameId/c${gameId}package.jpg"
 
   def largeSimpleImg(src: String): String =

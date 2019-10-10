@@ -4,29 +4,29 @@
     <!-- Stop output INFO at start -->
     <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
 
-    <appender name="debug" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="detail" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>%d{HH:mm:ss} [%thread] %-5level %logger{36} ---- %msg%n</Pattern>
         </layout>
     </appender>
-    <appender name="info" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="sample" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>%msg%n</Pattern>
         </layout>
     </appender>
 
-    <!--<logger name="com.goexp" level="info"/>-->
-
-<!--    <logger name="ch.qos.logback" level="OFF"/>-->
     <logger name="com.mchange.v2.log" level="OFF"/>
+    <logger name="org.mongodb" level="OFF"/>
+    <logger name="com.goexp.galgame.common.db" level="OFF" />
+    <logger name="com.goexp.galgame.gui.db" level="OFF" />
+    <!--    <logger name="ch.qos.logback" level="OFF"/>-->
     <logger name="com.goexp.galgame.gui.view" level="info">
         <!--<appender-ref ref="debug"/>-->
     </logger>
-    <!--<logger name="com.goexp.galgame.gui.db" level="info"/>-->
-    <!--<logger name="com.goexp.galgame.data.query" level="info"/>-->
+<!--        <appender-ref ref="detail"/>-->
+<!--    </logger>-->
 
-
-    <root level="info">
-        <appender-ref ref="info"/>
+    <root level="debug">
+        <appender-ref ref="detail"/>
     </root>
 </configuration>

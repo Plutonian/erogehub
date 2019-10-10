@@ -8,6 +8,7 @@ import com.goexp.galgame.gui.view.game.detailview.part.CVSearchController;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
@@ -69,13 +70,9 @@ public class PersonCellController extends DefaultController {
 
 
         if (gameChar.img != null && gameChar.img.length() > 0) {
+            Image image = new PersonImage(game).small(gameChar.index, gameChar.img);
 
-
-            new PersonImage(game).onOK((img) -> {
-                imageImg.setImage(img);
-                return null;
-            }).small(gameChar.index, gameChar.img);
-
+            imageImg.setImage(image);
 
         } else {
             imageImg.setImage(null);

@@ -25,7 +25,7 @@ class ByTag(val groupGames: util.List[Game]) extends Task[util.List[DefaultItem]
       .sortBy({ case (_, v) => v.size }).reverse
       //        .take(20)
       .map({ case (key, value) =>
-        logger.debug(s"<createTagGroup> Name:$key,Value:${value.size}")
+        logger.trace(s"<createTagGroup> Name:$key,Value:${value.size}")
         new DefaultItem(key, value.size)
       }).asJava
   }

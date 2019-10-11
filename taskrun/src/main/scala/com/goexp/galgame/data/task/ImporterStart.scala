@@ -3,7 +3,8 @@ package com.goexp.galgame.data.task
 import java.util.Objects
 
 import com.goexp.galgame.data.task.local.cal.{CalBrandGameTask, CalCVGameTask}
-import com.goexp.galgame.data.task.local.{CleanGameTask, GetImageTask, GetTrueCVTask, GroupBrandTask, MarkSameGameTask}
+import com.goexp.galgame.data.task.local.getimage.{ByBrand, ByDateRange}
+import com.goexp.galgame.data.task.local.{CleanGameTask, GetTrueCVTask, GroupBrandTask, MarkSameGameTask}
 import com.goexp.galgame.data.task.others.UpdateBrandTask
 import com.goexp.galgame.data.task.others.guide.Seiya_saiga_com
 
@@ -20,7 +21,8 @@ object ImporterStart {
       ("mark-same", "Mark the same game", MarkSameGameTask.main _),
       ("group-brand", "Group brand", GroupBrandTask.main _),
       ("clean", "Clean blocked game img cache", CleanGameTask.main _),
-      ("get-image", "Download game img", GetImageTask.main _)
+      ("get-image-range", "Download game img by date range", ByDateRange.main _),
+      ("get-image-brand", "Download game img by brand", ByBrand.main _)
     )
 
   def main(args: Array[String]) = {

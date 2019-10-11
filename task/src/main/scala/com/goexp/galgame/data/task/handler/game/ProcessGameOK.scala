@@ -42,12 +42,12 @@ class ProcessGameOK extends MessageHandler {
 
           // copy trueCV
           if (Strings.isNotEmpty(localC.trueCV)) {
-            logger.debug("Merge trueCV {}", rc)
+            logger.trace("Merge trueCV {}", rc)
             rc.trueCV = localC.trueCV
           }
           // also copy cv
           if (Strings.isNotEmpty(localC.cv)) {
-            logger.debug("Merge cv {}", rc)
+            logger.trace("Merge cv {}", rc)
             rc.cv = localC.cv
           }
 

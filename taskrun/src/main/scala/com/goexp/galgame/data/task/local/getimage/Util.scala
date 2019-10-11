@@ -1,54 +1,24 @@
-package com.goexp.galgame.data.task.local
+package com.goexp.galgame.data.task.local.getimage
 
 import java.nio.file.{Files, Path}
-import java.time.LocalDate
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.{CountDownLatch, TimeUnit}
 
-import com.goexp.common.util.date.DateUtil
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.Config
-import com.goexp.galgame.common.model.GameState
-import com.goexp.galgame.common.util.{ImageUtil, Network}
+import com.goexp.galgame.common.util.ImageUtil
 import com.goexp.galgame.common.website.getchu.{GetchuGameLocal, GetchuGameRemote}
-import com.goexp.galgame.data.db.query.mongdb.GameQuery
-import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Filters._
+import com.goexp.galgame.data.model.Game
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
-object GetImageTask {
-  private val logger = LoggerFactory.getLogger(GetImageTask.getClass)
-
-  def main(args: Array[String]): Unit = {
-
-    if (args.length != 2) {
-      println("<start> <end>")
-      return
-    }
-    Network.initProxy()
-
-    val start = LocalDate.parse(args(0))
-    val end = LocalDate.parse(args(1))
-
-    logger.info("{}--{}", start, end)
+object Util {
+  private val logger = LoggerFactory.getLogger(Util.getClass)
 
 
-    //    val start = LocalDate.of(2018, 1, 1)
-    //    val end = start.plusYears(1)
-
-    val games = GameQuery.fullTlp.query
-      .where(and(
-        gte("publishDate", DateUtil.toDate(s"${start} 00:00:00")),
-        lte("publishDate", DateUtil.toDate(s"${end} 23:59:59")),
-        not(Filters.eq("state", GameState.BLOCK.value)),
-        not(Filters.eq("state", GameState.SAME.value))
-      ))
-      .list.asScala
-
-
+  def downloadImage(games: LazyList[Game]) = {
     val imgs = games.flatMap { g =>
       val list = mutable.ListBuffer[(Path, String)]()
 
@@ -129,7 +99,7 @@ object GetImageTask {
 
 
         val tempLocal = rPath(local)
-        logger.info(s"Local:${tempLocal} --> Remote:$remote")
+        logger.info(s"$count..${tempLocal} --> $remote")
 
         try {
 
@@ -140,7 +110,7 @@ object GetImageTask {
               Files.write(local, bytes)
 
 
-              logger.info(s"OK with:${tempLocal} Left:${atomicCount.decrementAndGet()}")
+              logger.info(s"Success!!! ${tempLocal}\tSize:${bytes.length}\t|Left:${atomicCount.decrementAndGet()}")
 
 
               latch.countDown()
@@ -161,5 +131,4 @@ object GetImageTask {
 
     latch.await()
   }
-
 }

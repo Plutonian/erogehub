@@ -11,7 +11,6 @@ object ImageUtil {
 
   private val logger = LoggerFactory.getLogger(ImageUtil.getClass)
 
-
   def loadFrom(url: String): Array[Byte] = {
     loadFromAsyn(url).join().body()
   }
@@ -46,6 +45,7 @@ object ImageUtil {
     }
 
     //    val handler = BodyHandlers.ofByteArray()
+
     HttpUtil.httpClient.sendAsync(request, handler)
 
   }

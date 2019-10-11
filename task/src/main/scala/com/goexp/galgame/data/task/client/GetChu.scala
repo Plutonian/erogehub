@@ -63,9 +63,16 @@ object GetChu {
     def from(from: LocalDate, to: LocalDate): LazyList[Game] = {
       try {
 
-        val request = RequestBuilder(GameList.byDateRange(from, to)).adaltFlag.build
+        val url = GameList.byDateRange(from, to)
+        val request = RequestBuilder(url).adaltFlag.build
 
-        val bytes = HttpUtil.httpClient.send(request, ofByteArray).body
+        logger.debug(url)
+
+        val response = HttpUtil.httpClient.send(request, ofByteArray)
+
+        logger.debug(response.headers().toString)
+
+        val bytes = response.body
 
         val html = bytes.unGzip().decode(DEFAULT_CHARSET)
         return new ListPageParser().parse(html)

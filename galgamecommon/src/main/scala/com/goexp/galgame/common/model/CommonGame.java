@@ -65,8 +65,8 @@ public abstract class CommonGame {
         @Override
         public String toString() {
             return new StringJoiner(", ", GameImg.class.getSimpleName() + "[", "]")
-                    .add("src='" + src + "'")
-                    .add("index=" + index)
+                    .add("" + index)
+                    .add("'" + src + "'")
                     .toString();
         }
     }
@@ -86,8 +86,8 @@ public abstract class CommonGame {
         @Override
         public String toString() {
             return new StringJoiner(", ", "\n" + GameCharacter.class.getSimpleName() + "[", "]")
-                    .add("index=" + index)
-                    .add("name='" + name + "'")
+                    .add("" + index)
+                    .add("'" + name + "'")
                     .add("cv='" + cv + "'")
 //                    .add("intro='" + intro + "'")
                     .add("trueCV='" + trueCV + "'")

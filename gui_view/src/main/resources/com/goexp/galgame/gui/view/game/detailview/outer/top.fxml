@@ -26,18 +26,16 @@
             <fx:include fx:id="dateview" source="../part/dateshow.fxml" AnchorPane.rightAnchor="0.0"
                         AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER"/>
             <VBox spacing="5.0">
-                <VBox>
-                    <HBox>
-                        <Text fx:id="txtName">
-                            <font>
-                                <Font name="System Bold" size="24.0"/>
-                            </font>
-                        </Text>
-                        <Text fx:id="txtSubName"/>
-                    </HBox>
-                    <fx:include fx:id="brandJump" source="../../../common/jump/jumpbrand.fxml"/>
-                </VBox>
                 <HBox>
+                    <Text fx:id="txtName">
+                        <font>
+                            <Font name="System Bold" size="24.0"/>
+                        </font>
+                    </Text>
+                    <Text fx:id="txtSubName"/>
+                </HBox>
+                <HBox>
+                    <fx:include fx:id="brandJump" source="../../../common/jump/jumpbrand.fxml"/>
                     <HBox fx:id="boxTag" spacing="5.0"/>
                     <HBox fx:id="boxStar">
                     </HBox>

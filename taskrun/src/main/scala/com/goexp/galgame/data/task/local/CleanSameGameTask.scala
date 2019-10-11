@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory
 import scala.jdk.CollectionConverters._
 
 
-object CleanGameTask {
-  private val logger = LoggerFactory.getLogger(CleanGameTask.getClass)
+object CleanSameGameTask {
+  private val logger = LoggerFactory.getLogger(CleanSameGameTask.getClass)
 
 
   def main(args: Array[String]) = {

@@ -18,7 +18,7 @@ object ByBrand {
 
 
     val brandList = BrandQuery.tlp.query
-      .where(Filters.eq("type", BrandType.CHECKING.value))
+      .where(Filters.eq("type", BrandType.HOPE.value))
       .list
 
     logger.info("Brands:{}", brandList.size())

@@ -3,8 +3,8 @@ package com.goexp.galgame.data.task.local.getimage
 import com.goexp.galgame.common.model.{BrandType, GameState}
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, GameQuery}
-import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters.{and, not}
+import com.mongodb.client.model.{Filters, Sorts}
 import org.slf4j.LoggerFactory
 
 import scala.jdk.CollectionConverters._
@@ -18,7 +18,8 @@ object ByBrand {
 
 
     val brandList = BrandQuery.tlp.query
-      .where(Filters.eq("type", BrandType.HOPE.value))
+      .where(not(Filters.eq("type", BrandType.BLOCK.value)))
+      .sort(Sorts.descending("type"))
       .list
 
     logger.info("Brands:{}", brandList.size())

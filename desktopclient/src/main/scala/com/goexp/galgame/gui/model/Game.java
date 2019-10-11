@@ -101,11 +101,11 @@ public class Game extends CommonGame {
                 .add("tag=" + tag)
 //                .add("story='" + story + "'")
 //                .add("intro='" + intro + "'")
-                .add("gameCharacters=" + gameCharacters)
-                .add("gameImgs=" + gameImgs)
                 .add("state=" + state)
-                .add("brand=" + brand)
                 .add("star=" + star)
+                .add("brand=" + brand)
+                .add("gameImgs=" + gameImgs)
+                .add("gameCharacters=" + gameCharacters)
                 .toString();
     }
 
@@ -122,11 +122,11 @@ public class Game extends CommonGame {
                 .add("tag=" + tag)
 //                .add("story='" + story + "'")
 //                .add("intro='" + intro + "'")
-                .add("\ngameCharacters=" + gameCharacters)
-                .add("\ngameImgs=" + Optional.ofNullable(gameImgs).map(List::size).orElse(0))
                 .add("state=" + state.get())
+                .add("star=" + star)
                 .add("\nbrand=" + brand)
-                .add("\nstar=" + star)
+                .add("\ngameImgs=" + Optional.ofNullable(gameImgs).map(List::size).orElse(0))
+                .add("\ngameCharacters=" + gameCharacters)
                 .toString();
     }
 

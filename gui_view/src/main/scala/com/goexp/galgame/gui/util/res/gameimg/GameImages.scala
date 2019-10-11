@@ -29,7 +29,7 @@ object GameImages {
 
         //heat disk cache or load from remote
         if (Files.exists(localPath)) {
-          val image = new Image("file:" + localPath.toString)
+          val image = new Image("file:" + localPath.toString, true)
           imageCache.put(memCacheKey, image)
           image
         } else {

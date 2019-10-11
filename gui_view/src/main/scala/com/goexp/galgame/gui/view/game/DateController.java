@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.TilePane;
 
 import java.time.LocalDate;
@@ -28,7 +29,7 @@ public class DateController extends DefaultController {
     private TilePane dateCon;
 
     @FXML
-    private TilePane flowYear;
+    private FlowPane flowYear;
 
     private final ToggleGroup yearSelect = new ToggleGroup();
 
@@ -77,7 +78,7 @@ public class DateController extends DefaultController {
         });
 
 
-        var yearNodes = IntStream.rangeClosed(2000, LocalDate.now().getYear()).boxed()
+        var yearNodes = IntStream.rangeClosed(2000, LocalDate.now().getYear() + 1).boxed()
                 .map(year -> {
                     var tog = new ToggleButton();
                     tog.setUserData(year);

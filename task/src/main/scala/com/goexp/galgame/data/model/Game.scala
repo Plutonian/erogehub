@@ -42,10 +42,11 @@ class Game extends CommonGame {
       .add("painter=" + painter)
       .add("type=" + `type`)
       .add("tag=" + tag)
+      .add("gameImgs=" + gameImgs)
       .add("gameCharacters=" + gameCharacters)
-    //                .add("story='" + story + "'")
-    //                .add("intro='" + intro + "'")
-      .add("gameImgs=" + gameImgs).toString
+      //                .add("story='" + story + "'")
+      //                .add("intro='" + intro + "'")
+      .toString
   }
 
   override def hashCode: Int =

@@ -5,8 +5,8 @@ import java.util.ResourceBundle
 
 object Config {
   val proxy = true
-  //  try //load config
-  val prop = ResourceBundle.getBundle("config")
-  val DATA_ROOT = Path.of(prop.getString("DATA_ROOT"))
+
+  private val prop = ResourceBundle.getBundle("config")
+  private val DATA_ROOT = Path.of(prop.getString("DATA_ROOT"))
   val IMG_PATH = DATA_ROOT.resolve("img/game/")
 }

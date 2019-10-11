@@ -3,8 +3,7 @@ package com.goexp.galgame.data.task.local
 import java.nio.file.Files
 
 import com.goexp.galgame.common.Config
-import com.goexp.galgame.common.model.{BrandType, GameState}
-import com.goexp.galgame.data.db.importor.mongdb.GameDB
+import com.goexp.galgame.common.model.GameState
 import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, GameQuery}
 import com.goexp.galgame.data.model.Game
 import com.mongodb.client.model.Filters
@@ -20,7 +19,7 @@ object CleanGameTask {
   def main(args: Array[String]) = {
 
     def remove(g: Game): Unit = {
-      val path = Config.DATA_ROOT.resolve("img/game/").resolve(String.valueOf(g.id))
+      val path = Config.IMG_PATH.resolve(String.valueOf(g.id))
       if (Files.exists(path)) {
 
         logger.info(s"Clean:$path")
@@ -38,24 +37,17 @@ object CleanGameTask {
       .list.asScala.to(LazyList)
       .foreach {
         b =>
-          val list = if (b.isLike eq BrandType.BLOCK) {
-            GameDB.blockAllGame(b)
+          val games = GameQuery.simpleTlp.query
+            .where(Filters.eq("brandId", b.id))
+            .list.asScala.to(LazyList)
 
-            GameQuery.simpleTlp.query
-              .where(Filters.eq("brandId", b.id))
-              .list.asScala.to(LazyList)
-          } else {
-            GameQuery.simpleTlp.query
-              .where(Filters.eq("brandId", b.id))
-              .list.asScala.to(LazyList)
-              .filter(g => (g.state eq GameState.BLOCK) || (g.state eq GameState.SAME))
-          }
+          games
+            .filter { g => g.state eq GameState.SAME }
+            .foreach {
+              g =>
+                remove(g)
 
-          list.foreach {
-            g =>
-              remove(g)
-
-          }
+            }
 
 
       }

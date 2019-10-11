@@ -107,7 +107,7 @@ object Util {
 
 
         val showLocal = rPath(local)
-        logger.info(s"$alreadyDownload..${showLocal} --> $remote")
+        logger.info(s"Downloading... [$alreadyDownload] ${showLocal} --> $remote")
 
         try {
 

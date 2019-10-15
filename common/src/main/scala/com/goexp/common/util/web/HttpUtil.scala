@@ -5,9 +5,9 @@ import java.net.http.HttpClient
 import java.time.Duration
 import java.util.concurrent.Executors
 
+
 object HttpUtil {
   val httpClient = {
-    println("Init")
     HttpClient.newBuilder
       .followRedirects(HttpClient.Redirect.ALWAYS)
       .executor(Executors.newCachedThreadPool(r => {
@@ -20,8 +20,12 @@ object HttpUtil {
       .build
   }
   val noneProxyHttpClient = HttpClient.newBuilder
+    .executor(Executors.newFixedThreadPool(100, (r: Runnable) => {
+      val t = new Thread(r)
+      t.setDaemon(true)
+      t
+    }))
     .followRedirects(HttpClient.Redirect.ALWAYS)
-    .proxy(ProxySelector.getDefault)
     .connectTimeout(Duration.ofSeconds(60))
     .build
 

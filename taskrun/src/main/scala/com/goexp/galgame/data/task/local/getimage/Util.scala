@@ -1,12 +1,16 @@
 package com.goexp.galgame.data.task.local.getimage
 
+import java.io.IOException
+import java.net.ConnectException
+import java.net.http.HttpTimeoutException
 import java.nio.file.{Files, Path}
 import java.util.concurrent.atomic.AtomicInteger
-import java.util.concurrent.{CountDownLatch, TimeUnit}
+import java.util.concurrent.{CompletionException, CountDownLatch, TimeUnit}
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.util.ImageUtil
+import com.goexp.galgame.common.util.ImageUtil.{ErrorCodeException, FileIsNotImageException}
 import com.goexp.galgame.common.website.getchu.{GetchuGameLocal, GetchuGameRemote}
 import com.goexp.galgame.data.model.Game
 import org.slf4j.LoggerFactory
@@ -91,12 +95,13 @@ object Util {
       }
       .filter { case (local: Path, _) => !Files.exists(local) }
 
-    var alreadyDownload = 0
+
+    var requestNum = 0
     val hopeDownload = imgs.size
 
     logger.info("Need download:{}", hopeDownload)
 
-    val leftCount = new AtomicInteger(hopeDownload)
+    val responseNum = new AtomicInteger(0)
 
     val allDownLatch = new CountDownLatch(hopeDownload)
 
@@ -107,39 +112,58 @@ object Util {
 
 
         val showLocal = rPath(local)
-        logger.info(s"Downloading... [$alreadyDownload] ${showLocal} --> $remote")
 
-        try {
+        requestNum += 1
+        logger.info(s"Downloading... [$requestNum/$hopeDownload] ${showLocal} --> $remote")
 
-          ImageUtil.loadFromAsyn(remote)
-            .thenApply[Array[Byte]] { res => res.body() }
-            .thenAccept { bytes =>
-              Files.createDirectories(local.getParent)
-              Files.write(local, bytes)
+        ImageUtil.loadFromAsyn(remote)
+          .thenApply[Array[Byte]] { res => res.body() }
+          .thenAccept { bytes =>
+            Files.createDirectories(local.getParent)
+            Files.write(local, bytes)
 
+            logger.info(s"Success!!! [${responseNum.incrementAndGet()}/$hopeDownload] ${showLocal} (${bytes.length})")
 
-              logger.info(s"Success!!! ${showLocal}(${bytes.length}b)\t|Left:${leftCount.decrementAndGet()}")
-
-
-              allDownLatch.countDown()
-
-            }
-
-
-          alreadyDownload += 1
-
-          if (alreadyDownload % batchCounts == 0) {
-            TimeUnit.SECONDS.sleep(waitTime)
+            allDownLatch.countDown()
 
           }
+          .exceptionally {
+            case ex: CompletionException =>
+              logger.debug("{}", ex)
+
+              ex.getCause match {
+                case _: HttpTimeoutException =>
+                  logger.error(s"RequestTimeout")
+                case _: ConnectException =>
+                  logger.error(s"CannotConnect")
+                case e: IOException =>
+                  logger.error(s"ConnectionReset")
+                  logger.debug("IOException", e)
+                case ErrorCodeException(errorCode) =>
+                  logger.error(s"Response Error:code={}", errorCode)
+                case _: FileIsNotImageException =>
+                  logger.error(s"Not Image")
+                case e =>
+                  logger.error(s"NoneCatchExecption")
+                  e.printStackTrace()
+              }
+              null
+
+            case _ =>
+              logger.error(s"NoneCatchExecption")
+              null
+          }
+
+
+        if (requestNum % batchCounts == 0) {
+          TimeUnit.SECONDS.sleep(waitTime)
         }
-        catch {
-          case e: Exception =>
-            e.printStackTrace()
-        }
+
       case _ =>
     }
 
     allDownLatch.await()
+
+    logger.info("download Succ")
   }
 }

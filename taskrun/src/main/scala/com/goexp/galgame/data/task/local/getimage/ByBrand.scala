@@ -17,26 +17,47 @@ object ByBrand {
     Network.initProxy()
 
 
-    val brandList = BrandQuery.tlp.query
-      .where(not(Filters.eq("type", BrandType.BLOCK.value)))
-      .sort(Sorts.descending("type"))
-      .list
+    val types = List(
+      BrandType.LIKE,
+      BrandType.CHECKING,
+      BrandType.HOPE,
+      BrandType.MARK,
+      BrandType.NORMAL,
+      BrandType.UNCHECKED
+    )
 
-    logger.info("Brands:{}", brandList.size())
+    types.foreach {
+      t =>
+        logger.info("Loading... brand type:{}", t)
 
-    val games = brandList.asScala.to(LazyList)
-      .flatMap { b =>
-        GameQuery.fullTlp.query
-          .where(and(
-            Filters.eq("brandId", b.id),
-            not(Filters.eq("state", GameState.BLOCK.value)),
-            not(Filters.eq("state", GameState.SAME.value))
-          ))
-          .list.asScala
-      }
+        val brandList = BrandQuery.tlp.query
+          .where(Filters.eq("type", t.value))
+          .sort(Sorts.descending("type"))
+          .list
+
+        logger.info("{} brands load OK", brandList.size())
+
+        val games = brandList.asScala.to(LazyList)
+          .flatMap { b =>
+            logger.trace("Loading...game from brand:{}", b)
+
+            val glist = GameQuery.fullTlp.query
+              .where(and(
+                Filters.eq("brandId", b.id),
+                not(Filters.eq("state", GameState.BLOCK.value)),
+                not(Filters.eq("state", GameState.SAME.value))
+              ))
+              .list.asScala
+
+            logger.trace("{} games load OK", glist.size)
+            glist
+          }
 
 
-    Util.downloadImage(games)
+        Util.downloadImage(games)
+    }
+
+
   }
 
 }

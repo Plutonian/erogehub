@@ -3,37 +3,45 @@ package com.goexp.galgame.data.task.local
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.data.db.importor.mongdb.BrandDB
 import com.goexp.galgame.data.db.query.mongdb.BrandQuery
+import com.goexp.galgame.data.model.Brand
 import com.goexp.galgame.data.task.ansyn.Pool._
 import com.goexp.galgame.data.task.local.GroupBrandTask.Extracker.getHost
 import org.slf4j.LoggerFactory
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 import scala.jdk.CollectionConverters._
 
-object GroupBrandTask extends App {
-
+object GroupBrandTask {
   val logger = LoggerFactory.getLogger(GroupBrandTask.getClass)
 
-  BrandQuery.tlp.query.list.asScala.to(LazyList)
-    .filter(b => Strings.isNotEmpty(b.website))
-    .groupBy(b => Extracker.getComp(b.website))
-    .filter({ case (comp, v) => !comp.isEmpty && v.size > 1 })
-    .foreach({ case (comp, v) =>
-      v.foreach(b => {
-        if (Strings.isEmpty(b.comp)) {
-          logger.info(s"Raw:${b.comp} New:$comp")
-          b.comp = comp
-          val f = Future {
-            BrandDB.updateComp(b)
 
-          }(IO_POOL)
+  def main(args: Array[String]): Unit = {
 
-          Await.result(f, 10.minutes)
+    val brands = BrandQuery.tlp.query.list.asScala.to(LazyList)
 
-        }
-      })
-    })
+    val futures = brands
+      .filter(b => Strings.isNotEmpty(b.website))
+      .groupBy(b => Extracker.getComp(b.website))
+      .filter { case (comp, v) => !comp.isEmpty && v.size > 1 }
+      .flatten {
+        case (comp, v: LazyList[Brand]) =>
+          v.filter { b => Strings.isEmpty(b.comp) }
+            .map { b =>
+              logger.info(s"Raw:${b.comp} New:$comp")
+
+              b.comp = comp
+
+              Future {
+                BrandDB.updateComp(b)
+              }(IO_POOL)
+            }
+      }
+
+
+    Await.result(Future.sequence(futures), Duration.Inf)
+  }
 
 
   object Extracker {
@@ -59,7 +67,6 @@ object GroupBrandTask extends App {
       hostRegex.findFirstMatchIn(url).map(_.group("host")).getOrElse("")
     }
   }
-
 
 }
 

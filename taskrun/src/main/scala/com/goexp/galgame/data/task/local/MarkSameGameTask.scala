@@ -36,51 +36,53 @@ object MarkSameGameTask extends App {
 
 
   for (brand <- brandList) {
-    GameQuery.fullTlp.query
+    val games = GameQuery.fullTlp.query
       .where(Filters.eq("brandId", brand.id))
       .list.asScala.to(LazyList)
 
-      .groupBy(game => {
-        if (isSameGame(game)) "same" else if (isPackageGame(game)) "package" else "other"
-      })
-      .flatMap({
+    games
+      .groupBy { game =>
+        if (isSameGame(game)) "same"
+        else if (isPackageGame(game)) "package"
+        else "other"
+      }
+      .flatMap {
         case ("same", value: LazyList[Game]) =>
-          value.filter(_.state eq GameState.UNCHECKED)
-            .map(game => {
-              game.state = GameState.SAME
-              game
-            })
+          value.filter(_.state eq GameState.UNCHECKED).map { game => game.state = GameState.SAME; game }
         case ("package", value: LazyList[Game]) =>
-          value.filter(_.state eq GameState.UNCHECKED)
-            .map({ game =>
-              game.state = GameState.PACKAGE
-              game
-            })
+          value.filter(_.state eq GameState.UNCHECKED).map { game => game.state = GameState.PACKAGE; game }
         case ("other", value: LazyList[Game]) =>
-          value.filter(_.publishDate != null)
-            .groupBy(_.publishDate)
-            .values
-            .filter(_.size > 1)
-            .flatMap(games =>
-              //games by date
+          value.filter {
+            _.publishDate != null
+          }.groupBy {
+            _.publishDate
+          }.values
+            .filter {
+              _.size > 1
+            }
+            .flatMap {
+              games =>
+                //games by date
 
-              games.sortBy(_.name.length)
-                .drop(1)
-                .filter(_.state eq GameState.UNCHECKED)
-                .map({ game =>
-                  game.state = GameState.SAME
-                  game
-                })
-            )
-        case _ =>
-          throw new RuntimeException("Error")
-      })
+                games.sortBy {
+                  _.name.length
+                }
+                  .drop(1)
+                  .filter {
+                    _.state eq GameState.UNCHECKED
+                  }
+                  .map { game => game.state = GameState.SAME; game }
+
+            }
+        //        case _ =>
+        //          throw new RuntimeException("Error")
+      }
 
       .foreach {
         case game: Game =>
           logger.info(s"ID:${game.id} Name: ${game.name}  State: ${game.state}")
           StateDB.update(game)
-        case _ =>
+        //        case _ =>
       }
   }
 

@@ -7,49 +7,46 @@ import java.net.http.HttpResponse.BodyHandlers.ofString
 import com.goexp.common.util.web.HttpUtil.noneProxyHttpClient
 import com.goexp.common.util.web.url._
 import com.goexp.galgame.common.model.CommonGame.Guide.DataFrom
+import com.goexp.galgame.data.db.importor.mongdb.GuideDB
 import com.goexp.galgame.data.db.query.mongdb.GuideQuery
 import com.goexp.galgame.data.parser.GameGuideParser
-import com.goexp.galgame.data.piplline.core.{Message, Pipeline, Starter}
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 
 import scala.jdk.CollectionConverters._
 
-object Sagaoz_net extends App {
-  new Pipeline(new AStarter)
-    .regForIOType(new PageContentHandler)
-    .start()
+object Sagaoz_net {
 
-  private class AStarter extends Starter {
-    private val logger = LoggerFactory.getLogger(classOf[Starter])
+  private val logger = LoggerFactory.getLogger(Sagaoz_net.getClass)
 
-    override def process() = {
-      val locals = GuideQuery.tlp.query
-        .where(Filters.eq("from", DataFrom.sagaoz_net.value))
-        .set.asScala
+  def main(args: Array[String]): Unit = {
+    val locals = GuideQuery.tlp.query
+      .where(Filters.eq("from", DataFrom.sagaoz_net.value))
+      .set.asScala
 
-      logger.info(s"Local:${locals.size}")
+    logger.info(s"Local:${locals.size}")
 
-      val req = HttpRequest.newBuilder.uri(DataFrom.sagaoz_net.href).build
-      try {
-        val html = noneProxyHttpClient.send(req, ofString(CHARSET)).body
+    val request = HttpRequest.newBuilder.uri(DataFrom.sagaoz_net.href).build
+    try {
+      val html = noneProxyHttpClient.send(request, ofString(CHARSET)).body
 
-        val remotes = new GameGuideParser.Sagaoz_Net().parse(html).toSet
+      val remotes = new GameGuideParser.Sagaoz_Net().parse(html).toSet
 
-        logger.info(s"Remote:${remotes.size}")
+      logger.info(s"Remote:${remotes.size}")
 
-        val insertlist = remotes -- locals
+      val insertlist = remotes -- locals
 
 
-        logger.info(s"Insert:${insertlist.size}")
-        insertlist.foreach(guide => {
-          send(Message(classOf[PageContentHandler].hashCode(), guide))
-        })
-      } catch {
-        case e@(_: IOException | _: InterruptedException) =>
-          e.printStackTrace()
+      logger.info(s"Insert:${insertlist.size}")
+      insertlist.foreach { guide =>
+        logger.info(s"insert:$guide")
+        GuideDB.insert(guide)
       }
+    } catch {
+      case e@(_: IOException | _: InterruptedException) =>
+        e.printStackTrace()
     }
   }
+
 
 }

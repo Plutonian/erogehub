@@ -24,7 +24,7 @@ object FromDateRangeTask {
   private val logger = LoggerFactory.getLogger(FromDateRangeTask.getClass)
 
 
-  def game2DB(remoteGame: Game): Unit = {
+  private[this] def game2DB(remoteGame: Game): Unit = {
 
 
     def merge(local: util.List[CommonGame.GameCharacter], remote: util.List[CommonGame.GameCharacter]): util.List[CommonGame.GameCharacter] = {
@@ -144,30 +144,31 @@ object FromDateRangeTask {
 
     var num = 0
 
-    val futures = remoteGameList.map { game =>
-      num += 1
+    val futures = remoteGameList
+      .map { game =>
+        num += 1
 
-      if (num % 10 == 0)
-        TimeUnit.SECONDS.sleep(5L)
+        if (num % 10 == 0)
+          TimeUnit.SECONDS.sleep(5L)
 
 
-      //already has
-      if (GameDB.exist(game.id)) {
-        logger.debug("<Update> {}", game.simpleView)
-        GameDB.update(game)
+        //already has
+        if (GameDB.exist(game.id)) {
+          logger.debug("<Update> {}", game.simpleView)
+          GameDB.update(game)
+        }
+        else {
+          //new game
+
+          game.state = GameState.UNCHECKED
+          game.isNew = true
+          logger.info("<Insert> {}", game.simpleView)
+          GameDB.insert(game)
+        }
+
+        game
+
       }
-      else {
-        //new game
-
-        game.state = GameState.UNCHECKED
-        game.isNew = true
-        logger.info("<Insert> {}", game.simpleView)
-        GameDB.insert(game)
-      }
-
-      game
-
-    }
       /*
       Download game
        */

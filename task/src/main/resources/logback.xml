@@ -18,8 +18,9 @@
     <logger name="com.goexp.galgame.data.piplline" level="error"/>
     <logger name="com.goexp.galgame.data.db" level="error"/>
     <logger name="com.goexp.galgame.data.parser" level="error"/>
-    <logger name="com.goexp.galgame.data.task.handler.game.ProcessGameOK" level="OFF"/>
+    <logger name="com.goexp.galgame.data.task.handler.game.Game2DB" level="OFF"/>
     <logger name="com.goexp.galgame.data.task.handler.PreProcessGame" level="OFF"/>
+    <!--    <logger name="com.goexp.galgame.data.task.handler.DownloadGameHandler" level="debug"/>-->
 
 
     <root level="info">

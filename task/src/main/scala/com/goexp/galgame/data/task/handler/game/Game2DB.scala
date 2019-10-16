@@ -17,8 +17,8 @@ import scala.jdk.CollectionConverters._
 /**
   * process game detail(upgrade content,cv,simple img)
   */
-class ProcessGameOK extends MessageHandler {
-  final private val logger = LoggerFactory.getLogger(classOf[ProcessGameOK])
+class Game2DB extends MessageHandler {
+  final private val logger = LoggerFactory.getLogger(classOf[Game2DB])
 
   private def merge(local: util.List[CommonGame.GameCharacter], remote: util.List[CommonGame.GameCharacter]): util.List[CommonGame.GameCharacter] = {
     val localSize = Option(local).map(_.size()).getOrElse(0)

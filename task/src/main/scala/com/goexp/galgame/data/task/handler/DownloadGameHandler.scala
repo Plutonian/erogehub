@@ -1,8 +1,9 @@
 package com.goexp.galgame.data.task.handler
 
+import com.goexp.galgame.common.website.getchu.{GetchuGameRemote, RequestBuilder}
 import com.goexp.galgame.data.piplline.core.{Message, MessageHandler}
-import com.goexp.galgame.data.task.client.GetChu.GameRemote.Download
-import com.goexp.galgame.data.task.handler.game.Bytes2Html
+import com.goexp.galgame.data.task.client.GetChu.getHtml
+import com.goexp.galgame.data.task.handler.game.Html2GameOK
 import org.slf4j.LoggerFactory
 
 /**
@@ -11,16 +12,24 @@ import org.slf4j.LoggerFactory
 class DownloadGameHandler extends MessageHandler {
   final private val logger = LoggerFactory.getLogger(classOf[DownloadGameHandler])
 
+  private[this] def getBytes(gameId: Int): String = {
+    logger.debug(s"Download:Game: $gameId")
+
+    val request = RequestBuilder(GetchuGameRemote.byId(gameId)).adaltFlag.build
+
+    getHtml(request)
+
+  }
+
   override def process(message: Message) = {
     message.entity match {
 
       case gid: Int =>
-        logger.debug("Download {}", gid)
         try {
-          val zipBytes = Download.getBytes(gid)
+          val html = getBytes(gid)
           logger.debug("Download OK:{}", gid)
 
-          send(Message(classOf[Bytes2Html].hashCode(), (gid, zipBytes)))
+          send(Message(classOf[Html2GameOK].hashCode(), (gid, html)))
         }
         catch {
           case e: Exception =>

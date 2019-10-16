@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
 import scala.io.{Codec, Source}
 import scala.jdk.CollectionConverters._
 
-object MarkSameGameTask extends App {
+object MarkSameGameTask {
 
   private val logger = LoggerFactory.getLogger(MarkSameGameTask.getClass)
 
@@ -31,59 +31,58 @@ object MarkSameGameTask extends App {
     Option(game.`type`).map(_.asScala).getOrElse(List.empty).contains("セット商品") ||
       packagelist.exists(str => game.name.contains(str))
 
+  def main(args: Array[String]): Unit = {
+    val brandList = BrandQuery.tlp.query.list.asScala
 
-  val brandList = BrandQuery.tlp.query.list.asScala
+    for (brand <- brandList) {
+      val games = GameQuery.fullTlp.query
+        .where(Filters.eq("brandId", brand.id))
+        .list.asScala.to(LazyList)
 
+      games
+        .groupBy { game =>
+          if (isSameGame(game)) "same"
+          else if (isPackageGame(game)) "package"
+          else "other"
+        }
+        .flatMap {
+          case ("same", value: LazyList[Game]) =>
+            value.filter(_.state eq GameState.UNCHECKED).map { game => game.state = GameState.SAME; game }
+          case ("package", value: LazyList[Game]) =>
+            value.filter(_.state eq GameState.UNCHECKED).map { game => game.state = GameState.PACKAGE; game }
+          case ("other", value: LazyList[Game]) =>
+            value.filter {
+              _.publishDate != null
+            }.groupBy {
+              _.publishDate
+            }.values
+              .filter {
+                _.size > 1
+              }
+              .flatMap {
+                games =>
+                  //games by date
 
-  for (brand <- brandList) {
-    val games = GameQuery.fullTlp.query
-      .where(Filters.eq("brandId", brand.id))
-      .list.asScala.to(LazyList)
-
-    games
-      .groupBy { game =>
-        if (isSameGame(game)) "same"
-        else if (isPackageGame(game)) "package"
-        else "other"
-      }
-      .flatMap {
-        case ("same", value: LazyList[Game]) =>
-          value.filter(_.state eq GameState.UNCHECKED).map { game => game.state = GameState.SAME; game }
-        case ("package", value: LazyList[Game]) =>
-          value.filter(_.state eq GameState.UNCHECKED).map { game => game.state = GameState.PACKAGE; game }
-        case ("other", value: LazyList[Game]) =>
-          value.filter {
-            _.publishDate != null
-          }.groupBy {
-            _.publishDate
-          }.values
-            .filter {
-              _.size > 1
-            }
-            .flatMap {
-              games =>
-                //games by date
-
-                games.sortBy {
-                  _.name.length
-                }
-                  .drop(1)
-                  .filter {
-                    _.state eq GameState.UNCHECKED
+                  games.sortBy {
+                    _.name.length
                   }
-                  .map { game => game.state = GameState.SAME; game }
+                    .drop(1)
+                    .filter {
+                      _.state eq GameState.UNCHECKED
+                    }
+                    .map { game => game.state = GameState.SAME; game }
 
-            }
-        //        case _ =>
-        //          throw new RuntimeException("Error")
-      }
-
-      .foreach {
-        case game: Game =>
-          logger.info(s"ID:${game.id} Name: ${game.name}  State: ${game.state}")
-          StateDB.update(game)
-        //        case _ =>
-      }
+              }
+          //        case _ =>
+          //          throw new RuntimeException("Error")
+        }
+        .foreach {
+          case game: Game =>
+            logger.info(s"ID:${game.id} Name: ${game.name}  State: ${game.state}")
+            StateDB.update(game)
+          //        case _ =>
+        }
+    }
   }
 
 }

@@ -30,8 +30,5 @@ class FromDateRange(val start: LocalDate, val end: LocalDate) extends Starter {
       }
 
 
-    //    list.foreach { game =>
-    //      send(Message(classOf[PreProcessGame].hashCode(), game))
-    //    }
   }
 }

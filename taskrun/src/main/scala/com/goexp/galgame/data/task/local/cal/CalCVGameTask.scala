@@ -11,35 +11,37 @@ import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 import scala.jdk.CollectionConverters._
 
-object CalCVGameTask extends App {
+object CalCVGameTask {
   private val logger = LoggerFactory.getLogger(CalCVGameTask.getClass)
 
+  def main(args: Array[String]): Unit = {
 
-  val cvList = CVQuery.tlp.query.list.asScala.to(LazyList)
-  logger.info("Init OK")
+    val cvList = CVQuery.tlp.query.list.asScala.to(LazyList)
+    logger.info("Init OK")
 
-  val futures = cvList.map(cv => {
+    val futures = cvList.map(cv => {
 
-    Future {
-      GameQuery.simpleTlp.query
-        .where(Filters.eq("gamechar.truecv", cv.name))
-        .list.asScala.to(LazyList)
-    }(IO_POOL)
-      .map { games =>
-        val start = games.filter(_.publishDate != null).map(_.publishDate).minOption
-        val end = games.filter(_.publishDate != null).map(_.publishDate).maxOption
-
-        val count = games.size
-
-        (start, end, count)
-
-      }(CPU_POOL)
-      .map {
-        case (start, end, count) =>
-          logger.trace(s"$start, $end, $count")
-          CVDB.updateStatistics(cv, start.orNull, end.orNull, count)
+      Future {
+        GameQuery.simpleTlp.query
+          .where(Filters.eq("gamechar.truecv", cv.name))
+          .list.asScala.to(LazyList)
       }(IO_POOL)
-  })
+        .map { games =>
+          val start = games.filter(_.publishDate != null).map(_.publishDate).minOption
+          val end = games.filter(_.publishDate != null).map(_.publishDate).maxOption
 
-  Await.result(Future.sequence(futures), Duration.Inf)
+          val count = games.size
+
+          (start, end, count)
+
+        }(CPU_POOL)
+        .map {
+          case (start, end, count) =>
+            logger.trace(s"$start, $end, $count")
+            CVDB.updateStatistics(cv, start.orNull, end.orNull, count)
+        }(IO_POOL)
+    })
+
+    Await.result(Future.sequence(futures), Duration.Inf)
+  }
 }

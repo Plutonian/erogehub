@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory
 import scala.jdk.CollectionConverters._
 
 
-object GetTrueCVTask extends App {
+object GetTrueCVTask {
   private val logger = LoggerFactory.getLogger(GetTrueCVTask.getClass)
 
   type Person = GameCharacter
@@ -33,42 +33,46 @@ object GetTrueCVTask extends App {
       .toMap
 
 
-  val list = CVQuery.tlp.query.list
-  val localCV = getMap(list)
+  def main(args: Array[String]): Unit = {
 
-  logger.info("Init OK")
+    val list = CVQuery.tlp.query.list
+    val localCV = getMap(list)
 
-  GameQuery.fullTlpWithChar.query
-    .where(not(same("gamechar", null)))
-    .list.asScala.to(LazyList)
-    .filter(g => Option(g.gameCharacters).map(_.size).getOrElse(0) > 0)
-    .map(g => {
+    logger.info("Init OK")
 
-      var change = false
+    GameQuery.fullTlpWithChar.query
+      .where(not(same("gamechar", null)))
+      .list.asScala.to(LazyList)
+      .filter(g => Option(g.gameCharacters).map(_.size).getOrElse(0) > 0)
+      .map(g => {
 
-      g.gameCharacters = g.gameCharacters.asScala
-        .map(p => {
-          def isTarget(p: Person) = Strings.isNotEmpty(p.cv) && Strings.isEmpty(p.trueCV)
+        var change = false
 
-          val cv = p.cv.trim.toLowerCase
-          if (isTarget(p) && localCV.contains(cv)) {
-            val trueCV = localCV(cv)
-            p.trueCV = trueCV.name
+        g.gameCharacters = g.gameCharacters.asScala
+          .map(p => {
+            def isTarget(p: Person) = Strings.isNotEmpty(p.cv) && Strings.isEmpty(p.trueCV)
 
-            logger.info(s"CV:${p.cv},trueCV:${p.trueCV}  Game: ${g.name} ")
-            change = true
-          }
+            val cv = p.cv.trim.toLowerCase
+            if (isTarget(p) && localCV.contains(cv)) {
+              val trueCV = localCV(cv)
+              p.trueCV = trueCV.name
 
-          p
-        }).asJava
+              logger.info(s"CV:${p.cv},trueCV:${p.trueCV}  Game: ${g.name} ")
+              change = true
+            }
 
-      (change, g)
+            p
+          }).asJava
 
-    })
-    .foreach {
-      case (true, game) =>
-        GameDB.updateChar(game)
-      case _ =>
-    }
+        (change, g)
+
+      })
+      .foreach {
+        case (true, game) =>
+          GameDB.updateChar(game)
+        case _ =>
+      }
+  }
+
 
 }

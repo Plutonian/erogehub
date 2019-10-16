@@ -42,6 +42,29 @@ object GetChu {
       .join()
   }
 
+  def getHtmlAsy(request: HttpRequest) = {
+
+    HttpUtil.httpClient.sendAsync(request, ofByteArray)
+      .thenApply[String] { res =>
+        val bytes = res.body()
+
+        val isGzip = res.headers().firstValue("content-encoding")
+          .map[Boolean] {
+            _ == "gzip"
+          }.orElse(false)
+
+        val rawBytes = if (isGzip) bytes.unGzip() else bytes
+
+        rawBytes.decode(DEFAULT_CHARSET)
+
+      }
+    //      .exceptionally { e =>
+    //        logger.error(s"${e.getCause.getMessage}", e.getCause)
+    //        throw e.getCause
+    //        //        null
+    //      }
+  }
+
   //  Content-Encoding: gzip
 
   object GameRemote {

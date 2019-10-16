@@ -16,7 +16,6 @@ class PreProcessGame extends MessageHandler {
 
     message.entity match {
       case game: Game =>
-//        logger.debug("<Game> {}", game)
 
         //already has
         if (GameDB.exist(game.id)) {

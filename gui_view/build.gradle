@@ -4,14 +4,25 @@
 
 plugins {
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.7'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
 javafx {
-    version = "13"
+    version = '13'
     modules = ['javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.base', 'javafx.web']
 }
-mainClassName = 'com.goexp.galgame.gui.HGameApp'
+
+application {
+    mainClassName = 'com.goexp.galgame.gui.HGameApp'
+    applicationDefaultJvmArgs = [
+            '--module-path=../lib/',
+            '--add-modules=javafx.controls,javafx.graphics,javafx.fxml,javafx.base,javafx.web',
+            // For accessing VirtualFlow field from the base class in GridViewSkin
+            '--add-opens=javafx.controls/javafx.scene.control.skin=ALL-UNNAMED',
+            // For accessing InputMap used in RangeSliderBehavior
+            '--add-exports=javafx.controls/com.sun.javafx.scene.control.inputmap=ALL-UNNAMED'
+    ]
+}
 
 dependencies {
     compile project(':common')
@@ -20,19 +31,5 @@ dependencies {
     compile project(':gui')
     compile group: 'org.controlsfx', name: 'controlsfx', version: '11.0.0'
 }
-
-jar {
-    manifest {
-        attributes 'Main-Class': 'com.goexp.galgame.gui.HGameApp'
-        attributes 'Class-Path': 'common-1.0-SNAPSHOT.jar common-db-mongo-1.0-SNAPSHOT.jar galgamecommon-1.0-SNAPSHOT.jar gui-1.0-SNAPSHOT.jar controlsfx-11.0.0.jar scala-library-2.13.0.jar logback-core-1.2.3.jar logback-classic-1.2.3.jar slf4j-api-1.7.25.jar mongo-java-driver-3.10.2.jar'
-    }
-}
-
-applicationDefaultJvmArgs = [
-        // For accessing VirtualFlow field from the base class in GridViewSkin
-        "--add-opens=javafx.controls/javafx.scene.control.skin=ALL-UNNAMED",
-        // For accessing InputMap used in RangeSliderBehavior
-        "--add-exports=javafx.controls/com.sun.javafx.scene.control.inputmap=ALL-UNNAMED"
-]
 
 group = 'com.goexp.galgame'

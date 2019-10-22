@@ -69,7 +69,7 @@ class TitlePartController extends DefaultController {
     listBrandService.valueProperty.addListener {
       (_, _, newValue) =>
         if (newValue != null) {
-          val items = newValue.asScala.to(LazyList)
+          val items = newValue.to(LazyList)
             .map { brand =>
               val item = new MenuItem
               item.setText(brand.name)

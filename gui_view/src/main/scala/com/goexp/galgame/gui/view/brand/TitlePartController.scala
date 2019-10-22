@@ -40,7 +40,7 @@ class TitlePartController extends DefaultController {
   override protected def initialize() = {
 
     val types =
-      BrandType.values().toList.to(LazyList)
+      BrandType.values().to(LazyList)
         .filter { t: BrandType => t ne BrandType.ALL }
         .reverse
         .asJava
@@ -68,22 +68,22 @@ class TitlePartController extends DefaultController {
       if (!newV) stateChangeProperty.set(true)
 
     })
-    listBrandService.valueProperty.addListener((_, _, newValue) => {
+    listBrandService.valueProperty.addListener {
+      (_, _, newValue) =>
+        if (newValue != null) {
+          val items = newValue.asScala.to(LazyList)
+            .map { brand =>
+              val item = new MenuItem
+              item.setText(brand.name)
+              item.setUserData(brand)
+              item.setOnAction(_ => HomeController.$this.viewBrand(brand))
+              item
+            }.asJava
 
-      if (newValue != null) {
-        val items = newValue.asScala.to(LazyList)
-          .map { brand =>
-            val item = new MenuItem
-            item.setText(brand.name)
-            item.setUserData(brand)
-            item.setOnAction(_ => HomeController.$this.viewBrand(brand))
-            item
-          }.asJava
+          menuComp.getItems.setAll(FXCollections.observableArrayList(items))
+        }
 
-        menuComp.getItems.setAll(FXCollections.observableArrayList(items))
-      }
-
-    })
+    }
 
   }
 

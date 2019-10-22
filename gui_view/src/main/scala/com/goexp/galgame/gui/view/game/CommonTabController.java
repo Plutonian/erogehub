@@ -23,7 +23,7 @@ public class CommonTabController {
 
 
     public CommonTabController(Supplier<Task<ObservableList<Game>>> task) {
-        this.gameSearchService = new TaskService<>(task);
+        this.gameSearchService = new TaskService<>(task::get);
 
         init();
     }

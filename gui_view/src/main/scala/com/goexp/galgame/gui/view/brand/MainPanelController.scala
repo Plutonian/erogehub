@@ -42,9 +42,9 @@ class MainPanelController extends DefaultController {
   private var brandType = BrandType.LIKE
   private var keyword: String = _
 
-  final private val brandService = new TaskService[util.List[Brand]](() => new ByType(brandType))
-  final private val brandByNameService = new TaskService[util.List[Brand]](() => new ByName(keyword))
-  final private val brandByCompService = new TaskService[util.List[Brand]](() => new ByComp(keyword))
+  final private val brandService = TaskService(() => new ByType(brandType))
+  final private val brandByNameService = TaskService(() => new ByName(keyword))
+  final private val brandByCompService = TaskService(() => new ByComp(keyword))
 
   override protected def initialize() = {
     colComp.setCellValueFactory(new PropertyValueFactory[Brand, String]("comp"))

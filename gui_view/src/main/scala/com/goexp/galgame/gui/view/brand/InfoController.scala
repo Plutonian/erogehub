@@ -16,13 +16,13 @@ class InfoController extends DefaultController {
 
   private var brand = new Brand
 
-  final private val gameByBrand = new TaskService[ObservableList[Game]](() => new ByBrand(brand.id))
+  final private val gameByBrand = TaskService(() => new ByBrand(brand.id))
 
   override protected def initialize() = {
     gameByBrand.valueProperty.addListener((_, _, newValue) => {
       if (newValue != null) load(newValue)
-
     })
+
     dataViewController.progessloading.visibleProperty.bind(gameByBrand.runningProperty)
 
     dataViewController.reloadProperty.addListener((_, _, newValue) => {

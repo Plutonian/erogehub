@@ -1,7 +1,5 @@
 package com.goexp.galgame.gui.view.brand
 
-import java.util
-
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.BrandType
 import com.goexp.galgame.gui.model.{Brand, Game}
@@ -32,9 +30,9 @@ class TitlePartController extends DefaultController {
   @FXML private var tagPanel: FlowPane = _
   @FXML private var choiceBrandState: ChoiceBox[BrandType] = _
   private var changeBrand: Brand = _
-  final private val changeBrandStateService = new TaskService[Boolean](() => new ChangeIsLikeTask(changeBrand))
-  final private val changeGameStateService = new TaskService[Unit](() => new MultiLikeByBrand(changeBrand.id))
-  final private val listBrandService = new TaskService[util.List[Brand]](() => new ByComp(changeBrand.comp))
+  final private val changeBrandStateService = TaskService(() => new ChangeIsLikeTask(changeBrand))
+  final private val changeGameStateService = TaskService(() => new MultiLikeByBrand(changeBrand.id))
+  final private val listBrandService = TaskService(() => new ByComp(changeBrand.comp))
   private var listener: ChangeListener[BrandType] = _
 
   override protected def initialize() = {

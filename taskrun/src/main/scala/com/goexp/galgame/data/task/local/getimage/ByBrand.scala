@@ -7,8 +7,6 @@ import com.mongodb.client.model.Filters.{and, not}
 import com.mongodb.client.model.{Filters, Sorts}
 import org.slf4j.LoggerFactory
 
-import scala.jdk.CollectionConverters._
-
 object ByBrand {
   private val logger = LoggerFactory.getLogger(ByDateRange.getClass)
 
@@ -33,11 +31,11 @@ object ByBrand {
         val brandList = BrandQuery.tlp.query
           .where(Filters.eq("type", t.value))
           .sort(Sorts.descending("type"))
-          .list
+          .scalaList
 
-        logger.info("{} brands load OK", brandList.size())
+        logger.info("{} brands load OK", brandList.size)
 
-        val games = brandList.asScala.to(LazyList)
+        val games = brandList.to(LazyList)
           .flatMap { b =>
             logger.trace("Loading...game from brand:{}", b)
 
@@ -47,7 +45,7 @@ object ByBrand {
                 not(Filters.eq("state", GameState.BLOCK.value)),
                 not(Filters.eq("state", GameState.SAME.value))
               ))
-              .list.asScala
+              .scalaList
 
             logger.trace("{} games load OK", glist.size)
             glist

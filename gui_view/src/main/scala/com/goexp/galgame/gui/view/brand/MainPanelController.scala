@@ -1,7 +1,6 @@
 package com.goexp.galgame.gui.view.brand
 
 import java.time.LocalDate
-import java.util
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.BrandType
@@ -21,6 +20,8 @@ import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.ImageView
 import javafx.util.StringConverter
 
+import scala.collection.mutable
+import scala.jdk.CollectionConverters._
 
 class MainPanelController extends DefaultController {
 
@@ -102,18 +103,12 @@ class MainPanelController extends DefaultController {
     })
 
 
-    val handler: ChangeListener[util.List[Brand]] = (_, _, newValue) => {
+    val handler: ChangeListener[mutable.Buffer[Brand]] = (_, _, newValue) => {
       if (newValue != null)
-        tableBrand.setItems(FXCollections.observableArrayList(newValue))
+        tableBrand.setItems(FXCollections.observableArrayList(newValue.asJava))
     }
 
 
-    //    class T extends ChangeListener[util.List[Brand]] {
-    //      override def changed(observable: ObservableValue[_ <: util.List[Brand]], oldValue: util.List[Brand], newValue: util.List[Brand]): Unit = {
-    //        if (newValue != null)
-    //          tableBrand.setItems(FXCollections.observableArrayList(newValue))
-    //      }
-    //    }
 
     //for data
     brandService.valueProperty.addListener(handler)

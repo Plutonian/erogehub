@@ -10,8 +10,6 @@ import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters._
 import org.slf4j.LoggerFactory
 
-import scala.jdk.CollectionConverters._
-
 object ByDateRange {
   private val logger = LoggerFactory.getLogger(ByDateRange.getClass)
 
@@ -39,7 +37,7 @@ object ByDateRange {
         not(Filters.eq("state", GameState.BLOCK.value)),
         not(Filters.eq("state", GameState.SAME.value))
       ))
-      .list.asScala.to(LazyList)
+      .scalaList.to(LazyList)
 
 
     Util.downloadImage(games)

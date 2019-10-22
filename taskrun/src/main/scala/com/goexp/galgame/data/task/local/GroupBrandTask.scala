@@ -19,7 +19,7 @@ object GroupBrandTask {
 
   def main(args: Array[String]): Unit = {
 
-    val brands = BrandQuery.tlp.query.list.asScala.to(LazyList)
+    val brands = BrandQuery.tlp.query.scalaList.to(LazyList)
 
     val futures = brands
       .filter(b => Strings.isNotEmpty(b.website))
@@ -72,7 +72,7 @@ object GroupBrandTask {
 
 object GetRemove extends App {
 
-  BrandQuery.tlp.query.list.asScala.to(LazyList)
+  BrandQuery.tlp.query.scalaList.to(LazyList)
     .filter(b => Strings.isNotEmpty(b.website))
     .flatMap(b => getHost(b.website).split("""\.""").to(LazyList).drop(1))
     .filter(!_.isEmpty)

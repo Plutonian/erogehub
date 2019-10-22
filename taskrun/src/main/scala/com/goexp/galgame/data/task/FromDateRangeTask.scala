@@ -1,7 +1,6 @@
 package com.goexp.galgame.data.task
 
 import java.time.LocalDate
-import java.util
 import java.util.Objects
 import java.util.concurrent.{CompletableFuture, TimeUnit}
 
@@ -27,9 +26,9 @@ object FromDateRangeTask {
   private[this] def game2DB(remoteGame: Game): Unit = {
 
 
-    def merge(local: util.List[CommonGame.GameCharacter], remote: util.List[CommonGame.GameCharacter]): util.List[CommonGame.GameCharacter] = {
-      val localSize = Option(local).map(_.size()).getOrElse(0)
-      val remoteSize = Option(remote).map(_.size()).getOrElse(0)
+    def merge(local: List[CommonGame.GameCharacter], remote: List[CommonGame.GameCharacter]): List[CommonGame.GameCharacter] = {
+      val localSize = Option(local).map(_.size).getOrElse(0)
+      val remoteSize = Option(remote).map(_.size).getOrElse(0)
 
       //do nothing
       if (localSize == 0 && remoteSize == 0) return null
@@ -37,9 +36,9 @@ object FromDateRangeTask {
       if (localSize == 0) return remote
 
       // make local cache
-      val localMap = local.asScala.to(LazyList).map { cc => cc.index -> cc }.toMap
+      val localMap = local.to(LazyList).map { cc => cc.index -> cc }.toMap
       //merge local to remote
-      remote.asScala.map { rc =>
+      remote.map { rc =>
         localMap.get(rc.index) match {
           case Some(localC) =>
 
@@ -71,7 +70,7 @@ object FromDateRangeTask {
 
         rc
 
-      }.asJava
+      }
     }
 
     val localGame = GameQuery.fullTlp.query.where(Filters.eq(remoteGame.id)).one
@@ -89,7 +88,7 @@ object FromDateRangeTask {
     /**
       * upgrade person
       */
-    remoteGame.gameCharacters = merge(localGame.gameCharacters, remoteGame.gameCharacters)
+    remoteGame.gameCharacters = merge(localGame.gameCharacters.asScala.toList, remoteGame.gameCharacters.asScala.toList).asJava
 
     if (remoteGame.gameCharacters != null)
       GameDB.updateChar(remoteGame)

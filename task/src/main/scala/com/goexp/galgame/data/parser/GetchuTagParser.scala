@@ -8,7 +8,7 @@ import scala.jdk.CollectionConverters._
 
 
 class GetchuTagParser {
-  def parse(html: String) =
+  def parse(html: String): List[TagType] =
     Jsoup.parse(html)
       .select("#wrapper div.pc_headword:contains(カテゴリ一覧)")
       .first

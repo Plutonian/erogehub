@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
-import scala.jdk.CollectionConverters._
 
 
 object CalBrandGameTask {
@@ -22,7 +21,7 @@ object CalBrandGameTask {
 
     val brands = BrandQuery.tlp.query
       .where(Filters.ne("type", BrandType.BLOCK.value)) // not blocked
-      .list.asScala.to(LazyList)
+      .scalaList.to(LazyList)
 
     val futures = brands
       .map(b => {
@@ -30,7 +29,7 @@ object CalBrandGameTask {
         Future {
           GameQuery.simpleTlp.query
             .where(Filters.eq("brandId", b.id))
-            .list.asScala.to(LazyList)
+            .scalaList.to(LazyList)
 
         }(IO_POOL)
           .map { games =>

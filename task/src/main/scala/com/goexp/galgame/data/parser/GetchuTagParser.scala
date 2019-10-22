@@ -8,7 +8,7 @@ import scala.jdk.CollectionConverters._
 
 
 class GetchuTagParser {
-  def parse(html: String): LazyList[TagType] =
+  def parse(html: String) =
     Jsoup.parse(html)
       .select("#wrapper div.pc_headword:contains(カテゴリ一覧)")
       .first
@@ -17,6 +17,7 @@ class GetchuTagParser {
       .asScala
       .to(LazyList)
       .map(parse)
+      .toList
 
   private def parse(item: Element) = {
     val list = item

@@ -23,7 +23,7 @@ object ImportOnceTagTask {
       * parse html
       */
 
-    val remotes = new GetchuTagParser().parse(html).toList
+    val remotes = new GetchuTagParser().parse(html)
     logger.info(s"Remote:${remotes.size}")
 
     /**

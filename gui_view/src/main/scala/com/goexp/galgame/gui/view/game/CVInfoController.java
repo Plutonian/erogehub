@@ -22,14 +22,6 @@ import java.util.List;
 
 public class CVInfoController extends DefaultController {
 
-    /**
-     Biz
-     */
-
-    /**
-     * UI Com
-     */
-
     @FXML
     private TableView<CV> tableCV;
 
@@ -48,11 +40,6 @@ public class CVInfoController extends DefaultController {
 
 
     private final Service<ObservableList<CV>> loadCVService = new TaskService<>(CVListTask::new);
-
-
-    /**
-     * Event
-     */
 
 
     protected void initialize() {

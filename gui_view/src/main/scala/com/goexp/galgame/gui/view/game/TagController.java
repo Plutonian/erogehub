@@ -31,11 +31,6 @@ public class TagController extends DefaultController {
     private final Service<ObservableList<TagType>> typeService = new TaskService<>(TagListTask::new);
 
 
-    /**
-     * Event
-     */
-
-
     protected void initialize() {
 
         tabType.addEventFilter(ActionEvent.ACTION, event -> {
@@ -66,7 +61,6 @@ public class TagController extends DefaultController {
                             var tags = tagType.tags.stream()
                                     .map(tag -> {
                                         var link = new Hyperlink(tag);
-//                                        link.setStyle("-fx-font-size:18px");
                                         link.getStyleClass().add("tag");
 
                                         return link;

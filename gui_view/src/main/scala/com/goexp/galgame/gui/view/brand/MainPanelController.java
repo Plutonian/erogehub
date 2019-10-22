@@ -91,8 +91,6 @@ public class MainPanelController extends DefaultController {
     @Override
     protected void initialize() {
 
-//        btnSearch.disableProperty().bind(textBrandKey.textProperty().length().isEqualTo(0));
-
         colComp.setCellValueFactory(new PropertyValueFactory<>("comp"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colWebsite.setCellValueFactory(new PropertyValueFactory<>("website"));
@@ -208,17 +206,6 @@ public class MainPanelController extends DefaultController {
                 }).select(text);
             }
         });
-
-
-//        flowBrand.addEventFilter(ActionEvent.ACTION, event -> {
-//
-//            if (event.getTarget() instanceof Hyperlink) {
-//                var link = (Hyperlink) event.getTarget();
-//                targetBrand = (Brand) link.getUserData();
-//                onLoadProperty.set(true);
-//            }
-//
-//        });
 
     }
 

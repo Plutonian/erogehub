@@ -209,7 +209,7 @@ public class HomeController extends DefaultController {
         TabSelect.from().ifNotFind(() -> {
             var conn = new CommonInfoTabController();
 
-            var tab = new Tab(text, conn.node);
+            var tab = new Tab(text, conn.node());
             tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG().get()));
 
             conn.load(brand);

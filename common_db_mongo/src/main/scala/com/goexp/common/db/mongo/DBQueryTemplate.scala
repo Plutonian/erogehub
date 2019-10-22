@@ -5,6 +5,8 @@ import java.util._
 
 import org.bson.conversions.Bson
 
+import scala.jdk.CollectionConverters._
+
 object DBQueryTemplate {
 
   class Builder[T](private[this] val dbName: String,
@@ -85,6 +87,10 @@ class DBQueryTemplate[T] private(dbName: String,
       finalPart.list(userCreator)
     }
 
+    def scalaList = finalPart.scalaList
+
+    def scalaList(userCreator: ObjectCreator[T]) = finalPart.scalaList(userCreator)
+
     def one: T = finalPart.one
 
     def one(userCreator: ObjectCreator[T]): T = {
@@ -152,6 +158,10 @@ class DBQueryTemplate[T] private(dbName: String,
         Objects.requireNonNull(userCreator)
         docs2Collection(userCreator.create, new util.ArrayList[T])
       }
+
+      def scalaList = list.asScala
+
+      def scalaList(userCreator: ObjectCreator[T]) = list(userCreator).asScala
 
       def one: T = {
         part.buildFileIterrableOne.map(defaultCreator.create).first

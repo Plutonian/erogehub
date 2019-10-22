@@ -19,10 +19,7 @@ class GetchuTagParser {
       .map(parse)
 
   private def parse(item: Element) = {
-    val tagType = new TagType
-    tagType.`type` = item.text
-    tagType.order = 0
-    tagType.tags = item
+    val list = item
       .nextElementSibling
       .select("a")
       .asScala
@@ -30,8 +27,9 @@ class GetchuTagParser {
       .map {
         _.text.trim
       }
-      .asJava
+      .toList
 
-    tagType
+    TagType(item.text, 0, list)
+
   }
 }

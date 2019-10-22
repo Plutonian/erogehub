@@ -42,7 +42,7 @@ class TagController extends DefaultController {
             titlePanel.setPrefWidth(250)
             titlePanel.setCollapsible(false)
 
-            val tags = tagType.tags.asScala.to(LazyList)
+            val tags = tagType.tags.to(LazyList)
               .map((tag: String) => {
                 val link = new Hyperlink(tag)
                 link.getStyleClass.add("tag")

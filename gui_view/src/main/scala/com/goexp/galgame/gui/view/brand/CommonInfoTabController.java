@@ -24,7 +24,7 @@ public class CommonInfoTabController extends DefaultController {
         node = loader.node;
 
         controller = loader.controller;
-        controller.dataViewController.tableViewController.tableColBrand.setVisible(false);
+        controller.dataViewController().tableViewController.tableColBrand.setVisible(false);
     }
 
     public void load(Brand brand) {

@@ -42,17 +42,7 @@ public class WebViewController extends DefaultController {
                 .getLoadWorker()
                 .stateProperty()
                 .addListener((obs, oldValue, newValue) -> {
-                    if (newValue == Worker.State.SUCCEEDED) {
-                        System.out.println("SUCCEEDED");
-                    } else if (newValue == Worker.State.RUNNING) {
-                        System.out.println("RUNNING");
-                    } else if (newValue == Worker.State.READY) {
-                        System.out.println("READY");
-                    } else if (newValue == Worker.State.SCHEDULED) {
-                        System.out.println("SCHEDULED");
-                    } else if (newValue == Worker.State.FAILED) {
-                        System.out.println("FAILED");
-                    }
+                    System.out.println(newValue);
                 }); // addListener()
 
 

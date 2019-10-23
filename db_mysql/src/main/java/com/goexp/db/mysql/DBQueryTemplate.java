@@ -1,4 +1,4 @@
-package com.goexp.common.db.mysql;
+package com.goexp.db.mysql;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 
@@ -37,7 +37,7 @@ public class DBQueryTemplate<T> extends DBOperatorTemplate<T> {
 
         try {
             return getRunner().query(sql,
-                    (ResultSetHandler<T>) resultSet -> {
+                    resultSet -> {
                         if (resultSet.next()) {
                             return creator.create(resultSet);
                         }

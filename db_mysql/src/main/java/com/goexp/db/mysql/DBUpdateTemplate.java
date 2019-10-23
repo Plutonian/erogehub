@@ -1,4 +1,4 @@
-package com.goexp.common.db.mysql;
+package com.goexp.db.mysql;
 
 import java.sql.SQLException;
 

@@ -1,4 +1,4 @@
-package com.goexp.common.db.mysql;
+package com.goexp.db.mysql;
 
 import com.mchange.v2.c3p0.DataSources;
 import org.apache.commons.dbutils.QueryRunner;

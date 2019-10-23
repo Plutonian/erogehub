@@ -17,16 +17,13 @@ final class UrlBuilder private(val host: String) {
   }
 
   def param(name: String, value: Int): UrlBuilder = {
-    param(name, String.valueOf(value))
+    param(name, value.toString)
   }
 
   def build: String = {
     val queryString = params.to(LazyList)
-      .map({ case (k, v) =>
-        s"$k=${v.urlEncode(UTF_8)}"
-      })
+      .map { case (k, v) => s"$k=${v.urlEncode(UTF_8)}" }
       .mkString("&")
-
 
     s"$host?$queryString"
   }

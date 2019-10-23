@@ -12,9 +12,7 @@ import javafx.scene.web.WebView;
 
 public class WebViewController extends DefaultController {
 
-    /**
-     * UI Com
-     */
+
     @FXML
     private TextField locationField;
 
@@ -25,28 +23,10 @@ public class WebViewController extends DefaultController {
     private WebView webView;
 
 
-    /**
-     * Event
-     */
-
 
     protected void initialize() {
         webView.setFontSmoothingType(FontSmoothingType.GRAY);
 
-
-        //        webView.getEngine().setConfirmHandler(new Callback<String, Boolean>() {
-//            @Override
-//            public Boolean call(String param) {
-//                return null;
-//            }
-//        });
-
-//        WebConsoleListener.setDefaultListener (new WebConsoleListener () {
-//            @Override
-//            public void messageAdded (WebView webView, String message, int lineNumber, String sourceId) {
-//                System.out.println ("Console: [" + sourceId + ":" + lineNumber + "] " + message);
-//            }
-//        });
 
         webView
                 .getEngine().getLoadWorker().messageProperty().addListener((observable, oldValue, newValue) -> System.out.println("Mess:" + newValue));

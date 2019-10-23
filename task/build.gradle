@@ -7,7 +7,7 @@ dependencies {
     compile project(':common')
     compile project(':common-db-mongo')
     compile project(':galgamecommon')
-    compile 'org.jsoup:jsoup:1.11.3'
+    compile 'org.jsoup:jsoup:1.12.1'
 }
 
 group = 'com.goexp.galgame'

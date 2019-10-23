@@ -362,19 +362,6 @@ public class HomeController extends DefaultController {
 
     }
 
-//    @FXML
-//    private void linkGuide_OnAction(ActionEvent actionEvent) throws IOException {
-//
-//        TabSelect.from().ifNotFind(() -> {
-//            final var loader = new FXMLLoaderProxy<Region, com.goexp.galgame.gui.view.guide.SearchController>("view/guide/panel.fxml");
-//
-//            var tab = new Tab("攻略", loader.node);
-//            loader.controller.load();
-//
-//            return tab;
-//        }).select("攻略");
-//
-//    }
 
     @FXML
     private void linkCV_OnAction(ActionEvent actionEvent) {
@@ -474,7 +461,9 @@ public class HomeController extends DefaultController {
     @FXML
     private void miCloseRight_OnAction(ActionEvent actionEvent) {
 
-        mainTabPanel.getTabs().remove(mainTabPanel.getSelectionModel().getSelectedIndex() + 1, mainTabPanel.getTabs().size());
+        mainTabPanel
+                .getTabs()
+                .remove(mainTabPanel.getSelectionModel().getSelectedIndex() + 1, mainTabPanel.getTabs().size());
     }
 
 

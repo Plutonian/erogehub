@@ -114,7 +114,7 @@ public class TreeTableController extends DefaultController {
                     if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
                         var g = row.getItem();
 
-                        HomeController.$this.loadDetail(g);
+                        HomeController.$this().loadDetail(g);
 
                     }
                 }
@@ -233,7 +233,7 @@ public class TreeTableController extends DefaultController {
 
                             if (game != null) {
                                 Hyperlink viewLink = new Hyperlink("View");
-                                viewLink.setOnAction((e) -> HomeController.$this.loadDetail(game));
+                                viewLink.setOnAction((e) -> HomeController.$this().loadDetail(game));
 
                                 loader.controller.load(game);
 

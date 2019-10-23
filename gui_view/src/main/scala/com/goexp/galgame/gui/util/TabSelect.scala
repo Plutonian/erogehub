@@ -6,9 +6,9 @@ import javafx.scene.control.{Tab, TabPane}
 import scala.jdk.CollectionConverters._
 
 object TabSelect {
-  def from(root: TabPane) = new TabSelect(root)
+  def apply(root: TabPane): TabSelect = new TabSelect(root)
 
-  def from = new TabSelect(HomeController.$this.mainTabPanel)
+  def apply(): TabSelect = new TabSelect(HomeController.$this.mainTabPanel)
 }
 
 class TabSelect private(val root: TabPane) {

@@ -29,7 +29,7 @@ class MainPanelController extends DefaultController {
   var targetBrand: Brand = _
   @FXML var colStart: TableColumn[Brand, LocalDate] = _
   @FXML var colEnd: TableColumn[Brand, LocalDate] = _
-  @FXML var colSize: TableColumn[Brand, Integer] = _
+  @FXML var colSize: TableColumn[Brand, Int] = _
   @FXML private var textBrandKey: TextField = _
   @FXML private var tableBrand: TableView[Brand] = _
   @FXML private var colComp: TableColumn[Brand, String] = _
@@ -54,7 +54,7 @@ class MainPanelController extends DefaultController {
     colState.setCellValueFactory(new PropertyValueFactory[Brand, BrandType]("isLike"))
     colStart.setCellValueFactory(new PropertyValueFactory[Brand, LocalDate]("start"))
     colEnd.setCellValueFactory(new PropertyValueFactory[Brand, LocalDate]("end"))
-    colSize.setCellValueFactory(new PropertyValueFactory[Brand, Integer]("size"))
+    colSize.setCellValueFactory(new PropertyValueFactory[Brand, Int]("size"))
 
     colStart.setCellFactory(_ => new TableCell[Brand, LocalDate]() {
       override protected def updateItem(item: LocalDate, empty: Boolean) = {
@@ -62,7 +62,7 @@ class MainPanelController extends DefaultController {
         this.setText(null)
         this.setGraphic(null)
         if (item != null && !empty)
-          this.setText(String.valueOf(item.getYear))
+          this.setText(item.getYear.toString)
       }
     })
     colEnd.setCellFactory(_ => new TableCell[Brand, LocalDate]() {
@@ -71,7 +71,7 @@ class MainPanelController extends DefaultController {
         this.setText(null)
         this.setGraphic(null)
         if (item != null && !empty)
-          this.setText(String.valueOf(item.getYear))
+          this.setText(item.getYear.toString)
       }
     })
     colWebsite.setCellFactory(_ => new TableCell[Brand, String]() {
@@ -126,7 +126,7 @@ class MainPanelController extends DefaultController {
     onLoadProperty.addListener((_, _, newValue) => {
       if (newValue != null && newValue) {
         val text = targetBrand.name
-        TabSelect.from.ifNotFind(() => {
+        TabSelect().ifNotFind(() => {
           val conn = new CommonInfoTabController
           val tab = new Tab(text, conn.node)
           tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG.get))
@@ -151,7 +151,7 @@ class MainPanelController extends DefaultController {
     keyword = textBrandKey.getText
     logger.debug("Value: {}", keyword)
 
-    val `type` = typeGroup.getSelectedToggle.getUserData.asInstanceOf[String].toInt
+    val `type` = typeGroup.getSelectedToggle.getUserData.asInstanceOf[Int]
     if (`type` == 0)
       brandByNameService.restart()
     else

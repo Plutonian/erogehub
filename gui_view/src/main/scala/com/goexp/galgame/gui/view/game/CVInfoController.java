@@ -87,7 +87,7 @@ public class CVInfoController extends DefaultController {
 
                 if (item != null && !empty) {
                     var link = new Hyperlink(item);
-                    link.setOnAction(event -> HomeController.$this.loadCVTab(item, true));
+                    link.setOnAction(event -> HomeController.$this().loadCVTab(item, true));
                     this.setGraphic(link);
                 }
             }

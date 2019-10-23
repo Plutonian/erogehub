@@ -130,7 +130,7 @@ public class TableController extends DefaultController {
                     if (!row.isEmpty()) {
                         var g = row.getItem();
 
-                        HomeController.$this.loadDetail(g);
+                        HomeController.$this().loadDetail(g);
                     }
                 }
             });

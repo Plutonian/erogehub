@@ -54,7 +54,7 @@ public class HeaderController extends DefaultController {
 
     protected void initialize() {
 
-        linkView.setOnAction((e) -> HomeController.$this.loadDetail(targetGame));
+        linkView.setOnAction((e) -> HomeController.$this().loadDetail(targetGame));
 
     }
 

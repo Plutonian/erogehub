@@ -63,7 +63,7 @@ class TagController extends DefaultController {
     onLoadProperty.addListener((_, _, newValue) => {
       if (newValue != null && newValue) {
         val targetTag = tag
-        TabSelect.from.ifNotFind(() => {
+        TabSelect().ifNotFind(() => {
           val conn = new CommonTabController(() => new ByTag(targetTag))
           val tab = new Tab(targetTag, conn.node)
           tab.setGraphic(new ImageView(LocalRes.TAG_16_PNG.get))

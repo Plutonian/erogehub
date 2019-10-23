@@ -71,7 +71,7 @@ public class HeaderPartController extends DefaultController {
                 var painter = (Hyperlink) event.getTarget();
 
                 var str = painter.getText().replaceAll("（[^）]+）", "");
-                HomeController.$this.loadPainterTab(str);
+                HomeController.$this().loadPainterTab(str);
             }
         });
 

@@ -95,7 +95,7 @@ public class CellController extends DefaultController {
 //    }
 
     public void onClick(MouseEvent mouseEvent) {
-        HomeController.$this.loadDetail(game);
+        HomeController.$this().loadDetail(game);
     }
 
 }

@@ -1,8 +1,8 @@
-package com.goexp.galgame.data.piplline.core
+package com.goexp.piplline.core
 
 import java.util.concurrent.{ArrayBlockingQueue, TimeUnit}
 
-import com.goexp.galgame.data.piplline.exception.RuntimeInterruptedException
+import com.goexp.piplline.exception.RuntimeInterruptedException
 
 class MessageQueueProxy[T <: Message](val capacity: Int) {
   private val msgQueue = new ArrayBlockingQueue[T](capacity)

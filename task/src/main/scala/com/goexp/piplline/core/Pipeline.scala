@@ -1,9 +1,10 @@
-package com.goexp.galgame.data.piplline.core
+package com.goexp.piplline.core
 
 import java.util.concurrent.{ExecutorService, Executors, TimeUnit}
 
-import com.goexp.galgame.data.piplline.exception.RuntimeInterruptedException
-import com.goexp.galgame.data.piplline.handler.HandlerConfig
+import com.goexp.piplline
+import com.goexp.piplline.exception.RuntimeInterruptedException
+import com.goexp.piplline.handler.HandlerConfig
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
@@ -28,12 +29,12 @@ class Pipeline(private[this] val starter: Starter) {
 
 
   private def registry(handler: MessageHandler, executor: ExecutorService): Pipeline = {
-    configs.add(HandlerConfig(handler, executor))
+    configs.add(piplline.handler.HandlerConfig(handler, executor))
     this
   }
 
   private def registry(handler: MessageHandler, threadCount: Int): Pipeline = {
-    configs.add(HandlerConfig(handler, Executors.newFixedThreadPool(threadCount)))
+    configs.add(piplline.handler.HandlerConfig(handler, Executors.newFixedThreadPool(threadCount)))
     this
   }
 

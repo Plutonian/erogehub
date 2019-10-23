@@ -1,9 +1,9 @@
 package com.goexp.galgame.data.task.handler
 
 import com.goexp.galgame.common.website.getchu.{GetchuGameRemote, RequestBuilder}
-import com.goexp.galgame.data.piplline.core.{Message, MessageHandler}
 import com.goexp.galgame.data.task.client.GetChu.getHtml
 import com.goexp.galgame.data.task.handler.game.Html2GameOK
+import com.goexp.piplline.core.{Message, MessageHandler}
 import org.slf4j.LoggerFactory
 
 /**

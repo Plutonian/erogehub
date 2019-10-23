@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.piplline.core
+package com.goexp.piplline.core
 
 import scala.beans.BeanProperty
 

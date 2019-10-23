@@ -4,7 +4,7 @@ import java.util.Objects
 
 import com.goexp.galgame.data.parser.ParseException
 import com.goexp.galgame.data.parser.game.DetailPageParser
-import com.goexp.galgame.data.piplline.core.{Message, MessageHandler}
+import com.goexp.piplline.core.{Message, MessageHandler}
 import org.slf4j.LoggerFactory
 
 /**
@@ -17,7 +17,7 @@ class Html2GameOK extends MessageHandler {
     message.entity match {
       case (gameId: Int, html: String) =>
 
-//        logger.debug("<Html2GameOK> {}", gameId)
+        //        logger.debug("<Html2GameOK> {}", gameId)
 
         Objects.requireNonNull(html)
 

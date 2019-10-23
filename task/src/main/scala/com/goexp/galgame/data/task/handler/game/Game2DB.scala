@@ -8,7 +8,7 @@ import com.goexp.galgame.common.model.CommonGame
 import com.goexp.galgame.data.db.importor.mongdb.GameDB
 import com.goexp.galgame.data.db.query.mongdb.GameQuery
 import com.goexp.galgame.data.model.Game
-import com.goexp.galgame.data.piplline.core.{Message, MessageHandler}
+import com.goexp.piplline.core.{Message, MessageHandler}
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 

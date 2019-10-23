@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.task.handler
 
-import com.goexp.galgame.data.piplline.handler.HandlerConfig
+import com.goexp.piplline.handler.HandlerConfig
 
 package object game {
   val DefaultGameProcessGroup = Set(

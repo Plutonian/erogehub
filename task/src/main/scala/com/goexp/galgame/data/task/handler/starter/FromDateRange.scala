@@ -3,9 +3,9 @@ package com.goexp.galgame.data.task.handler.starter
 import java.time.LocalDate
 import java.util.concurrent.TimeUnit
 
-import com.goexp.galgame.data.piplline.core.{Message, Starter}
 import com.goexp.galgame.data.task.client.GetChu.GameRemote
 import com.goexp.galgame.data.task.handler.PreProcessGame
+import com.goexp.piplline.core.{Message, Starter}
 import org.slf4j.LoggerFactory
 
 class FromDateRange(val start: LocalDate, val end: LocalDate) extends Starter {

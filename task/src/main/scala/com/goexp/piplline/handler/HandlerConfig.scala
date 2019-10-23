@@ -1,8 +1,8 @@
-package com.goexp.galgame.data.piplline.handler
+package com.goexp.piplline.handler
 
 import java.util.concurrent.{ExecutorService, Executors}
 
-import com.goexp.galgame.data.piplline.core.MessageHandler
+import com.goexp.piplline.core.MessageHandler
 
 case class HandlerConfig(handler: MessageHandler, executor: ExecutorService) {
 

@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.piplline.exception
+package com.goexp.piplline.exception
 
 class RuntimeInterruptedException(cause: Throwable) extends RuntimeException(cause) {
 }

@@ -28,10 +28,10 @@
                         <ToggleGroup fx:id="searchGroup"/>
                     </toggleGroup>
                 </ToggleButton>
-                <ToggleButton mnemonicParsing="false" styleClass="center-pill" text="Extend"
+                <ToggleButton mnemonicParsing="false" styleClass="right-pill" text="Extend"
                               toggleGroup="$searchGroup" userData="2"/>
-                <ToggleButton mnemonicParsing="false" styleClass="right-pill" text="Full"
-                              toggleGroup="$searchGroup" userData="1"/>
+                <!--                <ToggleButton mnemonicParsing="false" styleClass="right-pill" text="Full"-->
+                <!--                              toggleGroup="$searchGroup" userData="1"/>-->
             </HBox>
             <TextField fx:id="textSearchGameKey" promptText="好みのゲームネイムをここで入れでください" HBox.hgrow="ALWAYS">
                 <font>

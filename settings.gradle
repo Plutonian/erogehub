@@ -14,7 +14,7 @@ include(':task')
 include(':taskrun')
 
 project(':gui').projectDir = file('desktopclient')
-project(':db_mysql').projectDir = file('db_mysql')
+//project(':db_mysql').projectDir = file('db_mysql')
 project(':common-db-mongo').projectDir = file('db_mongo')
 
 findProject(':gui_view')?.name = 'gui.view'

@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.view.game
 
-import com.goexp.galgame.gui.task.game.search.{ByName, ByNameEx, ByTag}
+import com.goexp.galgame.gui.task.game.search.{ByName, ByNameEx}
 import com.goexp.galgame.gui.view.DefaultController
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.event.ActionEvent
@@ -25,7 +25,7 @@ class SearchController extends DefaultController {
           searchType match {
             case SearchType.Simple => new ByName(key)
             case SearchType.Extend => new ByNameEx(key)
-            case SearchType.Full => new ByTag(key)
+            //            case SearchType.Full => new ByTag(key)
             case _ => null
           }
         )

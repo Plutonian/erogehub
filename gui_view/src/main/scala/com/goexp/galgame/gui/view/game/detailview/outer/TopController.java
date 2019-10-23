@@ -51,7 +51,7 @@ public class TopController extends DefaultController {
 
     private void loadStar(Game game) {
         boxStar.getChildren().clear();
-        var image = LocalRes.HEART_16_PNG().get();
+        var image = LocalRes.HEART_16_PNG();
         for (var i = 0; i < game.star; i++) {
             boxStar.getChildren().add(new ImageView(image));
         }
@@ -100,7 +100,7 @@ public class TopController extends DefaultController {
         }
 
         boxStar.getChildren().clear();
-        var image = LocalRes.HEART_16_PNG().get();
+        var image = LocalRes.HEART_16_PNG();
         for (var i = 0; i < game.star; i++) {
             boxStar.getChildren().add(new ImageView(image));
         }

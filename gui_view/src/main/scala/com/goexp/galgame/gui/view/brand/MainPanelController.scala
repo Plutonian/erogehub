@@ -129,7 +129,7 @@ class MainPanelController extends DefaultController {
         TabSelect().ifNotFind(() => {
           val conn = new CommonInfoTabController
           val tab = new Tab(text, conn.node)
-          tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG.get))
+          tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG))
           conn.load(targetBrand)
           tab
         }).select(text)

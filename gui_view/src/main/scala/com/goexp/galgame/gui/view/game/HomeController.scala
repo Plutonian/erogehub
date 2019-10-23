@@ -57,7 +57,7 @@ class HomeController extends DefaultController {
         TabSelect().ifNotFind(() => {
           val conn = new CommonTabController(() => new ByDateRange(start, end))
           val tab = new Tab(text, conn.node)
-          tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG.get))
+          tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG))
           conn.load()
           tab
         }).select(text)
@@ -71,7 +71,7 @@ class HomeController extends DefaultController {
         TabSelect().ifNotFind(() => {
           val conn = new CommonTabController(() => new ByDateRange(from, to))
           val tab = new Tab(text, conn.node)
-          tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG.get))
+          tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG))
           conn.load()
           tab
         }).select(text)
@@ -85,10 +85,10 @@ class HomeController extends DefaultController {
     val links = gameType2Link(List(GameState.READYTOVIEW, GameState.HOPE, GameState.PLAYING)).asJava
 
     gameStateLikeLinkPanel.getChildren.setAll(links)
-    linkDate.setGraphic(new ImageView(LocalRes.IMG_DATE_PNG.get))
-    linkCV.setGraphic(new ImageView(LocalRes.IMG_CV_PNG.get))
-    linkSearch.setGraphic(new ImageView(LocalRes.IMG_search_PNG.get))
-    linkTags.setGraphic(new ImageView(LocalRes.IMG_TAG_PNG.get))
+    linkDate.setGraphic(new ImageView(LocalRes.IMG_DATE_PNG))
+    linkCV.setGraphic(new ImageView(LocalRes.IMG_CV_PNG))
+    linkSearch.setGraphic(new ImageView(LocalRes.IMG_search_PNG))
+    linkTags.setGraphic(new ImageView(LocalRes.IMG_TAG_PNG))
   }
 
   private def initBlockList() = {
@@ -123,7 +123,7 @@ class HomeController extends DefaultController {
     TabSelect().ifNotFind(() => {
       val conn = new CommonInfoTabController
       val tab = new Tab(text, conn.node)
-      tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG.get))
+      tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG))
       conn.load(brand)
       tab
     }).select(text)
@@ -133,7 +133,7 @@ class HomeController extends DefaultController {
     TabSelect().ifNotFind(() => {
       val conn = new CommonTabController(() => new ByPainter(painter))
       val tab = new Tab(painter, conn.node)
-      //                    tab.setGraphic(new ImageView(LocalRes.CV_16_PNG.get()));
+      //                    tab.setGraphic(new ImageView(LocalRes.CV_16_PNG()));
       conn.load()
       tab
     }).select(painter)
@@ -142,7 +142,7 @@ class HomeController extends DefaultController {
     TabSelect().ifNotFind(() => {
       val conn = new CommonTabController(() => new ByCV(cv, real))
       val tab = new Tab(cv, conn.node)
-      tab.setGraphic(new ImageView(LocalRes.CV_16_PNG.get))
+      tab.setGraphic(new ImageView(LocalRes.CV_16_PNG))
       conn.load()
       tab
     }).select(cv)
@@ -151,7 +151,7 @@ class HomeController extends DefaultController {
     TabSelect().ifNotFind(() => {
       val loader = new FXMLLoaderProxy[Region, OutPageController](HomeController.GAME_DETAIL_NAV_PAGE_FXML)
       val tab = new Tab(game.name, loader.node)
-      tab.setGraphic(new ImageView(LocalRes.GAME_16_PNG.get))
+      tab.setGraphic(new ImageView(LocalRes.GAME_16_PNG))
       loader.controller.load(game)
       tab
     }).select(game.name)
@@ -221,7 +221,7 @@ class HomeController extends DefaultController {
     TabSelect().ifNotFind(() => {
       val loader = new FXMLLoaderProxy[Region, CVInfoController](HomeController.CVINFO_FXML)
       val tab = new Tab("CV", loader.node)
-      tab.setGraphic(new ImageView(LocalRes.CV_16_PNG.get))
+      tab.setGraphic(new ImageView(LocalRes.CV_16_PNG))
       loader.controller.load()
       tab
     }).select("CV")

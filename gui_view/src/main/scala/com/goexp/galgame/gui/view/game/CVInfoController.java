@@ -53,7 +53,7 @@ public class CVInfoController extends DefaultController {
         colTag.setCellValueFactory(new PropertyValueFactory<>("tag"));
 
         colStar.setCellFactory(col -> {
-            final var image = LocalRes.HEART_16_PNG().get();
+            final var image = LocalRes.HEART_16_PNG();
             return new TableCell<>() {
                 protected void updateItem(Integer star, boolean empty) {
                     super.updateItem(star, empty);

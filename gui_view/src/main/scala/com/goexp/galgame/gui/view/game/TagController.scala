@@ -66,7 +66,7 @@ class TagController extends DefaultController {
         TabSelect().ifNotFind(() => {
           val conn = new CommonTabController(() => new ByTag(targetTag))
           val tab = new Tab(targetTag, conn.node)
-          tab.setGraphic(new ImageView(LocalRes.TAG_16_PNG.get))
+          tab.setGraphic(new ImageView(LocalRes.TAG_16_PNG))
           conn.load()
           tab
         }).select(targetTag)

@@ -238,7 +238,7 @@ public class TableController extends DefaultController {
                 this.setText(null);
 
                 if (!empty) {
-                    var image = LocalRes.HEART_16_PNG().get();
+                    var image = LocalRes.HEART_16_PNG();
                     var box = new HBox();
                     for (var i = 0; i < item; i++) {
                         box.getChildren().add(new ImageView(image));

@@ -4,15 +4,17 @@
 
 rootProject.name = 'galgame'
 include(':common')
+include(':piplline')
+include(':db_mysql')
+include(':common-db-mongo')
 include(':galgamecommon')
 include(':gui')
+include 'gui_view'
 include(':task')
 include(':taskrun')
-include(':common-db-mysql')
-include(':common-db-mongo')
-project(':gui').projectDir = file('desktopclient')
-project(':common-db-mysql').projectDir = file('common_db_mysql')
-project(':common-db-mongo').projectDir = file('common_db_mongo')
-include 'gui_view'
-findProject(':gui_view')?.name = 'gui.view'
 
+project(':gui').projectDir = file('desktopclient')
+project(':db_mysql').projectDir = file('db_mysql')
+project(':common-db-mongo').projectDir = file('db_mongo')
+
+findProject(':gui_view')?.name = 'gui.view'

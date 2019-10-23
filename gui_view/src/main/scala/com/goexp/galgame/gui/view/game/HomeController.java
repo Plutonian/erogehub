@@ -91,12 +91,12 @@ public class HomeController extends DefaultController {
         $this = this;
 
 
-        dateController.onLoadProperty.addListener((observable, oldValue, newValue) -> {
+        dateController.onLoadProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && newValue) {
-                final var start = dateController.from;
-                final var end = dateController.to;
+                final var start = dateController.from();
+                final var end = dateController.to();
 
-                final var text = dateController.title;
+                final var text = dateController.title();
 
                 TabSelect.from().ifNotFind(() -> {
 
@@ -113,12 +113,12 @@ public class HomeController extends DefaultController {
             }
         });
 
-        dateController.onYearLoadProperty.addListener((observable, oldValue, newValue) -> {
+        dateController.onYearLoadProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && newValue) {
 
-                final var from = dateController.from;
-                final var to = dateController.to;
-                final var text = dateController.title;
+                final var from = dateController.from();
+                final var to = dateController.to();
+                final var text = dateController.title();
 
                 TabSelect.from().ifNotFind(() -> {
 

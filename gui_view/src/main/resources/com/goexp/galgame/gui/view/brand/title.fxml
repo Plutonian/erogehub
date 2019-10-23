@@ -15,7 +15,6 @@
         <AnchorPane BorderPane.alignment="CENTER">
             <FlowPane prefWrapLength="800.0" rowValignment="BOTTOM" AnchorPane.bottomAnchor="0.0"
                       AnchorPane.topAnchor="0.0">
-                <ImageView fx:id="imageFav" pickOnBounds="true" preserveRatio="true"/>
                 <MenuButton fx:id="menuComp" mnemonicParsing="false" styleClass="copyablelabel"
                             stylesheets="@/view/view.css" text="########">
                     <font>

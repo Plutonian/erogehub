@@ -14,7 +14,6 @@ import javafx.beans.value.ChangeListener
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.fxml.FXML
 import javafx.scene.control.{ChoiceBox, Label, MenuButton, MenuItem}
-import javafx.scene.image.ImageView
 import javafx.scene.layout.{FlowPane, HBox}
 import javafx.scene.text.Text
 import javafx.util.StringConverter
@@ -26,7 +25,6 @@ class TitlePartController extends DefaultController {
   @FXML private var txtComp: Text = _
   @FXML private var menuComp: MenuButton = _
   @FXML private var boxWebsite: HBox = _
-  @FXML private var imageFav: ImageView = _
   @FXML private var tagPanel: FlowPane = _
   @FXML private var choiceBrandState: ChoiceBox[BrandType] = _
   private var changeBrand: Brand = _
@@ -70,6 +68,7 @@ class TitlePartController extends DefaultController {
       (_, _, newValue) =>
         if (newValue != null) {
           val items = newValue.to(LazyList)
+            .filter { b => b != changeBrand }
             .map { brand =>
               val item = new MenuItem
               item.setText(brand.name)

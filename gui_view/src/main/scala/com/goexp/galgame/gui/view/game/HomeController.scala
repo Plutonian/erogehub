@@ -220,9 +220,9 @@ class HomeController extends DefaultController {
   @FXML private def linkCV_OnAction(actionEvent: ActionEvent) =
     TabSelect().ifNotFind(() => {
       val loader = new FXMLLoaderProxy[Region, CVInfoController](HomeController.CVINFO_FXML)
+      loader.controller.load()
       val tab = new Tab("CV", loader.node)
       tab.setGraphic(new ImageView(LocalRes.CV_16_PNG))
-      loader.controller.load()
       tab
     }).select("CV")
 
@@ -232,7 +232,7 @@ class HomeController extends DefaultController {
       val conn = new CommonTabController(() => new ByStarRange(1, 2))
       conn.controller.tableViewController.tableColState.setVisible(false)
       val tab = new Tab(title, conn.node)
-      conn.load((g: Game) => g.star < 3)
+      conn.load(_.star < 3)
       tab
     }).select(title)
   }

@@ -1,7 +1,6 @@
 package com.goexp.galgame.common.model
 
 import java.time.LocalDate
-import java.util
 import java.util.StringJoiner
 
 import scala.beans.BeanProperty
@@ -28,7 +27,7 @@ class CV {
   var size:Int=_
 
   @BeanProperty
-  var tag: util.List[String] = _
+  var tag: List[String] = _
 
 
   override def toString: String =

@@ -16,7 +16,7 @@ object TagQuery {
   private val creator: ObjectCreator[TagType] = (doc: Document) => {
     val t = doc.getString("type")
     val o = doc.getInteger("order")
-    val tags = doc.get("tags", classOf[util.List[String]]).asScala.toList
+    val tags = Option(doc.get("tags", classOf[util.List[String]])).map { l => l.asScala.toList }.orNull
     TagType(t, o, tags)
   }
   val tlp = new DBQueryTemplate.Builder[TagType](DB_NAME, "tag", creator).build

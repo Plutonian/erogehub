@@ -8,6 +8,8 @@ import com.goexp.galgame.common.model.CV
 import org.bson.Document
 import org.slf4j.LoggerFactory
 
+import scala.jdk.CollectionConverters._
+
 object CVCreator extends ObjectCreator[CV] {
   private val logger = LoggerFactory.getLogger(CVCreator.getClass)
 
@@ -23,7 +25,7 @@ object CVCreator extends ObjectCreator[CV] {
     cv.end = Option(doc.getDate("end")).map(DateUtil.toLocalDate).orNull
     cv.size = doc.getInteger("size")
 
-    cv.tag = doc.get("tag", classOf[util.List[String]])
+    cv.tag = Option(doc.get("tag", classOf[util.List[String]])).map { l => l.asScala.toList }.orNull
     cv.nameStr = doc.getString("names")
     cv
   }

@@ -13,10 +13,6 @@ public class SearchController extends DefaultController {
 
     private String keyword = "";
 
-//    public MenuButton searchLink;
-
-//    @FXML//    private MenuItem linkDlsite;
-
     @FXML
     private MenuItem linkGGBases;
 
@@ -26,19 +22,12 @@ public class SearchController extends DefaultController {
     @FXML
     private MenuItem link2DF;
 
-//    @FXML//    private MenuItem linkBangumi;
 
     protected void initialize() {
 
-//        linkDlsite.setOnAction((e) -> {
-//            Websites.open(DlSiteURL.fromTitle(keyword));
-//        });
         linkGGBases.setOnAction((e) -> Websites.open(GGBasesURL.fromTitle(keyword)));
         linkWiki.setOnAction((e) -> Websites.open(WikiURL.fromTitle(keyword)));
         link2DF.setOnAction((e) -> Websites.open(_2DFURL.fromTitle(keyword)));
-//        linkBangumi.setOnAction((e) -> {
-//            Websites.open(BangumiURL.fromTitle(keyword));
-//        });
     }
 
     public void load(String keyword) {

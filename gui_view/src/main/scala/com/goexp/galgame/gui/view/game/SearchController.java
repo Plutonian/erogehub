@@ -15,13 +15,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 
-import java.util.Arrays;
-
 public class SearchController extends DefaultController {
-
-    /**
-     * UI Com
-     */
 
     public final BooleanProperty onLoadProperty = new SimpleBooleanProperty(false);
 
@@ -116,19 +110,4 @@ public class SearchController extends DefaultController {
         }
     }
 
-    public enum SearchType {
-        Simple(0),
-        Full(1),
-        Extend(2);
-
-        private final int value;
-
-        SearchType(int value) {
-            this.value = value;
-        }
-
-        public static SearchType from(int value) {
-            return Arrays.stream(SearchType.values()).filter(type -> type.value == value).findFirst().orElseThrow();
-        }
-    }
 }

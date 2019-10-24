@@ -8,9 +8,9 @@ import javafx.concurrent.Task
 
 class ByTag(private[this] val tag: String) extends Task[ObservableList[Game]] {
   override protected def call: ObservableList[Game] = {
-    val list = GameQuery.tlp.query
+    val list = GameQuery.tlp
       .where(Filters.eq("tag", tag))
-      .list
+      .list()
 
     FXCollections.observableArrayList(list)
   }

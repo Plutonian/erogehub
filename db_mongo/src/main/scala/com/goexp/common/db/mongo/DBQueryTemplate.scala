@@ -26,7 +26,7 @@ object DBQueryTemplate {
       this
     }
 
-    def build = new DBQueryTemplate[T](dbName, tableName, creator, defaultSelect, defaultSort)
+    def build = new DBQueryTemplate[T](dbName, tableName, creator, defaultSelect, defaultSort).query
   }
 
   def apply[T](dbName: String, tableName: String, defaultCreator: ObjectCreator[T]) = new Builder(dbName, tableName, defaultCreator)

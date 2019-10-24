@@ -10,9 +10,9 @@ class ByCV(private[this] val cv: String,
            private[this] val real: Boolean) extends Task[ObservableList[Game]] {
   override protected def call: ObservableList[Game] = {
     val list = if (real)
-      GameQuery.tlp.query.where(Filters.eq("gamechar.truecv", cv)).list
+      GameQuery.tlp.where(Filters.eq("gamechar.truecv", cv)).list()
     else
-      GameQuery.tlp.query.where(Filters.eq("gamechar.cv", cv)).list
+      GameQuery.tlp.where(Filters.eq("gamechar.cv", cv)).list()
 
 
     FXCollections.observableArrayList(list)

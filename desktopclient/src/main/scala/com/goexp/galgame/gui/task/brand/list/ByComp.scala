@@ -13,12 +13,11 @@ import scala.collection.mutable
 
 class ByComp(private[this] val name: String) extends Task[mutable.Buffer[Brand]] {
   override protected def call = {
-    BrandQuery.tlp.query
-      .where(and(
-        Filters.eq("comp", name),
-        Filters.ne("type", BrandType.BLOCK.value)
-      ))
+    BrandQuery.tlp.where(and(
+      Filters.eq("comp", name),
+      Filters.ne("type", BrandType.BLOCK.value)
+    ))
       .sort(and(descending("type"), descending("name")))
-      .scalaList
+      .scalaList()
   }
 }

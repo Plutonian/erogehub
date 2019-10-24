@@ -11,12 +11,11 @@ import scala.collection.mutable
 class ByType(private[this] val `type`: BrandType) extends Task[mutable.Buffer[Brand]] {
   override protected def call = {
     if (`type` eq BrandType.ALL)
-      BrandQuery.tlp.query
-        .scalaList
+      BrandQuery.tlp.scalaList()
     else
-      BrandQuery.tlp.query
+      BrandQuery.tlp
         .where(Filters.eq("type", `type`.value))
-        .scalaList
+        .scalaList()
 
   }
 }

@@ -19,17 +19,17 @@ object CalBrandGameTask {
 
     logger.info("Init OK")
 
-    val brands = BrandQuery.tlp.query
+    val brands = BrandQuery.tlp
       .where(Filters.ne("type", BrandType.BLOCK.value)) // not blocked
-      .scalaList.to(LazyList)
+      .scalaList().to(LazyList)
 
     val futures = brands
       .map(b => {
 
         Future {
-          GameQuery.simpleTlp.query
+          GameQuery.simpleTlp
             .where(Filters.eq("brandId", b.id))
-            .scalaList.to(LazyList)
+            .scalaList().to(LazyList)
 
         }(IO_POOL)
           .map { games =>

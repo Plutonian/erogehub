@@ -33,13 +33,13 @@ object CleanSameGameTask {
 
     logger.info("Init OK")
 
-    BrandQuery.tlp.query
-      .scalaList.to(LazyList)
+    BrandQuery.tlp
+      .scalaList().to(LazyList)
       .foreach {
         b =>
-          val games = GameQuery.simpleTlp.query
+          val games = GameQuery.simpleTlp
             .where(Filters.eq("brandId", b.id))
-            .scalaList.to(LazyList)
+            .scalaList().to(LazyList)
 
           games
             .filter { g => g.state eq GameState.SAME }

@@ -26,9 +26,9 @@ object Seiya_saiga_com {
     /*
     Local
      */
-    val locals = GuideQuery.tlp.query
+    val locals = GuideQuery.tlp
       .where(Filters.eq("from", DataFrom.seiya_saiga_com.value))
-      .set.asScala
+      .set().asScala
 
     logger.info(s"Local:${locals.size}")
 

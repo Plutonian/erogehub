@@ -8,7 +8,7 @@ import javafx.concurrent.Task
 
 class GameImgListTask(private[this] val gameId: Int) extends Task[ObservableList[GameImg]] {
   override protected def call: ObservableList[GameImg] = {
-    val g = GameQuery.imgTlp.query.where(Filters.eq(gameId)).one
+    val g = GameQuery.imgTlp.where(Filters.eq(gameId)).one()
 
 
     Option(g.gameImgs)

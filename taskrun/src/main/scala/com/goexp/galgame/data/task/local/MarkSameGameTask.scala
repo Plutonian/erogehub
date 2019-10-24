@@ -32,12 +32,12 @@ object MarkSameGameTask {
       packagelist.exists(str => game.name.contains(str))
 
   def main(args: Array[String]): Unit = {
-    val brandList = BrandQuery.tlp.query.scalaList
+    val brandList = BrandQuery.tlp.scalaList()
 
     for (brand <- brandList) {
-      val games = GameQuery.fullTlp.query
+      val games = GameQuery.fullTlp
         .where(Filters.eq("brandId", brand.id))
-        .scalaList.to(LazyList)
+        .scalaList().to(LazyList)
 
       games
         .groupBy { game =>

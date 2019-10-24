@@ -33,14 +33,14 @@ object GetTrueCVTask {
 
   def main(args: Array[String]): Unit = {
 
-    val list = CVQuery.tlp.query.scalaList.toList
+    val list = CVQuery.tlp.scalaList().toList
     val localCV = getMap(list)
 
     logger.info("Init OK")
 
-    GameQuery.fullTlpWithChar.query
+    GameQuery.fullTlpWithChar
       .where(not(same("gamechar", null)))
-      .scalaList.to(LazyList)
+      .scalaList().to(LazyList)
       .filter(g => Option(g.gameCharacters).map(_.size).getOrElse(0) > 0)
       .map(g => {
 

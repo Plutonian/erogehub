@@ -73,7 +73,7 @@ object FromDateRangeTask {
       }
     }
 
-    val localGame = GameQuery.fullTlp.query.where(Filters.eq(remoteGame.id)).one
+    val localGame = GameQuery.fullTlp.where(Filters.eq(remoteGame.id)).one()
 
 
     /**

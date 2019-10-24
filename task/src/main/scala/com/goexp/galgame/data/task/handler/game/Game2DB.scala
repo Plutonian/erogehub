@@ -71,7 +71,7 @@ class Game2DB extends MessageHandler {
     message.entity match {
       case remoteGame: Game =>
         logger.debug("Process {}", remoteGame)
-        val localGame = GameQuery.fullTlp.query.where(Filters.eq(remoteGame.id)).one
+        val localGame = GameQuery.fullTlp.where(Filters.eq(remoteGame.id)).one()
 
 
         /**

@@ -9,9 +9,9 @@ import javafx.concurrent.Task
 
 class ByState(private[this] val gameState: GameState) extends Task[ObservableList[Game]] {
   override protected def call: ObservableList[Game] = {
-    val list = GameQuery.tlp.query
+    val list = GameQuery.tlp
       .where(Filters.eq("state", gameState.value))
-      .list
+      .list()
 
     FXCollections.observableArrayList(list)
   }

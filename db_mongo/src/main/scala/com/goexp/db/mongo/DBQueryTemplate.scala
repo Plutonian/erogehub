@@ -110,7 +110,7 @@ class DBQueryTemplate[T] private(dbName: String,
     }
 
 
-    def set(userCreator: ObjectCreator[T])(onOK: Set[T] => Unit) = {
+    def set(userCreator: ObjectCreator[T] = defaultCreator)(onOK: Set[T] => Unit) = {
       Objects.requireNonNull(userCreator)
       buildFileIterrableMany
         .subscribe(new Observer[Document] {
@@ -130,12 +130,12 @@ class DBQueryTemplate[T] private(dbName: String,
         })
     }
 
-    def list(userCreator: ObjectCreator[T]): (List[T] => Unit) => Unit = {
+    def list(userCreator: ObjectCreator[T] = defaultCreator): (List[T] => Unit) => Unit = {
       Objects.requireNonNull(userCreator)
       docs2Collection(userCreator.create)
     }
 
-    def one(userCreator: ObjectCreator[T])(onOK: T => Unit) = {
+    def one(userCreator: ObjectCreator[T] = defaultCreator)(onOK: T => Unit) = {
       Objects.requireNonNull(userCreator)
 
       buildFileIterrableOne.subscribe(new Observer[Document] {

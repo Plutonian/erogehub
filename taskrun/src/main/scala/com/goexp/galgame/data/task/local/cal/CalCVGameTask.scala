@@ -15,15 +15,15 @@ object CalCVGameTask {
 
   def main(args: Array[String]): Unit = {
 
-    val cvList = CVQuery.tlp.query.scalaList.to(LazyList)
+    val cvList = CVQuery.tlp.scalaList().to(LazyList)
     logger.info("Init OK")
 
     val futures = cvList.map(cv => {
 
       Future {
-        GameQuery.simpleTlp.query
+        GameQuery.simpleTlp
           .where(Filters.eq("gamechar.truecv", cv.name))
-          .scalaList.to(LazyList)
+          .scalaList().to(LazyList)
       }(IO_POOL)
         .map { games =>
           val start = games.filter(_.publishDate != null).map(_.publishDate).minOption

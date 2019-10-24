@@ -30,14 +30,14 @@ object ByDateRange {
     //    val start = LocalDate.of(2018, 1, 1)
     //    val end = start.plusYears(1)
 
-    val games = GameQuery.fullTlp.query
+    val games = GameQuery.fullTlp
       .where(and(
         gte("publishDate", DateUtil.toDate(s"${start} 00:00:00")),
         lte("publishDate", DateUtil.toDate(s"${end} 23:59:59")),
         not(Filters.eq("state", GameState.BLOCK.value)),
         not(Filters.eq("state", GameState.SAME.value))
       ))
-      .scalaList.to(LazyList)
+      .scalaList().to(LazyList)
 
 
     Util.downloadImage(games)

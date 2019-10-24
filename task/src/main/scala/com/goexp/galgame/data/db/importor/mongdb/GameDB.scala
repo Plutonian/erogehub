@@ -92,7 +92,7 @@ object GameDB {
       ))
     })
 
-  def exist(id: Int): Boolean = GameQuery.fullTlp.query.where(Filters.eq(id)).exists
+  def exist(id: Int): Boolean = GameQuery.fullTlp.where(Filters.eq(id)).exists
 
 
   object StateDB {

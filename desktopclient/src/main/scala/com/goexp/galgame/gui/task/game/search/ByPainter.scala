@@ -9,9 +9,9 @@ import javafx.concurrent.Task
 class ByPainter(private[this] val cv: String) extends Task[ObservableList[Game]] {
   override protected def call: ObservableList[Game] = {
 
-    val list = GameQuery.tlp.query
+    val list = GameQuery.tlp
       .where(Filters.eq("painter", cv))
-      .list
+      .list()
 
     FXCollections.observableArrayList(list)
   }

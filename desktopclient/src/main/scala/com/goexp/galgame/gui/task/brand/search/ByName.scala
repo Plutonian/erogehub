@@ -9,8 +9,7 @@ import scala.collection.mutable
 
 class ByName(private[this] val name: String) extends Task[mutable.Buffer[Brand]] {
   override protected def call = {
-    BrandQuery.tlp.query
-      .where(regex("name", "^" + name))
-      .scalaList
+    BrandQuery.tlp.where(regex("name", "^" + name))
+      .scalaList()
   }
 }

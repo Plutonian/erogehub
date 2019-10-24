@@ -8,9 +8,9 @@ import javafx.concurrent.Task
 
 class GuideSearchTask(private[this] val name: String) extends Task[ObservableList[CommonGame.Guide]] {
   override protected def call: ObservableList[CommonGame.Guide] = {
-    val list = GuideQuery.tlp.query
+    val list = GuideQuery.tlp
       .where(regex("title", "^" + name))
-      .list
+      .list()
 
     FXCollections.observableArrayList(list)
   }

@@ -11,7 +11,7 @@ import scala.jdk.CollectionConverters._
 
 class GameCharListTask(private[this] val gameId: Int) extends Task[ObservableList[GameCharacter]] {
   override protected def call: ObservableList[GameCharacter] = {
-    val g = GameQuery.personTlp.query.where(Filters.eq(gameId)).one
+    val g = GameQuery.personTlp.where(Filters.eq(gameId)).one()
 
     Option(g.gameCharacters)
       .map(persons => {

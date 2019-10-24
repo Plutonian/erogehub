@@ -28,10 +28,10 @@ object ByBrand {
       t =>
         logger.info("Loading... brand type:{}", t)
 
-        val brandList = BrandQuery.tlp.query
+        val brandList = BrandQuery.tlp
           .where(Filters.eq("type", t.value))
           .sort(Sorts.descending("type"))
-          .scalaList
+          .scalaList()
 
         logger.info("{} brands load OK", brandList.size)
 
@@ -39,13 +39,13 @@ object ByBrand {
           .flatMap { b =>
             logger.trace("Loading...game from brand:{}", b)
 
-            val glist = GameQuery.fullTlp.query
+            val glist = GameQuery.fullTlp
               .where(and(
                 Filters.eq("brandId", b.id),
                 not(Filters.eq("state", GameState.BLOCK.value)),
                 not(Filters.eq("state", GameState.SAME.value))
               ))
-              .scalaList
+              .scalaList()
 
             logger.trace("{} games load OK", glist.size)
             glist

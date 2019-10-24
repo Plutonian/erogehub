@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
-import scala.jdk.CollectionConverters._
 
 object GroupBrandTask {
   val logger = LoggerFactory.getLogger(GroupBrandTask.getClass)
@@ -19,7 +18,7 @@ object GroupBrandTask {
 
   def main(args: Array[String]): Unit = {
 
-    val brands = BrandQuery.tlp.query.scalaList.to(LazyList)
+    val brands = BrandQuery.tlp.scalaList().to(LazyList)
 
     val futures = brands
       .filter(b => Strings.isNotEmpty(b.website))
@@ -72,7 +71,7 @@ object GroupBrandTask {
 
 object GetRemove extends App {
 
-  BrandQuery.tlp.query.scalaList.to(LazyList)
+  BrandQuery.tlp.scalaList().to(LazyList)
     .filter(b => Strings.isNotEmpty(b.website))
     .flatMap(b => getHost(b.website).split("""\.""").to(LazyList).drop(1))
     .filter(!_.isEmpty)

@@ -9,10 +9,20 @@ import org.jsoup.nodes.Element
 
 import scala.jdk.CollectionConverters._
 
+
 private object ListPageParser {
   private lazy val DATE_REGEX = """発売日：(\d{4}/[0-1]\d/[0-3]\d)""".r("date")
 }
 
+/*
+get game{
+id,
+name,
+publishDate,
+smallImg
+}
+
+ */
 class ListPageParser {
 
 

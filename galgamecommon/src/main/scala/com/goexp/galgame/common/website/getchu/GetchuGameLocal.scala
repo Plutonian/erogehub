@@ -2,8 +2,11 @@ package com.goexp.galgame.common.website.getchu
 
 object GetchuGameLocal {
 
-  def tinyImg(gameId: Int) =
+  def tiny120Img(gameId: Int) =
     s"${gameId}/game_t"
+
+  def tiny200Img(gameId: Int) =
+    s"${gameId}/game_t200"
 
   def smallImg(gameId: Int) =
     s"${gameId}/game_s"

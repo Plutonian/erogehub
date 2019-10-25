@@ -10,7 +10,7 @@ object GameImage {
 class GameImage(private[this] val game: Game) {
 
   def tiny() = {
-    val local = GetchuGameLocal.tinyImg(game.id)
+    val local = GetchuGameLocal.tiny120Img(game.id)
     val remote = game.smallImg
     GameImages.get(game)(local, remote)
   }

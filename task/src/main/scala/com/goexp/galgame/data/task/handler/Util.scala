@@ -36,9 +36,15 @@ object Util {
 
       list.addOne((localSmall, remoteSmall))
 
-      val localTiny = Config.IMG_PATH.resolve(s"${GetchuGameLocal.tinyImg(g.id)}.jpg")
+      val localTiny = Config.IMG_PATH.resolve(s"${GetchuGameLocal.tiny120Img(g.id)}.jpg")
       val remoteTiny = GetchuGameRemote.getUrlFromSrc(g.smallImg)
       logger.debug(s"Local:$localTiny(${Files.exists(localTiny)}) --> Remote:$remoteTiny")
+
+      list.addOne((localTiny, remoteTiny))
+
+      val local200Tiny = Config.IMG_PATH.resolve(s"${GetchuGameLocal.tiny200Img(g.id)}.jpg")
+      val remote200Tiny = GetchuGameRemote.tiny200Img(g.id)
+      logger.debug(s"Local:$local200Tiny(${Files.exists(local200Tiny)}) --> Remote:$remote200Tiny")
 
       list.addOne((localTiny, remoteTiny))
 

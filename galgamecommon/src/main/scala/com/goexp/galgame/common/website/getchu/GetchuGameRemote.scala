@@ -11,6 +11,9 @@ object GetchuGameRemote {
   def smallImg(gameId: Int): String =
     s"http://www.getchu.com/brandnew/$gameId/rc${gameId}package.jpg"
 
+  def tiny200Img(gameId: Int): String =
+    s"http://www.getchu.com/brandnew/$gameId/c${gameId}package_s.jpg"
+
   def largeImg(gameId: Int): String =
     s"http://www.getchu.com/brandnew/$gameId/c${gameId}package.jpg"
 

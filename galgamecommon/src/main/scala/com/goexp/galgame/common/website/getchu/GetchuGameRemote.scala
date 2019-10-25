@@ -8,8 +8,11 @@ object GetchuGameRemote {
       .param("id", gameId)
       .build //                .param("gc", "gc")
 
-  def smallImg(gameId: Int): String =
+  def normalImg(gameId: Int): String =
     s"http://www.getchu.com/brandnew/$gameId/rc${gameId}package.jpg"
+
+  def tiny120Img(gameId: Int): String =
+    s"http://www.getchu.com/brandnew/$gameId/c${gameId}package_ss.jpg"
 
   def tiny200Img(gameId: Int): String =
     s"http://www.getchu.com/brandnew/$gameId/c${gameId}package_s.jpg"

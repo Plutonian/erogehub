@@ -69,7 +69,7 @@ public class CellController extends DefaultController {
 
         if (game.isOkImg()) {
 
-            imageImg.setImage(new GameImage(game).small());
+            imageImg.setImage(new GameImage(game).normal());
 
             if (game.state.get() == GameState.BLOCK)
                 imageImg.setEffect(new ColorAdjust(0, -1, 0, 0));

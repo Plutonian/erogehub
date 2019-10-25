@@ -30,11 +30,11 @@ object Util {
       /*
     Basic Info
      */
-      val localSmall = Config.IMG_PATH.resolve(s"${GetchuGameLocal.smallImg(g.id)}.jpg")
-      val remoteSmall = GetchuGameRemote.smallImg(g.id)
-      logger.debug(s"Local:$localSmall(${Files.exists(localSmall)}) --> Remote:$remoteSmall")
+      val localNormal = Config.IMG_PATH.resolve(s"${GetchuGameLocal.normalImg(g.id)}.jpg")
+      val remoteNormal = GetchuGameRemote.normalImg(g.id)
+      logger.debug(s"Local:$localNormal(${Files.exists(localNormal)}) --> Remote:$remoteNormal")
 
-      list.addOne((localSmall, remoteSmall))
+      list.addOne((localNormal, remoteNormal))
 
       val localTiny = Config.IMG_PATH.resolve(s"${GetchuGameLocal.tiny120Img(g.id)}.jpg")
       val remoteTiny = GetchuGameRemote.getUrlFromSrc(g.smallImg)
@@ -46,7 +46,7 @@ object Util {
       val remote200Tiny = GetchuGameRemote.tiny200Img(g.id)
       logger.debug(s"Local:$local200Tiny(${Files.exists(local200Tiny)}) --> Remote:$remote200Tiny")
 
-      list.addOne((localTiny, remoteTiny))
+      list.addOne((local200Tiny, remote200Tiny))
 
       val localLarge = Config.IMG_PATH.resolve(s"${GetchuGameLocal.largeImg(g.id)}.jpg")
       val remoteLarge = GetchuGameRemote.largeImg(g.id)

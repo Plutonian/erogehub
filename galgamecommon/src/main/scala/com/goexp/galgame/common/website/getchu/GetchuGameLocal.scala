@@ -8,7 +8,7 @@ object GetchuGameLocal {
   def tiny200Img(gameId: Int) =
     s"${gameId}/game_t200"
 
-  def smallImg(gameId: Int) =
+  def normalImg(gameId: Int) =
     s"${gameId}/game_s"
 
   def largeImg(gameId: Int) =

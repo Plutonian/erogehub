@@ -6,7 +6,7 @@ import java.time.LocalDate
 
 import com.goexp.common.util.Gzip._
 import com.goexp.common.util.charset._
-import com.goexp.common.util.web.HttpUtil
+import com.goexp.galgame.common.util.LimitHttpClient
 import com.goexp.galgame.common.website.getchu.{GameList, RequestBuilder}
 import com.goexp.galgame.data.model.{Brand, Game}
 import com.goexp.galgame.data.parser.GetchuBrandParser
@@ -18,9 +18,10 @@ object GetChu {
 
   val DEFAULT_CHARSET = "EUC-JP"
 
+
   def getHtml(request: HttpRequest): String = {
 
-    HttpUtil.httpClient.sendAsync(request, ofByteArray)
+    LimitHttpClient().sendAsync(request, ofByteArray)
       .thenApply[String] { res =>
         val bytes = res.body()
 
@@ -44,7 +45,7 @@ object GetChu {
 
   def getHtmlAsy(request: HttpRequest) = {
 
-    HttpUtil.httpClient.sendAsync(request, ofByteArray)
+    LimitHttpClient().sendAsync(request, ofByteArray)
       .thenApply[String] { res =>
         val bytes = res.body()
 

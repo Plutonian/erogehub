@@ -1,7 +1,6 @@
 package com.goexp.galgame.data.task.handler.starter
 
 import java.time.LocalDate
-import java.util.concurrent.TimeUnit
 
 import com.goexp.galgame.data.task.client.GetChu.GameRemote
 import com.goexp.galgame.data.task.handler.PreProcessGame
@@ -21,8 +20,8 @@ class FromDateRange(val start: LocalDate, val end: LocalDate) extends Starter {
 
     Range.inclusive(1, list.size)
       .foreach { num =>
-        if (num % 10 == 0)
-          TimeUnit.SECONDS.sleep(5L)
+        //        if (num % 10 == 0)
+        //          TimeUnit.SECONDS.sleep(5L)
 
         val game = list(num - 1)
         send(Message(classOf[PreProcessGame].hashCode(), game))

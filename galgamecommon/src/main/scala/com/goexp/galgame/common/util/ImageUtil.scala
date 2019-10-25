@@ -4,7 +4,6 @@ import java.net.http.HttpResponse.BodySubscribers
 import java.net.http.{HttpRequest, HttpResponse}
 import java.time.Duration
 
-import com.goexp.common.util.web.HttpUtil
 import com.goexp.common.util.web.url._
 import org.slf4j.LoggerFactory
 
@@ -59,7 +58,7 @@ object ImageUtil {
       }
     }
 
-    HttpUtil.httpClient.sendAsync(request, handler)
+    LimitHttpClient().sendAsync(request, handler)
 
   }
 

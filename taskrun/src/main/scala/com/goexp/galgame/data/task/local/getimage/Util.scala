@@ -5,7 +5,7 @@ import java.net.ConnectException
 import java.net.http.HttpTimeoutException
 import java.nio.file.{Files, Path}
 import java.util.concurrent.atomic.AtomicInteger
-import java.util.concurrent.{CompletionException, CountDownLatch, TimeUnit}
+import java.util.concurrent.{CompletionException, CountDownLatch}
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.Config
@@ -20,13 +20,6 @@ import scala.jdk.CollectionConverters._
 
 object Util {
   private val logger = LoggerFactory.getLogger(Util.getClass)
-
-  // waitTime between batch
-  val waitTime = 20 //sec
-
-  // batch download nums
-  val batchCounts = 20
-
 
   def downloadImage(games: LazyList[Game]) = {
     val imgs = games
@@ -157,9 +150,9 @@ object Util {
           }
 
 
-        if (requestNum % batchCounts == 0) {
-          TimeUnit.SECONDS.sleep(waitTime)
-        }
+      //        if (requestNum % batchCounts == 0) {
+      //          TimeUnit.SECONDS.sleep(waitTime)
+      //        }
 
       case _ =>
     }

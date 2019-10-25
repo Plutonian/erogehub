@@ -147,10 +147,12 @@ object Util {
                   logger.error(s"NoneCatchExecption")
                   e.printStackTrace()
               }
+              allDownLatch.countDown()
               null
 
             case _ =>
               logger.error(s"NoneCatchExecption")
+              allDownLatch.countDown()
               null
           }
 

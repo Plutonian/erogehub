@@ -6,6 +6,10 @@ import com.goexp.galgame.data.model.Game
 import com.goexp.piplline.core.{Message, MessageHandler}
 import org.slf4j.LoggerFactory
 
+import scala.io.{Codec, Source}
+import scala.jdk.CollectionConverters._
+
+
 /**
   * Check game is new or already has
   */
@@ -24,13 +28,43 @@ class PreProcessGame extends MessageHandler {
         }
         else {
           //new game
+          import com.goexp.galgame.data.task.handler.PreProcessGame._
 
-          game.state = GameState.UNCHECKED
+          //Mark game is spec
+          if (isSameGame(game)) {
+            game.state = GameState.SAME
+          }
+          else if (isPackageGame(game)) {
+            game.state = GameState.PACKAGE
+          } else {
+            game.state = GameState.UNCHECKED
+          }
+
           game.isNew = true
-          logger.info("<Insert> {}", game.simpleView)
+          logger.info("<Insert> {} {}", game.simpleView, game.state)
           GameDB.insert(game)
         }
         send(Message(classOf[DownloadGameHandler].hashCode(), game.id))
     }
   }
+
+
+}
+
+object PreProcessGame {
+  val samelist = {
+    val source = Source.fromInputStream(getClass.getResourceAsStream("/same.list"))(Codec.UTF8)
+    try source.getLines().toList finally source.close()
+  }
+
+  val packagelist = {
+    val source = Source.fromInputStream(getClass.getResourceAsStream("/package.list"))(Codec.UTF8)
+    try source.getLines().toList finally source.close()
+  }
+
+  private def isSameGame = (game: Game) => samelist.exists(str => game.name.contains(str))
+
+  private def isPackageGame = (game: Game) =>
+    Option(game.`type`).map(_.asScala).getOrElse(List.empty).contains("セット商品") ||
+      packagelist.exists(str => game.name.contains(str))
 }

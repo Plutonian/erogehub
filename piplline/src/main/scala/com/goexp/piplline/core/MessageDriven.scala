@@ -8,4 +8,8 @@ trait MessageDriven {
   var queue: MessageQueueProxy[Message] = _
 
   def send(mes: Message) = queue.offer(mes)
+
+  def send(code: Int, entity: Any) = queue.offer(Message(code, entity))
+
+  //  def sendTo[T <: MessageHandler](entity: Any) = queue.offer(Message(classOf[T].hashCode(), entity))
 }

@@ -4,10 +4,11 @@ import java.util
 import java.util.Objects
 
 import com.goexp.common.util.string.Strings
-import com.goexp.galgame.common.model.CommonGame
+import com.goexp.galgame.common.model.{CommonGame, GameState}
 import com.goexp.galgame.data.db.importor.mongdb.GameDB
 import com.goexp.galgame.data.db.query.mongdb.GameQuery
 import com.goexp.galgame.data.model.Game
+import com.goexp.galgame.data.task.handler.Util
 import com.goexp.piplline.core.{Message, MessageHandler}
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
@@ -73,7 +74,6 @@ class Game2DB extends MessageHandler {
         logger.debug("Process {}", remoteGame)
         val localGame = GameQuery.fullTlp.where(Filters.eq(remoteGame.id)).one()
 
-
         /**
           * upgrade base content
           */
@@ -99,9 +99,19 @@ class Game2DB extends MessageHandler {
         val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)
 
         if (remoteImgSize > localImgSize) {
-          logger.info("Game:{}", remoteGame.id)
+          logger.info("Game[{}] {}", localGame.id, localGame.name)
           logger.info(s"Update GameImg:Local:$localImgSize,Remote:$remoteImgSize")
           GameDB.updateImg(remoteGame)
+        }
+
+
+        // check game state
+        if ((localGame.state ne GameState.SAME) && (localGame.state ne GameState.BLOCK)) {
+          val tGame = GameQuery.fullTlp.where(Filters.eq(remoteGame.id)).one()
+          Util.getGameAllImgs(tGame).foreach {
+            pear =>
+              send(classOf[DownloadImage].hashCode(), pear)
+          }
         }
     }
 

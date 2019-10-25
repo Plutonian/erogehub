@@ -3,6 +3,7 @@ package com.goexp.galgame.data.task.local.getimage
 import com.goexp.galgame.common.model.{BrandType, GameState}
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, GameQuery}
+import com.goexp.galgame.data.task.handler.Util
 import com.mongodb.client.model.Filters.{and, not}
 import com.mongodb.client.model.{Filters, Sorts}
 import org.slf4j.LoggerFactory

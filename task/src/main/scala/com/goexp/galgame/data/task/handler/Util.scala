@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.task.local.getimage
+package com.goexp.galgame.data.task.handler
 
 import java.io.IOException
 import java.net.ConnectException
@@ -21,73 +21,74 @@ import scala.jdk.CollectionConverters._
 object Util {
   private val logger = LoggerFactory.getLogger(Util.getClass)
 
+  def getGameAllImgs(g: Game) = {
+    val list = mutable.ListBuffer[(Path, String)]()
+
+    if (!g.smallImg.contains("now")) {
+
+
+      /*
+    Basic Info
+     */
+      val localSmall = Config.IMG_PATH.resolve(s"${GetchuGameLocal.smallImg(g.id)}.jpg")
+      val remoteSmall = GetchuGameRemote.smallImg(g.id)
+      logger.debug(s"Local:$localSmall(${Files.exists(localSmall)}) --> Remote:$remoteSmall")
+
+      list.addOne((localSmall, remoteSmall))
+
+      val localTiny = Config.IMG_PATH.resolve(s"${GetchuGameLocal.tinyImg(g.id)}.jpg")
+      val remoteTiny = GetchuGameRemote.getUrlFromSrc(g.smallImg)
+      logger.debug(s"Local:$localTiny(${Files.exists(localTiny)}) --> Remote:$remoteTiny")
+
+      list.addOne((localTiny, remoteTiny))
+
+      val localLarge = Config.IMG_PATH.resolve(s"${GetchuGameLocal.largeImg(g.id)}.jpg")
+      val remoteLarge = GetchuGameRemote.largeImg(g.id)
+      logger.debug(s"Local:$localLarge(${Files.exists(localLarge)}) --> Remote:$remoteLarge")
+
+      list.addOne((localLarge, remoteLarge))
+    }
+
+    /*
+  GameChar
+   */
+    g.gameCharacters.asScala.to(LazyList)
+      .filter { p => Strings.isNotEmpty(p.img) }
+      .foreach { p =>
+        val pLocal = Config.IMG_PATH.resolve(s"${GetchuGameLocal.gameChar(g.id, p.index)}.jpg")
+        val pRemote = GetchuGameRemote.getUrlFromSrc(p.img)
+
+        logger.debug(s"Local:$pLocal(${Files.exists(pLocal)}) --> Remote:$pRemote")
+
+        list.addOne((pLocal, pRemote))
+      }
+
+    /*
+  SimpleImg
+   */
+    g.gameImgs.asScala.to(LazyList)
+      .filter { sampleImg => Strings.isNotEmpty(sampleImg.src) }
+      .foreach { sampleImg =>
+
+        val smallSimpleLocal = Config.IMG_PATH.resolve(s"${GetchuGameLocal.smallSimpleImg(g.id, sampleImg.index)}.jpg")
+        val smallSimpleRemote = GetchuGameRemote.smallSimpleImg(sampleImg.src)
+
+        list.addOne((smallSimpleLocal, smallSimpleRemote))
+
+        val largeSimpleLocal = Config.IMG_PATH.resolve(s"${GetchuGameLocal.largeSimpleImg(g.id, sampleImg.index)}.jpg")
+        val largeSimpleRemote = GetchuGameRemote.largeSimpleImg(sampleImg.src)
+
+        list.addOne((largeSimpleLocal, largeSimpleRemote))
+      }
+
+    list.to(LazyList).filter { case (local: Path, _) => !Files.exists(local) }
+  }
+
   def downloadImage(games: LazyList[Game]) = {
     val imgs = games
       .flatMap { g =>
-        val list = mutable.ListBuffer[(Path, String)]()
-
-        if (!g.smallImg.contains("now")) {
-
-
-          /*
-          Basic Info
-           */
-          val localSmall = Config.IMG_PATH.resolve(s"${GetchuGameLocal.smallImg(g.id)}.jpg")
-          val remoteSmall = GetchuGameRemote.smallImg(g.id)
-          logger.debug(s"Local:$localSmall(${Files.exists(localSmall)}) --> Remote:$remoteSmall")
-
-          list.addOne((localSmall, remoteSmall))
-
-          val localTiny = Config.IMG_PATH.resolve(s"${GetchuGameLocal.tinyImg(g.id)}.jpg")
-          val remoteTiny = GetchuGameRemote.getUrlFromSrc(g.smallImg)
-          logger.debug(s"Local:$localTiny(${Files.exists(localTiny)}) --> Remote:$remoteTiny")
-
-          list.addOne((localTiny, remoteTiny))
-
-          val localLarge = Config.IMG_PATH.resolve(s"${GetchuGameLocal.largeImg(g.id)}.jpg")
-          val remoteLarge = GetchuGameRemote.largeImg(g.id)
-          logger.debug(s"Local:$localLarge(${Files.exists(localLarge)}) --> Remote:$remoteLarge")
-
-          list.addOne((localLarge, remoteLarge))
-        }
-
-        /*
-        GameChar
-         */
-        g.gameCharacters.asScala.to(LazyList)
-          .filter { p => Strings.isNotEmpty(p.img) }
-          .foreach { p =>
-            val pLocal = Config.IMG_PATH.resolve(s"${GetchuGameLocal.gameChar(g.id, p.index)}.jpg")
-            val pRemote = GetchuGameRemote.getUrlFromSrc(p.img)
-
-            logger.debug(s"Local:$pLocal(${Files.exists(pLocal)}) --> Remote:$pRemote")
-
-            list.addOne((pLocal, pRemote))
-          }
-
-        /*
-        SimpleImg
-         */
-        g.gameImgs.asScala.to(LazyList)
-          .filter { sampleImg => Strings.isNotEmpty(sampleImg.src) }
-          .foreach { sampleImg =>
-
-            val smallSimpleLocal = Config.IMG_PATH.resolve(s"${GetchuGameLocal.smallSimpleImg(g.id, sampleImg.index)}.jpg")
-            val smallSimpleRemote = GetchuGameRemote.smallSimpleImg(sampleImg.src)
-
-            list.addOne((smallSimpleLocal, smallSimpleRemote))
-
-            val largeSimpleLocal = Config.IMG_PATH.resolve(s"${GetchuGameLocal.largeSimpleImg(g.id, sampleImg.index)}.jpg")
-            val largeSimpleRemote = GetchuGameRemote.largeSimpleImg(sampleImg.src)
-
-            list.addOne((largeSimpleLocal, largeSimpleRemote))
-          }
-
-        list
-
+        getGameAllImgs(g)
       }
-      .filter { case (local: Path, _) => !Files.exists(local) }
-
 
     var requestNum = 0
     val hopeDownload = imgs.size

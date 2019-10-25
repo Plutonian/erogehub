@@ -18,15 +18,12 @@ class FromDateRange(val start: LocalDate, val end: LocalDate) extends Starter {
     logger.info(s"${list.size}")
 
 
-    Range.inclusive(1, list.size)
-      .foreach { num =>
-        //        if (num % 10 == 0)
-        //          TimeUnit.SECONDS.sleep(5L)
+    Range.inclusive(1, list.size).foreach { num =>
 
         val game = list(num - 1)
         send(Message(classOf[PreProcessGame].hashCode(), game))
 
-      }
+    }
 
 
   }

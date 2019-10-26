@@ -31,10 +31,10 @@ public abstract class CommonGame {
 
     public Titles getTitles() {
         String tName = name
-                .replaceAll("(マウスパッド付|祝！TVアニメ化記念|“男の子用”付|“女の子用”付|期間限定感謝ぱっく|感謝ぱっく|Liar-soft Selection \\d{2})", "").trim()
+                .replaceAll("(マウスパッド付|プレミアムエディション|EDITION|祝！TVアニメ化記念|“男の子用”付|“女の子用”付|期間限定感謝ぱっく|感謝ぱっく|Liar-soft Selection \\d{2})", "").trim()
                 .replaceAll("(?:\\[[^]]+\\]$)|(?:＜[^＞]+＞)|(?:（[^）]+）$)", "")
                 .replaceAll("[\\s　〜][^\\s〜　]+[版]", "")
-                .replaceAll("(?:CD|DVD)-ROM版?", "").trim()
+                .replaceAll("(?:CD|DVD)(?:-ROM版)?", "").trim()
                 .replaceAll("(?:\\[[^]]+\\]$)|(?:＜[^＞]+＞)|(?:（[^）]+）$)", "")
                 .trim();
 

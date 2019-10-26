@@ -56,8 +56,10 @@ public class CellController extends DefaultController {
     public void load(Game game) {
         this.game = game;
 
-        txtName.setText(game.getMainName());
-        txtSubName.setText(game.getSubName());
+        var titles = game.getTitles();
+
+        txtName.setText(titles.mainTitle);
+        txtSubName.setText(titles.subTitle);
 
         lbBrand.setText(game.brand.name());
         lbDate.setText(DateUtil.formatDate(game.publishDate));

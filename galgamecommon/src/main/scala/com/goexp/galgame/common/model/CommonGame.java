@@ -8,20 +8,52 @@ import java.util.StringJoiner;
 import java.util.regex.Pattern;
 
 public abstract class CommonGame {
-    private static final Pattern NAME_SPLITER_REX = Pattern.compile("[〜\\s　＜「＋]");
+    private static final Pattern NAME_SPLITER_REX = Pattern.compile("[〜「]");
 
-    public String getMainName() {
-        final var matcher = NAME_SPLITER_REX.matcher(name);
-        final var find = matcher.find();
 
-        return find ? name.substring(0, matcher.start()) : name;
+    public static class Titles {
+        public final String mainTitle;
+        public final String subTitle;
+
+        public Titles(String mainTitle, String subTitle) {
+            this.mainTitle = mainTitle;
+            this.subTitle = subTitle;
+        }
+
+        @Override
+        public String toString() {
+            return new StringJoiner(", ", Titles.class.getSimpleName() + "[", "]")
+                    .add("mainTitle='" + mainTitle + "'")
+                    .add("subTitle='" + subTitle + "'")
+                    .toString();
+        }
     }
 
-    public String getSubName() {
-        final var matcher = NAME_SPLITER_REX.matcher(name);
-        final var find = matcher.find();
+    public Titles getTitles() {
+        String tName = name
+                .replaceAll("(マウスパッド付|祝！TVアニメ化記念|“男の子用”付|“女の子用”付|期間限定感謝ぱっく|感謝ぱっく|Liar-soft Selection \\d{2})", "").trim()
+                .replaceAll("(?:\\[[^]]+\\]$)|(?:＜[^＞]+＞)|(?:（[^）]+）$)", "")
+                .replaceAll("[\\s　〜][^\\s〜　]+[版]", "")
+                .replaceAll("(?:CD|DVD)-ROM版?", "").trim()
+                .replaceAll("(?:\\[[^]]+\\]$)|(?:＜[^＞]+＞)|(?:（[^）]+）$)", "")
+                .trim();
 
-        return find ? name.substring(matcher.start()) : "";
+        final var matcher = NAME_SPLITER_REX.matcher(tName);
+        final var find = matcher.find();
+        String mainTitle;
+        String subTitle;
+        if (find) {
+            mainTitle = tName.substring(0, matcher.start());
+
+            subTitle = tName.substring(matcher.start());
+
+        } else {
+            mainTitle = tName;
+            subTitle = "";
+        }
+
+        return new Titles(mainTitle.trim(), subTitle.trim());
+
     }
 
 

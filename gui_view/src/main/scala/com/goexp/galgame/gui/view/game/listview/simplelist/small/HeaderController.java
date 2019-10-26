@@ -88,8 +88,10 @@ public class HeaderController extends DefaultController {
         //        starChangeController.load(game);
 
 
-        txtName.setText(game.getMainName());
-        txtSubName.setText(game.getSubName());
+        var titles = game.getTitles();
+
+        txtName.setText(titles.mainTitle);
+        txtSubName.setText(titles.subTitle);
 
         if (game.tag.size() > 0) {
 

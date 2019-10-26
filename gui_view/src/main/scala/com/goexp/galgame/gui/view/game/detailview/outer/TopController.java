@@ -77,8 +77,10 @@ public class TopController extends DefaultController {
 
         starChangeController.load(game);
 
-        txtName.setText(game.getMainName());
-        txtSubName.setText(game.getSubName());
+        var titles = game.getTitles();
+
+        txtName.setText(titles.mainTitle);
+        txtSubName.setText(titles.subTitle);
 
         dateviewController.load(game.publishDate);
 

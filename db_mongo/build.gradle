@@ -5,15 +5,8 @@
 
 
 dependencies {
-    // https://mvnrepository.com/artifact/junit/junit
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-
-
     // https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
     compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.11.1'
-
-// https://mvnrepository.com/artifact/org.mongodb.scala/mongo-scala-driver
-    compile group: 'org.mongodb.scala', name: 'mongo-scala-driver_2.13', version: '2.7.0'
 
 }
 

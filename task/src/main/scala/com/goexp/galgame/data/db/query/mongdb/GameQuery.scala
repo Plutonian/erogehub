@@ -11,13 +11,13 @@ import org.slf4j.LoggerFactory
 
 object GameQuery {
 
-  val tableName = "game"
+  val TABLE_NAME = "game"
 
-  val fullTlp = new DBQueryTemplate.Builder[Game](DB_NAME, tableName, SimpleGame).build
-  val fullTlpWithChar = new DBQueryTemplate.Builder[Game](DB_NAME, tableName, SimpleGame)
+  val fullTlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame).build
+  val fullTlpWithChar = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
     .defaultSelect(exclude("simpleImg"))
     .build
-  val simpleTlp = new DBQueryTemplate.Builder[Game](DB_NAME, tableName, SimpleGame)
+  val simpleTlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
     .defaultSelect(exclude("gamechar"))
     .defaultSelect(exclude("simpleImg"))
     .build

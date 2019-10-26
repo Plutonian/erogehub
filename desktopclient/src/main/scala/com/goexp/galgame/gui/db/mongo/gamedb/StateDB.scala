@@ -13,7 +13,7 @@ object StateDB {
       documentMongoCollection.updateOne(equal(game.id), set("state", game.state.get.value))
     })
 
-  def update(brandId: Int): Unit =
+  def blockAllGame(brandId: Int): Unit =
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateMany(
         and(

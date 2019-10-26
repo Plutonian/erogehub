@@ -6,6 +6,7 @@ import com.goexp.galgame.common.model.GameState
 import com.goexp.galgame.data.db.query.mongdb.GameQuery
 import com.goexp.galgame.data.model.{Brand, Game}
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Filters.{and, not}
 import com.mongodb.client.model.Updates.{combine, set}
 import org.bson.Document
 
@@ -87,9 +88,22 @@ object GameDB {
 
   def blockAllGame(item: Brand) =
     tlp.exec(documentMongoCollection => {
-      documentMongoCollection.updateMany(Filters.eq("brandId", item.id), combine(
-        set("state", GameState.BLOCK.value)
-      ))
+      documentMongoCollection.updateMany(
+        and(
+          Filters.eq("brandId", item.id),
+          not(Filters.eq("state", GameState.SAME.value)),
+          not(Filters.eq("state", GameState.BLOCK.value))
+        )
+        , set("state", GameState.BLOCK.value))
+
+    })
+
+  def resetState(item: Brand) =
+    tlp.exec(documentMongoCollection => {
+      documentMongoCollection.updateMany(
+        Filters.eq("brandId", item.id)
+        , set("state", GameState.UNCHECKED.value))
+
     })
 
   def exist(id: Int): Boolean = GameQuery.fullTlp.where(Filters.eq(id)).exists

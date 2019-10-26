@@ -6,7 +6,7 @@ import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.brand.ChangeIsLikeTask
 import com.goexp.galgame.gui.task.brand.list.ByComp
-import com.goexp.galgame.gui.task.game.change.MultiLikeByBrand
+import com.goexp.galgame.gui.task.game.change.MultiBlockByBrand
 import com.goexp.galgame.gui.view.DefaultController
 import com.goexp.galgame.gui.view.game.HomeController
 import javafx.beans.property.SimpleBooleanProperty
@@ -29,7 +29,7 @@ class TitlePartController extends DefaultController {
   @FXML private var choiceBrandState: ChoiceBox[BrandType] = _
   private var changeBrand: Brand = _
   final private val changeBrandStateService = TaskService(() => new ChangeIsLikeTask(changeBrand))
-  final private val changeGameStateService = TaskService(() => new MultiLikeByBrand(changeBrand.id))
+  final private val changeGameStateService = TaskService(() => new MultiBlockByBrand(changeBrand.id))
   final private val listBrandService = TaskService(() => new ByComp(changeBrand.comp))
   private var listener: ChangeListener[BrandType] = _
 

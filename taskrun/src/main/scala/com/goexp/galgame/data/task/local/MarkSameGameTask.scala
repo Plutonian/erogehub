@@ -4,32 +4,13 @@ import com.goexp.galgame.common.model.GameState
 import com.goexp.galgame.data.db.importor.mongdb.GameDB.StateDB
 import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, GameQuery}
 import com.goexp.galgame.data.model.Game
+import com.goexp.galgame.data.task.handler.PreProcessGame._
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
-
-import scala.io.{Codec, Source}
-import scala.jdk.CollectionConverters._
 
 object MarkSameGameTask {
 
   private val logger = LoggerFactory.getLogger(MarkSameGameTask.getClass)
-
-  private lazy val samelist = {
-    val source = Source.fromInputStream(MarkSameGameTask.getClass.getResourceAsStream("/same.list"))(Codec.UTF8)
-    try source.getLines().toList finally source.close()
-  }
-
-  private lazy val packagelist = {
-    val source = Source.fromInputStream(MarkSameGameTask.getClass.getResourceAsStream("/package.list"))(Codec.UTF8)
-    try source.getLines().toList finally source.close()
-  }
-
-
-  private def isSameGame = (game: Game) => samelist.exists(str => game.name.contains(str))
-
-  private def isPackageGame = (game: Game) =>
-    Option(game.`type`).map(_.asScala).getOrElse(List.empty).contains("セット商品") ||
-      packagelist.exists(str => game.name.contains(str))
 
   def main(args: Array[String]): Unit = {
     val brandList = BrandQuery.tlp.scalaList()
@@ -51,16 +32,18 @@ object MarkSameGameTask {
           case ("package", value: LazyList[Game]) =>
             value.filter(_.state eq GameState.UNCHECKED).map { game => game.state = GameState.PACKAGE; game }
           case ("other", value: LazyList[Game]) =>
-            value.filter {
-              _.publishDate != null
-            }.groupBy {
-              _.publishDate
-            }.values
+            value
+              .groupBy {
+                g =>
+                  val titles = g.getTitles
+                  s"${titles.mainTitle}${titles.subTitle}"
+              }.to(LazyList)
               .filter {
-                _.size > 1
+                case (_, v) =>
+                  v.size > 1
               }
               .flatMap {
-                games =>
+                case (_, games) =>
                   //games by date
 
                   games.sortBy {
@@ -73,8 +56,6 @@ object MarkSameGameTask {
                     .map { game => game.state = GameState.SAME; game }
 
               }
-          //        case _ =>
-          //          throw new RuntimeException("Error")
         }
         .foreach {
           case game: Game =>

@@ -71,7 +71,6 @@ class Game2DB extends MessageHandler {
   override def process(message: Message) = {
     message.entity match {
       case remoteGame: Game =>
-        logger.debug("Process {}", remoteGame)
         val localGame = GameQuery.fullTlp.where(Filters.eq(remoteGame.id)).one()
 
         /**
@@ -107,6 +106,9 @@ class Game2DB extends MessageHandler {
 
         // check game state
         if ((localGame.state ne GameState.SAME) && (localGame.state ne GameState.BLOCK)) {
+
+          logger.debug("Game[{}] {}", localGame.id, localGame.state)
+
           val tGame = GameQuery.fullTlp.where(Filters.eq(remoteGame.id)).one()
           Util.getGameAllImgs(tGame).foreach {
             pear =>

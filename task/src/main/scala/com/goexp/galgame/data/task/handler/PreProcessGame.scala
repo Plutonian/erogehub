@@ -34,9 +34,7 @@ class PreProcessGame extends MessageHandler {
           if (isSameGame(game)) {
             game.state = GameState.SAME
           }
-          else if (isPackageGame(game)) {
-            game.state = GameState.PACKAGE
-          } else {
+          else {
             game.state = GameState.UNCHECKED
           }
 
@@ -52,19 +50,19 @@ class PreProcessGame extends MessageHandler {
 }
 
 object PreProcessGame {
-  val samelist = {
+  private val samelist = {
     val source = Source.fromInputStream(getClass.getResourceAsStream("/same.list"))(Codec.UTF8)
     try source.getLines().toList finally source.close()
   }
 
-  val packagelist = {
+  private val packagelist = {
     val source = Source.fromInputStream(getClass.getResourceAsStream("/package.list"))(Codec.UTF8)
     try source.getLines().toList finally source.close()
   }
 
-  private def isSameGame = (game: Game) => samelist.exists(str => game.name.contains(str))
+  def isSameGame = (game: Game) => samelist.exists(str => game.name.contains(str))
 
-  private def isPackageGame = (game: Game) =>
+  def isPackageGame = (game: Game) =>
     Option(game.`type`).map(_.asScala).getOrElse(List.empty).contains("セット商品") ||
       packagelist.exists(str => game.name.contains(str))
 }

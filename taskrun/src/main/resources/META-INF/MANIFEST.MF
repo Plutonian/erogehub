@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: mongo-java-driver-3.10.1.jar logback-core-1.2.3.jar protob
- uf-java-3.6.1.jar scala-library.jar scala-parser-combinators_2.12-1.0
- .7.jar scala-reflect.jar scala-swing_2.12-2.0.3.jar scala-xml_2.12-1.
- 0.6.jar logback-classic-1.2.3.jar kuromoji-0.7.7.jar slf4j-api-1.7.25
- .jar mchange-commons-java-0.2.15.jar jsoup-1.11.3.jar
-Main-Class: com.goexp.galgame.data.task.ImporterStart
-

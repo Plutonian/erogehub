@@ -4,7 +4,7 @@ import java.util
 
 import com.goexp.galgame.common.model.GameState
 import com.goexp.galgame.gui.model.Game
-import com.mongodb.client.model.Filters.{eq => equal}
+import com.mongodb.client.model.Filters.{not, eq => equal, _}
 import com.mongodb.client.model.Updates.set
 
 object StateDB {
@@ -15,7 +15,13 @@ object StateDB {
 
   def update(brandId: Int): Unit =
     tlp.exec(documentMongoCollection => {
-      documentMongoCollection.updateMany(equal("brandId", brandId), set("state", GameState.BLOCK.value))
+      documentMongoCollection.updateMany(
+        and(
+          equal("brandId", brandId),
+          not(equal("state", GameState.SAME.value)),
+          not(equal("state", GameState.BLOCK.value))
+        )
+        , set("state", GameState.BLOCK.value))
 
     })
 

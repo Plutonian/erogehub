@@ -1,10 +1,11 @@
 package com.goexp.galgame.data.task.local.cal
 
-import com.goexp.galgame.common.model.BrandType
+import com.goexp.galgame.common.model.{BrandType, GameState}
 import com.goexp.galgame.data.db.importor.mongdb.BrandDB
 import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, GameQuery}
 import com.goexp.galgame.data.task.ansyn.Pool._
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Filters._
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -28,15 +29,17 @@ object CalBrandGameTask {
 
         Future {
           GameQuery.simpleTlp
-            .where(Filters.eq("brandId", b.id))
+            .where(and(
+              Filters.eq("brandId", b.id),
+              Filters.not(Filters.eq("state", GameState.SAME.value))
+            ))
             .scalaList().to(LazyList)
 
         }(IO_POOL)
           .map { games =>
+            val count = games.size
             val start = games.filter(_.publishDate != null).map(_.publishDate).minOption
             val end = games.filter(_.publishDate != null).map(_.publishDate).maxOption
-
-            val count = games.size
 
             logger.trace(s"$start, $end, $count")
 

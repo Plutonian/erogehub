@@ -62,6 +62,7 @@ class DownloadImage extends MessageHandler {
               logger.error(s"NoneCatchExecption")
               null
           }
+          .join()
     }
   }
 }

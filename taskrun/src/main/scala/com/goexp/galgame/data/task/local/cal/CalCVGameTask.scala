@@ -1,14 +1,10 @@
 package com.goexp.galgame.data.task.local.cal
 
+import com.goexp.galgame.common.model.GameState
 import com.goexp.galgame.data.db.importor.mongdb.CVDB
 import com.goexp.galgame.data.db.query.mongdb.{CVQuery, GameQuery}
-import com.goexp.galgame.data.task.ansyn.Pool._
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
 
 object CalCVGameTask {
   private val logger = LoggerFactory.getLogger(CalCVGameTask.getClass)
@@ -18,29 +14,27 @@ object CalCVGameTask {
     val cvList = CVQuery.tlp.scalaList().to(LazyList)
     logger.info("Init OK")
 
-    val futures = cvList.map(cv => {
+    cvList.foreach {
+      cv =>
 
-      Future {
-        GameQuery.simpleTlp
-          .where(Filters.eq("gamechar.truecv", cv.name))
+        val games = GameQuery.simpleTlp
+          .where(
+            Filters.and(
+              Filters.eq("gamechar.truecv", cv.name),
+              Filters.ne("state", GameState.SAME.value)
+            )
+          )
           .scalaList().to(LazyList)
-      }(IO_POOL)
-        .map { games =>
-          val start = games.filter(_.publishDate != null).map(_.publishDate).minOption
-          val end = games.filter(_.publishDate != null).map(_.publishDate).maxOption
 
-          val count = games.size
 
-          (start, end, count)
+        val start = games.filter(_.publishDate != null).map(_.publishDate).minOption
+        val end = games.filter(_.publishDate != null).map(_.publishDate).maxOption
 
-        }(CPU_POOL)
-        .map {
-          case (start, end, count) =>
-            logger.trace(s"$start, $end, $count")
-            CVDB.updateStatistics(cv, start.orNull, end.orNull, count)
-        }(IO_POOL)
-    })
+        val count = games.size
 
-    Await.result(Future.sequence(futures), Duration.Inf)
+
+        logger.trace(s"$start, $end, $count")
+        CVDB.updateStatistics(cv, start.orNull, end.orNull, count)
+    }
   }
 }

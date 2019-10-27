@@ -1,37 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import java.net.URL?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-
-<TabPane fx:id="contentTabPane" side="RIGHT" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.detailview.inner.InnerPageController">
+<TabPane fx:id="contentTabPane" side="RIGHT" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="com.goexp.galgame.gui.view.game.detailview.inner.InnerPageController">
     <stylesheets>
-        <URL value="@/view/view.css" />
+        <URL value="@/view/view.css"/>
     </stylesheets>
-    <Tab text="Image">
-        <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true">
-            <BorderPane>
-                <center>
-                    <ImageView fx:id="imgLarge" pickOnBounds="true"/>
-                </center>
-            </BorderPane>
-        </ScrollPane>
-    </Tab>
     <Tab text="Intro">
-        <fx:include fx:id="header" source="header.fxml" />
+        <fx:include fx:id="header" source="header.fxml"/>
     </Tab>
     <Tab fx:id="tabPerson" text="キャラクター">
-        <ListView fx:id="personListView" styleClass="copyablelabel" />
+        <ListView fx:id="personListView" styleClass="copyablelabel"/>
     </Tab>
     <Tab fx:id="tabSimple" text="サンプル画像">
-        <!--                <TitledPane collapsible="false" text="サンプル画像">-->
-        <!--                    <content>-->
-        <fx:include fx:id="simpleImg" source="simple_img.fxml" />
-        <!--                    </content>-->
-        <!--                </TitledPane>-->
+        <fx:include fx:id="simpleImg" source="simple_img.fxml"/>
     </Tab>
 </TabPane>

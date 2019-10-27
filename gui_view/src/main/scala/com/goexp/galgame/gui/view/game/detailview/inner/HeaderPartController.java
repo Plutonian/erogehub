@@ -14,9 +14,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 
 public class HeaderPartController extends DefaultController {
+    public Region right;
+//    @FXML
+//    private FlowPane flowMain;
 
 //        @FXML
 //        private StarChoiceBarController starChangeController;
@@ -65,6 +69,10 @@ public class HeaderPartController extends DefaultController {
 
     protected void initialize() {
 
+//        flowPainter.prefWidthProperty().bind(right.widthProperty().subtract(10));
+        txtIntro.wrappingWidthProperty().bind(right.widthProperty().subtract(10));
+        txtStory.prefWidthProperty().bind(right.widthProperty().subtract(10));
+
         flowPainter.addEventFilter(ActionEvent.ACTION, event -> {
             if (event.getTarget() instanceof Hyperlink) {
 
@@ -90,15 +98,20 @@ public class HeaderPartController extends DefaultController {
         loadWithoutImage(game);
 
         if (game.isOkImg()) {
-            imageImg.setImage(new GameImage(game).normal());
+            setImage(new GameImage(game).large());
         } else {
-            imageImg.setImage(null);
+            setImage(null);
         }
     }
 
 
-    public void setImage(Image image) {
+    private void setImage(Image image) {
+
         imageImg.setImage(image);
+
+        if (image != null)
+            imageImg.setFitWidth(image.getWidth());
+
     }
 
     private void loadWithoutImage(Game game) {

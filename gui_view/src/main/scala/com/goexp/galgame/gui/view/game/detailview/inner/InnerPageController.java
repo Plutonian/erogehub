@@ -27,7 +27,8 @@ public class InnerPageController extends DefaultController {
 
     @FXML
     public SimpleImgPartController simpleImgController;
-    public ImageView imgLarge;
+
+    //    public ImageView imgLarge;
     //    public ScrollPane rootContainer;
     private Game game;
     @FXML
@@ -79,11 +80,11 @@ public class InnerPageController extends DefaultController {
 
     public void load(Game game) {
 
-        if (game.isOkImg()) {
-            imgLarge.setImage(new GameImage(game).large());
-        } else {
-            imgLarge.setImage(null);
-        }
+//        if (game.isOkImg()) {
+//            imgLarge.setImage(new GameImage(game).large());
+//        } else {
+//            imgLarge.setImage(null);
+//        }
 
         this.game = game;
 

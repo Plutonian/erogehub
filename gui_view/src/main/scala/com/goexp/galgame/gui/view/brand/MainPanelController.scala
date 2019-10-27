@@ -151,7 +151,7 @@ class MainPanelController extends DefaultController {
     keyword = textBrandKey.getText
     logger.debug("Value: {}", keyword)
 
-    val `type` = typeGroup.getSelectedToggle.getUserData.asInstanceOf[Int]
+    val `type` = typeGroup.getSelectedToggle.getUserData.asInstanceOf[String].toInt
     if (`type` == 0)
       brandByNameService.restart()
     else

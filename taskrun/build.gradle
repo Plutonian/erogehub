@@ -16,6 +16,6 @@ dependencies {
 group = 'com.goexp.galgame'
 
 application {
-    mainClassName = "com.goexp.galgame.data.task.ImporterStart"
+    mainClassName = "com.goexp.galgame.data.script.ImporterStart"
 }
 

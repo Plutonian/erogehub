@@ -13,7 +13,7 @@ dependencies {
     compile project(':task')
 }
 
-group = 'com.goexp.galgame'
+group = 'com.goexp.galgame.data'
 
 application {
     mainClassName = "com.goexp.galgame.data.script.ImporterStart"

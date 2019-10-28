@@ -11,6 +11,6 @@ dependencies {
     compile 'org.jsoup:jsoup:1.12.1'
 }
 
-group = 'com.goexp.galgame'
+group = 'com.goexp.galgame.data'
 
 

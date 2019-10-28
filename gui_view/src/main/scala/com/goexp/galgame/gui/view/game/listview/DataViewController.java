@@ -163,7 +163,6 @@ public class DataViewController extends DefaultController {
     private void initSwitchBar() {
         toggGrid.setUserData(tableView);
         toggSmall.setUserData(smallListSimple);
-//        toggList.setUserData(listSimple);
         toggImg.setUserData(imgView);
 
         gameViewChange.selectedToggleProperty().addListener((observable, oldValue, checkedBox) -> {
@@ -192,9 +191,6 @@ public class DataViewController extends DefaultController {
 
         });
 
-
-//         #2
-//        groupPanel.setExpandedPane(groupPanel.getPanes().get(0));
 
         initSidebarContentView();
     }
@@ -288,19 +284,7 @@ public class DataViewController extends DefaultController {
         smallListSimple.setItems(sortedData);
         smallListSimple.scrollTo(0);
 
-
-        //::TODO GridView bug
-//        imgViewController.load(sortedData);
     }
-
-//    private void loadItems(ObservableList<Game> sortedData) {
-//        resetCount(sortedData);
-//        tableView.setItems(sortedData);
-//        tableView.scrollTo(0);
-//
-//        listSimple.setItems(sortedData);
-//        listSimple.scrollTo(0);
-//    }
 
     private void resetCount(List<Game> filteredGames) {
         lbItemCount.setText(String.format("%d 件", filteredGames.size()));

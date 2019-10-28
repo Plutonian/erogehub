@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.db.mongo.query
 
 import com.goexp.common.db.mongo.DBQueryTemplate
-import com.goexp.galgame.common.db.mongo.DB_NAME
+import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.goexp.galgame.common.db.mongo.query.CVCreator
 import com.goexp.galgame.common.model.CV
 

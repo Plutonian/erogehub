@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.db.mongo.query
 
 import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
 import com.goexp.common.util.date.DateUtil
-import com.goexp.galgame.common.db.mongo.DB_NAME
+import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.goexp.galgame.common.db.mongo.query.CommonBrandCreator
 import com.goexp.galgame.gui.model.Brand
 import com.mongodb.client.model.Sorts.ascending

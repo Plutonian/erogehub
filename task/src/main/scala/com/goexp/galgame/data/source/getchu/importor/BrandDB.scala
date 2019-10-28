@@ -3,7 +3,7 @@ package com.goexp.galgame.data.source.getchu.importor
 import java.time.LocalDate
 
 import com.goexp.common.db.mongo.DBOperatorTemplate
-import com.goexp.galgame.common.db.mongo.DB_NAME
+import com.goexp.galgame.data.source.getchu.DB_NAME
 import com.goexp.galgame.data.model.Brand
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.{combine, set}

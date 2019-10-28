@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.db.mongo.query
 import java.util
 
 import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
-import com.goexp.galgame.common.db.mongo.DB_NAME
+import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.goexp.galgame.common.model.TagType
 import org.bson.Document
 import org.slf4j.LoggerFactory

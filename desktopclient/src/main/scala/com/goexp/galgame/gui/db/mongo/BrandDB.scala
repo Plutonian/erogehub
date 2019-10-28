@@ -4,7 +4,6 @@ import com.goexp.common.db.mongo.DBOperatorTemplate
 import com.goexp.galgame.gui.model.Brand
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.set
-import com.goexp.galgame.common.db.mongo.DB_NAME
 
 
 object BrandDB {

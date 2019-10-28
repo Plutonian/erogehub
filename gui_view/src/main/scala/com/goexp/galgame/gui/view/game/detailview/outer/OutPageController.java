@@ -19,9 +19,6 @@ public class OutPageController extends DefaultController {
     @FXML
     public TopController topController;
 
-
-    public ImageView imgBackground;
-
     protected void initialize() {
 
 //        ((VBox) (rootContainerController.rootContainer.getContent()))
@@ -82,21 +79,9 @@ public class OutPageController extends DefaultController {
 
     public void load(Game game) {
 
-//        loadBackgroundImage(game);
-
         loadInnerPage(game);
 
         logger.info("Detail:{}", game);
-
-
-    }
-
-    private void loadBackgroundImage(Game game) {
-        if (game.isOkImg()) {
-            imgBackground.setImage(new GameImage(game).large());
-        } else {
-            imgBackground.setImage(null);
-        }
     }
 
     public void loadInnerPage(Game g) {

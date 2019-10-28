@@ -23,16 +23,13 @@ public class HeaderController extends DefaultController {
 
     @FXML
     private DateShowController dateviewController;
+    @FXML
+    private JumpBrandController brandJumpController;
+    @FXML
+    private StateChangeController changeStateController;
 
     @FXML
     private Hyperlink linkView;
-
-
-    @FXML
-    private JumpBrandController brandJumpController;
-
-    @FXML
-    private StateChangeController changeStateController;
 
     @FXML
     private ImageView imageImg;

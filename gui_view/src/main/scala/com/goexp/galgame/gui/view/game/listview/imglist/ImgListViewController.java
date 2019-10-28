@@ -9,17 +9,14 @@ import javafx.scene.layout.Region;
 import org.controlsfx.control.GridCell;
 import org.controlsfx.control.GridView;
 
-import java.net.URL;
-
 public class ImgListViewController extends DefaultController {
 
-    private static final URL VIEW_GAME_IMGLISTVIEW_IMG_LIST_CELL_FXML = CellController.class.getResource("cell.fxml");
     @FXML
     private GridView<Game> imgList;
 
     protected void initialize() {
         imgList.setCellFactory(gridView -> {
-            final var loader = new FXMLLoaderProxy<Region, CellController>(VIEW_GAME_IMGLISTVIEW_IMG_LIST_CELL_FXML);
+            final var loader = new FXMLLoaderProxy<Region, CellController>(CellController.class.getResource("cell.fxml"));
             return new GridCell<>() {
 
                 @Override

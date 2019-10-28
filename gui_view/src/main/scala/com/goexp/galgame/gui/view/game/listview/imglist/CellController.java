@@ -91,11 +91,6 @@ public class CellController extends DefaultController {
 
     }
 
-//    public void link_OnAction(ActionEvent actionEvent) {
-//        System.out.println("go");
-//
-//    }
-
     public void onClick(MouseEvent mouseEvent) {
         HomeController.$this().loadDetail(game);
     }

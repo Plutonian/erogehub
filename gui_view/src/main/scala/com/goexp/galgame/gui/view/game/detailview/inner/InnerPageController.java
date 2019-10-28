@@ -1,9 +1,8 @@
 package com.goexp.galgame.gui.view.game.detailview.inner;
 
-import com.goexp.galgame.common.model.CommonGame;
+import com.goexp.galgame.common.model.game.GameCharacter;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.FXMLLoaderProxy;
-import com.goexp.galgame.gui.util.res.gameimg.GameImage;
 import com.goexp.galgame.gui.view.DefaultController;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -11,7 +10,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 
 import java.net.URL;
@@ -32,7 +30,7 @@ public class InnerPageController extends DefaultController {
     //    public ScrollPane rootContainer;
     private Game game;
     @FXML
-    private ListView<CommonGame.GameCharacter> personListView;
+    private ListView<GameCharacter> personListView;
 
     @FXML
     private TabPane contentTabPane;
@@ -52,7 +50,7 @@ public class InnerPageController extends DefaultController {
 
             return new ListCell<>() {
                 @Override
-                protected void updateItem(CommonGame.GameCharacter gameCharacter, boolean empty) {
+                protected void updateItem(GameCharacter gameCharacter, boolean empty) {
                     super.updateItem(gameCharacter, empty);
                     setText(null);
                     setGraphic(null);

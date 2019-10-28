@@ -1,9 +1,9 @@
 package com.goexp.galgame.gui.model
 
 import java.time.LocalDate
-
-import com.goexp.galgame.common.model.CommonBrand
 import java.util.StringJoiner
+
+import com.goexp.galgame.common.model.game.brand.CommonBrand
 
 import scala.beans.BeanProperty
 

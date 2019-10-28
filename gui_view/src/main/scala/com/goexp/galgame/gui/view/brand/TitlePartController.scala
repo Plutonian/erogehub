@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.view.brand
 
 import com.goexp.common.util.string.Strings
-import com.goexp.galgame.common.model.BrandType
+import com.goexp.galgame.common.model.game.brand.BrandType
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.brand.ChangeIsLikeTask

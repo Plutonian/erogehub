@@ -9,7 +9,7 @@ import scala.jdk.CollectionConverters._
 
 object TagDB {
 
-  lazy val tlp = new DBOperatorTemplate(DB_NAME, "tag")
+  val tlp = new DBOperatorTemplate(DB_NAME, "tag")
 
   def insert(item: List[TagType]) = {
     val docs = item

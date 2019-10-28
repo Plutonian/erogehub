@@ -9,7 +9,7 @@ import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.{combine, set}
 
 object CVDB {
-  lazy val tlp = new DBOperatorTemplate(DB_NAME, "cv")
+  val tlp = new DBOperatorTemplate(DB_NAME, "cv")
 
   def updateStatistics(item: CV, start: LocalDate, end: LocalDate, size: Int) =
     tlp.exec(documentMongoCollection => {

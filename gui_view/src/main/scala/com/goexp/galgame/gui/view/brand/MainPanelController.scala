@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.brand
 import java.time.LocalDate
 
 import com.goexp.common.util.string.Strings
-import com.goexp.galgame.common.model.BrandType
+import com.goexp.galgame.common.model.game.brand.BrandType
 import com.goexp.galgame.gui.model.Brand
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.brand.search.{ByComp, ByName, ByType}

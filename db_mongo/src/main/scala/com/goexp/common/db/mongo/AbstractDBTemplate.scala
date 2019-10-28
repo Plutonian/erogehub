@@ -3,7 +3,7 @@ package com.goexp.common.db.mongo
 import com.mongodb.client.{MongoClient, MongoClients}
 
 object AbstractDBTemplate {
-  private lazy val mongoClient: MongoClient = MongoClients.create
+  private val mongoClient: MongoClient = MongoClients.create
 }
 
 abstract class AbstractDBTemplate(protected val dbName: String,

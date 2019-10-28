@@ -3,7 +3,7 @@ package com.goexp.galgame.data.task.local.getimage
 import java.time.LocalDate
 
 import com.goexp.common.util.date.DateUtil
-import com.goexp.galgame.common.model.GameState
+import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.db.query.mongdb.GameQuery
 import com.goexp.galgame.data.task.handler.Util

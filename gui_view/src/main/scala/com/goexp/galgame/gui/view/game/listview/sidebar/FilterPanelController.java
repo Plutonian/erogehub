@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.view.game.listview.sidebar;
 
-import com.goexp.galgame.common.model.GameState;
+import com.goexp.galgame.common.model.game.GameState;
 import com.goexp.galgame.gui.model.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

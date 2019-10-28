@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.view.game.listview.imglist;
 
 import com.goexp.common.util.date.DateUtil;
-import com.goexp.galgame.common.model.GameState;
+import com.goexp.galgame.common.model.game.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.Tags;
 import com.goexp.galgame.gui.util.res.LocalRes;

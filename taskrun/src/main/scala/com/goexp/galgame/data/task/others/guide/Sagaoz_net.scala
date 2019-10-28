@@ -6,7 +6,7 @@ import java.net.http.HttpResponse.BodyHandlers.ofString
 
 import com.goexp.common.util.web.HttpUtil.noneProxyHttpClient
 import com.goexp.common.util.web.url._
-import com.goexp.galgame.common.model.CommonGame.Guide.DataFrom
+import com.goexp.galgame.common.model.game.guide.DataFrom
 import com.goexp.galgame.data.db.importor.mongdb.GuideDB
 import com.goexp.galgame.data.db.query.mongdb.GuideQuery
 import com.goexp.galgame.data.parser.GameGuideParser

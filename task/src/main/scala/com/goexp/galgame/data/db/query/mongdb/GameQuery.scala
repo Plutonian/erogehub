@@ -3,7 +3,7 @@ package com.goexp.galgame.data.db.query.mongdb
 import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
 import com.goexp.galgame.common.db.mongo.DB_NAME
 import com.goexp.galgame.common.db.mongo.query.CommonGameCreator
-import com.goexp.galgame.common.model.GameState
+import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.Game
 import com.mongodb.client.model.Projections.exclude
 import org.bson.Document
@@ -24,7 +24,7 @@ object GameQuery {
 
 
   object SimpleGame extends ObjectCreator[Game] {
-    private lazy val logger = LoggerFactory.getLogger(SimpleGame.getClass)
+    private val logger = LoggerFactory.getLogger(SimpleGame.getClass)
 
     override def create(doc: Document) = {
 

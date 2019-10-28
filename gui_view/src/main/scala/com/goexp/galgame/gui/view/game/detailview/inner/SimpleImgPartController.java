@@ -1,5 +1,6 @@
 package com.goexp.galgame.gui.view.game.detailview.inner;
 
+import com.goexp.galgame.common.model.game.GameImg;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.res.gameimg.SimpleImage;
 import com.goexp.galgame.gui.view.DefaultController;
@@ -16,7 +17,7 @@ public class SimpleImgPartController extends DefaultController {
     private Game game;
 
     @FXML
-    private ListView<Game.GameImg> listSmallSimple;
+    private ListView<GameImg> listSmallSimple;
 
     @FXML
     private ImageView largeSimple;
@@ -40,7 +41,7 @@ public class SimpleImgPartController extends DefaultController {
 
         listSmallSimple.setCellFactory(gameImgListView -> new ListCell<>() {
             @Override
-            protected void updateItem(Game.GameImg item, boolean empty) {
+            protected void updateItem(GameImg item, boolean empty) {
                 super.updateItem(item, empty);
 
                 setGraphic(null);

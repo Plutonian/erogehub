@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.task.handler
 
-import com.goexp.galgame.common.model.GameState
+import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.db.importor.mongdb.GameDB
 import com.goexp.galgame.data.model.Game
 import com.goexp.piplline.core.{Message, MessageHandler}

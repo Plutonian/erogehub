@@ -5,7 +5,7 @@ import java.util
 import com.goexp.common.db.mongo.ObjectCreator
 import com.goexp.common.util.date.DateUtil
 import com.goexp.common.util.string.Strings
-import com.goexp.galgame.common.model.CommonGame
+import com.goexp.galgame.common.model.game.{CommonGame, GameCharacter, GameImg}
 import org.bson.Document
 import org.slf4j.LoggerFactory
 
@@ -45,7 +45,7 @@ class CommonGameCreator(
             .sortBy({ case (k, _) => k })
             .flatMap({ case (_, v) => v }).asJava
         })
-        .getOrElse(util.List.of[CommonGame.GameCharacter]())
+        .getOrElse(util.List.of[GameCharacter]())
 
 
     game.gameImgs =
@@ -53,7 +53,7 @@ class CommonGameCreator(
         .map({
           _.asScala.to(LazyList).map(p => imgCreator.create(p)).asJava
         })
-        .getOrElse(util.List.of[CommonGame.GameImg]())
+        .getOrElse(util.List.of[GameImg]())
 
     logger.debug("{}", game)
     game
@@ -62,8 +62,8 @@ class CommonGameCreator(
 
   private[CommonGameCreator] object Creator {
 
-    val personCreator: ObjectCreator[CommonGame.GameCharacter] = (doc: Document) => {
-      val person = new CommonGame.GameCharacter
+    val personCreator: ObjectCreator[GameCharacter] = (doc: Document) => {
+      val person = new GameCharacter
       person.name = doc.getString("name")
       person.cv = doc.getString("cv")
       person.intro = doc.getString("intro")
@@ -74,8 +74,8 @@ class CommonGameCreator(
       person
     }
 
-    val imgCreator: ObjectCreator[CommonGame.GameImg] = (doc: Document) => {
-      val gameImg = new CommonGame.GameImg
+    val imgCreator: ObjectCreator[GameImg] = (doc: Document) => {
+      val gameImg = new GameImg
       gameImg.src = doc.getString("src")
       gameImg.index = doc.getInteger("index")
       logger.trace("{}", gameImg)

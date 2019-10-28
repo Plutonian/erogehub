@@ -1,8 +1,8 @@
 package com.goexp.galgame.gui.model;
 
 import com.goexp.common.util.string.Strings;
-import com.goexp.galgame.common.model.CommonGame;
-import com.goexp.galgame.common.model.GameState;
+import com.goexp.galgame.common.model.game.CommonGame;
+import com.goexp.galgame.common.model.game.GameState;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.beans.property.SimpleObjectProperty;
 

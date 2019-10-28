@@ -1,7 +1,8 @@
 package com.goexp.galgame.gui.view.guide
 
 import com.goexp.common.util.string.Strings
-import com.goexp.galgame.common.model.CommonGame
+import com.goexp.galgame.common.model.game.CommonGame
+import com.goexp.galgame.common.model.game.guide.GameGuide
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.game.search.sub.GuideSearchTask
 import com.goexp.galgame.gui.util.{FXMLLoaderProxy, Websites}
@@ -22,7 +23,7 @@ class SearchGuideController extends DefaultController {
   @FXML private var textSearchGameKey: TextField = _
   @FXML private var btnSearchGame: Button = _
   @FXML private var searchPanel: BorderPane = _
-  final private val guideListView = new ListView[CommonGame.Guide]
+  final private val guideListView = new ListView[GameGuide]
   final private val guideService = TaskService(() => new GuideSearchTask(key))
 
   override protected def initialize() = {
@@ -39,9 +40,9 @@ class SearchGuideController extends DefaultController {
     guideListView.setCellFactory(_ => {
       val guideShowLoader = new FXMLLoaderProxy[Region, ShowPageController](classOf[ShowPageController].getResource("showpage.fxml"))
 
-      new ListCell[CommonGame.Guide]() {
+      new ListCell[GameGuide]() {
 
-        override protected def updateItem(guide: CommonGame.Guide, empty: Boolean) = {
+        override protected def updateItem(guide: GameGuide, empty: Boolean) = {
           super.updateItem(guide, empty)
           setText(null)
           setGraphic(null)

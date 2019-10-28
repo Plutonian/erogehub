@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.view.game.listview.tableview;
 
 import com.goexp.common.util.date.DateUtil;
-import com.goexp.galgame.common.model.GameState;
+import com.goexp.galgame.common.model.game.GameState;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.task.TaskService;
 import com.goexp.galgame.gui.task.game.change.MultiLike;

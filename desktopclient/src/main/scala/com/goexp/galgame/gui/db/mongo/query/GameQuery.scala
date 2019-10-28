@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.db.mongo.query
 import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
 import com.goexp.galgame.common.db.mongo.DB_NAME
 import com.goexp.galgame.common.db.mongo.query.CommonGameCreator
-import com.goexp.galgame.common.model.GameState
+import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.cache.AppCache
 import com.mongodb.client.model.Filters

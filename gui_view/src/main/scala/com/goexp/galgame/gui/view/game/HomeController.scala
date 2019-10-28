@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.view.game
 
-import com.goexp.galgame.common.model.GameState
+import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.game.search._
 import com.goexp.galgame.gui.util.res.LocalRes

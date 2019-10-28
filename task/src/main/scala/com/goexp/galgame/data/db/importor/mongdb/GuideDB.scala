@@ -2,14 +2,14 @@ package com.goexp.galgame.data.db.importor.mongdb
 
 import com.goexp.common.db.mongo.DBOperatorTemplate
 import com.goexp.galgame.common.db.mongo.DB_NAME
-import com.goexp.galgame.common.model.CommonGame
+import com.goexp.galgame.common.model.game.guide.GameGuide
 import com.mongodb.client.model.{Filters, Updates}
 import org.bson.Document
 
 object GuideDB {
-  lazy val tlp = new DBOperatorTemplate(DB_NAME, "guide")
+  val tlp = new DBOperatorTemplate(DB_NAME, "guide")
 
-  def insert(item: CommonGame.Guide) = {
+  def insert(item: GameGuide) = {
     val doc = new Document("_id", item.id)
       .append("title", item.title)
       .append("href", item.href)
@@ -20,7 +20,7 @@ object GuideDB {
     })
   }
 
-  def update(item: CommonGame.Guide) = {
+  def update(item: GameGuide) = {
     tlp.exec(gameC => {
       gameC.updateOne(
         Filters.eq("_id", item.id), Updates.set("html", item.html))

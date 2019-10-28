@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.task.local
 
-import com.goexp.galgame.common.model.GameState
+import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.db.importor.mongdb.GameDB.StateDB
 import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, GameQuery}
 import com.goexp.galgame.data.model.Game

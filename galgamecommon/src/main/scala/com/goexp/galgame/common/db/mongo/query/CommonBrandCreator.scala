@@ -1,7 +1,7 @@
 package com.goexp.galgame.common.db.mongo.query
 
 import com.goexp.common.db.mongo.ObjectCreator
-import com.goexp.galgame.common.model.{BrandType, CommonBrand}
+import com.goexp.galgame.common.model.game.brand.{BrandType, CommonBrand}
 import org.bson.Document
 import org.slf4j.LoggerFactory
 

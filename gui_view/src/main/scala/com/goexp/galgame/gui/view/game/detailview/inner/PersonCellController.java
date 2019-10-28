@@ -1,5 +1,6 @@
 package com.goexp.galgame.gui.view.game.detailview.inner;
 
+import com.goexp.galgame.common.model.game.GameCharacter;
 import com.goexp.galgame.gui.model.Game;
 import com.goexp.galgame.gui.util.res.gameimg.PersonImage;
 import com.goexp.galgame.gui.view.DefaultController;
@@ -14,7 +15,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 
 public class PersonCellController extends DefaultController {
-    Game.GameCharacter gameChar;
+    GameCharacter gameChar;
 
     public Game game;
 

@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.task.game.search.sub
 
 import com.goexp.common.util.string.Strings
-import com.goexp.galgame.common.model.CommonGame.GameCharacter
+import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.gui.db.mongo.query.GameQuery
 import com.mongodb.client.model.Filters
 import javafx.collections.{FXCollections, ObservableList}

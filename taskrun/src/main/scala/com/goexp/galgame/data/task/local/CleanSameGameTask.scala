@@ -3,7 +3,7 @@ package com.goexp.galgame.data.task.local
 import java.nio.file.Files
 
 import com.goexp.galgame.common.Config
-import com.goexp.galgame.common.model.GameState
+import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, GameQuery}
 import com.goexp.galgame.data.model.Game
 import com.mongodb.client.model.Filters

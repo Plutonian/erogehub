@@ -2,7 +2,7 @@ package com.goexp.galgame.data.task.local
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.CV
-import com.goexp.galgame.common.model.CommonGame.GameCharacter
+import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.data.db.importor.mongdb.GameDB
 import com.goexp.galgame.data.db.query.mongdb.{CVQuery, GameQuery}
 import com.mongodb.client.model.Filters.{not, eq => same}

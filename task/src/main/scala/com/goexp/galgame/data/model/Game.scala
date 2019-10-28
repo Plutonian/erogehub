@@ -3,7 +3,7 @@ package com.goexp.galgame.data.model
 import java.util.{Objects, StringJoiner}
 
 import com.goexp.common.util.string.ConsoleColors.RED
-import com.goexp.galgame.common.model.{CommonGame, GameState}
+import com.goexp.galgame.common.model.game.{CommonGame, GameState}
 
 class Game extends CommonGame {
   var state: GameState = _

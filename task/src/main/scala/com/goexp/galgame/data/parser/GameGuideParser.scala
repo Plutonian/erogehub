@@ -2,7 +2,7 @@ package com.goexp.galgame.data.parser
 
 import java.util.Objects
 
-import com.goexp.galgame.common.model.CommonGame
+import com.goexp.galgame.common.model.game.guide.{DataFrom, GameGuide}
 import org.jsoup.Jsoup
 
 import scala.jdk.CollectionConverters._
@@ -23,9 +23,9 @@ object GameGuideParser {
           !_.attr("href").isEmpty
         }
         .map { a =>
-          val guide = new CommonGame.Guide
+          val guide = new GameGuide
           guide.title = a.text
-          guide.from = CommonGame.Guide.DataFrom.sagaoz_net
+          guide.from = DataFrom.sagaoz_net
           guide.href = a.attr("href")
           guide.id = guide.href
           guide
@@ -47,9 +47,9 @@ object GameGuideParser {
             .asScala
             .to(LazyList)
             .map { a =>
-              val guide = new CommonGame.Guide
+              val guide = new GameGuide
               guide.title = a.text
-              guide.from = CommonGame.Guide.DataFrom.seiya_saiga_com
+              guide.from = DataFrom.seiya_saiga_com
               guide.href = s"http://seiya-saiga.com/game/${a.attr("href")}"
               guide.id = guide.href
               guide

@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.parser.game
 
-import com.goexp.galgame.common.model.CommonGame
+import com.goexp.galgame.common.model.game.{GameCharacter, GameImg}
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.parser.game.DetailPageParser.{DetailParser, GameCharParser, SimpleImgParser}
 import org.jsoup.Jsoup
@@ -11,7 +11,7 @@ import scala.jdk.CollectionConverters._
 private object DetailPageParser {
 
   private object DetailParser {
-    private lazy val BRAND_ID_REX = """search_brand_id=(\d+)$""".r("brandid")
+    private val BRAND_ID_REX = """search_brand_id=(\d+)$""".r("brandid")
   }
 
   private class DetailParser {
@@ -36,7 +36,7 @@ private object DetailPageParser {
   }
 
   private object GameCharParser {
-    private lazy val cvPattern = """（?[Cc][vV]\s*[：:.／/]?\s*([^）]+)）?$""".r("cv")
+    private val cvPattern = """（?[Cc][vV]\s*[：:.／/]?\s*([^）]+)）?$""".r("cv")
   }
 
   private class GameCharParser {
@@ -54,7 +54,7 @@ private object DetailPageParser {
       root.select("#wrapper div.tabletitle:contains(キャラクター)").next.select("tbody>tr:nth-of-type(2n+1)").asScala
         .to(LazyList)
         .map { tr =>
-          val person = new CommonGame.GameCharacter
+          val person = new GameCharacter
           person.index = index
           val title = tr.select("h2.chara-name").text
           person.img = tr.select("td:nth-of-type(1)>img").attr("src")
@@ -74,7 +74,7 @@ private object DetailPageParser {
       root.select("#wrapper div.tabletitle:contains(サンプル画像)").next.select("a.highslide")
         .asScala.to(LazyList)
         .map { a =>
-          val img = new CommonGame.GameImg
+          val img = new GameImg
           img.src = a.attr("href")
           img.index = imgIndex
           imgIndex += 1

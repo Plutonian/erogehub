@@ -1,4 +1,4 @@
-package com.goexp.galgame.common.model;
+package com.goexp.galgame.common.model.game;
 
 
 import java.util.stream.Stream;

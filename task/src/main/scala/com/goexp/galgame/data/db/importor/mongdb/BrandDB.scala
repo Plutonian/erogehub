@@ -10,7 +10,7 @@ import com.mongodb.client.model.Updates.{combine, set}
 import org.bson.Document
 
 object BrandDB {
-  lazy val tlp = new DBOperatorTemplate(DB_NAME, "brand")
+  val tlp = new DBOperatorTemplate(DB_NAME, "brand")
 
   def insert(item: Brand) = {
     val doc = new Document("_id", item.id)

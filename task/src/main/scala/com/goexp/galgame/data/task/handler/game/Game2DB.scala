@@ -4,7 +4,7 @@ import java.util
 import java.util.Objects
 
 import com.goexp.common.util.string.Strings
-import com.goexp.galgame.common.model.{CommonGame, GameState}
+import com.goexp.galgame.common.model.game.{CommonGame, GameCharacter, GameState}
 import com.goexp.galgame.data.db.importor.mongdb.GameDB
 import com.goexp.galgame.data.db.query.mongdb.GameQuery
 import com.goexp.galgame.data.model.Game
@@ -21,7 +21,7 @@ import scala.jdk.CollectionConverters._
 class Game2DB extends MessageHandler {
   final private val logger = LoggerFactory.getLogger(classOf[Game2DB])
 
-  private def merge(local: util.List[CommonGame.GameCharacter], remote: util.List[CommonGame.GameCharacter]): util.List[CommonGame.GameCharacter] = {
+  private def merge(local: util.List[GameCharacter], remote: util.List[GameCharacter]): util.List[GameCharacter] = {
     val localSize = Option(local).map(_.size()).getOrElse(0)
     val remoteSize = Option(remote).map(_.size()).getOrElse(0)
 

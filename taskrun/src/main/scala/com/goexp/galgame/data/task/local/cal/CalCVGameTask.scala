@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.task.local.cal
 
-import com.goexp.galgame.common.model.GameState
+import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.db.importor.mongdb.CVDB
 import com.goexp.galgame.data.db.query.mongdb.{CVQuery, GameQuery}
 import com.mongodb.client.model.Filters

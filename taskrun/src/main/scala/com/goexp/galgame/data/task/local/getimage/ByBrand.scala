@@ -5,7 +5,7 @@ import com.goexp.galgame.common.model.game.brand.BrandType
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.db.query.mongdb.{BrandQuery, GameQuery}
 import com.goexp.galgame.data.task.handler.Util
-import com.mongodb.client.model.Filters.{and, not}
+import com.mongodb.client.model.Filters.and
 import com.mongodb.client.model.{Filters, Sorts}
 import org.slf4j.LoggerFactory
 
@@ -44,8 +44,8 @@ object ByBrand {
             val glist = GameQuery.fullTlp
               .where(and(
                 Filters.eq("brandId", b.id),
-                not(Filters.eq("state", GameState.BLOCK.value)),
-                not(Filters.eq("state", GameState.SAME.value))
+                Filters.ne("state", GameState.BLOCK.value),
+                Filters.ne("state", GameState.SAME.value)
               ))
               .scalaList()
 

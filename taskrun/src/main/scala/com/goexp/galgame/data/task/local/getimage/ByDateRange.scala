@@ -35,8 +35,8 @@ object ByDateRange {
       .where(and(
         gte("publishDate", DateUtil.toDate(s"${start} 00:00:00")),
         lte("publishDate", DateUtil.toDate(s"${end} 23:59:59")),
-        not(Filters.eq("state", GameState.BLOCK.value)),
-        not(Filters.eq("state", GameState.SAME.value))
+        Filters.ne("state", GameState.BLOCK.value),
+        Filters.ne("state", GameState.SAME.value)
       ))
       .scalaList().to(LazyList)
 

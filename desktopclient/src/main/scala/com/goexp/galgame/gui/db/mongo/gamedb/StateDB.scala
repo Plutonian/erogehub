@@ -4,22 +4,22 @@ import java.util
 
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.model.Game
-import com.mongodb.client.model.Filters.{not, eq => equal, _}
+import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.set
 
 object StateDB {
   def update(game: Game): Unit =
     tlp.exec(documentMongoCollection => {
-      documentMongoCollection.updateOne(equal(game.id), set("state", game.state.get.value))
+      documentMongoCollection.updateOne(Filters.eq(game.id), set("state", game.state.get.value))
     })
 
   def blockAllGame(brandId: Int): Unit =
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateMany(
-        and(
-          equal("brandId", brandId),
-          not(equal("state", GameState.SAME.value)),
-          not(equal("state", GameState.BLOCK.value))
+        Filters.and(
+          Filters.eq("brandId", brandId),
+          Filters.ne("state", GameState.SAME.value),
+          Filters.ne("state", GameState.BLOCK.value)
         )
         , set("state", GameState.BLOCK.value))
 
@@ -28,7 +28,7 @@ object StateDB {
   def batchUpdate(games: util.List[Game]): Unit =
     tlp.exec(documentMongoCollection => {
       games.forEach((game: Game) => {
-        documentMongoCollection.updateOne(equal(game.id), set("state", game.state.get.value))
+        documentMongoCollection.updateOne(Filters.eq(game.id), set("state", game.state.get.value))
       })
     })
 }

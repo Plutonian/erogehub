@@ -6,7 +6,7 @@ import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.db.query.mongdb.GameQuery
 import com.goexp.galgame.data.model.{Brand, Game}
 import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Filters.{and, not}
+import com.mongodb.client.model.Filters.and
 import com.mongodb.client.model.Updates.{combine, set}
 import org.bson.Document
 
@@ -91,8 +91,8 @@ object GameDB {
       documentMongoCollection.updateMany(
         and(
           Filters.eq("brandId", item.id),
-          not(Filters.eq("state", GameState.SAME.value)),
-          not(Filters.eq("state", GameState.BLOCK.value))
+          Filters.ne("state", GameState.SAME.value),
+          Filters.ne("state", GameState.BLOCK.value)
         )
         , set("state", GameState.BLOCK.value))
 

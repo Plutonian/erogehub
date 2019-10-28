@@ -29,10 +29,6 @@ public class TableController extends DefaultController {
     @FXML
     public TableView<Game> table;
 
-    /**
-     * Columns
-     */
-
     @FXML
     public TableColumn<Game, String> tableColType;
     @FXML

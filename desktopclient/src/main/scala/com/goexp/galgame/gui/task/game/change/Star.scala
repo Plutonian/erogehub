@@ -5,9 +5,8 @@ import com.goexp.galgame.gui.model.Game
 import javafx.concurrent.Task
 
 
-class Star(private[this] val game: Game) extends Task[Void] {
-  override protected def call: Void = {
+class Star(private[this] val game: Game) extends Task[Unit] {
+  override protected def call: Unit = {
     StarDB.update(game)
-    null
   }
 }

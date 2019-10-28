@@ -41,7 +41,7 @@ public class TopController extends DefaultController {
 
     protected void initialize() {
 
-        starChangeController.onStarChangeProperty.addListener((observable, oldValue, changed) -> {
+        starChangeController.onStarChangeProperty().addListener((observable, oldValue, changed) -> {
 
             if (changed) {
                 loadStar(targetGame);

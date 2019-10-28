@@ -24,7 +24,6 @@ public class TopController extends DefaultController {
     @FXML
     private JumpBrandController brandJumpController;
 
-    //    public ImageView imageImg;
     @FXML
     private HBox boxStar;
 
@@ -58,18 +57,7 @@ public class TopController extends DefaultController {
     }
 
     public void load(Game game) {
-
-
         loadWithoutImage(game);
-
-//            if (game.smallImg != null && game.smallImg.startsWith("http")) {
-//                imageImg.setImage(Images.GameImage.tiny(game));
-//
-//            } else {
-//                imageImg.setImage(null);
-//            }
-
-
     }
 
     private void loadWithoutImage(Game game) {

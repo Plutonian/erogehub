@@ -6,10 +6,9 @@ import com.goexp.galgame.gui.db.mongo.gamedb.StateDB
 import com.goexp.galgame.gui.model.Game
 import javafx.concurrent.Task
 
-class MultiLike(private[this] val games: util.List[Game]) extends Task[Void] {
+class MultiLike(private[this] val games: util.List[Game]) extends Task[Unit] {
 
-  override protected def call: Void = {
+  override protected def call: Unit = {
     StateDB.batchUpdate(games)
-    null
   }
 }

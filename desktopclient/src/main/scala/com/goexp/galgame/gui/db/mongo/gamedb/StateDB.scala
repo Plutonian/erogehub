@@ -27,7 +27,7 @@ object StateDB {
 
   def batchUpdate(games: util.List[Game]): Unit =
     tlp.exec(documentMongoCollection => {
-      games.forEach((game: Game) => {
+      games.forEach(game => {
         documentMongoCollection.updateOne(Filters.eq(game.id), set("state", game.state.get.value))
       })
     })

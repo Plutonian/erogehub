@@ -18,46 +18,17 @@ import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 
 public class HeaderPartController extends DefaultController {
-    public Region right;
-//    @FXML
-//    private FlowPane flowMain;
-
-//        @FXML
-//        private StarChoiceBarController starChangeController;
-
-//    @FXML
-//    private DateShowController dateviewController;
-
-//        @FXML
-//        private JumpLinkController webjumpController;
-
-//    @FXML
-//    private JumpBrandController brandJumpController;
-
-//        @FXML
-//        private StateChangeController changeStateController;
+    @FXML
+    private Region right;
 
     @FXML
     private ImageView imageImg;
 
-//    @FXML
-//    private HBox boxStar;
-//
-//    @FXML
-//    private Text txtName;
-//
-//    @FXML
-//    private Text txtSubName;
-
     @FXML
     private FlowPane flowPainter;
 
-    //    @FXML//    public Label lbDate;
     @FXML
     private Label txtWriter;
-
-//    @FXML
-//    private HBox boxTag;
 
     @FXML
     private Text txtIntro;
@@ -91,7 +62,6 @@ public class HeaderPartController extends DefaultController {
 //            });
     }
 
-
     public void load(Game game) {
         this.targetGame = game;
 
@@ -103,7 +73,6 @@ public class HeaderPartController extends DefaultController {
             setImage(null);
         }
     }
-
 
     private void setImage(Image image) {
 
@@ -160,11 +129,4 @@ public class HeaderPartController extends DefaultController {
 
     }
 
-//    public void loadStar(Game game) {
-//        boxStar.getChildren().clear();
-//        var image = LocalRes.HEART_32_PNG.get();
-//        for (var i = 0; i < game.star; i++) {
-//            boxStar.getChildren().add(new ImageView(image));
-//        }
-//    }
 }

@@ -4,7 +4,7 @@ import java.time.LocalDate
 import java.util
 
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.task.game.panel.group.node.DateItem
+import com.goexp.galgame.gui.task.game.panel.group.node.{DateItem, DateType}
 import javafx.concurrent.Task
 import javafx.scene.control.TreeItem
 
@@ -27,7 +27,7 @@ class ByDate(val groupGames: util.List[Game]) extends Task[TreeItem[DateItem]] {
             LocalDate.of(year, 1, 1).minusDays(1),
             LocalDate.of(year, 12, 31).plusDays(1),
             games.size,
-            DateItem.DateType.YEAR))
+            DateType.YEAR))
         }
 
         val monthNode = games.groupBy(game => Option(game.publishDate).map(date => date.getMonthValue).getOrElse(0)).to(LazyList)
@@ -36,7 +36,7 @@ class ByDate(val groupGames: util.List[Game]) extends Task[TreeItem[DateItem]] {
             new TreeItem[DateItem](new DateItem(s"$month 月 (${v.size})",
               LocalDate.of(year, month, 1).minusDays(1),
               LocalDate.of(year, month, 1).plusMonths(1),
-              v.size, DateItem.DateType.MONTH))
+              v.size, DateType.MONTH))
 
           }).asJava
 

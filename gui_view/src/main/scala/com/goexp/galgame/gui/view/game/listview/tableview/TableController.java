@@ -32,8 +32,7 @@ public class TableController extends DefaultController {
     /**
      * Columns
      */
-//    @FXML
-//    public TableColumn<Game, List<String>> tableColTag;
+
     @FXML
     public TableColumn<Game, String> tableColType;
     @FXML
@@ -63,7 +62,6 @@ public class TableController extends DefaultController {
     protected void initialize() {
 
         var items = Stream.of(GameState.values())
-//                .filter(value -> value != GameState.UNCHECKED)
                 .sorted(Comparator.reverseOrder())
                 .map(brandType -> {
                     var menuItem = new MenuItem();
@@ -90,34 +88,6 @@ public class TableController extends DefaultController {
 
 
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-//        table.setOnMouseClicked(event -> {
-//            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
-//                var g=table.getSelectionModel().getSelectedItem();
-//
-//                if(g!=null)
-//                {
-//                    MainController.$this.loadDetail(g);
-//                }
-//            }
-//
-//        });
-
-
-//        table.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-//            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
-//                {
-//                    if (event.getTarget() instanceof TableRow) {
-//                        var row = (TableRow) event.getTarget();
-//
-//                        if (!row.isEmpty()) {
-//                            var g = (Game) row.getItem();
-//                            MainController.$this.loadDetail(g);
-//                        }
-//                    }
-//                }
-//            }
-//        });
 
 
         table.setRowFactory(tr -> {
@@ -147,7 +117,6 @@ public class TableController extends DefaultController {
         tableColPainter.setCellValueFactory(new PropertyValueFactory<>("painter"));
         tableColWriter.setCellValueFactory(new PropertyValueFactory<>("writer"));
         tableColDate.setCellValueFactory(new PropertyValueFactory<>("publishDate"));
-//        tableColTag.setCellValueFactory(new PropertyValueFactory<>("tag"));
         tableColTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
         tableColType.setCellValueFactory(new PropertyValueFactory<>("type"));
 
@@ -164,25 +133,6 @@ public class TableController extends DefaultController {
                 }
             }
         });
-
-//        tableColTag.setCellFactory(col -> new TableCell<>() {
-//            @Override
-//            protected void updateItem(List<String> item, boolean empty) {
-//                super.updateItem(item, empty);
-//                this.setGraphic(null);
-//                this.setText(null);
-//
-//                if (item != null && !empty) {
-//
-//                    if (item.size() > 0) {
-//                        var hbox = new HBox();
-//                        hbox.setSpacing(5);
-//                        hbox.getChildren().setAll(Tags.toNodes(item));
-//                        this.setGraphic(hbox);
-//                    }
-//                }
-//            }
-//        });
 
 
         tableColTitle.setCellFactory(col -> new TableCell<>() {

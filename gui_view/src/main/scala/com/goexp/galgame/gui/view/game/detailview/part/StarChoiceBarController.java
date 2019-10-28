@@ -38,7 +38,6 @@ public class StarChoiceBarController extends DefaultController {
                     var toggle = new ToggleButton();
                     toggle.setUserData(star);
                     toggle.setText(star.toString());
-//                    toggle.setGraphic(new ImageView(image));
                     toggle.setToggleGroup(groupLike);
 
                     return toggle;
@@ -46,14 +45,6 @@ public class StarChoiceBarController extends DefaultController {
                 .collect(Collectors.toList());
 
         groupLikeCon.getChildren().setAll(list);
-
-//        btnHope.setUserData(GameState.HOPE);
-//        btnLike.setUserData(GameState.LIKE);
-//        btnPass.setUserData(GameState.BLOCK);
-//        btnDefault.setUserData(GameState.UNCHECKED);
-//        btnNormal.setUserData(GameState.NORMAL);
-
-//        list = List.of(btnLike, btnPass, btnDefault, btnNormal, btnHope);
 
 
         handler = ((o, oldV, newV) -> {

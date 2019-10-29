@@ -1,8 +1,8 @@
 package com.goexp.galgame.data.source.erogamescape.task
 
-import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.source.erogamescape.importor.GameDB
-import com.goexp.galgame.data.source.erogamescape.model.Game
+import com.goexp.galgame.data.source.erogamescape.parser.ListPageParser.PageItem
+import com.goexp.galgame.data.source.erogamescape.task.game.GetGameBasic
 import com.goexp.piplline.core.{Message, MessageHandler}
 import org.slf4j.LoggerFactory
 
@@ -16,32 +16,19 @@ class PreProcessGame extends MessageHandler {
   override def process(message: Message) = {
 
     message.entity match {
-      case game: Game =>
+      case pageItem: PageItem =>
 
         //already has
-        //        if (GameDB.exist(game.id)) {
-        //          logger.debug("<Update> {}", game.simpleView)
-        //          GameDB.update(game)
+        //        if (GameDB.exist(pageItem.id)) {
+        //          logger.debug("<Update> {}", pageItem.simpleView)
+        //          GameDB.update(pageItem)
         //        }
         //        else {
-        //new game
+        //new pageItem
+        logger.info("<Insert> {} {}", pageItem)
+        GameDB.insert(pageItem)
 
-
-        //Mark game is spec
-        //          if (isSameGame(game)) {
-        //            game.state = GameState.SAME
-        //          }
-        //          else {
-        game.state = GameState.UNCHECKED
-        //          }
-        //
-        //          game.isNew = true
-        logger.info("<Insert> {} {}", game.simpleView)
-        GameDB.insert(game)
-      //        }
-
-
-      //        send(Message(classOf[DownloadGameHandler].hashCode(), game.id))
+        send(classOf[GetGameBasic].hashCode(), pageItem.id)
     }
   }
 }

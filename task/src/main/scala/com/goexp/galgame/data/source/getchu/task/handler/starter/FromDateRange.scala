@@ -2,7 +2,7 @@ package com.goexp.galgame.data.source.getchu.task.handler.starter
 
 import java.time.LocalDate
 
-import com.goexp.galgame.data.source.getchu.client.GetChu.GameRemote
+import com.goexp.galgame.data.source.getchu.GameRemote
 import com.goexp.galgame.data.source.getchu.task.handler.PreProcessGame
 import com.goexp.piplline.core.{Message, Starter}
 import org.slf4j.LoggerFactory

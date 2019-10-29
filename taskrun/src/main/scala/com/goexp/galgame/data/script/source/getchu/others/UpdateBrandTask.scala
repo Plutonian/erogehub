@@ -2,7 +2,7 @@ package com.goexp.galgame.data.script.source.getchu.others
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.util.Network
-import com.goexp.galgame.data.source.getchu.client.GetChu.BrandService
+import com.goexp.galgame.data.source.getchu.BrandService
 import com.goexp.galgame.data.source.getchu.importor.BrandDB
 import com.goexp.galgame.data.source.getchu.query.BrandQuery
 import org.slf4j.LoggerFactory

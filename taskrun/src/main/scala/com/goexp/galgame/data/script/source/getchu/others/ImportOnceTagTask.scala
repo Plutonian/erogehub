@@ -2,7 +2,8 @@ package com.goexp.galgame.data.script.source.getchu.others
 
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.common.website.getchu
-import com.goexp.galgame.data.source.getchu.client.GetChu
+import com.goexp.galgame.data.Client
+import com.goexp.galgame.data.source.getchu.DEFAULT_CHARSET
 import com.goexp.galgame.data.source.getchu.importor.TagDB
 import com.goexp.galgame.data.source.getchu.parser.GetchuTagParser
 import org.slf4j.LoggerFactory
@@ -17,7 +18,7 @@ object ImportOnceTagTask {
       * download page from getchu
       */
     val request = getchu.RequestBuilder("http://www.getchu.com/pc/genre.html").adaltFlag.build
-    val html = GetChu.getHtml(request)
+    val html = Client.getHtml(request)
 
     /**
       * parse html

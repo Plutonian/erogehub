@@ -1,7 +1,8 @@
 package com.goexp.galgame.data.source.getchu.task.handler
 
 import com.goexp.galgame.common.website.getchu.{GetchuGameRemote, RequestBuilder}
-import com.goexp.galgame.data.source.getchu.client.GetChu
+import com.goexp.galgame.data.Client
+import com.goexp.galgame.data.source.getchu.DEFAULT_CHARSET
 import com.goexp.galgame.data.source.getchu.task.handler.game.Html2GameOK
 import com.goexp.piplline.core.{Message, MessageHandler}
 import org.slf4j.LoggerFactory
@@ -17,7 +18,7 @@ class DownloadGameHandler extends MessageHandler {
 
     val request = RequestBuilder(GetchuGameRemote.byId(gameId)).adaltFlag.build
 
-    GetChu.getHtml(request)
+    Client.getHtml(request)
 
   }
 

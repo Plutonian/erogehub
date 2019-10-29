@@ -21,7 +21,11 @@ class GetGameList extends MessageHandler {
 
         logger.info(s"Get $year: ")
         try {
-          GameRemote.from(year)
+          val list = GameRemote.from(year)
+
+          logger.info(s"Get $year: (${list.size})")
+
+          list
             .foreach {
               g =>
                 send(classOf[PreProcessGame].hashCode(), g)
@@ -29,7 +33,7 @@ class GetGameList extends MessageHandler {
         }
         catch {
           case e: CompletionException if (e.getCause.isInstanceOf[IOException]) =>
-            logger.error(e.getMessage)
+            logger.error(e.getCause.getMessage)
             send(classOf[GetGameList].hashCode(), year)
         }
     }

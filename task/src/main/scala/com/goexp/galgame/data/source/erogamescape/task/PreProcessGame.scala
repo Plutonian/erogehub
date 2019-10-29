@@ -19,16 +19,18 @@ class PreProcessGame extends MessageHandler {
       case pageItem: PageItem =>
 
         //already has
-        //        if (GameDB.exist(pageItem.id)) {
-        //          logger.debug("<Update> {}", pageItem.simpleView)
-        //          GameDB.update(pageItem)
-        //        }
-        //        else {
-        //new pageItem
-        logger.info("<Insert> {} {}", pageItem)
-        GameDB.insert(pageItem)
+        if (GameDB.exist(pageItem.id)) {
+          logger.info("<Update> {}", pageItem.id)
+          //          GameDB.update(pageItem)
+        }
+        else {
+          //new pageItem
+          logger.info("<Insert> {}", pageItem)
+          GameDB.insert(pageItem)
+        }
 
         send(classOf[GetGameBasic].hashCode(), pageItem.id)
+
     }
   }
 }

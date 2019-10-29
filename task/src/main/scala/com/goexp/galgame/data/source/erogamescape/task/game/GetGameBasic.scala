@@ -23,6 +23,7 @@ class GetGameBasic extends MessageHandler {
         logger.debug(url)
         try {
           val html = getHtml(RequestBuilder(url).build)
+          logger.info(s"$id OK")
           send(classOf[Html2GameBasic].hashCode(), (id, html))
         }
         catch {

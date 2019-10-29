@@ -1,6 +1,5 @@
 package com.goexp.galgame.data.script.source.erogamescape
 
-import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.source.erogamescape.task.game.{GetGameBasic, Html2GameBasic, SaveGameBasic}
 import com.goexp.galgame.data.source.erogamescape.task.starter.FromYear
 import com.goexp.galgame.data.source.erogamescape.task.{GetGameList, PreProcessGame}
@@ -8,10 +7,10 @@ import com.goexp.piplline.core.Pipeline
 
 object FromYearTask {
   def main(args: Array[String]) = {
-    Network.initProxy()
+    //    Network.initProxy()
 
-    //    val range = Range.inclusive(1990, LocalDate.now.getYear)
-    val range = Range.inclusive(2000, 2000)
+    //    val range = Range.inclusive(2000, LocalDate.now.getYear)
+    val range = Range.inclusive(2011, 2018)
 
     new Pipeline(new FromYear(range))
       .regForIOType(new GetGameList)

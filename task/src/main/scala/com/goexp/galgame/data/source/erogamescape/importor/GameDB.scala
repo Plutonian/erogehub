@@ -4,6 +4,7 @@ import com.goexp.common.db.mongo.DBOperatorTemplate
 import com.goexp.galgame.data.source.erogamescape.DB_NAME
 import com.goexp.galgame.data.source.erogamescape.parser.DetailPageParser.{OutLink, Tags}
 import com.goexp.galgame.data.source.erogamescape.parser.ListPageParser.PageItem
+import com.goexp.galgame.data.source.erogamescape.query.GameQuery
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.{combine, set}
 import org.bson.Document
@@ -11,6 +12,10 @@ import org.bson.Document
 import scala.jdk.CollectionConverters._
 
 object GameDB {
+  def exist(id: Int): Boolean = {
+    GameQuery.simpleTlp.where(Filters.eq(id)).exists
+  }
+
   val tlp = new DBOperatorTemplate(DB_NAME, "game")
 
   def insert(pageItem: PageItem) = {
@@ -64,7 +69,6 @@ object GameDB {
         new Document("k", k)
           .append("v", v)
       }.asJava
-
 
 
       documentMongoCollection.updateOne(

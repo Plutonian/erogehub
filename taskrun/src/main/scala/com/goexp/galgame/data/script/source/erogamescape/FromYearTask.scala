@@ -2,26 +2,20 @@ package com.goexp.galgame.data.script.source.erogamescape
 
 import java.time.LocalDate
 
-import com.goexp.galgame.common.util.Network
-import com.goexp.galgame.data.source.getchu.task.handler.game.DefaultGameProcessGroup
-import com.goexp.galgame.data.source.getchu.task.handler.starter.FromDateRange
-import com.goexp.galgame.data.source.getchu.task.handler.{DownloadGameHandler, PreProcessGame}
+import com.goexp.galgame.data.source.erogamescape.task.starter.FromYear
+import com.goexp.galgame.data.source.erogamescape.task.{GetGameList, PreProcessGame}
 import com.goexp.piplline.core.Pipeline
 
 object FromDateRangeTask {
   def main(args: Array[String]) = {
-    Network.initProxy()
+    //    Network.initProxy()
 
-    val start = LocalDate.now.minusMonths(1).withDayOfMonth(1)
+    val range = Range.inclusive(1990, LocalDate.now.getYear)
 
-    val end = start.plusMonths(6)
-    //    val end = LocalDate.now.withMonth(12).withDayOfMonth(31)
-
-
-    new Pipeline(new FromDateRange(start, end))
+    new Pipeline(new FromYear(range))
+      .regForIOType(new GetGameList)
       .regForCPUType(new PreProcessGame)
-      .regForIOType(new DownloadGameHandler)
-      .regGroup(DefaultGameProcessGroup)
+      //      .regGroup(DefaultGameProcessGroup)
       .start()
   }
 }

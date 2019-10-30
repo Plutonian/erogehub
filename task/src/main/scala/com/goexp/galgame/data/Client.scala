@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory
 
 object Client {
 
-  val client = new LimitHttpClient(100, 10, TimeUnit.SECONDS)
+  val client = new LimitHttpClient(20, 20, TimeUnit.SECONDS)
 
   private val logger = LoggerFactory.getLogger(Client.getClass)
 

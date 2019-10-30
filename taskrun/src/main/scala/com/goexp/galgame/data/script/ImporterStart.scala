@@ -3,7 +3,6 @@ package com.goexp.galgame.data.script
 import java.util.Objects
 
 import com.goexp.galgame.data.script.guide.Seiya_saiga_com
-import com.goexp.galgame.data.script.source.erogamescape.FromYearTask
 import com.goexp.galgame.data.script.source.getchu.FromDateRangeTask
 import com.goexp.galgame.data.script.source.getchu.local.cal.{CalBrandGameTask, CalCVGameTask}
 import com.goexp.galgame.data.script.source.getchu.local.getimage.{ByBrand, ByDateRange}
@@ -24,8 +23,7 @@ object ImporterStart {
       ("group-brand", "Group brand", GroupBrandTask.main _),
       ("clean", "Clean same game img cache", CleanSameGameTask.main _),
       ("get-image-range", "Download game img by date range", ByDateRange.main _),
-      ("get-image-brand", "Download game img by brand", ByBrand.main _),
-      ("upgrade-game-year", "Upgrade game info by year", FromYearTask.main _)
+      ("get-image-brand", "Download game img by brand", ByBrand.main _)
     )
 
   def main(args: Array[String]) = {

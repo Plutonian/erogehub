@@ -1,11 +1,12 @@
 package com.goexp.galgame.data.source.erogamescape.parser
 
 import java.nio.file.{Files, Path}
+import java.time.LocalDate
+import java.time.format.{DateTimeFormatter, DateTimeParseException}
 import java.util
 
 import com.goexp.galgame.data.source.erogamescape.parser.DetailPageParser.Tags
 import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 import org.slf4j.LoggerFactory
 
 import scala.jdk.CollectionConverters._
@@ -21,7 +22,9 @@ object DetailPageParser {
                      getchuId: Int,
                      DMMID: String)
 
-  def parseOutLink(root: Document): OutLink = {
+  def parseOutLink(html: String): OutLink = {
+
+    val root = Jsoup.parse(html)
 
     val ele = root.select("#bottom_inter_links_main")
 
@@ -49,7 +52,8 @@ object DetailPageParser {
 
   case class Tags(k: String, v: util.List[String])
 
-  def parseTag(root: Document) = {
+  def parseTag(html: String) = {
+    val root = Jsoup.parse(html)
     root.select("#att_pov_table tr").asScala.to(LazyList)
       .drop(1)
       .map { tr =>
@@ -59,18 +63,27 @@ object DetailPageParser {
       }
   }
 
-  def parseGroup(root: Document): String = {
+  def parseDate(html: String): LocalDate = {
+    val root = Jsoup.parse(html)
+    Option(root.select("#sellday td").first()).map { td =>
+      try LocalDate.parse(td.text(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) catch {
+        case _: DateTimeParseException => null
+      }
+    }.orNull
+  }
+
+  def parseGroup(html: String): String = {
+    val root = Jsoup.parse(html)
     Option(root.select("#gamegroup >ul>li>a").first()).map {
       _.text()
     }.orNull
   }
 
-  case class BasicItem(outLink: OutLink, tags: LazyList[Tags], group: String)
+  case class BasicItem(outLink: OutLink, tags: LazyList[Tags], group: String, date: LocalDate)
 
   def parse(html: String): BasicItem = {
-    val root = Jsoup.parse(html)
 
-    BasicItem(parseOutLink(root), parseTag(root), parseGroup(root))
+    BasicItem(parseOutLink(html), parseTag(html), parseGroup(html), parseDate(html))
   }
 
   //  private object GameCharParser {
@@ -125,16 +138,16 @@ object DetailPageParser {
 object Runner {
   def main(args: Array[String]): Unit = {
     val str = Files.readString(Path.of("/home/benbear/temp/content.html"))
-    val root = Jsoup.parse(str)
 
-    println(DetailPageParser.parseOutLink(root))
-    DetailPageParser.parseTag(root)
+    println(DetailPageParser.parseOutLink(str))
+    DetailPageParser.parseTag(str)
       .foreach {
         case Tags(k, v) =>
           println(k, v)
       }
 
-    println(DetailPageParser.parseGroup(root))
+    println(DetailPageParser.parseGroup(str))
+    println(DetailPageParser.parseDate(str))
   }
 }
 

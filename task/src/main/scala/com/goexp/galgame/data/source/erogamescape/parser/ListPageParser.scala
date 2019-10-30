@@ -2,6 +2,7 @@ package com.goexp.galgame.data.source.erogamescape.parser
 
 import java.nio.file.{Files, Path}
 
+import com.goexp.common.util.string.Strings
 import com.goexp.galgame.data.source.erogamescape.parser.ListPageParser._
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
@@ -12,7 +13,7 @@ object ListPageParser {
   private val GAME_ID_REGEX = """game=(\d+)#ad$""".r("id")
   private val BRAND_ID_REGEX = """brand=(\d+)$""".r("id")
 
-  case class PageItem(id: Int, brandId: Int, name: String, middle: String, pian: String)
+  case class PageItem(id: Int, brandId: Int, name: String, middle: Int, pian: Int)
 
   def main(args: Array[String]): Unit = {
 
@@ -51,8 +52,14 @@ class ListPageParser {
       val id = GAME_ID_REGEX.findFirstMatchIn(gUrl).map(_.group("id").toInt).getOrElse(0)
       val brandId = BRAND_ID_REGEX.findFirstMatchIn(bUrl).map(_.group("id").toInt).getOrElse(0)
       val name = gEle.text()
-      val middle = tds.get(2).text()
-      val pian = tds.get(3).text()
+      val middle = {
+        val temp = tds.get(2).text()
+        if (Strings.isEmpty(temp) || temp == "-") 0 else temp.toInt
+      }
+      val pian = {
+        val temp = tds.get(3).text()
+        if (Strings.isEmpty(temp) || temp == "-") 0 else temp.toInt
+      }
 
       PageItem(id,
         brandId,

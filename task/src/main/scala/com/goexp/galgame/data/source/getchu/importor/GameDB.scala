@@ -1,9 +1,9 @@
 package com.goexp.galgame.data.source.getchu.importor
 
 import com.goexp.common.db.mongo.DBOperatorTemplate
-import com.goexp.galgame.data.source.getchu.DB_NAME
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.{Brand, Game}
+import com.goexp.galgame.data.source.getchu.DB_NAME
 import com.goexp.galgame.data.source.getchu.query.GameQuery
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters.and
@@ -31,13 +31,25 @@ object GameDB {
     })
   }
 
-  def update(game: Game) =
+  def update(game: Game): Unit =
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(
         Filters.eq(game.id),
         combine(
           set("publishDate", game.publishDate),
           set("smallImg", game.smallImg)
+        )
+      )
+    })
+
+  def update(id: Int, middle: Int, website: String, group: String): Unit =
+    tlp.exec(documentMongoCollection => {
+      documentMongoCollection.updateOne(
+        Filters.eq(id),
+        combine(
+          set("middle", middle),
+          set("website", website),
+          set("group", group)
         )
       )
     })

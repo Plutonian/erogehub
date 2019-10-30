@@ -12,8 +12,10 @@ class SaveGameBasic extends MessageHandler {
   override def process(message: Message) = {
 
     message.entity match {
-      case (id: Int, BasicItem(outLink, tag, group)) =>
-        GameDB.updateContent(id, outLink, tag, group)
+      case (id: Int, BasicItem(outLink, tag, group, date)) =>
+
+        logger.info(s"Save ${id} ${outLink}")
+        GameDB.updateContent(id, outLink, tag, group, date)
     }
   }
 }

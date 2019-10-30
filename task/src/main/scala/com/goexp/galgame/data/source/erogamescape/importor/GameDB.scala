@@ -1,5 +1,7 @@
 package com.goexp.galgame.data.source.erogamescape.importor
 
+import java.time.LocalDate
+
 import com.goexp.common.db.mongo.DBOperatorTemplate
 import com.goexp.galgame.data.source.erogamescape.DB_NAME
 import com.goexp.galgame.data.source.erogamescape.parser.DetailPageParser.{OutLink, Tags}
@@ -21,31 +23,15 @@ object GameDB {
   def insert(pageItem: PageItem) = {
     val gameDoc = new Document("_id", pageItem.id)
       .append("name", pageItem.name)
-      //      .append("publishDate", game.publishDate)
-      //      .append("smallImg", game.smallImg)
-      //      .append("star", 0)
       .append("brandId", pageItem.brandId)
-    if (pageItem.middle != "-")
-      gameDoc.append("middle", pageItem.middle.toInt)
-
-    if (pageItem.pian != "-")
-      gameDoc.append("pian", pageItem.pian.toInt)
+      .append("middle", pageItem.middle)
+      .append("pian", pageItem.pian)
 
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.insertOne(gameDoc)
     })
   }
 
-  //  def update(game: Game) =
-  //    tlp.exec(documentMongoCollection => {
-  //      documentMongoCollection.updateOne(
-  //        Filters.eq(game.id),
-  //        combine(
-  //          set("publishDate", game.publishDate),
-  //          set("smallImg", game.smallImg)
-  //        )
-  //      )
-  //    })
 
   //  def updateAll(game: Game) =
   //    tlp.exec(documentMongoCollection => {
@@ -62,7 +48,7 @@ object GameDB {
   //      )
   //    })
 
-  def updateContent(id: Int, outLink: OutLink, tags: LazyList[Tags], group: String) = {
+  def updateContent(id: Int, outLink: OutLink, tags: LazyList[Tags], group: String, date: LocalDate) = {
     tlp.exec(documentMongoCollection => {
 
       val tagesS = tags.map { case Tags(k, v) =>
@@ -74,6 +60,7 @@ object GameDB {
       documentMongoCollection.updateOne(
         Filters.eq(id),
         combine(
+          set("publishDate", date),
           set("getchuId", outLink.getchuId),
           set("website", outLink.gHP),
           set("dmmId", outLink.DMMID),

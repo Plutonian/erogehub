@@ -57,7 +57,7 @@ class LimitHttpClient(val limits: Int, val waitTime: Int, val unit: TimeUnit) {
 object LimitHttpClient {
 
   //default
-  val client = new LimitHttpClient(100, 10, TimeUnit.SECONDS)
+  val client = new LimitHttpClient(20, 20, TimeUnit.SECONDS)
 
   def apply(): LimitHttpClient = {
     client

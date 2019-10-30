@@ -19,7 +19,7 @@
     <logger name="com.goexp.galgame.data.db" level="error"/>
     <logger name="com.goexp.galgame.data.parser" level="error"/>
     <logger name="com.goexp.galgame.data.source.erogamescape.task.game.GetGameBasic" level="debug"/>
-    <!--    <logger name="com.goexp.galgame.data.task.handler.PreProcessGame" level="OFF"/>-->
+    <logger name="com.goexp.galgame.data.source.getchu.task.handler.PreProcessGame" level="debug"/>
     <!--    <logger name="com.goexp.galgame.data.task.FromDateRangeTask" level="debug"/>-->
 
 

@@ -32,6 +32,7 @@ object GameQuery {
       val g = parentCreator.create(doc).asInstanceOf[Game]
 
       g.brandId = Option(doc.getInteger("brandId")).map(_.toInt).getOrElse(0)
+      g.group = doc.getString("group")
       g.state = Option(doc.getInteger("state")).map(s => GameState.from(s)).getOrElse(GameState.UNCHECKED)
       logger.debug("{}", g)
       g

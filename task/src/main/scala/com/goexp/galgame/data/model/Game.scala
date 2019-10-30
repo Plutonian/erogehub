@@ -8,6 +8,7 @@ import com.goexp.galgame.common.model.game.{CommonGame, GameState}
 class Game extends CommonGame {
   var state: GameState = _
   var brandId = 0
+  var group: String = _
 
   override def equals(o: Any): Boolean = {
 

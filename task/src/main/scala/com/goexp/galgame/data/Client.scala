@@ -3,7 +3,7 @@ package com.goexp.galgame.data
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse.BodyHandlers.ofByteArray
 import java.nio.charset.{Charset, StandardCharsets}
-import java.util.concurrent.CompletableFuture
+import java.util.concurrent.{CompletableFuture, TimeUnit}
 
 import com.goexp.common.util.Gzip._
 import com.goexp.common.util.charset._
@@ -11,6 +11,8 @@ import com.goexp.galgame.common.util.LimitHttpClient
 import org.slf4j.LoggerFactory
 
 object Client {
+
+  val client = new LimitHttpClient(100, 10, TimeUnit.SECONDS)
 
   private val logger = LoggerFactory.getLogger(Client.getClass)
 
@@ -23,7 +25,7 @@ object Client {
 
   def getHtmlAsy(request: HttpRequest)(implicit charset: Charset): CompletableFuture[String] = {
 
-    LimitHttpClient().sendAsync(request, ofByteArray)
+    client.sendAsync(request, ofByteArray)
       .thenApply[String] { res =>
         val bytes = res.body()
 
@@ -34,7 +36,7 @@ object Client {
 
         val rawBytes = if (isGzip) bytes.unGzip() else bytes
 
-        rawBytes.decode(DEFAULT_CHARSET)
+        rawBytes.decode(charset)
 
       }
     //      .exceptionally { e =>

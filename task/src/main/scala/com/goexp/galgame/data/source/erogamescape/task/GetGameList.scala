@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory
   * Check game is new or already has
   */
 class GetGameList extends MessageHandler {
-  final private val logger = LoggerFactory.getLogger(classOf[PreProcessGame])
+  final private val logger = LoggerFactory.getLogger(classOf[GetGameList])
 
   override def process(message: Message) = {
 

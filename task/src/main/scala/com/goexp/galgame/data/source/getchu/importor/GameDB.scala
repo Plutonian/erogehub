@@ -42,17 +42,6 @@ object GameDB {
       )
     })
 
-  def update(id: Int, middle: Int, website: String, group: String): Unit =
-    tlp.exec(documentMongoCollection => {
-      documentMongoCollection.updateOne(
-        Filters.eq(id),
-        combine(
-          set("middle", middle),
-          set("website", website),
-          set("group", group)
-        )
-      )
-    })
 
   def updateAll(game: Game) =
     tlp.exec(documentMongoCollection => {

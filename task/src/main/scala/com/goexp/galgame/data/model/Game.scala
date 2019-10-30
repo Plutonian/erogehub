@@ -38,7 +38,7 @@ class Game extends CommonGame {
       .add("name='" + RED.s(name) + "'")
       .add("publishDate=" + publishDate)
       .add("smallImg='" + smallImg + "'")
-      .add("website='" + website + "'")
+      //      .add("website='" + website + "'")
       .add("writer=" + writer)
       .add("painter=" + painter)
       .add("type=" + `type`)

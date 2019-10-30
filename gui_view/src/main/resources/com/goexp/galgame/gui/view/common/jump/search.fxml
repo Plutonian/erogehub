@@ -6,6 +6,7 @@
       xmlns="http://javafx.com/javafx/8.0.172-ea"
       fx:controller="com.goexp.galgame.gui.view.common.jump.SearchController">
     <MenuItem fx:id="linkWiki" mnemonicParsing="false" text="Wiki"/>
+    <MenuItem fx:id="linkEgs" mnemonicParsing="false" text="ErogameScape"/>
     <MenuItem fx:id="link2DF" mnemonicParsing="false" text="2DF"/>
 
     <SeparatorMenuItem mnemonicParsing="false"/>

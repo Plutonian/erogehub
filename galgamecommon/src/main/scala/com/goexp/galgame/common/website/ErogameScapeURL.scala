@@ -19,10 +19,11 @@ object ErogameScapeURL {
       .build
   }
 
-  //  def getURLfromTitle(title: String): String =
-  //    UrlBuilder(searchUrl)
-  //      .param("sort", "release_date")
-  //      .param("genre", "pc_soft")
-  //      .param("search_keyword", title.urlEncode("shift-jis"))
-  //      .build
+  def fromTitle(title: String): String =
+    UrlBuilder("http://egs.omaera.org/~ap2/ero/toukei_kaiseki/kensaku.php")
+      .param("category", "game")
+      .param("word_category", "name")
+      .param("mode", "normal")
+      .param("word", title)
+      .build
 }

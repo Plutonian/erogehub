@@ -24,7 +24,7 @@ object GameDB {
       .append("star", 0)
       .append("state", game.state.value)
       .append("brandId", game.brandId)
-      .append("isNew", game.isNew)
+      .append("isNew", true)
 
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.insertOne(gameDoc)

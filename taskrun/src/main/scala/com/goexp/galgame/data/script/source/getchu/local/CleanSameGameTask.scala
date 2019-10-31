@@ -22,6 +22,7 @@ object CleanSameGameTask {
       val path = Config.IMG_PATH.resolve(String.valueOf(g.id))
       if (Files.exists(path)) {
 
+        logger.info(s"[${g.id}] ${g.name} [${g.state}]")
         logger.info(s"Clean:$path")
 
         Files.list(path).iterator().asScala.to(LazyList)

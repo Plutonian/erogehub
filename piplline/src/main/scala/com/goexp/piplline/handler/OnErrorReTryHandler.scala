@@ -26,7 +26,7 @@ abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends Me
   }
 
 
-  final private val logger = LoggerFactory.getLogger(classOf[OnErrorReTryHandler])
+  final private val logger = LoggerFactory.getLogger(this.getClass)
 
   override def process(message: Message): Unit = {
 
@@ -51,9 +51,8 @@ abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends Me
               sendTo(getClass, entity)
             } else {
               logger.error(s"Out of retry times! Retry times:$retryTimes Entry:${entity} ")
+              throw e
             }
-
-            throw e
         }
     }
   }

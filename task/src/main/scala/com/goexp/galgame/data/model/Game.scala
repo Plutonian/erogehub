@@ -29,7 +29,7 @@ class Game extends CommonGame {
     }
   }
 
-  def simpleView: String = "Game{" + "id=" + RED.s(String.valueOf(id)) + ", name='" + RED.s(name) + '\'' + ", publishDate=" + publishDate + ", imgUrl='" + smallImg + '\'' + ", isNew='" + isNew + '\'' + '}'
+  def simpleView: String = "Game{" + "id=" + RED.s(id.toString) + ", name='" + RED.s(name) + '\'' + ", publishDate=" + publishDate + ", imgUrl='" + smallImg + '}'
 
 
   override def toString: String = {
@@ -39,10 +39,10 @@ class Game extends CommonGame {
       .add("publishDate=" + publishDate)
       .add("smallImg='" + smallImg + "'")
       //      .add("website='" + website + "'")
-      .add("writer=" + writer)
-      .add("painter=" + painter)
-      .add("type=" + `type`)
-      .add("tag=" + tag)
+      //      .add("writer=" + writer)
+      //      .add("painter=" + painter)
+      //      .add("type=" + `type`)
+      //      .add("tag=" + tag)
       .add("gameImgs=" + gameImgs)
       .add("gameCharacters=" + gameCharacters)
       //                .add("story='" + story + "'")

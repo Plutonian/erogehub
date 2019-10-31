@@ -33,8 +33,8 @@ class CV {
   override def toString: String =
     new StringJoiner(", ", classOf[CV].getSimpleName + "[", "]")
       .add("name='" + name + "'")
-      .add("nameStr='" + nameStr + "'")
-      .add("star=" + star)
       .add("trueName='" + trueName + "'")
+      .add("star=" + star)
+      .add("nameStr='" + nameStr + "'")
       .toString
 }

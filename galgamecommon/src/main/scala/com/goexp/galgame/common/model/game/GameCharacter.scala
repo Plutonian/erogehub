@@ -8,4 +8,6 @@ class GameCharacter {
   var img: String = _
   var index: Int = _
 
+
+  override def toString = s"GameCharacter([$index]$name, $cv, $trueCV, $img)"
 }

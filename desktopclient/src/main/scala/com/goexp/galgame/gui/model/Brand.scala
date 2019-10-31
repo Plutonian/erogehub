@@ -19,12 +19,12 @@ class Brand extends CommonBrand {
     new StringJoiner(", ", classOf[Brand].getSimpleName + "[", "]")
       .add("id=" + id)
       .add("name='" + name + "'")
-      .add("website='" + website + "'")
       .add("comp='" + comp + "'")
       .add("isLike=" + isLike)
-      .add("start=" + start)
-      .add("end=" + end)
-      .add("size=" + size)
+      .add("website='" + website + "'")
+      //      .add("start=" + start)
+      //      .add("end=" + end)
+      //      .add("size=" + size)
       .toString
 
 }

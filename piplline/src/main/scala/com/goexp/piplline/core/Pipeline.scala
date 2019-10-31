@@ -94,11 +94,14 @@ class Pipeline(private[this] val starter: Starter) {
               for (c <- configs) {
                 //exec actor
                 c.executor.execute { () =>
+                  val handler = c.handler
                   try {
-                    c.handler.process(msg)
+                    handler.process(msg)
                   }
                   catch {
                     case e: Exception =>
+                      logger.error(s"Handler:$handler")
+
                       e.printStackTrace()
                   }
                 }

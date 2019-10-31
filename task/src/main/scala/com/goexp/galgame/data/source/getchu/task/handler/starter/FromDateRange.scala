@@ -11,20 +11,15 @@ class FromDateRange(val start: LocalDate, val end: LocalDate) extends Starter {
   private val logger = LoggerFactory.getLogger(classOf[FromDateRange])
 
   override def process() = {
+
     logger.info(s"Start:$start,End:$end")
 
     val list = GameRemote.from(start, end)
 
     logger.info(s"${list.size}")
 
-
-    Range.inclusive(1, list.size).foreach { num =>
-
-      val game = list(num - 1)
+    list.foreach { game =>
       sendTo(classOf[PreProcessGame], game)
-
     }
-
-
   }
 }

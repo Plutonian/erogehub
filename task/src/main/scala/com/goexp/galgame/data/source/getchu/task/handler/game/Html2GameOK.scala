@@ -4,32 +4,29 @@ import java.util.Objects
 
 import com.goexp.galgame.data.source.getchu.parser.ParseException
 import com.goexp.galgame.data.source.getchu.parser.game.DetailPageParser
-import com.goexp.piplline.core.{Message, MessageHandler}
+import com.goexp.piplline.handler.DefaultHandler
 import org.slf4j.LoggerFactory
 
 /**
   * Parse String => Game
   */
-class Html2GameOK extends MessageHandler {
+class Html2GameOK extends DefaultHandler {
   final private val logger = LoggerFactory.getLogger(classOf[Html2GameOK])
 
-  override def process(message: Message) = {
-    message.entity match {
-      case (gameId: Int, html: String) =>
+  override def processEntity: PartialFunction[Any, Unit] = {
+    case (gameId: Int, html: String) =>
 
-        //        logger.debug("<Html2GameOK> {}", gameId)
+      Objects.requireNonNull(html)
 
-        Objects.requireNonNull(html)
+      try {
 
-        try {
+        val parser = new DetailPageParser
+        val game = parser.parse(gameId, html)
+        sendTo(classOf[Game2DB], game)
+      } catch {
+        case e: ParseException =>
+          e.printStackTrace()
+      }
 
-          val parser = new DetailPageParser
-          val game = parser.parse(gameId, html)
-          sendTo(classOf[Game2DB], game)
-        } catch {
-          case e: ParseException =>
-            e.printStackTrace()
-        }
-    }
   }
 }

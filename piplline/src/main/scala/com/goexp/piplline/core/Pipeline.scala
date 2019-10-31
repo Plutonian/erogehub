@@ -3,7 +3,6 @@ package com.goexp.piplline.core
 import java.util.concurrent.{ExecutorService, Executors, TimeUnit}
 
 import com.goexp.piplline
-import com.goexp.piplline.exception.RuntimeInterruptedException
 import com.goexp.piplline.handler.HandlerConfig
 import org.slf4j.LoggerFactory
 
@@ -121,7 +120,7 @@ class Pipeline(private[this] val starter: Starter) {
           listenerExecutorService.shutdown()
         }
       } catch {
-        case e: RuntimeInterruptedException =>
+        case e: InterruptedException =>
           e.printStackTrace()
           running = false
       }

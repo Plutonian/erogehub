@@ -2,6 +2,7 @@ package com.goexp.piplline.core
 
 import scala.beans.BeanProperty
 
+private[piplline]
 trait MessageDriven {
 
   @BeanProperty

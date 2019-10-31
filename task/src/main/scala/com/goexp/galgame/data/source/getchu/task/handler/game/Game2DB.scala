@@ -9,7 +9,7 @@ import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.importor.GameDB
 import com.goexp.galgame.data.source.getchu.query.GameQuery
 import com.goexp.galgame.data.source.getchu.task.Util
-import com.goexp.piplline.core.{Message, MessageHandler}
+import com.goexp.piplline.handler.DefaultHandler
 import com.mongodb.client.model.Filters
 import org.slf4j.LoggerFactory
 
@@ -18,7 +18,7 @@ import scala.jdk.CollectionConverters._
 /**
   * process game detail(upgrade content,cv,simple img)
   */
-class Game2DB extends MessageHandler {
+class Game2DB extends DefaultHandler {
   final private val logger = LoggerFactory.getLogger(classOf[Game2DB])
 
   private def merge(local: util.List[GameCharacter], remote: util.List[GameCharacter]): util.List[GameCharacter] = {
@@ -68,54 +68,54 @@ class Game2DB extends MessageHandler {
     }.asJava
   }
 
-  override def process(message: Message) = {
-    message.entity match {
-      case remoteGame: Game =>
-        val localGame = GameQuery.fullTlp.where(Filters.eq(remoteGame.id)).one()
 
-        /**
-          * upgrade base content
-          */
-        if (!Objects.equals(localGame, remoteGame)) {
-          //      logger.info(s"\nOld:${localGame.simpleView()}\nNew:${remoteGame.simpleView()}\n")
-          GameDB.updateAll(remoteGame)
+  override def processEntity: PartialFunction[Any, Unit] = {
+    case remoteGame: Game =>
+      val localGame = GameQuery.fullTlp.where(Filters.eq(remoteGame.id)).one()
+
+      /**
+        * upgrade base content
+        */
+      if (!Objects.equals(localGame, remoteGame)) {
+        //      logger.info(s"\nOld:${localGame.simpleView()}\nNew:${remoteGame.simpleView()}\n")
+        GameDB.updateAll(remoteGame)
+      }
+
+
+      /**
+        * upgrade person
+        */
+      remoteGame.gameCharacters = merge(localGame.gameCharacters, remoteGame.gameCharacters)
+
+      if (remoteGame.gameCharacters != null)
+        GameDB.updateChar(remoteGame)
+
+
+      /**
+        * upgrade simple img
+        */
+      val localImgSize = Option(localGame.gameImgs).map(_.size).getOrElse(0)
+      val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)
+
+      if (remoteImgSize > localImgSize) {
+        logger.info("Game[{}] {}", localGame.id, localGame.name)
+        logger.info(s"Update GameImg:Local:$localImgSize,Remote:$remoteImgSize")
+        GameDB.updateImg(remoteGame)
+      }
+
+
+      // check game state
+      if ((localGame.state ne GameState.SAME) && (localGame.state ne GameState.BLOCK)) {
+
+        logger.debug("Game[{}] {}", localGame.id, localGame.state)
+
+        val tGame = GameQuery.fullTlp.where(Filters.eq(remoteGame.id)).one()
+        Util.getGameAllImgs(tGame).foreach {
+          pear =>
+            sendTo(classOf[DownloadImage], pear)
         }
-
-
-        /**
-          * upgrade person
-          */
-        remoteGame.gameCharacters = merge(localGame.gameCharacters, remoteGame.gameCharacters)
-
-        if (remoteGame.gameCharacters != null)
-          GameDB.updateChar(remoteGame)
-
-
-        /**
-          * upgrade simple img
-          */
-        val localImgSize = Option(localGame.gameImgs).map(_.size).getOrElse(0)
-        val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)
-
-        if (remoteImgSize > localImgSize) {
-          logger.info("Game[{}] {}", localGame.id, localGame.name)
-          logger.info(s"Update GameImg:Local:$localImgSize,Remote:$remoteImgSize")
-          GameDB.updateImg(remoteGame)
-        }
-
-
-        // check game state
-        if ((localGame.state ne GameState.SAME) && (localGame.state ne GameState.BLOCK)) {
-
-          logger.debug("Game[{}] {}", localGame.id, localGame.state)
-
-          val tGame = GameQuery.fullTlp.where(Filters.eq(remoteGame.id)).one()
-          Util.getGameAllImgs(tGame).foreach {
-            pear =>
-              sendTo(classOf[DownloadImage], pear)
-          }
-        }
-    }
+      }
 
   }
+
 }

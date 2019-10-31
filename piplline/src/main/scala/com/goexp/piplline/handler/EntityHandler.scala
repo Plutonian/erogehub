@@ -3,6 +3,7 @@ package com.goexp.piplline.handler
 import com.goexp.piplline.core.Message
 import org.slf4j.LoggerFactory
 
+private[piplline]
 trait EntityHandler {
 
   final private val logger = LoggerFactory.getLogger(this.getClass)

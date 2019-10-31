@@ -21,6 +21,11 @@ class Pipeline(private[this] val starter: Starter) {
 
   private val configs = mutable.Set[HandlerConfig]()
 
+  private val defaultCase = {
+    case x =>
+      logger.error(s"No catch case!! Case:$x")
+  }
+
 
   def registry(config: HandlerConfig): Pipeline = {
     configs.add(config)
@@ -69,7 +74,9 @@ class Pipeline(private[this] val starter: Starter) {
     this
   }
 
-  def start(): Unit = { //fill queue
+  def start(): Unit = {
+
+    //fill queue
     starter.setQueue(msgQueueProxy)
     val mesTypeMap = configs.to(LazyList)
       .map { c =>
@@ -91,23 +98,31 @@ class Pipeline(private[this] val starter: Starter) {
           mesTypeMap.get(mes.code) match {
             case Some(configs) =>
               for (c <- configs) {
+                //exec actor
                 c.executor.execute { () =>
-                  try c.handler.process(mes)
+                  try {
+                    c.handler.process(mes)
+                  }
                   catch {
                     case e: Exception =>
                       e.printStackTrace()
                   }
                 }
               }
-            case _ =>
+            case None =>
+              logger.error(s"No message handler for: ${mes.code}")
           }
         }
         else {
           logger.info("listener task time out!!!")
           running = false
+
+          //wait for all ok
           for (config <- configs) {
             config.executor.shutdown()
           }
+
+
           listenerExecutorService.shutdown()
         }
       } catch {
@@ -121,4 +136,8 @@ class Pipeline(private[this] val starter: Starter) {
 
     starter.process()
   }
+}
+
+object Pipeline {
+
 }

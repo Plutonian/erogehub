@@ -43,6 +43,7 @@ abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends De
 
       sendTo(message.target, entity)
     } else {
+      map.remove(entity)
       logger.error(s"Out of retry times! Retry times:$retryTimes Entry:${entity} ")
     }
   }
@@ -50,6 +51,8 @@ abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends De
   final override def process(message: Message): Unit = {
     try {
       super.process(message)
+      logger.debug(s"Succ ${message.entity}")
+      map.remove(message.entity)
     }
     catch {
       case e: Exception =>
@@ -65,6 +68,7 @@ private object OnErrorReTryHandler {
   private val map = new TrieMap[Any, AtomicInteger]()
 
   private def getCounter(entity: Any) =
+
     map.get(entity) match {
       case None =>
         val counter = new AtomicInteger(0)
@@ -72,7 +76,6 @@ private object OnErrorReTryHandler {
         counter
       case Some(counter) => counter
     }
-
 }
 
 object Tester {
@@ -102,14 +105,14 @@ object Tester {
       case 1 =>
         count_1 += 1
 
-      //        if (count_1 != 3)
-      //          throw new Exception("Error")
+        if (count_1 != 3)
+          throw new Exception("Error")
       case 3 =>
         count_3 += 1
 
-      //        if (count_3 != 5)
-      //          throw new Exception("Error")
-      //      case _ =>
+        if (count_3 != 5)
+          throw new Exception("Error")
+      case _ =>
     }
   }
 

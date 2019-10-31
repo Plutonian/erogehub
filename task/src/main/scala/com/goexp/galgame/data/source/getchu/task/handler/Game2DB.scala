@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.source.getchu.task.handler.game
+package com.goexp.galgame.data.source.getchu.task.handler
 
 import java.util
 import java.util.Objects

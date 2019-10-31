@@ -40,7 +40,7 @@ class PreProcessGame extends DefaultHandler {
         logger.info("<Insert> {} {}", game.simpleView, game.state)
         GameDB.insert(game)
       }
-      sendTo(classOf[DownloadGameHandler], game.id)
+      sendTo(classOf[DownloadPage], game.id)
 
   }
 

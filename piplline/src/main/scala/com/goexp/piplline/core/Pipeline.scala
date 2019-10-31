@@ -21,11 +21,6 @@ class Pipeline(private[this] val starter: Starter) {
 
   private val configs = mutable.Set[HandlerConfig]()
 
-  private val defaultCase: PartialFunction[Any, Unit] = {
-    case x =>
-      logger.error(s"No catch case!! Case:$x")
-  }
-
 
   def registry(config: HandlerConfig): Pipeline = {
     configs.add(config)
@@ -93,15 +88,15 @@ class Pipeline(private[this] val starter: Starter) {
       while ( {
         running
       }) try {
-        val mes = msgQueueProxy.poll(5, TimeUnit.MINUTES)
-        if (mes != null) {
-          mesTypeMap.get(mes.target) match {
+        val msg = msgQueueProxy.poll(5, TimeUnit.MINUTES)
+        if (msg != null) {
+          mesTypeMap.get(msg.target) match {
             case Some(configs) =>
               for (c <- configs) {
                 //exec actor
                 c.executor.execute { () =>
                   try {
-                    c.handler.process(mes)
+                    c.handler.process(msg)
                   }
                   catch {
                     case e: Exception =>
@@ -110,7 +105,7 @@ class Pipeline(private[this] val starter: Starter) {
                 }
               }
             case None =>
-              logger.error(s"No message handler for: ${mes.target}")
+              logger.error(s"No message handler for: ${msg.target}")
           }
         }
         else {

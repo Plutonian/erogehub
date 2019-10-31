@@ -10,11 +10,13 @@ import org.slf4j.LoggerFactory
 
 import scala.collection.concurrent.TrieMap
 
-abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends MessageHandler {
+abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends MessageHandler with EntityHandler {
   require(retryTimes > 0, "times must > 0")
 
-  var waitTime: Int = _
-  var unit: TimeUnit = _
+  final private val logger = LoggerFactory.getLogger(this.getClass)
+
+  private var waitTime: Int = _
+  private var unit: TimeUnit = _
 
   def this(retryTimes: Int, waitTime: Int, unit: TimeUnit) {
     this(retryTimes)
@@ -25,40 +27,37 @@ abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends Me
     this.unit = unit
   }
 
+  private def onError(message: Message): Unit = {
+    val entity = message.entity
 
-  final private val logger = LoggerFactory.getLogger(this.getClass)
+    val timesCounter = getCounter(entity)
 
-  override def process(message: Message): Unit = {
+    val errorTimes = timesCounter.incrementAndGet()
+    if (errorTimes <= retryTimes) {
 
-    message.entity match {
-      case entity =>
-        try {
-          action(message)
-        }
-        catch {
-          case e: Exception =>
-            val timesCounter = getCounter(entity)
+      logger.error(s"[Retry times:${errorTimes}] Entry:${entity}")
 
-            val errorTimes = timesCounter.incrementAndGet()
-            if (errorTimes <= retryTimes) {
+      //sleep current thread
+      if (waitTime > 0)
+        unit.sleep(waitTime)
 
-              logger.error(s"[Retry times:${errorTimes}] Entry:${entity}")
-
-              //sleep current thread
-              if (waitTime > 0)
-                unit.sleep(waitTime)
-
-              sendTo(getClass, entity)
-            } else {
-              logger.error(s"Out of retry times! Retry times:$retryTimes Entry:${entity} ")
-              throw e
-            }
-        }
+      sendTo(message.target, entity)
+    } else {
+      logger.error(s"Out of retry times! Retry times:$retryTimes Entry:${entity} ")
     }
   }
 
+  final override def process(message: Message): Unit = {
+    try {
+      handle(message)
+    }
+    catch {
+      case e: Exception =>
+        onError(message)
+        throw e
+    }
+  }
 
-  def action(message: Message): Unit
 
 }
 
@@ -98,20 +97,19 @@ object Tester {
     var count_1: Int = _
     var count_3: Int = _
 
-    override def action(message: Message): Unit = {
-      message.entity match {
-        case 1 =>
-          count_1 += 1
 
-          if (count_1 != 3)
-            throw new Exception("Error")
-        case 3 =>
-          count_3 += 1
+    override def processEntity = {
+      case 1 =>
+        count_1 += 1
 
-          if (count_3 != 5)
-            throw new Exception("Error")
-        case _ =>
-      }
+        if (count_1 != 3)
+          throw new Exception("Error")
+      case 3 =>
+        count_3 += 1
+
+        if (count_3 != 5)
+          throw new Exception("Error")
+      //      case _ =>
     }
   }
 

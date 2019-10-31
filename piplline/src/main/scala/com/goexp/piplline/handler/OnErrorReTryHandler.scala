@@ -48,7 +48,7 @@ abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends Me
               if (waitTime > 0)
                 unit.sleep(waitTime)
 
-              send(getClass, entity)
+              sendTo(getClass, entity)
             } else {
               logger.error(s"Out of retry times! Retry times:$retryTimes Entry:${entity} ")
             }
@@ -89,7 +89,7 @@ object Tester {
       Range(0, 10)
         .foreach {
           i =>
-            send(TestHandler.getClass, i)
+            sendTo(TestHandler.getClass, i)
         }
     }
   }

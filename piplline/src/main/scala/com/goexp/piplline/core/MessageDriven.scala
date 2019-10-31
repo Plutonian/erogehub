@@ -9,9 +9,6 @@ trait MessageDriven {
 
   def send(mes: Message) = queue.offer(mes)
 
-  def send(code: Int, entity: Any) = queue.offer(Message(code, entity))
+  def sendTo(target: Class[_ <: MessageHandler], entity: Any) = queue.offer(Message(target, entity))
 
-  def send(clazz: Class[_], entity: Any) = queue.offer(new Message(clazz, entity))
-
-  //  def sendTo[T <: MessageHandler](entity: Any) = queue.offer(Message(classOf[T].hashCode(), entity))
 }

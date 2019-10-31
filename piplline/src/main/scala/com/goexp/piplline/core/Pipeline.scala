@@ -21,7 +21,7 @@ class Pipeline(private[this] val starter: Starter) {
 
   private val configs = mutable.Set[HandlerConfig]()
 
-  private val defaultCase = {
+  private val defaultCase: PartialFunction[Any, Unit] = {
     case x =>
       logger.error(s"No catch case!! Case:$x")
   }
@@ -84,7 +84,7 @@ class Pipeline(private[this] val starter: Starter) {
         c
       }
       .groupBy {
-        _.handler.getClass.hashCode()
+        _.handler.getClass()
       }
     //      .collect(Collectors.groupingBy(HandlerConfig.mesCode))
     //start message driven

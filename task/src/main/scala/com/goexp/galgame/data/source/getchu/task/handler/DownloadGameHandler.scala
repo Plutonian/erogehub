@@ -30,12 +30,12 @@ class DownloadGameHandler extends MessageHandler {
           val html = getBytes(gid)
           logger.debug("Download OK:{}", gid)
 
-          send(classOf[Html2GameOK], (gid, html))
+          sendTo(classOf[Html2GameOK], (gid, html))
         }
         catch {
           case e: Exception =>
             logger.error("Re-down:{} IOException:{}", gid, e.getMessage)
-            send(classOf[DownloadGameHandler], gid)
+            sendTo(classOf[DownloadGameHandler], gid)
 
         }
     }

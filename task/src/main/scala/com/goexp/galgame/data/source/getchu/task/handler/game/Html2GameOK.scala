@@ -25,7 +25,7 @@ class Html2GameOK extends MessageHandler {
 
           val parser = new DetailPageParser
           val game = parser.parse(gameId, html)
-          send(classOf[Game2DB], game)
+          sendTo(classOf[Game2DB], game)
         } catch {
           case e: ParseException =>
             e.printStackTrace()

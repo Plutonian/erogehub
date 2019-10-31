@@ -21,7 +21,7 @@ class FromDateRange(val start: LocalDate, val end: LocalDate) extends Starter {
     Range.inclusive(1, list.size).foreach { num =>
 
       val game = list(num - 1)
-      send(classOf[PreProcessGame], game)
+      sendTo(classOf[PreProcessGame], game)
 
     }
 

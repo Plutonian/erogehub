@@ -4,13 +4,13 @@ import java.util.Objects._
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 
-import com.goexp.piplline.core.{Message, MessageHandler, Pipeline, Starter}
+import com.goexp.piplline.core.{Message, Pipeline, Starter}
 import com.goexp.piplline.handler.OnErrorReTryHandler._
 import org.slf4j.LoggerFactory
 
 import scala.collection.concurrent.TrieMap
 
-abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends MessageHandler with EntityHandler {
+abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends DefaultHandler {
   require(retryTimes > 0, "times must > 0")
 
   final private val logger = LoggerFactory.getLogger(this.getClass)
@@ -49,7 +49,7 @@ abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends Me
 
   final override def process(message: Message): Unit = {
     try {
-      handle(message)
+      super.process(message)
     }
     catch {
       case e: Exception =>
@@ -102,13 +102,13 @@ object Tester {
       case 1 =>
         count_1 += 1
 
-        if (count_1 != 3)
-          throw new Exception("Error")
+      //        if (count_1 != 3)
+      //          throw new Exception("Error")
       case 3 =>
         count_3 += 1
 
-        if (count_3 != 5)
-          throw new Exception("Error")
+      //        if (count_3 != 5)
+      //          throw new Exception("Error")
       //      case _ =>
     }
   }

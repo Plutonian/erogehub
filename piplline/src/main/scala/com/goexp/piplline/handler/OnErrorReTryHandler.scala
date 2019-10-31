@@ -89,7 +89,7 @@ object Tester {
       Range(0, 10)
         .foreach {
           i =>
-            send(TestHandler.getClass.hashCode(), i)
+            send(TestHandler.getClass, i)
         }
     }
   }

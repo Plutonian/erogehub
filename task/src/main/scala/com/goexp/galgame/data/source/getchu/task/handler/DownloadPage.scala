@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit
 import com.goexp.galgame.common.website.getchu.{GameList, GetchuGameRemote, RequestBuilder}
 import com.goexp.galgame.data.Client._
 import com.goexp.galgame.data.source.getchu.DEFAULT_CHARSET
-import com.goexp.galgame.data.source.getchu.parser.game.ListPageParser
 import com.goexp.piplline.handler.OnErrorReTryHandler
 import org.slf4j.LoggerFactory
 
@@ -40,6 +39,6 @@ class DownloadPage extends OnErrorReTryHandler(20, 5, TimeUnit.SECONDS) {
       val request = RequestBuilder(url).adaltFlag.build
       val html = getHtml(request)
 
-      sendTo(classOf[ParsePage], (html, classOf[ListPageParser]))
+      sendTo(classOf[ParsePage], (html, "ListPageParser"))
   }
 }

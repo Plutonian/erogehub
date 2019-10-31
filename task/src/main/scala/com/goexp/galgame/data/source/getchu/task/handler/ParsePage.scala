@@ -24,7 +24,7 @@ class ParsePage extends DefaultHandler {
       sendTo(classOf[Game2DB], game)
 
     // parse game list
-    case (html: String, _: Class[ListPageParser]) =>
+    case (html: String, "ListPageParser") =>
       Objects.requireNonNull(html)
 
       val list = new ListPageParser().parse(html)

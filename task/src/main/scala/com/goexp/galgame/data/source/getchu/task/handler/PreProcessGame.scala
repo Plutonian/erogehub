@@ -41,7 +41,7 @@ class PreProcessGame extends MessageHandler {
           logger.info("<Insert> {} {}", game.simpleView, game.state)
           GameDB.insert(game)
         }
-        send(Message(classOf[DownloadGameHandler].hashCode(), game.id))
+        send(classOf[DownloadGameHandler], game.id)
     }
   }
 

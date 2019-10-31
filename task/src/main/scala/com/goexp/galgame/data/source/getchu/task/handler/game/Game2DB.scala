@@ -112,7 +112,7 @@ class Game2DB extends MessageHandler {
           val tGame = GameQuery.fullTlp.where(Filters.eq(remoteGame.id)).one()
           Util.getGameAllImgs(tGame).foreach {
             pear =>
-              send(classOf[DownloadImage].hashCode(), pear)
+              send(classOf[DownloadImage], pear)
           }
         }
     }

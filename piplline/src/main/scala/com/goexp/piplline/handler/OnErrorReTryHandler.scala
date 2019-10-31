@@ -48,7 +48,7 @@ abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends Me
               if (waitTime > 0)
                 unit.sleep(waitTime)
 
-              send(getClass.hashCode(), entity)
+              send(getClass, entity)
             } else {
               logger.error(s"Out of retry times! Retry times:$retryTimes Entry:${entity} ")
             }

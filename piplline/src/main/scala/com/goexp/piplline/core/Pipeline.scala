@@ -95,7 +95,7 @@ class Pipeline(private[this] val starter: Starter) {
       }) try {
         val mes = msgQueueProxy.poll(5, TimeUnit.MINUTES)
         if (mes != null) {
-          mesTypeMap.get(mes.code) match {
+          mesTypeMap.get(mes.target) match {
             case Some(configs) =>
               for (c <- configs) {
                 //exec actor
@@ -110,7 +110,7 @@ class Pipeline(private[this] val starter: Starter) {
                 }
               }
             case None =>
-              logger.error(s"No message handler for: ${mes.code}")
+              logger.error(s"No message handler for: ${mes.target}")
           }
         }
         else {

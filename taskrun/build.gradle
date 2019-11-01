@@ -7,9 +7,6 @@ plugins {
 }
 
 dependencies {
-    compile project(':common')
-    compile project(':common-db-mongo')
-    compile project(':galgamecommon')
     compile project(':task')
 }
 

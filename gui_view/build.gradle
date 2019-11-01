@@ -25,9 +25,6 @@ application {
 }
 
 dependencies {
-    compile project(':common')
-    compile project(':common-db-mongo')
-    compile project(':galgamecommon')
     compile project(':gui')
     compile group: 'org.controlsfx', name: 'controlsfx', version: '11.0.0'
 }

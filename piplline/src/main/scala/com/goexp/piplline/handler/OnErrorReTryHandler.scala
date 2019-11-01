@@ -35,7 +35,7 @@ abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends De
     val errorTimes = timesCounter.incrementAndGet()
     if (errorTimes <= retryTimes) {
 
-      logger.error(s"[Retry times:${errorTimes}] Entry:${entity}")
+      logger.warn(s"[Retry times:${errorTimes}] Entry:${entity}")
 
       //sleep current thread
       if (waitTime > 0)
@@ -44,7 +44,7 @@ abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends De
       sendTo(message.target, entity)
     } else {
       map.remove(entity)
-      logger.error(s"Out of retry times! Retry times:$retryTimes Entry:${entity} ")
+      logger.warn(s"Out of retry times! Retry times:$retryTimes Entry:${entity} ")
     }
   }
 

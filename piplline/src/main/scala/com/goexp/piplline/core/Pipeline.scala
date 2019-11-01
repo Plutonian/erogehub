@@ -100,9 +100,7 @@ class Pipeline(private[this] val starter: Starter) {
                   }
                   catch {
                     case e: Exception =>
-                      logger.error(s"Handler:$handler")
-
-                      e.printStackTrace()
+                      logger.error(s"Handler:$handler", e)
                   }
                 }
               }

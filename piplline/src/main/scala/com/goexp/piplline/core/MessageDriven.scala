@@ -1,12 +1,10 @@
 package com.goexp.piplline.core
 
-import scala.beans.BeanProperty
 import scala.reflect.ClassTag
 
 private[piplline]
 trait MessageDriven {
 
-  @BeanProperty
   var queue: MessageQueueProxy[Message] = _
 
   def send(mes: Message): Unit = queue.offer(mes)

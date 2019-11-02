@@ -71,10 +71,10 @@ class Pipeline(private[this] val starter: Starter) {
   def start(): Unit = {
 
     //fill queue
-    starter.setQueue(msgQueueProxy)
+    starter.queue = msgQueueProxy
     val mesTypeMap = configs.to(LazyList)
       .map { c =>
-        c.handler.setQueue(msgQueueProxy)
+        c.handler.queue = msgQueueProxy
         c
       }
       .groupBy {

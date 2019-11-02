@@ -1,5 +1,6 @@
 package com.goexp.galgame.gui.view.game.listview.simplelist.small
 
+import com.goexp.common.util.string.ConsoleColors.RED
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
@@ -33,6 +34,13 @@ class HeaderController extends DefaultController {
     linkView.setOnAction(_ => HomeController.$this.loadDetail(targetGame))
 
   def load(game: Game) = {
+    logger.debug(s"Game[${RED.s(game.id.toString)}] ${RED.s(game.name)} Date:${game.publishDate} img:${game.smallImg}  state:<${
+      Option(game.state).map {
+        _.get
+      }.getOrElse("--")
+    }>")
+
+
     loadWithoutImage(game)
     if (game.isOkImg)
       imageImg.setImage(new GameImage(game).tiny)

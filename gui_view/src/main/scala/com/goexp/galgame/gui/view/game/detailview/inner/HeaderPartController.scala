@@ -39,8 +39,10 @@ class HeaderPartController extends DefaultController {
   def load(game: Game) = {
     this.targetGame = game
     loadWithoutImage(game)
-    if (game.isOkImg) setImage(new GameImage(game).large)
-    else setImage(null)
+    if (game.isOkImg)
+      setImage(new GameImage(game).large)
+    else
+      setImage(null)
   }
 
   private def setImage(image: Image) = {

@@ -29,7 +29,11 @@ class Game extends CommonGame {
   def stateProperty = state
 
 
-  override def toString = infoView
+  override def toString = s"Game[${RED.s(id.toString)}] ${RED.s(name)} Date:${publishDate} img:${smallImg}  state:<${
+    Option(state).map {
+      _.get
+    }.getOrElse("--")
+  }>"
 
   def infoView: String = {
     new StringJoiner(", ", classOf[Game].getSimpleName + "[", "]")
@@ -48,8 +52,6 @@ class Game extends CommonGame {
       .add("\ngameCharacters=" + gameCharacters)
       .toString
   }
-
-  def isOkState = Option(this.state).map(_.get).exists(gs => gs.value >= GameState.UNCHECKED.value || (gs eq GameState.PACKAGE))
 
   def isOkImg = Strings.isNotEmpty(smallImg) && smallImg.startsWith("http")
 }

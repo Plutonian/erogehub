@@ -1,5 +1,7 @@
 package com.goexp.galgame.gui.view.game.detailview.inner
 
+import java.util.Objects
+
 import com.goexp.galgame.common.model.game.GameImg
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.res.gameimg.SimpleImage
@@ -9,6 +11,8 @@ import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.{ListCell, ListView}
 import javafx.scene.image.ImageView
+
+import scala.jdk.CollectionConverters._
 
 class SimpleImgPartController extends DefaultController {
   private var game: Game = _
@@ -36,12 +40,27 @@ class SimpleImgPartController extends DefaultController {
   }
 
   def load(game: Game) = {
+    Objects.requireNonNull(game)
+
     this.game = game
     listSmallSimple.getSelectionModel.clearSelection()
     largeSimple.setImage(null)
     listSmallSimple.setItems(FXCollections.observableArrayList(game.gameImgs))
     listSmallSimple.getSelectionModel.select(0)
-    logger.debug(s"${game}")
+
+    logger.whenDebugEnabled {
+      val str = Option(game.gameImgs)
+        .map { list =>
+          list.asScala.to(LazyList)
+            .map { img => s"$img" }
+            .mkString("\n")
+        }
+        .map { str => s"====================================SampleImage====================================\n$str" }
+        .getOrElse("No sample image")
+
+      logger.debug(str)
+    }
+
   }
 
   @FXML private def btnPrev_OnAction(event: ActionEvent) = {

@@ -4,9 +4,15 @@
     <!-- Stop output INFO at start -->
     <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
 
-    <appender name="debug" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="more_detail" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>%magenta(%d{HH:mm:ss}) [%thread %gray(%logger{36}):%M] %cyan(%-5level) %green(%msg%n)</Pattern>
+        </layout>
+    </appender>
+
+    <appender name="detail" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%magenta(%d{HH:mm:ss}) [%thread %gray(%logger{36})] %cyan(%-5level) %green(%msg%n)</Pattern>
         </layout>
     </appender>
     <appender name="sample" class="ch.qos.logback.core.ConsoleAppender">
@@ -17,16 +23,17 @@
 
     <logger name="com.mchange.v2.log" level="OFF"/>
     <logger name="org.mongodb" level="OFF"/>
-    <logger name="com.goexp.galgame.common.db" level="OFF"/>
-    <logger name="com.goexp.galgame.gui.db" level="OFF"/>
+    <logger name="com.goexp.galgame.gui.util.res" level="OFF"/>
+
+    <!--    <logger name="com.goexp.galgame.common.db" level="OFF"/>-->
     <!--    <logger name="ch.qos.logback" level="OFF"/>-->
-    <logger name="com.goexp.galgame.gui.view" level="info">
+    <!--    <logger name="com.goexp.galgame.gui.view" level="info">-->
         <!--<appender-ref ref="debug"/>-->
-    </logger>
+    <!--    </logger>-->
     <!--        <appender-ref ref="detail"/>-->
     <!--    </logger>-->
 
-    <root level="info">
-        <appender-ref ref="sample"/>
+    <root level="debug">
+        <appender-ref ref="detail"/>
     </root>
 </configuration>

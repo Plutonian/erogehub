@@ -55,7 +55,7 @@ class CommonGameCreator(
         })
         .getOrElse(util.List.of[GameImg]())
 
-    logger.debug(s"${game}")
+    logger.trace(s"${game}")
     game
   }
 

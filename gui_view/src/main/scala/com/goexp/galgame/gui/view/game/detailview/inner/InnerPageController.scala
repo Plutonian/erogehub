@@ -1,5 +1,7 @@
 package com.goexp.galgame.gui.view.game.detailview.inner
 
+import java.util.Objects
+
 import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.FXMLLoaderProxy
@@ -40,6 +42,8 @@ class InnerPageController extends DefaultController {
     })
 
   def load(game: Game) = {
+    Objects.requireNonNull(game)
+
     this.game = game
     headerController.load(game)
     val personSize = Option(game.gameCharacters).map(_.size()).getOrElse(0)
@@ -47,9 +51,10 @@ class InnerPageController extends DefaultController {
     else personListView.setItems(FXCollections.observableList(game.gameCharacters))
 
     val imgsSize = Option(game.gameImgs).map(_.size()).getOrElse(0)
-    if (imgsSize == 0) contentTabPane.getTabs.remove(tabSimple)
-    else simpleImgController.load(game)
 
-    logger.debug(s"${game}")
+    if (imgsSize == 0)
+      contentTabPane.getTabs.remove(tabSimple)
+    else
+      simpleImgController.load(game)
   }
 }

@@ -42,16 +42,15 @@ class DownloadImage extends DefaultHandler {
 
             ex.getCause match {
               case _: HttpTimeoutException =>
-                logger.error(s"RequestTimeout")
+                logger.warn(s"RequestTimeout")
               case _: ConnectException =>
-                logger.error(s"CannotConnect")
+                logger.warn(s"CannotConnect")
               case e: IOException =>
-                logger.error(s"ConnectionReset")
-                logger.debug("IOException", e)
+                logger.warn(s"ConnectionReset")
               case ErrorCodeException(errorCode) =>
-                logger.error(s"Response Error:code=${errorCode}")
+                logger.warn(s"Response Error:code=${errorCode}")
               case _: FileIsNotImageException =>
-                logger.error(s"Not Image")
+                logger.warn(s"Not Image")
               case e =>
                 logger.error(s"NoneCatchExecption")
                 e.printStackTrace()

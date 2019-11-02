@@ -1,5 +1,7 @@
 package com.goexp.galgame.gui.view.brand
 
+import java.util.Objects
+
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.game.search.ByBrand
@@ -37,8 +39,9 @@ class InfoController extends DefaultController {
   }
 
   def load(brand: Brand) = {
+    Objects.requireNonNull(brand)
 
-    logger.info(s"<Brand> ${brand}")
+    logger.info(s"Brand[${brand.id}] ${brand.name} state:<${brand.isLike}>")
 
     this.brand = brand
     titleController.init(brand)

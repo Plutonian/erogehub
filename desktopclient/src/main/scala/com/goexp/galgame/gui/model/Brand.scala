@@ -20,7 +20,7 @@ class Brand extends CommonBrand {
       .add("id=" + id)
       .add("name='" + name + "'")
       .add("comp='" + comp + "'")
-      .add("isLike=" + isLike)
+      .add("state=" + isLike)
       .add("website='" + website + "'")
       //      .add("start=" + start)
       //      .add("end=" + end)

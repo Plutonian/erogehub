@@ -77,7 +77,7 @@ class Game2DB extends DefaultHandler {
         * upgrade base content
         */
       if (!Objects.equals(localGame, remoteGame)) {
-        logger.debug(s"\nOld:${localGame.simpleView()}\nNew:${remoteGame.simpleView()}\n")
+        logger.debug(s"\nOld:${localGame.simpleView}\nNew:${remoteGame.simpleView}\n")
         GameDB.updateAll(remoteGame)
       }
 

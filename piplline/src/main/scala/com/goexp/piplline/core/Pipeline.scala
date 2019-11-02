@@ -100,7 +100,7 @@ class Pipeline(private[this] val starter: Starter) {
                   }
                   catch {
                     case e: Exception =>
-                      logger.error(s"Handler:$handler", e)
+                      logger.error(s"Common exception catch => From:$handler", e)
                   }
                 }
               }

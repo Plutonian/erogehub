@@ -9,7 +9,6 @@
             <Pattern>%magenta(%d{HH:mm:ss}) [%thread %gray(%logger{36}):%M] %cyan(%-5level) %green(%msg%n)</Pattern>
         </layout>
     </appender>
-
     <appender name="detail" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>%magenta(%d{HH:mm:ss}) [%thread %gray(%logger{36})] %cyan(%-5level) %green(%msg%n)</Pattern>
@@ -21,19 +20,14 @@
         </layout>
     </appender>
 
+    <logger name="ch.qos.logback" level="OFF"/>
     <logger name="com.mchange.v2.log" level="OFF"/>
     <logger name="org.mongodb" level="OFF"/>
-    <logger name="com.goexp.galgame.gui.util.res" level="OFF"/>
+    <!--    <logger name="com.goexp.galgame.gui.util.res" level="OFF"/>-->
 
     <!--    <logger name="com.goexp.galgame.common.db" level="OFF"/>-->
-    <!--    <logger name="ch.qos.logback" level="OFF"/>-->
-    <!--    <logger name="com.goexp.galgame.gui.view" level="info">-->
-        <!--<appender-ref ref="debug"/>-->
-    <!--    </logger>-->
-    <!--        <appender-ref ref="detail"/>-->
-    <!--    </logger>-->
 
-    <root level="debug">
-        <appender-ref ref="detail"/>
+    <root level="info">
+        <appender-ref ref="sample"/>
     </root>
 </configuration>

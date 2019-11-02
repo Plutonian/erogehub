@@ -2,8 +2,8 @@ package com.goexp.galgame.common.db.mongo.query
 
 import com.goexp.common.db.mongo.ObjectCreator
 import com.goexp.galgame.common.model.game.brand.{BrandType, CommonBrand}
-import org.bson.Document
 import com.typesafe.scalalogging.Logger
+import org.bson.Document
 
 class CommonBrandCreator(
                           private[this] val brand: CommonBrand
@@ -12,7 +12,7 @@ class CommonBrandCreator(
   private val logger = Logger(classOf[CommonBrandCreator])
 
   override def create(doc: Document): CommonBrand = {
-    logger.debug("<Doc>{}", doc)
+    logger.trace(s"<Doc> $doc")
 
 
     brand.id = doc.getInteger("_id")
@@ -21,7 +21,7 @@ class CommonBrandCreator(
     brand.comp = doc.getString("comp")
     brand.isLike = BrandType.from(doc.getInteger("type"))
 
-    logger.debug("<brand>{}", brand)
+    logger.trace(s"<brand> ${brand}")
 
 
     brand

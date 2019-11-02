@@ -1,16 +1,16 @@
 package com.goexp.galgame.gui.db.mongo.query
 
 import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
-import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.goexp.galgame.common.db.mongo.query.CommonGameCreator
 import com.goexp.galgame.common.model.game.GameState
+import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.cache.AppCache
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Projections.include
 import com.mongodb.client.model.Sorts.descending
-import org.bson.Document
 import com.typesafe.scalalogging.Logger
+import org.bson.Document
 
 object GameQuery {
   private val TABLE_NAME = "game"
@@ -19,7 +19,7 @@ object GameQuery {
     final private val logger = Logger(SimpleGame.getClass)
 
     override def create(doc: Document): Game = {
-      logger.debug("Doc={}", doc)
+      logger.trace(s"<Doc> $doc")
 
       val parentCreator = new CommonGameCreator(new Game)
       val g = parentCreator.create(doc).asInstanceOf[Game]
@@ -35,7 +35,9 @@ object GameQuery {
 
       g.setState(GameState.from(doc.getInteger("state")))
       g.star = doc.getInteger("star")
-      logger.debug("Game={}", g)
+
+      logger.trace(s"Game=${g}")
+
       g
     }
   }

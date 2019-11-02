@@ -22,7 +22,7 @@ class PreProcessGame extends DefaultHandler {
 
       //already has
       if (GameDB.exist(game.id)) {
-        logger.debug("<Update> {}", game.simpleView)
+        logger.debug(s"<Update> ${game.simpleView}")
         GameDB.update(game)
       }
       else {
@@ -37,7 +37,7 @@ class PreProcessGame extends DefaultHandler {
           game.state = GameState.UNCHECKED
         }
 
-        logger.info("<Insert> {} {}", game.simpleView, game.state)
+        logger.info(s"<Insert> ${game.simpleView} ${game.state}")
         GameDB.insert(game)
       }
       sendTo(classOf[DownloadPage], game.id)

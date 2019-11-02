@@ -46,7 +46,9 @@ class TableController extends DefaultController {
           menuItem.setText(state.name)
           menuItem.setOnAction(e => {
             val gameState = ((e.getSource).asInstanceOf[MenuItem]).getUserData.asInstanceOf[GameState]
-            logger.debug("<MenuItem>:{}", gameState.name)
+
+            logger.debug(s"<MenuItem>:${gameState.name}")
+
             selectedGames = table.getSelectionModel.getSelectedItems
             selectedGames.forEach(_.state.set(gameState))
             changeGameService.restart()

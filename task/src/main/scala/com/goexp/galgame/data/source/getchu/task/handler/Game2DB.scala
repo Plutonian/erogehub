@@ -43,12 +43,12 @@ class Game2DB extends DefaultHandler {
 
           // copy trueCV
           if (Strings.isNotEmpty(localC.trueCV)) {
-            logger.trace("Merge trueCV {}", rc)
+            logger.trace(s"Merge trueCV ${rc}")
             rc.trueCV = localC.trueCV
           }
           // also copy cv
           if (Strings.isNotEmpty(localC.cv)) {
-            logger.trace("Merge cv {}", rc)
+            logger.trace(s"Merge cv ${rc}")
             rc.cv = localC.cv
           }
 
@@ -57,7 +57,7 @@ class Game2DB extends DefaultHandler {
             */
 
           if (Strings.isEmpty(localC.cv) && Strings.isNotEmpty(rc.cv))
-            logger.info("New cv {}", rc.cv)
+            logger.info(s"New cv ${rc.cv}")
 
 
         case _ =>
@@ -77,7 +77,7 @@ class Game2DB extends DefaultHandler {
         * upgrade base content
         */
       if (!Objects.equals(localGame, remoteGame)) {
-        //      logger.info(s"\nOld:${localGame.simpleView()}\nNew:${remoteGame.simpleView()}\n")
+        logger.debug(s"\nOld:${localGame.simpleView()}\nNew:${remoteGame.simpleView()}\n")
         GameDB.updateAll(remoteGame)
       }
 
@@ -98,7 +98,7 @@ class Game2DB extends DefaultHandler {
       val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)
 
       if (remoteImgSize > localImgSize) {
-        logger.info("Game[{}] {}", localGame.id, localGame.name)
+        logger.info(s"Game[${localGame.id}] ${localGame.name} ${localGame.state}")
         logger.info(s"Update GameImg:Local:$localImgSize,Remote:$remoteImgSize")
         GameDB.updateImg(remoteGame)
       }
@@ -107,7 +107,7 @@ class Game2DB extends DefaultHandler {
       // check game state
       if ((localGame.state ne GameState.SAME) && (localGame.state ne GameState.BLOCK)) {
 
-        logger.debug("Game[{}] {}", localGame.id, localGame.state)
+        logger.info(s"Downloading for Game[${localGame.id}] ${localGame.name} ${localGame.state}")
 
         val tGame = GameQuery.fullTlp.where(Filters.eq(remoteGame.id)).one()
         Util.getGameAllImgs(tGame).foreach {

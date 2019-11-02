@@ -41,7 +41,8 @@ class StarChoiceBarController extends DefaultController {
         changeStarService.restart()
       }
       else {
-        logger.debug("New:{}", newV.getUserData)
+        logger.debug(s"New:${newV.getUserData}")
+
         targetGame.star = newV.getUserData.asInstanceOf[Int]
         changeStarService.restart()
       }

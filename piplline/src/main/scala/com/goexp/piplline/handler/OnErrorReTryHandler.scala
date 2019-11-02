@@ -35,7 +35,7 @@ abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends De
     val errorTimes = timesCounter.incrementAndGet()
     if (errorTimes <= retryTimes) {
 
-      logger.warn(s"[Retry times:${errorTimes}] Entry:${entity}")
+      logger.trace(s"[Retry times:${errorTimes}] Entry:${entity}")
 
       //sleep current thread
       if (waitTime > 0)
@@ -51,7 +51,7 @@ abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends De
   final override def process(message: Message): Unit = {
     try {
       super.process(message)
-      logger.debug(s"Succ ${message.entity}")
+      logger.trace(s"Succ ${message.entity}")
       map.remove(message.entity)
     }
     catch {

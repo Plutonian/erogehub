@@ -41,7 +41,7 @@ class SimpleImgPartController extends DefaultController {
     largeSimple.setImage(null)
     listSmallSimple.setItems(FXCollections.observableArrayList(game.gameImgs))
     listSmallSimple.getSelectionModel.select(0)
-    logger.debug("{}", game)
+    logger.debug(s"${game}")
   }
 
   @FXML private def btnPrev_OnAction(event: ActionEvent) = {

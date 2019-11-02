@@ -51,7 +51,9 @@ class TitlePartController extends DefaultController {
 
     listener = (_, _, newValue) => {
       if (newValue != null) {
-        logger.debug("<Action>Value:{},New:{}", choiceBrandState.getValue, newValue)
+
+        logger.debug(s"<Action>Value:${choiceBrandState.getValue},New:${newValue}")
+
         changeBrand.setIsLike(newValue)
         changeBrandStateService.restart()
         if (newValue eq BrandType.BLOCK)

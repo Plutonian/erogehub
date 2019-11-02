@@ -49,6 +49,7 @@ class InnerPageController extends DefaultController {
     val imgsSize = Option(game.gameImgs).map(_.size()).getOrElse(0)
     if (imgsSize == 0) contentTabPane.getTabs.remove(tabSimple)
     else simpleImgController.load(game)
-    logger.debug("{}", game)
+
+    logger.debug(s"${game}")
   }
 }

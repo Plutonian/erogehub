@@ -99,7 +99,7 @@ object Util {
     var requestNum = 0
     val hopeDownload = imgs.size
 
-    logger.info("Need download:{}", hopeDownload)
+    logger.info(s"Need download:${hopeDownload}")
 
     val responseNum = new AtomicInteger(0)
 
@@ -129,20 +129,19 @@ object Util {
           }
           .exceptionally {
             case ex: CompletionException =>
-              logger.debug("{}", ex)
+              logger.debug("", ex)
 
               ex.getCause match {
                 case _: HttpTimeoutException =>
                   logger.warn(s"RequestTimeout")
                 case _: ConnectException =>
-                  logger.error(s"CannotConnect")
+                  logger.warn(s"CannotConnect")
                 case e: IOException =>
-                  logger.error(s"ConnectionReset")
-                  logger.debug("IOException", e)
+                  logger.warn(s"ConnectionReset")
                 case ErrorCodeException(errorCode) =>
-                  logger.warn(s"Response Error:code={}", errorCode)
+                  logger.warn(s"Response Error:code=${errorCode}")
                 case _: FileIsNotImageException =>
-                  logger.error(s"Not Image")
+                  logger.warn(s"Not Image")
                 case e =>
                   logger.error(s"NoneCatchExecption", e)
               }

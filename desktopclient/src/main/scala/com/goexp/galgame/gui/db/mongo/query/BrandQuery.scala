@@ -2,18 +2,18 @@ package com.goexp.galgame.gui.db.mongo.query
 
 import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
 import com.goexp.common.util.date.DateUtil
-import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.goexp.galgame.common.db.mongo.query.CommonBrandCreator
+import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.goexp.galgame.gui.model.Brand
 import com.mongodb.client.model.Sorts.ascending
-import org.bson.Document
 import com.typesafe.scalalogging.Logger
+import org.bson.Document
 
 object BrandQuery {
   private val logger = Logger(BrandQuery.getClass)
 
   private val creator: ObjectCreator[Brand] = (doc: Document) => {
-    logger.debug("<Doc>{}", doc)
+    logger.trace(s"<Doc> $doc")
 
     val parentCreator = new CommonBrandCreator(new Brand)
     val b = parentCreator.create(doc).asInstanceOf[Brand]
@@ -22,7 +22,8 @@ object BrandQuery {
     b.end = Option(doc.getDate("end")).map(DateUtil.toLocalDate).orNull
     b.size = doc.getInteger("size")
 
-    logger.debug("<brand>{}", b)
+    logger.trace(s"<brand> ${b}")
+
     b
 
   }

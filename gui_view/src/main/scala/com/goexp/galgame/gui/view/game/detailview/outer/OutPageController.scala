@@ -15,7 +15,7 @@ class OutPageController extends DefaultController {
 
   def load(game: Game) = {
     loadInnerPage(game)
-    logger.info("Detail:{}", game)
+    logger.info(s"Detail:${game}")
   }
 
   def loadInnerPage(g: Game) = {

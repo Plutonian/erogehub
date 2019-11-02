@@ -9,7 +9,9 @@ object StarDB {
   private val logger = Logger(StarDB.getClass)
 
   def update(game: Game): Unit = {
-    logger.debug("<update> {}", game)
+
+    logger.debug(s"<update> ${game}")
+
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(equal(game.id), set("star", game.star))
     })

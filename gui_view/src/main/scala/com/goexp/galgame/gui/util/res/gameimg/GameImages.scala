@@ -6,8 +6,8 @@ import java.util.Objects
 import com.goexp.galgame.common.Config.IMG_PATH
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.cache.AppCache
-import javafx.scene.image.Image
 import com.typesafe.scalalogging.Logger
+import javafx.scene.image.Image
 
 object GameImages {
   private val logger = Logger(GameImages.getClass)
@@ -17,7 +17,8 @@ object GameImages {
     Objects.requireNonNull(diskCacheKey)
     Objects.requireNonNull(memCacheKey)
 
-    logger.trace("LocalKey={},memCacheKey={}", diskCacheKey, memCacheKey)
+    logger.debug(s"LocalKey=${diskCacheKey},memCacheKey=${memCacheKey}")
+
     val imageCache = AppCache.imageMemCache
     //try heat cache
 
@@ -25,7 +26,7 @@ object GameImages {
       case Some(img) => img
       case None =>
         val localPath = IMG_PATH.resolve(diskCacheKey + ".jpg")
-        logger.trace("localPath={}", localPath)
+        logger.debug(s"localPath=${localPath}")
 
         //heat disk cache or load from remote
         if (Files.exists(localPath)) {

@@ -25,7 +25,9 @@ class PersonCellController extends DefaultController {
   @FXML private var cvPart: Region = _
 
   def init() = {
-    logger.debug("{}", gameChar)
+
+    logger.debug(s"${gameChar}")
+
     txtName.setText(gameChar.name)
     val isTrueCV = Strings.isNotEmpty(gameChar.trueCV)
     val cv = if (isTrueCV) s"*${gameChar.trueCV}*" else gameChar.cv

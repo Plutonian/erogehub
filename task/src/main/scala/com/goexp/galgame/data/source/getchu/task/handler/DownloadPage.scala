@@ -20,13 +20,13 @@ class DownloadPage extends OnErrorReTryHandler(20, 5, TimeUnit.SECONDS) {
     // download game detail page
     case gid: Int =>
 
-      logger.debug(s"Download:Game: $gid")
+      logger.trace(s"Download:Game: $gid")
 
       val url = GetchuGameRemote.byId(gid)
       val request = RequestBuilder(url).adaltFlag.build
       val html = getHtml(request)
 
-      logger.debug("Download OK:{}", gid)
+      logger.trace(s"Download OK:${gid}")
 
       sendTo(classOf[ParsePage], (gid, html))
 

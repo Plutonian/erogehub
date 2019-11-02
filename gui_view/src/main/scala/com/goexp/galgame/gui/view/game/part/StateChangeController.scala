@@ -21,7 +21,8 @@ class StateChangeController extends DefaultController {
 
   private val listener: ChangeListener[GameState] = (_, _, newValue) => {
     if (newValue != null) {
-      logger.debug("<Action>Value:{},New:{}", choiceState.getValue, newValue)
+      logger.debug(s"<Action>Value:${choiceState.getValue},New:${newValue}")
+
       targetGame.state.set(newValue)
       changeGameStateService.restart()
     }

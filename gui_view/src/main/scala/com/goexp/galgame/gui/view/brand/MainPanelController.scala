@@ -142,14 +142,17 @@ class MainPanelController extends DefaultController {
   @FXML
   private def choiceBrandType_OnAction(actionEvent: ActionEvent) = {
     brandType = choiceBrandType.getValue
-    logger.debug("Value: {}", choiceBrandType.getValue)
+
+    logger.debug(s"Value: ${choiceBrandType.getValue}")
+
     brandService.restart()
   }
 
   @FXML
   private def search_OnAction(actionEvent: ActionEvent) = {
     keyword = textBrandKey.getText
-    logger.debug("Value: {}", keyword)
+
+    logger.debug(s"Value: ${keyword}")
 
     val `type` = typeGroup.getSelectedToggle.getUserData.asInstanceOf[String].toInt
     if (`type` == 0)

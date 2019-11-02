@@ -44,7 +44,7 @@ class LimitHttpClient(val limits: Int, val waitTime: Int, val unit: TimeUnit) {
                    responseBodyHandler: HttpResponse.BodyHandler[T]): CompletableFuture[HttpResponse[T]] = {
     this.synchronized {
       delay()
-      logger.debug("[{}] Sending", downTaskCount)
+      logger.trace(s"[${downTaskCount}] Sending")
     }
 
 

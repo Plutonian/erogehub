@@ -44,7 +44,9 @@ class DateController extends DefaultController {
         to = from.plusMonths(1).minusDays(1)
         title = s"${month}月"
         onLoadProperty.set(true)
-        logger.debug("Range:{}  {}", from, to)
+
+        logger.debug(s"Range:${from}  ${to}")
+
         onLoadProperty.set(false)
       }
 
@@ -71,7 +73,9 @@ class DateController extends DefaultController {
         to = LocalDate.of(year, 12, 31)
         title = s"${year}年"
         onYearLoadProperty.set(true)
-        logger.debug("Range:{}  {}", from, to)
+
+        logger.debug(s"Range:${from}  ${to}")
+
         onYearLoadProperty.set(false)
       }
 

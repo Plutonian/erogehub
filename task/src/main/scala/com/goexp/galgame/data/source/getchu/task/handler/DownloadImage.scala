@@ -38,7 +38,7 @@ class DownloadImage extends DefaultHandler {
         }
         .exceptionally {
           case ex: CompletionException =>
-            logger.debug("{}", ex)
+            logger.debug("", ex)
 
             ex.getCause match {
               case _: HttpTimeoutException =>
@@ -49,7 +49,7 @@ class DownloadImage extends DefaultHandler {
                 logger.error(s"ConnectionReset")
                 logger.debug("IOException", e)
               case ErrorCodeException(errorCode) =>
-                logger.error(s"Response Error:code={}", errorCode)
+                logger.error(s"Response Error:code=${errorCode}")
               case _: FileIsNotImageException =>
                 logger.error(s"Not Image")
               case e =>

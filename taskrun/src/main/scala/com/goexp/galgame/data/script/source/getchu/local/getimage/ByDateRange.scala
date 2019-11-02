@@ -25,7 +25,7 @@ object ByDateRange {
     val start = LocalDate.parse(args(0))
     val end = LocalDate.parse(args(1))
 
-    logger.info("{}--{}", start, end)
+    logger.info(s"${start}--${end}")
 
 
     //    val start = LocalDate.of(2018, 1, 1)

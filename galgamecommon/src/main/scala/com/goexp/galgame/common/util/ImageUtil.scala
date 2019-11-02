@@ -28,7 +28,7 @@ object ImageUtil {
   }
 
   def loadFromAsyn(url: String) = {
-    logger.debug("Url:{}", url)
+    logger.debug(s"Url:${url}")
 
     val request: HttpRequest = HttpRequest.newBuilder.uri(url)
       .header("Cookie", "getchu_adalt_flag=getchu.com")

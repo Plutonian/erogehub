@@ -28,18 +28,18 @@ object ByBrand {
 
     types.foreach {
       t =>
-        logger.info("Loading... brand type:{}", t)
+        logger.info(s"Loading... brand type:${t}")
 
         val brandList = BrandQuery.tlp
           .where(Filters.eq("type", t.value))
           .sort(Sorts.descending("type"))
           .scalaList()
 
-        logger.info("{} brands load OK", brandList.size)
+        logger.info(s"${brandList.size} brands load OK")
 
         val games = brandList.to(LazyList)
           .flatMap { b =>
-            logger.trace("Loading...game from brand:{}", b)
+            logger.trace(s"Loading...game from brand:${b}")
 
             val glist = GameQuery.fullTlp
               .where(and(
@@ -49,7 +49,7 @@ object ByBrand {
               ))
               .scalaList()
 
-            logger.trace("{} games load OK", glist.size)
+            logger.trace(s"${glist.size} games load OK")
             glist
           }
 

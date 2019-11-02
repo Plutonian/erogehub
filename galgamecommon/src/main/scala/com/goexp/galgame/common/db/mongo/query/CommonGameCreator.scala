@@ -6,8 +6,8 @@ import com.goexp.common.db.mongo.ObjectCreator
 import com.goexp.common.util.date.DateUtil
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.{CommonGame, GameCharacter, GameImg}
-import org.bson.Document
 import com.typesafe.scalalogging.Logger
+import org.bson.Document
 
 import scala.jdk.CollectionConverters._
 
@@ -55,7 +55,7 @@ class CommonGameCreator(
         })
         .getOrElse(util.List.of[GameImg]())
 
-    logger.debug("{}", game)
+    logger.debug(s"${game}")
     game
   }
 
@@ -70,7 +70,9 @@ class CommonGameCreator(
       person.trueCV = doc.getString("truecv")
       person.img = doc.getString("img")
       person.index = doc.getInteger("index")
-      logger.trace("{}", person)
+
+      logger.trace(s"${person}")
+
       person
     }
 
@@ -78,7 +80,9 @@ class CommonGameCreator(
       val gameImg = new GameImg
       gameImg.src = doc.getString("src")
       gameImg.index = doc.getInteger("index")
-      logger.trace("{}", gameImg)
+
+      logger.trace(s"${gameImg}")
+
       gameImg
     }
   }

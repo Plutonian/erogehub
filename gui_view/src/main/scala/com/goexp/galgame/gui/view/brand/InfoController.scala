@@ -38,7 +38,8 @@ class InfoController extends DefaultController {
 
   def load(brand: Brand) = {
 
-    logger.info("<Brand> {}", brand)
+    logger.info(s"<Brand> ${brand}")
+
     this.brand = brand
     titleController.init(brand)
     gameByBrand.restart()

@@ -4,13 +4,13 @@ import java.util.Objects
 
 import com.goexp.galgame.data.source.getchu.parser.game.{DetailPageParser, ListPageParser}
 import com.goexp.piplline.handler.DefaultHandler
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 /**
   * Parse String => Game
   */
 class ParsePage extends DefaultHandler {
-  final private val logger = LoggerFactory.getLogger(classOf[ParsePage])
+  final private val logger = Logger(classOf[ParsePage])
 
   override def processEntity: PartialFunction[Any, Unit] = {
 

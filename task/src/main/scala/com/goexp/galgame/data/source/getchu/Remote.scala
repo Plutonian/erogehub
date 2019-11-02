@@ -9,11 +9,11 @@ import com.goexp.galgame.data.Client._
 import com.goexp.galgame.data.model.{Brand, Game}
 import com.goexp.galgame.data.source.getchu.parser.GetchuBrandParser
 import com.goexp.galgame.data.source.getchu.parser.game.ListPageParser
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 import com.goexp.galgame.data.source.getchu.DEFAULT_CHARSET
 
 object GameRemote {
-  private val logger = LoggerFactory.getLogger(GameRemote.getClass)
+  private val logger = Logger(GameRemote.getClass)
 
   def from(brandId: Int): LazyList[Game] = {
 
@@ -42,7 +42,7 @@ object GameRemote {
 }
 
 object BrandService {
-  private val logger = LoggerFactory.getLogger(GameRemote.getClass)
+  private val logger = Logger(GameRemote.getClass)
 
 
   def all(): LazyList[Brand] = {

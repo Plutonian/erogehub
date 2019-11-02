@@ -8,13 +8,13 @@ import java.util.concurrent.{CompletableFuture, TimeUnit}
 import com.goexp.common.util.Gzip._
 import com.goexp.common.util.charset._
 import com.goexp.galgame.common.util.LimitHttpClient
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 object Client {
 
   val client = new LimitHttpClient(20, 20, TimeUnit.SECONDS)
 
-  private val logger = LoggerFactory.getLogger(Client.getClass)
+  private val logger = Logger(Client.getClass)
 
   implicit val DEFAULT_CHARSET = StandardCharsets.UTF_8
 

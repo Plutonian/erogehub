@@ -10,13 +10,13 @@ import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Projections.include
 import com.mongodb.client.model.Sorts.descending
 import org.bson.Document
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 object GameQuery {
   private val TABLE_NAME = "game"
 
   object SimpleGame extends ObjectCreator[Game] {
-    final private val logger = LoggerFactory.getLogger(SimpleGame.getClass)
+    final private val logger = Logger(SimpleGame.getClass)
 
     override def create(doc: Document): Game = {
       logger.debug("Doc={}", doc)

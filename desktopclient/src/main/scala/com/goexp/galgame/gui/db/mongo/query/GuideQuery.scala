@@ -7,7 +7,7 @@ import com.goexp.galgame.common.model.game.guide.GameGuide
 import com.mongodb.client.model.Sorts.ascending
 
 object GuideQuery {
-  //    private val logger = LoggerFactory.getLogger(GuideQuery.getClass)
+  //    private val logger = Logger(GuideQuery.getClass)
 
   val tlp = new DBQueryTemplate.Builder[GameGuide](DB_NAME, "guide", GuideCreator)
     .defaultSort(ascending("title"))

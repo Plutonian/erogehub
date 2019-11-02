@@ -5,10 +5,10 @@ import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.source.getchu.BrandService
 import com.goexp.galgame.data.source.getchu.importor.BrandDB
 import com.goexp.galgame.data.source.getchu.query.BrandQuery
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 object UpdateBrandTask {
-  private val logger = LoggerFactory.getLogger(UpdateBrandTask.getClass)
+  private val logger = Logger(UpdateBrandTask.getClass)
 
   def main(args: Array[String]): Unit = {
 

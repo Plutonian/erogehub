@@ -11,7 +11,7 @@ import scala.beans.BeanProperty
 
 class Game extends CommonGame {
   var state = new SimpleObjectProperty[GameState]
-  var brand: Brand = null
+  var brand: Brand = _
 
   @BeanProperty
   var star = 0

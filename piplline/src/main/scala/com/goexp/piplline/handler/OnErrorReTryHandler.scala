@@ -6,14 +6,14 @@ import java.util.concurrent.atomic.AtomicInteger
 
 import com.goexp.piplline.core.{Message, Pipeline, Starter}
 import com.goexp.piplline.handler.OnErrorReTryHandler._
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 import scala.collection.concurrent.TrieMap
 
 abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends DefaultHandler {
   require(retryTimes > 0, "times must > 0")
 
-  final private val logger = LoggerFactory.getLogger(this.getClass)
+  final private val logger = Logger(this.getClass)
 
   private var waitTime: Int = _
   private var unit: TimeUnit = _

@@ -9,12 +9,12 @@ import java.util.concurrent.CompletionException
 import com.goexp.galgame.common.util.ImageUtil
 import com.goexp.galgame.common.util.ImageUtil.{ErrorCodeException, FileIsNotImageException}
 import com.goexp.piplline.handler.DefaultHandler
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 import scala.jdk.CollectionConverters._
 
 class DownloadImage extends DefaultHandler {
-  final private val logger = LoggerFactory.getLogger(classOf[DownloadImage])
+  final private val logger = Logger(classOf[DownloadImage])
 
 
   override def processEntity: PartialFunction[Any, Unit] = {

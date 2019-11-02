@@ -1,12 +1,12 @@
 package com.goexp.piplline.handler
 
 import com.goexp.piplline.core.Message
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 private[piplline]
 trait EntityHandler {
 
-  final private val logger = LoggerFactory.getLogger(this.getClass)
+  final private val logger = Logger(this.getClass)
 
   def handle(msg: Message): Unit = {
     val defaultCase: PartialFunction[Any, Unit] = {

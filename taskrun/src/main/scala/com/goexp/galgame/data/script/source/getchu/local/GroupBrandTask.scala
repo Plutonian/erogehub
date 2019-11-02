@@ -6,14 +6,14 @@ import com.goexp.galgame.data.source.getchu.importor.BrandDB
 import com.goexp.galgame.data.source.getchu.query.BrandQuery
 import com.goexp.galgame.data.script.ansyn.Pool._
 import GroupBrandTask.Extracker.getHost
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 
 object GroupBrandTask {
-  val logger = LoggerFactory.getLogger(GroupBrandTask.getClass)
+  val logger = Logger(GroupBrandTask.getClass)
 
 
   def main(args: Array[String]): Unit = {

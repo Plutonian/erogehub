@@ -9,10 +9,10 @@ import com.goexp.galgame.data.source.getchu.query.GameQuery
 import com.goexp.galgame.data.source.getchu.task.Util
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters._
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 object ByDateRange {
-  private val logger = LoggerFactory.getLogger(ByDateRange.getClass)
+  private val logger = Logger(ByDateRange.getClass)
 
   def main(args: Array[String]): Unit = {
 

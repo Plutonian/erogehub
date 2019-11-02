@@ -11,7 +11,7 @@ import com.goexp.galgame.data.source.getchu.query.GameQuery
 import com.goexp.galgame.data.source.getchu.task.Util
 import com.goexp.piplline.handler.DefaultHandler
 import com.mongodb.client.model.Filters
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 import scala.jdk.CollectionConverters._
 
@@ -19,7 +19,7 @@ import scala.jdk.CollectionConverters._
   * process game detail(upgrade content,cv,simple img)
   */
 class Game2DB extends DefaultHandler {
-  final private val logger = LoggerFactory.getLogger(classOf[Game2DB])
+  final private val logger = Logger(classOf[Game2DB])
 
   private def merge(local: util.List[GameCharacter], remote: util.List[GameCharacter]): util.List[GameCharacter] = {
     val localSize = Option(local).map(_.size()).getOrElse(0)

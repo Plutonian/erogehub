@@ -6,12 +6,12 @@ import com.goexp.common.db.mongo.ObjectCreator
 import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.model.CV
 import org.bson.Document
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 import scala.jdk.CollectionConverters._
 
 object CVCreator extends ObjectCreator[CV] {
-  private val logger = LoggerFactory.getLogger(CVCreator.getClass)
+  private val logger = Logger(CVCreator.getClass)
 
   override def create(doc: Document): CV = {
     logger.debug("<create> doc={}", doc)

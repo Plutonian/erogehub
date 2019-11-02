@@ -5,11 +5,11 @@ import com.goexp.galgame.data.source.getchu.importor.BrandDB
 import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameQuery}
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters._
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 
 object CalBrandGameTask {
-  private val logger = LoggerFactory.getLogger(CalBrandGameTask.getClass)
+  private val logger = Logger(CalBrandGameTask.getClass)
 
   def main(args: Array[String]): Unit = {
 

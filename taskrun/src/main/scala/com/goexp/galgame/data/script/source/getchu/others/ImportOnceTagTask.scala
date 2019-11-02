@@ -6,11 +6,11 @@ import com.goexp.galgame.data.Client
 import com.goexp.galgame.data.source.getchu.DEFAULT_CHARSET
 import com.goexp.galgame.data.source.getchu.importor.TagDB
 import com.goexp.galgame.data.source.getchu.parser.GetchuTagParser
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 object ImportOnceTagTask {
   def main(args: Array[String]) = {
-    val logger = LoggerFactory.getLogger(ImportOnceTagTask.getClass)
+    val logger = Logger(ImportOnceTagTask.getClass)
 
     Network.initProxy()
 

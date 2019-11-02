@@ -7,13 +7,13 @@ import com.goexp.galgame.common.website.getchu.{GameList, GetchuGameRemote, Requ
 import com.goexp.galgame.data.Client._
 import com.goexp.galgame.data.source.getchu.DEFAULT_CHARSET
 import com.goexp.piplline.handler.OnErrorReTryHandler
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 /**
   * Net IO
   */
 class DownloadPage extends OnErrorReTryHandler(20, 5, TimeUnit.SECONDS) {
-  final private val logger = LoggerFactory.getLogger(classOf[DownloadPage])
+  final private val logger = Logger(classOf[DownloadPage])
 
   override def processEntity: PartialFunction[Any, Unit] = {
 

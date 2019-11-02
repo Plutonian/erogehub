@@ -4,10 +4,10 @@ import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.source.getchu.importor.CVDB
 import com.goexp.galgame.data.source.getchu.query.{CVQuery, GameQuery}
 import com.mongodb.client.model.Filters
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 object CalCVGameTask {
-  private val logger = LoggerFactory.getLogger(CalCVGameTask.getClass)
+  private val logger = Logger(CalCVGameTask.getClass)
 
   def main(args: Array[String]): Unit = {
 

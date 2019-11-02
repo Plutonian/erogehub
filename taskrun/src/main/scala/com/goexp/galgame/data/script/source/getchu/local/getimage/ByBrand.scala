@@ -7,10 +7,10 @@ import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameQuery}
 import com.goexp.galgame.data.source.getchu.task.Util
 import com.mongodb.client.model.Filters.and
 import com.mongodb.client.model.{Filters, Sorts}
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 object ByBrand {
-  private val logger = LoggerFactory.getLogger(ByDateRange.getClass)
+  private val logger = Logger(ByDateRange.getClass)
 
   def main(args: Array[String]): Unit = {
 

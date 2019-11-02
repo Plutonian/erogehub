@@ -6,13 +6,13 @@ import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.data.source.getchu.importor.GameDB
 import com.goexp.galgame.data.source.getchu.query.{CVQuery, GameQuery}
 import com.mongodb.client.model.Filters.{not, eq => same}
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 import scala.jdk.CollectionConverters._
 
 
 object GetTrueCVTask {
-  private val logger = LoggerFactory.getLogger(GetTrueCVTask.getClass)
+  private val logger = Logger(GetTrueCVTask.getClass)
 
   type Person = GameCharacter
 

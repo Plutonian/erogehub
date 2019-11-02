@@ -5,13 +5,13 @@ import com.goexp.galgame.data.source.getchu.DB_NAME
 import com.goexp.galgame.common.db.mongo.query.CommonBrandCreator
 import com.goexp.galgame.data.model.Brand
 import org.bson.Document
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 object BrandQuery {
   val tlp = new DBQueryTemplate.Builder[Brand](DB_NAME, "brand", new BrandCreator).build
 
   private class BrandCreator extends ObjectCreator[Brand] {
-    private val logger = LoggerFactory.getLogger(classOf[BrandCreator])
+    private val logger = Logger(classOf[BrandCreator])
 
     override def create(doc: Document): Brand = {
       logger.debug("<create> doc={}", doc)

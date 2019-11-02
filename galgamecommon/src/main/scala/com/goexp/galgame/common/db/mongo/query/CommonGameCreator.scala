@@ -7,7 +7,7 @@ import com.goexp.common.util.date.DateUtil
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.{CommonGame, GameCharacter, GameImg}
 import org.bson.Document
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 import scala.jdk.CollectionConverters._
 
@@ -16,7 +16,7 @@ class CommonGameCreator(
                          private[this] val game: CommonGame
                        ) extends ObjectCreator[CommonGame] {
 
-  private val logger = LoggerFactory.getLogger(classOf[CommonGameCreator])
+  private val logger = Logger(classOf[CommonGameCreator])
 
   override def create(doc: Document): CommonGame = {
 

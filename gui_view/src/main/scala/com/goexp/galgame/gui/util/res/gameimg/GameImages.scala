@@ -7,10 +7,10 @@ import com.goexp.galgame.common.Config.IMG_PATH
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.cache.AppCache
 import javafx.scene.image.Image
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 object GameImages {
-  private val logger = LoggerFactory.getLogger(GameImages.getClass)
+  private val logger = Logger(GameImages.getClass)
 
 
   def get(game: Game)(diskCacheKey: String, memCacheKey: String) = {

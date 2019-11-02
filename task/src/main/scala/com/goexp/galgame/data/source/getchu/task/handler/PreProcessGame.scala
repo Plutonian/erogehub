@@ -4,7 +4,7 @@ import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.importor.GameDB
 import com.goexp.piplline.handler.DefaultHandler
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 import scala.io.{Codec, Source}
 import scala.jdk.CollectionConverters._
@@ -14,7 +14,7 @@ import scala.jdk.CollectionConverters._
   * Check game is new or already has
   */
 class PreProcessGame extends DefaultHandler {
-  final private val logger = LoggerFactory.getLogger(classOf[PreProcessGame])
+  final private val logger = Logger(classOf[PreProcessGame])
 
 
   override def processEntity = {

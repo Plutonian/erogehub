@@ -4,11 +4,11 @@ import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.gui.HGameApp.app
 import com.goexp.galgame.gui.util.FXMLLoaderProxy
 import com.goexp.galgame.gui.view.MainController
+import com.typesafe.scalalogging.Logger
 import javafx.application.Application
 import javafx.scene.paint.Color
 import javafx.scene.{Parent, Scene}
 import javafx.stage.Stage
-import org.slf4j.{Logger, LoggerFactory}
 
 object HGameApp extends App {
   var app: HGameApp = _
@@ -20,7 +20,7 @@ object HGameApp extends App {
 }
 
 class HGameApp extends Application {
-  protected val logger: Logger = LoggerFactory.getLogger(classOf[HGameApp])
+  protected val logger = Logger(classOf[HGameApp])
 
   override def init(): Unit = {
     app = this

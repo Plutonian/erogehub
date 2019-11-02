@@ -13,13 +13,13 @@ import com.goexp.galgame.common.util.ImageUtil
 import com.goexp.galgame.common.util.ImageUtil.{ErrorCodeException, FileIsNotImageException}
 import com.goexp.galgame.common.website.getchu.{GetchuGameLocal, GetchuGameRemote}
 import com.goexp.galgame.data.model.Game
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
 object Util {
-  private val logger = LoggerFactory.getLogger(Util.getClass)
+  private val logger = Logger(Util.getClass)
 
   def getGameAllImgs(g: Game) = {
     val list = mutable.ListBuffer[(Path, String)]()

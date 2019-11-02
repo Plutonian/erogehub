@@ -7,7 +7,7 @@ import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.Game
 import com.mongodb.client.model.Projections.exclude
 import org.bson.Document
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 object GameQuery {
 
@@ -24,7 +24,7 @@ object GameQuery {
 
 
   object SimpleGame extends ObjectCreator[Game] {
-    private val logger = LoggerFactory.getLogger(SimpleGame.getClass)
+    private val logger = Logger(SimpleGame.getClass)
 
     override def create(doc: Document) = {
 

@@ -6,11 +6,11 @@ import com.goexp.galgame.data.source.getchu.importor.GameDB.StateDB
 import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameQuery}
 import com.goexp.galgame.data.source.getchu.task.handler.PreProcessGame._
 import com.mongodb.client.model.Filters
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 object MarkSameGameTask {
 
-  private val logger = LoggerFactory.getLogger(MarkSameGameTask.getClass)
+  private val logger = Logger(MarkSameGameTask.getClass)
 
   def main(args: Array[String]): Unit = {
     val brandList = BrandQuery.tlp.scalaList()

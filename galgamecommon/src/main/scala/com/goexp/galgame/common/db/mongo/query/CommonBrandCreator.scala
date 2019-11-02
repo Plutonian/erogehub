@@ -3,13 +3,13 @@ package com.goexp.galgame.common.db.mongo.query
 import com.goexp.common.db.mongo.ObjectCreator
 import com.goexp.galgame.common.model.game.brand.{BrandType, CommonBrand}
 import org.bson.Document
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 class CommonBrandCreator(
                           private[this] val brand: CommonBrand
                         ) extends ObjectCreator[CommonBrand] {
 
-  private val logger = LoggerFactory.getLogger(classOf[CommonBrandCreator])
+  private val logger = Logger(classOf[CommonBrandCreator])
 
   override def create(doc: Document): CommonBrand = {
     logger.debug("<Doc>{}", doc)

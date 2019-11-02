@@ -12,12 +12,12 @@ import com.goexp.galgame.data.GameGuideParser
 import com.goexp.galgame.data.source.getchu.importor.GuideDB
 import com.goexp.galgame.data.source.getchu.query.GuideQuery
 import com.mongodb.client.model.Filters
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 import scala.jdk.CollectionConverters._
 
 object Seiya_saiga_com {
-  private val logger = LoggerFactory.getLogger(Seiya_saiga_com.getClass)
+  private val logger = Logger(Seiya_saiga_com.getClass)
 
   def main(args: Array[String]): Unit = {
 

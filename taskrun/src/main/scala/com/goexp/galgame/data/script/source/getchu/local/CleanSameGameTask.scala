@@ -7,13 +7,13 @@ import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameQuery}
 import com.mongodb.client.model.Filters
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 import scala.jdk.CollectionConverters._
 
 
 object CleanSameGameTask {
-  private val logger = LoggerFactory.getLogger(CleanSameGameTask.getClass)
+  private val logger = Logger(CleanSameGameTask.getClass)
 
 
   def main(args: Array[String]) = {

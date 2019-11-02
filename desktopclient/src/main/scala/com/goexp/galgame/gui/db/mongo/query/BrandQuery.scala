@@ -7,10 +7,10 @@ import com.goexp.galgame.common.db.mongo.query.CommonBrandCreator
 import com.goexp.galgame.gui.model.Brand
 import com.mongodb.client.model.Sorts.ascending
 import org.bson.Document
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 object BrandQuery {
-  private val logger = LoggerFactory.getLogger(BrandQuery.getClass)
+  private val logger = Logger(BrandQuery.getClass)
 
   private val creator: ObjectCreator[Brand] = (doc: Document) => {
     logger.debug("<Doc>{}", doc)

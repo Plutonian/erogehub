@@ -4,14 +4,14 @@ import java.util.concurrent.{ExecutorService, Executors, TimeUnit}
 
 import com.goexp.piplline
 import com.goexp.piplline.handler.HandlerConfig
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 import scala.collection.mutable
 
 class Pipeline(private[this] val starter: Starter) {
 
 
-  private val logger = LoggerFactory.getLogger(classOf[Pipeline])
+  private val logger = Logger(classOf[Pipeline])
 
   private val msgQueueProxy = new MessageQueueProxy[Message](1000)
 

@@ -10,6 +10,6 @@ class FromDateRange(val start: LocalDate, val end: LocalDate) extends Starter {
   private val logger = Logger(classOf[FromDateRange])
 
   override def process() = {
-    sendTo(classOf[DownloadPage], (start, end))
+    sendTo[DownloadPage]((start, end))
   }
 }

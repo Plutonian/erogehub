@@ -107,12 +107,16 @@ class Game2DB extends DefaultHandler {
       // check game state
       if ((localGame.state ne GameState.SAME) && (localGame.state ne GameState.BLOCK)) {
 
-        logger.info(s"Downloading for Game[${localGame.id}] ${localGame.name} ${localGame.state}")
 
         val tGame = GameQuery.fullTlp.where(Filters.eq(remoteGame.id)).one()
-        Util.getGameAllImgs(tGame).foreach {
+        val imgs = Util.getGameAllImgs(tGame)
+
+        if (imgs.nonEmpty)
+          logger.info(s"DownloadImage for Game[${localGame.id}] ${localGame.name} ${localGame.state}")
+
+        imgs.foreach {
           pear =>
-            sendTo(classOf[DownloadImage], pear)
+            sendTo[DownloadImage](pear)
         }
       }
 

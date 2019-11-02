@@ -28,7 +28,7 @@ class DownloadPage extends OnErrorReTryHandler(20, 5, TimeUnit.SECONDS) {
 
       logger.trace(s"Download OK:${gid}")
 
-      sendTo(classOf[ParsePage], (gid, html))
+      sendTo[ParsePage]((gid, html))
 
     // download page from date range
     case (start: LocalDate, end: LocalDate) =>
@@ -39,7 +39,7 @@ class DownloadPage extends OnErrorReTryHandler(20, 5, TimeUnit.SECONDS) {
       val request = RequestBuilder(url).adaltFlag.build
       val html = getHtml(request)
 
-      sendTo(classOf[ParsePage], (html, "ListPageParser"))
+      sendTo[ParsePage]((html, "ListPageParser"))
 
     // download page by brand(Doujin)
     case (brandId: Int, "BrandList") =>
@@ -49,6 +49,6 @@ class DownloadPage extends OnErrorReTryHandler(20, 5, TimeUnit.SECONDS) {
       val request = RequestBuilder(url).adaltFlag.build
       val html = getHtml(request)
 
-      sendTo(classOf[ParsePage], (html, "ListPageParser"))
+      sendTo[ParsePage]((html, "ListPageParser"))
   }
 }

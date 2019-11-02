@@ -21,7 +21,7 @@ class ParsePage extends DefaultHandler {
       val parser = new DetailPageParser
       val game = parser.parse(gameId, html)
 
-      sendTo(classOf[Game2DB], game)
+      sendTo[Game2DB](game)
 
     // parse game list
     case (html: String, "ListPageParser") =>
@@ -32,7 +32,7 @@ class ParsePage extends DefaultHandler {
       logger.info(s"${list.size}")
 
       list.foreach { game =>
-        sendTo(classOf[PreProcessGame], game)
+        sendTo[PreProcessGame](game)
       }
 
   }

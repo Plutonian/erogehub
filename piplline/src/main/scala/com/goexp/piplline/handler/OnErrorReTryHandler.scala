@@ -78,10 +78,10 @@ private object OnErrorReTryHandler {
     }
 }
 
-object Tester {
+private object Tester {
   def main(args: Array[String]): Unit = {
     new Pipeline(TestStart)
-      .regForCPUType(TestHandler)
+      .regForCPUType(new TestHandler)
       .start()
   }
 
@@ -90,12 +90,12 @@ object Tester {
       Range(0, 10)
         .foreach {
           i =>
-            sendTo(TestHandler.getClass, i)
+            sendTo[TestHandler](i)
         }
     }
   }
 
-  object TestHandler extends OnErrorReTryHandler(3, 1, TimeUnit.SECONDS) {
+  class TestHandler extends OnErrorReTryHandler(3, 1, TimeUnit.SECONDS) {
 
     var count_1: Int = _
     var count_3: Int = _

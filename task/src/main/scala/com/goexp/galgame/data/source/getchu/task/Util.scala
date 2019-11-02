@@ -133,19 +133,18 @@ object Util {
 
               ex.getCause match {
                 case _: HttpTimeoutException =>
-                  logger.error(s"RequestTimeout")
+                  logger.warn(s"RequestTimeout")
                 case _: ConnectException =>
                   logger.error(s"CannotConnect")
                 case e: IOException =>
                   logger.error(s"ConnectionReset")
                   logger.debug("IOException", e)
                 case ErrorCodeException(errorCode) =>
-                  logger.error(s"Response Error:code={}", errorCode)
+                  logger.warn(s"Response Error:code={}", errorCode)
                 case _: FileIsNotImageException =>
                   logger.error(s"Not Image")
                 case e =>
-                  logger.error(s"NoneCatchExecption")
-                  e.printStackTrace()
+                  logger.error(s"NoneCatchExecption", e)
               }
               allDownLatch.countDown()
               null
@@ -155,17 +154,10 @@ object Util {
               allDownLatch.countDown()
               null
           }
-
-
-      //        if (requestNum % batchCounts == 0) {
-      //          TimeUnit.SECONDS.sleep(waitTime)
-      //        }
-
-      case _ =>
     }
 
     allDownLatch.await()
 
-    logger.info("download Succ")
+    logger.info("Download complete")
   }
 }

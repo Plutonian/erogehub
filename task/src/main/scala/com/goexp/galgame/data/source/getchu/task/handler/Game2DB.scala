@@ -77,7 +77,7 @@ class Game2DB extends DefaultHandler {
         * upgrade base content
         */
       if (!Objects.equals(localGame, remoteGame)) {
-        logger.debug(s"\nOld:${localGame.simpleView}\nNew:${remoteGame.simpleView}\n")
+        //        logger.debug(s"\nOld:${localGame.simpleView}\nNew:${remoteGame.simpleView}\n")
         GameDB.updateAll(remoteGame)
       }
 
@@ -98,8 +98,9 @@ class Game2DB extends DefaultHandler {
       val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)
 
       if (remoteImgSize > localImgSize) {
-        logger.info(s"Game[${localGame.id}] ${localGame.name} ${localGame.state}")
-        logger.info(s"Update GameImg:Local:$localImgSize,Remote:$remoteImgSize")
+        logger.debug(s"Local:${localGame.gameImgs}  Remote:${remoteGame.gameImgs}")
+
+        logger.info(s"Update [${localGame.id}] ${localGame.name} ${localGame.state} Local:$localImgSize,Remote:$remoteImgSize")
         GameDB.updateImg(remoteGame)
       }
 

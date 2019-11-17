@@ -23,7 +23,7 @@
     <logger name="com.mchange.v2.log" level="OFF"/>
     <logger name="org.mongodb" level="OFF"/>
 
-    <!--    <logger name="com.goexp.galgame.data.piplline" level="error"/>-->
+    <!--        <logger name="com.goexp.galgame.data.source.getchu.task.handler.Game2DB" level="debug"/>-->
     <!--    <logger name="com.goexp.galgame.data.db" level="error"/>-->
     <!--    <logger name="com.goexp.galgame.data.parser" level="error"/>-->
     <!--    <logger name="com.goexp.galgame.data.source.getchu.task.handler.PreProcessGame" level="debug"/>-->
@@ -31,6 +31,6 @@
 
 
     <root level="info">
-        <appender-ref ref="sample"/>
+        <appender-ref ref="detail"/>
     </root>
 </configuration>

@@ -16,7 +16,7 @@ object HttpUtil {
         t
       }))
       .proxy(ProxySelector.getDefault)
-      .connectTimeout(Duration.ofMinutes(5))
+      .connectTimeout(Duration.ofMinutes(2))
       .build
   }
   val noneProxyHttpClient = HttpClient.newBuilder

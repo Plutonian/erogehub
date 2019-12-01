@@ -21,7 +21,7 @@ class StarChoiceBarController extends DefaultController {
   private var list: util.List[ToggleButton] = _
   @FXML private var groupLikeCon: HBox = null
   final private val groupLike = new ToggleGroup
-  final private val changeStarService = TaskService(() => new Star(targetGame))
+  final private val changeStarService = TaskService(new Star(targetGame))
 
   override protected def initialize() = {
     list = Range.inclusive(1, 5)

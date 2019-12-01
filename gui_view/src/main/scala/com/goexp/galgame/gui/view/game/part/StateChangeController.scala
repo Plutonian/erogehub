@@ -17,7 +17,7 @@ class StateChangeController extends DefaultController {
   @FXML private var choiceState: ChoiceBox[GameState] = _
 
   private var targetGame: Game = _
-  final private val changeGameStateService = TaskService(() => new Like(targetGame))
+  final private val changeGameStateService = TaskService(new Like(targetGame))
 
   private val listener: ChangeListener[GameState] = (_, _, newValue) => {
     if (newValue != null) {

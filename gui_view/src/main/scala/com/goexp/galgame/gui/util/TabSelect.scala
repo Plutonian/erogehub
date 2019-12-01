@@ -12,10 +12,13 @@ object TabSelect {
 }
 
 class TabSelect private(val root: TabPane) {
-  private var notFind: () => Tab = _
 
-  def ifNotFind(notFind: () => Tab): TabSelect = {
-    this.notFind = notFind
+  type NotFindAction = () => Tab
+
+  private var notFindAction: NotFindAction = _
+
+  def ifNotFind(notFindAction: => Tab): TabSelect = {
+    this.notFindAction = notFindAction _
     this
   }
 
@@ -25,7 +28,7 @@ class TabSelect private(val root: TabPane) {
       case Some(tab) =>
         root.getSelectionModel.select(tab)
       case None =>
-        HomeController.$this.insertTab(notFind())
+        HomeController.$this.insertTab(notFindAction())
     }
 
 }

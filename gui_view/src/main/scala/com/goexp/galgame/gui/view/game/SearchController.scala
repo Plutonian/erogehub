@@ -21,7 +21,7 @@ class SearchController extends DefaultController {
   override protected def initialize() = {
     onLoadProperty.addListener((_, _, newValue) => {
       if (newValue) {
-        val conn = new CommonTabController(() =>
+        val conn = CommonTabController(
           searchType match {
             case SearchType.Simple => new ByName(key)
             case SearchType.Extend => new ByNameEx(key)

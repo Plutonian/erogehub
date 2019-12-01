@@ -13,7 +13,7 @@ class BrandGroupController extends FilterController[Game] {
   @FXML private var compTree: TreeView[DefaultItem] = _
   private var filteredGames: util.List[Game] = _
 
-  final private val groupBrandServ = TaskService(() => new ByBrand(filteredGames))
+  final private val groupBrandServ = TaskService(new ByBrand(filteredGames))
 
   override protected def initialize() = {
     compTree.setCellFactory(_ => new TreeCell[DefaultItem]() {

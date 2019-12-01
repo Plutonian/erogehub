@@ -43,9 +43,9 @@ class MainPanelController extends DefaultController {
   private var brandType = BrandType.LIKE
   private var keyword: String = _
 
-  final private val brandService = TaskService(() => new ByType(brandType))
-  final private val brandByNameService = TaskService(() => new ByName(keyword))
-  final private val brandByCompService = TaskService(() => new ByComp(keyword))
+  final private val brandService = TaskService(new ByType(brandType))
+  final private val brandByNameService = TaskService(new ByName(keyword))
+  final private val brandByCompService = TaskService(new ByComp(keyword))
 
   override protected def initialize() = {
     colComp.setCellValueFactory(new PropertyValueFactory[Brand, String]("comp"))
@@ -126,13 +126,13 @@ class MainPanelController extends DefaultController {
     onLoadProperty.addListener((_, _, newValue) => {
       if (newValue != null && newValue) {
         val text = targetBrand.name
-        TabSelect().ifNotFind(() => {
+        TabSelect().ifNotFind {
           val conn = new CommonInfoTabController
           val tab = new Tab(text, conn.node)
           tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG))
           conn.load(targetBrand)
           tab
-        }).select(text)
+        }.select(text)
       }
     })
   }

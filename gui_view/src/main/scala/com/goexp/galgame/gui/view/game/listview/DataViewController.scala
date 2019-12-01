@@ -62,8 +62,8 @@ class DataViewController extends DefaultController {
   private var filteredGames: FilteredList[Game] = _
   private var groupPredicate: Predicate[Game] = _
 
-  final private val groupCVServ = TaskService(() => new ByCV(filteredGames))
-  final private val groupTagServ = TaskService(() => new ByTag(filteredGames))
+  final private val groupCVServ = TaskService(new ByCV(filteredGames))
+  final private val groupTagServ = TaskService(new ByTag(filteredGames))
 
   override protected def initialize() = {
     initSwitchBar()

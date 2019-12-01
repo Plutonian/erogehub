@@ -20,7 +20,7 @@ class TagController extends DefaultController {
   final val onLoadProperty = new SimpleBooleanProperty(false)
   var tag: String = _
   @FXML private var tabType: FlowPane = _
-  final private val typeService = TaskService(() => new TagListTask())
+  final private val typeService = TaskService(new TagListTask())
 
   override protected def initialize() = {
     tabType.addEventFilter(ActionEvent.ACTION, { e: ActionEvent =>
@@ -63,13 +63,13 @@ class TagController extends DefaultController {
     onLoadProperty.addListener((_, _, newValue) => {
       if (newValue != null && newValue) {
         val targetTag = tag
-        TabSelect().ifNotFind(() => {
-          val conn = new CommonTabController(() => new ByTag(targetTag))
+        TabSelect().ifNotFind {
+          val conn = CommonTabController(new ByTag(targetTag))
           val tab = new Tab(targetTag, conn.node)
           tab.setGraphic(new ImageView(LocalRes.TAG_16_PNG))
           conn.load()
           tab
-        }).select(targetTag)
+        }.select(targetTag)
       }
     })
   }

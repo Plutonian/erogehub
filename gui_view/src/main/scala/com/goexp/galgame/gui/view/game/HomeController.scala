@@ -54,13 +54,13 @@ class HomeController extends DefaultController {
         val start = dateController.from
         val end = dateController.to
         val text = dateController.title
-        TabSelect().ifNotFind(() => {
-          val conn = new CommonTabController(() => new ByDateRange(start, end))
+        TabSelect().ifNotFind {
+          val conn = CommonTabController(new ByDateRange(start, end))
           val tab = new Tab(text, conn.node)
           tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG))
           conn.load()
           tab
-        }).select(text)
+        }.select(text)
       }
     })
     dateController.onYearLoadProperty.addListener((_, _, newValue) => {
@@ -68,13 +68,13 @@ class HomeController extends DefaultController {
         val from = dateController.from
         val to = dateController.to
         val text = dateController.title
-        TabSelect().ifNotFind(() => {
-          val conn = new CommonTabController(() => new ByDateRange(from, to))
+        TabSelect().ifNotFind {
+          val conn = CommonTabController(new ByDateRange(from, to))
           val tab = new Tab(text, conn.node)
           tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG))
           conn.load()
           tab
-        }).select(text)
+        }.select(text)
       }
     })
 
@@ -104,75 +104,75 @@ class HomeController extends DefaultController {
         link.setText(state.name)
         link.setUserData(state)
         link.setOnAction(_ => {
-          val conn = new CommonTabController(() => new ByState(state))
+          val conn = CommonTabController(new ByState(state))
           conn.controller.tableViewController.tableColStar.setVisible(false)
           conn.controller.tableViewController.tableColState.setVisible(false)
           val text = state.name
-          TabSelect().ifNotFind(() => {
+          TabSelect().ifNotFind {
             val tab = new Tab(text, conn.node)
             conn.load()
             tab
 
-          }).select(text)
+          }.select(text)
         })
         link
       })
 
   def viewBrand(brand: Brand) = {
     val text = brand.name
-    TabSelect().ifNotFind(() => {
+    TabSelect().ifNotFind {
       val conn = new CommonInfoTabController
       val tab = new Tab(text, conn.node)
       tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG))
       conn.load(brand)
       tab
-    }).select(text)
+    }.select(text)
   }
 
   def loadPainterTab(painter: String) =
-    TabSelect().ifNotFind(() => {
-      val conn = new CommonTabController(() => new ByPainter(painter))
+    TabSelect().ifNotFind {
+      val conn = CommonTabController(new ByPainter(painter))
       val tab = new Tab(painter, conn.node)
       //                    tab.setGraphic(new ImageView(LocalRes.CV_16_PNG()));
       conn.load()
       tab
-    }).select(painter)
+    }.select(painter)
 
   def loadCVTab(cv: String, real: Boolean) =
-    TabSelect().ifNotFind(() => {
-      val conn = new CommonTabController(() => new ByCV(cv, real))
+    TabSelect().ifNotFind {
+      val conn = CommonTabController(new ByCV(cv, real))
       val tab = new Tab(cv, conn.node)
       tab.setGraphic(new ImageView(LocalRes.CV_16_PNG))
       conn.load()
       tab
-    }).select(cv)
+    }.select(cv)
 
   def loadDetail(game: Game) =
-    TabSelect().ifNotFind(() => {
+    TabSelect().ifNotFind {
       val loader = new FXMLLoaderProxy[Region, OutPageController](HomeController.GAME_DETAIL_NAV_PAGE_FXML)
       val tab = new Tab(game.name, loader.node)
       tab.setGraphic(new ImageView(LocalRes.GAME_16_PNG))
       loader.controller.load(game)
       tab
-    }).select(game.name)
+    }.select(game.name)
 
   def loadGuide(name: String) = {
     val title = s"攻略:${name}"
-    TabSelect().ifNotFind(() => {
+    TabSelect().ifNotFind {
       val loader = new FXMLLoaderProxy[Region, SearchGuideController](HomeController.VIEW_GUIDE_PANEL_FXML)
       val tab = new Tab(title, loader.node)
       loader.controller.load(name)
       tab
-    }).select(title)
+    }.select(title)
   }
 
   @FXML private def linkSearch_OnAction(actionEvent: ActionEvent) =
-    TabSelect().ifNotFind(() => {
+    TabSelect().ifNotFind {
       val loader = new FXMLLoaderProxy[Region, SearchController](HomeController.SEARCH_FXML)
       val tab = new Tab("Search", loader.node)
       loader.controller.load()
       tab
-    }).select("Search")
+    }.select("Search")
 
   @FXML private def linkSearch_OnDragOver(e: DragEvent) = {
     val board = e.getDragboard
@@ -186,23 +186,23 @@ class HomeController extends DefaultController {
     if (files.size > 0) {
       val f = files.get(0)
       val title = f.getName.replaceFirst("""\.[^.]+""", "")
-      TabSelect().ifNotFind(() => {
+      TabSelect().ifNotFind {
         val loader = new FXMLLoaderProxy[Region, SearchController](HomeController.SEARCH_FXML)
         val tab = new Tab("Search", loader.node)
         loader.controller.load(title)
         tab
-      }).select("Search")
+      }.select("Search")
     }
   }
 
   @FXML private def linkTags_OnAction(actionEvent: ActionEvent) =
-    TabSelect().ifNotFind(() => {
+    TabSelect().ifNotFind {
       val loader = new FXMLLoaderProxy[Region, TagController](HomeController.SEARCH_TYPE_FXML)
       val tab = new Tab("Tags", loader.node)
       loader.controller.load()
       tab
 
-    }).select("Tags")
+    }.select("Tags")
 
   @FXML private def linkDate_OnAction(actionEvent: ActionEvent) = {
     switchVisiable(date)
@@ -210,53 +210,53 @@ class HomeController extends DefaultController {
   }
 
   @FXML private def linkBrand_OnAction(actionEvent: ActionEvent) =
-    TabSelect().ifNotFind(() => {
+    TabSelect().ifNotFind {
       val loader = new FXMLLoaderProxy[Region, MainPanelController](HomeController.BRAND_PANEL_FXML)
       val tab = new Tab("Brand", loader.node)
       loader.controller.load()
       tab
-    }).select("Brand")
+    }.select("Brand")
 
   @FXML private def linkCV_OnAction(actionEvent: ActionEvent) =
-    TabSelect().ifNotFind(() => {
+    TabSelect().ifNotFind {
       val loader = new FXMLLoaderProxy[Region, CVInfoController](HomeController.CVINFO_FXML)
       loader.controller.load()
       val tab = new Tab("CV", loader.node)
       tab.setGraphic(new ImageView(LocalRes.CV_16_PNG))
       tab
-    }).select("CV")
+    }.select("CV")
 
   @FXML private def pass_OnAction(actionEvent: ActionEvent) = {
     val title = "差"
-    TabSelect().ifNotFind(() => {
-      val conn = new CommonTabController(() => new ByStarRange(1, 2))
+    TabSelect().ifNotFind {
+      val conn = CommonTabController(new ByStarRange(1, 2))
       conn.controller.tableViewController.tableColState.setVisible(false)
       val tab = new Tab(title, conn.node)
       conn.load(_.star < 3)
       tab
-    }).select(title)
+    }.select(title)
   }
 
   @FXML private def like_OnAction(actionEvent: ActionEvent) = {
     val title = "优"
-    TabSelect().ifNotFind(() => {
-      val conn = new CommonTabController(() => new ByStarRange(4, 5))
+    TabSelect().ifNotFind {
+      val conn = CommonTabController(new ByStarRange(4, 5))
       conn.controller.tableViewController.tableColState.setVisible(false)
       val tab = new Tab(title, conn.node)
       conn.load((g: Game) => g.star > 3)
       tab
-    }).select(title)
+    }.select(title)
   }
 
   @FXML private def normal_OnAction(actionEvent: ActionEvent) = {
     val title = "良"
-    TabSelect().ifNotFind(() => {
-      val conn = new CommonTabController(() => new ByStarRange(3, 3))
+    TabSelect().ifNotFind {
+      val conn = CommonTabController(new ByStarRange(3, 3))
       conn.controller.tableViewController.tableColState.setVisible(false)
       val tab = new Tab(title, conn.node)
       conn.load((g: Game) => g.star == 3)
       tab
-    }).select(title)
+    }.select(title)
   }
 
   @FXML private def miCloseOther_OnAction(actionEvent: ActionEvent) = {

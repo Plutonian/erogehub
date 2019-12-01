@@ -28,9 +28,9 @@ class TitlePartController extends DefaultController {
   @FXML private var tagPanel: FlowPane = _
   @FXML private var choiceBrandState: ChoiceBox[BrandType] = _
   private var changeBrand: Brand = _
-  final private val changeBrandStateService = TaskService(() => new ChangeIsLikeTask(changeBrand))
-  final private val changeGameStateService = TaskService(() => new MultiBlockByBrand(changeBrand.id))
-  final private val listBrandService = TaskService(() => new ByComp(changeBrand.comp))
+  final private val changeBrandStateService = TaskService(new ChangeIsLikeTask(changeBrand))
+  final private val changeGameStateService = TaskService(new MultiBlockByBrand(changeBrand.id))
+  final private val listBrandService = TaskService(new ByComp(changeBrand.comp))
   private var listener: ChangeListener[BrandType] = _
 
   override protected def initialize() = {

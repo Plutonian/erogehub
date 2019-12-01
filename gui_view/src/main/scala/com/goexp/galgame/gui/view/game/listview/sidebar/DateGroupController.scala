@@ -12,7 +12,7 @@ import javafx.scene.control.{TreeCell, TreeView}
 class DateGroupController extends FilterController[Game] {
   @FXML private var dateTree: TreeView[DateItem] = _
   private var filteredGames: util.List[Game] = _
-  final private val groupDateServ = TaskService(() => new ByDate(filteredGames))
+  final private val groupDateServ = TaskService(new ByDate(filteredGames))
 
   override protected def initialize() = {
     dateTree.setCellFactory((_: TreeView[DateItem]) => new TreeCell[DateItem]() {

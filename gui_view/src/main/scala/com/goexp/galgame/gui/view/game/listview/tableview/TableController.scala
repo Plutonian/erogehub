@@ -34,7 +34,7 @@ class TableController extends DefaultController {
   @FXML var tableColTitle: TableColumn[Game, String] = _
   @FXML private var menuPopup: ContextMenu = _
   private var selectedGames: util.List[Game] = _
-  final private val changeGameService = TaskService(() => new MultiLike(selectedGames))
+  final private val changeGameService = TaskService(new MultiLike(selectedGames))
 
   override protected def initialize() = {
 

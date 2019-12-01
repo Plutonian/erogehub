@@ -24,7 +24,7 @@ class CVInfoController extends DefaultController {
   @FXML private var colEnd: TableColumn[CV, LocalDate] = _
   @FXML private var colSize: TableColumn[CV, Int] = _
 
-  final private val loadCVService = TaskService(() => new CVListTask())
+  final private val loadCVService = TaskService(new CVListTask())
 
   override protected def initialize() = {
     colName.setCellValueFactory(new PropertyValueFactory[CV, String]("name"))

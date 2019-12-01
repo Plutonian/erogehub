@@ -18,7 +18,7 @@ class InfoController extends DefaultController {
 
   private var brand = new Brand
 
-  final private val gameByBrand = TaskService(() => new ByBrand(brand.id))
+  final private val gameByBrand = TaskService(new ByBrand(brand.id))
 
   override protected def initialize() = {
     gameByBrand.valueProperty.addListener((_, _, newValue) => {

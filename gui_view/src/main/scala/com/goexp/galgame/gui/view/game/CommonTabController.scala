@@ -14,7 +14,7 @@ class CommonTabController(private[this] val taskCreator: () => Task[ObservableLi
   val loader = new FXMLLoaderProxy[Region, DataViewController](classOf[DataViewController].getResource("dataview.fxml"))
   val node = loader.node
   val controller = loader.controller
-  private val gameSearchService = TaskService(taskCreator)
+  private val gameSearchService = new TaskService(taskCreator)
 
   init()
 
@@ -42,4 +42,10 @@ class CommonTabController(private[this] val taskCreator: () => Task[ObservableLi
   }
 
   def load(): Unit = gameSearchService.restart()
+
+
+}
+
+object CommonTabController {
+  def apply(taskCreator: => Task[ObservableList[Game]]): CommonTabController = new CommonTabController(taskCreator _)
 }

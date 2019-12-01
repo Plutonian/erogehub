@@ -24,7 +24,7 @@ class SearchGuideController extends DefaultController {
   @FXML private var btnSearchGame: Button = _
   @FXML private var searchPanel: BorderPane = _
   final private val guideListView = new ListView[GameGuide]
-  final private val guideService = TaskService(() => new GuideSearchTask(key))
+  final private val guideService = TaskService(new GuideSearchTask(key))
 
   override protected def initialize() = {
     onLoadProperty.addListener((_, _, newValue) => {

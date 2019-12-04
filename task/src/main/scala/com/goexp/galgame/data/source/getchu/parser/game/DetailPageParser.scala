@@ -47,7 +47,7 @@ private object DetailPageParser {
     private def parseCV(str: String) = {
       import GameCharParser._
 
-      cvPattern.findFirstMatchIn(str).map(m => m.group("cv").replaceAll("""\s""", "")).getOrElse("")
+      cvPattern.findFirstMatchIn(str).map(m => m.group("cv").replaceAll("""[\s　]""", "")).getOrElse("")
     }
 
     def parse(root: Document) =

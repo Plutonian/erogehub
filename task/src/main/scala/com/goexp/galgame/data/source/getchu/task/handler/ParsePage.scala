@@ -21,7 +21,13 @@ class ParsePage extends DefaultHandler {
       val parser = new DetailPageParser
       val game = parser.parse(gameId, html)
 
-      sendTo[Game2DB](game)
+      if (game.brandId == 0) {
+        logger.error(s"Get brandid error Game[${game.id}] ${game.name}")
+      } else {
+
+        sendTo[Game2DB](game)
+      }
+
 
     // parse game list
     case (html: String, "ListPageParser") =>

@@ -13,7 +13,6 @@ import com.goexp.galgame.gui.view.DefaultController
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
-import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.control.cell.PropertyValueFactory
@@ -30,6 +29,7 @@ class MainPanelController extends DefaultController {
   @FXML var colStart: TableColumn[Brand, LocalDate] = _
   @FXML var colEnd: TableColumn[Brand, LocalDate] = _
   @FXML var colSize: TableColumn[Brand, Int] = _
+
   @FXML private var textBrandKey: TextField = _
   @FXML private var tableBrand: TableView[Brand] = _
   @FXML private var colComp: TableColumn[Brand, String] = _
@@ -39,6 +39,7 @@ class MainPanelController extends DefaultController {
   @FXML private var colCommand: TableColumn[Brand, Void] = _
   @FXML private var choiceBrandType: ChoiceBox[BrandType] = _
   @FXML private var typeGroup: ToggleGroup = _
+  @FXML private var btnSearch: Button = _
 
   private var brandType = BrandType.LIKE
   private var keyword: String = _
@@ -48,59 +49,63 @@ class MainPanelController extends DefaultController {
   final private val brandByCompService = TaskService(new ByComp(keyword))
 
   override protected def initialize() = {
-    colComp.setCellValueFactory(new PropertyValueFactory[Brand, String]("comp"))
-    colName.setCellValueFactory(new PropertyValueFactory[Brand, String]("name"))
-    colWebsite.setCellValueFactory(new PropertyValueFactory[Brand, String]("website"))
-    colState.setCellValueFactory(new PropertyValueFactory[Brand, BrandType]("isLike"))
-    colStart.setCellValueFactory(new PropertyValueFactory[Brand, LocalDate]("start"))
-    colEnd.setCellValueFactory(new PropertyValueFactory[Brand, LocalDate]("end"))
-    colSize.setCellValueFactory(new PropertyValueFactory[Brand, Int]("size"))
+    def initTable() = {
+      colComp.setCellValueFactory(new PropertyValueFactory[Brand, String]("comp"))
+      colName.setCellValueFactory(new PropertyValueFactory[Brand, String]("name"))
+      colWebsite.setCellValueFactory(new PropertyValueFactory[Brand, String]("website"))
+      colState.setCellValueFactory(new PropertyValueFactory[Brand, BrandType]("isLike"))
+      colStart.setCellValueFactory(new PropertyValueFactory[Brand, LocalDate]("start"))
+      colEnd.setCellValueFactory(new PropertyValueFactory[Brand, LocalDate]("end"))
+      colSize.setCellValueFactory(new PropertyValueFactory[Brand, Int]("size"))
 
-    colStart.setCellFactory(_ => new TableCell[Brand, LocalDate]() {
-      override protected def updateItem(item: LocalDate, empty: Boolean) = {
-        super.updateItem(item, empty)
-        this.setText(null)
-        this.setGraphic(null)
-        if (item != null && !empty)
-          this.setText(item.getYear.toString)
-      }
-    })
-    colEnd.setCellFactory(_ => new TableCell[Brand, LocalDate]() {
-      override protected def updateItem(item: LocalDate, empty: Boolean) = {
-        super.updateItem(item, empty)
-        this.setText(null)
-        this.setGraphic(null)
-        if (item != null && !empty)
-          this.setText(item.getYear.toString)
-      }
-    })
-    colWebsite.setCellFactory(_ => new TableCell[Brand, String]() {
-      override protected def updateItem(item: String, empty: Boolean) = {
-        super.updateItem(item, empty)
-        this.setGraphic(null)
-        if (!empty && !Strings.isEmpty(item)) {
-          val titleLabel = new Hyperlink
-          titleLabel.setText(item)
-          titleLabel.setOnAction(_ => Websites.open(item))
-          this.setGraphic(titleLabel)
+      colStart.setCellFactory(_ => new TableCell[Brand, LocalDate]() {
+        override protected def updateItem(item: LocalDate, empty: Boolean) = {
+          super.updateItem(item, empty)
+          this.setText(null)
+          this.setGraphic(null)
+          if (item != null && !empty)
+            this.setText(item.getYear.toString)
         }
-      }
-    })
-    colCommand.setCellFactory(_ => new TableCell[Brand, Void]() {
-      override protected def updateItem(item: Void, empty: Boolean) = {
-        super.updateItem(item, empty)
-        this.setGraphic(null)
-        if (!empty) {
-          val link = new Hyperlink("関連ゲーム")
-          link.setOnAction(_ => {
-            targetBrand = this.getTableRow.getItem
-            onLoadProperty.set(true)
-            onLoadProperty.set(false)
-          })
-          this.setGraphic(link)
+      })
+      colEnd.setCellFactory(_ => new TableCell[Brand, LocalDate]() {
+        override protected def updateItem(item: LocalDate, empty: Boolean) = {
+          super.updateItem(item, empty)
+          this.setText(null)
+          this.setGraphic(null)
+          if (item != null && !empty)
+            this.setText(item.getYear.toString)
         }
-      }
-    })
+      })
+      colWebsite.setCellFactory(_ => new TableCell[Brand, String]() {
+        override protected def updateItem(item: String, empty: Boolean) = {
+          super.updateItem(item, empty)
+          this.setGraphic(null)
+          if (!empty && !Strings.isEmpty(item)) {
+            val titleLabel = new Hyperlink
+            titleLabel.setText(item)
+            titleLabel.setOnAction(_ => Websites.open(item))
+            this.setGraphic(titleLabel)
+          }
+        }
+      })
+      colCommand.setCellFactory(_ => new TableCell[Brand, Void]() {
+        override protected def updateItem(item: Void, empty: Boolean) = {
+          super.updateItem(item, empty)
+          this.setGraphic(null)
+          if (!empty) {
+            val link = new Hyperlink("関連ゲーム")
+            link.setOnAction(_ => {
+              targetBrand = this.getTableRow.getItem
+              onLoadProperty.set(true)
+              onLoadProperty.set(false)
+            })
+            this.setGraphic(link)
+          }
+        }
+      })
+    }
+
+    initTable()
 
 
     val handler: ChangeListener[mutable.Buffer[Brand]] = (_, _, newValue) => {
@@ -122,6 +127,27 @@ class MainPanelController extends DefaultController {
 
       override def fromString(string: String) = BrandType.from(string)
     })
+    choiceBrandType.setOnAction { _ =>
+      brandType = choiceBrandType.getValue
+
+      logger.debug(s"Value: ${choiceBrandType.getValue}")
+
+      brandService.restart()
+
+    }
+
+    btnSearch.setOnAction { _ =>
+      keyword = textBrandKey.getText
+
+      logger.debug(s"Value: ${keyword}")
+
+      val `type` = typeGroup.getSelectedToggle.getUserData.asInstanceOf[String].toInt
+      if (`type` == 0)
+        brandByNameService.restart()
+      else
+        brandByCompService.restart()
+
+    }
 
     onLoadProperty.addListener((_, _, newValue) => {
       if (newValue != null && newValue) {
@@ -139,25 +165,4 @@ class MainPanelController extends DefaultController {
 
   def load() = choiceBrandType.setValue(BrandType.CHECKING)
 
-  @FXML
-  private def choiceBrandType_OnAction(actionEvent: ActionEvent) = {
-    brandType = choiceBrandType.getValue
-
-    logger.debug(s"Value: ${choiceBrandType.getValue}")
-
-    brandService.restart()
-  }
-
-  @FXML
-  private def search_OnAction(actionEvent: ActionEvent) = {
-    keyword = textBrandKey.getText
-
-    logger.debug(s"Value: ${keyword}")
-
-    val `type` = typeGroup.getSelectedToggle.getUserData.asInstanceOf[String].toInt
-    if (`type` == 0)
-      brandByNameService.restart()
-    else
-      brandByCompService.restart()
-  }
 }

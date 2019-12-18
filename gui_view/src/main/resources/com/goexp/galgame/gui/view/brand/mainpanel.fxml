@@ -25,7 +25,7 @@
                     <Font size="14.0"/>
                 </font>
             </TextField>
-            <Button mnemonicParsing="false" onAction="#search_OnAction" text="Search"/>
+            <Button fx:id="btnSearch" mnemonicParsing="false" text="Search"/>
         </HBox>
     </bottom>
     <center>
@@ -44,7 +44,7 @@
     </center>
     <top>
         <ToolBar BorderPane.alignment="CENTER">
-            <ChoiceBox fx:id="choiceBrandType" onAction="#choiceBrandType_OnAction"/>
+            <ChoiceBox fx:id="choiceBrandType"/>
         </ToolBar>
     </top>
 </BorderPane>

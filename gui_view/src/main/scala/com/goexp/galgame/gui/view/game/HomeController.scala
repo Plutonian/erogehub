@@ -102,8 +102,8 @@ class HomeController extends DefaultController {
     initBlockList()
 
     val links = gameType2Link(List(GameState.READYTOVIEW, GameState.HOPE, GameState.PLAYING)).asJava
-
     gameStateLikeLinkPanel.getChildren.setAll(links)
+
     linkDate.setGraphic(new ImageView(LocalRes.IMG_DATE_PNG))
     linkCV.setGraphic(new ImageView(LocalRes.IMG_CV_PNG))
     linkSearch.setGraphic(new ImageView(LocalRes.IMG_search_PNG))

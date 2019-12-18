@@ -81,10 +81,12 @@ class TableController extends DefaultController {
     tableColDate.setCellFactory((_: TableColumn[Game, LocalDate]) => new TableCell[Game, LocalDate]() {
       override protected def updateItem(item: LocalDate, empty: Boolean) = {
         super.updateItem(item, empty)
-        this.setGraphic(null)
-        this.setText(null)
-        if (item != null && !empty)
-          this.setText(DateUtil.formatDate(item))
+
+        this.setText({
+          if (item != null && !empty)
+            DateUtil.formatDate(item)
+          else null
+        })
       }
     })
 

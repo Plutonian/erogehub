@@ -54,30 +54,26 @@
         <VBox>
             <TitledPane animated="false" collapsible="false" text="Search">
                 <VBox>
-                    <Hyperlink fx:id="linkSearch" onAction="#linkSearch_OnAction"
-                               onDragOver="#linkSearch_OnDragOver"
-                               onDragDropped="#linkSearch_OnDragDropped"/>
-                    <Hyperlink fx:id="linkDate" onAction="#linkDate_OnAction">
-                    </Hyperlink>
-                    <Hyperlink fx:id="linkTags" onAction="#linkTags_OnAction"/>
-                    <Hyperlink fx:id="linkCV" onAction="#linkCV_OnAction"/>
-                    <Hyperlink fx:id="linkBrand" onAction="#linkBrand_OnAction" text="ブランド"/>
+                    <Hyperlink fx:id="linkSearch"/>
+                    <Hyperlink fx:id="linkDate"/>
+                    <Hyperlink fx:id="linkTags"/>
+                    <Hyperlink fx:id="linkCV"/>
+                    <Hyperlink fx:id="linkBrand" text="ブランド"/>
                 </VBox>
             </TitledPane>
             <Accordion fx:id="menuPanel">
                 <panes>
                     <TitledPane text="State">
                         <VBox spacing="20.0">
-                            <VBox fx:id="gameStateLinkPanel">
-                            </VBox>
+                            <VBox fx:id="gameStateLinkPanel"/>
                             <VBox fx:id="gameStateLikeLinkPanel"/>
                         </VBox>
                     </TitledPane>
                     <TitledPane text="Type">
                         <VBox>
-                            <Hyperlink onAction="#like_OnAction" text="优"/>
-                            <Hyperlink onAction="#normal_OnAction" text="良"/>
-                            <Hyperlink onAction="#pass_OnAction" text="差"/>
+                            <Hyperlink fx:id="linkGood" text="优"/>
+                            <Hyperlink fx:id="linkNormal" text="良"/>
+                            <Hyperlink fx:id="linkPass" text="差"/>
                         </VBox>
                     </TitledPane>
                 </panes>

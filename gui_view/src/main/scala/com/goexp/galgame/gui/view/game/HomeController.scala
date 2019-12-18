@@ -12,7 +12,7 @@ import javafx.fxml.FXML
 import javafx.scene.Node
 import javafx.scene.control.{Accordion, Hyperlink, Tab, TabPane}
 import javafx.scene.image.ImageView
-import javafx.scene.input.{DragEvent, TransferMode}
+import javafx.scene.input.TransferMode
 import javafx.scene.layout.{Region, VBox}
 
 import scala.jdk.CollectionConverters._
@@ -35,9 +35,15 @@ class HomeController extends DefaultController {
   @FXML private var gameStateLinkPanel: VBox = _
   @FXML private var gameStateLikeLinkPanel: VBox = _
   @FXML private var linkDate: Hyperlink = _
+
   @FXML private var linkCV: Hyperlink = _
   @FXML private var linkSearch: Hyperlink = _
   @FXML private var linkTags: Hyperlink = _
+  @FXML private var linkBrand: Hyperlink = _
+
+  @FXML private var linkGood: Hyperlink = _
+  @FXML private var linkNormal: Hyperlink = _
+  @FXML private var linkPass: Hyperlink = _
 
 
   override protected def initialize() = {
@@ -107,9 +113,116 @@ class HomeController extends DefaultController {
     gameStateLikeLinkPanel.getChildren.setAll(links)
 
     linkDate.setGraphic(new ImageView(LocalRes.IMG_DATE_PNG))
+    linkDate.setOnAction { _ =>
+
+      def switchVisiable(node: Node) = {
+        node.setVisible(!node.isVisible)
+        node.setManaged(!node.isManaged)
+      }
+
+      switchVisiable(date)
+      if (date.isVisible) dateController.load()
+
+    }
+
     linkCV.setGraphic(new ImageView(LocalRes.IMG_CV_PNG))
+    linkCV.setOnAction { _ =>
+      TabSelect().whenNotFound {
+        val loader = new FXMLLoaderProxy[Region, CVInfoController](HomeController.CVINFO_FXML)
+        loader.controller.load()
+        val tab = new Tab("CV", loader.node)
+        tab.setGraphic(new ImageView(LocalRes.CV_16_PNG))
+        tab
+      }.select("CV")
+
+    }
+
     linkSearch.setGraphic(new ImageView(LocalRes.IMG_search_PNG))
+    linkSearch.setOnAction { _ =>
+      TabSelect().whenNotFound {
+        val loader = new FXMLLoaderProxy[Region, SearchController](HomeController.SEARCH_FXML)
+        val tab = new Tab("Search", loader.node)
+        loader.controller.load()
+        tab
+      }.select("Search")
+    }
+    linkSearch.setOnDragOver { e =>
+      val board = e.getDragboard
+      val files = board.getFiles
+      if (files.size == 1) e.acceptTransferModes(TransferMode.LINK)
+    }
+    linkSearch.setOnDragDropped { e =>
+      val board = e.getDragboard
+      val files = board.getFiles
+      if (files.size > 0) {
+        val f = files.get(0)
+        val title = f.getName.replaceFirst("""\.[^.]+""", "")
+        TabSelect().whenNotFound {
+          val loader = new FXMLLoaderProxy[Region, SearchController](HomeController.SEARCH_FXML)
+          val tab = new Tab("Search", loader.node)
+          loader.controller.load(title)
+          tab
+        }.select("Search")
+      }
+
+    }
+
     linkTags.setGraphic(new ImageView(LocalRes.IMG_TAG_PNG))
+    linkTags.setOnAction { _ =>
+      TabSelect().whenNotFound {
+        val loader = new FXMLLoaderProxy[Region, TagController](HomeController.SEARCH_TYPE_FXML)
+        val tab = new Tab("Tags", loader.node)
+        loader.controller.load()
+        tab
+
+      }.select("Tags")
+
+    }
+
+    linkBrand.setOnAction { _ =>
+      TabSelect().whenNotFound {
+        val loader = new FXMLLoaderProxy[Region, MainPanelController](HomeController.BRAND_PANEL_FXML)
+        val tab = new Tab("Brand", loader.node)
+        loader.controller.load()
+        tab
+      }.select("Brand")
+    }
+
+    linkGood.setOnAction { _ =>
+      val title = "优"
+      TabSelect().whenNotFound {
+        val conn = CommonTabController(new ByStarRange(4, 5))
+        conn.controller.tableViewController.tableColState.setVisible(false)
+        val tab = new Tab(title, conn.node)
+        conn.load((g: Game) => g.star > 3)
+        tab
+      }.select(title)
+
+    }
+
+    linkNormal.setOnAction { _ =>
+      val title = "良"
+      TabSelect().whenNotFound {
+        val conn = CommonTabController(new ByStarRange(3, 3))
+        conn.controller.tableViewController.tableColState.setVisible(false)
+        val tab = new Tab(title, conn.node)
+        conn.load((g: Game) => g.star == 3)
+        tab
+      }.select(title)
+
+    }
+
+    linkPass.setOnAction { _ =>
+      val title = "差"
+      TabSelect().whenNotFound {
+        val conn = CommonTabController(new ByStarRange(1, 2))
+        conn.controller.tableViewController.tableColState.setVisible(false)
+        val tab = new Tab(title, conn.node)
+        conn.load(_.star < 3)
+        tab
+      }.select(title)
+
+    }
   }
 
   def insertTab(tab: Tab, select: Boolean = true): Unit = {
@@ -119,99 +232,6 @@ class HomeController extends DefaultController {
     if (select) mainTabPanel.getSelectionModel.select(tab)
   }
 
-
-  @FXML private def linkSearch_OnAction(actionEvent: ActionEvent) =
-    TabSelect().whenNotFound {
-      val loader = new FXMLLoaderProxy[Region, SearchController](HomeController.SEARCH_FXML)
-      val tab = new Tab("Search", loader.node)
-      loader.controller.load()
-      tab
-    }.select("Search")
-
-  @FXML private def linkSearch_OnDragOver(e: DragEvent) = {
-    val board = e.getDragboard
-    val files = board.getFiles
-    if (files.size == 1) e.acceptTransferModes(TransferMode.LINK)
-  }
-
-  @FXML private def linkSearch_OnDragDropped(e: DragEvent) = {
-    val board = e.getDragboard
-    val files = board.getFiles
-    if (files.size > 0) {
-      val f = files.get(0)
-      val title = f.getName.replaceFirst("""\.[^.]+""", "")
-      TabSelect().whenNotFound {
-        val loader = new FXMLLoaderProxy[Region, SearchController](HomeController.SEARCH_FXML)
-        val tab = new Tab("Search", loader.node)
-        loader.controller.load(title)
-        tab
-      }.select("Search")
-    }
-  }
-
-  @FXML private def linkTags_OnAction(actionEvent: ActionEvent) =
-    TabSelect().whenNotFound {
-      val loader = new FXMLLoaderProxy[Region, TagController](HomeController.SEARCH_TYPE_FXML)
-      val tab = new Tab("Tags", loader.node)
-      loader.controller.load()
-      tab
-
-    }.select("Tags")
-
-  @FXML private def linkDate_OnAction(actionEvent: ActionEvent) = {
-    switchVisiable(date)
-    if (date.isVisible) dateController.load()
-  }
-
-  @FXML private def linkBrand_OnAction(actionEvent: ActionEvent) =
-    TabSelect().whenNotFound {
-      val loader = new FXMLLoaderProxy[Region, MainPanelController](HomeController.BRAND_PANEL_FXML)
-      val tab = new Tab("Brand", loader.node)
-      loader.controller.load()
-      tab
-    }.select("Brand")
-
-  @FXML private def linkCV_OnAction(actionEvent: ActionEvent) =
-    TabSelect().whenNotFound {
-      val loader = new FXMLLoaderProxy[Region, CVInfoController](HomeController.CVINFO_FXML)
-      loader.controller.load()
-      val tab = new Tab("CV", loader.node)
-      tab.setGraphic(new ImageView(LocalRes.CV_16_PNG))
-      tab
-    }.select("CV")
-
-  @FXML private def pass_OnAction(actionEvent: ActionEvent) = {
-    val title = "差"
-    TabSelect().whenNotFound {
-      val conn = CommonTabController(new ByStarRange(1, 2))
-      conn.controller.tableViewController.tableColState.setVisible(false)
-      val tab = new Tab(title, conn.node)
-      conn.load(_.star < 3)
-      tab
-    }.select(title)
-  }
-
-  @FXML private def like_OnAction(actionEvent: ActionEvent) = {
-    val title = "优"
-    TabSelect().whenNotFound {
-      val conn = CommonTabController(new ByStarRange(4, 5))
-      conn.controller.tableViewController.tableColState.setVisible(false)
-      val tab = new Tab(title, conn.node)
-      conn.load((g: Game) => g.star > 3)
-      tab
-    }.select(title)
-  }
-
-  @FXML private def normal_OnAction(actionEvent: ActionEvent) = {
-    val title = "良"
-    TabSelect().whenNotFound {
-      val conn = CommonTabController(new ByStarRange(3, 3))
-      conn.controller.tableViewController.tableColState.setVisible(false)
-      val tab = new Tab(title, conn.node)
-      conn.load((g: Game) => g.star == 3)
-      tab
-    }.select(title)
-  }
 
   @FXML private def miCloseOther_OnAction(actionEvent: ActionEvent) = {
     val tabs = mainTabPanel.getTabs.asScala.to(LazyList)
@@ -223,8 +243,4 @@ class HomeController extends DefaultController {
   @FXML private def miCloseRight_OnAction(actionEvent: ActionEvent) =
     mainTabPanel.getTabs.remove(mainTabPanel.getSelectionModel.getSelectedIndex + 1, mainTabPanel.getTabs.size)
 
-  private def switchVisiable(node: Node) = {
-    node.setVisible(!node.isVisible)
-    node.setManaged(!node.isManaged)
-  }
 }

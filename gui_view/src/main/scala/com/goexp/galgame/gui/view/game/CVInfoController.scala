@@ -6,7 +6,7 @@ import com.goexp.galgame.common.model.CV
 import com.goexp.galgame.gui.task.{CVListTask, TaskService}
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.LocalRes
-import com.goexp.galgame.gui.view.DefaultController
+import com.goexp.galgame.gui.view.{DefaultController, MainController}
 import javafx.fxml.FXML
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.control.{Hyperlink, TableCell, TableColumn, TableView}
@@ -61,7 +61,7 @@ class CVInfoController extends DefaultController {
         this.setText(null)
         if (item != null && !empty) {
           val link = new Hyperlink(item)
-          link.setOnAction(_ => HomeController.$this.loadCVTab(item, true))
+          link.setOnAction(_ => MainController().loadCVTab(item, true))
           this.setGraphic(link)
         }
       }

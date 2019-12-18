@@ -3,8 +3,7 @@ package com.goexp.galgame.gui.view.common.jump
 import com.goexp.galgame.common.website.getchu.GetchuGameRemote
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Websites
-import com.goexp.galgame.gui.view.DefaultController
-import com.goexp.galgame.gui.view.game.HomeController
+import com.goexp.galgame.gui.view.{DefaultController, MainController}
 import javafx.fxml.FXML
 import javafx.scene.control.MenuItem
 
@@ -16,7 +15,7 @@ class JumpLinkController extends DefaultController {
 
   override protected def initialize() = {
     linkGetchu.setOnAction(_ => Websites.open(GetchuGameRemote.byId(game.id)))
-    linkGuide.setOnAction(_ => HomeController.$this.loadGuide(game.name))
+    linkGuide.setOnAction(_ => MainController().loadGuide(game.name))
   }
 
   def load(game: Game) = {

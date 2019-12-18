@@ -4,9 +4,8 @@ import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.res.gameimg.PersonImage
-import com.goexp.galgame.gui.view.DefaultController
-import com.goexp.galgame.gui.view.game.HomeController
 import com.goexp.galgame.gui.view.game.detailview.part.CVSearchController
+import com.goexp.galgame.gui.view.{DefaultController, MainController}
 import javafx.fxml.FXML
 import javafx.scene.control.{MenuButton, MenuItem}
 import javafx.scene.image.ImageView
@@ -38,7 +37,7 @@ class PersonCellController extends DefaultController {
       lbCV.setText(cv)
       truecv.setOnAction(_ => {
         val sCV = if (isTrueCV) gameChar.trueCV else gameChar.cv
-        HomeController.$this.loadCVTab(sCV, isTrueCV)
+        MainController().loadCVTab(sCV, isTrueCV)
       })
     }
     else

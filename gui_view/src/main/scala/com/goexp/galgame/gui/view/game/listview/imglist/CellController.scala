@@ -6,8 +6,7 @@ import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
-import com.goexp.galgame.gui.view.DefaultController
-import com.goexp.galgame.gui.view.game.HomeController
+import com.goexp.galgame.gui.view.{DefaultController, MainController}
 import com.goexp.galgame.gui.view.game.part.StateChangeController
 import javafx.fxml.FXML
 import javafx.scene.control.Label
@@ -60,5 +59,5 @@ class CellController extends DefaultController {
   }
 
   def onClick(mouseEvent: MouseEvent) =
-    HomeController.$this.loadDetail(game)
+    MainController().loadDetail(game)
 }

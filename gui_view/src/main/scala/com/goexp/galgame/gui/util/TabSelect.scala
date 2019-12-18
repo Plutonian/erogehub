@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.util
 
-import com.goexp.galgame.gui.view.game.HomeController
+import com.goexp.galgame.gui.view.MainController
 import javafx.scene.control.{Tab, TabPane}
 
 import scala.jdk.CollectionConverters._
@@ -8,7 +8,7 @@ import scala.jdk.CollectionConverters._
 object TabSelect {
   def apply(root: TabPane): TabSelect = new TabSelect(root)
 
-  def apply(): TabSelect = new TabSelect(HomeController.$this.mainTabPanel)
+  def apply(): TabSelect = new TabSelect(MainController().homeController.mainTabPanel)
 }
 
 class TabSelect private(val root: TabPane) {
@@ -28,7 +28,7 @@ class TabSelect private(val root: TabPane) {
       case Some(tab) =>
         root.getSelectionModel.select(tab)
       case None =>
-        HomeController.$this.insertTab(notFindAction())
+        MainController().insertTab(notFindAction())
     }
 
 }

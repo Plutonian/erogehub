@@ -7,8 +7,7 @@ import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.brand.ChangeIsLikeTask
 import com.goexp.galgame.gui.task.brand.list.ByComp
 import com.goexp.galgame.gui.task.game.change.MultiBlockByBrand
-import com.goexp.galgame.gui.view.DefaultController
-import com.goexp.galgame.gui.view.game.HomeController
+import com.goexp.galgame.gui.view.{DefaultController, MainController}
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.value.ChangeListener
 import javafx.collections.{FXCollections, ObservableList}
@@ -75,7 +74,7 @@ class TitlePartController extends DefaultController {
               val item = new MenuItem
               item.setText(brand.name)
               item.setUserData(brand)
-              item.setOnAction(_ => HomeController.$this.viewBrand(brand))
+              item.setOnAction(_ => MainController().viewBrand(brand))
               item
             }.asJava
 

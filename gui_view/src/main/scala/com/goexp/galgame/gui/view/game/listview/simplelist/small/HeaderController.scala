@@ -6,11 +6,10 @@ import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
-import com.goexp.galgame.gui.view.DefaultController
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController
-import com.goexp.galgame.gui.view.game.HomeController
 import com.goexp.galgame.gui.view.game.detailview.part.DateShowController
 import com.goexp.galgame.gui.view.game.part.StateChangeController
+import com.goexp.galgame.gui.view.{DefaultController, MainController}
 import javafx.fxml.FXML
 import javafx.scene.control.{Hyperlink, Label}
 import javafx.scene.effect.ColorAdjust
@@ -31,7 +30,7 @@ class HeaderController extends DefaultController {
   private var targetGame: Game = _
 
   override protected def initialize() =
-    linkView.setOnAction(_ => HomeController.$this.loadDetail(targetGame))
+    linkView.setOnAction(_ => MainController().loadDetail(targetGame))
 
   def load(game: Game) = {
     logger.debug(s"Game[${RED.s(game.id.toString)}] ${RED.s(game.name)} Date:${game.publishDate} img:${game.smallImg}  state:<${

@@ -5,14 +5,13 @@ import java.util
 
 import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.model.game.GameState
-import com.goexp.galgame.gui.model.Game
+import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.game.change.MultiLike
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.LocalRes
-import com.goexp.galgame.gui.view.DefaultController
-import com.goexp.galgame.gui.view.game.HomeController
-import javafx.beans.property.SimpleStringProperty
+import com.goexp.galgame.gui.view.{DefaultController, MainController}
+import javafx.beans.property.SimpleObjectProperty
 import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.control.cell.PropertyValueFactory
@@ -25,7 +24,7 @@ import scala.jdk.CollectionConverters._
 class TableController extends DefaultController {
   @FXML var table: TableView[Game] = _
   @FXML var tableColType: TableColumn[Game, String] = _
-  @FXML var tableColBrand: TableColumn[Game, String] = _
+  @FXML var tableColBrand: TableColumn[Game, Brand] = _
   @FXML var tableColPainter: TableColumn[Game, String] = _
   @FXML var tableColWriter: TableColumn[Game, String] = _
   @FXML var tableColState: TableColumn[Game, GameState] = _
@@ -65,13 +64,13 @@ class TableController extends DefaultController {
         if ((event.getButton eq MouseButton.PRIMARY) && event.getClickCount == 2)
           if (!row.isEmpty) {
             val g = row.getItem
-            HomeController.$this.loadDetail(g)
+            MainController().loadDetail(g)
           }
       })
       row
     })
     tableColState.setCellValueFactory(new PropertyValueFactory[Game, GameState]("state"))
-    tableColBrand.setCellValueFactory(param => new SimpleStringProperty(param.getValue.brand.name))
+    tableColBrand.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.brand))
     tableColStar.setCellValueFactory(new PropertyValueFactory[Game, Int]("star"))
     tableColPainter.setCellValueFactory(new PropertyValueFactory[Game, String]("painter"))
     tableColWriter.setCellValueFactory(new PropertyValueFactory[Game, String]("writer"))
@@ -88,6 +87,18 @@ class TableController extends DefaultController {
           this.setText(DateUtil.formatDate(item))
       }
     })
+
+    tableColBrand.setCellFactory((_: TableColumn[Game, Brand]) => new TableCell[Game, Brand]() {
+      override protected def updateItem(brand: Brand, empty: Boolean) = {
+        super.updateItem(brand, empty)
+        this.setGraphic(null)
+        this.setText(null)
+
+        if (brand != null && !empty)
+          this.setText(brand.name)
+      }
+    })
+
     tableColTitle.setCellFactory((_: TableColumn[Game, String]) => new TableCell[Game, String]() {
       override protected def updateItem(item: String, empty: Boolean) = {
         super.updateItem(item, empty)

@@ -4,8 +4,7 @@ import com.goexp.common.util.string.Strings
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
-import com.goexp.galgame.gui.view.DefaultController
-import com.goexp.galgame.gui.view.game.HomeController
+import com.goexp.galgame.gui.view.{DefaultController, MainController}
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.{Hyperlink, Label, TextArea}
@@ -30,7 +29,7 @@ class HeaderPartController extends DefaultController {
       event.getTarget match {
         case painter: Hyperlink =>
           val str = painter.getText.replaceAll("（[^）]+）", "")
-          HomeController.$this.loadPainterTab(str)
+          MainController().loadPainterTab(str)
         case _ =>
       }
     })

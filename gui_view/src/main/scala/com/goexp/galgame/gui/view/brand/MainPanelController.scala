@@ -126,7 +126,7 @@ class MainPanelController extends DefaultController {
     onLoadProperty.addListener((_, _, newValue) => {
       if (newValue != null && newValue) {
         val text = targetBrand.name
-        TabSelect().ifNotFind {
+        TabSelect().whenNotFound {
           val conn = new CommonInfoTabController
           val tab = new Tab(text, conn.node)
           tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG))

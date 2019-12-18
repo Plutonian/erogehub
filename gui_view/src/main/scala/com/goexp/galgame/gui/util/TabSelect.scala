@@ -17,7 +17,7 @@ class TabSelect private(val root: TabPane) {
 
   private var notFoundAction: NotFindAction = _
 
-  def ifNotFind(notFindAction: => Tab): TabSelect = {
+  def whenNotFound(notFindAction: => Tab): TabSelect = {
     this.notFoundAction = notFindAction _
     this
   }

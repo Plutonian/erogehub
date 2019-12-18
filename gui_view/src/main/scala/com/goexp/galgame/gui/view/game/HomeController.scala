@@ -58,7 +58,7 @@ class HomeController extends DefaultController {
             conn.controller.tableViewController.tableColStar.setVisible(false)
             conn.controller.tableViewController.tableColState.setVisible(false)
             val text = state.name
-            TabSelect().ifNotFind {
+            TabSelect().whenNotFound {
               val tab = new Tab(text, conn.node)
               conn.load()
               tab
@@ -73,7 +73,7 @@ class HomeController extends DefaultController {
         val start = dateController.from
         val end = dateController.to
         val text = dateController.title
-        TabSelect().ifNotFind {
+        TabSelect().whenNotFound {
           val conn = CommonTabController(new ByDateRange(start, end))
           val tab = new Tab(text, conn.node)
           tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG))
@@ -87,7 +87,7 @@ class HomeController extends DefaultController {
         val from = dateController.from
         val to = dateController.to
         val text = dateController.title
-        TabSelect().ifNotFind {
+        TabSelect().whenNotFound {
           val conn = CommonTabController(new ByDateRange(from, to))
           val tab = new Tab(text, conn.node)
           tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG))
@@ -112,7 +112,7 @@ class HomeController extends DefaultController {
 
 
   @FXML private def linkSearch_OnAction(actionEvent: ActionEvent) =
-    TabSelect().ifNotFind {
+    TabSelect().whenNotFound {
       val loader = new FXMLLoaderProxy[Region, SearchController](HomeController.SEARCH_FXML)
       val tab = new Tab("Search", loader.node)
       loader.controller.load()
@@ -131,7 +131,7 @@ class HomeController extends DefaultController {
     if (files.size > 0) {
       val f = files.get(0)
       val title = f.getName.replaceFirst("""\.[^.]+""", "")
-      TabSelect().ifNotFind {
+      TabSelect().whenNotFound {
         val loader = new FXMLLoaderProxy[Region, SearchController](HomeController.SEARCH_FXML)
         val tab = new Tab("Search", loader.node)
         loader.controller.load(title)
@@ -141,7 +141,7 @@ class HomeController extends DefaultController {
   }
 
   @FXML private def linkTags_OnAction(actionEvent: ActionEvent) =
-    TabSelect().ifNotFind {
+    TabSelect().whenNotFound {
       val loader = new FXMLLoaderProxy[Region, TagController](HomeController.SEARCH_TYPE_FXML)
       val tab = new Tab("Tags", loader.node)
       loader.controller.load()
@@ -155,7 +155,7 @@ class HomeController extends DefaultController {
   }
 
   @FXML private def linkBrand_OnAction(actionEvent: ActionEvent) =
-    TabSelect().ifNotFind {
+    TabSelect().whenNotFound {
       val loader = new FXMLLoaderProxy[Region, MainPanelController](HomeController.BRAND_PANEL_FXML)
       val tab = new Tab("Brand", loader.node)
       loader.controller.load()
@@ -163,7 +163,7 @@ class HomeController extends DefaultController {
     }.select("Brand")
 
   @FXML private def linkCV_OnAction(actionEvent: ActionEvent) =
-    TabSelect().ifNotFind {
+    TabSelect().whenNotFound {
       val loader = new FXMLLoaderProxy[Region, CVInfoController](HomeController.CVINFO_FXML)
       loader.controller.load()
       val tab = new Tab("CV", loader.node)
@@ -173,7 +173,7 @@ class HomeController extends DefaultController {
 
   @FXML private def pass_OnAction(actionEvent: ActionEvent) = {
     val title = "差"
-    TabSelect().ifNotFind {
+    TabSelect().whenNotFound {
       val conn = CommonTabController(new ByStarRange(1, 2))
       conn.controller.tableViewController.tableColState.setVisible(false)
       val tab = new Tab(title, conn.node)
@@ -184,7 +184,7 @@ class HomeController extends DefaultController {
 
   @FXML private def like_OnAction(actionEvent: ActionEvent) = {
     val title = "优"
-    TabSelect().ifNotFind {
+    TabSelect().whenNotFound {
       val conn = CommonTabController(new ByStarRange(4, 5))
       conn.controller.tableViewController.tableColState.setVisible(false)
       val tab = new Tab(title, conn.node)
@@ -195,7 +195,7 @@ class HomeController extends DefaultController {
 
   @FXML private def normal_OnAction(actionEvent: ActionEvent) = {
     val title = "良"
-    TabSelect().ifNotFind {
+    TabSelect().whenNotFound {
       val conn = CommonTabController(new ByStarRange(3, 3))
       conn.controller.tableViewController.tableColState.setVisible(false)
       val tab = new Tab(title, conn.node)

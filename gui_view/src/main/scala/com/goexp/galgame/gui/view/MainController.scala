@@ -31,7 +31,7 @@ class MainController extends DefaultController {
 
   def viewBrand(brand: Brand) = {
     val text = brand.name
-    TabSelect().ifNotFind {
+    TabSelect().whenNotFound {
       val conn = new CommonInfoTabController
       val tab = new Tab(text, conn.node)
       tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG))
@@ -41,7 +41,7 @@ class MainController extends DefaultController {
   }
 
   def loadPainterTab(painter: String) =
-    TabSelect().ifNotFind {
+    TabSelect().whenNotFound {
       val conn = CommonTabController(new ByPainter(painter))
       val tab = new Tab(painter, conn.node)
       //                    tab.setGraphic(new ImageView(LocalRes.CV_16_PNG()));
@@ -50,7 +50,7 @@ class MainController extends DefaultController {
     }.select(painter)
 
   def loadCVTab(cv: String, real: Boolean) =
-    TabSelect().ifNotFind {
+    TabSelect().whenNotFound {
       val conn = CommonTabController(new ByCV(cv, real))
       val tab = new Tab(cv, conn.node)
       tab.setGraphic(new ImageView(LocalRes.CV_16_PNG))
@@ -59,7 +59,7 @@ class MainController extends DefaultController {
     }.select(cv)
 
   def loadDetail(game: Game) =
-    TabSelect().ifNotFind {
+    TabSelect().whenNotFound {
       val loader = new FXMLLoaderProxy[Region, OutPageController](MainController.GAME_DETAIL_NAV_PAGE_FXML)
       val tab = new Tab(game.name, loader.node)
       tab.setGraphic(new ImageView(LocalRes.GAME_16_PNG))
@@ -69,7 +69,7 @@ class MainController extends DefaultController {
 
   def loadGuide(name: String) = {
     val title = s"攻略:${name}"
-    TabSelect().ifNotFind {
+    TabSelect().whenNotFound {
       val loader = new FXMLLoaderProxy[Region, SearchGuideController](MainController.VIEW_GUIDE_PANEL_FXML)
       val tab = new Tab(title, loader.node)
       loader.controller.load(name)

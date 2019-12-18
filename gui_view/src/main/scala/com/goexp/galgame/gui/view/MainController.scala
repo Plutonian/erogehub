@@ -22,11 +22,7 @@ class MainController extends DefaultController {
   }
 
   def insertTab(tab: Tab, select: Boolean = true): Unit = {
-    val mainTabPanel = homeController.mainTabPanel
-
-    val index = mainTabPanel.getSelectionModel.getSelectedIndex
-    mainTabPanel.getTabs.add(index + 1, tab)
-    if (select) mainTabPanel.getSelectionModel.select(tab)
+    homeController.insertTab(tab, select)
   }
 
   def viewBrand(brand: Brand) = {

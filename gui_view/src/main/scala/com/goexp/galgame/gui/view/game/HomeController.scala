@@ -110,6 +110,13 @@ class HomeController extends DefaultController {
     linkTags.setGraphic(new ImageView(LocalRes.IMG_TAG_PNG))
   }
 
+  def insertTab(tab: Tab, select: Boolean = true): Unit = {
+
+    val index = mainTabPanel.getSelectionModel.getSelectedIndex
+    mainTabPanel.getTabs.add(index + 1, tab)
+    if (select) mainTabPanel.getSelectionModel.select(tab)
+  }
+
 
   @FXML private def linkSearch_OnAction(actionEvent: ActionEvent) =
     TabSelect().whenNotFound {

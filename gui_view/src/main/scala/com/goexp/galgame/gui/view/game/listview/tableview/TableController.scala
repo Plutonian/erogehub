@@ -78,19 +78,21 @@ class TableController extends DefaultController {
     tableColTitle.setCellValueFactory(new PropertyValueFactory[Game, String]("name"))
     tableColType.setCellValueFactory(new PropertyValueFactory[Game, String]("type"))
 
-    tableColDate.setCellFactory((_: TableColumn[Game, LocalDate]) => new TableCell[Game, LocalDate]() {
-      override protected def updateItem(item: LocalDate, empty: Boolean) = {
-        super.updateItem(item, empty)
+    tableColDate.setCellFactory { _ =>
+      new TableCell[Game, LocalDate]() {
+        override protected def updateItem(item: LocalDate, empty: Boolean) = {
+          super.updateItem(item, empty)
 
-        this.setText({
-          if (item != null && !empty)
-            DateUtil.formatDate(item)
-          else null
-        })
+          this.setText({
+            if (item != null && !empty)
+              DateUtil.formatDate(item)
+            else null
+          })
+        }
       }
-    })
+    }
 
-    tableColBrand.setCellFactory((_: TableColumn[Game, Brand]) => new TableCell[Game, Brand]() {
+    tableColBrand.setCellFactory(_ => new TableCell[Game, Brand]() {
       override protected def updateItem(brand: Brand, empty: Boolean) = {
         super.updateItem(brand, empty)
         this.setGraphic(null)
@@ -101,7 +103,7 @@ class TableController extends DefaultController {
       }
     })
 
-    tableColTitle.setCellFactory((_: TableColumn[Game, String]) => new TableCell[Game, String]() {
+    tableColTitle.setCellFactory(_ => new TableCell[Game, String]() {
       override protected def updateItem(item: String, empty: Boolean) = {
         super.updateItem(item, empty)
         this.setGraphic(null)
@@ -125,7 +127,7 @@ class TableController extends DefaultController {
         }
       }
     })
-    tableColState.setCellFactory((_: TableColumn[Game, GameState]) => new TableCell[Game, GameState]() {
+    tableColState.setCellFactory(_ => new TableCell[Game, GameState]() {
       override protected def updateItem(item: GameState, empty: Boolean) = {
         super.updateItem(item, empty)
         this.setGraphic(null)
@@ -139,7 +141,7 @@ class TableController extends DefaultController {
         }
       }
     })
-    tableColStar.setCellFactory((_: TableColumn[Game, Int]) => new TableCell[Game, Int]() {
+    tableColStar.setCellFactory(_ => new TableCell[Game, Int]() {
       override protected def updateItem(item: Int, empty: Boolean) = {
         super.updateItem(item, empty)
         this.setGraphic(null)

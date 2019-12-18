@@ -29,6 +29,7 @@ class HomeController extends DefaultController {
   @FXML private var dateController: DateController = _
 
   @FXML var mainTabPanel: TabPane = _
+
   @FXML private var menuPanel: Accordion = _
   @FXML private var date: Region = _
   @FXML private var gameStateLinkPanel: VBox = _
@@ -47,7 +48,7 @@ class HomeController extends DefaultController {
     }
 
 
-    def gameType2Link(gameState: List[GameState]): LazyList[Hyperlink] =
+    def gameType2Link(gameState: List[GameState]): LazyList[Hyperlink] = {
       gameState.to(LazyList)
         .map(state => {
           val link = new Hyperlink
@@ -67,6 +68,7 @@ class HomeController extends DefaultController {
           })
           link
         })
+    }
 
     dateController.onLoadProperty.addListener((_, _, newValue) => {
       if (newValue) {

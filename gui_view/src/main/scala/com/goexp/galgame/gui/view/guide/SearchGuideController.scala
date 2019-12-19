@@ -7,7 +7,6 @@ import com.goexp.galgame.gui.task.game.search.sub.GuideSearchTask
 import com.goexp.galgame.gui.util.{FXMLLoaderProxy, Websites}
 import com.goexp.galgame.gui.view.DefaultController
 import com.goexp.javafx.cell.NodeListCell
-import javafx.beans.property.SimpleBooleanProperty
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.Scene
@@ -17,7 +16,6 @@ import javafx.scene.layout.{BorderPane, HBox, Region}
 import javafx.stage.Stage
 
 class SearchGuideController extends DefaultController {
-  final val onLoadProperty = new SimpleBooleanProperty(false)
 
   private var key: String = _
   @FXML private var textSearchGameKey: TextField = _
@@ -27,12 +25,7 @@ class SearchGuideController extends DefaultController {
   final private val guideService = TaskService(new GuideSearchTask(key))
 
   override protected def initialize() = {
-    onLoadProperty.addListener((_, _, newValue) => {
-      if (newValue) {
-        searchPanel.setCenter(guideListView)
-        guideService.restart()
-      }
-    })
+
     guideService.valueProperty.addListener((_, _, newValue) => {
       if (newValue != null) guideListView.setItems(newValue)
     })
@@ -74,15 +67,14 @@ class SearchGuideController extends DefaultController {
 
   def load(title: String): Unit = {
     textSearchGameKey.setText(title)
-    resetEvent()
   }
-
-  private def resetEvent() = onLoadProperty.set(false)
 
   @FXML private def btnSearchGame_OnAction(actionEvent: ActionEvent) = {
     key = textSearchGameKey.getText.trim
-    onLoadProperty.set(true)
-    resetEvent()
+
+    searchPanel.setCenter(guideListView)
+    guideService.restart()
+
   }
 
   @FXML private def textSearchGameKey_OnDragOver(e: DragEvent) = {

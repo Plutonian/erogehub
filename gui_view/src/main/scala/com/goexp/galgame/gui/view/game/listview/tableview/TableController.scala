@@ -8,13 +8,12 @@ import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.game.change.MultiLike
-import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.{DefaultController, MainController}
+import com.goexp.javafx.cell.{NodeTableCell, TextTableCell}
 import javafx.beans.property.SimpleObjectProperty
 import javafx.fxml.FXML
 import javafx.scene.control._
-import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseButton
 import javafx.scene.layout.HBox
@@ -23,14 +22,16 @@ import scala.jdk.CollectionConverters._
 
 class TableController extends DefaultController {
   @FXML var table: TableView[Game] = _
-  @FXML var tableColType: TableColumn[Game, String] = _
+
+  @FXML var tableColDate: TableColumn[Game, LocalDate] = _
+  @FXML var tableColStar: TableColumn[Game, Int] = _
   @FXML var tableColBrand: TableColumn[Game, Brand] = _
+  @FXML var tableColTitle: TableColumn[Game, String] = _
+  @FXML var tableColType: TableColumn[Game, String] = _
   @FXML var tableColPainter: TableColumn[Game, String] = _
   @FXML var tableColWriter: TableColumn[Game, String] = _
   @FXML var tableColState: TableColumn[Game, GameState] = _
-  @FXML var tableColStar: TableColumn[Game, Int] = _
-  @FXML var tableColDate: TableColumn[Game, LocalDate] = _
-  @FXML var tableColTitle: TableColumn[Game, String] = _
+
   @FXML private var menuPopup: ContextMenu = _
   private var selectedGames: util.List[Game] = _
   final private val changeGameService = TaskService(new MultiLike(selectedGames))
@@ -69,90 +70,61 @@ class TableController extends DefaultController {
       })
       row
     })
-    tableColState.setCellValueFactory(new PropertyValueFactory[Game, GameState]("state"))
+
+    tableColState.setCellValueFactory(param => param.getValue.state)
     tableColBrand.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.brand))
-    tableColStar.setCellValueFactory(new PropertyValueFactory[Game, Int]("star"))
-    tableColPainter.setCellValueFactory(new PropertyValueFactory[Game, String]("painter"))
-    tableColWriter.setCellValueFactory(new PropertyValueFactory[Game, String]("writer"))
-    tableColDate.setCellValueFactory(new PropertyValueFactory[Game, LocalDate]("publishDate"))
-    tableColTitle.setCellValueFactory(new PropertyValueFactory[Game, String]("name"))
-    tableColType.setCellValueFactory(new PropertyValueFactory[Game, String]("type"))
+    tableColStar.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.star))
+    tableColPainter.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.getPainter))
+    tableColWriter.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.getWriter))
+    tableColDate.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.publishDate))
+    tableColTitle.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.name))
+    tableColType.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.getType))
 
     tableColDate.setCellFactory { _ =>
-      new TableCell[Game, LocalDate]() {
-        override protected def updateItem(item: LocalDate, empty: Boolean) = {
-          super.updateItem(item, empty)
-
-          this.setText({
-            if (item != null && !empty)
-              DateUtil.formatDate(item)
-            else null
-          })
-        }
+      TextTableCell { publishDate =>
+        DateUtil.formatDate(publishDate)
       }
     }
 
-    tableColBrand.setCellFactory(_ => new TableCell[Game, Brand]() {
-      override protected def updateItem(brand: Brand, empty: Boolean) = {
-        super.updateItem(brand, empty)
-        this.setGraphic(null)
-        this.setText(null)
-
-        if (brand != null && !empty)
-          this.setText(brand.name)
+    tableColBrand.setCellFactory(_ =>
+      TextTableCell { brand =>
+        brand.name
       }
-    })
+    )
 
-    tableColTitle.setCellFactory(_ => new TableCell[Game, String]() {
-      override protected def updateItem(item: String, empty: Boolean) = {
-        super.updateItem(item, empty)
-        this.setGraphic(null)
-        this.setText(null)
-
-        if (item != null && !empty) {
-          val game = this.getTableRow.getItem
-          if (game != null) {
-            val title = game.name
-            val titleLabel = title.replaceAll("＜[^＞]*＞", "")
-
-            if (game.tag.size > 0) {
-              val hbox = new HBox
-              hbox.setSpacing(5)
-              hbox.getChildren.setAll(Tags.toNodes(game.tag))
-              this.setGraphic(new HBox(new Label(title), hbox))
-            }
-            else
-              this.setText(titleLabel)
-          }
-        }
+    tableColTitle.setCellFactory(_ =>
+      TextTableCell { name =>
+        name.replaceAll("＜[^＞]*＞", "")
       }
-    })
-    tableColState.setCellFactory(_ => new TableCell[Game, GameState]() {
+    )
+
+    tableColState.setCellFactory(_ => new com.goexp.javafx.cell.TableCell[Game, GameState]() {
+
+      override protected def notEmpty(gameState: GameState): Unit = {
+        if (gameState eq GameState.BLOCK)
+          this.getTableRow.getStyleClass.add("gray")
+
+        this.setText(gameState.name)
+      }
+
+
       override protected def updateItem(item: GameState, empty: Boolean) = {
-        super.updateItem(item, empty)
-        this.setGraphic(null)
-        this.setText(null)
+
         this.getTableRow.getStyleClass.remove("gray")
-        if (item != null && !empty) {
-          if (item eq GameState.BLOCK)
-            this.getTableRow.getStyleClass.add("gray")
-
-          this.setText(item.name)
-        }
-      }
-    })
-    tableColStar.setCellFactory(_ => new TableCell[Game, Int]() {
-      override protected def updateItem(item: Int, empty: Boolean) = {
         super.updateItem(item, empty)
-        this.setGraphic(null)
-        this.setText(null)
-        if (!empty) {
-          val image = LocalRes.HEART_16_PNG
 
-          val stars = Range(0, item).to(LazyList).map { _ => new ImageView(image) }.toArray
-          this.setGraphic(new HBox(stars: _*))
-        }
       }
     })
+
+
+    tableColStar.setCellFactory(_ =>
+      NodeTableCell { star =>
+        val image = LocalRes.HEART_16_PNG
+
+        val stars = Range(0, star).to(LazyList).map { _ => new ImageView(image) }.toArray
+        new HBox(stars: _*)
+
+      }
+    )
   }
 }

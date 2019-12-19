@@ -6,9 +6,10 @@ import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.FXMLLoaderProxy
 import com.goexp.galgame.gui.view.DefaultController
+import com.goexp.javafx.cell.NodeListCell
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
-import javafx.scene.control.{ListCell, ListView, Tab, TabPane}
+import javafx.scene.control.{ListView, Tab, TabPane}
 import javafx.scene.layout.Region
 
 class InnerPageController extends DefaultController {
@@ -25,23 +26,16 @@ class InnerPageController extends DefaultController {
     personListView.setCellFactory(_ => {
       val loader = new FXMLLoaderProxy[Region, PersonCellController](classOf[PersonCellController].getResource("person_cell.fxml"))
 
-      new ListCell[GameCharacter]() {
-        override protected def updateItem(gameCharacter: GameCharacter, empty: Boolean) = {
-          super.updateItem(gameCharacter, empty)
-          setText(null)
-          setGraphic(null)
-          if (gameCharacter != null && !empty) {
-            val controller = loader.controller
-            controller.game = game
-            controller.gameChar = gameCharacter
-            controller.init()
-            setGraphic(loader.node)
-          }
-        }
+      NodeListCell[GameCharacter] { gameCharacter =>
+        val controller = loader.controller
+        controller.game = game
+        controller.gameChar = gameCharacter
+        controller.init()
+        loader.node
       }
     })
 
-  def load(game: Game) = {
+  def load(game: Game): Unit = {
     Objects.requireNonNull(game)
 
     this.game = game

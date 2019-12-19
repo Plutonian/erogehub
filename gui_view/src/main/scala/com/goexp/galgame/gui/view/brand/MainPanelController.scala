@@ -2,7 +2,6 @@ package com.goexp.galgame.gui.view.brand
 
 import java.time.LocalDate
 
-import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.brand.BrandType
 import com.goexp.galgame.gui.model.Brand
 import com.goexp.galgame.gui.task.TaskService
@@ -10,12 +9,12 @@ import com.goexp.galgame.gui.task.brand.search.{ByComp, ByName, ByType}
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{TabSelect, Websites}
 import com.goexp.galgame.gui.view.DefaultController
-import javafx.beans.property.SimpleBooleanProperty
+import com.goexp.javafx.cell.{NodeTableCell, TextTableCell}
+import javafx.beans.property.{SimpleBooleanProperty, SimpleObjectProperty, SimpleStringProperty}
 import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control._
-import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.ImageView
 import javafx.util.StringConverter
 
@@ -25,6 +24,7 @@ import scala.jdk.CollectionConverters._
 class MainPanelController extends DefaultController {
 
   final val onLoadProperty = new SimpleBooleanProperty(false)
+
   var targetBrand: Brand = _
   @FXML var colStart: TableColumn[Brand, LocalDate] = _
   @FXML var colEnd: TableColumn[Brand, LocalDate] = _
@@ -36,7 +36,7 @@ class MainPanelController extends DefaultController {
   @FXML private var colName: TableColumn[Brand, String] = _
   @FXML private var colWebsite: TableColumn[Brand, String] = _
   @FXML private var colState: TableColumn[Brand, BrandType] = _
-  @FXML private var colCommand: TableColumn[Brand, Void] = _
+  @FXML private var colCommand: TableColumn[Brand, Brand] = _
   @FXML private var choiceBrandType: ChoiceBox[BrandType] = _
   @FXML private var typeGroup: ToggleGroup = _
   @FXML private var btnSearch: Button = _
@@ -50,59 +50,48 @@ class MainPanelController extends DefaultController {
 
   override protected def initialize() = {
     def initTable() = {
-      colComp.setCellValueFactory(new PropertyValueFactory[Brand, String]("comp"))
-      colName.setCellValueFactory(new PropertyValueFactory[Brand, String]("name"))
-      colWebsite.setCellValueFactory(new PropertyValueFactory[Brand, String]("website"))
-      colState.setCellValueFactory(new PropertyValueFactory[Brand, BrandType]("isLike"))
-      colStart.setCellValueFactory(new PropertyValueFactory[Brand, LocalDate]("start"))
-      colEnd.setCellValueFactory(new PropertyValueFactory[Brand, LocalDate]("end"))
-      colSize.setCellValueFactory(new PropertyValueFactory[Brand, Int]("size"))
+      colComp.setCellValueFactory(p => new SimpleStringProperty(p.getValue.comp))
+      colName.setCellValueFactory(p => new SimpleStringProperty(p.getValue.name))
+      colWebsite.setCellValueFactory(p => new SimpleStringProperty(p.getValue.website))
+      colState.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.isLike))
+      colStart.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.start))
+      colEnd.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.end))
+      colSize.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.size))
+      colCommand.setCellValueFactory(p => new SimpleObjectProperty(p.getValue))
 
-      colStart.setCellFactory(_ => new TableCell[Brand, LocalDate]() {
-        override protected def updateItem(item: LocalDate, empty: Boolean) = {
-          super.updateItem(item, empty)
-          this.setText(null)
-          this.setGraphic(null)
-          if (item != null && !empty)
-            this.setText(item.getYear.toString)
+      colStart.setCellFactory { _ =>
+        TextTableCell { startDate =>
+          startDate.getYear.toString
         }
-      })
-      colEnd.setCellFactory(_ => new TableCell[Brand, LocalDate]() {
-        override protected def updateItem(item: LocalDate, empty: Boolean) = {
-          super.updateItem(item, empty)
-          this.setText(null)
-          this.setGraphic(null)
-          if (item != null && !empty)
-            this.setText(item.getYear.toString)
+      }
+
+      colEnd.setCellFactory(_ =>
+        TextTableCell { endDate =>
+          endDate.getYear.toString
         }
-      })
-      colWebsite.setCellFactory(_ => new TableCell[Brand, String]() {
-        override protected def updateItem(item: String, empty: Boolean) = {
-          super.updateItem(item, empty)
-          this.setGraphic(null)
-          if (!empty && !Strings.isEmpty(item)) {
-            val titleLabel = new Hyperlink
-            titleLabel.setText(item)
-            titleLabel.setOnAction(_ => Websites.open(item))
-            this.setGraphic(titleLabel)
-          }
+      )
+      colWebsite.setCellFactory(_ =>
+        NodeTableCell { website =>
+          val titleLabel = new Hyperlink(website)
+          titleLabel.setOnAction(_ => Websites.open(website))
+
+          titleLabel
         }
-      })
-      colCommand.setCellFactory(_ => new TableCell[Brand, Void]() {
-        override protected def updateItem(item: Void, empty: Boolean) = {
-          super.updateItem(item, empty)
-          this.setGraphic(null)
-          if (!empty) {
-            val link = new Hyperlink("関連ゲーム")
-            link.setOnAction(_ => {
-              targetBrand = this.getTableRow.getItem
-              onLoadProperty.set(true)
-              onLoadProperty.set(false)
-            })
-            this.setGraphic(link)
-          }
+      )
+
+      colCommand.setCellFactory(_ =>
+        NodeTableCell { brand =>
+
+          val link = new Hyperlink("関連ゲーム")
+          link.setOnAction(_ => {
+            targetBrand = brand
+            onLoadProperty.set(true)
+            onLoadProperty.set(false)
+          })
+
+          link
         }
-      })
+      )
     }
 
     initTable()

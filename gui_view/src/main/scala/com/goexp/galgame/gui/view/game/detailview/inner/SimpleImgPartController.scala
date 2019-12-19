@@ -6,10 +6,11 @@ import com.goexp.galgame.common.model.game.GameImg
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.res.gameimg.SimpleImage
 import com.goexp.galgame.gui.view.DefaultController
+import com.goexp.javafx.cell.NodeListCell
 import javafx.collections.FXCollections
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.scene.control.{ListCell, ListView}
+import javafx.scene.control.ListView
 import javafx.scene.image.ImageView
 
 import scala.jdk.CollectionConverters._
@@ -20,17 +21,14 @@ class SimpleImgPartController extends DefaultController {
   @FXML private var largeSimple: ImageView = _
 
   override protected def initialize() = {
-    listSmallSimple.setCellFactory(_ => new ListCell[GameImg]() {
-      override protected def updateItem(item: GameImg, empty: Boolean) = {
-        super.updateItem(item, empty)
-        setGraphic(null)
-        setText(null)
-        if (!empty) {
-          val image = new SimpleImage(game).small(item.index, item.src)
-          setGraphic(new ImageView(image))
-        }
+
+    listSmallSimple.setCellFactory(_ =>
+      NodeListCell[GameImg] { gameImg =>
+        val image = new SimpleImage(game).small(gameImg.index, gameImg.src)
+        new ImageView(image)
       }
-    })
+    )
+
     listSmallSimple.getSelectionModel.selectedItemProperty.addListener((_, _, simpleLargeImage) => {
       if (simpleLargeImage != null) {
         val img = new SimpleImage(game).large(simpleLargeImage.index, simpleLargeImage.src)

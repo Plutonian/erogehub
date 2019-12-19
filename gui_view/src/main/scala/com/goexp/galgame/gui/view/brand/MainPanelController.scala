@@ -10,7 +10,7 @@ import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{TabSelect, Websites}
 import com.goexp.galgame.gui.view.DefaultController
 import com.goexp.javafx.cell.{NodeTableCell, TextTableCell}
-import javafx.beans.property.{SimpleBooleanProperty, SimpleObjectProperty, SimpleStringProperty}
+import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
 import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
@@ -23,9 +23,6 @@ import scala.jdk.CollectionConverters._
 
 class MainPanelController extends DefaultController {
 
-  final val onLoadProperty = new SimpleBooleanProperty(false)
-
-  var targetBrand: Brand = _
   @FXML var colStart: TableColumn[Brand, LocalDate] = _
   @FXML var colEnd: TableColumn[Brand, LocalDate] = _
   @FXML var colSize: TableColumn[Brand, Int] = _
@@ -84,9 +81,15 @@ class MainPanelController extends DefaultController {
 
           val link = new Hyperlink("関連ゲーム")
           link.setOnAction(_ => {
-            targetBrand = brand
-            onLoadProperty.set(true)
-            onLoadProperty.set(false)
+            val text = brand.name
+            TabSelect().whenNotFound {
+              val conn = new CommonInfoTabController
+              val tab = new Tab(text, conn.node)
+              tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG))
+              conn.load(brand)
+              tab
+            }.select(text)
+
           })
 
           link
@@ -138,18 +141,6 @@ class MainPanelController extends DefaultController {
 
     }
 
-    onLoadProperty.addListener((_, _, newValue) => {
-      if (newValue != null && newValue) {
-        val text = targetBrand.name
-        TabSelect().whenNotFound {
-          val conn = new CommonInfoTabController
-          val tab = new Tab(text, conn.node)
-          tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG))
-          conn.load(targetBrand)
-          tab
-        }.select(text)
-      }
-    })
   }
 
   def load() = choiceBrandType.setValue(BrandType.CHECKING)

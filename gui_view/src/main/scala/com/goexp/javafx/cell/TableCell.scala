@@ -5,6 +5,8 @@ import javafx.scene.Node
 class TableCell[Table, Entity] extends javafx.scene.control.TableCell[Table, Entity] {
   override protected def updateItem(item: Entity, empty: Boolean): Unit = {
     super.updateItem(item, empty)
+    this.setText(null)
+    this.setGraphic(null)
 
     if (item != null && !empty)
       notEmpty(item)

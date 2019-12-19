@@ -21,6 +21,7 @@ class DateGroupController extends FilterController[Game] {
         item.title
       }
     )
+
     dateTree.getSelectionModel.selectedItemProperty.addListener((_, _, newValue) => {
       if (newValue != null) {
         predicate = (game: Game) => game.publishDate != null &&

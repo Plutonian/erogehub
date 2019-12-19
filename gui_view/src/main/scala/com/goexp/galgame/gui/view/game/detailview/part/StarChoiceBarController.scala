@@ -15,13 +15,27 @@ import javafx.scene.layout.HBox
 import scala.jdk.CollectionConverters._
 
 class StarChoiceBarController extends DefaultController {
-  final val onStarChangeProperty = new SimpleBooleanProperty(false)
+  val onStarChangeProperty = new SimpleBooleanProperty(false)
+
   private var targetGame: Game = _
-  private var handler: ChangeListener[Toggle] = _
+  private var handler: ChangeListener[Toggle] = (_, _, newV) => {
+    if (newV == null) {
+      targetGame.star = 0
+      changeStarService.restart()
+    }
+    else {
+      logger.debug(s"New:${newV.getUserData}")
+
+      targetGame.star = newV.getUserData.asInstanceOf[Int]
+      changeStarService.restart()
+    }
+    onStarChangeProperty.set(true)
+    onStarChangeProperty.set(false)
+  }
   private var list: util.List[ToggleButton] = _
-  @FXML private var groupLikeCon: HBox = null
-  final private val groupLike = new ToggleGroup
-  final private val changeStarService = TaskService(new Star(targetGame))
+  @FXML private var groupLikeCon: HBox = _
+  private val groupLike = new ToggleGroup
+  private val changeStarService = TaskService(new Star(targetGame))
 
   override protected def initialize() = {
     list = Range.inclusive(1, 5)
@@ -35,39 +49,22 @@ class StarChoiceBarController extends DefaultController {
 
     groupLikeCon.getChildren.setAll(list)
 
-    handler = (_, _, newV) => {
-      if (newV == null) {
-        targetGame.star = 0
-        changeStarService.restart()
-      }
-      else {
-        logger.debug(s"New:${newV.getUserData}")
-
-        targetGame.star = newV.getUserData.asInstanceOf[Int]
-        changeStarService.restart()
-      }
-      onStarChangeProperty.set(true)
-      onStarChangeProperty.set(false)
-    }
   }
 
   def load(game: Game) = {
     this.targetGame = game
-    loadDetailPage(game)
-  }
 
-  private def loadDetailPage(g: Game) = {
-    targetGame = g
 
     groupLike.selectedToggleProperty.removeListener(handler)
 
     list.forEach(_.setSelected(false))
     list.asScala
-      .find(btn => btn.getUserData.asInstanceOf[Int] == g.star)
+      .find(btn => btn.getUserData.asInstanceOf[Int] == game.star)
       .foreach {
         _.setSelected(true)
       }
 
     groupLike.selectedToggleProperty.addListener(handler)
   }
+
 }

@@ -1,7 +1,7 @@
 package com.goexp.galgame.common.db.mongo.query
 
 import com.goexp.common.db.mongo.ObjectCreator
-import com.goexp.galgame.common.model.game.brand.{BrandType, CommonBrand}
+import com.goexp.galgame.common.model.game.brand.{BrandState, CommonBrand}
 import com.typesafe.scalalogging.Logger
 import org.bson.Document
 
@@ -19,7 +19,7 @@ class CommonBrandCreator(
     brand.name = doc.getString("name")
     brand.website = doc.getString("website")
     brand.comp = doc.getString("comp")
-    brand.state = BrandType.from(doc.getInteger("type"))
+    brand.state = BrandState.from(doc.getInteger("type"))
 
     logger.trace(s"<brand> ${brand}")
 

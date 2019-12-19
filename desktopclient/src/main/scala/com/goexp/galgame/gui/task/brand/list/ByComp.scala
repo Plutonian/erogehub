@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.task.brand.list
 
-import com.goexp.galgame.common.model.game.brand.BrandType
+import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.gui.db.mongo.query.BrandQuery
 import com.goexp.galgame.gui.model.Brand
 import com.mongodb.client.model.Filters
@@ -15,7 +15,7 @@ class ByComp(private[this] val name: String) extends Task[mutable.Buffer[Brand]]
   override protected def call = {
     BrandQuery.tlp.where(and(
       Filters.eq("comp", name),
-      Filters.ne("type", BrandType.BLOCK.value)
+      Filters.ne("type", BrandState.BLOCK.value)
     ))
       .sort(and(descending("type"), descending("name")))
       .scalaList()

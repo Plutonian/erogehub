@@ -14,7 +14,7 @@ abstract class CommonBrand {
   @BeanProperty
   var comp: String = _
   @BeanProperty
-  var state: BrandType = _
+  var state: BrandState = _
 
 
   override def toString: String = new StringJoiner(", ", classOf[CommonBrand].getSimpleName + "[", "]")

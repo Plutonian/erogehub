@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.view.brand
 
 import java.time.LocalDate
 
-import com.goexp.galgame.common.model.game.brand.BrandType
+import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.gui.model.Brand
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.brand.search.{ByComp, ByName, ByType}
@@ -32,13 +32,13 @@ class MainPanelController extends DefaultController {
   @FXML private var colComp: TableColumn[Brand, String] = _
   @FXML private var colName: TableColumn[Brand, String] = _
   @FXML private var colWebsite: TableColumn[Brand, String] = _
-  @FXML private var colState: TableColumn[Brand, BrandType] = _
+  @FXML private var colState: TableColumn[Brand, BrandState] = _
   @FXML private var colCommand: TableColumn[Brand, Brand] = _
-  @FXML private var choiceBrandType: ChoiceBox[BrandType] = _
+  @FXML private var choiceBrandType: ChoiceBox[BrandState] = _
   @FXML private var typeGroup: ToggleGroup = _
   @FXML private var btnSearch: Button = _
 
-  private var brandType = BrandType.LIKE
+  private var brandType = BrandState.LIKE
   private var keyword: String = _
 
   final private val brandService = TaskService(new ByType(brandType))
@@ -113,11 +113,11 @@ class MainPanelController extends DefaultController {
     brandByCompService.valueProperty.addListener(handler)
 
 
-    choiceBrandType.setItems(FXCollections.observableArrayList(BrandType.values: _*))
-    choiceBrandType.setConverter(new StringConverter[BrandType]() {
-      override def toString(brandType: BrandType) = brandType.name
+    choiceBrandType.setItems(FXCollections.observableArrayList(BrandState.values: _*))
+    choiceBrandType.setConverter(new StringConverter[BrandState]() {
+      override def toString(brandType: BrandState) = brandType.name
 
-      override def fromString(string: String) = BrandType.from(string)
+      override def fromString(string: String) = BrandState.from(string)
     })
     choiceBrandType.setOnAction { _ =>
       brandType = choiceBrandType.getValue
@@ -143,6 +143,6 @@ class MainPanelController extends DefaultController {
 
   }
 
-  def load() = choiceBrandType.setValue(BrandType.CHECKING)
+  def load() = choiceBrandType.setValue(BrandState.CHECKING)
 
 }

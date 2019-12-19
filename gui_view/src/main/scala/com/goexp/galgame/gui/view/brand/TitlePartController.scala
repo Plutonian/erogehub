@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.view.brand
 
 import com.goexp.common.util.string.Strings
-import com.goexp.galgame.common.model.game.brand.BrandType
+import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.brand.ChangeStateTask
@@ -24,27 +24,27 @@ class TitlePartController extends DefaultController {
   @FXML private var menuComp: MenuButton = _
   @FXML private var boxWebsite: HBox = _
   @FXML private var tagPanel: FlowPane = _
-  @FXML private var choiceBrandState: ChoiceBox[BrandType] = _
+  @FXML private var choiceBrandState: ChoiceBox[BrandState] = _
   private var changeBrand: Brand = _
   final private val changeBrandStateService = TaskService(new ChangeStateTask(changeBrand))
   final private val changeGameStateService = TaskService(new MultiBlockByBrand(changeBrand.id))
   final private val listBrandService = TaskService(new ByComp(changeBrand.comp))
-  private var listener: ChangeListener[BrandType] = _
+  private var listener: ChangeListener[BrandState] = _
 
   override protected def initialize() = {
 
     val types =
-      BrandType.values().to(LazyList)
-        .filter { t: BrandType => t ne BrandType.ALL }
+      BrandState.values().to(LazyList)
+        .filter { t: BrandState => t ne BrandState.ALL }
         .reverse
         .asJava
 
     choiceBrandState.setItems(FXCollections.observableArrayList(types))
 
-    choiceBrandState.setConverter(new StringConverter[BrandType]() {
-      override def toString(brandType: BrandType) = brandType.name
+    choiceBrandState.setConverter(new StringConverter[BrandState]() {
+      override def toString(brandType: BrandState) = brandType.name
 
-      override def fromString(string: String) = BrandType.from(string)
+      override def fromString(string: String) = BrandState.from(string)
     })
 
     listener = (_, _, newValue) => {
@@ -54,7 +54,7 @@ class TitlePartController extends DefaultController {
 
         changeBrand.setState(newValue)
         changeBrandStateService.restart()
-        if (newValue eq BrandType.BLOCK)
+        if (newValue eq BrandState.BLOCK)
           changeGameStateService.restart()
       }
 

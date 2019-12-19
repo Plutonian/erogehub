@@ -1,7 +1,7 @@
 package com.goexp.galgame.data.script.source.getchu.local.getimage
 
 import com.goexp.galgame.common.model.game.GameState
-import com.goexp.galgame.common.model.game.brand.BrandType
+import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameQuery}
 import com.goexp.galgame.data.source.getchu.task.Util
@@ -18,12 +18,12 @@ object ByBrand {
 
 
     val types = List(
-      BrandType.LIKE,
-      BrandType.CHECKING,
-      BrandType.HOPE,
-      BrandType.MARK,
-      BrandType.NORMAL,
-      BrandType.UNCHECKED
+      BrandState.LIKE,
+      BrandState.CHECKING,
+      BrandState.HOPE,
+      BrandState.MARK,
+      BrandState.NORMAL,
+      BrandState.UNCHECKED
     )
 
     types.foreach {

@@ -7,9 +7,10 @@ import com.goexp.galgame.gui.task.{CVListTask, TaskService}
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.{DefaultController, MainController}
+import com.goexp.javafx.cell.{NodeTableCell, TextTableCell}
+import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
 import javafx.fxml.FXML
-import javafx.scene.control.cell.PropertyValueFactory
-import javafx.scene.control.{Hyperlink, TableCell, TableColumn, TableView}
+import javafx.scene.control._
 import javafx.scene.image.ImageView
 import javafx.scene.layout.HBox
 
@@ -27,74 +28,55 @@ class CVInfoController extends DefaultController {
   final private val loadCVService = TaskService(new CVListTask())
 
   override protected def initialize() = {
-    colName.setCellValueFactory(new PropertyValueFactory[CV, String]("name"))
-    colStar.setCellValueFactory(new PropertyValueFactory[CV, Int]("star"))
-    colStart.setCellValueFactory(new PropertyValueFactory[CV, LocalDate]("start"))
-    colEnd.setCellValueFactory(new PropertyValueFactory[CV, LocalDate]("end"))
-    colSize.setCellValueFactory(new PropertyValueFactory[CV, Int]("size"))
-    colTag.setCellValueFactory(new PropertyValueFactory[CV, List[String]]("tag"))
+    colName.setCellValueFactory(param => new SimpleStringProperty(param.getValue.name))
+    colStar.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.star))
+    colStart.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.start))
+    colEnd.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.end))
+    colSize.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.size))
+    //    colTag.setCellValueFactory(new PropertyValueFactory[CV, List[String]]("tag"))
+    colTag.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.tag))
 
-    colStar.setCellFactory(_ => {
+    colStar.setCellFactory { _ =>
       val image = LocalRes.HEART_16_PNG
 
-      new TableCell[CV, Int]() {
-        override protected def updateItem(star: Int, empty: Boolean) = {
-          super.updateItem(star, empty)
-          this.setGraphic(null)
-          this.setText(null)
-          if (!empty)
-            if (star > 0) {
-              val stars = Range(0, star).to(LazyList).map { _ => new ImageView(image) }.toArray
+      NodeTableCell { star =>
+        if (star > 0) {
+          val stars = Range(0, star).to(LazyList).map { _ => new ImageView(image) }.toArray
+          new HBox(stars: _*)
+        }
+        else new Label(star.toString)
+      }
+    }
 
-              val starBox = new HBox(stars: _*)
+    colName.setCellFactory { _ =>
+      NodeTableCell { name =>
+        val link = new Hyperlink(name)
+        link.setOnAction(_ => MainController().loadCVTab(name, true))
+        link
 
-              this.setGraphic(starBox)
-            }
-            else this.setText(star.toString)
-        }
       }
-    })
-    colName.setCellFactory(_ => new TableCell[CV, String]() {
-      override protected def updateItem(item: String, empty: Boolean) = {
-        super.updateItem(item, empty)
-        this.setGraphic(null)
-        this.setText(null)
-        if (item != null && !empty) {
-          val link = new Hyperlink(item)
-          link.setOnAction(_ => MainController().loadCVTab(item, true))
-          this.setGraphic(link)
-        }
+    }
+
+    colStart.setCellFactory(_ =>
+      TextTableCell { startDate =>
+        startDate.getYear.toString
       }
-    })
-    colStart.setCellFactory(_ => new TableCell[CV, LocalDate]() {
-      override protected def updateItem(item: LocalDate, empty: Boolean) = {
-        super.updateItem(item, empty)
-        this.setText(null)
-        this.setGraphic(null)
-        if (item != null && !empty) this.setText(String.valueOf(item.getYear))
+    )
+
+    colEnd.setCellFactory(_ =>
+      TextTableCell { endDate =>
+        endDate.getYear.toString
       }
-    })
-    colEnd.setCellFactory(_ => new TableCell[CV, LocalDate]() {
-      override protected def updateItem(item: LocalDate, empty: Boolean) = {
-        super.updateItem(item, empty)
-        this.setText(null)
-        this.setGraphic(null)
-        if (item != null && !empty) this.setText(String.valueOf(item.getYear))
+    )
+
+    colTag.setCellFactory(_ =>
+      NodeTableCell { tag =>
+        val hbox = new HBox
+        hbox.setSpacing(5)
+        hbox.getChildren.setAll(Tags.toNodes(tag.asJava))
+        hbox
       }
-    })
-    colTag.setCellFactory(_ => new TableCell[CV, List[String]]() {
-      override protected def updateItem(tag: List[String], empty: Boolean) = {
-        super.updateItem(tag, empty)
-        this.setGraphic(null)
-        this.setText(null)
-        if (tag != null && !empty) {
-          val hbox = new HBox
-          hbox.setSpacing(5)
-          hbox.getChildren.setAll(Tags.toNodes(tag.asJava))
-          this.setGraphic(hbox)
-        }
-      }
-    })
+    )
 
     tableCV.itemsProperty().bind(loadCVService.valueProperty())
 

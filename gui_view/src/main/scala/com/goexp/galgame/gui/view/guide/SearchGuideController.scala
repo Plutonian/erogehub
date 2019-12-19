@@ -1,12 +1,12 @@
 package com.goexp.galgame.gui.view.guide
 
 import com.goexp.common.util.string.Strings
-import com.goexp.galgame.common.model.game.CommonGame
 import com.goexp.galgame.common.model.game.guide.GameGuide
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.game.search.sub.GuideSearchTask
 import com.goexp.galgame.gui.util.{FXMLLoaderProxy, Websites}
 import com.goexp.galgame.gui.view.DefaultController
+import com.goexp.javafx.cell.NodeListCell
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
@@ -40,37 +40,29 @@ class SearchGuideController extends DefaultController {
     guideListView.setCellFactory(_ => {
       val guideShowLoader = new FXMLLoaderProxy[Region, ShowPageController](classOf[ShowPageController].getResource("showpage.fxml"))
 
-      new ListCell[GameGuide]() {
 
-        override protected def updateItem(guide: GameGuide, empty: Boolean) = {
-          super.updateItem(guide, empty)
-          setText(null)
-          setGraphic(null)
+      NodeListCell[GameGuide] { guide =>
+        val link = new Hyperlink(s"[${guide.from}] ${guide.title}")
+        link.setOnAction(_ => Websites.open(guide.href))
 
-          if (guide != null && !empty) {
+        if (Strings.isNotEmpty(guide.html)) {
 
-            val link = new Hyperlink(s"[${guide.from}] ${guide.title}")
-            link.setOnAction(_ => Websites.open(guide.href))
-
-            if (Strings.isNotEmpty(guide.html)) {
-
-              val viewlink = new Hyperlink("View")
-              viewlink.setOnAction { _ =>
-                val view = new Stage
-                view.setTitle(guide.title)
-                view.setScene(new Scene(guideShowLoader.node))
-                view.show()
-                guideShowLoader.controller.load(guide.html)
-              }
-
-              val hBox = new HBox(link, viewlink)
-              hBox.setSpacing(10)
-              setGraphic(hBox)
-            }
-            else
-              setGraphic(link)
+          val viewlink = new Hyperlink("View")
+          viewlink.setOnAction { _ =>
+            val view = new Stage
+            view.setTitle(guide.title)
+            view.setScene(new Scene(guideShowLoader.node))
+            view.show()
+            guideShowLoader.controller.load(guide.html)
           }
+
+          val hBox = new HBox(link, viewlink)
+          hBox.setSpacing(10)
+          hBox
         }
+        else
+          link
+
       }
     })
 

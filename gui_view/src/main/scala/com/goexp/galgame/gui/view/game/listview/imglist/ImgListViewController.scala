@@ -12,7 +12,7 @@ class ImgListViewController extends DefaultController {
   @FXML private var imgList: GridView[Game] = _
 
   override protected def initialize() =
-    imgList.setCellFactory((_: GridView[Game]) => {
+    imgList.setCellFactory(_ => {
       val loader = new FXMLLoaderProxy[Region, CellController](classOf[CellController].getResource("cell.fxml"))
       new GridCell[Game]() {
         override protected def updateItem(game: Game, empty: Boolean) = {

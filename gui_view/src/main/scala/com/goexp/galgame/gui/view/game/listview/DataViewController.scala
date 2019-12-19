@@ -13,6 +13,7 @@ import com.goexp.galgame.gui.view.DefaultController
 import com.goexp.galgame.gui.view.game.listview.imglist.ImgListViewController
 import com.goexp.galgame.gui.view.game.listview.sidebar.{BrandGroupController, DateGroupController, FilterPanelController}
 import com.goexp.galgame.gui.view.game.listview.tableview.TableController
+import com.goexp.javafx.cell.NodeListCell
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.collections.transformation.{FilteredList, SortedList}
 import javafx.collections.{FXCollections, ObservableList}
@@ -73,23 +74,18 @@ class DataViewController extends DefaultController {
   }
 
   private def initGroupPanel() = {
-    cvList.setCellFactory(_ => new ListCell[DefaultItem]() {
-      override protected def updateItem(cvItemNode: DefaultItem, empty: Boolean) = {
-        super.updateItem(cvItemNode, empty)
-        setText(null)
-        setGraphic(null)
-        if (cvItemNode != null && !empty)
-          setGraphic(new HBox(Tags.toNodes(cvItemNode.title), new Label(String.valueOf(cvItemNode.count))))
+    cvList.setCellFactory(_ =>
+      NodeListCell[DefaultItem] { cvItemNode =>
+        new HBox(Tags.toNodes(cvItemNode.title), new Label(String.valueOf(cvItemNode.count)))
       }
-    })
-    tagList.setCellFactory(_ => new ListCell[DefaultItem]() {
-      override protected def updateItem(tagNode: DefaultItem, empty: Boolean) = {
-        super.updateItem(tagNode, empty)
-        setText(null)
-        setGraphic(null)
-        if (tagNode != null && !empty) setGraphic(new HBox(Tags.toNodes(tagNode.title), new Label(String.valueOf(tagNode.count))))
+    )
+
+    tagList.setCellFactory(_ =>
+      NodeListCell[DefaultItem] { tagNode =>
+        new HBox(Tags.toNodes(tagNode.title), new Label(String.valueOf(tagNode.count)))
       }
-    })
+    )
+
     groupCVServ.valueProperty.addListener((_, _, newValue) => {
       if (newValue != null) cvList.setItems(FXCollections.observableList(newValue))
     })
@@ -111,14 +107,14 @@ class DataViewController extends DefaultController {
   private def initSideBar() = {
     btnHide.setUserData(true)
     btnHide.getProperties.put("groupPanel", groupPanel.getPrefWidth)
-    btnHide.setOnAction(_ => {
+    btnHide.setOnAction { _ =>
       var state = btnHide.getUserData.asInstanceOf[Boolean]
       val width = btnHide.getProperties.get("groupPanel").asInstanceOf[Double]
       state = !state
       groupPanel.setVisible(state)
       groupPanel.setPrefWidth(if (state) width else 0)
       btnHide.setUserData(state)
-    })
+    }
     initSidebarContentView()
   }
 

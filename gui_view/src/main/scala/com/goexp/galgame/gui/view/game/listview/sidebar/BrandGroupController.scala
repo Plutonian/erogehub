@@ -6,8 +6,9 @@ import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.game.panel.group.ByBrand
 import com.goexp.galgame.gui.task.game.panel.group.node.{BrandItem, CompItem, DefaultItem}
+import com.goexp.javafx.cell.TextTreeCell
 import javafx.fxml.FXML
-import javafx.scene.control.{TreeCell, TreeView}
+import javafx.scene.control.TreeView
 
 class BrandGroupController extends FilterController[Game] {
   @FXML private var compTree: TreeView[DefaultItem] = _
@@ -16,15 +17,11 @@ class BrandGroupController extends FilterController[Game] {
   final private val groupBrandServ = TaskService(new ByBrand(filteredGames))
 
   override protected def initialize() = {
-    compTree.setCellFactory(_ => new TreeCell[DefaultItem]() {
-      override protected def updateItem(item: DefaultItem, empty: Boolean) = {
-        super.updateItem(item, empty)
-        setGraphic(null)
-        setText(null)
-        if (!empty && item != null)
-          setText(s"${item.title} (${item.count})")
+    compTree.setCellFactory(_ =>
+      TextTreeCell[DefaultItem] { item =>
+        s"${item.title} (${item.count})"
       }
-    })
+    )
 
     compTree.getSelectionModel.selectedItemProperty.addListener((_, _, item) => {
       if (item != null) {

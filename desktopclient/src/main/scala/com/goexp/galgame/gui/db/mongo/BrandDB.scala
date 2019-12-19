@@ -17,6 +17,6 @@ object BrandDB {
 
   def updateIsLike(item: Brand) =
     tlp.exec { documentMongoCollection =>
-      documentMongoCollection.updateOne(Filters.eq(item.id), set("type", item.isLike.value))
+      documentMongoCollection.updateOne(Filters.eq(item.id), set("type", item.state.value))
     }
 }

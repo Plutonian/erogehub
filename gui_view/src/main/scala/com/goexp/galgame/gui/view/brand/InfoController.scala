@@ -41,7 +41,7 @@ class InfoController extends DefaultController {
   def load(brand: Brand) = {
     Objects.requireNonNull(brand)
 
-    logger.info(s"Brand[${brand.id}] ${brand.name} state:<${brand.isLike}>")
+    logger.info(s"Brand[${brand.id}] ${brand.name} state:<${brand.state}>")
 
     this.brand = brand
     titleController.init(brand)

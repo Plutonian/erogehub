@@ -4,11 +4,10 @@ import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.brand.BrandType
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.TaskService
-import com.goexp.galgame.gui.task.brand.ChangeIsLikeTask
+import com.goexp.galgame.gui.task.brand.ChangeStateTask
 import com.goexp.galgame.gui.task.brand.list.ByComp
 import com.goexp.galgame.gui.task.game.change.MultiBlockByBrand
 import com.goexp.galgame.gui.view.{DefaultController, MainController}
-import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.value.ChangeListener
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.fxml.FXML
@@ -20,14 +19,14 @@ import javafx.util.StringConverter
 import scala.jdk.CollectionConverters._
 
 class TitlePartController extends DefaultController {
-  final val stateChangeProperty = new SimpleBooleanProperty(false)
+
   @FXML private var txtComp: Text = _
   @FXML private var menuComp: MenuButton = _
   @FXML private var boxWebsite: HBox = _
   @FXML private var tagPanel: FlowPane = _
   @FXML private var choiceBrandState: ChoiceBox[BrandType] = _
   private var changeBrand: Brand = _
-  final private val changeBrandStateService = TaskService(new ChangeIsLikeTask(changeBrand))
+  final private val changeBrandStateService = TaskService(new ChangeStateTask(changeBrand))
   final private val changeGameStateService = TaskService(new MultiBlockByBrand(changeBrand.id))
   final private val listBrandService = TaskService(new ByComp(changeBrand.comp))
   private var listener: ChangeListener[BrandType] = _
@@ -53,7 +52,7 @@ class TitlePartController extends DefaultController {
 
         logger.debug(s"<Action>Value:${choiceBrandState.getValue},New:${newValue}")
 
-        changeBrand.setIsLike(newValue)
+        changeBrand.setState(newValue)
         changeBrandStateService.restart()
         if (newValue eq BrandType.BLOCK)
           changeGameStateService.restart()
@@ -61,25 +60,20 @@ class TitlePartController extends DefaultController {
 
     }
 
-    changeBrandStateService.valueProperty.addListener((_, _, newV) => {
-      if (!newV) stateChangeProperty.set(true)
+    listBrandService.valueProperty.addListener { (_, _, newValue) =>
+      if (newValue != null) {
+        val items = newValue.to(LazyList)
+          .filter { b => b != changeBrand }
+          .map { brand =>
+            val item = new MenuItem
+            item.setText(brand.name)
+            item.setUserData(brand)
+            item.setOnAction(_ => MainController().viewBrand(brand))
+            item
+          }.asJava
 
-    })
-    listBrandService.valueProperty.addListener {
-      (_, _, newValue) =>
-        if (newValue != null) {
-          val items = newValue.to(LazyList)
-            .filter { b => b != changeBrand }
-            .map { brand =>
-              val item = new MenuItem
-              item.setText(brand.name)
-              item.setUserData(brand)
-              item.setOnAction(_ => MainController().viewBrand(brand))
-              item
-            }.asJava
-
-          menuComp.getItems.setAll(FXCollections.observableArrayList(items))
-        }
+        menuComp.getItems.setAll(FXCollections.observableArrayList(items))
+      }
 
     }
 
@@ -87,7 +81,7 @@ class TitlePartController extends DefaultController {
 
   def init(brand: Brand) = {
     choiceBrandState.setVisible(true)
-    stateChangeProperty.set(false)
+
     changeBrand = brand
     menuComp.setText(brand.name)
 
@@ -98,7 +92,7 @@ class TitlePartController extends DefaultController {
     //            menuComp.setVisible(false);
     boxWebsite.getChildren.clear()
     choiceBrandState.valueProperty.removeListener(listener)
-    choiceBrandState.setValue(brand.isLike)
+    choiceBrandState.setValue(brand.state)
     choiceBrandState.valueProperty.addListener(listener)
   }
 

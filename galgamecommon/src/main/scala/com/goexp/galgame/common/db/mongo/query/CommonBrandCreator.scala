@@ -19,7 +19,7 @@ class CommonBrandCreator(
     brand.name = doc.getString("name")
     brand.website = doc.getString("website")
     brand.comp = doc.getString("comp")
-    brand.isLike = BrandType.from(doc.getInteger("type"))
+    brand.state = BrandType.from(doc.getInteger("type"))
 
     logger.trace(s"<brand> ${brand}")
 

@@ -50,7 +50,7 @@ class MainPanelController extends DefaultController {
       colComp.setCellValueFactory(p => new SimpleStringProperty(p.getValue.comp))
       colName.setCellValueFactory(p => new SimpleStringProperty(p.getValue.name))
       colWebsite.setCellValueFactory(p => new SimpleStringProperty(p.getValue.website))
-      colState.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.isLike))
+      colState.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.state))
       colStart.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.start))
       colEnd.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.end))
       colSize.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.size))

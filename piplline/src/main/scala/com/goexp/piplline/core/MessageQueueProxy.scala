@@ -15,7 +15,7 @@ class MessageQueueProxy[T <: Message](val capacity: Int) {
   def offer(o: T, timeout: Long, unit: TimeUnit): Boolean =
     msgQueue.offer(o, timeout, unit)
 
-  def pull: T =
+  def poll(): T =
     msgQueue.poll(DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_UNIT)
 
   def poll(timeout: Long, unit: TimeUnit): T =

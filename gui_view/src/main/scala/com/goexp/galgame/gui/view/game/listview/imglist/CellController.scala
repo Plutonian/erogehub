@@ -6,8 +6,8 @@ import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
-import com.goexp.galgame.gui.view.{DefaultController, MainController}
 import com.goexp.galgame.gui.view.game.part.StateChangeController
+import com.goexp.galgame.gui.view.{DefaultController, MainController}
 import javafx.fxml.FXML
 import javafx.scene.control.Label
 import javafx.scene.effect.ColorAdjust
@@ -35,20 +35,21 @@ class CellController extends DefaultController {
     val titles = game.getTitles
     txtName.setText(titles.mainTitle)
     txtSubName.setText(titles.subTitle)
+
     lbBrand.setText(game.brand.name)
     lbDate.setText(DateUtil.formatDate(game.publishDate))
     changeStateController.load(game)
     if (game.tag.size > 0) flowTag.getChildren.setAll(Tags.toNodes(game.tag))
 
+    imageImg.setImage({
+      if (game.isOkImg) new GameImage(game).normal() else null
+    })
+
     if (game.isOkImg) {
-      imageImg.setImage(new GameImage(game).normal())
-      if (game.state.get eq GameState.BLOCK)
-        imageImg.setEffect(new ColorAdjust(0, -1, 0, 0))
-      else
-        imageImg.setEffect(null)
+      imageImg.setEffect({
+        if (game.state.get eq GameState.BLOCK) new ColorAdjust(0, -1, 0, 0) else null
+      })
     }
-    else
-      imageImg.setImage(null)
 
     val image = LocalRes.HEART_32_PNG
 

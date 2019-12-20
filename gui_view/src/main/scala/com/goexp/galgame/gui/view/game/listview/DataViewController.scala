@@ -95,9 +95,9 @@ class DataViewController extends DefaultController {
   }
 
   private def initSwitchBar() = {
-    toggGrid.setUserData(tableView)
-    toggSmall.setUserData(smallListSimple)
     toggImg.setUserData(imgView)
+    toggSmall.setUserData(smallListSimple)
+    toggGrid.setUserData(tableView)
     gameViewChange.selectedToggleProperty.addListener((_, oldValue, checkedBox) => {
       if (checkedBox != null) checkedBox.getUserData.asInstanceOf[Region].toFront()
       else gameViewChange.selectToggle(oldValue)
@@ -199,6 +199,8 @@ class DataViewController extends DefaultController {
     tableView.scrollTo(0)
     smallListSimple.setItems(sortedData)
     smallListSimple.scrollTo(0)
+
+    imgViewController.load(sortedData)
   }
 
   private def resetCount(filteredGames: util.List[Game]) =

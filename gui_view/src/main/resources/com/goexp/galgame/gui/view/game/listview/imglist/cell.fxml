@@ -26,9 +26,9 @@
                         </font>
                     </Label>
                 </AnchorPane>
-                <HBox fx:id="boxStar" maxHeight="-Infinity" prefHeight="30" StackPane.alignment="BOTTOM_RIGHT"/>
             </StackPane>
             <VBox spacing="3">
+                <HBox fx:id="boxStar" maxHeight="-Infinity" prefHeight="30" StackPane.alignment="BOTTOM_RIGHT"/>
                 <Text fx:id="txtName" wrappingWidth="280.0">
                     <font>
                         <Font size="18.0"/>

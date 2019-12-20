@@ -12,9 +12,9 @@
             </top>
             <center>
                 <StackPane>
-                    <fx:include fx:id="imgView" source="imglist/imglist.fxml"/>
                     <fx:include fx:id="tableView" source="tableview/table.fxml"/>
                     <fx:include fx:id="smallListSimple" source="simplelist/small/list.fxml"/>
+                    <fx:include fx:id="imgView" source="imglist/imglist.fxml"/>
                 </StackPane>
             </center>
             <bottom>
@@ -26,19 +26,20 @@
                         <Insets/>
                     </BorderPane.margin>
                     <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
-                        <ToggleButton fx:id="toggSmall" mnemonicParsing="false" selected="true"
-                                      styleClass="left-pill" text="List">
+                        <ToggleButton fx:id="toggImg" mnemonicParsing="false" styleClass="left-pill" text="Img"
+                                      selected="true"
+                                      toggleGroup="$gameViewChange"/>
+                        <ToggleButton fx:id="toggSmall" mnemonicParsing="false"
+                                      styleClass="center-pill" text="List">
                             <toggleGroup>
                                 <ToggleGroup fx:id="gameViewChange"/>
                             </toggleGroup>
                         </ToggleButton>
-<!--                        <ToggleButton fx:id="toggList" mnemonicParsing="false" styleClass="center-pill"-->
-<!--                                      text="Middle" toggleGroup="$gameViewChange"/>-->
-                        <ToggleButton fx:id="toggGrid" mnemonicParsing="false" styleClass="center-pill"
+                        <!--                        <ToggleButton fx:id="toggList" mnemonicParsing="false" styleClass="center-pill"-->
+                        <!--                                      text="Middle" toggleGroup="$gameViewChange"/>-->
+                        <ToggleButton fx:id="toggGrid" mnemonicParsing="false" styleClass="right-pill"
                                       text="Grid" toggleGroup="$gameViewChange"/>
                         <!--<ToggleButton fx:id="toggTreeGrid" mnemonicParsing="false" styleClass="center-pill" text="TreeGrid" toggleGroup="$gameViewChange" />-->
-                        <ToggleButton fx:id="toggImg" mnemonicParsing="false" styleClass="right-pill" text="Img"
-                                      toggleGroup="$gameViewChange"/>
                     </HBox>
                     <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
                         <StackPane>

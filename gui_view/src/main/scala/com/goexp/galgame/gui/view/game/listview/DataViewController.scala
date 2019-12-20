@@ -38,20 +38,11 @@ class DataViewController extends DefaultController {
   @FXML private var lbItemCount: Label = _
   @FXML var progessloading: ProgressBar = _
   /**
-    * Toggle
-    */
-  @FXML private var gameViewChange: ToggleGroup = _
-  //    @FXML
-  //    private ToggleButton toggList;
-  @FXML private var toggGrid: ToggleButton = _
-  @FXML private var toggSmall: ToggleButton = _
-  @FXML private var toggImg: ToggleButton = _
-  /**
     * main panel
     */
   @FXML private var tableView: TableView[Game] = _
   @FXML private var smallListSimple: ListView[Game] = _
-  @FXML private var imgView: Region = _
+  @FXML private var mainTab: TabPane = _
   /**
     * Sidebar
     */
@@ -67,7 +58,10 @@ class DataViewController extends DefaultController {
   final private val groupTagServ = TaskService(new ByTag(filteredGames))
 
   override protected def initialize() = {
-    initSwitchBar()
+    //    val tabs = mainTab.getTabs
+    //    val lastTab = tabs.get(tabs.size() - 1)
+    mainTab.getSelectionModel.selectLast()
+
     initSideBar()
     initGroupPanel()
     btnHide.fire()
@@ -94,15 +88,6 @@ class DataViewController extends DefaultController {
     })
   }
 
-  private def initSwitchBar() = {
-    toggImg.setUserData(imgView)
-    toggSmall.setUserData(smallListSimple)
-    toggGrid.setUserData(tableView)
-    gameViewChange.selectedToggleProperty.addListener((_, oldValue, checkedBox) => {
-      if (checkedBox != null) checkedBox.getUserData.asInstanceOf[Region].toFront()
-      else gameViewChange.selectToggle(oldValue)
-    })
-  }
 
   private def initSideBar() = {
     btnHide.setUserData(true)

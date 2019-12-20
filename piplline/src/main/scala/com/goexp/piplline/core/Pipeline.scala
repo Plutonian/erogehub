@@ -1,6 +1,6 @@
 package com.goexp.piplline.core
 
-import java.util.concurrent.{ExecutorService, Executors, TimeUnit}
+import java.util.concurrent.{ExecutorService, Executors}
 
 import com.goexp.piplline
 import com.goexp.piplline.handler.HandlerConfig
@@ -87,7 +87,7 @@ class Pipeline(private[this] val starter: Starter) {
       while ( {
         running
       }) try {
-        val msg = msgQueueProxy.poll(5, TimeUnit.MINUTES)
+        val msg = msgQueueProxy.poll()
         if (msg != null) {
           mesTypeMap.get(msg.target) match {
             case Some(configs) =>

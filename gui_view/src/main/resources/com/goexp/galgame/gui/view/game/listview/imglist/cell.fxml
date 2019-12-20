@@ -28,15 +28,15 @@
                 </AnchorPane>
             </StackPane>
             <VBox spacing="3">
-                <HBox fx:id="boxStar" maxHeight="-Infinity" prefHeight="30" StackPane.alignment="BOTTOM_RIGHT"/>
                 <Text fx:id="txtName" wrappingWidth="280.0">
                     <font>
                         <Font size="18.0"/>
                     </font>
                 </Text>
-                <Text fx:id="txtSubName" wrappingWidth="280.0" fill="#666">
-                </Text>
+                <!--                <Text fx:id="txtSubName" wrappingWidth="280.0" fill="#666">-->
+                <!--                </Text>-->
                 <Label fx:id="lbBrand" text="Brand"/>
+                <HBox fx:id="boxStar" maxHeight="-Infinity" prefHeight="30" StackPane.alignment="BOTTOM_RIGHT"/>
                 <FlowPane fx:id="flowTag" prefWrapLength="200.0"/>
             </VBox>
         </VBox>

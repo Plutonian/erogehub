@@ -32,9 +32,10 @@ class CellController extends DefaultController {
 
   def load(game: Game) = {
     this.game = game
-    //    val titles = game.getTitles
-    txtName.setText(game.name)
-    //    txtSubName.setText(titles.subTitle)
+
+    val titles = game.getTitles
+    txtName.setText(titles.mainTitle)
+    txtSubName.setText(titles.subTitle)
 
     lbBrand.setText(game.brand.name)
     lbDate.setText(DateUtil.formatDate(game.publishDate))

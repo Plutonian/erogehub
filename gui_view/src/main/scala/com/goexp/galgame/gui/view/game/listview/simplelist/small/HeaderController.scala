@@ -21,6 +21,8 @@ class HeaderController extends DefaultController {
   @FXML private var dateviewController: DateShowController = _
   @FXML private var brandJumpController: JumpBrandController = _
   @FXML private var changeStateController: StateChangeController = _
+
+
   @FXML private var linkView: Hyperlink = _
   @FXML private var imageImg: ImageView = _
   @FXML private var boxStar: HBox = _
@@ -29,8 +31,10 @@ class HeaderController extends DefaultController {
   @FXML private var boxTag: HBox = _
   private var targetGame: Game = _
 
-  override protected def initialize() =
+  override protected def initialize() = {
     linkView.setOnAction(_ => MainController().loadDetail(targetGame))
+
+  }
 
   def load(game: Game) = {
     logger.debug(s"Game[${RED.s(game.id.toString)}] ${RED.s(game.name)} Date:${game.publishDate} img:${game.smallImg}  state:<${

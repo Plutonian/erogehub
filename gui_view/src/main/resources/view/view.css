@@ -6,6 +6,10 @@
 -fx-background-color: white;
 }
 
+.mainTitle{
+-fx-font-size:24px;
+}
+
 .gray .label,.gray .hyperlink,.gray .cell{
 -fx-text-fill:#AAA;
 }

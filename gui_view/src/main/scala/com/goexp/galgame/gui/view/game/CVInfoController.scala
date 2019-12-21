@@ -13,6 +13,7 @@ import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.image.ImageView
 import javafx.scene.layout.HBox
+import Tags.maker
 
 import scala.jdk.CollectionConverters._
 

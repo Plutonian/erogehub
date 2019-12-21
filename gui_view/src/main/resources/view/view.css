@@ -39,8 +39,8 @@
     -fx-padding: 4px 6px 4px 6px; /* 4 8 4 9 */
 }
 
-.tagbig{
--fx-font-size:12px;
+.tagsmall{
+-fx-font-size:10px;
 }
 
 .sidebar{

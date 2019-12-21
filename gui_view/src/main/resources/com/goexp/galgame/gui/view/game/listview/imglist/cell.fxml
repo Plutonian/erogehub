@@ -30,16 +30,11 @@
             </StackPane>
             <VBox spacing="3">
                 <TextFlow>
-                    <Text fx:id="txtName" wrappingWidth="280.0">
-                        <font>
-                            <Font size="18.0"/>
-                        </font>
-                    </Text>
-                    <Text fx:id="txtSubName" wrappingWidth="280.0" fill="#666">
-                    </Text>
+                    <Text fx:id="txtName" styleClass="mainTitle"/>
+                    <Text fx:id="txtSubName" fill="#666"/>
                 </TextFlow>
                 <Label fx:id="lbBrand" text="Brand"/>
-                <HBox fx:id="boxStar" maxHeight="-Infinity" prefHeight="30" StackPane.alignment="BOTTOM_RIGHT"/>
+                <HBox fx:id="boxStar" prefHeight="30" StackPane.alignment="BOTTOM_RIGHT"/>
                 <FlowPane fx:id="flowTag" prefWrapLength="200.0"/>
             </VBox>
         </VBox>

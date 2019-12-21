@@ -40,7 +40,16 @@ class CellController extends DefaultController {
     lbBrand.setText(game.brand.name)
     lbDate.setText(DateUtil.formatDate(game.publishDate))
     changeStateController.load(game)
-    if (game.tag.size > 0) flowTag.getChildren.setAll(Tags.toNodes(game.tag))
+    if (game.tag.size > 0) {
+      val nodes = Tags.toNodes(game.tag) { tag =>
+        val tagLabel = new Label(tag)
+        tagLabel.getStyleClass.add("tag")
+        tagLabel.getStyleClass.add("tagsmall")
+        tagLabel
+      }
+
+      flowTag.getChildren.setAll(nodes)
+    }
 
     imageImg.setImage({
       if (game.isOkImg) new GameImage(game).normal() else null

@@ -52,7 +52,9 @@ class HeaderPartController extends DefaultController {
   private def loadWithoutImage(game: Game) = {
     this.targetGame = game
 
-    flowPainter.getChildren.setAll(Tags.toNodes(game.painter, (str: String) => new Hyperlink(str)))
+    flowPainter.getChildren.setAll(Tags.toNodes(game.painter) {
+      new Hyperlink(_)
+    })
     txtWriter.setText(String.join(",", game.writer))
 
     if (Strings.isNotEmpty(game.intro)) txtIntro.setText(game.intro + "\n\n")

@@ -48,12 +48,13 @@ class TopController extends DefaultController {
     dateviewController.load(game.publishDate)
     brandJumpController.load(game.brand)
     if (game.tag.size > 0) {
-      val nodes = Tags.toNodes(game.tag, (str: String) => {
+      val nodes = Tags.toNodes(game.tag) { str =>
         val tagLabel = new Label(str)
         tagLabel.getStyleClass.add("tag")
-        tagLabel.getStyleClass.add("tagbig")
+        tagLabel.getStyleClass.add("tagsmall")
         tagLabel
-      })
+      }
+
       boxTag.getChildren.setAll(nodes)
     }
     else boxTag.getChildren.clear()

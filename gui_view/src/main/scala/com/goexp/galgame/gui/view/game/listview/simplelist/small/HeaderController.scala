@@ -64,12 +64,12 @@ class HeaderController extends DefaultController {
 
     if (game.tag.size > 0)
       boxTag.getChildren.setAll(
-        Tags.toNodes(game.tag, (str: String) => {
+        Tags.toNodes(game.tag) { str =>
           val tagLabel = new Label(str)
           tagLabel.getStyleClass.add("tag")
-          tagLabel.getStyleClass.add("tagbig")
+          tagLabel.getStyleClass.add("tagsmall")
           tagLabel
-        }))
+        })
     else
       boxTag.getChildren.clear()
 

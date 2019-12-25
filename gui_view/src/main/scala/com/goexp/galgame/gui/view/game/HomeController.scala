@@ -49,7 +49,7 @@ class HomeController extends DefaultController {
   override protected def initialize() = {
 
     def initBlockList() = {
-      val links = gameType2Link(List(GameState.PLAYED)).asJava
+      val links = gameType2Link(List(GameState.PLAYED, GameState.DOWNLOAD_OK)).asJava
       gameStateLinkPanel.getChildren.setAll(links)
     }
 

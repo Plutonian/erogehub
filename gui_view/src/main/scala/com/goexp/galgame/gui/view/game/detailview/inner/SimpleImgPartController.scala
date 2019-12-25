@@ -24,14 +24,14 @@ class SimpleImgPartController extends DefaultController {
 
     listSmallSimple.setCellFactory(_ =>
       NodeListCell[GameImg] { gameImg =>
-        val image = new SimpleImage(game).small(gameImg.index, gameImg.src)
+        val image = new SimpleImage(game).small(gameImg.index)
         new ImageView(image)
       }
     )
 
     listSmallSimple.getSelectionModel.selectedItemProperty.addListener((_, _, simpleLargeImage) => {
       if (simpleLargeImage != null) {
-        val img = new SimpleImage(game).large(simpleLargeImage.index, simpleLargeImage.src)
+        val img = new SimpleImage(game).large(simpleLargeImage.index)
         largeSimple.setImage(img)
       }
     })

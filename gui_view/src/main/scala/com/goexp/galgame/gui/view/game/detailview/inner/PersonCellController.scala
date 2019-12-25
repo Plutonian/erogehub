@@ -49,7 +49,7 @@ class PersonCellController extends DefaultController {
       txtIntro.setText(gameChar.intro)
 
     if (Strings.isNotEmpty(gameChar.img)) {
-      val image = new PersonImage(game).small(gameChar.index, gameChar.img)
+      val image = new PersonImage(game).small(gameChar.index)
       imageImg.setImage(image)
     }
     else

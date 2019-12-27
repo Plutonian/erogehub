@@ -39,7 +39,7 @@ object Sagaoz_net {
 
       logger.info(s"Insert:${insertlist.size}")
       insertlist.foreach { guide =>
-        logger.info(s"insert:$guide")
+        logger.info(s"insert:${guide.title}")
         GuideDB.insert(guide)
       }
     } catch {

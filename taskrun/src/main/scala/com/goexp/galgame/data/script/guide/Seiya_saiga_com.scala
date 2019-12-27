@@ -45,7 +45,7 @@ object Seiya_saiga_com {
       logger.info(s"Insert:${insertlist.size}")
 
       insertlist.foreach { guide =>
-        logger.info(s"insert:$guide")
+        logger.info(s"insert:${guide.title}")
         GuideDB.insert(guide)
       }
     } catch {

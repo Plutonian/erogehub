@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.TilePane?>
 <?import java.net.URL?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.FlowPane?>
 <TitledPane xmlns:fx="http://javafx.com/fxml/1" managed="false" animated="false" style="-fx-background-color: white;"
             text="Date" xmlns="http://javafx.com/javafx"
             fx:controller="com.goexp.galgame.gui.view.game.DateController">
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
-    <HBox spacing="10">
-        <FlowPane fx:id="flowYear"/>
-        <TilePane fx:id="dateCon" prefColumns="6"/>
-    </HBox>
+    <BorderPane>
+        <center>
+            <FlowPane fx:id="flowYear" maxHeight="80" maxWidth="650"/>
+        </center>
+        <right>
+            <TilePane fx:id="dateCon" prefColumns="6"/>
+        </right>
+    </BorderPane>
 </TitledPane>

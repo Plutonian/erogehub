@@ -9,11 +9,14 @@ import scala.beans.BeanProperty
 
 class Brand extends CommonBrand {
   @BeanProperty
-  var start:LocalDate=_
+  var start: LocalDate = _
   @BeanProperty
-  var end:LocalDate=_
+  var end: LocalDate = _
   @BeanProperty
-  var size:Int=_
+  var size: Int = _
+  @BeanProperty
+  var tag: List[String] = _
+
 
   override def toString: String =
     new StringJoiner(", ", classOf[Brand].getSimpleName + "[", "]")

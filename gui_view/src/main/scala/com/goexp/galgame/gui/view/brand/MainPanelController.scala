@@ -7,7 +7,7 @@ import com.goexp.galgame.gui.model.Brand
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.brand.search.{ByComp, ByName, ByType}
 import com.goexp.galgame.gui.util.res.LocalRes
-import com.goexp.galgame.gui.util.{TabSelect, Websites}
+import com.goexp.galgame.gui.util.{TabSelect, Tags, Websites}
 import com.goexp.galgame.gui.view.DefaultController
 import com.goexp.javafx.cell.{NodeTableCell, TextTableCell}
 import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
@@ -16,7 +16,9 @@ import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.image.ImageView
+import javafx.scene.layout.HBox
 import javafx.util.StringConverter
+import Tags.maker
 
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
@@ -26,6 +28,7 @@ class MainPanelController extends DefaultController {
   @FXML var colStart: TableColumn[Brand, LocalDate] = _
   @FXML var colEnd: TableColumn[Brand, LocalDate] = _
   @FXML var colSize: TableColumn[Brand, Int] = _
+  @FXML private var colTag: TableColumn[Brand, List[String]] = _
 
   @FXML private var textBrandKey: TextField = _
   @FXML private var tableBrand: TableView[Brand] = _
@@ -49,12 +52,22 @@ class MainPanelController extends DefaultController {
     def initTable() = {
       colComp.setCellValueFactory(p => new SimpleStringProperty(p.getValue.comp))
       colName.setCellValueFactory(p => new SimpleStringProperty(p.getValue.name))
+      colTag.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.tag))
       colWebsite.setCellValueFactory(p => new SimpleStringProperty(p.getValue.website))
       colState.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.state))
       colStart.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.start))
       colEnd.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.end))
       colSize.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.size))
       colCommand.setCellValueFactory(p => new SimpleObjectProperty(p.getValue))
+
+      colTag.setCellFactory(_ =>
+        NodeTableCell { tag =>
+          val hbox = new HBox
+          hbox.setSpacing(5)
+          hbox.getChildren.setAll(Tags.toNodes(tag.asJava))
+          hbox
+        }
+      )
 
       colStart.setCellFactory { _ =>
         TextTableCell { startDate =>

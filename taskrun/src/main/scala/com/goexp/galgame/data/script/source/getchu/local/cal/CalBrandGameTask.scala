@@ -46,7 +46,7 @@ object CalBrandGameTask {
           }
 
           .filter { s => Strings.isNotEmpty(s) }
-          .filter { s => !Set("ファンディスク", "アニメーション").contains(s) }
+          .filter { s => !Set("ファンディスク", "アニメーション", "学園", "女子学生").contains(s) }
           .groupBy { s => s }.to(LazyList)
 
           .map { case (k, v) => (k, v.size) }

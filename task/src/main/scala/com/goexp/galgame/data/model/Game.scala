@@ -15,10 +15,7 @@ class Game extends CommonGame {
     o match {
       case game: Game =>
         id == game.id &&
-          //                Objects.equals(name, game.name) &&
-          //                Objects.equals(publishDate, game.publishDate) &&
-          //                Objects.equals(imgUrl, game.imgUrl) &&
-          //                Objects.equals(website, game.website) &&
+          (isAdult == game.isAdult) &&
           (brandId == game.brandId) &&
           (writer == game.writer) &&
           (painter == game.painter) &&
@@ -35,10 +32,10 @@ class Game extends CommonGame {
   override def toString: String = {
     new StringJoiner(", ", classOf[Game].getSimpleName + "[", "]")
       .add("id=" + id)
+      .add("isAdult='" + isAdult + "'")
       .add("name='" + RED.s(name) + "'")
       .add("publishDate=" + publishDate)
       .add("smallImg='" + smallImg + "'")
-      //      .add("website='" + website + "'")
       //      .add("writer=" + writer)
       //      .add("painter=" + painter)
       //      .add("type=" + `type`)
@@ -53,9 +50,7 @@ class Game extends CommonGame {
   override def hashCode: Int =
     Objects.hash(
       id.asInstanceOf,
-      //                name,
-      //                publishDate,
-      //                imgUrl,
+      isAdult.asInstanceOf,
       brandId.asInstanceOf,
       writer,
       painter,

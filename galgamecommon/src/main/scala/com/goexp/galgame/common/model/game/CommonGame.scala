@@ -48,6 +48,7 @@ abstract class CommonGame {
   var gameCharacters: util.List[GameCharacter] = _
   var gameImgs: util.List[GameImg] = _
   var isNew = false
+  var isAdult = true
 
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[CommonGame]

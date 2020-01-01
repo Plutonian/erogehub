@@ -45,12 +45,18 @@ class ListPageParser {
 
     val g = new Game
     g.smallImg = item.select("img.lazy").attr("data-original")
-    val gEle = item.select("div.content_block a.blueb")
-    g.name = gEle.text
-    val url = gEle.attr("href")
+
+    val itemContentEle = item.select("div.content_block")
+
+    val titleEle = itemContentEle.select("a.blueb")
+    g.name = titleEle.text
+    val url = titleEle.attr("href")
     g.id = parseId(url)
-    val raw = item.select("div.content_block p").text
+
+    val raw = itemContentEle.select("p").text
     g.publishDate = parseDate(raw)
+    val gType = itemContentEle.select("p span.orangeb").text
+    g.isAdult = gType == "[PCゲーム・アダルト]"
     g
 
   }

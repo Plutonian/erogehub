@@ -42,10 +42,20 @@ class DownloadPage extends OnErrorReTryHandler(20, 5, TimeUnit.SECONDS) {
       sendTo[ParsePage]((html, "ListPageParser"))
 
     // download page by brand(Doujin)
-    case (brandId: Int, "BrandList") =>
+    case (brandId: Int, "doujin") =>
       logger.info(s"brandId:$brandId")
 
       val url = GameList.byBrandDoujin(brandId)
+      val request = RequestBuilder(url).adaltFlag.build
+      val html = getHtml(request)
+
+      sendTo[ParsePage]((html, "ListPageParser"))
+
+    // download page by brand(normal)
+    case (brandId: Int, "normal") =>
+      logger.info(s"brandId:$brandId")
+
+      val url = GameList.byBrand(brandId)
       val request = RequestBuilder(url).adaltFlag.build
       val html = getHtml(request)
 

@@ -8,6 +8,6 @@ class FromBrand(val brandId: Int) extends Starter {
   private val logger = Logger(classOf[FromBrand])
 
   override def process() = {
-    sendTo[DownloadPage]((brandId, "BrandList"))
+    sendTo[DownloadPage]((brandId, "doujin"))
   }
 }

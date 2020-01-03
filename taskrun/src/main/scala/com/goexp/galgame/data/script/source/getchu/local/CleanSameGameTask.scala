@@ -34,7 +34,7 @@ object CleanSameGameTask {
 
     logger.info("Init OK")
 
-    BrandQuery.tlp
+    BrandQuery()
       .scalaList().to(LazyList)
       .foreach {
         b =>

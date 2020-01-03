@@ -14,7 +14,7 @@ object UpdateBrandTask {
 
     Network.initProxy()
 
-    val localMap = BrandQuery.tlp
+    val localMap = BrandQuery()
       .scalaList().to(LazyList)
       .map(b => b.id -> b)
       .toMap

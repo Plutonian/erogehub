@@ -30,7 +30,7 @@ object ByBrand {
       t =>
         logger.info(s"Loading... brand type:${t}")
 
-        val brandList = BrandQuery.tlp
+        val brandList = BrandQuery()
           .where(Filters.eq("type", t.value))
           .sort(Sorts.descending("type"))
           .scalaList()

@@ -13,7 +13,7 @@ object MarkSameGameTask {
   private val logger = Logger(MarkSameGameTask.getClass)
 
   def main(args: Array[String]): Unit = {
-    val brandList = BrandQuery.tlp.scalaList()
+    val brandList = BrandQuery().scalaList()
 
     for (brand <- brandList) {
       val games = GameFullQuery()

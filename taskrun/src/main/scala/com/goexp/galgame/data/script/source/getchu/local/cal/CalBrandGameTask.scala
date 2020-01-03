@@ -17,7 +17,7 @@ object CalBrandGameTask {
 
     logger.info("Init OK")
 
-    val brands = BrandQuery.tlp
+    val brands = BrandQuery()
       //      .where(Filters.ne("type", BrandType.BLOCK.value)) // not blocked
       .scalaList()
 

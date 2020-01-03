@@ -6,7 +6,5 @@ import com.goexp.galgame.common.model.CV
 import com.goexp.galgame.gui.db.mongo.DB_NAME
 
 object CVQuery {
-  private val tlp = new DBQueryTemplate.Builder[CV](DB_NAME, "cv", CVCreator).build
-
-  def apply() = tlp
+  def apply() = new DBQueryTemplate.Builder[CV](DB_NAME, "cv", CVCreator).build
 }

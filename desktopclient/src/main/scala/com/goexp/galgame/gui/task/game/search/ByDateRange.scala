@@ -11,7 +11,7 @@ import javafx.concurrent.Task
 
 class ByDateRange(private[this] val start: LocalDate, private[this] val end: LocalDate) extends Task[ObservableList[Game]] {
   override protected def call: ObservableList[Game] = {
-    val list = GameQuery.tlp
+    val list = GameQuery()
       .where(and(
         gte("publishDate", DateUtil.toDate(start.toString + " 00:00:00")),
         lte("publishDate", DateUtil.toDate(end.toString + " 23:59:59"))))

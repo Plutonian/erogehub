@@ -8,7 +8,7 @@ import javafx.concurrent.Task
 
 class ByName(private[this] val name: String) extends Task[ObservableList[Game]] {
   override protected def call: ObservableList[Game] = {
-    val list = GameQuery.tlp
+    val list = GameQuery()
       .where(regex("name", "^" + name))
       .list()
 

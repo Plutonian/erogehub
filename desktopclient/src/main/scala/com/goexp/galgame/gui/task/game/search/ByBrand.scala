@@ -10,7 +10,7 @@ import javafx.concurrent.Task
 class ByBrand(private[this] val brandId: Int) extends Task[ObservableList[Game]] {
   override protected def call: ObservableList[Game] = {
 
-    val list = GameQuery.tlp.where(Filters.eq("brandId", brandId)).list()
+    val list = GameQuery().where(Filters.eq("brandId", brandId)).list()
 
     FXCollections.observableArrayList(list)
   }

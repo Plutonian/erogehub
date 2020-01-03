@@ -11,7 +11,7 @@ import javafx.concurrent.Task
 class ByStarRange(private[this] val begin: Int,
                   private[this] val end: Int) extends Task[ObservableList[Game]] {
   override protected def call: ObservableList[Game] = {
-    val list = GameQuery.tlp
+    val list = GameQuery()
       .where(
         and(
           Filters.eq("state", GameState.PLAYED.value),

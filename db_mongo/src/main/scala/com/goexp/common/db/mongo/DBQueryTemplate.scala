@@ -9,10 +9,10 @@ import scala.jdk.CollectionConverters._
 
 object DBQueryTemplate {
 
-  class Builder[T](private val dbName: String,
-                   private val tableName: String,
-                   private val creator: ObjectCreator[T]
-                  ) {
+  class Builder[T] private[DBQueryTemplate](private val dbName: String,
+                                            private val tableName: String,
+                                            private val creator: ObjectCreator[T]
+                                           ) {
     private var defaultSort: Bson = _
     private var defaultSelect: Bson = _
 

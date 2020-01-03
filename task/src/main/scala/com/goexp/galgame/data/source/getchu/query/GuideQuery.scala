@@ -6,7 +6,7 @@ import com.goexp.galgame.common.model.game.guide.GameGuide
 import com.goexp.galgame.data.source.getchu.DB_NAME
 
 object GuideQuery {
-  private val tlp = new DBQueryTemplate.Builder[GameGuide](DB_NAME, "guide", GuideCreator).build
+  private val tlp = DBQueryTemplate[GameGuide](DB_NAME, "guide", GuideCreator).build
 
   def apply() = tlp
 

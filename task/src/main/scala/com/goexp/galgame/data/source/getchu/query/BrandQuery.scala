@@ -8,7 +8,7 @@ import com.typesafe.scalalogging.Logger
 import org.bson.Document
 
 object BrandQuery {
-  private val tlp = new DBQueryTemplate.Builder[Brand](DB_NAME, "brand", new BrandCreator).build
+  private val tlp = DBQueryTemplate[Brand](DB_NAME, "brand", new BrandCreator).build
 
   def apply() = tlp
 

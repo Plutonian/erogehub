@@ -35,13 +35,13 @@ object GameQuery {
 }
 
 object GameFullQuery {
-  val fullTlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame).build
+  val fullTlp = DBQueryTemplate[Game](DB_NAME, TABLE_NAME, SimpleGame).build
 
   def apply() = fullTlp
 }
 
 object GameFullWithCharQuery {
-  val fullTlpWithChar = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
+  val fullTlpWithChar = DBQueryTemplate[Game](DB_NAME, TABLE_NAME, SimpleGame)
     .defaultSelect(exclude("simpleImg"))
     .build
 
@@ -49,7 +49,7 @@ object GameFullWithCharQuery {
 }
 
 object GameSimpleQuery {
-  val simpleTlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
+  val simpleTlp = DBQueryTemplate[Game](DB_NAME, TABLE_NAME, SimpleGame)
     .defaultSelect(exclude("gamechar"))
     .defaultSelect(exclude("simpleImg"))
     .build

@@ -43,7 +43,7 @@ object GameQuery {
     }
   }
 
-  private val tpl = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
+  private val tpl = DBQueryTemplate[Game](DB_NAME, TABLE_NAME, SimpleGame)
     //      .defaultSelect(exclude("gamechar", "simpleImg"))
     .defaultSort(descending("publishDate", "name"))
     .build
@@ -56,7 +56,7 @@ object GameImgQuery {
 
   import GameQuery.TABLE_NAME
 
-  private val tpl = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
+  private val tpl = DBQueryTemplate[Game](DB_NAME, TABLE_NAME, SimpleGame)
     .defaultSelect(include("simpleImg"))
     .build
 
@@ -67,7 +67,7 @@ object GamePersonQuery {
 
   import GameQuery.TABLE_NAME
 
-  private val tpl = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
+  private val tpl = DBQueryTemplate[Game](DB_NAME, TABLE_NAME, SimpleGame)
     .defaultSelect(include("gamechar"))
     .build
 

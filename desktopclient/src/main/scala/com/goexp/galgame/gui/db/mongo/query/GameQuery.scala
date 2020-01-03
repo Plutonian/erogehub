@@ -4,6 +4,7 @@ import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
 import com.goexp.galgame.common.db.mongo.query.CommonGameCreator
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.db.mongo.DB_NAME
+import com.goexp.galgame.gui.db.mongo.query.GameQuery.SimpleGame
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.cache.AppCache
 import com.mongodb.client.model.Filters
@@ -13,7 +14,7 @@ import com.typesafe.scalalogging.Logger
 import org.bson.Document
 
 object GameQuery {
-  private val TABLE_NAME = "game"
+  val TABLE_NAME = "game"
 
   object SimpleGame extends ObjectCreator[Game] {
     final private val logger = Logger(SimpleGame.getClass)
@@ -42,20 +43,27 @@ object GameQuery {
     }
   }
 
-  private val tlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
+  def apply() = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
     //      .defaultSelect(exclude("gamechar", "simpleImg"))
-    .defaultSort(descending("publishDate", "name")).build
+    .defaultSort(descending("publishDate", "name"))
+    .build
 
-  def apply() = tlp
-
-  val imgTlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame).defaultSelect(include("simpleImg")).build
-  val personTlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame).defaultSelect(include("gamechar")).build
 }
 
 object GameImgQuery {
-  def apply() = GameQuery.imgTlp
+
+  import GameQuery.TABLE_NAME
+
+  def apply() = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
+    .defaultSelect(include("simpleImg"))
+    .build
 }
 
 object GamePersonQuery {
-  def apply() = GameQuery.personTlp
+
+  import GameQuery.TABLE_NAME
+
+  def apply() = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
+    .defaultSelect(include("gamechar"))
+    .build
 }

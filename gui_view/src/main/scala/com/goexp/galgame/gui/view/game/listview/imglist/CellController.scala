@@ -53,7 +53,7 @@ class CellController extends DefaultController {
     }
 
     imageImg.setImage {
-      if (game.isOkImg) new GameImage(game).normal() else null
+      if (game.isOkImg) GameImage(game).normal() else null
     }
 
     if (game.isOkImg) {

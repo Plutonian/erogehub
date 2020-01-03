@@ -8,7 +8,7 @@ import com.typesafe.scalalogging.Logger
 import javafx.application.Application
 import javafx.scene.paint.Color
 import javafx.scene.{Parent, Scene}
-import javafx.stage.Stage
+import javafx.stage.{Stage, StageStyle}
 
 object HGameApp extends App {
   var app: HGameApp = _
@@ -33,10 +33,12 @@ class HGameApp extends Application {
 
     val proxy = new FXMLLoaderProxy[Parent, MainController](getClass.getResource("HGameApp.fxml"))
     primaryStage.setTitle("エロゲ まとめ")
-    primaryStage.setWidth(1400)
-    primaryStage.setMinWidth(1200)
-    primaryStage.setHeight(800)
-    primaryStage.setMinHeight(800)
+    primaryStage.initStyle(StageStyle.UNDECORATED)
+    //    primaryStage.setWidth(1400)
+    //    primaryStage.setMinWidth(1200)
+    //    primaryStage.setHeight(800)
+    //    primaryStage.setMinHeight(800)
+    primaryStage.setMaximized(true)
     primaryStage.setScene(new Scene(proxy.node, Color.BLACK))
     primaryStage.show()
 

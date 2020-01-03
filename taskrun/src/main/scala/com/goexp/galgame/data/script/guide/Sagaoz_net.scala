@@ -20,7 +20,7 @@ object Sagaoz_net {
   private val logger = Logger(Sagaoz_net.getClass)
 
   def main(args: Array[String]): Unit = {
-    val locals = GuideQuery.tlp
+    val locals = GuideQuery()
       .where(Filters.eq("from", DataFrom.sagaoz_net.value))
       .set().asScala
 

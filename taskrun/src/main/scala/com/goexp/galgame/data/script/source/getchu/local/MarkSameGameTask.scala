@@ -3,7 +3,7 @@ package com.goexp.galgame.data.script.source.getchu.local
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.importor.GameDB.StateDB
-import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameQuery}
+import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameFullQuery}
 import com.goexp.galgame.data.source.getchu.task.handler.PreProcessGame._
 import com.mongodb.client.model.Filters
 import com.typesafe.scalalogging.Logger
@@ -16,7 +16,7 @@ object MarkSameGameTask {
     val brandList = BrandQuery.tlp.scalaList()
 
     for (brand <- brandList) {
-      val games = GameQuery.fullTlp
+      val games = GameFullQuery()
         .where(Filters.eq("brandId", brand.id))
         .scalaList().to(LazyList)
 

@@ -5,6 +5,7 @@ import com.goexp.galgame.common.db.mongo.query.CommonGameCreator
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.DB_NAME
+import com.goexp.galgame.data.source.getchu.query.GameQuery.{SimpleGame, TABLE_NAME}
 import com.mongodb.client.model.Projections.exclude
 import com.typesafe.scalalogging.Logger
 import org.bson.Document
@@ -12,16 +13,6 @@ import org.bson.Document
 object GameQuery {
 
   val TABLE_NAME = "game"
-
-  val fullTlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame).build
-  val fullTlpWithChar = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
-    .defaultSelect(exclude("simpleImg"))
-    .build
-  val simpleTlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
-    .defaultSelect(exclude("gamechar"))
-    .defaultSelect(exclude("simpleImg"))
-    .build
-
 
   object SimpleGame extends ObjectCreator[Game] {
     private val logger = Logger(SimpleGame.getClass)
@@ -34,24 +25,35 @@ object GameQuery {
 
       g.brandId = Option(doc.getInteger("brandId")).map(_.toInt).getOrElse(0)
       g.group = doc.getString("group")
-      g.state = Option(doc.getInteger("state")).map(s => GameState.from(s)).getOrElse(GameState.UNCHECKED)
+      g.state = Option(doc.getInteger("state")).map(GameState.from(_)).getOrElse(GameState.UNCHECKED)
 
       logger.trace(s"<game>${g}")
 
       g
     }
   }
-
 }
 
 object GameFullQuery {
-  def apply() = GameQuery.fullTlp
+  val fullTlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame).build
+
+  def apply() = fullTlp
 }
 
 object GameFullWithCharQuery {
-  def apply() = GameQuery.fullTlpWithChar
+  val fullTlpWithChar = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
+    .defaultSelect(exclude("simpleImg"))
+    .build
+
+  def apply() = fullTlpWithChar
 }
 
 object GameSimpleQuery {
-  def apply() = GameQuery.simpleTlp
+  val simpleTlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
+    .defaultSelect(exclude("gamechar"))
+    .defaultSelect(exclude("simpleImg"))
+    .build
+
+
+  def apply() = simpleTlp
 }

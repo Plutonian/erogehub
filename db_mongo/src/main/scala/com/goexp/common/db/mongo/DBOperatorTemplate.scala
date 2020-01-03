@@ -7,8 +7,7 @@ import org.bson.Document
 
 class DBOperatorTemplate(dbName: String,
                          tableName: String) extends AbstractDBTemplate(dbName, tableName) {
-  Objects.requireNonNull(dbName)
-  Objects.requireNonNull(tableName)
+
 
   def exec(callback: MongoCollection[Document] => Unit): Unit = {
     Objects.requireNonNull(callback)

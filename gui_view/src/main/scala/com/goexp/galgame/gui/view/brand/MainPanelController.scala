@@ -1,11 +1,13 @@
 package com.goexp.galgame.gui.view.brand
 
 import java.time.LocalDate
+import java.util
 
 import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.gui.model.Brand
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.brand.search.{ByComp, ByName, ByType}
+import com.goexp.galgame.gui.util.Tags.maker
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{TabSelect, Tags, Websites}
 import com.goexp.galgame.gui.view.DefaultController
@@ -18,9 +20,7 @@ import javafx.scene.control._
 import javafx.scene.image.ImageView
 import javafx.scene.layout.HBox
 import javafx.util.StringConverter
-import Tags.maker
 
-import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
 class MainPanelController extends DefaultController {
@@ -113,9 +113,9 @@ class MainPanelController extends DefaultController {
     initTable()
 
 
-    val handler: ChangeListener[mutable.Buffer[Brand]] = (_, _, newValue) => {
+    val handler: ChangeListener[util.List[Brand]] = (_, _, newValue) => {
       if (newValue != null)
-        tableBrand.setItems(FXCollections.observableArrayList(newValue.asJava))
+        tableBrand.setItems(FXCollections.observableArrayList(newValue))
     }
 
 

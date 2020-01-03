@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.db.mongo
 
-import com.goexp.common.db.mongo.DBOperatorTemplate
+import com.goexp.common.db.mongo.DBOperator
 
 package object gamedb {
-  val tlp = new DBOperatorTemplate(DB_NAME, "game")
+  val tlp = new DBOperator(DB_NAME, "game")
 }

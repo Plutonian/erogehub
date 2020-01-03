@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.db.mongo.query
 
 import java.util
 
-import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
+import com.goexp.common.db.mongo.{DBQuery, ObjectCreator}
 import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.db.mongo.query.CommonBrandCreator
 import com.goexp.galgame.gui.db.mongo.DB_NAME
@@ -33,7 +33,7 @@ object BrandQuery {
     b
 
   }
-  private val tpl = DBQueryTemplate[Brand](DB_NAME, "brand", creator)
+  private val tpl = DBQuery[Brand](DB_NAME, "brand", creator)
     .defaultSort(ascending("comp"))
     .build
 

@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.source.getchu.query
 
-import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
+import com.goexp.common.db.mongo.{DBQuery, ObjectCreator}
 import com.goexp.galgame.common.db.mongo.query.CommonBrandCreator
 import com.goexp.galgame.data.model.Brand
 import com.goexp.galgame.data.source.getchu.DB_NAME
@@ -8,7 +8,7 @@ import com.typesafe.scalalogging.Logger
 import org.bson.Document
 
 object BrandQuery {
-  private val tlp = DBQueryTemplate[Brand](DB_NAME, "brand", new BrandCreator).build
+  private val tlp = DBQuery[Brand](DB_NAME, "brand", new BrandCreator).build
 
   def apply() = tlp
 

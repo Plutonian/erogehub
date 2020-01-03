@@ -5,14 +5,14 @@ import java.util.Objects
 import com.mongodb.client.MongoCollection
 import org.bson.Document
 
-class DBOperatorTemplate(dbName: String,
-                         tableName: String) extends DBTemplate(dbName, tableName) {
+class DBOperator(database: String,
+                 table: String) extends DBTemplate(database, table) {
 
 
   def exec(callback: MongoCollection[Document] => Unit): Unit = {
     Objects.requireNonNull(callback)
 
-    val db = mongoClient.getDatabase(dbName)
-    callback(db.getCollection(tableName))
+    val db = mongoClient.getDatabase(database)
+    callback(db.getCollection(table))
   }
 }

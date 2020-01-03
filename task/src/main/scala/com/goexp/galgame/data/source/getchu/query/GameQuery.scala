@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.source.getchu.query
 
-import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
+import com.goexp.common.db.mongo.{DBQuery, ObjectCreator}
 import com.goexp.galgame.common.db.mongo.query.CommonGameCreator
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.Game
@@ -35,13 +35,13 @@ object GameQuery {
 }
 
 object GameFullQuery {
-  val fullTlp = DBQueryTemplate[Game](DB_NAME, TABLE_NAME, SimpleGame).build
+  val fullTlp = DBQuery[Game](DB_NAME, TABLE_NAME, SimpleGame).build
 
   def apply() = fullTlp
 }
 
 object GameFullWithCharQuery {
-  val fullTlpWithChar = DBQueryTemplate[Game](DB_NAME, TABLE_NAME, SimpleGame)
+  val fullTlpWithChar = DBQuery[Game](DB_NAME, TABLE_NAME, SimpleGame)
     .defaultSelect(exclude("simpleImg"))
     .build
 
@@ -49,7 +49,7 @@ object GameFullWithCharQuery {
 }
 
 object GameSimpleQuery {
-  val simpleTlp = DBQueryTemplate[Game](DB_NAME, TABLE_NAME, SimpleGame)
+  val simpleTlp = DBQuery[Game](DB_NAME, TABLE_NAME, SimpleGame)
     .defaultSelect(exclude("gamechar"))
     .defaultSelect(exclude("simpleImg"))
     .build

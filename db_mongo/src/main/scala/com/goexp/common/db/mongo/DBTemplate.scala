@@ -8,12 +8,12 @@ object DBTemplate {
   private val mongoClient: MongoClient = MongoClients.create
 }
 
-abstract class DBTemplate(protected val dbName: String,
-                          protected val tableName: String) {
+abstract class DBTemplate(protected val database: String,
+                          protected val table: String) {
   protected val mongoClient = DBTemplate.mongoClient
 
-  Objects.requireNonNull(dbName)
-  Objects.requireNonNull(tableName)
+  Objects.requireNonNull(database)
+  Objects.requireNonNull(table)
 
 
 }

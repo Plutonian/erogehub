@@ -7,12 +7,12 @@ import org.bson.conversions.Bson
 
 import scala.jdk.CollectionConverters._
 
-object DBQueryTemplate {
+object DBQuery {
 
-  class Builder[T] private[DBQueryTemplate](private val dbName: String,
-                                            private val tableName: String,
-                                            private val creator: ObjectCreator[T]
-                                           ) {
+  class Builder[T] private[DBQuery](private val database: String,
+                                    private val table: String,
+                                    private val creator: ObjectCreator[T]
+                                   ) {
     private var defaultSort: Bson = _
     private var defaultSelect: Bson = _
 
@@ -26,17 +26,17 @@ object DBQueryTemplate {
       this
     }
 
-    def build = new DBQueryTemplate[T](dbName, tableName, creator, defaultSelect, defaultSort)
+    def build = new DBQuery[T](database, table, creator, defaultSelect, defaultSort)
   }
 
-  def apply[T](dbName: String, tableName: String, defaultCreator: ObjectCreator[T]) = new Builder(dbName, tableName, defaultCreator)
+  def apply[T](database: String, table: String, defaultCreator: ObjectCreator[T]) = new Builder(database, table, defaultCreator)
 
 }
 
-class DBQueryTemplate[T] private(dbName: String,
-                                 tableName: String,
-                                 private val defaultCreator: ObjectCreator[T]
-                                ) extends DBTemplate(dbName, tableName) {
+class DBQuery[T] private(database: String,
+                         table: String,
+                         private val defaultCreator: ObjectCreator[T]
+                        ) extends DBTemplate(database, table) {
 
   //init start
 
@@ -44,16 +44,17 @@ class DBQueryTemplate[T] private(dbName: String,
 
   //init end
 
-  private val collection = mongoClient.getDatabase(dbName).getCollection(tableName)
+  private val collection = mongoClient.getDatabase(database).getCollection(table)
   private var defaultSort: Bson = _
   private var defaultSelect: Bson = _
 
-  def this(dbName: String,
-           tableName: String,
+  def this(database: String,
+           table: String,
            defaultCreator: ObjectCreator[T],
            defaultSelect: Bson,
            defaultSort: Bson) {
-    this(dbName, tableName, defaultCreator)
+    this(database, table, defaultCreator)
+
     this.defaultSelect = defaultSelect
     this.defaultSort = defaultSort
   }
@@ -62,17 +63,17 @@ class DBQueryTemplate[T] private(dbName: String,
   private var select: Bson = _
   private var sort: Bson = _
 
-  def where(where: Bson): DBQueryTemplate[T] = {
+  def where(where: Bson): DBQuery[T] = {
     this.where = where
     this
   }
 
-  def select(select: Bson): DBQueryTemplate[T] = {
+  def select(select: Bson): DBQuery[T] = {
     this.select = select
     this
   }
 
-  def sort(sort: Bson): DBQueryTemplate[T] = {
+  def sort(sort: Bson): DBQuery[T] = {
     this.sort = sort
     this
   }

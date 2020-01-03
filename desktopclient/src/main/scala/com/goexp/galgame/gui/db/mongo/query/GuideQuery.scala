@@ -9,8 +9,10 @@ import com.mongodb.client.model.Sorts.ascending
 object GuideQuery {
   //    private val logger = Logger(GuideQuery.getClass)
 
-  def apply() = new DBQueryTemplate.Builder[GameGuide](DB_NAME, "guide", GuideCreator)
+  private val tpl = new DBQueryTemplate.Builder[GameGuide](DB_NAME, "guide", GuideCreator)
     .defaultSort(ascending("title"))
     .build
+
+  def apply() = tpl
 
 }

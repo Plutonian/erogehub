@@ -33,7 +33,10 @@ object BrandQuery {
     b
 
   }
+  private val tpl = new DBQueryTemplate.Builder[Brand](DB_NAME, "brand", creator)
+    .defaultSort(ascending("comp"))
+    .build
 
-  def apply() = new DBQueryTemplate.Builder[Brand](DB_NAME, "brand", creator).defaultSort(ascending("comp")).build
+  def apply() = tpl
 
 }

@@ -27,6 +27,8 @@ object TagQuery {
     tagType
   }
 
-  def apply() = new DBQueryTemplate.Builder[TagType](DB_NAME, "tag", creator).build
+  private val tpl = new DBQueryTemplate.Builder[TagType](DB_NAME, "tag", creator).build
+
+  def apply() = tpl
 
 }

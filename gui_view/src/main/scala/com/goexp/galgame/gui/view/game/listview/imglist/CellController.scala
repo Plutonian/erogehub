@@ -52,14 +52,14 @@ class CellController extends DefaultController {
       flowTag.getChildren.setAll(nodes)
     }
 
-    imageImg.setImage({
+    imageImg.setImage {
       if (game.isOkImg) new GameImage(game).normal() else null
-    })
+    }
 
     if (game.isOkImg) {
-      imageImg.setEffect({
+      imageImg.setEffect {
         if (game.state.get eq GameState.BLOCK) new ColorAdjust(0, -1, 0, 0) else null
-      })
+      }
     }
 
     val image = LocalRes.HEART_16_PNG

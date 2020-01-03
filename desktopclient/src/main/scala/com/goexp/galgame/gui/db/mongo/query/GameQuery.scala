@@ -6,7 +6,7 @@ import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.goexp.galgame.gui.db.mongo.query.GameQuery.SimpleGame
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.util.cache.AppCache
+import com.goexp.galgame.gui.util.cache.BrandCache
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Projections.include
 import com.mongodb.client.model.Sorts.descending
@@ -26,12 +26,13 @@ object GameQuery {
       val g = parentCreator.create(doc).asInstanceOf[Game]
       val brandId = doc.getInteger("brandId")
 
-      g.brand = Option(AppCache.brandCache.get(brandId))
-        .getOrElse {
+      g.brand = BrandCache().get(brandId) match {
+        case Some(value) => value
+        case None =>
           val brand = BrandQuery().where(Filters.eq(brandId)).one().orNull
-          AppCache.brandCache.put(brandId, brand)
+          BrandCache().put(brandId, brand)
           brand
-        }
+      }
 
 
       g.setState(GameState.from(doc.getInteger("state")))

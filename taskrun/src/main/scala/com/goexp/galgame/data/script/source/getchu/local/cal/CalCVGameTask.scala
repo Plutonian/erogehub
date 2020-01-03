@@ -11,7 +11,7 @@ object CalCVGameTask {
 
   def main(args: Array[String]): Unit = {
 
-    val cvList = CVQuery.tlp.scalaList().to(LazyList)
+    val cvList = CVQuery().scalaList().to(LazyList)
     logger.info("Init OK")
 
     cvList.foreach {

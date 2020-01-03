@@ -33,7 +33,7 @@ object GetTrueCVTask {
 
   def main(args: Array[String]): Unit = {
 
-    val list = CVQuery.tlp.scalaList().toList
+    val list = CVQuery().scalaList().toList
     val localCV = getMap(list)
 
     logger.info("Init OK")

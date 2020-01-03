@@ -49,6 +49,6 @@ object ImporterStart {
     }
   }
 
-  def showHowToUse() = funcTable.foreach({ case (name, desc, _) => print(s"$name:$desc\n") })
+  def showHowToUse() = funcTable.foreach { case (name, desc, _) => print(s"$name:$desc\n") }
 
 }

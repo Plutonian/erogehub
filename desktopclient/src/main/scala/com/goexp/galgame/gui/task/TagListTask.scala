@@ -9,5 +9,5 @@ import scala.collection.mutable
 
 class TagListTask extends Task[mutable.Buffer[TagType]] {
   override protected def call =
-    TagQuery.tlp.sort(ascending("order")).scalaList()
+    TagQuery().sort(ascending("order")).scalaList()
 }

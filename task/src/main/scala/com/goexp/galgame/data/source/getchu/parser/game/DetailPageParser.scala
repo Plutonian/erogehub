@@ -2,7 +2,7 @@ package com.goexp.galgame.data.source.getchu.parser.game
 
 import com.goexp.galgame.common.model.game.{GameCharacter, GameImg}
 import com.goexp.galgame.data.model.Game
-import DetailPageParser.{DetailParser, GameCharParser, SimpleImgParser}
+import com.goexp.galgame.data.source.getchu.parser.game.DetailPageParser.{DetailParser, GameCharParser, SimpleImgParser}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
@@ -74,9 +74,11 @@ private object DetailPageParser {
       root.select("#wrapper div.tabletitle:contains(サンプル画像)").next.select("a.highslide")
         .asScala.to(LazyList)
         .map { a =>
-          val img = new GameImg
-          img.src = a.attr("href")
-          img.index = imgIndex
+          val img = GameImg(
+            src = a.attr("href"),
+            index = imgIndex
+          )
+
           imgIndex += 1
           img
         }

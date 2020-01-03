@@ -23,15 +23,15 @@ class SimpleImgPartController extends DefaultController {
   override protected def initialize() = {
 
     listSmallSimple.setCellFactory(_ =>
-      NodeListCell[GameImg] { gameImg =>
-        val image = new SimpleImage(game).small(gameImg.index)
+      NodeListCell[GameImg] { case GameImg(_, index) =>
+        val image = new SimpleImage(game).small(index)
         new ImageView(image)
       }
     )
 
     listSmallSimple.getSelectionModel.selectedItemProperty.addListener((_, _, simpleLargeImage) => {
-      if (simpleLargeImage != null) {
-        val img = new SimpleImage(game).large(simpleLargeImage.index)
+      Option(simpleLargeImage).foreach { case GameImg(_, index) =>
+        val img = new SimpleImage(game).large(index)
         largeSimple.setImage(img)
       }
     })

@@ -77,9 +77,11 @@ class CommonGameCreator(
     }
 
     val imgCreator: ObjectCreator[GameImg] = (doc: Document) => {
-      val gameImg = new GameImg
-      gameImg.src = doc.getString("src")
-      gameImg.index = doc.getInteger("index")
+      val gameImg = GameImg(
+        src = doc.getString("src"),
+        index = doc.getInteger("index")
+      )
+
 
       logger.trace(s"${gameImg}")
 

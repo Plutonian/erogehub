@@ -26,12 +26,10 @@ object GameQuery {
       val g = parentCreator.create(doc).asInstanceOf[Game]
       val brandId = doc.getInteger("brandId")
 
-      g.brand = BrandCache().get(brandId) match {
-        case Some(value) => value
-        case None =>
-          val brand = BrandQuery().where(Filters.eq(brandId)).one().orNull
-          BrandCache().put(brandId, brand)
-          brand
+      g.brand = BrandCache().get(brandId).getOrElse {
+        val brand = BrandQuery().where(Filters.eq(brandId)).one().orNull
+        BrandCache().put(brandId, brand)
+        brand
       }
 
 

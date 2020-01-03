@@ -6,7 +6,7 @@ import java.util.Objects
 import com.goexp.common.util.string.ConsoleColors.RED
 import com.goexp.galgame.common.Config.IMG_PATH
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.util.cache.AppCache
+import com.goexp.galgame.gui.util.cache.ImageCache
 import com.typesafe.scalalogging.Logger
 import javafx.scene.image.Image
 
@@ -20,23 +20,20 @@ object GameImages {
 
     logger.debug(s"LocalKey=${RED.s(diskCacheKey)},memCacheKey=${memCacheKey}")
 
-    val imageCache = AppCache.imageMemCache
     //try heat cache
 
-    imageCache.get(memCacheKey) match {
-      case Some(img) => img
-      case None =>
-        val localPath = IMG_PATH.resolve(diskCacheKey + ".jpg")
-        logger.debug(s"localPath=[${localPath}]")
+    ImageCache().get(memCacheKey).getOrElse {
+      val localPath = IMG_PATH.resolve(diskCacheKey + ".jpg")
+      logger.debug(s"localPath=[${localPath}]")
 
-        //heat disk cache or load from remote
-        if (Files.exists(localPath)) {
-          val image = new Image("file:" + localPath.toString)
-          imageCache.put(memCacheKey, image)
-          image
-        } else {
-          null
-        }
+      //heat disk cache or load from remote
+      if (Files.exists(localPath)) {
+        val image = new Image("file:" + localPath.toString)
+        ImageCache().put(memCacheKey, image)
+        image
+      } else {
+        null
+      }
     }
 
   }

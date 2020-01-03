@@ -27,7 +27,7 @@ object GameQuery {
 
       g.brand = Option(AppCache.brandCache.get(brandId))
         .getOrElse {
-          val brand = BrandQuery.tlp.where(Filters.eq(brandId)).one().orNull
+          val brand = BrandQuery().where(Filters.eq(brandId)).one().orNull
           AppCache.brandCache.put(brandId, brand)
           brand
         }

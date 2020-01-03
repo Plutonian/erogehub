@@ -10,7 +10,7 @@ import scala.collection.mutable
 
 class ByComp(private[this] val name: String) extends Task[mutable.Buffer[Brand]] {
   override protected def call = {
-    BrandQuery.tlp.where(regex("comp", name))
+    BrandQuery().where(regex("comp", name))
       .scalaList()
   }
 }

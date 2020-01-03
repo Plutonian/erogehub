@@ -63,13 +63,14 @@ class CommonGameCreator(
   private[CommonGameCreator] object Creator {
 
     val personCreator: ObjectCreator[GameCharacter] = (doc: Document) => {
-      val person = new GameCharacter
-      person.name = doc.getString("name")
-      person.cv = doc.getString("cv")
-      person.intro = doc.getString("intro")
-      person.trueCV = doc.getString("truecv")
-      person.img = doc.getString("img")
-      person.index = doc.getInteger("index")
+      val person = GameCharacter(
+        name = doc.getString("name"),
+        cv = doc.getString("cv"),
+        intro = doc.getString("intro"),
+        trueCV = doc.getString("truecv"),
+        img = doc.getString("img"),
+        index = doc.getInteger("index")
+      )
 
       logger.trace(s"${person}")
 

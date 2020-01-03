@@ -1,12 +1,11 @@
 package com.goexp.galgame.common.model.game
 
-class GameCharacter {
-  var name: String = _
-  var cv: String = _
-  var intro: String = _
-  var trueCV: String = _
-  var img: String = _
-  var index: Int = _
+case class GameCharacter(name: String,
+                         cv: String,
+                         intro: String,
+                         trueCV: String,
+                         img: String,
+                         index: Int) {
 
 
   override def toString = s"GameCharacter([$index]$name, $cv, $trueCV, $img)"

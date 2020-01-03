@@ -54,14 +54,17 @@ private object DetailPageParser {
       root.select("#wrapper div.tabletitle:contains(キャラクター)").next.select("tbody>tr:nth-of-type(2n+1)").asScala
         .to(LazyList)
         .map { tr =>
-          val person = new GameCharacter
-          person.index = index
           val title = tr.select("h2.chara-name").text
-          person.img = tr.select("td:nth-of-type(1)>img").attr("src")
-          person.cv = parseCV(title)
-          person.trueCV = ""
-          person.name = parseName(title.replace(person.cv, ""))
-          person.intro = tr.select("dl dd").html.replaceAll("<[^>]*>", "").trim
+          val cv = parseCV(title)
+
+          val person = GameCharacter(
+            name = parseName(title.replace(cv, "")),
+            cv = cv,
+            intro = tr.select("dl dd").html.replaceAll("<[^>]*>", "").trim,
+            trueCV = "",
+            img = tr.select("td:nth-of-type(1)>img").attr("src"),
+            index = index
+          )
           index += 1
           person
         }

@@ -33,36 +33,35 @@ class Game2DB extends DefaultHandler {
     val localMap = local.asScala.to(LazyList).map { cc => cc.index -> cc }.toMap
     //merge local to remote
     remote.asScala.map { rc =>
-      localMap.get(rc.index) match {
-        case Some(localC) =>
+      localMap.get(rc.index)
+        .map { localC =>
 
           /**
             * merge local to remote
             */
 
+          var cc = rc
+
           // copy trueCV
           if (Strings.isNotEmpty(localC.trueCV)) {
-            logger.trace(s"Merge trueCV ${rc}")
-            rc.trueCV = localC.trueCV
+            logger.trace(s"Merge trueCV ${cc}")
+            cc = cc.copy(trueCV = localC.trueCV) // = localC.trueCV
           }
           // also copy cv
           if (Strings.isNotEmpty(localC.cv)) {
-            logger.trace(s"Merge cv ${rc}")
-            rc.cv = localC.cv
+            logger.trace(s"Merge cv ${cc}")
+            cc = cc.copy(cv = localC.cv)
           }
 
           /**
             * log
             */
 
-          if (Strings.isEmpty(localC.cv) && Strings.isNotEmpty(rc.cv))
-            logger.info(s"New cv ${rc.cv}")
+          if (Strings.isEmpty(localC.cv) && Strings.isNotEmpty(cc.cv))
+            logger.info(s"New cv ${cc.cv}")
 
-
-        case _ =>
-      }
-
-      rc
+          cc
+        }.getOrElse(rc)
 
     }.asJava
   }

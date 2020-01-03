@@ -4,13 +4,13 @@ import java.util.Objects
 
 import com.mongodb.client.{MongoClient, MongoClients}
 
-object AbstractDBTemplate {
+object DBTemplate {
   private val mongoClient: MongoClient = MongoClients.create
 }
 
-abstract class AbstractDBTemplate(protected val dbName: String,
-                                  protected val tableName: String) {
-  protected val mongoClient = AbstractDBTemplate.mongoClient
+abstract class DBTemplate(protected val dbName: String,
+                          protected val tableName: String) {
+  protected val mongoClient = DBTemplate.mongoClient
 
   Objects.requireNonNull(dbName)
   Objects.requireNonNull(tableName)

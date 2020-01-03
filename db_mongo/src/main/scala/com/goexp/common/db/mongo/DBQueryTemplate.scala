@@ -36,7 +36,7 @@ object DBQueryTemplate {
 class DBQueryTemplate[T] private(dbName: String,
                                  tableName: String,
                                  private val defaultCreator: ObjectCreator[T]
-                                ) extends AbstractDBTemplate(dbName, tableName) {
+                                ) extends DBTemplate(dbName, tableName) {
 
   //init start
 

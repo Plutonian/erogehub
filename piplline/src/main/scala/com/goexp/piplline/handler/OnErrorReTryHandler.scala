@@ -10,7 +10,7 @@ import com.typesafe.scalalogging.Logger
 
 import scala.collection.concurrent.TrieMap
 
-abstract class OnErrorReTryHandler(private[this] val retryTimes: Int) extends DefaultHandler {
+abstract class OnErrorReTryHandler(private val retryTimes: Int) extends DefaultHandler {
   require(retryTimes > 0, "times must > 0")
 
   final private val logger = Logger(this.getClass)

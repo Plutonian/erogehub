@@ -5,7 +5,7 @@ import com.goexp.galgame.gui.model.Game
 import javafx.scene.image.Image
 
 
-class PersonImage(private[this] val game: Game) {
+class PersonImage(private val game: Game) {
 
   def small(index: Int): Image = {
     val key = GetchuGameLocal.gameChar(game.id, index)

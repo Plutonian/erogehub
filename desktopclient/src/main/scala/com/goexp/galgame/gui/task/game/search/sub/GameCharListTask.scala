@@ -9,7 +9,7 @@ import javafx.concurrent.Task
 
 import scala.jdk.CollectionConverters._
 
-class GameCharListTask(private[this] val gameId: Int) extends Task[ObservableList[GameCharacter]] {
+class GameCharListTask(private val gameId: Int) extends Task[ObservableList[GameCharacter]] {
   override protected def call: ObservableList[GameCharacter] = {
     GamePersonQuery().where(Filters.eq(gameId)).one()
       .map {

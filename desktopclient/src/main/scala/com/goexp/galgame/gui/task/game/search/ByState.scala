@@ -7,7 +7,7 @@ import com.mongodb.client.model.Filters
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Task
 
-class ByState(private[this] val gameState: GameState) extends Task[ObservableList[Game]] {
+class ByState(private val gameState: GameState) extends Task[ObservableList[Game]] {
   override protected def call: ObservableList[Game] = {
     val list = GameQuery()
       .where(Filters.eq("state", gameState.value))

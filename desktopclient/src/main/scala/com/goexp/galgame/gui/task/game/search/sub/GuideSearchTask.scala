@@ -6,10 +6,10 @@ import com.mongodb.client.model.Filters.regex
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Task
 
-class GuideSearchTask(private[this] val name: String) extends Task[ObservableList[GameGuide]] {
+class GuideSearchTask(private val name: String) extends Task[ObservableList[GameGuide]] {
   override protected def call: ObservableList[GameGuide] = {
     val list = GuideQuery()
-      .where(regex("title", "^" + name))
+      .where(regex("title", s"^$name"))
       .list()
 
     FXCollections.observableArrayList(list)

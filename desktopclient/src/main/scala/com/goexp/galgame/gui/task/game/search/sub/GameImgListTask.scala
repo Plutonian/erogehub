@@ -6,7 +6,7 @@ import com.mongodb.client.model.Filters
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Task
 
-class GameImgListTask(private[this] val gameId: Int) extends Task[ObservableList[GameImg]] {
+class GameImgListTask(private val gameId: Int) extends Task[ObservableList[GameImg]] {
   override protected def call: ObservableList[GameImg] = {
     GameImgQuery().where(Filters.eq(gameId)).one()
       .map {

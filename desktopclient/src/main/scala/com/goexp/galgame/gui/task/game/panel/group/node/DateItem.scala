@@ -4,9 +4,9 @@ import java.time.LocalDate
 
 import com.goexp.galgame.common.model.DateRange
 
-class DateItem(private[this] val title: String,
+class DateItem(title: String,
                val range: DateRange,
-               private[this] val count: Int,
+               count: Int,
                val dateType: DateType) extends DefaultItem(title, count) {
 
   def this(title: String, start: LocalDate, end: LocalDate, count: Int, dateType: DateType) {

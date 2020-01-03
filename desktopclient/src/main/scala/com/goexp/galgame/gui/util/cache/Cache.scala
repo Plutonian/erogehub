@@ -7,7 +7,7 @@ import scala.collection.mutable
 
 
 class Cache[K, V]() {
-  private[this] val imageCache = mutable.Map[K, SoftReference[V]]()
+  private val imageCache = mutable.Map[K, SoftReference[V]]()
 
   def get(key: K) = {
     if (imageCache.contains(key)) {

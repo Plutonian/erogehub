@@ -10,7 +10,7 @@ import javafx.collections.ObservableList
 import javafx.concurrent.Task
 import javafx.scene.layout.Region
 
-class CommonTabController(private[this] val taskCreator: () => Task[ObservableList[Game]]) {
+class CommonTabController(private val taskCreator: () => Task[ObservableList[Game]]) {
   val loader = new FXMLLoaderProxy[Region, DataViewController](classOf[DataViewController].getResource("dataview.fxml"))
   val node = loader.node
   val controller = loader.controller

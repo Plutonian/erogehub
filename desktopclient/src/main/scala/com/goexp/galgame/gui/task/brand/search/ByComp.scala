@@ -8,7 +8,7 @@ import javafx.concurrent.Task
 import scala.collection.mutable
 
 
-class ByComp(private[this] val name: String) extends Task[mutable.Buffer[Brand]] {
+class ByComp(private val name: String) extends Task[mutable.Buffer[Brand]] {
   override protected def call = {
     BrandQuery().where(regex("comp", name))
       .scalaList()

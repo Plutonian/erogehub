@@ -8,7 +8,7 @@ object GameImage {
   def apply(game: Game): GameImage = new GameImage(game)
 }
 
-class GameImage(private[this] val game: Game) {
+class GameImage(private val game: Game) {
 
   def tiny(): Image = {
     val key = GetchuGameLocal.tiny120Img(game.id)

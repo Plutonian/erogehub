@@ -6,8 +6,8 @@ import com.mongodb.client.model.Filters
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Task
 
-class ByCV(private[this] val cv: String,
-           private[this] val real: Boolean) extends Task[ObservableList[Game]] {
+class ByCV(private val cv: String,
+           private val real: Boolean) extends Task[ObservableList[Game]] {
   override protected def call: ObservableList[Game] = {
     val list = if (real)
       GameQuery().where(Filters.eq("gamechar.truecv", cv)).list()

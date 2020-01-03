@@ -8,7 +8,7 @@ import com.typesafe.scalalogging.Logger
 
 import scala.collection.mutable
 
-class Pipeline(private[this] val starter: Starter) {
+class Pipeline(private val starter: Starter) {
 
 
   private val logger = Logger(classOf[Pipeline])

@@ -6,7 +6,7 @@ import com.typesafe.scalalogging.Logger
 import org.bson.Document
 
 class CommonBrandCreator(
-                          private[this] val brand: CommonBrand
+                          private val brand: CommonBrand
                         ) extends ObjectCreator[CommonBrand] {
 
   private val logger = Logger(classOf[CommonBrandCreator])

@@ -9,7 +9,7 @@ import com.mongodb.client.model.Filters.{and, gte, lte}
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Task
 
-class ByDateRange(private[this] val start: LocalDate, private[this] val end: LocalDate) extends Task[ObservableList[Game]] {
+class ByDateRange(private val start: LocalDate, private val end: LocalDate) extends Task[ObservableList[Game]] {
   override protected def call: ObservableList[Game] = {
     val list = GameQuery()
       .where(and(

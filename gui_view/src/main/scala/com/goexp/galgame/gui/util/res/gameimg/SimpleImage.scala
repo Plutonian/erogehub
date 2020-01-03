@@ -4,7 +4,7 @@ import com.goexp.galgame.common.website.getchu.GetchuGameLocal
 import com.goexp.galgame.gui.model.Game
 import javafx.scene.image.Image
 
-class SimpleImage(private[this] val game: Game) {
+class SimpleImage(private val game: Game) {
 
   def small(index: Int): Image = {
     val key = GetchuGameLocal.smallSimpleImg(game.id, index)

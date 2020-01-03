@@ -4,7 +4,7 @@ import com.goexp.galgame.gui.db.mongo.gamedb.StateDB
 import com.goexp.galgame.gui.model.Game
 import javafx.concurrent.Task
 
-class Like(private[this] val game: Game) extends Task[Void] {
+class Like(private val game: Game) extends Task[Void] {
   override protected def call: Void = {
     StateDB.update(game)
     null

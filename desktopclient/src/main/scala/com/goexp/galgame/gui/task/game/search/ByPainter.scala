@@ -6,7 +6,7 @@ import com.mongodb.client.model.Filters
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Task
 
-class ByPainter(private[this] val cv: String) extends Task[ObservableList[Game]] {
+class ByPainter(private val cv: String) extends Task[ObservableList[Game]] {
   override protected def call: ObservableList[Game] = {
 
     val list = GameQuery()

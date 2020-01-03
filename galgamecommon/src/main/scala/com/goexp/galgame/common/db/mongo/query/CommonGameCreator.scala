@@ -13,7 +13,7 @@ import scala.jdk.CollectionConverters._
 
 
 class CommonGameCreator(
-                         private[this] val game: CommonGame
+                         private val game: CommonGame
                        ) extends ObjectCreator[CommonGame] {
 
   private val logger = Logger(classOf[CommonGameCreator])

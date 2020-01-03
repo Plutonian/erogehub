@@ -48,18 +48,20 @@ object GetTrueCVTask {
 
         g.gameCharacters = g.gameCharacters.asScala
           .map(p => {
+            var tempP = p
+
             def isTarget(p: Person) = Strings.isNotEmpty(p.cv) && Strings.isEmpty(p.trueCV)
 
-            val cv = p.cv.trim.toLowerCase
-            if (isTarget(p) && localCV.contains(cv)) {
+            val cv = tempP.cv.trim.toLowerCase
+            if (isTarget(tempP) && localCV.contains(cv)) {
               val trueCV = localCV(cv)
-              p.trueCV = trueCV.name
+              tempP = tempP.copy(trueCV = trueCV.name)
 
-              logger.info(s"CV:${p.cv},trueCV:${p.trueCV}  Game: ${g.name} ")
+              logger.info(s"CV:${tempP.cv},trueCV:${tempP.trueCV}  Game: ${g.name} ")
               change = true
             }
 
-            p
+            tempP
           }).asJava
 
         (change, g)

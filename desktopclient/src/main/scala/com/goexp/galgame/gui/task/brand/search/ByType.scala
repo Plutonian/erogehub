@@ -8,13 +8,13 @@ import javafx.concurrent.Task
 
 import scala.collection.mutable
 
-class ByType(private val `type`: BrandState) extends Task[mutable.Buffer[Brand]] {
+class ByType(private val state: BrandState) extends Task[mutable.Buffer[Brand]] {
   override protected def call = {
-    if (`type` eq BrandState.ALL)
+    if (state eq BrandState.ALL)
       BrandQuery().scalaList()
     else
       BrandQuery()
-        .where(Filters.eq("type", `type`.value))
+        .where(Filters.eq("type", state.value))
         .scalaList()
 
   }

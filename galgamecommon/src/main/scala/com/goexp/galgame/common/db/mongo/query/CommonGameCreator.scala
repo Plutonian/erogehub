@@ -35,24 +35,24 @@ class CommonGameCreator(
 
     game.gameCharacters =
       Option(doc.get("gamechar").asInstanceOf[util.List[Document]])
-        .map({
-          _.asScala.to(LazyList).map(p => personCreator.create(p))
-            .groupBy(p => {
+        .map {
+          _.asScala.to(LazyList).map(personCreator.create)
+            .groupBy { p =>
               if (Strings.isEmpty(p.cv)) {
                 if (Strings.isEmpty(p.img)) 3 else 2
               } else 1
-            }).to(LazyList)
-            .sortBy({ case (k, _) => k })
-            .flatMap({ case (_, v) => v }).asJava
-        })
+            }.to(LazyList)
+            .sortBy { case (k, _) => k }
+            .flatMap { case (_, v) => v }.asJava
+        }
         .getOrElse(util.List.of[GameCharacter]())
 
 
     game.gameImgs =
       Option(doc.get("simpleImg").asInstanceOf[util.List[Document]])
-        .map({
-          _.asScala.to(LazyList).map(p => imgCreator.create(p)).asJava
-        })
+        .map {
+          _.asScala.to(LazyList).map(imgCreator.create).asJava
+        }
         .getOrElse(util.List.of[GameImg]())
 
     logger.trace(s"${game}")

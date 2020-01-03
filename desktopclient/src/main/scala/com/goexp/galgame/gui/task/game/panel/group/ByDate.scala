@@ -17,9 +17,9 @@ class ByDate(val groupGames: util.List[Game]) extends Task[TreeItem[DateItem]] {
     val yearsStream = filteredGames.asScala.to(LazyList)
       .filter(game => game.publishDate != null)
       .groupBy(game => Option(game.publishDate).map(date => date.getYear).getOrElse(0)).to(LazyList)
-      .filter({ case (year, _) => year != 0 })
-      .sortBy({ case (k, _) => k }).reverse
-      .map({ case (year, games) =>
+      .filter { case (year, _) => year != 0 }
+      .sortBy { case (k, _) => k }.reverse
+      .map { case (year, games) =>
 
         val yearNode = {
           new TreeItem[DateItem](new DateItem(
@@ -31,19 +31,19 @@ class ByDate(val groupGames: util.List[Game]) extends Task[TreeItem[DateItem]] {
         }
 
         val monthNode = games.groupBy(game => Option(game.publishDate).map(date => date.getMonthValue).getOrElse(0)).to(LazyList)
-          .sortBy({ case (k, _) => k }).reverse
-          .map({ case (month, v) =>
+          .sortBy { case (k, _) => k }.reverse
+          .map { case (month, v) =>
             new TreeItem[DateItem](new DateItem(s"$month 月 (${v.size})",
               LocalDate.of(year, month, 1).minusDays(1),
               LocalDate.of(year, month, 1).plusMonths(1),
               v.size, DateType.MONTH))
 
-          }).asJava
+          }.asJava
 
         yearNode.getChildren.addAll(monthNode)
         yearNode
 
-      }).asJava
+      }.asJava
 
 
     val root = new TreeItem[DateItem]

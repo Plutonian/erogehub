@@ -26,12 +26,12 @@ class ByBrand(val groupGames: util.List[Game]) extends Task[TreeItem[DefaultItem
           Option(brand.comp).getOrElse(brand)
       }
       .to(LazyList)
-      .sortBy({ case (_, v) => v.size }).reverse
-      .map({
+      .sortBy { case (_, v) => v.size }.reverse
+      .map {
         case (comp: String, v) =>
 
           val brandNodes = v.groupBy(g => g.brand).to(LazyList)
-            .map({ case (brand, games) => new TreeItem[DefaultItem](new BrandItem(brand.name, games.size, brand)) })
+            .map { case (brand, games) => new TreeItem[DefaultItem](new BrandItem(brand.name, games.size, brand)) }
             .asJava
 
           if (brandNodes.size > 1) {
@@ -46,7 +46,7 @@ class ByBrand(val groupGames: util.List[Game]) extends Task[TreeItem[DefaultItem
 
           val compNode = new TreeItem[DefaultItem](new BrandItem(brand.name, v.size, brand))
           compNode
-      })
+      }
       .asJava
 
     val root = new TreeItem[DefaultItem]

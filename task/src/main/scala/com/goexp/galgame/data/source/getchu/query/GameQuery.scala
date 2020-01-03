@@ -5,7 +5,7 @@ import com.goexp.galgame.common.db.mongo.query.CommonGameCreator
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.DB_NAME
-import com.goexp.galgame.data.source.getchu.query.GameQuery.{SimpleGame, TABLE_NAME}
+import com.goexp.galgame.data.source.getchu.query.GameQuery.{SimpleGameCreator, TABLE_NAME}
 import com.mongodb.client.model.Projections.exclude
 import com.typesafe.scalalogging.Logger
 import org.bson.Document
@@ -14,8 +14,8 @@ object GameQuery {
 
   val TABLE_NAME = "game"
 
-  object SimpleGame extends ObjectCreator[Game] {
-    private val logger = Logger(SimpleGame.getClass)
+  object SimpleGameCreator extends ObjectCreator[Game] {
+    private val logger = Logger(SimpleGameCreator.getClass)
 
     override def create(doc: Document) = {
       logger.trace(s"<create> doc=${doc}")
@@ -35,13 +35,13 @@ object GameQuery {
 }
 
 object GameFullQuery {
-  val fullTlp = DBQuery[Game](DB_NAME, TABLE_NAME, SimpleGame).build
+  val fullTlp = DBQuery[Game](DB_NAME, TABLE_NAME, SimpleGameCreator).build
 
   def apply() = fullTlp
 }
 
 object GameFullWithCharQuery {
-  val fullTlpWithChar = DBQuery[Game](DB_NAME, TABLE_NAME, SimpleGame)
+  val fullTlpWithChar = DBQuery[Game](DB_NAME, TABLE_NAME, SimpleGameCreator)
     .defaultSelect(exclude("simpleImg"))
     .build
 
@@ -49,7 +49,7 @@ object GameFullWithCharQuery {
 }
 
 object GameSimpleQuery {
-  val simpleTlp = DBQuery[Game](DB_NAME, TABLE_NAME, SimpleGame)
+  val simpleTlp = DBQuery[Game](DB_NAME, TABLE_NAME, SimpleGameCreator)
     .defaultSelect(exclude("gamechar"))
     .defaultSelect(exclude("simpleImg"))
     .build

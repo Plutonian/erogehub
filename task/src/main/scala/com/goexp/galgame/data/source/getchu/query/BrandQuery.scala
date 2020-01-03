@@ -8,12 +8,12 @@ import com.typesafe.scalalogging.Logger
 import org.bson.Document
 
 object BrandQuery {
-  private val tlp = DBQuery[Brand](DB_NAME, "brand", new BrandCreator).build
+  private val tlp = DBQuery[Brand](DB_NAME, "brand", Creator).build
 
   def apply() = tlp
 
-  private class BrandCreator extends ObjectCreator[Brand] {
-    private val logger = Logger(classOf[BrandCreator])
+  private object Creator extends ObjectCreator[Brand] {
+    private val logger = Logger(Creator.getClass)
 
     override def create(doc: Document): Brand = {
       logger.trace(s"<create> doc=${doc}")

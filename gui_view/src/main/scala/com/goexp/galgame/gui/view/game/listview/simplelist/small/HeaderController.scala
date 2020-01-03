@@ -1,6 +1,7 @@
 package com.goexp.galgame.gui.view.game.listview.simplelist.small
 
 import com.goexp.common.util.string.ConsoleColors.RED
+import com.goexp.galgame.common.model.game.CommonGame.Titles
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
@@ -58,9 +59,10 @@ class HeaderController extends DefaultController {
     this.targetGame = game
     changeStateController.load(game)
     brandJumpController.load(game.brand)
-    val titles = game.getTitles
-    txtName.setText(titles.mainTitle)
-    txtSubName.setText(titles.subTitle)
+
+    val Titles(mainTitle, subTitle) = game.getTitles
+    txtName.setText(mainTitle)
+    txtSubName.setText(subTitle)
 
     if (game.tag.size > 0)
       boxTag.getChildren.setAll(

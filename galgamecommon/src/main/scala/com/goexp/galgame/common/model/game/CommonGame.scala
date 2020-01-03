@@ -10,7 +10,7 @@ import scala.beans.BeanProperty
 object CommonGame {
   private val NAME_SPLITER_REX = Pattern.compile("[〜「]")
 
-  class Titles(val mainTitle: String, val subTitle: String) {
+  case class Titles(mainTitle: String, subTitle: String) {
     override def toString = new StringJoiner(", ", classOf[CommonGame.Titles].getSimpleName + "[", "]").add("mainTitle='" + mainTitle + "'").add("subTitle='" + subTitle + "'").toString
   }
 
@@ -30,7 +30,7 @@ abstract class CommonGame {
     val mainTitle = if (find) tName.substring(0, matcher.start) else tName
     val subTitle = if (find) tName.substring(matcher.start) else ""
 
-    new CommonGame.Titles(mainTitle.trim, subTitle.trim)
+    CommonGame.Titles(mainTitle.trim, subTitle.trim)
   }
 
 

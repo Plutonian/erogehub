@@ -1,5 +1,6 @@
 package com.goexp.galgame.data.script.source.getchu.local
 
+import com.goexp.galgame.common.model.game.CommonGame.Titles
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.importor.GameDB.StateDB
@@ -35,8 +36,8 @@ object MarkSameGameTask {
             value
               .groupBy {
                 g =>
-                  val titles = g.getTitles
-                  s"${titles.mainTitle}${titles.subTitle}"
+                  val Titles(mainTitle, subTitle) = g.getTitles
+                  s"${mainTitle}${subTitle}"
               }.to(LazyList)
               .filter {
                 case (_, v) =>

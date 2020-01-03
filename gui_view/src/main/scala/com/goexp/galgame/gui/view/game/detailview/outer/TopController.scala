@@ -1,5 +1,6 @@
 package com.goexp.galgame.gui.view.game.detailview.outer
 
+import com.goexp.galgame.common.model.game.CommonGame.Titles
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.LocalRes
@@ -42,9 +43,11 @@ class TopController extends DefaultController {
   private def loadWithoutImage(game: Game) = {
     this.targetGame = game
     starChangeController.load(game)
-    val titles = game.getTitles
-    txtName.setText(titles.mainTitle)
-    txtSubName.setText(titles.subTitle)
+
+    val Titles(mainTitle, subTitle) = game.getTitles
+    txtName.setText(mainTitle)
+    txtSubName.setText(subTitle)
+
     dateviewController.load(game.publishDate)
     brandJumpController.load(game.brand)
     if (game.tag.size > 0) {

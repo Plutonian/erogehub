@@ -1,6 +1,7 @@
 package com.goexp.galgame.gui.view.game.listview.imglist
 
 import com.goexp.common.util.date.DateUtil
+import com.goexp.galgame.common.model.game.CommonGame.Titles
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
@@ -33,9 +34,9 @@ class CellController extends DefaultController {
   def load(game: Game) = {
     this.game = game
 
-    val titles = game.getTitles
-    txtName.setText(titles.mainTitle)
-    txtSubName.setText(titles.subTitle)
+    val Titles(mainTitle, subTitle) = game.getTitles
+    txtName.setText(mainTitle)
+    txtSubName.setText(subTitle)
 
     lbBrand.setText(game.brand.name)
     lbDate.setText(DateUtil.formatDate(game.publishDate))

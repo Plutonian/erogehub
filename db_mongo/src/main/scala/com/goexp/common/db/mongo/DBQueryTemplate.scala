@@ -9,12 +9,12 @@ import scala.jdk.CollectionConverters._
 
 object DBQueryTemplate {
 
-  class Builder[T](private[this] val dbName: String,
-                   private[this] val tableName: String,
-                   private[this] val creator: ObjectCreator[T]
+  class Builder[T](private val dbName: String,
+                   private val tableName: String,
+                   private val creator: ObjectCreator[T]
                   ) {
-    private[this] var defaultSort: Bson = _
-    private[this] var defaultSelect: Bson = _
+    private var defaultSort: Bson = _
+    private var defaultSelect: Bson = _
 
     def defaultSort(defaultSort: Bson): Builder[T] = {
       this.defaultSort = defaultSort
@@ -36,10 +36,10 @@ object DBQueryTemplate {
 class DBQueryTemplate[T] private(
                                   dbName: String,
                                   tableName: String,
-                                  private[this] val defaultCreator: ObjectCreator[T]
+                                  private val defaultCreator: ObjectCreator[T]
                                 ) extends AbstractDBTemplate(dbName, tableName) {
 
-  Objects.requireNonNull(defaultCreator)
+  require(defaultCreator != null, "defaultCreator can't be null")
 
   private val collection = mongoClient.getDatabase(dbName).getCollection(tableName)
   private var defaultSort: Bson = _
@@ -79,21 +79,16 @@ class DBQueryTemplate[T] private(
     }
 
     private def buildFileIterrableMany = {
-      var temp = collection.find()
-      if (where != null) temp = temp.filter(where)
-      // choice select
-      if (select != null) temp = temp.projection(select)
-      else if (defaultSelect != null) temp = temp.projection(defaultSelect)
-      // choice sort
-      if (sort != null) temp = temp.sort(sort)
-      else if (defaultSort != null) temp = temp.sort(defaultSort)
-      temp
+      collection.find()
+        .filter(where)
+        .projection(Option(defaultSelect).getOrElse(select))
+        .sort(Option(defaultSort).getOrElse(sort))
     }
 
     private def buildFileIterrableOne = {
-      var temp = collection.find
-      if (where != null) temp = temp.filter(where)
-      temp.limit(1)
+      collection.find()
+        .filter(where)
+        .limit(1)
     }
 
     private def getDocumentCount = {
@@ -115,10 +110,14 @@ class DBQueryTemplate[T] private(
     def scalaList(userCreator: ObjectCreator[T] = defaultCreator) = list(userCreator).asScala
 
 
-    def one(userCreator: ObjectCreator[T] = defaultCreator): T = {
+    def one(userCreator: ObjectCreator[T] = defaultCreator): Option[T] = {
       Objects.requireNonNull(userCreator)
-      buildFileIterrableOne.map(userCreator.create).first
+
+      val iterable = buildFileIterrableOne.map(userCreator.create)
+
+      Option(iterable.first)
     }
+
 
     def exists: Boolean = getDocumentCount > 0
 

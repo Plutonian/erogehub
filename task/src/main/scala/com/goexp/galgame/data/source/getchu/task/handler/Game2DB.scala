@@ -1,13 +1,12 @@
 package com.goexp.galgame.data.source.getchu.task.handler
 
 import java.util
-import java.util.Objects
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.{GameCharacter, GameState}
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.importor.GameDB
-import com.goexp.galgame.data.source.getchu.query.GameQuery
+import com.goexp.galgame.data.source.getchu.query.GameFullQuery
 import com.goexp.galgame.data.source.getchu.task.Util
 import com.goexp.piplline.handler.DefaultHandler
 import com.mongodb.client.model.Filters
@@ -71,56 +70,59 @@ class Game2DB extends DefaultHandler {
 
   override def processEntity: PartialFunction[Any, Unit] = {
     case remoteGame: Game =>
-      val localGame = GameQuery.fullTlp.where(Filters.eq(remoteGame.id)).one()
+      GameFullQuery().where(Filters.eq(remoteGame.id)).one() match {
+        case Some(localGame) =>
 
-      /**
-        * upgrade base content
-        */
-      if (!Objects.equals(localGame, remoteGame)) {
-        //        logger.debug(s"\nOld:${localGame.simpleView}\nNew:${remoteGame.simpleView}\n")
-        GameDB.updateAll(remoteGame)
+
+          /**
+            * upgrade base content
+            */
+          if (localGame != remoteGame) {
+            //        logger.debug(s"\nOld:${localGame.simpleView}\nNew:${remoteGame.simpleView}\n")
+            GameDB.updateAll(remoteGame)
+          }
+
+
+          /**
+            * upgrade person
+            */
+          remoteGame.gameCharacters = merge(localGame.gameCharacters, remoteGame.gameCharacters)
+
+          if (remoteGame.gameCharacters != null)
+            GameDB.updateChar(remoteGame)
+
+
+          /**
+            * upgrade simple img
+            */
+          val localImgSize = Option(localGame.gameImgs).map(_.size).getOrElse(0)
+          val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)
+
+          if (remoteImgSize > localImgSize) {
+            logger.debug(s"Local:${localGame.gameImgs}  Remote:${remoteGame.gameImgs}")
+
+            logger.info(s"Update [${localGame.id}] ${localGame.name} ${localGame.state} Local:$localImgSize,Remote:$remoteImgSize")
+            GameDB.updateImg(remoteGame)
+          }
+
+
+          // check game state
+          if ((localGame.state ne GameState.SAME) && (localGame.state ne GameState.BLOCK)) {
+
+            GameFullQuery().where(Filters.eq(remoteGame.id)).one().map { game =>
+              val imgs = Util.getGameAllImgs(game)
+
+              if (imgs.nonEmpty)
+                logger.info(s"DownloadImage for Game[${localGame.id}] ${localGame.name} ${localGame.state}")
+
+              imgs.foreach { pear =>
+                sendTo[DownloadImage](pear)
+              }
+            }
+          }
+
+        case _ =>
       }
-
-
-      /**
-        * upgrade person
-        */
-      remoteGame.gameCharacters = merge(localGame.gameCharacters, remoteGame.gameCharacters)
-
-      if (remoteGame.gameCharacters != null)
-        GameDB.updateChar(remoteGame)
-
-
-      /**
-        * upgrade simple img
-        */
-      val localImgSize = Option(localGame.gameImgs).map(_.size).getOrElse(0)
-      val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)
-
-      if (remoteImgSize > localImgSize) {
-        logger.debug(s"Local:${localGame.gameImgs}  Remote:${remoteGame.gameImgs}")
-
-        logger.info(s"Update [${localGame.id}] ${localGame.name} ${localGame.state} Local:$localImgSize,Remote:$remoteImgSize")
-        GameDB.updateImg(remoteGame)
-      }
-
-
-      // check game state
-      if ((localGame.state ne GameState.SAME) && (localGame.state ne GameState.BLOCK)) {
-
-
-        val tGame = GameQuery.fullTlp.where(Filters.eq(remoteGame.id)).one()
-        val imgs = Util.getGameAllImgs(tGame)
-
-        if (imgs.nonEmpty)
-          logger.info(s"DownloadImage for Game[${localGame.id}] ${localGame.name} ${localGame.state}")
-
-        imgs.foreach {
-          pear =>
-            sendTo[DownloadImage](pear)
-        }
-      }
-
   }
 
 }

@@ -3,7 +3,7 @@ package com.goexp.galgame.data.script.source.getchu.local.cal
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.source.getchu.importor.BrandDB
-import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameQuery}
+import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameSimpleQuery}
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters._
 import com.typesafe.scalalogging.Logger
@@ -24,7 +24,7 @@ object CalBrandGameTask {
     brands
       .foreach(brand => {
 
-        val games = GameQuery.simpleTlp
+        val games = GameSimpleQuery()
           .where(and(
             Filters.eq("brandId", brand.id),
             Filters.ne("state", GameState.SAME.value)

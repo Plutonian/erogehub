@@ -4,7 +4,7 @@ import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.CV
 import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.data.source.getchu.importor.GameDB
-import com.goexp.galgame.data.source.getchu.query.{CVQuery, GameQuery}
+import com.goexp.galgame.data.source.getchu.query.{CVQuery, GameFullWithCharQuery}
 import com.mongodb.client.model.Filters.{not, eq => same}
 import com.typesafe.scalalogging.Logger
 
@@ -38,7 +38,7 @@ object GetTrueCVTask {
 
     logger.info("Init OK")
 
-    GameQuery.fullTlpWithChar
+    GameFullWithCharQuery()
       .where(not(same("gamechar", null)))
       .scalaList().to(LazyList)
       .filter(g => Option(g.gameCharacters).map(_.size).getOrElse(0) > 0)

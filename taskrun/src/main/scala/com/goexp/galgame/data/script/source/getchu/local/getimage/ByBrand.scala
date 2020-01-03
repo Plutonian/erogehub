@@ -3,7 +3,7 @@ package com.goexp.galgame.data.script.source.getchu.local.getimage
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.common.util.Network
-import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameQuery}
+import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameFullQuery}
 import com.goexp.galgame.data.source.getchu.task.Util
 import com.mongodb.client.model.Filters.and
 import com.mongodb.client.model.{Filters, Sorts}
@@ -41,7 +41,7 @@ object ByBrand {
           .flatMap { b =>
             logger.trace(s"Loading...game from brand:${b}")
 
-            val glist = GameQuery.fullTlp
+            val glist = GameFullQuery()
               .where(and(
                 Filters.eq("brandId", b.id),
                 Filters.ne("state", GameState.BLOCK.value),

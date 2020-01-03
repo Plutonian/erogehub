@@ -5,7 +5,7 @@ import java.nio.file.Files
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.Game
-import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameQuery}
+import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameSimpleQuery}
 import com.mongodb.client.model.Filters
 import com.typesafe.scalalogging.Logger
 
@@ -38,7 +38,7 @@ object CleanSameGameTask {
       .scalaList().to(LazyList)
       .foreach {
         b =>
-          val games = GameQuery.simpleTlp
+          val games = GameSimpleQuery()
             .where(Filters.eq("brandId", b.id))
             .scalaList().to(LazyList)
 

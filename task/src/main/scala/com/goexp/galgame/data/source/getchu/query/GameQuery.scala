@@ -43,3 +43,15 @@ object GameQuery {
   }
 
 }
+
+object GameFullQuery {
+  def apply() = GameQuery.fullTlp
+}
+
+object GameFullWithCharQuery {
+  def apply() = GameQuery.fullTlpWithChar
+}
+
+object GameSimpleQuery {
+  def apply() = GameQuery.simpleTlp
+}

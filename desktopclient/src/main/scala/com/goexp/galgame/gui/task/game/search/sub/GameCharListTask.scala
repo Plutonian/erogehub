@@ -11,19 +11,19 @@ import scala.jdk.CollectionConverters._
 
 class GameCharListTask(private[this] val gameId: Int) extends Task[ObservableList[GameCharacter]] {
   override protected def call: ObservableList[GameCharacter] = {
-    val g = GameQuery.personTlp.where(Filters.eq(gameId)).one()
-
-    Option(g.gameCharacters)
-      .map(persons => {
-        persons.asScala.to(LazyList)
-          .groupBy(p => {
-            if (Strings.isEmpty(p.cv)) {
-              if (Strings.isEmpty(p.img)) 3 else 2
-            } else 1
-          }).to(LazyList)
-          .sortBy({ case (k, _) => k })
-          .flatMap({ case (_, v) => v }).asJava
-      })
+    GameQuery.personTlp.where(Filters.eq(gameId)).one()
+      .map {
+        _.gameCharacters
+      }.map(persons => {
+      persons.asScala.to(LazyList)
+        .groupBy(p => {
+          if (Strings.isEmpty(p.cv)) {
+            if (Strings.isEmpty(p.img)) 3 else 2
+          } else 1
+        }).to(LazyList)
+        .sortBy({ case (k, _) => k })
+        .flatMap({ case (_, v) => v }).asJava
+    })
       .map(FXCollections.observableArrayList(_))
       .getOrElse(FXCollections.emptyObservableList[GameCharacter])
 

@@ -4,7 +4,7 @@ import com.goexp.common.db.mongo.DBOperatorTemplate
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.{Brand, Game}
 import com.goexp.galgame.data.source.getchu.DB_NAME
-import com.goexp.galgame.data.source.getchu.query.GameQuery
+import com.goexp.galgame.data.source.getchu.query.GameFullQuery
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters.and
 import com.mongodb.client.model.Updates.{combine, set}
@@ -108,7 +108,7 @@ object GameDB {
 
     })
 
-  def exist(id: Int): Boolean = GameQuery.fullTlp.where(Filters.eq(id)).exists
+  def exist(id: Int): Boolean = GameFullQuery().where(Filters.eq(id)).exists
 
 
   object StateDB {

@@ -2,7 +2,7 @@ package com.goexp.galgame.data.script.source.getchu.local.cal
 
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.source.getchu.importor.CVDB
-import com.goexp.galgame.data.source.getchu.query.{CVQuery, GameQuery}
+import com.goexp.galgame.data.source.getchu.query.{CVQuery, GameSimpleQuery}
 import com.mongodb.client.model.Filters
 import com.typesafe.scalalogging.Logger
 
@@ -17,7 +17,7 @@ object CalCVGameTask {
     cvList.foreach {
       cv =>
 
-        val games = GameQuery.simpleTlp
+        val games = GameSimpleQuery()
           .where(
             Filters.and(
               Filters.eq("gamechar.truecv", cv.name),

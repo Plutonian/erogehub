@@ -5,7 +5,7 @@ import java.time.LocalDate
 import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.common.util.Network
-import com.goexp.galgame.data.source.getchu.query.GameQuery
+import com.goexp.galgame.data.source.getchu.query.GameFullQuery
 import com.goexp.galgame.data.source.getchu.task.Util
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters._
@@ -31,7 +31,7 @@ object ByDateRange {
     //    val start = LocalDate.of(2018, 1, 1)
     //    val end = start.plusYears(1)
 
-    val games = GameQuery.fullTlp
+    val games = GameFullQuery()
       .where(and(
         gte("publishDate", DateUtil.toDate(s"${start} 00:00:00")),
         lte("publishDate", DateUtil.toDate(s"${end} 23:59:59")),

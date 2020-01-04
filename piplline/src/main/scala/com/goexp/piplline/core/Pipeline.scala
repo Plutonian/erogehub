@@ -1,18 +1,17 @@
 package com.goexp.piplline.core
 
-import java.util.concurrent.{ExecutorService, Executors, TimeUnit}
+import java.util.concurrent.{ExecutorService, Executors}
 
 import com.goexp.piplline
-import com.goexp.piplline.exception.RuntimeInterruptedException
 import com.goexp.piplline.handler.HandlerConfig
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 import scala.collection.mutable
 
-class Pipeline(private[this] val starter: Starter) {
+class Pipeline(private val starter: Starter) {
 
 
-  private val logger = LoggerFactory.getLogger(classOf[Pipeline])
+  private val logger = Logger(classOf[Pipeline])
 
   private val msgQueueProxy = new MessageQueueProxy[Message](1000)
 
@@ -69,15 +68,17 @@ class Pipeline(private[this] val starter: Starter) {
     this
   }
 
-  def start(): Unit = { //fill queue
-    starter.setQueue(msgQueueProxy)
+  def start(): Unit = {
+
+    //fill queue
+    starter.queue = msgQueueProxy
     val mesTypeMap = configs.to(LazyList)
       .map { c =>
-        c.handler.setQueue(msgQueueProxy)
+        c.handler.queue = msgQueueProxy
         c
       }
       .groupBy {
-        _.handler.getClass.hashCode()
+        _.handler.getClass()
       }
     //      .collect(Collectors.groupingBy(HandlerConfig.mesCode))
     //start message driven
@@ -86,32 +87,41 @@ class Pipeline(private[this] val starter: Starter) {
       while ( {
         running
       }) try {
-        val mes = msgQueueProxy.poll(5, TimeUnit.MINUTES)
-        if (mes != null) {
-          mesTypeMap.get(mes.code) match {
+        val msg = msgQueueProxy.poll()
+        if (msg != null) {
+          mesTypeMap.get(msg.target) match {
             case Some(configs) =>
               for (c <- configs) {
+                //exec actor
                 c.executor.execute { () =>
-                  try c.handler.process(mes)
+                  val handler = c.handler
+                  try {
+                    handler.process(msg)
+                  }
                   catch {
                     case e: Exception =>
-                      e.printStackTrace()
+                      logger.error(s"Common exception catch => From:$handler", e)
                   }
                 }
               }
-            case _ =>
+            case None =>
+              logger.error(s"No message handler for: ${msg.target}")
           }
         }
         else {
           logger.info("listener task time out!!!")
           running = false
+
+          //wait for all ok
           for (config <- configs) {
             config.executor.shutdown()
           }
+
+
           listenerExecutorService.shutdown()
         }
       } catch {
-        case e: RuntimeInterruptedException =>
+        case e: InterruptedException =>
           e.printStackTrace()
           running = false
       }
@@ -121,4 +131,8 @@ class Pipeline(private[this] val starter: Starter) {
 
     starter.process()
   }
+}
+
+object Pipeline {
+
 }

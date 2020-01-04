@@ -14,11 +14,15 @@ abstract class CommonBrand {
   @BeanProperty
   var comp: String = _
   @BeanProperty
-  var isLike: BrandType = _
+  var state: BrandState = _
 
 
-
-  override def toString: String = new StringJoiner(", ", classOf[CommonBrand].getSimpleName + "[", "]").add("id=" + id).add("name='" + name + "'").add("website='" + website + "'").add("comp='" + comp + "'").toString
+  override def toString: String = new StringJoiner(", ", classOf[CommonBrand].getSimpleName + "[", "]")
+    .add("id=" + id)
+    .add("name='" + name + "'")
+    .add("comp='" + comp + "'")
+    .add("website='" + website + "'")
+    .toString
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[CommonBrand]
 

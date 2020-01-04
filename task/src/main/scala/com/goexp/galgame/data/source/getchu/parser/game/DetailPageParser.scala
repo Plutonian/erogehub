@@ -2,7 +2,7 @@ package com.goexp.galgame.data.source.getchu.parser.game
 
 import com.goexp.galgame.common.model.game.{GameCharacter, GameImg}
 import com.goexp.galgame.data.model.Game
-import DetailPageParser.{DetailParser, GameCharParser, SimpleImgParser}
+import com.goexp.galgame.data.source.getchu.parser.game.DetailPageParser.{DetailParser, GameCharParser, SimpleImgParser}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
@@ -47,21 +47,24 @@ private object DetailPageParser {
     private def parseCV(str: String) = {
       import GameCharParser._
 
-      cvPattern.findFirstMatchIn(str).map(m => m.group("cv").trim).getOrElse("")
+      cvPattern.findFirstMatchIn(str).map(m => m.group("cv").replaceAll("""[\s　]""", "")).getOrElse("")
     }
 
     def parse(root: Document) =
       root.select("#wrapper div.tabletitle:contains(キャラクター)").next.select("tbody>tr:nth-of-type(2n+1)").asScala
         .to(LazyList)
         .map { tr =>
-          val person = new GameCharacter
-          person.index = index
           val title = tr.select("h2.chara-name").text
-          person.img = tr.select("td:nth-of-type(1)>img").attr("src")
-          person.cv = parseCV(title)
-          person.trueCV = ""
-          person.name = parseName(title.replace(person.cv, ""))
-          person.intro = tr.select("dl dd").html.replaceAll("<[^>]*>", "").trim
+          val cv = parseCV(title)
+
+          val person = GameCharacter(
+            name = parseName(title.replace(cv, "")),
+            cv = cv,
+            intro = tr.select("dl dd").html.replaceAll("<[^>]*>", "").trim,
+            trueCV = "",
+            img = tr.select("td:nth-of-type(1)>img").attr("src"),
+            index = index
+          )
           index += 1
           person
         }
@@ -74,9 +77,11 @@ private object DetailPageParser {
       root.select("#wrapper div.tabletitle:contains(サンプル画像)").next.select("a.highslide")
         .asScala.to(LazyList)
         .map { a =>
-          val img = new GameImg
-          img.src = a.attr("href")
-          img.index = imgIndex
+          val img = GameImg(
+            src = a.attr("href"),
+            index = imgIndex
+          )
+
           imgIndex += 1
           img
         }

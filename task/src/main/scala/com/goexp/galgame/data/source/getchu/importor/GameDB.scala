@@ -1,10 +1,10 @@
 package com.goexp.galgame.data.source.getchu.importor
 
-import com.goexp.common.db.mongo.DBOperatorTemplate
-import com.goexp.galgame.data.source.getchu.DB_NAME
+import com.goexp.common.db.mongo.DBOperator
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.{Brand, Game}
-import com.goexp.galgame.data.source.getchu.query.GameQuery
+import com.goexp.galgame.data.source.getchu.DB_NAME
+import com.goexp.galgame.data.source.getchu.query.GameFullQuery
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters.and
 import com.mongodb.client.model.Updates.{combine, set}
@@ -13,25 +13,26 @@ import org.bson.Document
 import scala.jdk.CollectionConverters._
 
 object GameDB {
-  val tlp = new DBOperatorTemplate(DB_NAME, "game")
+  val tlp = new DBOperator(DB_NAME, "game")
 
   def insert(game: Game) = {
     val gameDoc = new Document("_id", game.id)
       .append("name", game.name)
+      .append("isAdult", game.isAdult)
       .append("publishDate", game.publishDate)
       .append("smallImg", game.smallImg)
       .append("state", 0)
       .append("star", 0)
       .append("state", game.state.value)
       .append("brandId", game.brandId)
-      .append("isNew", game.isNew)
+      .append("isNew", true)
 
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.insertOne(gameDoc)
     })
   }
 
-  def update(game: Game) =
+  def update(game: Game): Unit =
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(
         Filters.eq(game.id),
@@ -41,6 +42,7 @@ object GameDB {
         )
       )
     })
+
 
   def updateAll(game: Game) =
     tlp.exec(documentMongoCollection => {
@@ -106,7 +108,7 @@ object GameDB {
 
     })
 
-  def exist(id: Int): Boolean = GameQuery.fullTlp.where(Filters.eq(id)).exists
+  def exist(id: Int): Boolean = GameFullQuery().where(Filters.eq(id)).exists
 
 
   object StateDB {

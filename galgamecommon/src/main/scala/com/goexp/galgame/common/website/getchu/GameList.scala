@@ -2,8 +2,8 @@ package com.goexp.galgame.common.website.getchu
 
 import java.time.LocalDate
 
-import com.goexp.common.util.web.url._
 import com.goexp.common.util.date._
+import com.goexp.common.util.web.url._
 
 object GameList {
   def byDateRange(from: LocalDate, to: LocalDate): String =
@@ -22,6 +22,15 @@ object GameList {
       .param("search", 1)
       .param("sort", "release_date")
       .param("genre", "pc_soft")
+      .param("search_brand_id", brandId)
+      .param("list_count", 1000)
+      .build
+
+  def byBrandDoujin(brandId: Int): String =
+    UrlBuilder(searchUrl)
+      .param("search", 1)
+      .param("sort", "release_date")
+      .param("genre", "doujin")
       .param("search_brand_id", brandId)
       .param("list_count", 1000)
       .build

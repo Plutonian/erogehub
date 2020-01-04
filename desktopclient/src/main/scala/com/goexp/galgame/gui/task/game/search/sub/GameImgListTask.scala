@@ -1,17 +1,17 @@
 package com.goexp.galgame.gui.task.game.search.sub
 
 import com.goexp.galgame.common.model.game.GameImg
-import com.goexp.galgame.gui.db.mongo.query.GameQuery
+import com.goexp.galgame.gui.db.mongo.query.GameImgQuery
 import com.mongodb.client.model.Filters
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Task
 
-class GameImgListTask(private[this] val gameId: Int) extends Task[ObservableList[GameImg]] {
+class GameImgListTask(private val gameId: Int) extends Task[ObservableList[GameImg]] {
   override protected def call: ObservableList[GameImg] = {
-    val g = GameQuery.imgTlp.where(Filters.eq(gameId)).one()
-
-
-    Option(g.gameImgs)
+    GameImgQuery().where(Filters.eq(gameId)).one()
+      .map {
+        _.gameImgs
+      }
       .map {
         FXCollections.observableArrayList(_)
       }

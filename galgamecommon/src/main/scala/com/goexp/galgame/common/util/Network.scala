@@ -3,11 +3,11 @@ package com.goexp.galgame.common.util
 import java.util.ResourceBundle
 
 import com.goexp.galgame.common.Config
-import org.slf4j.{Logger, LoggerFactory}
+import com.typesafe.scalalogging.Logger
 
 object Network {
 
-  protected val logger: Logger = LoggerFactory.getLogger(Network.getClass)
+  protected val logger: Logger = Logger(Network.getClass)
 
   private var isInit = false
 
@@ -22,7 +22,7 @@ object Network {
       prop.keySet.forEach(k => {
         val v = prop.getString(k)
 
-        logger.debug("{}->{}",k,v)
+        logger.debug(s"${k}->${v}")
 
         System.setProperty(k, v)
       })

@@ -2,44 +2,27 @@ package com.goexp.piplline.core
 
 import java.util.concurrent.{ArrayBlockingQueue, TimeUnit}
 
-import com.goexp.piplline.exception.RuntimeInterruptedException
+import com.goexp.piplline.core.MessageQueueProxy._
 
+private[piplline]
 class MessageQueueProxy[T <: Message](val capacity: Int) {
   private val msgQueue = new ArrayBlockingQueue[T](capacity)
 
   def offer(o: T): Boolean =
-    try
-      msgQueue.offer(o, 60, TimeUnit.MINUTES)
-    catch {
-      case e: InterruptedException =>
-        e.printStackTrace()
-        throw new RuntimeInterruptedException(e)
-    }
+    msgQueue.offer(o, DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_UNIT)
+
 
   def offer(o: T, timeout: Long, unit: TimeUnit): Boolean =
-    try
-      msgQueue.offer(o, timeout, unit)
-    catch {
-      case e: InterruptedException =>
-        e.printStackTrace()
-        throw new RuntimeInterruptedException(e)
-    }
+    msgQueue.offer(o, timeout, unit)
 
-  def pull: T =
-    try
-      msgQueue.poll(60, TimeUnit.MINUTES)
-    catch {
-      case e: InterruptedException =>
-        e.printStackTrace()
-        throw new RuntimeInterruptedException(e)
-    }
+  def poll(): T =
+    msgQueue.poll(DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_UNIT)
 
   def poll(timeout: Long, unit: TimeUnit): T =
-    try
-      msgQueue.poll(timeout, unit)
-    catch {
-      case e: InterruptedException =>
-        e.printStackTrace()
-        throw new RuntimeInterruptedException(e)
-    }
+    msgQueue.poll(timeout, unit)
+}
+
+private object MessageQueueProxy {
+  private val DEFAULT_TIMEOUT = 60
+  private val DEFAULT_TIMEOUT_UNIT = TimeUnit.MINUTES
 }

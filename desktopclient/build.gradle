@@ -3,18 +3,30 @@
  */
 
 plugins {
-    id 'org.openjfx.javafxplugin' version '0.0.7'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
 javafx {
-    version = "12"
-    modules = ['javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.base', 'javafx.media', 'javafx.swing', 'javafx.web']
+    version = '13'
+    modules = ['javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.base', 'javafx.web']
+}
+
+application {
+    mainClassName = 'com.goexp.galgame.gui.HGameApp'
+    applicationDefaultJvmArgs = [
+            '--module-path=../lib/',
+            '--add-modules=javafx.controls,javafx.graphics,javafx.fxml,javafx.base,javafx.web',
+            // For accessing VirtualFlow field from the base class in GridViewSkin
+            '--add-opens=javafx.controls/javafx.scene.control.skin=ALL-UNNAMED',
+            // For accessing InputMap used in RangeSliderBehavior
+            '--add-exports=javafx.controls/com.sun.javafx.scene.control.inputmap=ALL-UNNAMED'
+    ]
 }
 
 dependencies {
-    compile project(':common')
-    compile project(':common-db-mongo')
     compile project(':galgamecommon')
+    compile group: 'org.controlsfx', name: 'controlsfx', version: '11.0.1'
 }
 
 group = 'com.goexp.galgame'

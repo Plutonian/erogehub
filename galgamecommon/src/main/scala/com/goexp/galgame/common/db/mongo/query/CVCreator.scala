@@ -5,16 +5,16 @@ import java.util
 import com.goexp.common.db.mongo.ObjectCreator
 import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.model.CV
+import com.typesafe.scalalogging.Logger
 import org.bson.Document
-import org.slf4j.LoggerFactory
 
 import scala.jdk.CollectionConverters._
 
 object CVCreator extends ObjectCreator[CV] {
-  private val logger = LoggerFactory.getLogger(CVCreator.getClass)
+  private val logger = Logger(CVCreator.getClass)
 
   override def create(doc: Document): CV = {
-    logger.debug("<create> doc={}", doc)
+    logger.trace(s"<Doc> $doc")
 
     val cv = new CV
     cv.id = doc.getInteger("_id")
@@ -27,6 +27,9 @@ object CVCreator extends ObjectCreator[CV] {
 
     cv.tag = Option(doc.get("tag", classOf[util.List[String]])).map { l => l.asScala.toList }.orNull
     cv.nameStr = doc.getString("names")
+
+    logger.trace(s"<CV> $cv")
+
     cv
   }
 }

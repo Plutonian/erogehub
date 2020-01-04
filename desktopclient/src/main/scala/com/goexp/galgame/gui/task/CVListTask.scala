@@ -8,7 +8,7 @@ import javafx.concurrent.Task
 
 class CVListTask extends Task[ObservableList[CV]] {
   override protected def call: ObservableList[CV] = {
-    val list = CVQuery.tlp.sort(Sorts.descending("star")).list()
+    val list = CVQuery().sort(Sorts.descending("star")).list()
     FXCollections.observableArrayList(list)
   }
 }

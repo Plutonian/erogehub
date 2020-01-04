@@ -1,48 +1,74 @@
 package com.goexp.galgame.gui.db.mongo.query
 
-import com.goexp.common.db.mongo.{DBQueryTemplate, ObjectCreator}
-import com.goexp.galgame.gui.db.mongo.DB_NAME
+import com.goexp.common.db.mongo.{DBQuery, ObjectCreator}
 import com.goexp.galgame.common.db.mongo.query.CommonGameCreator
 import com.goexp.galgame.common.model.game.GameState
+import com.goexp.galgame.gui.db.mongo.DB_NAME
+import com.goexp.galgame.gui.db.mongo.query.GameQuery.SimpleGame
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.util.cache.AppCache
+import com.goexp.galgame.gui.util.cache.BrandCache
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Projections.include
 import com.mongodb.client.model.Sorts.descending
+import com.typesafe.scalalogging.Logger
 import org.bson.Document
-import org.slf4j.LoggerFactory
 
 object GameQuery {
-  private val TABLE_NAME = "game"
+  val TABLE_NAME = "game"
 
   object SimpleGame extends ObjectCreator[Game] {
-    final private val logger = LoggerFactory.getLogger(SimpleGame.getClass)
+    final private val logger = Logger(SimpleGame.getClass)
 
     override def create(doc: Document): Game = {
-      logger.debug("Doc={}", doc)
+      logger.trace(s"<Doc> $doc")
 
       val parentCreator = new CommonGameCreator(new Game)
       val g = parentCreator.create(doc).asInstanceOf[Game]
       val brandId = doc.getInteger("brandId")
 
-      g.brand = Option(AppCache.brandCache.get(brandId))
-        .getOrElse {
-          val brand = BrandQuery.tlp.where(Filters.eq(brandId)).one()
-          AppCache.brandCache.put(brandId, brand)
-          brand
-        }
+      g.brand = BrandCache().get(brandId).getOrElse {
+        val brand = BrandQuery().where(Filters.eq(brandId)).one().orNull
+        BrandCache().put(brandId, brand)
+        brand
+      }
 
 
       g.setState(GameState.from(doc.getInteger("state")))
       g.star = doc.getInteger("star")
-      logger.debug("Game={}", g)
+
+      logger.trace(s"Game=${g}")
+
       g
     }
   }
 
-  val tlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame)
+  private val tpl = DBQuery[Game](DB_NAME, TABLE_NAME, SimpleGame)
     //      .defaultSelect(exclude("gamechar", "simpleImg"))
-    .defaultSort(descending("publishDate", "name")).build
-  val imgTlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame).defaultSelect(include("simpleImg")).build
-  val personTlp = new DBQueryTemplate.Builder[Game](DB_NAME, TABLE_NAME, SimpleGame).defaultSelect(include("gamechar")).build
+    .defaultSort(descending("publishDate", "name"))
+    .build
+
+  def apply() = tpl
+
+}
+
+object GameImgQuery {
+
+  import GameQuery.TABLE_NAME
+
+  private val tpl = DBQuery[Game](DB_NAME, TABLE_NAME, SimpleGame)
+    .defaultSelect(include("simpleImg"))
+    .build
+
+  def apply() = tpl
+}
+
+object GamePersonQuery {
+
+  import GameQuery.TABLE_NAME
+
+  private val tpl = DBQuery[Game](DB_NAME, TABLE_NAME, SimpleGame)
+    .defaultSelect(include("gamechar"))
+    .build
+
+  def apply() = tpl
 }

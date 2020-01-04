@@ -5,7 +5,7 @@ import java.net.http.{HttpRequest, HttpResponse}
 import java.time.Duration
 
 import com.goexp.common.util.web.url._
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 object ImageUtil {
 
@@ -21,14 +21,14 @@ object ImageUtil {
     //    override def toString =s"Error code:${errorCode}"
   }
 
-  private val logger = LoggerFactory.getLogger(ImageUtil.getClass)
+  private val logger = Logger(ImageUtil.getClass)
 
   def loadFrom(url: String): Array[Byte] = {
     loadFromAsyn(url).join().body()
   }
 
   def loadFromAsyn(url: String) = {
-    logger.debug("Url:{}", url)
+    logger.debug(s"Url:${url}")
 
     val request: HttpRequest = HttpRequest.newBuilder.uri(url)
       .header("Cookie", "getchu_adalt_flag=getchu.com")

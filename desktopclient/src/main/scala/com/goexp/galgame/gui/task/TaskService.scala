@@ -19,5 +19,5 @@ class TaskService[V](val taskCreator: () => Task[V]) extends Service[V] {
 }
 
 object TaskService {
-  def apply[V](taskCreator: () => Task[V]) = new TaskService[V](taskCreator)
+  def apply[V](taskCreator: => Task[V]) = new TaskService[V](taskCreator _)
 }

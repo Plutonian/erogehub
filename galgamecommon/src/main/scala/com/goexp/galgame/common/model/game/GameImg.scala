@@ -1,6 +1,7 @@
 package com.goexp.galgame.common.model.game
 
-class GameImg {
-  var src: String = _
-  var index: Int = _
+case class GameImg(src: String,
+                   index: Int) {
+
+  override def toString = s"GameImg([$index],$src)"
 }

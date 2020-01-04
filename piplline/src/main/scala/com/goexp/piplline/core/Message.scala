@@ -1,5 +1,4 @@
 package com.goexp.piplline.core
 
-case class Message(code: Int, entity: Any) {
-  override def toString: String = "Message{" + "code=" + code + '}'
-}
+private[piplline]
+case class Message(target: Class[_ <: MessageHandler], entity: Any)

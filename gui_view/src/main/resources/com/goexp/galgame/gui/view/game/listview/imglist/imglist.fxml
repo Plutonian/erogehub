@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?import org.controlsfx.control.GridView?>
-<GridView xmlns:fx="http://javafx.com/fxml/1" fx:id="imgList" stylesheets="@/view/view.css" cellWidth="280"
-          cellHeight="520" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11"
-          fx:controller="com.goexp.galgame.gui.view.game.listview.imglist.ImgListViewController">
-</GridView>

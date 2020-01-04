@@ -6,9 +6,9 @@ import com.mongodb.client.model.Filters
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Task
 
-class ByTag(private[this] val tag: String) extends Task[ObservableList[Game]] {
+class ByTag(private val tag: String) extends Task[ObservableList[Game]] {
   override protected def call: ObservableList[Game] = {
-    val list = GameQuery.tlp
+    val list = GameQuery()
       .where(Filters.eq("tag", tag))
       .list()
 

@@ -9,22 +9,25 @@ import scala.beans.BeanProperty
 
 class Brand extends CommonBrand {
   @BeanProperty
-  var start:LocalDate=_
+  var start: LocalDate = _
   @BeanProperty
-  var end:LocalDate=_
+  var end: LocalDate = _
   @BeanProperty
-  var size:Int=_
+  var size: Int = _
+  @BeanProperty
+  var tag: List[String] = _
+
 
   override def toString: String =
     new StringJoiner(", ", classOf[Brand].getSimpleName + "[", "]")
       .add("id=" + id)
       .add("name='" + name + "'")
-      .add("website='" + website + "'")
       .add("comp='" + comp + "'")
-      .add("isLike=" + isLike)
-      .add("start=" + start)
-      .add("end=" + end)
-      .add("size=" + size)
+      .add("state=" + state)
+      .add("website='" + website + "'")
+      //      .add("start=" + start)
+      //      .add("end=" + end)
+      //      .add("size=" + size)
       .toString
 
 }

@@ -1,13 +1,13 @@
 package com.goexp.galgame.data.source.getchu.importor
 
-import com.goexp.common.db.mongo.DBOperatorTemplate
+import com.goexp.common.db.mongo.DBOperator
 import com.goexp.galgame.data.source.getchu.DB_NAME
 import com.goexp.galgame.common.model.game.guide.GameGuide
 import com.mongodb.client.model.{Filters, Updates}
 import org.bson.Document
 
 object GuideDB {
-  val tlp = new DBOperatorTemplate(DB_NAME, "guide")
+  val tlp = new DBOperator(DB_NAME, "guide")
 
   def insert(item: GameGuide) = {
     val doc = new Document("_id", item.id)

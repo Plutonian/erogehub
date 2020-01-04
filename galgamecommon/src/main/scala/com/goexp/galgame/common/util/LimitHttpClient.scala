@@ -6,7 +6,7 @@ import java.net.http.{HttpRequest, HttpResponse}
 import java.util.concurrent.{CompletableFuture, Executors, TimeUnit}
 
 import com.goexp.common.util.web.HttpUtil
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 import scala.concurrent.duration.TimeUnit
 import scala.concurrent.{ExecutionContext, Future}
@@ -22,7 +22,7 @@ import scala.concurrent.{ExecutionContext, Future}
   */
 class LimitHttpClient(val limits: Int, val waitTime: Int, val unit: TimeUnit) {
 
-  final private val logger = LoggerFactory.getLogger(classOf[LimitHttpClient])
+  final private val logger = Logger(classOf[LimitHttpClient])
 
   var downTaskCount = 0
 
@@ -44,7 +44,7 @@ class LimitHttpClient(val limits: Int, val waitTime: Int, val unit: TimeUnit) {
                    responseBodyHandler: HttpResponse.BodyHandler[T]): CompletableFuture[HttpResponse[T]] = {
     this.synchronized {
       delay()
-      logger.debug("[{}] Sending", downTaskCount)
+      logger.trace(s"[${downTaskCount}] Sending")
     }
 
 
@@ -57,7 +57,7 @@ class LimitHttpClient(val limits: Int, val waitTime: Int, val unit: TimeUnit) {
 object LimitHttpClient {
 
   //default
-  val client = new LimitHttpClient(20, 10, TimeUnit.SECONDS)
+  val client = new LimitHttpClient(20, 20, TimeUnit.SECONDS)
 
   def apply(): LimitHttpClient = {
     client

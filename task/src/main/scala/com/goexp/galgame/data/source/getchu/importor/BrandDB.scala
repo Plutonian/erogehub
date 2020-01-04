@@ -1,16 +1,17 @@
 package com.goexp.galgame.data.source.getchu.importor
 
 import java.time.LocalDate
+import java.util
 
-import com.goexp.common.db.mongo.DBOperatorTemplate
-import com.goexp.galgame.data.source.getchu.DB_NAME
+import com.goexp.common.db.mongo.DBOperator
 import com.goexp.galgame.data.model.Brand
+import com.goexp.galgame.data.source.getchu.DB_NAME
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.{combine, set}
 import org.bson.Document
 
 object BrandDB {
-  val tlp = new DBOperatorTemplate(DB_NAME, "brand")
+  val tlp = new DBOperator(DB_NAME, "brand")
 
   def insert(item: Brand) = {
     val doc = new Document("_id", item.id)
@@ -34,12 +35,13 @@ object BrandDB {
     })
 
 
-  def updateStatistics(item: Brand, start: LocalDate, end: LocalDate, size: Int) =
+  def updateStatistics(item: Brand, start: LocalDate, end: LocalDate, size: Int, tag: util.List[String]) =
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(item.id), combine(
         set("start", start),
         set("end", end),
-        set("size", size)
+        set("size", size),
+        set("tag", tag)
       ))
     })
 }

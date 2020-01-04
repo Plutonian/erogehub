@@ -2,17 +2,16 @@ package com.goexp.galgame.common.model.game
 
 import java.time.LocalDate
 import java.util
-import java.util.StringJoiner
 import java.util.regex.Pattern
+
+import com.goexp.galgame.common.model.game.CommonGame.Titles
 
 import scala.beans.BeanProperty
 
 object CommonGame {
   private val NAME_SPLITER_REX = Pattern.compile("[〜「]")
 
-  class Titles(val mainTitle: String, val subTitle: String) {
-    override def toString = new StringJoiner(", ", classOf[CommonGame.Titles].getSimpleName + "[", "]").add("mainTitle='" + mainTitle + "'").add("subTitle='" + subTitle + "'").toString
-  }
+  case class Titles(mainTitle: String, subTitle: String)
 
 }
 
@@ -30,7 +29,7 @@ abstract class CommonGame {
     val mainTitle = if (find) tName.substring(0, matcher.start) else tName
     val subTitle = if (find) tName.substring(matcher.start) else ""
 
-    new CommonGame.Titles(mainTitle.trim, subTitle.trim)
+    Titles(mainTitle.trim, subTitle.trim)
   }
 
 
@@ -48,6 +47,7 @@ abstract class CommonGame {
   var gameCharacters: util.List[GameCharacter] = _
   var gameImgs: util.List[GameImg] = _
   var isNew = false
+  var isAdult = true
 
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[CommonGame]

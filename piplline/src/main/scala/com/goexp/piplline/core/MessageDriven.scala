@@ -1,15 +1,16 @@
 package com.goexp.piplline.core
 
-import scala.beans.BeanProperty
+import scala.reflect.ClassTag
 
+private[piplline]
 trait MessageDriven {
 
-  @BeanProperty
   var queue: MessageQueueProxy[Message] = _
 
-  def send(mes: Message) = queue.offer(mes)
+  def send(mes: Message): Unit = queue.offer(mes)
 
-  def send(code: Int, entity: Any) = queue.offer(Message(code, entity))
+  def sendTo(target: Class[_ <: MessageHandler], entity: Any): Unit = queue.offer(Message(target, entity))
 
-  //  def sendTo[T <: MessageHandler](entity: Any) = queue.offer(Message(classOf[T].hashCode(), entity))
+  def sendTo[TARGET <: MessageHandler](entity: Any)(implicit target: ClassTag[TARGET]): Unit = queue.offer(Message(target.runtimeClass.asInstanceOf[Class[MessageHandler]], entity))
+
 }

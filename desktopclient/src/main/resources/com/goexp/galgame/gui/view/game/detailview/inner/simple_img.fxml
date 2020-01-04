@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.goexp.galgame.gui.view.game.detailview.inner.SimpleImgPartController">
+    <stylesheets>
+        <URL value="@/view/view.css"/>
+    </stylesheets>
+    <center>
+        <StackPane>
+            <ImageView fx:id="largeSimple" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                <effect>
+                    <DropShadow offsetX="3.0" offsetY="3.0"/>
+                </effect>
+            </ImageView>
+            <Hyperlink fx:id="btnPrve" onAction="#btnPrev_OnAction" style="-fx-background-color: #00000010;"
+                       StackPane.alignment="CENTER_LEFT">
+                <graphic>
+                    <ImageView pickOnBounds="true" preserveRatio="true" rotate="270.0">
+                        <Image url="@/img/up.png"/>
+                    </ImageView>
+                </graphic>
+                <StackPane.margin>
+                    <Insets left="150.0"/>
+                </StackPane.margin>
+            </Hyperlink>
+            <Hyperlink fx:id="btnNext" onAction="#btnNext_OnAction" style="-fx-background-color: #00000010;"
+                       StackPane.alignment="CENTER_RIGHT">
+                <graphic>
+                    <ImageView pickOnBounds="true" preserveRatio="true" rotate="90.0">
+                        <Image url="@/img/up.png"/>
+                    </ImageView>
+                </graphic>
+                <StackPane.margin>
+                    <Insets right="150.0"/>
+                </StackPane.margin>
+            </Hyperlink>
+        </StackPane>
+    </center>
+    <bottom>
+        <ListView fx:id="listSmallSimple" orientation="HORIZONTAL" prefHeight="120" styleClass="copyablelabel"
+                  BorderPane.alignment="CENTER"/>
+    </bottom>
+</BorderPane>

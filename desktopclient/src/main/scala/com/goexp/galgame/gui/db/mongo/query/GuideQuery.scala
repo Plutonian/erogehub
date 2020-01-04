@@ -1,16 +1,18 @@
 package com.goexp.galgame.gui.db.mongo.query
 
-import com.goexp.common.db.mongo.DBQueryTemplate
-import com.goexp.galgame.gui.db.mongo.DB_NAME
+import com.goexp.common.db.mongo.DBQuery
 import com.goexp.galgame.common.db.mongo.query.GuideCreator
 import com.goexp.galgame.common.model.game.guide.GameGuide
+import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.mongodb.client.model.Sorts.ascending
 
 object GuideQuery {
-  //    private val logger = LoggerFactory.getLogger(GuideQuery.getClass)
+  //    private val logger = Logger(GuideQuery.getClass)
 
-  val tlp = new DBQueryTemplate.Builder[GameGuide](DB_NAME, "guide", GuideCreator)
+  private val tpl = DBQuery[GameGuide](DB_NAME, "guide", GuideCreator)
     .defaultSort(ascending("title"))
     .build
+
+  def apply() = tpl
 
 }

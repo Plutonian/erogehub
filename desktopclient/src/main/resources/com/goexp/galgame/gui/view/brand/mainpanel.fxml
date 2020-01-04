@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.goexp.galgame.gui.view.brand.MainPanelController">
+    <bottom>
+        <HBox spacing="10.0">
+            <padding>
+                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+            </padding>
+            <HBox HBox.hgrow="NEVER">
+                <ToggleButton mnemonicParsing="false" styleClass="left-pill" text="Comp" userData="1">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="typeGroup"/>
+                    </toggleGroup>
+                </ToggleButton>
+                <ToggleButton mnemonicParsing="false" selected="true" styleClass="right-pill" text="Brand"
+                              toggleGroup="$typeGroup" userData="0"/>
+            </HBox>
+            <TextField fx:id="textBrandKey" promptText="SearchKey" HBox.hgrow="ALWAYS">
+                <font>
+                    <Font size="14.0"/>
+                </font>
+            </TextField>
+            <Button fx:id="btnSearch" mnemonicParsing="false" text="Search"/>
+        </HBox>
+    </bottom>
+    <center>
+        <TableView fx:id="tableBrand" prefHeight="600.0" tableMenuButtonVisible="true">
+            <columns>
+                <TableColumn fx:id="colComp" prefWidth="120.0" resizable="false" text="Comp"/>
+                <TableColumn fx:id="colName" prefWidth="200.0" resizable="false" text="Name"/>
+                <TableColumn fx:id="colTag" editable="false" sortable="false" prefWidth="400" text="Tag"/>
+                <TableColumn fx:id="colWebsite" prefWidth="500.0" text="Url"/>
+                <TableColumn fx:id="colStart" prefWidth="50.0" resizable="false" text="Start"/>
+                <TableColumn fx:id="colEnd" prefWidth="50.0" resizable="false" text="End"/>
+                <TableColumn fx:id="colSize" prefWidth="50.0" resizable="false" text="Size"/>
+                <TableColumn fx:id="colState" prefWidth="75.0" text="State"/>
+                <TableColumn fx:id="colCommand" prefWidth="75.0" text="Command" sortable="false"/>
+            </columns>
+        </TableView>
+    </center>
+    <top>
+        <ToolBar BorderPane.alignment="CENTER">
+            <ChoiceBox fx:id="choiceBrandType"/>
+        </ToolBar>
+    </top>
+</BorderPane>

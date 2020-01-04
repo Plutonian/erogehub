@@ -11,7 +11,7 @@ import scala.beans.BeanProperty
 
 class Game extends CommonGame {
   var state = new SimpleObjectProperty[GameState]
-  var brand: Brand = null
+  var brand: Brand = _
 
   @BeanProperty
   var star = 0
@@ -29,27 +29,29 @@ class Game extends CommonGame {
   def stateProperty = state
 
 
-  override def toString = infoView
+  override def toString = s"Game[${RED.s(id.toString)}] ${RED.s(name)} Date:${publishDate} img:${smallImg}  state:<${
+    Option(state).map {
+      _.get
+    }.getOrElse("--")
+  }>"
 
   def infoView: String = {
     new StringJoiner(", ", classOf[Game].getSimpleName + "[", "]")
       .add("id=" + RED.s(String.valueOf(id)))
       .add("name='" + RED.s(name) + "'")
       .add("publishDate=" + publishDate)
-      .add("smallImg='" + smallImg + "'")
-      .add("writer=" + writer)
-      .add("painter=" + painter)
-      .add("type=" + `type`)
-      .add("tag=" + tag)
+      //      .add("writer=" + writer)
+      //      .add("painter=" + painter)
+      //      .add("type=" + `type`)
+      //      .add("tag=" + tag)
       .add("state=" + state.get)
-      .add("star=" + star)
+      .add("smallImg='" + smallImg + "'")
+      //      .add("star=" + star)
       .add("\nbrand=" + brand)
       .add("\ngameImgs=" + Option(gameImgs).map(_.size).getOrElse(0))
       .add("\ngameCharacters=" + gameCharacters)
       .toString
   }
-
-  def isOkState = Option(this.state).map(_.get).exists(gs => gs.value >= GameState.UNCHECKED.value || (gs eq GameState.PACKAGE))
 
   def isOkImg = Strings.isNotEmpty(smallImg) && smallImg.startsWith("http")
 }

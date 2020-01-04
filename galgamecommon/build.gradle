@@ -5,7 +5,7 @@
 
 dependencies {
     compile project(':common')
-    compile project(':common-db-mongo')
+    compile project(':db_mongo')
     compile 'ch.qos.logback:logback-classic:1.2.3'
 }
 

@@ -10,6 +10,7 @@ public enum GameState {
     UNCHECKED("...", 0),
     READYTOVIEW("後で見る", 2),
     HOPE("気になり", 3),
+    DOWNLOAD_OK("Local", 10),
     PLAYING("進行中", 80),
     PLAYED("プレイ済み", 90);
 

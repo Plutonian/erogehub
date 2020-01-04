@@ -13,13 +13,13 @@ import com.goexp.galgame.common.util.ImageUtil
 import com.goexp.galgame.common.util.ImageUtil.{ErrorCodeException, FileIsNotImageException}
 import com.goexp.galgame.common.website.getchu.{GetchuGameLocal, GetchuGameRemote}
 import com.goexp.galgame.data.model.Game
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.Logger
 
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
 object Util {
-  private val logger = LoggerFactory.getLogger(Util.getClass)
+  private val logger = Logger(Util.getClass)
 
   def getGameAllImgs(g: Game) = {
     val list = mutable.ListBuffer[(Path, String)]()
@@ -99,7 +99,7 @@ object Util {
     var requestNum = 0
     val hopeDownload = imgs.size
 
-    logger.info("Need download:{}", hopeDownload)
+    logger.info(s"Need download:${hopeDownload}")
 
     val responseNum = new AtomicInteger(0)
 
@@ -129,23 +129,21 @@ object Util {
           }
           .exceptionally {
             case ex: CompletionException =>
-              logger.debug("{}", ex)
+              logger.debug("", ex)
 
               ex.getCause match {
                 case _: HttpTimeoutException =>
-                  logger.error(s"RequestTimeout")
+                  logger.warn(s"RequestTimeout")
                 case _: ConnectException =>
-                  logger.error(s"CannotConnect")
+                  logger.warn(s"CannotConnect")
                 case e: IOException =>
-                  logger.error(s"ConnectionReset")
-                  logger.debug("IOException", e)
+                  logger.warn(s"ConnectionReset")
                 case ErrorCodeException(errorCode) =>
-                  logger.error(s"Response Error:code={}", errorCode)
+                  logger.warn(s"Response Error:code=${errorCode}")
                 case _: FileIsNotImageException =>
-                  logger.error(s"Not Image")
+                  logger.warn(s"Not Image")
                 case e =>
-                  logger.error(s"NoneCatchExecption")
-                  e.printStackTrace()
+                  logger.error(s"NoneCatchExecption", e)
               }
               allDownLatch.countDown()
               null
@@ -155,17 +153,10 @@ object Util {
               allDownLatch.countDown()
               null
           }
-
-
-      //        if (requestNum % batchCounts == 0) {
-      //          TimeUnit.SECONDS.sleep(waitTime)
-      //        }
-
-      case _ =>
     }
 
     allDownLatch.await()
 
-    logger.info("download Succ")
+    logger.info("Download complete")
   }
 }

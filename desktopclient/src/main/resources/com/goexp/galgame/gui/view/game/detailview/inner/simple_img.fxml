@@ -10,9 +10,10 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.goexp.galgame.gui.view.game.detailview.inner.SimpleImgPartController">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.goexp.galgame.gui.view.game.detailview.inner.SimpleImgPartController">
     <stylesheets>
-        <URL value="@/view/view.css" />
+        <URL value="@/view/view.css"/>
     </stylesheets>
     <center>
         <StackPane>
@@ -46,6 +47,7 @@
         </StackPane>
     </center>
     <bottom>
-        <ListView fx:id="listSmallSimple" orientation="HORIZONTAL" prefHeight="120" styleClass="copyablelabel" BorderPane.alignment="CENTER" />
+        <ListView fx:id="listSmallSimple" orientation="HORIZONTAL" prefHeight="120" styleClass="copyablelabel"
+                  BorderPane.alignment="CENTER"/>
     </bottom>
 </BorderPane>

@@ -5,14 +5,8 @@
 rootProject.name = 'galgame'
 include(':common')
 include(':piplline')
-include(':common-db-mongo')
+include(':db_mongo')
 include(':galgamecommon')
-include(':gui')
-include 'gui_view'
+include(':desktopclient')
 include(':task')
 include(':taskrun')
-
-project(':gui').projectDir = file('desktopclient')
-project(':common-db-mongo').projectDir = file('db_mongo')
-
-findProject(':gui_view')?.name = 'gui.view'

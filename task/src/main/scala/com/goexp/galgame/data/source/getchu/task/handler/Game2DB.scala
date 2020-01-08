@@ -2,6 +2,7 @@ package com.goexp.galgame.data.source.getchu.task.handler
 
 import java.util
 
+import com.goexp.common.util.string.StringOption
 import com.goexp.common.util.string.Strings.{isEmpty, isNotEmpty}
 import com.goexp.galgame.common.model.game.{GameCharacter, GameState}
 import com.goexp.galgame.data.model.Game
@@ -40,42 +41,21 @@ class Game2DB extends DefaultHandler {
       localCharCache.get(remoteChar.index)
         .map { localChar =>
 
-          /**
-            * log
-            */
-
           if (isEmpty(localChar.cv) && isNotEmpty(remoteChar.cv)) {
             logger.info(s"New cv ${remoteChar.cv}")
           }
 
-
-          /**
-            * merge local to remote
-            */
-
           def merge(localChar: GameCharacter, remoteChar: GameCharacter): GameCharacter = {
-            // copy trueCV
-            val tc1 = if (isNotEmpty(localChar.trueCV)) {
-              logger.trace(s"Merge trueCV ${localChar.trueCV}")
-              remoteChar.copy(trueCV = localChar.trueCV)
-            } else {
-              remoteChar
-            }
 
+            remoteChar.copy(
+              trueCV = StringOption(localChar.trueCV).getOrElse(remoteChar.trueCV)
+              ,
+              cv = StringOption(localChar.cv).getOrElse(remoteChar.cv)
+            )
 
-            // also copy cv
-            val tc2 = if (isNotEmpty(localChar.cv)) {
-              logger.trace(s"Merge cv ${localChar.cv}")
-              tc1.copy(cv = localChar.cv)
-            } else {
-              tc1
-            }
-
-            tc2
           }
 
           merge(localChar, remoteChar)
-
         }
         //not in local
         .getOrElse(remoteChar)

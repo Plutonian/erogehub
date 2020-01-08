@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.model
 import java.util.StringJoiner
 
 import com.goexp.common.util.string.ConsoleColors.RED
-import com.goexp.common.util.string.Strings
+import com.goexp.common.util.string.{StringOption, Strings}
 import com.goexp.galgame.common.model.game.{CommonGame, GameState}
 import javafx.beans.property.SimpleObjectProperty
 
@@ -53,5 +53,5 @@ class Game extends CommonGame {
       .toString
   }
 
-  def isOkImg = Strings.isNotEmpty(smallImg) && smallImg.startsWith("http")
+  def isOkImg = StringOption(smallImg).exists(_.startsWith("http"))
 }

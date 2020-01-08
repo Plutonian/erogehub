@@ -2,7 +2,7 @@ package com.goexp.galgame.data.source.getchu.task.handler
 
 import java.util
 
-import com.goexp.common.util.string.Strings
+import com.goexp.common.util.string.Strings.{isEmpty, isNotEmpty}
 import com.goexp.galgame.common.model.game.{GameCharacter, GameState}
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.importor.GameDB
@@ -20,48 +20,65 @@ import scala.jdk.CollectionConverters._
 class Game2DB extends DefaultHandler {
   final private val logger = Logger(classOf[Game2DB])
 
-  private def merge(local: util.List[GameCharacter], remote: util.List[GameCharacter]): util.List[GameCharacter] = {
-    val localSize = Option(local).map(_.size()).getOrElse(0)
-    val remoteSize = Option(remote).map(_.size()).getOrElse(0)
+  private def merge(localCharList: util.List[GameCharacter], remoteCharList: util.List[GameCharacter]): util.List[GameCharacter] = {
+    val localSize = Option(localCharList).map(_.size()).getOrElse(0)
+    val remoteSize = Option(remoteCharList).map(_.size()).getOrElse(0)
 
     //do nothing
     if (localSize == 0 && remoteSize == 0) return null
     if (localSize > remoteSize) return null
-    if (localSize == 0) return remote
+    if (localSize == 0) return remoteCharList
 
     // make local cache
-    val localMap = local.asScala.to(LazyList).map { cc => cc.index -> cc }.toMap
+    val localCharCache = localCharList.asScala.to(LazyList).map { cc => cc.index -> cc }.toMap
+
+
     //merge local to remote
-    remote.asScala.map { rc =>
-      localMap.get(rc.index)
-        .map { localC =>
+    remoteCharList.asScala.map { remoteChar =>
 
-          /**
-            * merge local to remote
-            */
-
-          var cc = rc
-
-          // copy trueCV
-          if (Strings.isNotEmpty(localC.trueCV)) {
-            logger.trace(s"Merge trueCV ${cc}")
-            cc = cc.copy(trueCV = localC.trueCV) // = localC.trueCV
-          }
-          // also copy cv
-          if (Strings.isNotEmpty(localC.cv)) {
-            logger.trace(s"Merge cv ${cc}")
-            cc = cc.copy(cv = localC.cv)
-          }
+      //already in local
+      localCharCache.get(remoteChar.index)
+        .map { localChar =>
 
           /**
             * log
             */
 
-          if (Strings.isEmpty(localC.cv) && Strings.isNotEmpty(cc.cv))
-            logger.info(s"New cv ${cc.cv}")
+          if (isEmpty(localChar.cv) && isNotEmpty(remoteChar.cv)) {
+            logger.info(s"New cv ${remoteChar.cv}")
+          }
 
-          cc
-        }.getOrElse(rc)
+
+          /**
+            * merge local to remote
+            */
+
+          def merge(localChar: GameCharacter, remoteChar: GameCharacter): GameCharacter = {
+            // copy trueCV
+            val tc1 = if (isNotEmpty(localChar.trueCV)) {
+              logger.trace(s"Merge trueCV ${localChar.trueCV}")
+              remoteChar.copy(trueCV = localChar.trueCV)
+            } else {
+              remoteChar
+            }
+
+
+            // also copy cv
+            val tc2 = if (isNotEmpty(localChar.cv)) {
+              logger.trace(s"Merge cv ${localChar.cv}")
+              tc1.copy(cv = localChar.cv)
+            } else {
+              tc1
+            }
+
+            tc2
+          }
+
+          merge(localChar, remoteChar)
+
+        }
+        //not in local
+        .getOrElse(remoteChar)
 
     }.asJava
   }

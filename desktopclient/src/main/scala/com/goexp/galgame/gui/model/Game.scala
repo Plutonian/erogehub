@@ -4,13 +4,14 @@ import java.util.StringJoiner
 
 import com.goexp.common.util.string.ConsoleColors.RED
 import com.goexp.common.util.string.{StringOption, Strings}
-import com.goexp.galgame.common.model.game.{CommonGame, GameState}
+import com.goexp.galgame.common.model.game.{CommonGame, GameLocation, GameState}
 import javafx.beans.property.SimpleObjectProperty
 
 import scala.beans.BeanProperty
 
 class Game extends CommonGame {
-  var state = new SimpleObjectProperty[GameState]
+  lazy val state = new SimpleObjectProperty[GameState]
+  lazy val location = new SimpleObjectProperty[GameLocation]
   var brand: Brand = _
 
   @BeanProperty
@@ -24,9 +25,15 @@ class Game extends CommonGame {
 
   def getState = state.get
 
-  def setState(isLike: GameState) = this.state.set(isLike)
+  def setState(state: GameState) = this.state.set(state)
 
   def stateProperty = state
+
+  def getLocation = location.get
+
+  def setLocation(location: GameLocation) = this.location.set(location)
+
+  def locationProperty = location
 
 
   override def toString = s"Game[${RED.s(id.toString)}] ${RED.s(name)} Date:${publishDate} img:${smallImg}  state:<${

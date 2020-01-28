@@ -69,6 +69,11 @@
                             <VBox fx:id="gameStateLikeLinkPanel"/>
                         </VBox>
                     </TitledPane>
+                    <TitledPane text="Location">
+                        <VBox spacing="20.0">
+                            <Hyperlink fx:id="linkLocal" text="Local"/>
+                        </VBox>
+                    </TitledPane>
                     <TitledPane text="Type">
                         <VBox>
                             <Hyperlink fx:id="linkGood" text="优"/>

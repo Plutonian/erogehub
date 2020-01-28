@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.view.game
 
-import com.goexp.galgame.common.model.game.GameState
+import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.search._
 import com.goexp.galgame.gui.util.res.LocalRes
@@ -36,6 +36,8 @@ class HomeController extends DefaultController {
   @FXML private var gameStateLikeLinkPanel: VBox = _
   @FXML private var linkDate: Hyperlink = _
 
+  @FXML private var linkLocal: Hyperlink = _
+
   @FXML private var linkCV: Hyperlink = _
   @FXML private var linkSearch: Hyperlink = _
   @FXML private var linkTags: Hyperlink = _
@@ -49,7 +51,7 @@ class HomeController extends DefaultController {
   override protected def initialize() = {
 
     def initBlockList() = {
-      val links = gameType2Link(List(GameState.PLAYED, GameState.DOWNLOAD_OK)).asJava
+      val links = gameType2Link(List(GameState.PLAYED)).asJava
       gameStateLinkPanel.getChildren.setAll(links)
     }
 
@@ -219,6 +221,18 @@ class HomeController extends DefaultController {
         conn.controller.tableViewController.tableColState.setVisible(false)
         val tab = new Tab(title, conn.node)
         conn.load(_.star < 3)
+        tab
+      }.select(title)
+
+    }
+
+    linkLocal.setOnAction { _ =>
+      val title = "Local"
+      TabSelect().whenNotFound {
+        val conn = CommonTabController(new ByLocation(GameLocation.LOCAL))
+        conn.controller.tableViewController.tableColState.setVisible(false)
+        val tab = new Tab(title, conn.node)
+        conn.load()
         tab
       }.select(title)
 

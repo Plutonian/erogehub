@@ -11,7 +11,8 @@ public enum BrandState {
     HOPE("欲しい", 80),
     CHECKING("checking", 85),
     LIKE("好き", 99),
-    MARK("mark", 100);
+    MARK("mark", 100),
+    EXTEND_NUKI("抜き", 101);
 
 
     public final String name;

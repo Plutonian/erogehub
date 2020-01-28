@@ -51,6 +51,7 @@ class DataViewController extends DefaultController {
   @FXML private var btnHide: Button = _
   @FXML private var cvList: ListView[DefaultItem] = _
   @FXML private var tagList: ListView[DefaultItem] = _
+
   private var filteredGames: FilteredList[Game] = _
   private var groupPredicate: Predicate[Game] = _
 

@@ -7,7 +7,7 @@ import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.TaskService
-import com.goexp.galgame.gui.task.game.change.MultiLike
+import com.goexp.galgame.gui.task.game.change.{MultiLocation, MultiState}
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.{DefaultController, MainController}
 import com.goexp.javafx.cell.{NodeTableCell, TextTableCell}
@@ -33,31 +33,64 @@ class TableController extends DefaultController {
   @FXML var tableColState: TableColumn[Game, GameState] = _
   @FXML var tableColLocation: TableColumn[Game, GameLocation] = _
 
-  @FXML private var menuPopup: ContextMenu = _
+  @FXML private var menuState: Menu = _
+  @FXML private var menuLocation: Menu = _
+
   private var selectedGames: util.List[Game] = _
-  final private val changeGameService = TaskService(new MultiLike(selectedGames))
+  final private val changeGameStateService = TaskService(new MultiState(selectedGames))
+  final private val changeGameLocationService = TaskService(new MultiLocation(selectedGames))
 
   override protected def initialize() = {
 
-    val items =
-      GameState.values.to(LazyList).reverse
-        .map(state => {
-          val menuItem = new MenuItem
-          menuItem.setUserData(state)
-          menuItem.setText(state.name)
-          menuItem.setOnAction(e => {
-            val gameState = ((e.getSource).asInstanceOf[MenuItem]).getUserData.asInstanceOf[GameState]
+    def initMenuState() = {
+      val items =
+        GameState.values.to(LazyList).reverse
+          .map(state => {
+            val menuItem = new MenuItem
+            menuItem.setUserData(state)
+            menuItem.setText(state.name)
+            menuItem.setOnAction(e => {
+              val gameState = ((e.getSource).asInstanceOf[MenuItem]).getUserData.asInstanceOf[GameState]
 
-            logger.debug(s"<MenuItem>:${gameState.name}")
+              logger.debug(s"<MenuItem>:${gameState.name}")
 
-            selectedGames = table.getSelectionModel.getSelectedItems
-            selectedGames.forEach(_.state.set(gameState))
-            changeGameService.restart()
-          })
-          menuItem
-        }).asJava
+              selectedGames = table.getSelectionModel.getSelectedItems
+              selectedGames.forEach(_.state.set(gameState))
+              changeGameStateService.restart()
+            })
+            menuItem
+          }).asJava
 
-    menuPopup.getItems.setAll(items)
+      menuState.getItems.setAll(items)
+    }
+
+    def initMenuLocation() = {
+      val items =
+        GameLocation.values.to(LazyList).reverse
+          .map(loc => {
+            val menuItem = new MenuItem
+            menuItem.setUserData(loc)
+            menuItem.setText(loc.name)
+            menuItem.setOnAction(e => {
+              val gameLoc = ((e.getSource).asInstanceOf[MenuItem]).getUserData.asInstanceOf[GameLocation]
+
+              logger.debug(s"<MenuItem>:${gameLoc.name}")
+
+              selectedGames = table.getSelectionModel.getSelectedItems
+              selectedGames.forEach(_.location.set(gameLoc))
+              changeGameLocationService.restart()
+            })
+            menuItem
+          }).asJava
+
+      menuLocation.getItems.setAll(items)
+    }
+
+
+    initMenuState()
+    initMenuLocation()
+
+
     table.getSelectionModel.setSelectionMode(SelectionMode.MULTIPLE)
     table.setRowFactory(_ => {
       val row = new TableRow[Game]

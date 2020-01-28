@@ -14,6 +14,7 @@
             <HBox AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
                 <fx:include fx:id="webjump" source="../../../common/jump/jumplink.fxml"/>
                 <fx:include fx:id="changeState" source="../../part/statechange.fxml"/>
+                <fx:include fx:id="changeLocation" source="../../part/locationchange.fxml"/>
             </HBox>
         </AnchorPane>
     </center>

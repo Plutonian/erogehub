@@ -4,7 +4,7 @@ import java.time.LocalDate
 import java.util
 
 import com.goexp.common.util.date.DateUtil
-import com.goexp.galgame.common.model.game.GameState
+import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.game.change.MultiLike
@@ -31,6 +31,7 @@ class TableController extends DefaultController {
   @FXML var tableColPainter: TableColumn[Game, String] = _
   @FXML var tableColWriter: TableColumn[Game, String] = _
   @FXML var tableColState: TableColumn[Game, GameState] = _
+  @FXML var tableColLocation: TableColumn[Game, GameLocation] = _
 
   @FXML private var menuPopup: ContextMenu = _
   private var selectedGames: util.List[Game] = _
@@ -70,7 +71,7 @@ class TableController extends DefaultController {
       })
       row
     })
-
+    tableColLocation.setCellValueFactory(param => param.getValue.location)
     tableColState.setCellValueFactory(param => param.getValue.state)
     tableColBrand.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.brand))
     tableColStar.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.star))
@@ -97,6 +98,11 @@ class TableController extends DefaultController {
         name.replaceAll("＜[^＞]*＞", "")
       }
     )
+
+    tableColLocation.setCellFactory(_ =>
+      TextTableCell { location =>
+        location.name
+      })
 
     tableColState.setCellFactory(_ => new com.goexp.javafx.cell.TableCell[Game, GameState]() {
 

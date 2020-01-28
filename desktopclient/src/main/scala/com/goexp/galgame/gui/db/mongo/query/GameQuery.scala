@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.db.mongo.query
 
 import com.goexp.common.db.mongo.{DBQuery, ObjectCreator}
 import com.goexp.galgame.common.db.mongo.query.CommonGameCreator
-import com.goexp.galgame.common.model.game.GameState
+import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.goexp.galgame.gui.db.mongo.query.GameQuery.SimpleGame
 import com.goexp.galgame.gui.model.Game
@@ -34,6 +34,7 @@ object GameQuery {
 
 
       g.setState(GameState.from(doc.getInteger("state")))
+      g.setLocation(GameLocation.from(doc.getInteger("location", 0)))
       g.star = doc.getInteger("star")
 
       logger.trace(s"Game=${g}")

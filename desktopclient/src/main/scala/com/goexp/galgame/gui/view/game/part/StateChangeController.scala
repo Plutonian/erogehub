@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game.part
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.TaskService
-import com.goexp.galgame.gui.task.game.change.Like
+import com.goexp.galgame.gui.task.game.change.State
 import com.goexp.galgame.gui.view.DefaultController
 import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
@@ -17,7 +17,7 @@ class StateChangeController extends DefaultController {
   @FXML private var choiceState: ChoiceBox[GameState] = _
 
   private var targetGame: Game = _
-  final private val changeGameStateService = TaskService(new Like(targetGame))
+  final private val changeGameStateService = TaskService(new State(targetGame))
 
   private val listener: ChangeListener[GameState] = (_, _, newValue) => {
     if (newValue != null) {

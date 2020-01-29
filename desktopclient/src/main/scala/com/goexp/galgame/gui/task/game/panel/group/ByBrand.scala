@@ -10,10 +10,10 @@ import javafx.scene.control.TreeItem
 
 import scala.jdk.CollectionConverters._
 
-class ByBrand(val groupGames: util.List[Game]) extends Task[TreeItem[DefaultItem]] {
+class ByBrand(val groupGames: util.List[Game]) extends Task[TreeItem[DataItem]] {
   val logger = Logger(classOf[ByBrand])
 
-  override protected def call: TreeItem[DefaultItem] = createCompGroup(groupGames)
+  override protected def call: TreeItem[DataItem] = createCompGroup(groupGames)
 
   private def createCompGroup(filteredGames: util.List[Game]) = {
     val compsNodes = filteredGames.asScala.to(LazyList)
@@ -31,11 +31,11 @@ class ByBrand(val groupGames: util.List[Game]) extends Task[TreeItem[DefaultItem
         case (comp: String, v) =>
 
           val brandNodes = v.groupBy(g => g.brand).to(LazyList)
-            .map { case (brand, games) => new TreeItem[DefaultItem](new BrandItem(brand.name, games.size, brand)) }
+            .map { case (brand, games) => new TreeItem[DataItem](BrandItem(brand.name, games.size, brand)) }
             .asJava
 
           if (brandNodes.size > 1) {
-            val compNode = new TreeItem[DefaultItem](new CompItem(comp, v.size, comp))
+            val compNode = new TreeItem[DataItem](CompItem(comp, v.size, comp))
             compNode.getChildren.addAll(brandNodes)
 
             compNode
@@ -44,12 +44,12 @@ class ByBrand(val groupGames: util.List[Game]) extends Task[TreeItem[DefaultItem
           }
         case (brand: Brand, v) =>
 
-          val compNode = new TreeItem[DefaultItem](new BrandItem(brand.name, v.size, brand))
+          val compNode = new TreeItem[DataItem](BrandItem(brand.name, v.size, brand))
           compNode
       }
       .asJava
 
-    val root = new TreeItem[DefaultItem]
+    val root = new TreeItem[DataItem]
     root.getChildren.setAll(compsNodes)
     root
   }

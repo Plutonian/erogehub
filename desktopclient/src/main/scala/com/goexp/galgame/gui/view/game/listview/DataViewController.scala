@@ -6,7 +6,7 @@ import java.util.function.Predicate
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.TaskService
-import com.goexp.galgame.gui.task.game.panel.group.node.DefaultItem
+import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.view.DefaultController
@@ -49,8 +49,8 @@ class DataViewController extends DefaultController {
   @FXML private var groupPanel: Region = _
   @FXML private var filterPanel: Region = _
   @FXML private var btnHide: Button = _
-  @FXML private var cvList: ListView[DefaultItem] = _
-  @FXML private var tagList: ListView[DefaultItem] = _
+  @FXML private var cvList: ListView[DataItem] = _
+  @FXML private var tagList: ListView[DataItem] = _
 
   private var filteredGames: FilteredList[Game] = _
   private var groupPredicate: Predicate[Game] = _
@@ -70,14 +70,16 @@ class DataViewController extends DefaultController {
 
   private def initGroupPanel() = {
     cvList.setCellFactory(_ =>
-      NodeListCell[DefaultItem] { cvItemNode =>
-        new HBox(Tags.toNodes(cvItemNode.title), new Label(String.valueOf(cvItemNode.count)))
+      NodeListCell[DataItem] {
+        case SampleItem(title, count) =>
+          new HBox(Tags.toNodes(title), new Label(String.valueOf(count)))
       }
     )
 
     tagList.setCellFactory(_ =>
-      NodeListCell[DefaultItem] { tagNode =>
-        new HBox(Tags.toNodes(tagNode.title), new Label(String.valueOf(tagNode.count)))
+      NodeListCell[DataItem] {
+        case SampleItem(title, count) =>
+          new HBox(Tags.toNodes(title), new Label(String.valueOf(count)))
       }
     )
 

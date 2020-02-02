@@ -7,7 +7,7 @@ import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.TaskService
-import com.goexp.galgame.gui.task.game.change.{MultiLocation, MultiState}
+import com.goexp.galgame.gui.task.game.change.{MultiBlock, MultiLocation, MultiState}
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.{DefaultController, MainController}
 import com.goexp.javafx.cell.{NodeTableCell, TextTableCell}
@@ -38,6 +38,7 @@ class TableController extends DefaultController {
 
   private var selectedGames: util.List[Game] = _
   final private val changeGameStateService = TaskService(new MultiState(selectedGames))
+  final private val blockGameService = TaskService(new MultiBlock(selectedGames))
   final private val changeGameLocationService = TaskService(new MultiLocation(selectedGames))
 
   override protected def initialize() = {
@@ -56,7 +57,18 @@ class TableController extends DefaultController {
 
               selectedGames = table.getSelectionModel.getSelectedItems
               selectedGames.forEach(_.state.set(gameState))
-              changeGameStateService.restart()
+
+              if (gameState == GameState.BLOCK) {
+
+                selectedGames.forEach { g =>
+                  g.star = 0
+                  g.location.set(GameLocation.REMOTE)
+                }
+
+                blockGameService.restart()
+              } else {
+                changeGameStateService.restart()
+              }
             })
             menuItem
           }).asJava

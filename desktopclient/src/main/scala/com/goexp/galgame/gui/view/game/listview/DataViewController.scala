@@ -10,7 +10,6 @@ import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.view.DefaultController
-import com.goexp.galgame.gui.view.game.listview.imglist.ImgListViewController
 import com.goexp.galgame.gui.view.game.listview.sidebar.{BrandGroupController, DateGroupController, FilterPanelController}
 import com.goexp.galgame.gui.view.game.listview.tableview.TableController
 import com.goexp.javafx.cell.NodeListCell
@@ -27,7 +26,6 @@ class DataViewController extends DefaultController {
   /**
     * Controllers
     */
-  @FXML private var imgViewController: ImgListViewController = _
   @FXML var tableViewController: TableController = _
   @FXML private var filterPanelController: FilterPanelController = _
   @FXML private var brandGroupController: BrandGroupController = _
@@ -187,8 +185,6 @@ class DataViewController extends DefaultController {
     tableView.scrollTo(0)
     smallListSimple.setItems(sortedData)
     smallListSimple.scrollTo(0)
-
-    imgViewController.load(sortedData)
   }
 
   private def resetCount(filteredGames: util.List[Game]) =

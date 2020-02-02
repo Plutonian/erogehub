@@ -21,9 +21,6 @@
                         <Tab text="List" styleClass="center-pill">
                             <fx:include fx:id="smallListSimple" source="simplelist/small/list.fxml"/>
                         </Tab>
-                        <Tab text="Img" styleClass="left-pill">
-                            <fx:include fx:id="imgView" source="imglist/imglist.fxml"/>
-                        </Tab>
                     </TabPane>
                     <HBox AnchorPane.leftAnchor="10" AnchorPane.bottomAnchor="3">
                         <Label fx:id="lbItemCount" prefWidth="80.0"/>

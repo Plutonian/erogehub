@@ -1,19 +1,16 @@
 package com.goexp.galgame.gui.view.guide
 
-import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.guide.GameGuide
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.game.search.sub.GuideSearchTask
-import com.goexp.galgame.gui.util.{FXMLLoaderProxy, Websites}
+import com.goexp.galgame.gui.util.Websites
 import com.goexp.galgame.gui.view.DefaultController
 import com.goexp.javafx.cell.NodeListCell
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.scene.Scene
 import javafx.scene.control._
 import javafx.scene.input.{DragEvent, TransferMode}
-import javafx.scene.layout.{BorderPane, HBox, Region}
-import javafx.stage.Stage
+import javafx.scene.layout.BorderPane
 
 class SearchGuideController extends DefaultController {
 
@@ -31,31 +28,12 @@ class SearchGuideController extends DefaultController {
     })
 
     guideListView.setCellFactory(_ => {
-      val guideShowLoader = new FXMLLoaderProxy[Region, ShowPageController](classOf[ShowPageController].getResource("showpage.fxml"))
-
 
       NodeListCell[GameGuide] { guide =>
         val link = new Hyperlink(s"[${guide.from}] ${guide.title}")
         link.setOnAction(_ => Websites.open(guide.href))
 
-        if (Strings.isNotEmpty(guide.html)) {
-
-          val viewlink = new Hyperlink("View")
-          viewlink.setOnAction { _ =>
-            val view = new Stage
-            view.setTitle(guide.title)
-            view.setScene(new Scene(guideShowLoader.node))
-            view.show()
-            guideShowLoader.controller.load(guide.html)
-          }
-
-          val hBox = new HBox(link, viewlink)
-          hBox.setSpacing(10)
-          hBox
-        }
-        else
-          link
-
+        link
       }
     })
 

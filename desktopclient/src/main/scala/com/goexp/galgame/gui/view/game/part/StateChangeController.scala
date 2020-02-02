@@ -1,9 +1,9 @@
 package com.goexp.galgame.gui.view.game.part
 
-import com.goexp.galgame.common.model.game.GameState
+import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.TaskService
-import com.goexp.galgame.gui.task.game.change.State
+import com.goexp.galgame.gui.task.game.change.{Block, State}
 import com.goexp.galgame.gui.view.DefaultController
 import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
@@ -18,13 +18,23 @@ class StateChangeController extends DefaultController {
 
   private var targetGame: Game = _
   final private val changeGameStateService = TaskService(new State(targetGame))
+  final private val blockService = TaskService(new Block(targetGame))
 
-  private val listener: ChangeListener[GameState] = (_, _, newValue) => {
-    if (newValue != null) {
-      logger.debug(s"<Action>Value:${choiceState.getValue},New:${newValue}")
+  private val listener: ChangeListener[GameState] = (_, _, newState) => {
+    if (newState != null) {
+      logger.debug(s"<Action>Value:${choiceState.getValue},New:${newState}")
+      targetGame.state.set(newState)
 
-      targetGame.state.set(newValue)
-      changeGameStateService.restart()
+      //reset some info
+      if (newState == GameState.BLOCK) {
+        targetGame.star = 0
+        targetGame.location.set(GameLocation.REMOTE)
+
+        blockService.restart()
+      } else {
+        changeGameStateService.restart()
+      }
+
     }
   }
 

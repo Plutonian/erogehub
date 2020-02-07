@@ -3,10 +3,11 @@ package com.goexp.galgame.gui.view.game
 import java.time.LocalDate
 
 import com.goexp.galgame.gui.view.DefaultController
+import com.goexp.javafx.cell.TextListCell
 import javafx.beans.property.SimpleBooleanProperty
+import javafx.collections.FXCollections
 import javafx.fxml.FXML
-import javafx.scene.control.{ToggleButton, ToggleGroup}
-import javafx.scene.layout.{FlowPane, TilePane}
+import javafx.scene.control.ListView
 
 import scala.jdk.CollectionConverters._
 
@@ -17,29 +18,23 @@ class DateController extends DefaultController {
   var title: String = _
   var from: LocalDate = _
   var to: LocalDate = _
-  @FXML private var dateCon: TilePane = _
-  @FXML private var flowYear: FlowPane = _
-  final private val yearSelect = new ToggleGroup
-  final private val monthSelect = new ToggleGroup
+  @FXML private var flowMonth: ListView[Int] = _
+  @FXML private var flowYear: ListView[Int] = _
 
   override protected def initialize() = {
 
-    val monthNodes = Range.inclusive(1, 12).to(LazyList)
-      .map { month =>
-        val tog = new ToggleButton
-        tog.setUserData(month)
-        val mouthStr = if (month == LocalDate.now.getMonthValue) "今月" else s"${month}月"
 
-        tog.setText(mouthStr)
-        tog.setToggleGroup(monthSelect)
-        tog
-      }.asJava
+    def initMonth() = {
 
-    dateCon.getChildren.setAll(monthNodes)
+      //cell
+      flowMonth.setCellFactory { _ =>
+        TextListCell[Int] { month =>
+          if (month == LocalDate.now.getMonthValue) "今月" else s"${month}月"
+        }
+      }
 
-    monthSelect.selectedToggleProperty.addListener((_, _, newV) => {
-      if (newV != null) {
-        val month = newV.getUserData.asInstanceOf[Int]
+      //selcet event
+      flowMonth.getSelectionModel().selectedItemProperty().addListener { (_, _, month) =>
         from = LocalDate.now.withMonth(month).withDayOfMonth(1)
         to = from.plusMonths(1).minusDays(1)
         title = s"${month}月"
@@ -50,25 +45,26 @@ class DateController extends DefaultController {
         onLoadProperty.set(false)
       }
 
-    })
+      val months = (1 to 12).asJava
 
-    val yearNodes = Range.inclusive(2000, LocalDate.now.getYear + 1).to(LazyList)
-      .map(year => {
-        val tog = new ToggleButton
-        tog.setUserData(year)
-        val yearStr = if (year == LocalDate.now.getYear) "今年" else s"${year}年"
+      flowMonth.setItems(FXCollections.observableArrayList(months))
 
-        tog.setText(yearStr)
-        tog.setToggleGroup(yearSelect)
-        tog
-      })
-      .asJava
+    }
 
-    flowYear.getChildren.setAll(yearNodes)
+    initMonth()
 
-    yearSelect.selectedToggleProperty.addListener { (_, _, newV) =>
-      if (newV != null) {
-        val year = newV.getUserData.asInstanceOf[Int]
+
+    def initYear() = {
+
+      //cell
+      flowYear.setCellFactory { _ =>
+        TextListCell[Int] { year =>
+          if (year == LocalDate.now.getYear) "今年" else s"${year}年"
+        }
+      }
+
+      //selcet event
+      flowYear.getSelectionModel().selectedItemProperty().addListener { (_, _, year) =>
         from = LocalDate.of(year, 1, 1)
         to = LocalDate.of(year, 12, 31)
         title = s"${year}年"
@@ -79,7 +75,14 @@ class DateController extends DefaultController {
         onYearLoadProperty.set(false)
       }
 
+      val years = (2000 to LocalDate.now.getYear + 1).asJava
+
+      flowYear.setItems(FXCollections.observableArrayList(years))
+
     }
+
+    initYear()
+
   }
 
   def load() = onLoadProperty.set(false)

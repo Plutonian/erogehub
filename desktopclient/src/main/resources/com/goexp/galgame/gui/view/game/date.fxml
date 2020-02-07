@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.HBox?>
 <?import java.net.URL?>
 <TitledPane xmlns:fx="http://javafx.com/fxml/1" managed="false" animated="false" style="-fx-background-color: white;"
             text="Date" xmlns="http://javafx.com/javafx"
@@ -11,12 +10,8 @@
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
-    <BorderPane>
-        <center>
-            <FlowPane fx:id="flowYear" maxHeight="80" maxWidth="650"/>
-        </center>
-        <right>
-            <TilePane fx:id="dateCon" prefColumns="6"/>
-        </right>
-    </BorderPane>
+    <HBox>
+        <ListView fx:id="flowYear" prefWidth="400" prefHeight="50" orientation="HORIZONTAL"/>
+        <ListView fx:id="flowMonth" prefHeight="40" prefWidth="480" orientation="HORIZONTAL"/>
+    </HBox>
 </TitledPane>

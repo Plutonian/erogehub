@@ -7,12 +7,12 @@ import javafx.scene.image.Image
 class SimpleImage(private val game: Game) {
 
   def small(index: Int): Image = {
-    val key = GetchuGameLocal.smallSimpleImg(game.id, index)
+    val key = GetchuGameLocal.smallSimpleImg(game, index)
     GameImages.get(game)(key, key)
   }
 
   def large(index: Int): Image = {
-    val key = GetchuGameLocal.largeSimpleImg(game.id, index)
+    val key = GetchuGameLocal.largeSimpleImg(game, index)
     GameImages.get(game)(key, key)
   }
 }

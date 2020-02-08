@@ -11,22 +11,22 @@ object GameImage {
 class GameImage(private val game: Game) {
 
   def tiny(): Image = {
-    val key = GetchuGameLocal.tiny120Img(game.id)
+    val key = GetchuGameLocal.tiny120Img(game)
     GameImages.get(game)(key, key)
   }
 
   def tiny200(): Image = {
-    val key = GetchuGameLocal.tiny200Img(game.id)
+    val key = GetchuGameLocal.tiny200Img(game)
     GameImages.get(game)(key, key)
   }
 
   def normal(): Image = {
-    val key = GetchuGameLocal.normalImg(game.id)
+    val key = GetchuGameLocal.normalImg(game)
     GameImages.get(game)(key, key)
   }
 
   def large(): Image = {
-    val key = GetchuGameLocal.largeImg(game.id)
+    val key = GetchuGameLocal.largeImg(game)
     GameImages.get(game)(key, key)
   }
 

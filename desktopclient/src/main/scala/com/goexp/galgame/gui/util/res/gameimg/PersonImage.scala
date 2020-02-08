@@ -8,7 +8,7 @@ import javafx.scene.image.Image
 class PersonImage(private val game: Game) {
 
   def small(index: Int): Image = {
-    val key = GetchuGameLocal.gameChar(game.id, index)
+    val key = GetchuGameLocal.gameChar(game, index)
     GameImages.get(game)(key, key)
   }
 }

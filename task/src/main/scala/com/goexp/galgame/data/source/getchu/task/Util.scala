@@ -30,25 +30,25 @@ object Util {
       /*
     Basic Info
      */
-      val localNormal = Config.IMG_PATH.resolve(s"${GetchuGameLocal.normalImg(g.id)}.jpg")
+      val localNormal = Config.IMG_PATH.resolve(s"${GetchuGameLocal.normalImg(g)}.jpg")
       val remoteNormal = GetchuGameRemote.normalImg(g.id)
       logger.debug(s"Local:$localNormal(${Files.exists(localNormal)}) --> Remote:$remoteNormal")
 
       list.addOne((localNormal, remoteNormal))
 
-      val localTiny = Config.IMG_PATH.resolve(s"${GetchuGameLocal.tiny120Img(g.id)}.jpg")
+      val localTiny = Config.IMG_PATH.resolve(s"${GetchuGameLocal.tiny120Img(g)}.jpg")
       val remoteTiny = GetchuGameRemote.getUrlFromSrc(g.smallImg)
       logger.debug(s"Local:$localTiny(${Files.exists(localTiny)}) --> Remote:$remoteTiny")
 
       list.addOne((localTiny, remoteTiny))
 
-      val local200Tiny = Config.IMG_PATH.resolve(s"${GetchuGameLocal.tiny200Img(g.id)}.jpg")
+      val local200Tiny = Config.IMG_PATH.resolve(s"${GetchuGameLocal.tiny200Img(g)}.jpg")
       val remote200Tiny = GetchuGameRemote.tiny200Img(g.id)
       logger.debug(s"Local:$local200Tiny(${Files.exists(local200Tiny)}) --> Remote:$remote200Tiny")
 
       list.addOne((local200Tiny, remote200Tiny))
 
-      val localLarge = Config.IMG_PATH.resolve(s"${GetchuGameLocal.largeImg(g.id)}.jpg")
+      val localLarge = Config.IMG_PATH.resolve(s"${GetchuGameLocal.largeImg(g)}.jpg")
       val remoteLarge = GetchuGameRemote.largeImg(g.id)
       logger.debug(s"Local:$localLarge(${Files.exists(localLarge)}) --> Remote:$remoteLarge")
 
@@ -61,7 +61,7 @@ object Util {
     g.gameCharacters.asScala.to(LazyList)
       .filter { p => Strings.isNotEmpty(p.img) }
       .foreach { p =>
-        val pLocal = Config.IMG_PATH.resolve(s"${GetchuGameLocal.gameChar(g.id, p.index)}.jpg")
+        val pLocal = Config.IMG_PATH.resolve(s"${GetchuGameLocal.gameChar(g, p.index)}.jpg")
         val pRemote = GetchuGameRemote.getUrlFromSrc(p.img)
 
         logger.debug(s"Local:$pLocal(${Files.exists(pLocal)}) --> Remote:$pRemote")
@@ -76,12 +76,12 @@ object Util {
       .filter { sampleImg => Strings.isNotEmpty(sampleImg.src) }
       .foreach { sampleImg =>
 
-        val smallSimpleLocal = Config.IMG_PATH.resolve(s"${GetchuGameLocal.smallSimpleImg(g.id, sampleImg.index)}.jpg")
+        val smallSimpleLocal = Config.IMG_PATH.resolve(s"${GetchuGameLocal.smallSimpleImg(g, sampleImg.index)}.jpg")
         val smallSimpleRemote = GetchuGameRemote.smallSimpleImg(sampleImg.src)
 
         list.addOne((smallSimpleLocal, smallSimpleRemote))
 
-        val largeSimpleLocal = Config.IMG_PATH.resolve(s"${GetchuGameLocal.largeSimpleImg(g.id, sampleImg.index)}.jpg")
+        val largeSimpleLocal = Config.IMG_PATH.resolve(s"${GetchuGameLocal.largeSimpleImg(g, sampleImg.index)}.jpg")
         val largeSimpleRemote = GetchuGameRemote.largeSimpleImg(sampleImg.src)
 
         list.addOne((largeSimpleLocal, largeSimpleRemote))

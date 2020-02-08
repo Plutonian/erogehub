@@ -21,6 +21,8 @@ import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.layout.{HBox, Region}
 
+import scala.jdk.CollectionConverters._
+
 class DataViewController extends DefaultController {
   final val reloadProperty = new SimpleBooleanProperty(false)
   /**
@@ -73,6 +75,22 @@ class DataViewController extends DefaultController {
           new HBox(Tags.toNodes(title), new Label(String.valueOf(count)))
       }
     )
+
+    cvList.getSelectionModel.selectedItemProperty().addListener((_, _, cv) => {
+      cv match {
+        case SampleItem(title, _) =>
+          val defaultP: Predicate[Game] = (g: Game) => Option(g.gameCharacters).exists(_.asScala.exists(_.getShowCV().exists(_ == title)))
+
+          groupPredicate = defaultP
+          val filterPredicate = filterPanelController.predicate
+          val p = if (filterPredicate != null) groupPredicate.and(filterPredicate)
+          else groupPredicate
+          filteredGames.setPredicate(p)
+          recount()
+        case _ =>
+      }
+
+    })
 
     tagList.setCellFactory(_ =>
       NodeListCell[DataItem] {

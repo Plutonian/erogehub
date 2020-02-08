@@ -2,7 +2,6 @@ package com.goexp.galgame.gui.task.game.panel.group
 
 import java.util
 
-import com.goexp.common.util.string.Strings
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.typesafe.scalalogging.Logger
@@ -18,11 +17,15 @@ class ByCV(val groupGames: util.List[Game]) extends Task[util.List[DataItem]] {
   private def createTagGroup(filteredGames: util.List[Game]) = {
     filteredGames.asScala.to(LazyList)
       .filter(g => Option(g.gameCharacters).map(_.size()).getOrElse(0) > 0)
-      .flatMap(g =>
+      .flatMap { g =>
         g.gameCharacters.asScala.to(LazyList)
-          .map(p => if (Strings.isNotEmpty(p.trueCV)) p.trueCV else if (Strings.isNotEmpty(p.cv)) p.cv else "")
-          .filter(t => Strings.isNotEmpty(t))
-      )
+          .map { p => p.getShowCV() }
+          .filter {
+            _.isDefined
+          }
+          .map { c => c.get }
+        //          .filter(t => Strings.isNotEmpty(t))
+      }
 
       .groupBy(s => s).to(LazyList)
       .sortBy { case (_, v) => v.size }.reverse

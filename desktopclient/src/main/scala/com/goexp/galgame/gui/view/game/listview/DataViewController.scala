@@ -100,7 +100,10 @@ class DataViewController extends DefaultController {
     )
 
     groupCVServ.valueProperty.addListener((_, _, newValue) => {
-      if (newValue != null) cvList.setItems(FXCollections.observableList(newValue))
+      if (newValue != null) {
+        cvList.getSelectionModel.clearSelection()
+        cvList.setItems(FXCollections.observableList(newValue))
+      }
     })
     groupTagServ.valueProperty.addListener((_, _, newValue) => {
       if (newValue != null) tagList.setItems(FXCollections.observableList(newValue))

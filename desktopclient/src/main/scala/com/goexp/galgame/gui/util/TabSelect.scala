@@ -14,11 +14,19 @@ object TabSelect {
 class TabSelect private(val root: TabPane) {
 
   type NotFindAction = () => Tab
+  type DataLoader = () => Unit
 
   private var notFoundAction: NotFindAction = _
+  private var loadData: DataLoader = _
 
   def whenNotFound(notFindAction: => Tab): TabSelect = {
     this.notFoundAction = notFindAction _
+    this
+  }
+
+  def whenNotFound(loadData: => Unit, notFindAction: => Tab): TabSelect = {
+    this.notFoundAction = notFindAction _
+    this.loadData = loadData _
     this
   }
 
@@ -29,6 +37,8 @@ class TabSelect private(val root: TabPane) {
         root.getSelectionModel.select(tab)
       case None =>
         MainController().insertTab(notFoundAction())
+        if (loadData != null)
+          loadData()
     }
 
 }

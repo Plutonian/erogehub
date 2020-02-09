@@ -34,7 +34,7 @@ object GameQuery {
 
 
       g.setState(GameState.from(doc.getInteger("state")))
-      g.setLocation(GameLocation.from(doc.getInteger("location", 0)))
+      g.setLocation(GameLocation.from(doc.getInteger("location", GameLocation.REMOTE.value)))
       g.star = doc.getInteger("star")
 
       logger.trace(s"Game=${g}")

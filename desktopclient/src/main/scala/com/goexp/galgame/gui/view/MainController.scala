@@ -27,23 +27,25 @@ class MainController extends DefaultController {
 
   def viewBrand(brand: Brand) = {
     val text = brand.name
-    TabSelect().whenNotFound {
-      val conn = new CommonInfoTabController
+    val conn = new CommonInfoTabController
+
+    TabSelect().whenNotFound(conn.load(brand), {
       val tab = new Tab(text, conn.node)
       tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG))
-      conn.load(brand)
       tab
-    }.select(text)
+    }).select(text)
   }
 
-  def loadPainterTab(painter: String) =
-    TabSelect().whenNotFound {
-      val conn = CommonTabController(new ByPainter(painter))
+  def loadPainterTab(painter: String) = {
+    val conn = CommonTabController(new ByPainter(painter))
+
+    TabSelect().whenNotFound(conn.load(), {
       val tab = new Tab(painter, conn.node)
       //                    tab.setGraphic(new ImageView(LocalRes.CV_16_PNG()));
-      conn.load()
+
       tab
-    }.select(painter)
+    }).select(painter)
+  }
 
   def loadCVTab(cv: String, real: Boolean) =
     TabSelect().whenNotFound {

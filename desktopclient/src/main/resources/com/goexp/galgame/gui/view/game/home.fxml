@@ -70,8 +70,9 @@
                         </VBox>
                     </TitledPane>
                     <TitledPane text="Location">
-                        <VBox spacing="20.0">
+                        <VBox>
                             <Hyperlink fx:id="linkLocal" text="Local"/>
+                            <Hyperlink fx:id="linkNetDisk" text="NetDisk"/>
                         </VBox>
                     </TitledPane>
                     <TitledPane text="Type">

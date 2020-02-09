@@ -18,7 +18,7 @@
         <TableColumn fx:id="tableColType" prefWidth="124.0" text="Type" visible="false"/>
         <TableColumn fx:id="tableColPainter" prefWidth="200.0" text="原画" visible="false"/>
         <TableColumn fx:id="tableColWriter" prefWidth="191.0" text="シナリオ" visible="false"/>
-        <TableColumn fx:id="tableColState" prefWidth="60.0" resizable="false" sortType="DESCENDING" text="State"/>
+        <TableColumn fx:id="tableColState" prefWidth="100.0" resizable="false" sortType="DESCENDING" text="State"/>
         <TableColumn fx:id="tableColLocation" prefWidth="100.0" sortType="DESCENDING" text="Location"/>
     </columns>
     <contextMenu>

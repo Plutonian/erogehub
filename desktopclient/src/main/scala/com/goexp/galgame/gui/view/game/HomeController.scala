@@ -226,24 +226,25 @@ class HomeController extends DefaultController {
     linkLocal.setOnAction { _ =>
       val title = "Local"
       val conn = CommonTabController(new ByLocation(GameLocation.LOCAL))
-      TabSelect().whenNotFound {
-        conn.controller.tableViewController.tableColState.setVisible(false)
-        val tab = new Tab(title, conn.node)
-        conn.load()
-        tab
-      }.select(title)
+      TabSelect()
+        .whenNotFound({
+          conn.controller.tableViewController.tableColState.setVisible(false)
+          conn.load()
+        }, new Tab(title, conn.node))
+        .select(title)
 
     }
 
     linkNetDisk.setOnAction { _ =>
       val title = "NetDisk"
       val conn = CommonTabController(new ByLocation(GameLocation.NETDISK))
-      TabSelect().whenNotFound {
-        conn.controller.tableViewController.tableColState.setVisible(false)
-        val tab = new Tab(title, conn.node)
-        conn.load()
-        tab
-      }.select(title)
+
+      TabSelect()
+        .whenNotFound({
+          conn.controller.tableViewController.tableColState.setVisible(false)
+          conn.load()
+        }, new Tab(title, conn.node))
+        .select(title)
 
     }
 

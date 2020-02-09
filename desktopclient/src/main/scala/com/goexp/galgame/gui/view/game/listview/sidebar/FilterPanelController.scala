@@ -46,10 +46,7 @@ class FilterPanelController extends FilterController[Game] {
           .map(star => {
             val btn = new CheckBox(star.toString)
             btn.setUserData(star)
-
-            if ((star != 1) && (star != 2))
-              btn.setSelected(true)
-
+            btn.setSelected(true)
             btn
           }).asJava
 

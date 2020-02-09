@@ -187,9 +187,7 @@ class DataViewController extends DefaultController {
 
   def load(games: ObservableList[Game]): Unit = {
     val defaultP: Predicate[Game] = (g: Game) => (g.state.get ne GameState.SAME) &&
-      (g.state.get ne GameState.BLOCK) &&
-      !(g.star > 0 &&
-        g.star < 3)
+      (g.state.get ne GameState.BLOCK)
 
     load(games, defaultP)
   }

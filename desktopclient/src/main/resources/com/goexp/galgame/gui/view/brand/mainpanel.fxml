@@ -33,13 +33,13 @@
             <columns>
                 <TableColumn fx:id="colComp" prefWidth="120.0" resizable="false" text="Comp"/>
                 <TableColumn fx:id="colName" prefWidth="200.0" resizable="false" text="Name"/>
-                <TableColumn fx:id="colTag" editable="false" sortable="false" prefWidth="400" text="Tag"/>
-                <TableColumn fx:id="colWebsite" prefWidth="500.0" text="Url"/>
+                <TableColumn fx:id="colTag" editable="false" sortable="false" prefWidth="600" text="Tag"/>
+                <TableColumn fx:id="colWebsite" prefWidth="500.0" visible="false" text="Url"/>
                 <TableColumn fx:id="colStart" prefWidth="50.0" resizable="false" text="Start"/>
                 <TableColumn fx:id="colEnd" prefWidth="50.0" resizable="false" text="End"/>
                 <TableColumn fx:id="colSize" prefWidth="50.0" resizable="false" text="Size"/>
                 <TableColumn fx:id="colState" prefWidth="75.0" text="State"/>
-                <TableColumn fx:id="colCommand" prefWidth="75.0" text="Command" sortable="false"/>
+                <TableColumn fx:id="colCommand" prefWidth="100.0" text="Command" sortable="false"/>
             </columns>
         </TableView>
     </center>

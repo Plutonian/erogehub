@@ -6,7 +6,7 @@ import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.FXMLLoaderProxy
 import com.goexp.galgame.gui.view.DefaultController
-import com.goexp.javafx.cell.NodeListCell
+import com.goexp.ui.javafx.control.cell.NodeListCell
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.{ListView, Tab, TabPane}

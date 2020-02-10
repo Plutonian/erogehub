@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game
 import java.time.LocalDate
 
 import com.goexp.galgame.gui.view.DefaultController
-import com.goexp.javafx.cell.TextListCell
+import com.goexp.ui.javafx.control.cell.TextListCell
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.collections.FXCollections
 import javafx.fxml.FXML

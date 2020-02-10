@@ -6,7 +6,7 @@ import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.game.panel.group.ByDate
 import com.goexp.galgame.gui.task.game.panel.group.node.DateItem
-import com.goexp.javafx.cell.TextTreeCell
+import com.goexp.ui.javafx.control.cell.TextTreeCell
 import javafx.fxml.FXML
 import javafx.scene.control.TreeView
 

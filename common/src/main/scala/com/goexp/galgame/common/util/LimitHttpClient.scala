@@ -12,14 +12,14 @@ import scala.concurrent.duration.TimeUnit
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
-  * HttpRequest send limit client
-  *
-  * count requset send counts,sleep current thread when reach the limit
-  *
-  * @param limits   times limit
-  * @param waitTime wait for time
-  * @param unit     wait for time unit
-  */
+ * HttpRequest send limit client
+ *
+ * count requset send counts,sleep current thread when reach the limit
+ *
+ * @param limits   times limit
+ * @param waitTime wait for time
+ * @param unit     wait for time unit
+ */
 class LimitHttpClient(val limits: Int, val waitTime: Int, val unit: TimeUnit) {
 
   final private val logger = Logger(classOf[LimitHttpClient])

@@ -3,6 +3,6 @@
  */
 
 rootProject.name = 'galgame'
-include(':galgamecommon')
+include(':common')
 include(':desktopclient')
 include(':task')

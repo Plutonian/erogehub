@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-    compile project(':galgamecommon')
+    compile project(':common')
     compile 'com.goexp:piplline:1.0.1'
     compile 'org.jsoup:jsoup:1.12.1'
 }

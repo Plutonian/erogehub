@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game.listview.simplelist.small
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.FXMLLoaderProxy
 import com.goexp.galgame.gui.view.DefaultController
-import com.goexp.javafx.cell.NodeListCell
+import com.goexp.ui.javafx.control.cell.NodeListCell
 import javafx.fxml.FXML
 import javafx.scene.control.ListView
 import javafx.scene.layout.Region

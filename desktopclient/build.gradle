@@ -27,5 +27,6 @@ application {
 
 dependencies {
     compile project(':galgamecommon')
+    compile 'com.goexp.ui:javafx:1.0'
 //    compile group: 'org.controlsfx', name: 'controlsfx', version: '11.0.1'
 }

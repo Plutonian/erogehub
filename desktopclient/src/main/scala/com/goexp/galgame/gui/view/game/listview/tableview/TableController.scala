@@ -10,7 +10,7 @@ import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.game.change.{MultiBlock, MultiLocation, MultiState}
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.{DefaultController, MainController}
-import com.goexp.javafx.cell.{NodeTableCell, TextTableCell}
+import com.goexp.ui.javafx.control.cell.{NodeTableCell, TableCell, TextTableCell}
 import javafx.beans.property.SimpleObjectProperty
 import javafx.fxml.FXML
 import javafx.scene.control._
@@ -149,7 +149,7 @@ class TableController extends DefaultController {
         location.name
       })
 
-    tableColState.setCellFactory(_ => new com.goexp.javafx.cell.TableCell[Game, GameState]() {
+    tableColState.setCellFactory(_ => new TableCell[Game, GameState]() {
 
       override protected def notEmpty(gameState: GameState): Unit = {
         if (gameState eq GameState.BLOCK)

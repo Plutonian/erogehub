@@ -7,7 +7,7 @@ import com.goexp.galgame.gui.task.{CVListTask, TaskService}
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.{DefaultController, MainController}
-import com.goexp.javafx.cell.{NodeTableCell, TextTableCell}
+import com.goexp.ui.javafx.control.cell.{NodeTableCell, TextTableCell}
 import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
 import javafx.fxml.FXML
 import javafx.scene.control._

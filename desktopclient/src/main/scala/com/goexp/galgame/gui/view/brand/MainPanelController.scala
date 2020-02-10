@@ -11,7 +11,7 @@ import com.goexp.galgame.gui.util.Tags.maker
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{TabSelect, Tags, Websites}
 import com.goexp.galgame.gui.view.DefaultController
-import com.goexp.javafx.cell.{NodeTableCell, TextTableCell}
+import com.goexp.ui.javafx.control.cell.{NodeTableCell, TextTableCell}
 import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
 import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections

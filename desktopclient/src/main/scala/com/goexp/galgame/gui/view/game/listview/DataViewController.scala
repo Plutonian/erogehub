@@ -12,7 +12,7 @@ import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.view.DefaultController
 import com.goexp.galgame.gui.view.game.listview.sidebar.{BrandGroupController, DateGroupController, FilterPanelController}
 import com.goexp.galgame.gui.view.game.listview.tableview.TableController
-import com.goexp.javafx.cell.NodeListCell
+import com.goexp.ui.javafx.control.cell.NodeListCell
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.collections.transformation.{FilteredList, SortedList}
 import javafx.collections.{FXCollections, ObservableList}

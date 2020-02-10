@@ -2,7 +2,7 @@ package com.goexp.galgame.common.db.mongo.query
 
 import java.util
 
-import com.goexp.common.db.mongo.ObjectCreator
+import com.goexp.db.mongo.ObjectCreator
 import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.model.CV
 import com.typesafe.scalalogging.Logger

@@ -2,7 +2,7 @@ package com.goexp.galgame.data.source.getchu.importor
 
 import java.time.LocalDate
 
-import com.goexp.common.db.mongo.DBOperator
+import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.data.source.getchu.DB_NAME
 import com.goexp.galgame.common.model.CV
 import com.mongodb.client.model.Filters

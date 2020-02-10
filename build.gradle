@@ -3,7 +3,7 @@
  */
 
 allprojects {
-    group = 'com.goexp'
+    group = 'com.goexp.galgame'
     version = '1.0-SNAPSHOT'
 }
 

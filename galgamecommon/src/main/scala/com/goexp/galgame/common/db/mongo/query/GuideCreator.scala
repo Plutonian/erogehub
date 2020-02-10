@@ -1,6 +1,6 @@
 package com.goexp.galgame.common.db.mongo.query
 
-import com.goexp.common.db.mongo.ObjectCreator
+import com.goexp.db.mongo.ObjectCreator
 import com.goexp.galgame.common.model.game.guide.{DataFrom, GameGuide}
 import org.bson.Document
 import com.typesafe.scalalogging.Logger

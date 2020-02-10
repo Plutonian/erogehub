@@ -7,13 +7,10 @@ plugins {
 
 dependencies {
     compile project(':galgamecommon')
-    compile project(':piplline')
+    compile 'com.goexp:piplline:1.0.1'
     compile 'org.jsoup:jsoup:1.12.1'
 }
 
 application {
     mainClassName = "com.goexp.galgame.data.script.ImporterStart"
 }
-group = 'com.goexp.galgame.data'
-
-

@@ -10,7 +10,8 @@ import com.goexp.galgame.gui.util.res.gameimg.GameImage
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController
 import com.goexp.galgame.gui.view.game.detailview.part.DateShowController
 import com.goexp.galgame.gui.view.game.part.StateChangeController
-import com.goexp.galgame.gui.view.{DefaultController, MainController}
+import com.goexp.galgame.gui.view.MainController
+import com.goexp.ui.javafx.DefaultController
 import javafx.fxml.FXML
 import javafx.scene.control.{Hyperlink, Label}
 import javafx.scene.effect.ColorAdjust

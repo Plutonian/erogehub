@@ -5,7 +5,7 @@ import com.goexp.galgame.gui.task.game.search.ByTag
 import com.goexp.galgame.gui.task.{TagListTask, TaskService}
 import com.goexp.galgame.gui.util.TabSelect
 import com.goexp.galgame.gui.util.res.LocalRes
-import com.goexp.galgame.gui.view.DefaultController
+import com.goexp.ui.javafx.DefaultController
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.event.ActionEvent
 import javafx.fxml.FXML

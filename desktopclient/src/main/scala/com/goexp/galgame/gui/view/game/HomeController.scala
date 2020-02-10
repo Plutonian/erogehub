@@ -4,9 +4,9 @@ import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.search._
 import com.goexp.galgame.gui.util.res.LocalRes
-import com.goexp.galgame.gui.util.{FXMLLoaderProxy, TabSelect}
-import com.goexp.galgame.gui.view.DefaultController
+import com.goexp.galgame.gui.util.TabSelect
 import com.goexp.galgame.gui.view.brand.MainPanelController
+import com.goexp.ui.javafx.{DefaultController, FXMLLoaderProxy}
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.Node

@@ -5,7 +5,7 @@ import java.util.Objects
 import com.goexp.galgame.common.model.game.GameImg
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.res.gameimg.SimpleImage
-import com.goexp.galgame.gui.view.DefaultController
+import com.goexp.ui.javafx.DefaultController
 import com.goexp.ui.javafx.control.cell.NodeListCell
 import javafx.collections.FXCollections
 import javafx.event.ActionEvent

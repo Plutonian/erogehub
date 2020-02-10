@@ -4,7 +4,8 @@ import com.goexp.common.util.string.Strings
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
-import com.goexp.galgame.gui.view.{DefaultController, MainController}
+import com.goexp.galgame.gui.view.MainController
+import com.goexp.ui.javafx.DefaultController
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.{Hyperlink, Label, TextArea}

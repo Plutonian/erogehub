@@ -9,7 +9,8 @@ import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.game.change.{MultiBlock, MultiLocation, MultiState}
 import com.goexp.galgame.gui.util.res.LocalRes
-import com.goexp.galgame.gui.view.{DefaultController, MainController}
+import com.goexp.galgame.gui.view.MainController
+import com.goexp.ui.javafx.DefaultController
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TableCell, TextTableCell}
 import javafx.beans.property.SimpleObjectProperty
 import javafx.fxml.FXML

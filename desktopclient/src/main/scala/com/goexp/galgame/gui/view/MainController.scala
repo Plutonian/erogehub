@@ -3,11 +3,12 @@ package com.goexp.galgame.gui.view
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.game.search.{ByCV, ByPainter}
 import com.goexp.galgame.gui.util.res.LocalRes
-import com.goexp.galgame.gui.util.{FXMLLoaderProxy, TabSelect}
+import com.goexp.galgame.gui.util.TabSelect
 import com.goexp.galgame.gui.view.brand.CommonInfoTabController
 import com.goexp.galgame.gui.view.game.detailview.outer.OutPageController
 import com.goexp.galgame.gui.view.game.{CommonTabController, HomeController}
 import com.goexp.galgame.gui.view.guide.SearchGuideController
+import com.goexp.ui.javafx.{DefaultController, FXMLLoaderProxy}
 import javafx.fxml.FXML
 import javafx.scene.control.Tab
 import javafx.scene.image.ImageView

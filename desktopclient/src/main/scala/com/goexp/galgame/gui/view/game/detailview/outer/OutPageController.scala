@@ -1,8 +1,8 @@
 package com.goexp.galgame.gui.view.game.detailview.outer
 
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.view.DefaultController
 import com.goexp.galgame.gui.view.game.detailview.inner.InnerPageController
+import com.goexp.ui.javafx.DefaultController
 import javafx.fxml.FXML
 
 class OutPageController extends DefaultController {

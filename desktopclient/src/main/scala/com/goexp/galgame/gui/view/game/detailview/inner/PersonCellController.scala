@@ -5,7 +5,8 @@ import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.res.gameimg.PersonImage
 import com.goexp.galgame.gui.view.game.detailview.part.CVSearchController
-import com.goexp.galgame.gui.view.{DefaultController, MainController}
+import com.goexp.galgame.gui.view.MainController
+import com.goexp.ui.javafx.DefaultController
 import javafx.fxml.FXML
 import javafx.scene.control.{MenuButton, MenuItem}
 import javafx.scene.image.ImageView

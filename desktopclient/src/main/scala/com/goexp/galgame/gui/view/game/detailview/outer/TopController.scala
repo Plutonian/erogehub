@@ -4,9 +4,9 @@ import com.goexp.galgame.common.model.game.CommonGame.Titles
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.LocalRes
-import com.goexp.galgame.gui.view.DefaultController
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController
 import com.goexp.galgame.gui.view.game.detailview.part.{DateShowController, StarChoiceBarController}
+import com.goexp.ui.javafx.DefaultController
 import javafx.fxml.FXML
 import javafx.scene.control.Label
 import javafx.scene.image.ImageView

@@ -1,8 +1,7 @@
 package com.goexp.galgame.gui.view.brand
 
 import com.goexp.galgame.gui.model.Brand
-import com.goexp.galgame.gui.util.FXMLLoaderProxy
-import com.goexp.galgame.gui.view.DefaultController
+import com.goexp.ui.javafx.{DefaultController, FXMLLoaderProxy}
 import javafx.scene.layout.Region
 
 class CommonInfoTabController() extends DefaultController {

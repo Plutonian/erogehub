@@ -7,7 +7,8 @@ import com.goexp.galgame.gui.task.TaskService
 import com.goexp.galgame.gui.task.brand.ChangeStateTask
 import com.goexp.galgame.gui.task.brand.list.ByComp
 import com.goexp.galgame.gui.task.game.change.MultiBlockByBrand
-import com.goexp.galgame.gui.view.{DefaultController, MainController}
+import com.goexp.galgame.gui.view.MainController
+import com.goexp.ui.javafx.DefaultController
 import javafx.beans.value.ChangeListener
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.fxml.FXML

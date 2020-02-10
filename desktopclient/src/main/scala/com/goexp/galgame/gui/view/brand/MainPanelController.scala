@@ -10,7 +10,7 @@ import com.goexp.galgame.gui.task.brand.search.{ByComp, ByName, ByType}
 import com.goexp.galgame.gui.util.Tags.maker
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{TabSelect, Tags, Websites}
-import com.goexp.galgame.gui.view.DefaultController
+import com.goexp.ui.javafx.DefaultController
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TextTableCell}
 import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
 import javafx.beans.value.ChangeListener

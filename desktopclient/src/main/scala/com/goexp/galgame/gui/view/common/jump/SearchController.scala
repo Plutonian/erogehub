@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.view.common.jump
 
 import com.goexp.galgame.common.website.{ErogameScapeURL, GGBasesURL, WikiURL, _2DFURL}
 import com.goexp.galgame.gui.util.Websites
-import com.goexp.galgame.gui.view.DefaultController
+import com.goexp.ui.javafx.DefaultController
 import javafx.fxml.FXML
 import javafx.scene.control.MenuItem
 

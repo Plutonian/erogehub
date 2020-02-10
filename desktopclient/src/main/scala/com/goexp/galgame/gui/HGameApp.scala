@@ -2,7 +2,7 @@ package com.goexp.galgame.gui
 
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.gui.HGameApp.app
-import com.goexp.galgame.gui.util.FXMLLoaderProxy
+import com.goexp.ui.javafx.FXMLLoaderProxy
 import com.goexp.galgame.gui.view.MainController
 import com.typesafe.scalalogging.Logger
 import javafx.application.Application

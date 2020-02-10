@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.source.getchu.query
 
-import com.goexp.common.db.mongo.{DBQuery, ObjectCreator}
+import com.goexp.db.mongo.{DBQuery, ObjectCreator}
 import com.goexp.galgame.common.db.mongo.query.CommonBrandCreator
 import com.goexp.galgame.data.model.Brand
 import com.goexp.galgame.data.source.getchu.DB_NAME

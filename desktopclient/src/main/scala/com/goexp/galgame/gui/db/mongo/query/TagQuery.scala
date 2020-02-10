@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.db.mongo.query
 
 import java.util
 
-import com.goexp.common.db.mongo.{DBQuery, ObjectCreator}
+import com.goexp.db.mongo.{DBQuery, ObjectCreator}
 import com.goexp.galgame.common.model.TagType
 import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.typesafe.scalalogging.Logger

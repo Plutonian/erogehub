@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.source.getchu.importor
 
-import com.goexp.common.db.mongo.DBOperator
+import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.{Brand, Game}
 import com.goexp.galgame.data.source.getchu.DB_NAME

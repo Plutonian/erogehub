@@ -29,5 +29,3 @@ dependencies {
     compile project(':galgamecommon')
 //    compile group: 'org.controlsfx', name: 'controlsfx', version: '11.0.1'
 }
-
-group = 'com.goexp.galgame'

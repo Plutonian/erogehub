@@ -3,9 +3,6 @@
  */
 
 rootProject.name = 'galgame'
-include(':common')
-include(':piplline')
-include(':db_mongo')
 include(':galgamecommon')
 include(':desktopclient')
 include(':task')

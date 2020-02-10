@@ -1,6 +1,6 @@
 package com.goexp.galgame.gui.db.mongo.query
 
-import com.goexp.common.db.mongo.{DBQuery, ObjectCreator}
+import com.goexp.db.mongo.{DBQuery, ObjectCreator}
 import com.goexp.galgame.common.db.mongo.query.CommonGameCreator
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.db.mongo.DB_NAME

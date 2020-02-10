@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.brand
 import java.util.Objects
 
 import com.goexp.galgame.gui.model.{Brand, Game}
-import com.goexp.galgame.gui.task.TaskService
+import com.goexp.ui.javafx.TaskService
 import com.goexp.galgame.gui.task.game.search.ByBrand
 import com.goexp.galgame.gui.view.game.listview.DataViewController
 import com.goexp.ui.javafx.DefaultController

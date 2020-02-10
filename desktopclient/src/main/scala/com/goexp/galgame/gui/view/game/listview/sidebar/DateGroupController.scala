@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game.listview.sidebar
 import java.util
 
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.task.TaskService
+import com.goexp.ui.javafx.TaskService
 import com.goexp.galgame.gui.task.game.panel.group.ByDate
 import com.goexp.galgame.gui.task.game.panel.group.node.DateItem
 import com.goexp.ui.javafx.control.cell.TextTreeCell

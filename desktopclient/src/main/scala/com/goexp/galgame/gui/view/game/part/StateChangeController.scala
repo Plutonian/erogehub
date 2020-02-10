@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.view.game.part
 
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.task.TaskService
+import com.goexp.ui.javafx.TaskService
 import com.goexp.galgame.gui.task.game.change.{Block, State}
 import com.goexp.ui.javafx.DefaultController
 import javafx.beans.value.ChangeListener

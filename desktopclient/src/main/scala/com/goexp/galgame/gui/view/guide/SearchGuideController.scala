@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.view.guide
 
 import com.goexp.galgame.common.model.game.guide.GameGuide
-import com.goexp.galgame.gui.task.TaskService
+import com.goexp.ui.javafx.TaskService
 import com.goexp.galgame.gui.task.game.search.sub.GuideSearchTask
 import com.goexp.galgame.gui.util.Websites
 import com.goexp.ui.javafx.DefaultController

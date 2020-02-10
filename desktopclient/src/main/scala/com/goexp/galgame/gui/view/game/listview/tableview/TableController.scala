@@ -6,7 +6,7 @@ import java.util
 import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.{Brand, Game}
-import com.goexp.galgame.gui.task.TaskService
+import com.goexp.ui.javafx.TaskService
 import com.goexp.galgame.gui.task.game.change.{MultiBlock, MultiLocation, MultiState}
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.MainController

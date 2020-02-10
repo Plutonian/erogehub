@@ -5,7 +5,7 @@ import java.util.function.Predicate
 
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.task.TaskService
+import com.goexp.ui.javafx.TaskService
 import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
 import com.goexp.galgame.gui.util.Tags

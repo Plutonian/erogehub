@@ -5,7 +5,7 @@ import java.util
 
 import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.gui.model.Brand
-import com.goexp.galgame.gui.task.TaskService
+import com.goexp.ui.javafx.TaskService
 import com.goexp.galgame.gui.task.brand.search.{ByComp, ByName, ByType}
 import com.goexp.galgame.gui.util.Tags.maker
 import com.goexp.galgame.gui.util.res.LocalRes

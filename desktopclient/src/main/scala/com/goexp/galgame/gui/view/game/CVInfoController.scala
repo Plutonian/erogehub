@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game
 import java.time.LocalDate
 
 import com.goexp.galgame.common.model.CV
-import com.goexp.galgame.gui.task.{CVListTask, TaskService}
+import com.goexp.galgame.gui.task.CVListTask
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.MainController
@@ -14,7 +14,7 @@ import javafx.scene.control._
 import javafx.scene.image.ImageView
 import javafx.scene.layout.HBox
 import Tags.maker
-import com.goexp.ui.javafx.DefaultController
+import com.goexp.ui.javafx.{DefaultController, TaskService}
 
 import scala.jdk.CollectionConverters._
 

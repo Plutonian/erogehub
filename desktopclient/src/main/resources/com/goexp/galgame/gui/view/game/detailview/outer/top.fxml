@@ -36,7 +36,7 @@
                     <HBox fx:id="boxTag" spacing="5.0"/>
                     <HBox fx:id="boxStar">
                     </HBox>
-                    <fx:include fx:id="starChange" source="../part/star_choicebar.fxml"/>
+                    <fx:include fx:id="starRating" source="../part/star_rating.fxml"/>
                 </HBox>
             </VBox>
         </AnchorPane>

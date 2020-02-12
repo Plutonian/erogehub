@@ -4,7 +4,7 @@ import com.goexp.galgame.common.model.game.CommonGame.Titles
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController
-import com.goexp.galgame.gui.view.game.detailview.part.{DateShowController, StarChoiceBarController}
+import com.goexp.galgame.gui.view.game.detailview.part.{DateShowController, StarRatingController}
 import com.goexp.ui.javafx.DefaultController
 import javafx.fxml.FXML
 import javafx.scene.control.Label
@@ -13,7 +13,7 @@ import javafx.scene.text.Text
 
 class TopController extends DefaultController {
   @FXML private var dateviewController: DateShowController = _
-  @FXML private var starChangeController: StarChoiceBarController = _
+  @FXML private var starRatingController: StarRatingController = _
   @FXML private var brandJumpController: JumpBrandController = _
   @FXML private var boxTag: HBox = _
   @FXML private var txtName: Text = _
@@ -29,7 +29,7 @@ class TopController extends DefaultController {
 
   private def loadWithoutImage(game: Game) = {
     this.targetGame = game
-    starChangeController.load(game)
+    starRatingController.load(game)
 
     val Titles(mainTitle, subTitle) = game.getTitles
     txtName.setText(mainTitle)

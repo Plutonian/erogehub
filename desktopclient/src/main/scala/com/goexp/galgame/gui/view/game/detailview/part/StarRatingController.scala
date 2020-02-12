@@ -7,7 +7,7 @@ import javafx.beans.value.ChangeListener
 import javafx.fxml.FXML
 import org.controlsfx.control.Rating
 
-class StarChoiceBarController extends DefaultController {
+class StarRatingController extends DefaultController {
   @FXML
   var starRating: Rating = _
 

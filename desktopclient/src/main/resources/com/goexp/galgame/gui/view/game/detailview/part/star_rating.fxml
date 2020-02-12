@@ -3,5 +3,5 @@
 <?import org.controlsfx.control.Rating?>
 <Rating xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.172-ea"
         fx:id="starRating" max="5"
-        fx:controller="com.goexp.galgame.gui.view.game.detailview.part.StarChoiceBarController">
+        fx:controller="com.goexp.galgame.gui.view.game.detailview.part.StarRatingController">
 </Rating>

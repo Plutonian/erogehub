@@ -25,6 +25,8 @@ class StarRatingController extends DefaultController {
   private val changeStarService = TaskService(new Star(targetGame))
 
   override protected def initialize() = {
+    starRating.setScaleX(0.8)
+    starRating.setScaleY(0.8)
   }
 
   def load(game: Game) = {

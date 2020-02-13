@@ -6,18 +6,15 @@ import java.util
 import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.{Brand, Game}
-import com.goexp.ui.javafx.TaskService
 import com.goexp.galgame.gui.task.game.change.{MultiBlock, MultiLocation, MultiState}
-import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.MainController
-import com.goexp.ui.javafx.DefaultController
+import com.goexp.galgame.gui.view.common.control.StarRatingView
+import com.goexp.ui.javafx.{DefaultController, TaskService}
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TableCell, TextTableCell}
 import javafx.beans.property.SimpleObjectProperty
 import javafx.fxml.FXML
 import javafx.scene.control._
-import javafx.scene.image.ImageView
 import javafx.scene.input.MouseButton
-import javafx.scene.layout.HBox
 
 import scala.jdk.CollectionConverters._
 
@@ -171,11 +168,7 @@ class TableController extends DefaultController {
 
     tableColStar.setCellFactory(_ =>
       NodeTableCell { star =>
-        val image = LocalRes.HEART_16_PNG
-
-        val stars = Range(0, star).to(LazyList).map { _ => new ImageView(image) }.toArray
-        new HBox(stars: _*)
-
+        new StarRatingView(star)
       }
     )
   }

@@ -5,12 +5,12 @@ import com.goexp.galgame.common.model.game.CommonGame.Titles
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
-import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
+import com.goexp.galgame.gui.view.MainController
+import com.goexp.galgame.gui.view.common.control.StarRatingView
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController
 import com.goexp.galgame.gui.view.game.detailview.part.DateShowController
 import com.goexp.galgame.gui.view.game.part.StateChangeController
-import com.goexp.galgame.gui.view.MainController
 import com.goexp.ui.javafx.DefaultController
 import javafx.fxml.FXML
 import javafx.scene.control.{Hyperlink, Label}
@@ -27,7 +27,7 @@ class HeaderController extends DefaultController {
 
   @FXML private var linkView: Hyperlink = _
   @FXML private var imageImg: ImageView = _
-  @FXML private var boxStar: HBox = _
+  @FXML private var ratingView: StarRatingView = _
   @FXML private var txtName: Text = _
   @FXML private var txtSubName: Text = _
   @FXML private var boxTag: HBox = _
@@ -78,11 +78,7 @@ class HeaderController extends DefaultController {
 
     dateviewController.load(game.publishDate)
 
-    val image = LocalRes.HEART_16_PNG
-
-    boxStar.getChildren.clear()
-    val stars = Range(0, game.star).to(LazyList).map { _ => new ImageView(image) }.toArray
-    boxStar.getChildren.addAll(stars: _*)
+    ratingView.rating(game.star)
 
 
     if ((game.state.get eq GameState.BLOCK) || (game.state.get eq GameState.SAME))

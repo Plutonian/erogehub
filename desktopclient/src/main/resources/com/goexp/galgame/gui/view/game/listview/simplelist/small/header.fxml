@@ -8,6 +8,7 @@
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
 <?import javafx.scene.text.TextFlow?>
+<?import com.goexp.galgame.gui.view.common.control.StarRatingView?>
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.game.listview.simplelist.small.HeaderController">
     <stylesheets>
@@ -33,7 +34,7 @@
                     </TextFlow>
                     <fx:include fx:id="brandJump" source="../../../../common/jump/jumpbrand.fxml"/>
 
-                    <HBox fx:id="boxStar"/>
+                    <StarRatingView fx:id="ratingView"/>
 
                     <HBox fx:id="boxTag" spacing="5.0"/>
 

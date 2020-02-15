@@ -92,22 +92,14 @@ class FilterPanelController extends FilterController[Game] {
     val stars = starbox.getChildren.asScala.to(LazyList)
       .filter(_.asInstanceOf[CheckBox].isSelected)
       .map(_.asInstanceOf[CheckBox].getText.toInt)
-    //      .asJava
-
-    //    if (stars.isEmpty) stars.(0)
-
 
     val states = statebox.getChildren.asScala.to(LazyList)
       .filter(_.asInstanceOf[CheckBox].isSelected)
       .map(_.getUserData.asInstanceOf[GameState])
-    //      .asJava
-
 
     val location = locationbox.getChildren.asScala.to(LazyList)
       .filter(_.asInstanceOf[CheckBox].isSelected)
       .map(_.getUserData.asInstanceOf[GameLocation])
-    //      .asJava
-
 
     predicate = (game: Game) => {
       stars.contains(game.star) &&

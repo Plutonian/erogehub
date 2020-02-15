@@ -5,13 +5,12 @@ import java.util
 
 import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.gui.model.Brand
-import com.goexp.ui.javafx.TaskService
 import com.goexp.galgame.gui.task.brand.search.{ByComp, ByName, ByType}
 import com.goexp.galgame.gui.util.Tags.maker
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{TabSelect, Tags, Websites}
-import com.goexp.ui.javafx.DefaultController
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TextTableCell}
+import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
 import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
@@ -19,7 +18,6 @@ import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.image.ImageView
 import javafx.scene.layout.HBox
-import javafx.util.StringConverter
 
 import scala.jdk.CollectionConverters._
 
@@ -60,14 +58,15 @@ class MainPanelController extends DefaultController {
       colSize.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.size))
       colCommand.setCellValueFactory(p => new SimpleObjectProperty(p.getValue))
 
-      colTag.setCellFactory(_ =>
+      colTag.setCellFactory(_ => {
+        val hbox = new HBox
+        hbox.setSpacing(5)
+
         NodeTableCell { tag =>
-          val hbox = new HBox
-          hbox.setSpacing(5)
           hbox.getChildren.setAll(Tags.toNodes(tag.asJava))
           hbox
         }
-      )
+      })
 
       colStart.setCellFactory { _ =>
         TextTableCell { startDate =>
@@ -80,42 +79,47 @@ class MainPanelController extends DefaultController {
           endDate.getYear.toString
         }
       )
-      colWebsite.setCellFactory(_ =>
+      colWebsite.setCellFactory(_ => {
+        var url: String = null
+        val titleLabel = new Hyperlink()
+        titleLabel.setOnAction(_ => Websites.open(url))
+
         NodeTableCell { website =>
-          val titleLabel = new Hyperlink(website)
-          titleLabel.setOnAction(_ => Websites.open(website))
+          url = website
+          titleLabel.setText(website)
 
           titleLabel
         }
-      )
+      })
 
-      colCommand.setCellFactory(_ =>
-        NodeTableCell { brand =>
+      colCommand.setCellFactory(_ => {
+        var brand: Brand = null
 
-          val link = new Hyperlink("関連ゲーム")
-          link.setOnAction(_ => {
-            val text = brand.name
-            TabSelect().whenNotFound {
-              val conn = new CommonInfoTabController
-              val tab = new Tab(text, conn.node)
-              tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG))
-              conn.load(brand)
-              tab
-            }.select(text)
+        val link = new Hyperlink("関連ゲーム")
+        link.setOnAction(_ => {
+          val text = brand.name
+          TabSelect().whenNotFound {
+            val conn = new CommonInfoTabController
+            val tab = new Tab(text, conn.node)
+            tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG))
+            conn.load(brand)
+            tab
+          }.select(text)
 
-          })
-
+        })
+        NodeTableCell { b =>
+          brand = b
           link
         }
-      )
+      })
     }
 
     initTable()
 
 
-    val handler: ChangeListener[util.List[Brand]] = (_, _, newValue) => {
-      if (newValue != null)
-        tableBrand.setItems(FXCollections.observableArrayList(newValue))
+    val handler: ChangeListener[util.List[Brand]] = (_, _, brands) => {
+      if (brands != null)
+        tableBrand.setItems(FXCollections.observableArrayList(brands))
     }
 
 
@@ -127,18 +131,16 @@ class MainPanelController extends DefaultController {
 
 
     choiceBrandType.setItems(FXCollections.observableArrayList(BrandState.values: _*))
-    choiceBrandType.setConverter(new StringConverter[BrandState]() {
-      override def toString(brandType: BrandState) = brandType.name
 
-      override def fromString(string: String) = BrandState.from(string)
-    })
-    choiceBrandType.setOnAction { _ =>
-      brandType = choiceBrandType.getValue
+    choiceBrandType.getSelectionModel.selectedItemProperty().addListener { (_, _, t) =>
+      if (t != null) {
 
-      logger.debug(s"Value: ${choiceBrandType.getValue}")
+        brandType = t
 
-      brandService.restart()
+        logger.debug(s"Value: ${t}")
 
+        brandService.restart()
+      }
     }
 
     btnSearch.setOnAction { _ =>

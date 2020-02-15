@@ -8,13 +8,9 @@ import com.goexp.galgame.common.model.game.brand.CommonBrand
 import scala.beans.BeanProperty
 
 class Brand extends CommonBrand {
-  @BeanProperty
   var start: LocalDate = _
-  @BeanProperty
   var end: LocalDate = _
-  @BeanProperty
   var size: Int = _
-  @BeanProperty
   var tag: List[String] = _
 
 

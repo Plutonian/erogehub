@@ -48,10 +48,11 @@ class HeaderController extends DefaultController {
 
 
     loadWithoutImage(game)
-    if (game.isOkImg)
-      imageImg.setImage(GameImage(game).tiny)
-    else
-      imageImg.setImage(null)
+
+
+    imageImg.setImage {
+      if (game.isOkImg) GameImage(game).tiny else null
+    }
   }
 
   def setImage(image: Image) = imageImg.setImage(image)
@@ -67,13 +68,14 @@ class HeaderController extends DefaultController {
     txtSubName.setText(subTitle)
 
     if (game.tag.size > 0)
-      boxTag.getChildren.setAll(
+      boxTag.getChildren.setAll {
         Tags.toNodes(game.tag) { str =>
           val tagLabel = new Label(str)
           tagLabel.getStyleClass.add("tag")
           tagLabel.getStyleClass.add("tagsmall")
           tagLabel
-        })
+        }
+      }
     else
       boxTag.getChildren.clear()
 
@@ -82,9 +84,11 @@ class HeaderController extends DefaultController {
     ratingView.ratingProperty.bind(game.star)
 
 
-    if ((game.state.get eq GameState.BLOCK) || (game.state.get eq GameState.SAME))
-      imageImg.setEffect(new ColorAdjust(0, -1, 0, 0))
-    else
-      imageImg.setEffect(null)
+    imageImg.setEffect {
+      if ((game.state.get eq GameState.BLOCK) || (game.state.get eq GameState.SAME))
+        new ColorAdjust(0, -1, 0, 0)
+      else null
+    }
+
   }
 }

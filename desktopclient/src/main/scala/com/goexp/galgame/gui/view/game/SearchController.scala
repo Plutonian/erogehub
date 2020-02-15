@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.view.game
 
 import com.goexp.galgame.gui.task.game.search.{ByName, ByNameEx}
 import com.goexp.ui.javafx.DefaultController
-import javafx.beans.property.SimpleBooleanProperty
+import javafx.beans.property.{SimpleBooleanProperty, SimpleStringProperty}
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.{Button, TextField, ToggleGroup}
@@ -11,7 +11,8 @@ import javafx.scene.layout.BorderPane
 
 class SearchController extends DefaultController {
   final val onLoadProperty = new SimpleBooleanProperty(false)
-  private var key: String = _
+  private lazy val key = new SimpleStringProperty()
+
   private var searchType: SearchType = _
   @FXML private var textSearchGameKey: TextField = _
   @FXML private var searchGroup: ToggleGroup = _
@@ -23,8 +24,8 @@ class SearchController extends DefaultController {
       if (newValue) {
         val conn = CommonTabController(
           searchType match {
-            case SearchType.Simple => new ByName(key)
-            case SearchType.Extend => new ByNameEx(key)
+            case SearchType.Simple => new ByName(key.get())
+            case SearchType.Extend => new ByNameEx(key.get())
             //            case SearchType.Full => new ByTag(key)
             case _ => null
           }
@@ -34,19 +35,18 @@ class SearchController extends DefaultController {
       }
     })
     btnSearchGame.disableProperty.bind(textSearchGameKey.textProperty.isEmpty)
+
+    textSearchGameKey.textProperty().bindBidirectional(key)
   }
 
-  def load(): Unit = load("")
-
-  def load(title: String): Unit = {
-    textSearchGameKey.setText(title)
+  def load(title: String = ""): Unit = {
+    key.set(title)
     resetEvent()
   }
 
   private def resetEvent() = onLoadProperty.set(false)
 
   @FXML private def btnSearchGame_OnAction(actionEvent: ActionEvent) = {
-    key = textSearchGameKey.getText.trim
     searchType = SearchType.from(searchGroup.getSelectedToggle.getUserData.asInstanceOf[String].toInt)
     onLoadProperty.set(true)
     resetEvent()
@@ -64,7 +64,8 @@ class SearchController extends DefaultController {
     if (files.size > 0) {
       val f = files.get(0)
       val title = f.getName.replaceFirst("""\.[^.]+""", "")
-      textSearchGameKey.setText(title)
+
+      key.set(title)
     }
   }
 }

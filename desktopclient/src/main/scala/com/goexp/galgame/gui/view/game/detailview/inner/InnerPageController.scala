@@ -24,10 +24,10 @@ class InnerPageController extends DefaultController {
 
     personListView.setCellFactory(_ => {
       val loader = new FXMLLoaderProxy[Region, PersonCellController](classOf[PersonCellController].getResource("person_cell.fxml"))
+      val controller = loader.controller
+      controller.game = game
 
       NodeListCell[GameCharacter] { gameCharacter =>
-        val controller = loader.controller
-        controller.game = game
         controller.gameChar = gameCharacter
         controller.init()
         loader.node

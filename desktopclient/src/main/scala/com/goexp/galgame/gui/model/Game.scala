@@ -24,14 +24,9 @@ class Game extends CommonGame {
 
   def setState(state: GameState) = this.state.set(state)
 
-  def stateProperty = state
-
   def getLocation = location.get
 
   def setLocation(location: GameLocation) = this.location.set(location)
-
-  def locationProperty = location
-
 
   override def toString = s"Game[${RED.s(id.toString)}] ${RED.s(name)} Date:${publishDate} img:${smallImg}  state:<${
     Option(state).map {

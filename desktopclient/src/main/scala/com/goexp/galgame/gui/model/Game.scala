@@ -7,8 +7,6 @@ import com.goexp.common.util.string.StringOption
 import com.goexp.galgame.common.model.game.{CommonGame, GameLocation, GameState}
 import javafx.beans.property.{SimpleIntegerProperty, SimpleObjectProperty}
 
-import scala.beans.BeanProperty
-
 class Game extends CommonGame {
   lazy val state = new SimpleObjectProperty[GameState]
   lazy val location = new SimpleObjectProperty[GameLocation]

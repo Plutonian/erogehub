@@ -4,8 +4,8 @@ import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.res.gameimg.PersonImage
-import com.goexp.galgame.gui.view.game.detailview.part.CVSearchController
 import com.goexp.galgame.gui.view.MainController
+import com.goexp.galgame.gui.view.game.detailview.part.CVSearchController
 import com.goexp.ui.javafx.DefaultController
 import javafx.fxml.FXML
 import javafx.scene.control.{MenuButton, MenuItem}
@@ -14,8 +14,6 @@ import javafx.scene.layout.Region
 import javafx.scene.text.Text
 
 class PersonCellController extends DefaultController {
-  var gameChar: GameCharacter = _
-  var game: Game = _
   @FXML private var cvsearchController: CVSearchController = _
   @FXML private var imageImg: ImageView = _
   @FXML private var txtName: Text = _
@@ -24,7 +22,7 @@ class PersonCellController extends DefaultController {
   @FXML private var txtIntro: Text = _
   @FXML private var cvPart: Region = _
 
-  def init() = {
+  def init(game: Game, gameChar: GameCharacter) = {
 
     logger.debug(s"${gameChar}")
 

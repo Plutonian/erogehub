@@ -29,6 +29,7 @@ class MainPanelController extends DefaultController {
   @FXML private var colTag: TableColumn[Brand, List[String]] = _
 
   @FXML private var textBrandKey: TextField = _
+
   @FXML private var tableBrand: TableView[Brand] = _
   @FXML private var colComp: TableColumn[Brand, String] = _
   @FXML private var colName: TableColumn[Brand, String] = _
@@ -40,11 +41,11 @@ class MainPanelController extends DefaultController {
   @FXML private var btnSearch: Button = _
 
   private var brandType = BrandState.LIKE
-  private var keyword: String = _
+  private lazy val keyword = new SimpleStringProperty
 
   final private val brandService = TaskService(new ByType(brandType))
-  final private val brandByNameService = TaskService(new ByName(keyword))
-  final private val brandByCompService = TaskService(new ByComp(keyword))
+  final private val brandByNameService = TaskService(new ByName(keyword.get))
+  final private val brandByCompService = TaskService(new ByComp(keyword.get))
 
   override protected def initialize() = {
     def initTable() = {
@@ -144,17 +145,19 @@ class MainPanelController extends DefaultController {
     }
 
     btnSearch.setOnAction { _ =>
-      keyword = textBrandKey.getText
 
-      logger.debug(s"Value: ${keyword}")
+      logger.debug(s"Value: ${keyword.get}")
 
-      val `type` = typeGroup.getSelectedToggle.getUserData.asInstanceOf[String].toInt
-      if (`type` == 0)
+      val t = typeGroup.getSelectedToggle.getUserData.asInstanceOf[String].toInt
+      if (t == 0)
         brandByNameService.restart()
       else
         brandByCompService.restart()
 
     }
+
+    textBrandKey.textProperty().bindBidirectional(keyword)
+    btnSearch.disableProperty().bind(textBrandKey.textProperty().isEmpty)
 
   }
 

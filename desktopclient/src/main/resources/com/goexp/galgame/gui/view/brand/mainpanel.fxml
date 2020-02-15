@@ -6,6 +6,26 @@
 <?import javafx.scene.text.Font?>
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.brand.MainPanelController">
+    <top>
+        <ToolBar BorderPane.alignment="CENTER">
+            <ChoiceBox fx:id="choiceBrandType"/>
+        </ToolBar>
+    </top>
+    <center>
+        <TableView fx:id="tableBrand" prefHeight="600.0" tableMenuButtonVisible="true">
+            <columns>
+                <TableColumn fx:id="colComp" prefWidth="120.0" resizable="false" text="Comp"/>
+                <TableColumn fx:id="colName" prefWidth="200.0" resizable="false" text="Name"/>
+                <TableColumn fx:id="colTag" editable="false" sortable="false" prefWidth="600" text="Tag"/>
+                <TableColumn fx:id="colWebsite" prefWidth="500.0" visible="false" text="Url"/>
+                <TableColumn fx:id="colStart" prefWidth="50.0" resizable="false" text="Start"/>
+                <TableColumn fx:id="colEnd" prefWidth="50.0" resizable="false" text="End"/>
+                <TableColumn fx:id="colSize" prefWidth="50.0" resizable="false" text="Size"/>
+                <TableColumn fx:id="colState" prefWidth="75.0" text="State"/>
+                <TableColumn fx:id="colCommand" prefWidth="100.0" text="Command" sortable="false"/>
+            </columns>
+        </TableView>
+    </center>
     <bottom>
         <HBox spacing="10.0">
             <padding>
@@ -25,27 +45,7 @@
                     <Font size="14.0"/>
                 </font>
             </TextField>
-            <Button fx:id="btnSearch" mnemonicParsing="false" text="Search"/>
+            <Button fx:id="btnSearch" defaultButton="true" mnemonicParsing="false" text="Search"/>
         </HBox>
     </bottom>
-    <center>
-        <TableView fx:id="tableBrand" prefHeight="600.0" tableMenuButtonVisible="true">
-            <columns>
-                <TableColumn fx:id="colComp" prefWidth="120.0" resizable="false" text="Comp"/>
-                <TableColumn fx:id="colName" prefWidth="200.0" resizable="false" text="Name"/>
-                <TableColumn fx:id="colTag" editable="false" sortable="false" prefWidth="600" text="Tag"/>
-                <TableColumn fx:id="colWebsite" prefWidth="500.0" visible="false" text="Url"/>
-                <TableColumn fx:id="colStart" prefWidth="50.0" resizable="false" text="Start"/>
-                <TableColumn fx:id="colEnd" prefWidth="50.0" resizable="false" text="End"/>
-                <TableColumn fx:id="colSize" prefWidth="50.0" resizable="false" text="Size"/>
-                <TableColumn fx:id="colState" prefWidth="75.0" text="State"/>
-                <TableColumn fx:id="colCommand" prefWidth="100.0" text="Command" sortable="false"/>
-            </columns>
-        </TableView>
-    </center>
-    <top>
-        <ToolBar BorderPane.alignment="CENTER">
-            <ChoiceBox fx:id="choiceBrandType"/>
-        </ToolBar>
-    </top>
 </BorderPane>

@@ -9,7 +9,8 @@ import javafx.fxml.FXML
 import javafx.scene.control.MenuItem
 
 class JumpLinkController extends DefaultController {
-  private var game = new Game
+  private var game: Game = _
+
   @FXML private var searchLinkController: SearchController = _
   @FXML private var linkGetchu: MenuItem = _
   @FXML private var linkGuide: MenuItem = _

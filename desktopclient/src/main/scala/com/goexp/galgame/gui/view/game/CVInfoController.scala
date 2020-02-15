@@ -5,16 +5,16 @@ import java.time.LocalDate
 import com.goexp.galgame.common.model.CV
 import com.goexp.galgame.gui.task.CVListTask
 import com.goexp.galgame.gui.util.Tags
+import com.goexp.galgame.gui.util.Tags.maker
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.MainController
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TextTableCell}
+import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
 import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.image.ImageView
 import javafx.scene.layout.HBox
-import Tags.maker
-import com.goexp.ui.javafx.{DefaultController, TaskService}
 
 import scala.jdk.CollectionConverters._
 
@@ -40,22 +40,25 @@ class CVInfoController extends DefaultController {
 
     colStar.setCellFactory { _ =>
       val image = LocalRes.HEART_16_PNG
+      val box = new HBox()
 
       NodeTableCell { star =>
         if (star > 0) {
-          val stars = Range(0, star).to(LazyList).map { _ => new ImageView(image) }.toArray
-          new HBox(stars: _*)
+          val stars = Range(0, star).to(LazyList).map { _ => new ImageView(image) }.asJava
+          box.getChildren.setAll(stars)
+          box
         }
         else new Label(star.toString)
       }
     }
 
     colName.setCellFactory { _ =>
+      val link = new Hyperlink()
+
       NodeTableCell { name =>
-        val link = new Hyperlink(name)
+        link.setText(name)
         link.setOnAction(_ => MainController().loadCVTab(name, true))
         link
-
       }
     }
 
@@ -71,14 +74,15 @@ class CVInfoController extends DefaultController {
       }
     )
 
-    colTag.setCellFactory(_ =>
+    colTag.setCellFactory(_ => {
+      val hbox = new HBox
+      hbox.setSpacing(5)
+
       NodeTableCell { tag =>
-        val hbox = new HBox
-        hbox.setSpacing(5)
         hbox.getChildren.setAll(Tags.toNodes(tag.asJava))
         hbox
       }
-    )
+    })
 
     tableCV.itemsProperty().bind(loadCVService.valueProperty())
 

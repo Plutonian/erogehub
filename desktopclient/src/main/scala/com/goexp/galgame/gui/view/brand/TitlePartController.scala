@@ -42,12 +42,6 @@ class TitlePartController extends DefaultController {
 
     choiceBrandState.setItems(FXCollections.observableArrayList(types))
 
-    choiceBrandState.setConverter(new StringConverter[BrandState]() {
-      override def toString(brandType: BrandState) = brandType.name
-
-      override def fromString(string: String) = BrandState.from(string)
-    })
-
     listener = (_, _, newValue) => {
       if (newValue != null) {
 

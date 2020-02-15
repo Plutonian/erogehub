@@ -1,5 +1,6 @@
 package com.goexp.galgame.gui.view.game.listview.sidebar
 
+import java.time.LocalDate
 import java.util
 
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
@@ -7,14 +8,17 @@ import com.goexp.galgame.gui.model.Game
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.CheckBox
-import javafx.scene.layout.HBox
+import javafx.scene.layout.Pane
+import org.controlsfx.control.ToggleSwitch
 
 import scala.jdk.CollectionConverters._
 
 class FilterPanelController extends FilterController[Game] {
-  @FXML private var starbox: HBox = _
-  @FXML private var statebox: HBox = _
-  @FXML private var locationbox: HBox = _
+  @FXML private var starbox: Pane = _
+  @FXML private var statebox: Pane = _
+  @FXML private var locationbox: Pane = _
+
+  @FXML private var switchAll: ToggleSwitch = _
 
   override protected def initialize() = reset()
 
@@ -88,20 +92,21 @@ class FilterPanelController extends FilterController[Game] {
     val stars = starbox.getChildren.asScala.to(LazyList)
       .filter(_.asInstanceOf[CheckBox].isSelected)
       .map(_.asInstanceOf[CheckBox].getText.toInt)
-      .asJava
+    //      .asJava
+
+    //    if (stars.isEmpty) stars.(0)
 
 
     val states = statebox.getChildren.asScala.to(LazyList)
       .filter(_.asInstanceOf[CheckBox].isSelected)
       .map(_.getUserData.asInstanceOf[GameState])
-      .asJava
+    //      .asJava
 
-    if (stars.isEmpty) stars.add(0)
 
     val location = locationbox.getChildren.asScala.to(LazyList)
       .filter(_.asInstanceOf[CheckBox].isSelected)
       .map(_.getUserData.asInstanceOf[GameLocation])
-      .asJava
+    //      .asJava
 
 
     predicate = (game: Game) => {
@@ -109,6 +114,13 @@ class FilterPanelController extends FilterController[Game] {
         states.contains(game.state.get) &&
         location.contains(game.location.get)
     }
+
+    if (switchAll.isSelected)
+      predicate = predicate.and { game: Game =>
+        Option(game.getPublishDate).exists {
+          _.isBefore(LocalDate.now())
+        }
+      }
   }
 
   override def init(filteredGames: util.List[Game]) = {

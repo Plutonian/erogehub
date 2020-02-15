@@ -2,14 +2,12 @@ package com.goexp.galgame.gui.view.game.part
 
 import com.goexp.galgame.common.model.game.GameLocation
 import com.goexp.galgame.gui.model.Game
-import com.goexp.ui.javafx.TaskService
-import com.goexp.galgame.gui.task.game.change.{Location, State}
-import com.goexp.ui.javafx.DefaultController
+import com.goexp.galgame.gui.task.game.change.Location
+import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.ChoiceBox
-import javafx.util.StringConverter
 
 import scala.jdk.CollectionConverters._
 
@@ -29,14 +27,7 @@ class LocationChangeController extends DefaultController {
   }
 
   override protected def initialize() = {
-
-    choiceLocation.setConverter(new StringConverter[GameLocation]() {
-      override def toString(location: GameLocation) = location.name
-
-      override def fromString(string: String) = GameLocation.from(string)
-    })
-
-    val types = GameLocation.values.to(LazyList).sortBy(gs => gs.value).reverse.asJava
+    val types = GameLocation.values.to(LazyList).sortBy(gs => gs.value)(Ordering[Int].reverse).asJava
     choiceLocation.setItems(FXCollections.observableArrayList(types))
   }
 

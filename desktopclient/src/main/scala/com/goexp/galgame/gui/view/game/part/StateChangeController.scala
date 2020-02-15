@@ -2,14 +2,12 @@ package com.goexp.galgame.gui.view.game.part
 
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.Game
-import com.goexp.ui.javafx.TaskService
 import com.goexp.galgame.gui.task.game.change.{Block, State}
-import com.goexp.ui.javafx.DefaultController
+import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.ChoiceBox
-import javafx.util.StringConverter
 
 import scala.jdk.CollectionConverters._
 
@@ -39,14 +37,7 @@ class StateChangeController extends DefaultController {
   }
 
   override protected def initialize() = {
-
-    choiceState.setConverter(new StringConverter[GameState]() {
-      override def toString(gameState: GameState) = gameState.name
-
-      override def fromString(string: String) = GameState.from(string)
-    })
-
-    val types = GameState.values.to(LazyList).sortBy(gs => gs.value).reverse.asJava
+    val types = GameState.values.to(LazyList).sortBy(gs => gs.value)(Ordering[Int].reverse).asJava
     choiceState.setItems(FXCollections.observableArrayList(types))
   }
 

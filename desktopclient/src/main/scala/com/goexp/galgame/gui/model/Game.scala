@@ -10,23 +10,15 @@ import javafx.beans.property.{SimpleIntegerProperty, SimpleObjectProperty}
 class Game extends CommonGame {
   lazy val state = new SimpleObjectProperty[GameState]
   lazy val location = new SimpleObjectProperty[GameLocation]
-  var brand: Brand = _
-
   lazy val star = new SimpleIntegerProperty()
+
+  var brand: Brand = _
 
   def getWriter: String = String.join(",", writer)
 
   def getPainter: String = String.join(",", painter)
 
   def getType: String = String.join(",", `type`)
-
-  def getState = state.get
-
-  def setState(state: GameState) = this.state.set(state)
-
-  def getLocation = location.get
-
-  def setLocation(location: GameLocation) = this.location.set(location)
 
   override def toString = s"Game[${RED.s(id.toString)}] ${RED.s(name)} Date:${publishDate} img:${smallImg}  state:<${
     Option(state).map {

@@ -52,12 +52,12 @@ class HomeController extends DefaultController {
   override protected def initialize() = {
 
     def initBlockList() = {
-      val links = gameState2Link(List(GameState.PLAYED)).asJava
+      val links = state2Link(List(GameState.PLAYED)).asJava
       gameStateLinkPanel.getChildren.setAll(links)
     }
 
 
-    def gameState2Link(gameState: List[GameState]): LazyList[Hyperlink] = {
+    def state2Link(gameState: List[GameState]): LazyList[Hyperlink] = {
       gameState.to(LazyList)
         .map(state => {
           val link = new Hyperlink
@@ -109,7 +109,7 @@ class HomeController extends DefaultController {
     menuPanel.setExpandedPane(menuPanel.getPanes.get(0))
     initBlockList()
 
-    val links = gameState2Link(List(GameState.READYTOVIEW, GameState.HOPE, GameState.PLAYING)).asJava
+    val links = state2Link(List(GameState.READYTOVIEW, GameState.HOPE, GameState.PLAYING)).asJava
     gameStateLikeLinkPanel.getChildren.setAll(links)
 
     linkDate.setGraphic(new ImageView(LocalRes.IMG_DATE_PNG))

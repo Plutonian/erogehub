@@ -103,18 +103,7 @@ class TableController extends DefaultController {
 
 
     table.getSelectionModel.setSelectionMode(SelectionMode.MULTIPLE)
-    table.setRowFactory(_ => {
-      val row = new TableRow[Game]
-      row.setOnMouseClicked(null)
-      row.setOnMouseClicked(event => {
-        if ((event.getButton eq MouseButton.PRIMARY) && event.getClickCount == 2)
-          if (!row.isEmpty) {
-            val g = row.getItem
-            MainController().loadDetail(g)
-          }
-      })
-      row
-    })
+
     tableColLocation.setCellValueFactory(param => param.getValue.location)
     tableColState.setCellValueFactory(param => param.getValue.state)
     tableColBrand.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.brand))

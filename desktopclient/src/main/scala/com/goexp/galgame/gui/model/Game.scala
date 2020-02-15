@@ -3,9 +3,9 @@ package com.goexp.galgame.gui.model
 import java.util.StringJoiner
 
 import com.goexp.common.util.string.ConsoleColors.RED
-import com.goexp.common.util.string.{StringOption, Strings}
+import com.goexp.common.util.string.StringOption
 import com.goexp.galgame.common.model.game.{CommonGame, GameLocation, GameState}
-import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.property.{SimpleIntegerProperty, SimpleObjectProperty}
 
 import scala.beans.BeanProperty
 
@@ -14,8 +14,7 @@ class Game extends CommonGame {
   lazy val location = new SimpleObjectProperty[GameLocation]
   var brand: Brand = _
 
-  @BeanProperty
-  var star = 0
+  lazy val star = new SimpleIntegerProperty()
 
   def getWriter: String = String.join(",", writer)
 

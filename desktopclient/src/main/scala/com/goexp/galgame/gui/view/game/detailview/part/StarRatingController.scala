@@ -17,7 +17,9 @@ class StarRatingController extends DefaultController {
     if (newV != null) {
       logger.debug(s"New:${newV.intValue()}")
 
-      targetGame.star = newV.intValue()
+      //      targetGame.star = newV.intValue()
+      //      println(targetGame.star)
+      //      println(targetGame.starProperty.get())
       changeStarService.restart()
     }
   }
@@ -33,7 +35,9 @@ class StarRatingController extends DefaultController {
     this.targetGame = game
 
     starRating.ratingProperty().removeListener(starHandler)
-    starRating.setRating(game.star)
+    //    starRating.setRating(game.star)
+
+    starRating.ratingProperty().bindBidirectional(game.star)
     starRating.ratingProperty().addListener(starHandler)
 
   }

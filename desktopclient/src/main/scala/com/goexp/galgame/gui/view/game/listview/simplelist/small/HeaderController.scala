@@ -31,6 +31,7 @@ class HeaderController extends DefaultController {
   @FXML private var txtName: Text = _
   @FXML private var txtSubName: Text = _
   @FXML private var boxTag: HBox = _
+
   private var targetGame: Game = _
 
   override protected def initialize() = {
@@ -78,7 +79,7 @@ class HeaderController extends DefaultController {
 
     dateviewController.load(game.publishDate)
 
-    ratingView.rating(game.star)
+    ratingView.ratingProperty.bind(game.star)
 
 
     if ((game.state.get eq GameState.BLOCK) || (game.state.get eq GameState.SAME))

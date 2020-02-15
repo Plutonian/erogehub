@@ -190,7 +190,7 @@ class HomeController extends DefaultController {
     linkGood.setOnAction { _ =>
       val title = "优"
       val conn = CommonTabController(new ByStarRange(4, 5))
-      TabSelect().whenNotFound(conn.load((g: Game) => g.star > 3), {
+      TabSelect().whenNotFound(conn.load((g: Game) => g.star.get() > 3), {
         conn.controller.tableViewController.tableColState.setVisible(false)
         new Tab(title, conn.node)
       }).select(title)
@@ -204,7 +204,7 @@ class HomeController extends DefaultController {
       TabSelect().whenNotFound {
         conn.controller.tableViewController.tableColState.setVisible(false)
         val tab = new Tab(title, conn.node)
-        conn.load((g: Game) => g.star == 3)
+        conn.load((g: Game) => g.star.get() == 3)
         tab
       }.select(title)
 
@@ -217,7 +217,7 @@ class HomeController extends DefaultController {
       TabSelect().whenNotFound {
         conn.controller.tableViewController.tableColState.setVisible(false)
         val tab = new Tab(title, conn.node)
-        conn.load(_.star < 3)
+        conn.load(_.star.get() < 3)
         tab
       }.select(title)
 

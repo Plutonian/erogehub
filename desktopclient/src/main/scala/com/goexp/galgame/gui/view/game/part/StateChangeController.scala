@@ -25,7 +25,7 @@ class StateChangeController extends DefaultController {
 
       //reset some info
       if (newState == GameState.BLOCK) {
-        targetGame.star = 0
+        targetGame.star.set(0)
         targetGame.location.set(GameLocation.REMOTE)
 
         blockService.restart()

@@ -13,7 +13,7 @@ object StarDB {
     logger.debug(s"<update> ${game}")
 
     tlp.exec(documentMongoCollection => {
-      documentMongoCollection.updateOne(equal(game.id), set("star", game.star))
+      documentMongoCollection.updateOne(equal(game.id), set("star", game.star.get()))
     })
   }
 }

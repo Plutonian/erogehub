@@ -7,7 +7,8 @@ import javafx.fxml.FXML
 import javafx.scene.control.MenuItem
 
 class CVSearchController extends DefaultController {
-  private var keyword = ""
+  private var keyword: String = _
+
   @FXML private var linkWiki: MenuItem = _
   @FXML private var linkBangumi: MenuItem = _
 

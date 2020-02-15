@@ -9,9 +9,10 @@ import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.game.change.{MultiBlock, MultiLocation, MultiState}
 import com.goexp.galgame.gui.view.MainController
 import com.goexp.galgame.gui.view.common.control.StarRatingView
-import com.goexp.ui.javafx.{DefaultController, TaskService}
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TableCell, TextTableCell}
+import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.input.MouseButton
@@ -59,7 +60,7 @@ class TableController extends DefaultController {
               if (gameState == GameState.BLOCK) {
 
                 selectedGames.forEach { g =>
-                  g.star = 0
+                  g.star.set(0)
                   g.location.set(GameLocation.REMOTE)
                 }
 
@@ -117,7 +118,7 @@ class TableController extends DefaultController {
     tableColLocation.setCellValueFactory(param => param.getValue.location)
     tableColState.setCellValueFactory(param => param.getValue.state)
     tableColBrand.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.brand))
-    tableColStar.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.star))
+    tableColStar.setCellValueFactory(param => param.getValue.star.asInstanceOf[ObservableValue[Int]])
     tableColPainter.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.getPainter))
     tableColWriter.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.getWriter))
     tableColDate.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.publishDate))

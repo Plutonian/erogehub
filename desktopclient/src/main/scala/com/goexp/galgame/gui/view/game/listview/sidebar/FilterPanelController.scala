@@ -102,7 +102,7 @@ class FilterPanelController extends FilterController[Game] {
       .map(_.getUserData.asInstanceOf[GameLocation])
 
     predicate = (game: Game) => {
-      stars.contains(game.star) &&
+      stars.contains(game.star.get()) &&
         states.contains(game.state.get) &&
         location.contains(game.location.get)
     }

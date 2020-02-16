@@ -7,47 +7,39 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx"
-            fx:controller="com.goexp.galgame.gui.view.game.HomeController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx"
+            fx:controller="com.goexp.galgame.gui.view.game.HomeController"
+            styleClass="bgcolor">
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
     <center>
         <StackPane>
-            <StackPane styleClass="datecolor">
-                <Text strokeLineCap="ROUND" text="ようこそ、エロゲー世界へ">
-                    <font>
-                        <Font name="System Bold" size="96.0"/>
-                    </font>
-                    <effect>
-                        <Reflection bottomOpacity="0.15" fraction="0.59" topOffset="-10.0" topOpacity="0.37">
-                            <input>
-                                <InnerShadow color="#0a0707" height="0.0" radius="0.0" width="0.0"/>
-                            </input>
-                        </Reflection>
-                    </effect>
-                </Text>
-            </StackPane>
-            <BorderPane>
-                <center>
-                    <TabPane fx:id="mainTabPanel" tabMaxWidth="150.0">
-                        <contextMenu>
-                            <ContextMenu>
-                                <items>
-                                    <MenuItem mnemonicParsing="false" onAction="#miCloseOther_OnAction"
-                                              text="Close Other"/>
-                                    <MenuItem mnemonicParsing="false" onAction="#miCloseRight_OnAction"
-                                              text="Close Right"/>
-                                </items>
-                            </ContextMenu>
-                        </contextMenu>
-                    </TabPane>
-
-                </center>
-                <bottom>
-                    <fx:include fx:id="date" source="date.fxml"/>
-                </bottom>
-            </BorderPane>
+            <Text strokeLineCap="ROUND" text="ようこそ、エロゲー世界へ">
+                <font>
+                    <Font name="System Bold" size="96.0"/>
+                </font>
+                <effect>
+                    <Reflection bottomOpacity="0.15" fraction="0.59" topOffset="-10.0" topOpacity="0.37">
+                        <input>
+                            <InnerShadow color="#0a0707" height="0.0" radius="0.0" width="0.0"/>
+                        </input>
+                    </Reflection>
+                </effect>
+            </Text>
+            <TabPane fx:id="mainTabPanel" tabMaxWidth="150.0">
+                <contextMenu>
+                    <ContextMenu>
+                        <items>
+                            <MenuItem mnemonicParsing="false" onAction="#miCloseOther_OnAction"
+                                      text="Close Other"/>
+                            <MenuItem mnemonicParsing="false" onAction="#miCloseRight_OnAction"
+                                      text="Close Right"/>
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </TabPane>
         </StackPane>
     </center>
     <left>

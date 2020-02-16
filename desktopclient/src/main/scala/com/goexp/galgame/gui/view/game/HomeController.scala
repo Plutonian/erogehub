@@ -3,17 +3,17 @@ package com.goexp.galgame.gui.view.game
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.search._
-import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.TabSelect
+import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.brand.MainPanelController
 import com.goexp.ui.javafx.{DefaultController, FXMLLoaderProxy}
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.scene.Node
 import javafx.scene.control.{Accordion, Hyperlink, Tab, TabPane}
 import javafx.scene.image.ImageView
 import javafx.scene.input.TransferMode
 import javafx.scene.layout.{Region, VBox}
+import org.controlsfx.control.PopOver
 
 import scala.jdk.CollectionConverters._
 
@@ -26,12 +26,11 @@ object HomeController {
 }
 
 class HomeController extends DefaultController {
-  @FXML private var dateController: DateController = _
 
   @FXML var mainTabPanel: TabPane = _
 
   @FXML private var menuPanel: Accordion = _
-  @FXML private var date: Region = _
+  //  @FXML private var date: Region = _
   @FXML private var gameStateLinkPanel: VBox = _
   @FXML private var gameStateLikeLinkPanel: VBox = _
   @FXML private var linkDate: Hyperlink = _
@@ -47,6 +46,7 @@ class HomeController extends DefaultController {
   @FXML private var linkGood: Hyperlink = _
   @FXML private var linkNormal: Hyperlink = _
   @FXML private var linkPass: Hyperlink = _
+  private val popPanel = new PopOver
 
 
   override protected def initialize() = {
@@ -76,36 +76,9 @@ class HomeController extends DefaultController {
         })
     }
 
-    dateController.onLoadProperty.addListener((_, _, newValue) => {
-      if (newValue) {
-        val start = dateController.from
-        val end = dateController.to
-        val text = dateController.title
-        TabSelect().whenNotFound {
-          val conn = CommonTabController(new ByDateRange(start, end))
-          val tab = new Tab(text, conn.node)
-          tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG))
-          conn.load()
-          tab
-        }.select(text)
-      }
-    })
-    dateController.onYearLoadProperty.addListener((_, _, newValue) => {
-      if (newValue) {
-        val from = dateController.from
-        val to = dateController.to
-        val text = dateController.title
-        TabSelect().whenNotFound {
-          val conn = CommonTabController(new ByDateRange(from, to))
-          val tab = new Tab(text, conn.node)
-          tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG))
-          conn.load()
-          tab
-        }.select(text)
-      }
-    })
 
-    date.setVisible(false)
+
+    //    date.setVisible(false)
     menuPanel.setExpandedPane(menuPanel.getPanes.get(0))
     initBlockList()
 
@@ -113,15 +86,19 @@ class HomeController extends DefaultController {
     gameStateLikeLinkPanel.getChildren.setAll(links)
 
     linkDate.setGraphic(new ImageView(LocalRes.IMG_DATE_PNG))
+
+
+    popPanel.setArrowLocation(PopOver.ArrowLocation.LEFT_TOP)
+    popPanel.setAutoHide(true)
+
+    val loader = new FXMLLoaderProxy[Region, DateController](classOf[DateController].getResource("date.fxml"))
+
+    popPanel.setContentNode(loader.node)
+
     linkDate.setOnAction { _ =>
 
-      def switchVisiable(node: Node) = {
-        node.setVisible(!node.isVisible)
-        node.setManaged(!node.isManaged)
-      }
-
-      switchVisiable(date)
-      if (date.isVisible) dateController.load()
+      if (!popPanel.isShowing)
+        popPanel.show(linkDate)
 
     }
 

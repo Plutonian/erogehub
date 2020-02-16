@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.HBox?>
 <?import java.net.URL?>
-<TitledPane xmlns:fx="http://javafx.com/fxml/1" managed="false" animated="false" style="-fx-background-color: white;"
-            text="Date" xmlns="http://javafx.com/javafx"
-            fx:controller="com.goexp.galgame.gui.view.game.DateController">
+<HBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx"
+      fx:controller="com.goexp.galgame.gui.view.game.DateController"
+      style="-fx-background-color: white;">
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
-    <HBox>
-        <ListView fx:id="flowYear" prefWidth="400" prefHeight="50" orientation="HORIZONTAL"/>
-        <ListView fx:id="flowMonth" prefHeight="40" prefWidth="480" orientation="HORIZONTAL"/>
-    </HBox>
-</TitledPane>
+    <ListView fx:id="flowYear" prefWidth="80" prefHeight="400"/>
+    <ListView fx:id="flowMonth" prefWidth="50" prefHeight="400"/>
+</HBox>

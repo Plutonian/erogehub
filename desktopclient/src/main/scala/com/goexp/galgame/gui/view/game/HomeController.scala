@@ -85,16 +85,13 @@ class HomeController extends DefaultController {
     val links = state2Link(List(GameState.READYTOVIEW, GameState.HOPE, GameState.PLAYING)).asJava
     gameStateLikeLinkPanel.getChildren.setAll(links)
 
-    linkDate.setGraphic(new ImageView(LocalRes.IMG_DATE_PNG))
-
-
-    popPanel.setArrowLocation(PopOver.ArrowLocation.LEFT_TOP)
-    popPanel.setAutoHide(true)
 
     val loader = new FXMLLoaderProxy[Region, DateController](classOf[DateController].getResource("date.fxml"))
-
+    popPanel.setArrowLocation(PopOver.ArrowLocation.LEFT_TOP)
+    popPanel.setAutoHide(true)
     popPanel.setContentNode(loader.node)
 
+    linkDate.setGraphic(new ImageView(LocalRes.IMG_DATE_PNG))
     linkDate.setOnAction { _ =>
 
       if (!popPanel.isShowing)

@@ -11,7 +11,7 @@ class CommonInfoTabController() extends DefaultController {
   private var controller: InfoController = _
 
   private def init() = {
-    val loader = new FXMLLoaderProxy[Region, InfoController](classOf[InfoController].getResource("info.fxml"))
+    val loader = new FXMLLoaderProxy[Region, InfoController]("info.fxml")
 
     node = loader.node
     controller = loader.controller

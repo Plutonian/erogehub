@@ -17,14 +17,6 @@ import org.controlsfx.control.PopOver
 
 import scala.jdk.CollectionConverters._
 
-object HomeController {
-
-  private val SEARCH_TYPE_FXML = classOf[TagController].getResource("tag.fxml")
-  private val BRAND_PANEL_FXML = classOf[MainPanelController].getResource("mainpanel.fxml")
-  private val SEARCH_FXML = classOf[SearchController].getResource("search.fxml")
-  private val CVINFO_FXML = classOf[CVInfoController].getResource("cvinfo.fxml")
-}
-
 class HomeController extends DefaultController {
 
   @FXML var mainTabPanel: TabPane = _
@@ -86,7 +78,7 @@ class HomeController extends DefaultController {
     gameStateLikeLinkPanel.getChildren.setAll(links)
 
 
-    val loader = new FXMLLoaderProxy[Region, DateController](classOf[DateController].getResource("date.fxml"))
+    val loader = new FXMLLoaderProxy[Region, DateController]("date.fxml")
     popPanel.setArrowLocation(PopOver.ArrowLocation.LEFT_TOP)
     popPanel.setAutoHide(true)
     popPanel.setContentNode(loader.node)
@@ -102,7 +94,7 @@ class HomeController extends DefaultController {
     linkCV.setGraphic(new ImageView(LocalRes.IMG_CV_PNG))
     linkCV.setOnAction { _ =>
       TabSelect().whenNotFound {
-        val loader = new FXMLLoaderProxy[Region, CVInfoController](HomeController.CVINFO_FXML)
+        val loader = new FXMLLoaderProxy[Region, CVInfoController]("cvinfo.fxml")
         loader.controller.load()
         val tab = new Tab("CV", loader.node)
         tab.setGraphic(new ImageView(LocalRes.CV_16_PNG))
@@ -114,7 +106,7 @@ class HomeController extends DefaultController {
     linkSearch.setGraphic(new ImageView(LocalRes.IMG_search_PNG))
     linkSearch.setOnAction { _ =>
       TabSelect().whenNotFound {
-        val loader = new FXMLLoaderProxy[Region, SearchController](HomeController.SEARCH_FXML)
+        val loader = new FXMLLoaderProxy[Region, SearchController]("search.fxml")
         val tab = new Tab("Search", loader.node)
         loader.controller.load()
         tab
@@ -132,7 +124,7 @@ class HomeController extends DefaultController {
         val f = files.get(0)
         val title = f.getName.replaceFirst("""\.[^.]+""", "")
         TabSelect().whenNotFound {
-          val loader = new FXMLLoaderProxy[Region, SearchController](HomeController.SEARCH_FXML)
+          val loader = new FXMLLoaderProxy[Region, SearchController]("search.fxml")
           val tab = new Tab("Search", loader.node)
           loader.controller.load(title)
           tab
@@ -144,7 +136,7 @@ class HomeController extends DefaultController {
     linkTags.setGraphic(new ImageView(LocalRes.IMG_TAG_PNG))
     linkTags.setOnAction { _ =>
       TabSelect().whenNotFound {
-        val loader = new FXMLLoaderProxy[Region, TagController](HomeController.SEARCH_TYPE_FXML)
+        val loader = new FXMLLoaderProxy[Region, TagController]("tag.fxml")
         val tab = new Tab("Tags", loader.node)
         loader.controller.load()
         tab
@@ -154,7 +146,7 @@ class HomeController extends DefaultController {
     }
 
     linkBrand.setOnAction { _ =>
-      val loader = new FXMLLoaderProxy[Region, MainPanelController](HomeController.BRAND_PANEL_FXML)
+      val loader = new FXMLLoaderProxy[Region, MainPanelController]("mainpanel.fxml")
 
       TabSelect()
         .whenNotFound(loader.controller.load(), new Tab("Brand", loader.node))

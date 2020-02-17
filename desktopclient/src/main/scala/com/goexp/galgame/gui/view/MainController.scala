@@ -2,8 +2,8 @@ package com.goexp.galgame.gui.view
 
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.game.search.{ByCV, ByPainter}
-import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.TabSelect
+import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.brand.CommonInfoTabController
 import com.goexp.galgame.gui.view.game.detailview.outer.OutPageController
 import com.goexp.galgame.gui.view.game.{CommonTabController, HomeController}
@@ -59,7 +59,7 @@ class MainController extends DefaultController {
 
   def loadDetail(game: Game) =
     TabSelect().whenNotFound {
-      val loader = new FXMLLoaderProxy[Region, OutPageController](MainController.GAME_DETAIL_NAV_PAGE_FXML)
+      val loader = new FXMLLoaderProxy[Region, OutPageController]("out_page.fxml")
       val tab = new Tab(game.name, loader.node)
       tab.setGraphic(new ImageView(LocalRes.GAME_16_PNG))
       loader.controller.load(game)
@@ -69,7 +69,7 @@ class MainController extends DefaultController {
   def loadGuide(name: String) = {
     val title = s"攻略:${name}"
     TabSelect().whenNotFound {
-      val loader = new FXMLLoaderProxy[Region, SearchGuideController](MainController.VIEW_GUIDE_PANEL_FXML)
+      val loader = new FXMLLoaderProxy[Region, SearchGuideController]("searchguide.fxml")
       val tab = new Tab(title, loader.node)
       loader.controller.load(name)
       tab
@@ -78,8 +78,6 @@ class MainController extends DefaultController {
 }
 
 object MainController {
-  private val GAME_DETAIL_NAV_PAGE_FXML = classOf[OutPageController].getResource("out_page.fxml")
-  private val VIEW_GUIDE_PANEL_FXML = classOf[SearchGuideController].getResource("searchguide.fxml")
 
   def apply(): MainController = $this
 

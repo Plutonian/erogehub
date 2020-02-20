@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.goexp.galgame.gui.view.common.control.StarRatingView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import java.net.URL?>
 <?import javafx.scene.text.TextFlow?>
-<?import com.goexp.galgame.gui.view.common.control.StarRatingView?>
+<?import java.net.URL?>
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.game.listview.simplelist.small.HeaderController">
     <stylesheets>
@@ -41,9 +41,10 @@
                 </VBox>
             </center>
             <right>
-
-                <fx:include fx:id="changeState" source="../../../part/statechange.fxml"
-                            StackPane.alignment="BOTTOM_RIGHT"/>
+                <VBox StackPane.alignment="BOTTOM_RIGHT">
+                    <fx:include fx:id="changeState" source="../../../part/statechange.fxml"/>
+                    <Label fx:id="lbLoc"/>
+                </VBox>
             </right>
             <bottom>
                 <StackPane style="-fx-background-color: rgba(200,200,100,0.4);" alignment="BOTTOM_CENTER"

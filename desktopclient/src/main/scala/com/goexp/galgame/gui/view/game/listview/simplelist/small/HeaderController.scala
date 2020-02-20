@@ -31,6 +31,7 @@ class HeaderController extends DefaultController {
   @FXML private var txtName: Text = _
   @FXML private var txtSubName: Text = _
   @FXML private var boxTag: HBox = _
+  @FXML private var lbLoc: Label = _
 
   private var targetGame: Game = _
 
@@ -82,7 +83,7 @@ class HeaderController extends DefaultController {
     dateviewController.load(game.publishDate)
 
     ratingView.ratingProperty.bind(game.star)
-
+    lbLoc.setText(game.location.get().name)
 
     imageImg.setEffect {
       if ((game.state.get eq GameState.BLOCK) || (game.state.get eq GameState.SAME))

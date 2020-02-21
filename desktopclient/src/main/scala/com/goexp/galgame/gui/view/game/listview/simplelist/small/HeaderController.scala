@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.view.game.listview.simplelist.small
 
 import com.goexp.common.util.string.ConsoleColors.RED
 import com.goexp.galgame.common.model.game.CommonGame.Titles
-import com.goexp.galgame.common.model.game.GameState
+import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
@@ -83,8 +83,13 @@ class HeaderController extends DefaultController {
     dateviewController.load(game.publishDate)
 
     ratingView.ratingProperty.bind(game.star)
-    lbLoc.setText(game.location.get().name)
 
+
+    lbLoc.setText {
+      if (game.location.get() != GameLocation.REMOTE)
+        (game.location.get().name)
+      else null
+    }
     imageImg.setEffect {
       if ((game.state.get eq GameState.BLOCK) || (game.state.get eq GameState.SAME))
         new ColorAdjust(0, -1, 0, 0)

@@ -7,11 +7,10 @@ public enum BrandState {
     ALL("ALL", -99),
     BLOCK("ブロック", -2),
     UNCHECKED("...", 0),
-    NORMAL("普通", 4),
-    HOPE("欲しい", 80),
-    CHECKING("checking", 85),
+    HOPE("気になり", 80),
+    CHECKING("進行中", 85),
     LIKE("好き", 99),
-    MARK("mark", 100),
+    MARK("後で見る", 100),
     EXTEND_NUKI("抜き", 101);
 
 

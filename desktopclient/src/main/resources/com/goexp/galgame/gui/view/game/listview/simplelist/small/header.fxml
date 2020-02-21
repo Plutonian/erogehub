@@ -41,10 +41,10 @@
                 </VBox>
             </center>
             <right>
-                <VBox StackPane.alignment="BOTTOM_RIGHT">
-                    <fx:include fx:id="changeState" source="../../../part/statechange.fxml"/>
+                <HBox StackPane.alignment="TOP_RIGHT">
                     <Label fx:id="lbLoc"/>
-                </VBox>
+                    <fx:include fx:id="changeState" source="../../../part/statechange.fxml"/>
+                </HBox>
             </right>
             <bottom>
                 <StackPane style="-fx-background-color: rgba(200,200,100,0.4);" alignment="BOTTOM_CENTER"

@@ -131,7 +131,7 @@ class MainPanelController extends DefaultController {
     brandByCompService.valueProperty.addListener(handler)
 
 
-    choiceBrandType.setItems(FXCollections.observableArrayList(BrandState.values: _*))
+    choiceBrandType.setItems(FXCollections.observableArrayList(BrandState.values.reverse: _*))
 
     choiceBrandType.getSelectionModel.selectedItemProperty().addListener { (_, _, t) =>
       if (t != null) {

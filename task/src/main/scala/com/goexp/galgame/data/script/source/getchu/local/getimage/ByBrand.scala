@@ -22,7 +22,6 @@ object ByBrand {
       BrandState.CHECKING,
       BrandState.HOPE,
       BrandState.MARK,
-      BrandState.NORMAL,
       BrandState.UNCHECKED
     )
 

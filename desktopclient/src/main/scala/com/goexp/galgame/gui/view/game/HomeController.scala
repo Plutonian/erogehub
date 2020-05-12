@@ -1,11 +1,13 @@
 package com.goexp.galgame.gui.view.game
 
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
+import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.search._
 import com.goexp.galgame.gui.util.TabSelect
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.brand.MainPanelController
+import com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController
 import com.goexp.ui.javafx.{DefaultController, FXMLLoaderProxy}
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
@@ -38,7 +40,11 @@ class HomeController extends DefaultController {
   @FXML private var linkGood: Hyperlink = _
   @FXML private var linkNormal: Hyperlink = _
   @FXML private var linkPass: Hyperlink = _
+
+  @FXML private var linkConfig: Hyperlink = _
   private val popPanel = new PopOver
+
+  private val popConfigPanel = new PopOver
 
 
   override protected def initialize() = {
@@ -77,19 +83,43 @@ class HomeController extends DefaultController {
     val links = state2Link(List(GameState.READYTOVIEW, GameState.HOPE, GameState.PLAYING)).asJava
     gameStateLikeLinkPanel.getChildren.setAll(links)
 
+    {
+      val loader = new FXMLLoaderProxy[Region, DateController]("date.fxml")
+      popPanel.setArrowLocation(PopOver.ArrowLocation.LEFT_TOP)
+      popPanel.setAutoHide(true)
+      popPanel.setContentNode(loader.node)
 
-    val loader = new FXMLLoaderProxy[Region, DateController]("date.fxml")
-    popPanel.setArrowLocation(PopOver.ArrowLocation.LEFT_TOP)
-    popPanel.setAutoHide(true)
-    popPanel.setContentNode(loader.node)
 
-    linkDate.setGraphic(new ImageView(LocalRes.IMG_DATE_PNG))
-    linkDate.setOnAction { _ =>
+      linkDate.setGraphic(new ImageView(LocalRes.IMG_DATE_PNG))
+      linkDate.setOnAction { _ =>
 
-      if (!popPanel.isShowing)
-        popPanel.show(linkDate)
+        if (!popPanel.isShowing)
+          popPanel.show(linkDate)
 
+      }
     }
+
+    {
+      val loaderConfig = new FXMLLoaderProxy[Region, FilterPanelController]("filterpanel.fxml")
+      popConfigPanel.setArrowLocation(PopOver.ArrowLocation.LEFT_TOP)
+      popConfigPanel.setAutoHide(true)
+      popConfigPanel.setContentNode(loaderConfig.node)
+
+      val controller = loaderConfig.controller
+      controller.onSetProperty.addListener { (_, _, v) =>
+        if (v) {
+          HGameApp.DEFAULT_GAME_PREDICATE = controller.predicate
+        }
+      }
+
+      linkConfig.setOnAction { _ =>
+
+        if (!popConfigPanel.isShowing)
+          popConfigPanel.show(linkConfig)
+
+      }
+    }
+
 
     linkCV.setGraphic(new ImageView(LocalRes.IMG_CV_PNG))
     linkCV.setOnAction { _ =>

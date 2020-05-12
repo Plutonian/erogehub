@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.InnerShadow?>
-<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-<?import java.net.URL?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1"
-            xmlns="http://javafx.com/javafx"
-            fx:controller="com.goexp.galgame.gui.view.game.HomeController"
-            styleClass="bgcolor">
+<?import javafx.scene.text.*?>
+
+<BorderPane styleClass="bgcolor" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.goexp.galgame.gui.view.game.HomeController">
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
@@ -32,10 +29,8 @@
                 <contextMenu>
                     <ContextMenu>
                         <items>
-                            <MenuItem mnemonicParsing="false" onAction="#miCloseOther_OnAction"
-                                      text="Close Other"/>
-                            <MenuItem mnemonicParsing="false" onAction="#miCloseRight_OnAction"
-                                      text="Close Right"/>
+                            <MenuItem mnemonicParsing="false" onAction="#miCloseOther_OnAction" text="Close Other"/>
+                            <MenuItem mnemonicParsing="false" onAction="#miCloseRight_OnAction" text="Close Right"/>
                         </items>
                     </ContextMenu>
                 </contextMenu>
@@ -76,6 +71,7 @@
                     </TitledPane>
                 </panes>
             </Accordion>
+            <Hyperlink fx:id="linkConfig" text="*"/>
         </VBox>
     </left>
 

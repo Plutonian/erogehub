@@ -3,15 +3,14 @@ package com.goexp.galgame.gui.view.game.listview
 import java.util
 import java.util.function.Predicate
 
-import com.goexp.galgame.common.model.game.GameState
+import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
-import com.goexp.ui.javafx.TaskService
 import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.view.game.listview.sidebar.{BrandGroupController, DateGroupController, FilterPanelController}
 import com.goexp.galgame.gui.view.game.listview.tableview.TableController
-import com.goexp.ui.javafx.DefaultController
+import com.goexp.ui.javafx.{DefaultController, TaskService}
 import com.goexp.ui.javafx.control.cell.NodeListCell
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.collections.transformation.{FilteredList, SortedList}
@@ -26,26 +25,26 @@ import scala.jdk.CollectionConverters._
 class DataViewController extends DefaultController {
   final val reloadProperty = new SimpleBooleanProperty(false)
   /**
-    * Controllers
-    */
+   * Controllers
+   */
   @FXML var tableViewController: TableController = _
   @FXML private var filterPanelController: FilterPanelController = _
   @FXML private var brandGroupController: BrandGroupController = _
   @FXML private var dateGroupController: DateGroupController = _
   /**
-    * Status bar
-    */
+   * Status bar
+   */
   @FXML private var lbItemCount: Label = _
   @FXML var progessloading: ProgressBar = _
   /**
-    * main panel
-    */
+   * main panel
+   */
   @FXML private var tableView: TableView[Game] = _
   @FXML private var smallListSimple: ListView[Game] = _
   @FXML private var mainTab: TabPane = _
   /**
-    * Sidebar
-    */
+   * Sidebar
+   */
   @FXML private var groupPanel: Region = _
   @FXML private var filterPanel: Region = _
   @FXML private var btnHide: Button = _
@@ -168,29 +167,31 @@ class DataViewController extends DefaultController {
     resetCount(filteredGames)
   }
 
-  def load(games: ObservableList[Game], initPredicate: Predicate[Game]): Unit = {
+  def load(games: ObservableList[Game], initPredicate: Predicate[Game] = null): Unit = {
     filterPanel.setVisible(true)
     groupPredicate = null
     filteredGames = new FilteredList(games)
 
+
+    val initP = HGameApp.mergeP(initPredicate)
     // set filter
-    filteredGames.setPredicate(initPredicate)
+    filteredGames.setPredicate(initP)
     recount()
 
     // set defaultPredicate
-    filterPanelController.predicate = initPredicate
+    filterPanelController.predicate = initP
     val sortedData = new SortedList[Game](filteredGames)
     sortedData.comparatorProperty.bind(tableView.comparatorProperty)
     loadItems(sortedData)
     setSideBarData(filteredGames)
   }
 
-  def load(games: ObservableList[Game]): Unit = {
-    val defaultP: Predicate[Game] = (g: Game) => (g.state.get ne GameState.SAME) &&
-      (g.state.get ne GameState.BLOCK)
-
-    load(games, defaultP)
-  }
+  //  def load(games: ObservableList[Game]): Unit = {
+  //    val defaultP: Predicate[Game] = (g: Game) => (g.state.get ne GameState.SAME) &&
+  //      (g.state.get ne GameState.BLOCK)
+  //
+  //    load(games, defaultP)
+  //  }
 
   private def setSideBarData(filteredGames: FilteredList[Game]) = {
     dateGroupController.init(filteredGames)

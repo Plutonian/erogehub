@@ -1,9 +1,13 @@
 package com.goexp.galgame.gui
 
+import java.util.function.Predicate
+
+import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.gui.HGameApp.app
-import com.goexp.ui.javafx.FXMLLoaderProxy
+import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.view.MainController
+import com.goexp.ui.javafx.FXMLLoaderProxy
 import com.typesafe.scalalogging.Logger
 import javafx.application.Application
 import javafx.scene.paint.Color
@@ -13,9 +17,22 @@ import javafx.stage.{Stage, StageStyle}
 object HGameApp extends App {
   var app: HGameApp = _
 
-  //  def main(args: Array[String]): Unit =
-  Application.launch(classOf[HGameApp])
+  var DEFAULT_GAME_PREDICATE: Predicate[Game] = (g: Game) => (g.state.get ne GameState.SAME) &&
+    (g.state.get ne GameState.BLOCK)
 
+  def mergeP(p: Predicate[Game]) = {
+    if (p != null) {
+      if (DEFAULT_GAME_PREDICATE == null) {
+        p
+      } else {
+        DEFAULT_GAME_PREDICATE.and(p)
+      }
+    } else {
+      DEFAULT_GAME_PREDICATE
+    }
+  }
+
+  Application.launch(classOf[HGameApp])
 
 }
 

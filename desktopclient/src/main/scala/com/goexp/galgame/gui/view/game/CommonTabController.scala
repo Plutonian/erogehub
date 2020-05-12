@@ -26,8 +26,7 @@ class CommonTabController(private val taskCreator: () => Task[ObservableList[Gam
     })
     gameSearchService.valueProperty.addListener((_, _, newValue) => {
       if (newValue != null)
-        if (initPredicate != null) controller.load(newValue, initPredicate)
-        else controller.load(newValue)
+        controller.load(newValue)
     })
 
     controller.progessloading.visibleProperty.bind(gameSearchService.runningProperty)
@@ -35,12 +34,11 @@ class CommonTabController(private val taskCreator: () => Task[ObservableList[Gam
 
   private var initPredicate: Predicate[Game] = _
 
-  def load(initPredicate: Predicate[Game]): Unit = {
+  def load(initPredicate: Predicate[Game] = null): Unit = {
     this.initPredicate = initPredicate
-    load()
-  }
 
-  def load(): Unit = gameSearchService.restart()
+    gameSearchService.restart()
+  }
 
 
 }

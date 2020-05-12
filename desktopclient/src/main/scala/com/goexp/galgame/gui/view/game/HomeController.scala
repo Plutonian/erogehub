@@ -101,7 +101,7 @@ class HomeController extends DefaultController {
 
     {
       val loaderConfig = new FXMLLoaderProxy[Region, FilterPanelController]("filterpanel.fxml")
-      popConfigPanel.setArrowLocation(PopOver.ArrowLocation.LEFT_TOP)
+      popConfigPanel.setArrowLocation(PopOver.ArrowLocation.BOTTOM_LEFT)
       popConfigPanel.setAutoHide(true)
       popConfigPanel.setContentNode(loaderConfig.node)
 

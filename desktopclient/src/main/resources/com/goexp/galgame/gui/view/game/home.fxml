@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import java.net.URL?>
 <BorderPane styleClass="bgcolor" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.game.HomeController">
     <stylesheets>
@@ -38,41 +39,47 @@
         </StackPane>
     </center>
     <left>
-        <VBox>
-            <TitledPane animated="false" collapsible="false" text="Search">
-                <VBox>
-                    <Hyperlink fx:id="linkSearch"/>
-                    <Hyperlink fx:id="linkDate"/>
-                    <Hyperlink fx:id="linkTags"/>
-                    <Hyperlink fx:id="linkCV"/>
-                    <Hyperlink fx:id="linkBrand" text="ブランド"/>
-                </VBox>
-            </TitledPane>
-            <Accordion fx:id="menuPanel">
-                <panes>
-                    <TitledPane text="State">
-                        <VBox spacing="20.0">
-                            <VBox fx:id="gameStateLinkPanel"/>
-                            <VBox fx:id="gameStateLikeLinkPanel"/>
-                        </VBox>
-                    </TitledPane>
-                    <TitledPane text="Loc.">
-                        <VBox>
-                            <Hyperlink fx:id="linkLocal" text="Local"/>
-                            <Hyperlink fx:id="linkNetDisk" text="NetDisk"/>
-                        </VBox>
-                    </TitledPane>
-                    <TitledPane text="Star">
-                        <VBox>
-                            <Hyperlink fx:id="linkGood" text="优"/>
-                            <Hyperlink fx:id="linkNormal" text="良"/>
-                            <Hyperlink fx:id="linkPass" text="差"/>
-                        </VBox>
-                    </TitledPane>
-                </panes>
-            </Accordion>
-            <Hyperlink fx:id="linkConfig" text="Config"/>
-        </VBox>
+        <BorderPane>
+            <top>
+                <TitledPane animated="false" collapsible="false" text="Search">
+                    <VBox>
+                        <Hyperlink fx:id="linkSearch"/>
+                        <Hyperlink fx:id="linkDate"/>
+                        <Hyperlink fx:id="linkTags"/>
+                        <Hyperlink fx:id="linkCV"/>
+                        <Hyperlink fx:id="linkBrand" text="ブランド"/>
+                    </VBox>
+                </TitledPane>
+            </top>
+            <center>
+                <Accordion fx:id="menuPanel">
+                    <panes>
+                        <TitledPane text="State">
+                            <VBox spacing="20.0">
+                                <VBox fx:id="gameStateLinkPanel"/>
+                                <VBox fx:id="gameStateLikeLinkPanel"/>
+                            </VBox>
+                        </TitledPane>
+                        <TitledPane text="Loc.">
+                            <VBox>
+                                <Hyperlink fx:id="linkLocal" text="Local"/>
+                                <Hyperlink fx:id="linkNetDisk" text="NetDisk"/>
+                            </VBox>
+                        </TitledPane>
+                        <TitledPane text="Star">
+                            <VBox>
+                                <Hyperlink fx:id="linkGood" text="优"/>
+                                <Hyperlink fx:id="linkNormal" text="良"/>
+                                <Hyperlink fx:id="linkPass" text="差"/>
+                            </VBox>
+                        </TitledPane>
+                    </panes>
+                </Accordion>
+            </center>
+            <bottom>
+                <Hyperlink fx:id="linkConfig" text="Config"/>
+            </bottom>
+        </BorderPane>
     </left>
 
 </BorderPane>

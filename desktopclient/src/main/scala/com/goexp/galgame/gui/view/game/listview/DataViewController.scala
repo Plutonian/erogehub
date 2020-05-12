@@ -45,7 +45,7 @@ class DataViewController extends DefaultController {
   /**
    * Sidebar
    */
-  @FXML private var groupPanel: Region = _
+  @FXML private var groupPanel: Accordion = _
   @FXML private var filterPanel: Region = _
   @FXML private var btnHide: Button = _
   @FXML private var cvList: ListView[DataItem] = _
@@ -111,6 +111,10 @@ class DataViewController extends DefaultController {
 
 
   private def initSideBar() = {
+
+    groupPanel.setExpandedPane(groupPanel.getPanes.get(0))
+
+
     btnHide.setUserData(true)
     btnHide.getProperties.put("groupPanel", groupPanel.getPrefWidth)
     btnHide.setOnAction { _ =>
@@ -118,6 +122,7 @@ class DataViewController extends DefaultController {
       val width = btnHide.getProperties.get("groupPanel").asInstanceOf[Double]
       state = !state
       groupPanel.setVisible(state)
+      groupPanel.setManaged(state)
       groupPanel.setPrefWidth(if (state) width else 0)
       btnHide.setUserData(state)
     }

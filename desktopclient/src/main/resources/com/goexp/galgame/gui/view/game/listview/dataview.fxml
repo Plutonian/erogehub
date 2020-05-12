@@ -2,23 +2,23 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1"
-            style="-fx-background-color: white;"
+
+<BorderPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.game.listview.DataViewController">
     <center>
         <AnchorPane>
-            <TabPane fx:id="mainTab" AnchorPane.leftAnchor="0" AnchorPane.bottomAnchor="0"
-                     AnchorPane.rightAnchor="0"
-                     AnchorPane.topAnchor="0" tabClosingPolicy="UNAVAILABLE" side="BOTTOM"
-                     nodeOrientation="RIGHT_TO_LEFT">
-                <Tab text="Grid" styleClass="right-pill">
+            <TabPane fx:id="mainTab" nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"
+                     AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+                     AnchorPane.topAnchor="0">
+                <Tab styleClass="right-pill" text="Grid">
                     <fx:include fx:id="tableView" source="tableview/table.fxml"/>
                 </Tab>
-                <Tab text="List" styleClass="center-pill">
+                <Tab styleClass="center-pill" text="List">
                     <fx:include fx:id="smallListSimple" source="simplelist/small/list.fxml"/>
                 </Tab>
             </TabPane>
-            <HBox AnchorPane.leftAnchor="10" AnchorPane.bottomAnchor="3">
+            <HBox AnchorPane.bottomAnchor="3" AnchorPane.leftAnchor="10">
                 <Label fx:id="lbItemCount" prefWidth="80.0"/>
                 <ProgressBar fx:id="progessloading" prefHeight="25.0" prefWidth="77.0" visible="false"/>
             </HBox>
@@ -33,41 +33,30 @@
                 </ToolBar>
             </left>
             <center>
-                <TabPane fx:id="groupPanel" BorderPane.alignment="CENTER" prefWidth="200.0" side="BOTTOM"
-                         tabClosingPolicy="UNAVAILABLE">
-                    <Tab text="Filter">
-                        <fx:include fx:id="filterPanel" source="sidebar/filterpanel.fxml"/>
-                    </Tab>
-                    <Tab text="Group">
-                        <Accordion>
-                            <panes>
-                                <TitledPane text="Date">
+                <Accordion fx:id="groupPanel" prefWidth="200.0">
+                    <panes>
+                        <TitledPane text="Filter">
+                            <fx:include fx:id="filterPanel" source="sidebar/filterpanel.fxml"/>
+                        </TitledPane>
+
+                        <TitledPane text="Group">
+                            <TabPane side="RIGHT" tabClosingPolicy="UNAVAILABLE">
+                                <Tab text="Date">
                                     <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml"/>
-                                </TitledPane>
-                                <TitledPane text="Brand">
+                                </Tab>
+                                <Tab text="Brand">
                                     <fx:include fx:id="brandGroup" source="sidebar/brandgroup.fxml"/>
-                                </TitledPane>
-                                <TitledPane text="Tag">
+                                </Tab>
+                                <Tab text="Tag">
                                     <ListView fx:id="tagList" prefHeight="100.0"/>
-                                </TitledPane>
-                                <TitledPane text="CV">
+                                </Tab>
+                                <Tab text="CV">
                                     <ListView fx:id="cvList" prefHeight="100.0"/>
-                                </TitledPane>
-                            </panes>
-                        </Accordion>
-                        <!--                        <TabPane side="RIGHT"-->
-                        <!--                                 tabClosingPolicy="UNAVAILABLE">-->
-                        <!--                            <Tab text="Date">-->
-                        <!--                            </Tab>-->
-                        <!--                            <Tab text="Brand">-->
-                        <!--                            </Tab>-->
-                        <!--                            <Tab text="Tag">-->
-                        <!--                            </Tab>-->
-                        <!--                            <Tab text="CV">-->
-                        <!--                            </Tab>-->
-                        <!--                        </TabPane>-->
-                    </Tab>
-                </TabPane>
+                                </Tab>
+                            </TabPane>
+                        </TitledPane>
+                    </panes>
+                </Accordion>
             </center>
         </BorderPane>
     </right>

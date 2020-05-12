@@ -71,7 +71,7 @@
                     </TitledPane>
                 </panes>
             </Accordion>
-            <Hyperlink fx:id="linkConfig" text="*"/>
+            <Hyperlink fx:id="linkConfig" text="Config"/>
         </VBox>
     </left>
 

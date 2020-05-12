@@ -39,21 +39,33 @@
                         <fx:include fx:id="filterPanel" source="sidebar/filterpanel.fxml"/>
                     </Tab>
                     <Tab text="Group">
-                        <TabPane side="RIGHT"
-                                 tabClosingPolicy="UNAVAILABLE">
-                            <Tab text="Date">
-                                <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml"/>
-                            </Tab>
-                            <Tab text="Brand">
-                                <fx:include fx:id="brandGroup" source="sidebar/brandgroup.fxml"/>
-                            </Tab>
-                            <Tab text="Tag">
-                                <ListView fx:id="tagList" prefHeight="100.0"/>
-                            </Tab>
-                            <Tab text="CV">
-                                <ListView fx:id="cvList" prefHeight="100.0"/>
-                            </Tab>
-                        </TabPane>
+                        <Accordion>
+                            <panes>
+                                <TitledPane text="Date">
+                                    <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml"/>
+                                </TitledPane>
+                                <TitledPane text="Brand">
+                                    <fx:include fx:id="brandGroup" source="sidebar/brandgroup.fxml"/>
+                                </TitledPane>
+                                <TitledPane text="Tag">
+                                    <ListView fx:id="tagList" prefHeight="100.0"/>
+                                </TitledPane>
+                                <TitledPane text="CV">
+                                    <ListView fx:id="cvList" prefHeight="100.0"/>
+                                </TitledPane>
+                            </panes>
+                        </Accordion>
+                        <!--                        <TabPane side="RIGHT"-->
+                        <!--                                 tabClosingPolicy="UNAVAILABLE">-->
+                        <!--                            <Tab text="Date">-->
+                        <!--                            </Tab>-->
+                        <!--                            <Tab text="Brand">-->
+                        <!--                            </Tab>-->
+                        <!--                            <Tab text="Tag">-->
+                        <!--                            </Tab>-->
+                        <!--                            <Tab text="CV">-->
+                        <!--                            </Tab>-->
+                        <!--                        </TabPane>-->
                     </Tab>
                 </TabPane>
             </center>

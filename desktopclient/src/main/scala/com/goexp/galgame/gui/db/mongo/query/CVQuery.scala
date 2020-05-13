@@ -13,8 +13,7 @@ object CVQuery {
   private val creator: ObjectCreator[CV] = (doc: Document) => {
     logger.trace(s"<Doc> $doc")
 
-    val parentCreator = new CVCreator(new CV)
-    val cv = parentCreator.create(doc)
+    val cv = CVCreator.create(doc)
 
     cv.statistics = Option(doc.get("statistics").asInstanceOf[Document]).map(StatCreators.statisticsCreator.create).orNull
 

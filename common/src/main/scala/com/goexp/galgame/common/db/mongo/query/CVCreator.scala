@@ -9,15 +9,15 @@ import org.bson.Document
 
 import scala.jdk.CollectionConverters._
 
-class CVCreator(private val cv: CV) extends ObjectCreator[CV] {
+object CVCreator extends ObjectCreator[CV] {
 
-  private val logger = Logger(classOf[CVCreator])
+  private val logger = Logger(CVCreator.getClass)
 
 
   override def create(doc: Document): CV = {
     logger.trace(s"<Doc> $doc")
 
-    //    val cv = new CV
+    val cv = new CV
     cv.id = doc.getInteger("_id")
     cv.name = doc.getString("name")
     cv.star = doc.getInteger("star")

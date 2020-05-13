@@ -1,8 +1,8 @@
 package com.goexp.galgame.data.script.source.getchu.local.cal
 
 import com.goexp.common.util.string.Strings
-import com.goexp.galgame.common.model.game.GameState
-import com.goexp.galgame.common.model.{GameStatistics, StarStatistics, StateStatistics}
+import com.goexp.galgame.common.model.game.{GameLocation, GameState}
+import com.goexp.galgame.common.model.{GameStatistics, LocationStatistics, StarStatistics, StateStatistics}
 import com.goexp.galgame.data.source.getchu.importor.BrandDB
 import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameSimpleQuery}
 import com.mongodb.client.model.Filters
@@ -63,6 +63,7 @@ object CalBrandGameTask {
 
         val statMap = filterdList.groupBy { g => g.state }.to(LazyList).map { case (k, v) => (k, v.size) }.toMap
         val starMap = filterdList.groupBy { g => g.star }.to(LazyList).map { case (k, v) => (k, v.size) }.toMap
+        val locationMap = filterdList.groupBy { g => g.location }.to(LazyList).map { case (k, v) => (k, v.size) }.toMap
 
         //        val played = statMap.getOrElse(GameState.PLAYED, 0)
         //        val playing = statMap.getOrElse(GameState.PLAYING, 0)
@@ -89,6 +90,10 @@ object CalBrandGameTask {
               starMap.getOrElse(3, 0),
               starMap.getOrElse(4, 0),
               starMap.getOrElse(5, 0)
+            ), LocationStatistics(
+              locationMap.getOrElse(GameLocation.LOCAL, 0),
+              locationMap.getOrElse(GameLocation.NETDISK, 0),
+              locationMap.getOrElse(GameLocation.REMOTE, 0)
             )
           )
 

@@ -29,11 +29,23 @@ class MainPanelController extends DefaultController {
 
   @FXML var colCount: TableColumn[Brand, Int] = _
   @FXML var colRealCount: TableColumn[Brand, Int] = _
+
   @FXML var colPlayed: TableColumn[Brand, Int] = _
   @FXML var colPlaying: TableColumn[Brand, Int] = _
   @FXML var colHope: TableColumn[Brand, Int] = _
   @FXML var colViewLater: TableColumn[Brand, Int] = _
   @FXML var colUncheck: TableColumn[Brand, Int] = _
+
+  @FXML var colZero: TableColumn[Brand, Int] = _
+  @FXML var colOne: TableColumn[Brand, Int] = _
+  @FXML var colTwo: TableColumn[Brand, Int] = _
+  @FXML var colThree: TableColumn[Brand, Int] = _
+  @FXML var colFour: TableColumn[Brand, Int] = _
+  @FXML var colFive: TableColumn[Brand, Int] = _
+
+  @FXML var colLocal: TableColumn[Brand, Int] = _
+  @FXML var colNetdisk: TableColumn[Brand, Int] = _
+  @FXML var colRemote: TableColumn[Brand, Int] = _
 
   @FXML private var colTag: TableColumn[Brand, List[String]] = _
 
@@ -80,6 +92,19 @@ class MainPanelController extends DefaultController {
       colHope.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.hope))
       colViewLater.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.viewLater))
       colUncheck.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.uncheck))
+
+
+      colZero.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.zero))
+      colOne.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.one))
+      colTwo.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.two))
+      colThree.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.three))
+      colFour.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.four))
+      colFive.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.five))
+
+
+      colLocal.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.local))
+      colNetdisk.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.netdisk))
+      colRemote.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.remote))
 
       colCommand.setCellValueFactory(p => new SimpleObjectProperty(p.getValue))
 

@@ -5,7 +5,7 @@ import java.util
 import com.goexp.common.util.date.DateUtil
 import com.goexp.db.mongo.{DBQuery, ObjectCreator}
 import com.goexp.galgame.common.db.mongo.query.CommonBrandCreator
-import com.goexp.galgame.common.model.{GameStatistics, StarStatistics, StateStatistics}
+import com.goexp.galgame.common.model.{GameStatistics, LocationStatistics, StarStatistics, StateStatistics}
 import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.goexp.galgame.gui.model.Brand
 import com.mongodb.client.model.Sorts.ascending
@@ -27,8 +27,6 @@ object BrandQuery {
     b.tag = Option(doc.get("tag", classOf[util.List[String]])).map { l => l.asScala.toList }.orNull
     b.statistics = Option(doc.get("statistics").asInstanceOf[Document]).map(statisticsCreator.create).orNull
 
-    println(b.statistics)
-
     logger.trace(s"<brand> ${b}")
 
     b
@@ -45,7 +43,8 @@ object BrandQuery {
       doc.getInteger("count", 0),
       doc.getInteger("realCount", 0),
       Option(doc.get("state").asInstanceOf[Document]).map(stateCreator.create).orNull,
-      Option(doc.get("star").asInstanceOf[Document]).map(starCreator.create).orNull
+      Option(doc.get("star").asInstanceOf[Document]).map(starCreator.create).orNull,
+      Option(doc.get("location").asInstanceOf[Document]).map(locCreator.create).orNull
     )
 
     logger.trace(s"<statistics> ${statistics}")
@@ -81,6 +80,21 @@ object BrandQuery {
       doc.getInteger("three"),
       doc.getInteger("fore"),
       doc.getInteger("five")
+    )
+
+    logger.trace(s"<statistics> ${statistics}")
+
+    statistics
+
+  }
+
+  private val locCreator: ObjectCreator[LocationStatistics] = (doc: Document) => {
+    logger.trace(s"<Doc> $doc")
+
+    val statistics = LocationStatistics(
+      doc.getInteger("local"),
+      doc.getInteger("netdisk"),
+      doc.getInteger("remote")
     )
 
     logger.trace(s"<statistics> ${statistics}")

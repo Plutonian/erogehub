@@ -7,7 +7,8 @@ case class GameStatistics(start: LocalDate,
                           count: Int,
                           realCount: Int,
                           state: StateStatistics,
-                          star: StarStatistics)
+                          star: StarStatistics,
+                          location: LocationStatistics)
 
 case class StateStatistics(played: Int,
                            playing: Int,
@@ -19,5 +20,10 @@ case class StarStatistics(zero: Int,
                           one: Int,
                           two: Int,
                           three: Int,
-                          fore: Int,
+                          four: Int,
                           five: Int)
+
+case class LocationStatistics(local: Int,
+                              netdisk: Int,
+                              remote: Int)
+

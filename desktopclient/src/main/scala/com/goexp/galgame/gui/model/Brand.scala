@@ -3,15 +3,15 @@ package com.goexp.galgame.gui.model
 import java.time.LocalDate
 import java.util.StringJoiner
 
+import com.goexp.galgame.common.model.GameStatistics
 import com.goexp.galgame.common.model.game.brand.CommonBrand
 
-import scala.beans.BeanProperty
-
 class Brand extends CommonBrand {
-  var start: LocalDate = _
-  var end: LocalDate = _
-  var size: Int = _
+  //  var start: LocalDate = _
+  //  var end: LocalDate = _
+  //  var size: Int = _
   var tag: List[String] = _
+  var statistics: GameStatistics = _
 
 
   override def toString: String =

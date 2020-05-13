@@ -1,9 +1,9 @@
 package com.goexp.galgame.data.source.getchu.importor
 
-import java.time.LocalDate
 import java.util
 
 import com.goexp.db.mongo.DBOperator
+import com.goexp.galgame.common.model.{GameStatistics, StarStatistics, StateStatistics}
 import com.goexp.galgame.data.model.Brand
 import com.goexp.galgame.data.source.getchu.DB_NAME
 import com.mongodb.client.model.Filters
@@ -11,6 +11,7 @@ import com.mongodb.client.model.Updates.{combine, set}
 import org.bson.Document
 
 object BrandDB {
+
   val tlp = new DBOperator(DB_NAME, "brand")
 
   def insert(item: Brand) = {
@@ -35,13 +36,33 @@ object BrandDB {
     })
 
 
-  def updateStatistics(item: Brand, start: LocalDate, end: LocalDate, size: Int, tag: util.List[String]) =
+  def updateStatistics(item: Brand, tag: util.List[String], statistics: GameStatistics) = {
+
+    //    val GameStatistics(count, realCount, played, playing, hope, viewLater, uncheck) = statistics
+
+    val GameStatistics(start, end, count, realCount, StateStatistics(played, playing, hope, viewLater, uncheck), StarStatistics(zero, one, two, three, fore, five)) = statistics
+
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(item.id), combine(
-        set("start", start),
-        set("end", end),
-        set("size", size),
-        set("tag", tag)
+        set("tag", tag),
+        set("statistics.start", start),
+        set("statistics.end", end),
+        set("statistics.count", count),
+        set("statistics.realCount", realCount),
+
+        set("statistics.state.played", played),
+        set("statistics.state.playing", playing),
+        set("statistics.state.hope", hope),
+        set("statistics.state.viewLater", viewLater),
+        set("statistics.state.uncheck", uncheck),
+
+        set("statistics.star.zero", zero),
+        set("statistics.star.one", one),
+        set("statistics.star.two", two),
+        set("statistics.star.three", three),
+        set("statistics.star.fore", fore),
+        set("statistics.star.five", five)
       ))
     })
+  }
 }

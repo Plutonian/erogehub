@@ -3,6 +3,7 @@ package com.goexp.galgame.gui.view.brand
 import java.time.LocalDate
 import java.util
 
+import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.gui.model.Brand
 import com.goexp.galgame.gui.task.brand.search.{ByComp, ByName, ByType}
@@ -25,7 +26,15 @@ class MainPanelController extends DefaultController {
 
   @FXML var colStart: TableColumn[Brand, LocalDate] = _
   @FXML var colEnd: TableColumn[Brand, LocalDate] = _
-  @FXML var colSize: TableColumn[Brand, Int] = _
+
+  @FXML var colCount: TableColumn[Brand, Int] = _
+  @FXML var colRealCount: TableColumn[Brand, Int] = _
+  @FXML var colPlayed: TableColumn[Brand, Int] = _
+  @FXML var colPlaying: TableColumn[Brand, Int] = _
+  @FXML var colHope: TableColumn[Brand, Int] = _
+  @FXML var colViewLater: TableColumn[Brand, Int] = _
+  @FXML var colUncheck: TableColumn[Brand, Int] = _
+
   @FXML private var colTag: TableColumn[Brand, List[String]] = _
 
   @FXML private var textBrandKey: TextField = _
@@ -49,15 +58,31 @@ class MainPanelController extends DefaultController {
 
   override protected def initialize() = {
     def initTable() = {
+
+      colPlayed.setText(GameState.PLAYED.name)
+      colPlaying.setText(GameState.PLAYING.name)
+      colHope.setText(GameState.HOPE.name)
+      colViewLater.setText(GameState.READYTOVIEW.name)
+      colUncheck.setText(GameState.UNCHECKED.name)
+
       colComp.setCellValueFactory(p => new SimpleStringProperty(p.getValue.comp))
       colName.setCellValueFactory(p => new SimpleStringProperty(p.getValue.name))
       colTag.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.tag))
       colWebsite.setCellValueFactory(p => new SimpleStringProperty(p.getValue.website))
       colState.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.state))
-      colStart.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.start))
-      colEnd.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.end))
-      colSize.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.size))
+      colStart.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.start))
+      colEnd.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.end))
+
+      colCount.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.count))
+      colRealCount.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.realCount))
+      colPlayed.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.played))
+      colPlaying.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.playing))
+      colHope.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.hope))
+      colViewLater.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.viewLater))
+      colUncheck.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.uncheck))
+
       colCommand.setCellValueFactory(p => new SimpleObjectProperty(p.getValue))
+
 
       colTag.setCellFactory(_ => {
         val hbox = new HBox

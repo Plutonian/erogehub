@@ -26,12 +26,14 @@ object GameQuery {
       g.brandId = Option(doc.getInteger("brandId")).map(_.toInt).getOrElse(0)
       g.group = doc.getString("group")
       g.state = Option(doc.getInteger("state")).map(GameState.from(_)).getOrElse(GameState.UNCHECKED)
+      g.star = doc.getInteger("star", 0)
 
       logger.trace(s"<game>${g}")
 
       g
     }
   }
+
 }
 
 object GameFullQuery {

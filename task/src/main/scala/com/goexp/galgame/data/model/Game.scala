@@ -7,6 +7,7 @@ import com.goexp.galgame.common.model.game.{CommonGame, GameState}
 
 class Game extends CommonGame {
   var state: GameState = _
+  var star: Int = _
   var brandId = 0
   var group: String = _
 

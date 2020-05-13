@@ -29,6 +29,8 @@ class CV {
   @BeanProperty
   var tag: List[String] = _
 
+  var statistics: GameStatistics = _
+
 
   override def toString: String =
     new StringJoiner(", ", classOf[CV].getSimpleName + "[", "]")

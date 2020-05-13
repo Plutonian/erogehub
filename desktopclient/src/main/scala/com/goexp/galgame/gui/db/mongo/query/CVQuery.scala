@@ -1,12 +1,32 @@
 package com.goexp.galgame.gui.db.mongo.query
 
-import com.goexp.db.mongo.DBQuery
+import com.goexp.db.mongo.{DBQuery, ObjectCreator}
 import com.goexp.galgame.common.db.mongo.query.CVCreator
 import com.goexp.galgame.common.model.CV
 import com.goexp.galgame.gui.db.mongo.DB_NAME
+import com.typesafe.scalalogging.Logger
+import org.bson.Document
 
 object CVQuery {
-  private val tpl = DBQuery[CV](DB_NAME, "cv", CVCreator).build
+  private val logger = Logger(CVQuery.getClass)
+
+  private val creator: ObjectCreator[CV] = (doc: Document) => {
+    logger.trace(s"<Doc> $doc")
+
+    val parentCreator = new CVCreator(new CV)
+    val cv = parentCreator.create(doc)
+
+    cv.statistics = Option(doc.get("statistics").asInstanceOf[Document]).map(StatCreators.statisticsCreator.create).orNull
+
+    logger.trace(s"<cv> ${cv}")
+
+    cv
+
+  }
+
+  private val tpl = DBQuery[CV](DB_NAME, "cv", creator).build
 
   def apply() = tpl
+
+
 }

@@ -26,15 +26,11 @@ object CalCVGameTask {
           )
           .scalaList().to(LazyList)
 
+        val statistics = GameStat.calStat(games)
 
-        val start = games.filter(_.publishDate != null).map(_.publishDate).minOption
-        val end = games.filter(_.publishDate != null).map(_.publishDate).maxOption
+        logger.trace(s"$statistics")
 
-        val count = games.size
-
-
-        logger.trace(s"$start, $end, $count")
-        CVDB.updateStatistics(cv, start.orNull, end.orNull, count)
+        CVDB.updateStatistics(cv, statistics)
     }
   }
 }

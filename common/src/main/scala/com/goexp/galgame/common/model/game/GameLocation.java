@@ -3,9 +3,9 @@ package com.goexp.galgame.common.model.game;
 import java.util.stream.Stream;
 
 public enum GameLocation {
-    REMOTE("REMOTE", 0),
-    LOCAL("LOCAL", 1),
-    NETDISK("NETDISK", 2);
+    REMOTE("Remote", 0),
+    LOCAL("Local", 1),
+    NETDISK("NetDisk", 2);
 
     public final String name;
     public final int value;

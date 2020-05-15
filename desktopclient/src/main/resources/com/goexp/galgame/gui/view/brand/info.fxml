@@ -3,17 +3,17 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import java.net.URL?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/"
             fx:controller="com.goexp.galgame.gui.view.brand.InfoController">
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
     <top>
-        <BorderPane style="-fx-background-color: white;">
-            <center>
-                <fx:include fx:id="title" source="title.fxml"/>
-            </center>
-        </BorderPane>
+        <!--        <BorderPane style="-fx-background-color: white;">-->
+        <!--            <center>-->
+        <fx:include fx:id="title" source="title.fxml"/>
+        <!--            </center>-->
+        <!--        </BorderPane>-->
     </top>
     <center>
         <StackPane maxHeight="-Infinity" prefHeight="800.0">

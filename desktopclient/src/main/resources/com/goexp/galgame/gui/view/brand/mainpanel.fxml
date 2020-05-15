@@ -1,47 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.brand.MainPanelController">
     <top>
-        <ToolBar BorderPane.alignment="CENTER">
-            <ChoiceBox fx:id="choiceBrandType"/>
-        </ToolBar>
+        <AnchorPane>
+            <children>
+                <HBox>
+                    <children>
+                        <HBox alignment="CENTER">
+                            <ToggleButton mnemonicParsing="false" styleClass="left-pill" text="Comp" userData="1">
+                                <toggleGroup>
+                                    <ToggleGroup fx:id="typeGroup"/>
+                                </toggleGroup>
+                            </ToggleButton>
+                            <ToggleButton mnemonicParsing="false" selected="true" styleClass="right-pill" text="Brand"
+                                          toggleGroup="$typeGroup" userData="0"/>
+                        </HBox>
+                        <HBox alignment="CENTER" spacing="10.0">
+                            <padding>
+                                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+                            </padding>
+                            <TextField fx:id="textBrandKey" promptText="SearchKey" HBox.hgrow="ALWAYS">
+                                <font>
+                                    <Font size="14.0"/>
+                                </font>
+                            </TextField>
+                            <Button fx:id="btnSearch" defaultButton="true" mnemonicParsing="false" text="Search"/>
+                        </HBox>
+                    </children>
+                </HBox>
+                <ChoiceBox fx:id="choiceBrandType" layoutX="1136.0" layoutY="10.0" AnchorPane.rightAnchor="38.0"
+                           AnchorPane.topAnchor="5.0">
+                </ChoiceBox>
+            </children>
+        </AnchorPane>
     </top>
     <center>
         <TableView fx:id="tableBrand" prefHeight="600.0" tableMenuButtonVisible="true">
             <columns>
-                <TableColumn fx:id="colComp" prefWidth="120.0" resizable="false" text="Comp"/>
+                <TableColumn fx:id="colComp" prefWidth="120.0" resizable="false" text="Comp" visible="false"/>
                 <TableColumn fx:id="colName" prefWidth="200.0" resizable="false" text="Name"/>
-                <TableColumn fx:id="colTag" visible="false" editable="false" sortable="false" prefWidth="600"
-                             text="Tag"/>
-                <TableColumn fx:id="colWebsite" prefWidth="500.0" visible="false" text="Url"/>
-                <TableColumn text="Date Statistics">
+                <TableColumn fx:id="colTag" editable="false" prefWidth="600" sortable="false" text="Tag"
+                             visible="false"/>
+                <TableColumn fx:id="colWebsite" prefWidth="500.0" text="Url" visible="false"/>
+                <TableColumn text="Date">
                     <columns>
-                        <TableColumn fx:id="colStart" prefWidth="50.0" resizable="false" text="Start"/>
-                        <TableColumn fx:id="colEnd" prefWidth="50.0" resizable="false" text="End"/>
+                        <TableColumn fx:id="colStart" prefWidth="42.0" resizable="false" text="Start"/>
+                        <TableColumn fx:id="colEnd" prefWidth="38.999969482421875" resizable="false" text="End"/>
                     </columns>
                 </TableColumn>
-                <TableColumn text="Count Statistics">
+                <TableColumn text="Count">
                     <columns>
-                        <TableColumn fx:id="colCount" prefWidth="60.0" resizable="false" text="Count"/>
-                        <TableColumn fx:id="colRealCount" prefWidth="100.0" resizable="false" text="RealCount"/>
+                        <TableColumn fx:id="colCount" prefWidth="45.0" resizable="false" text="Total"/>
+                        <TableColumn fx:id="colRealCount" prefWidth="45.0" resizable="false" text="Real"/>
                     </columns>
                 </TableColumn>
 
-                <TableColumn text="State Statistics">
+                <TableColumn text="State">
                     <columns>
-                        <TableColumn fx:id="colPlayed" prefWidth="100.0" resizable="false" text="Played"/>
-                        <TableColumn fx:id="colPlaying" prefWidth="80.0" resizable="false" text="Playing"/>
-                        <TableColumn fx:id="colHope" prefWidth="80.0" resizable="false" text="Hope"/>
-                        <TableColumn fx:id="colViewLater" prefWidth="80.0" resizable="false" text="ViewLater"/>
-                        <TableColumn fx:id="colUncheck" prefWidth="80.0" resizable="false" text="Uncheck"/>
+                        <TableColumn fx:id="colPlayed" prefWidth="80.0" resizable="false" text="Played"/>
+                        <TableColumn fx:id="colPlaying" prefWidth="60.0" resizable="false" text="Playing"/>
+                        <TableColumn fx:id="colHope" prefWidth="75.0" resizable="false" text="Hope"/>
+                        <TableColumn fx:id="colViewLater" prefWidth="73.0" resizable="false" text="ViewLater"/>
+                        <TableColumn fx:id="colUncheck" prefWidth="20.0" resizable="false" text="Uncheck"/>
                     </columns>
                 </TableColumn>
-                <TableColumn text="Star Statistics">
+                <TableColumn text="Star ">
                     <columns>
                         <TableColumn fx:id="colFive" prefWidth="30.0" resizable="false" text="5"/>
                         <TableColumn fx:id="colFour" prefWidth="30.0" resizable="false" text="4"/>
@@ -51,39 +80,32 @@
                         <TableColumn fx:id="colZero" prefWidth="30.0" resizable="false" text="0"/>
                     </columns>
                 </TableColumn>
-                <TableColumn text="Location Statistics">
+                <TableColumn text="Location">
                     <columns>
-                        <TableColumn fx:id="colLocal" prefWidth="60.0" resizable="false" text="Local"/>
-                        <TableColumn fx:id="colNetdisk" prefWidth="60.0" resizable="false" text="NetDisk"/>
-                        <TableColumn fx:id="colRemote" prefWidth="60.0" resizable="false" text="Remote"/>
+                        <TableColumn fx:id="colLocal" prefWidth="42.0" resizable="false" text="Local"/>
+                        <TableColumn fx:id="colNetdisk" prefWidth="53.0" resizable="false" text="NetDisk"/>
+                        <TableColumn fx:id="colRemote" prefWidth="55.0" resizable="false" text="Remote"/>
                     </columns>
                 </TableColumn>
 
                 <TableColumn fx:id="colState" prefWidth="75.0" text="State"/>
-                <TableColumn fx:id="colCommand" prefWidth="100.0" text="Command" sortable="false"/>
+                <TableColumn fx:id="colCommand" prefWidth="100.0" sortable="false" text="Command"/>
             </columns>
         </TableView>
     </center>
+    <right>
+        <ToolBar orientation="VERTICAL" BorderPane.alignment="CENTER">
+            <items>
+                <Button fx:id="btn_reload" mnemonicParsing="false" text="R"/>
+            </items>
+        </ToolBar>
+    </right>
     <bottom>
-        <HBox spacing="10.0">
-            <padding>
-                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
-            </padding>
-            <HBox HBox.hgrow="NEVER">
-                <ToggleButton mnemonicParsing="false" styleClass="left-pill" text="Comp" userData="1">
-                    <toggleGroup>
-                        <ToggleGroup fx:id="typeGroup"/>
-                    </toggleGroup>
-                </ToggleButton>
-                <ToggleButton mnemonicParsing="false" selected="true" styleClass="right-pill" text="Brand"
-                              toggleGroup="$typeGroup" userData="0"/>
-            </HBox>
-            <TextField fx:id="textBrandKey" promptText="SearchKey" HBox.hgrow="ALWAYS">
-                <font>
-                    <Font size="14.0"/>
-                </font>
-            </TextField>
-            <Button fx:id="btnSearch" defaultButton="true" mnemonicParsing="false" text="Search"/>
-        </HBox>
+        <ToolBar BorderPane.alignment="CENTER">
+            <items>
+                <Label fx:id="lbCount" prefWidth="80.0"/>
+                <ProgressBar fx:id="progessloading" prefHeight="25.0" prefWidth="77.0" visible="false"/>
+            </items>
+        </ToolBar>
     </bottom>
 </BorderPane>

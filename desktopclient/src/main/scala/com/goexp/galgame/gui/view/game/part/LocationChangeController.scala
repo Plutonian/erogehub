@@ -27,7 +27,7 @@ class LocationChangeController extends DefaultController {
   }
 
   override protected def initialize() = {
-    val types = GameLocation.values.to(LazyList).sortBy(gs => gs.value)(Ordering[Int].reverse).asJava
+    val types = List(GameLocation.REMOTE, GameLocation.NETDISK, GameLocation.LOCAL).asJava
     choiceLocation.setItems(FXCollections.observableArrayList(types))
   }
 

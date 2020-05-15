@@ -60,13 +60,18 @@ class MainPanelController extends DefaultController {
   @FXML private var choiceBrandType: ChoiceBox[BrandState] = _
   @FXML private var typeGroup: ToggleGroup = _
   @FXML private var btnSearch: Button = _
+  @FXML private var btn_reload: Button = _
+
+  @FXML private var lbCount: Label = _
+  @FXML var progessloading: ProgressBar = _
+
 
   private var brandType = BrandState.LIKE
   private lazy val keyword = new SimpleStringProperty
 
-  final private val brandService = TaskService(new ByType(brandType))
-  final private val brandByNameService = TaskService(new ByName(keyword.get))
-  final private val brandByCompService = TaskService(new ByComp(keyword.get))
+  final private val brandListByStateService = TaskService(new ByType(brandType))
+  final private val brandSearchByNameService = TaskService(new ByName(keyword.get))
+  final private val brandSearchByCompService = TaskService(new ByComp(keyword.get))
 
   override protected def initialize() = {
     def initTable() = {
@@ -169,16 +174,21 @@ class MainPanelController extends DefaultController {
 
 
     val handler: ChangeListener[util.List[Brand]] = (_, _, brands) => {
-      if (brands != null)
-        tableBrand.setItems(FXCollections.observableArrayList(brands))
+      if (brands != null) {
+        val list = FXCollections.observableArrayList(brands)
+        tableBrand.setItems(list)
+
+        lbCount.setText(s"${list.size} 件")
+
+      }
     }
 
 
 
     //for data
-    brandService.valueProperty.addListener(handler)
-    brandByNameService.valueProperty.addListener(handler)
-    brandByCompService.valueProperty.addListener(handler)
+    brandListByStateService.valueProperty.addListener(handler)
+    brandSearchByNameService.valueProperty.addListener(handler)
+    brandSearchByCompService.valueProperty.addListener(handler)
 
 
     choiceBrandType.setItems(FXCollections.observableArrayList(BrandState.values.reverse: _*))
@@ -190,7 +200,7 @@ class MainPanelController extends DefaultController {
 
         logger.debug(s"Value: ${t}")
 
-        brandService.restart()
+        brandListByStateService.restart()
       }
     }
 
@@ -200,11 +210,17 @@ class MainPanelController extends DefaultController {
 
       val t = typeGroup.getSelectedToggle.getUserData.asInstanceOf[String].toInt
       if (t == 0)
-        brandByNameService.restart()
+        brandSearchByNameService.restart()
       else
-        brandByCompService.restart()
+        brandSearchByCompService.restart()
 
     }
+
+    btn_reload.setOnAction { _ =>
+      brandListByStateService.restart()
+    }
+
+    progessloading.visibleProperty().bind(brandListByStateService.runningProperty())
 
     textBrandKey.textProperty().bindBidirectional(keyword)
     btnSearch.disableProperty().bind(textBrandKey.textProperty().isEmpty)

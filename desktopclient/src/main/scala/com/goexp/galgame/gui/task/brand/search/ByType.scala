@@ -10,14 +10,14 @@ import javafx.concurrent.Task
 
 class ByType(private val state: BrandState) extends Task[util.List[Brand]] {
   override protected def call = {
-    val query =
-      if (state eq BrandState.ALL) {
-        BrandQuery()
-      }
-      else {
-        BrandQuery().where(Filters.eq("type", state.value))
-      }
 
-    query.list()
+    BrandQuery()
+      .where({
+        if (state eq BrandState.ALL)
+          null
+        else
+          Filters.eq("type", state.value)
+      })
+      .list()
   }
 }

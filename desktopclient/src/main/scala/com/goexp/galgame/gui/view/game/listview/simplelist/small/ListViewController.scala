@@ -17,9 +17,9 @@ class ListViewController extends DefaultController {
   override protected def initialize() = {
 
     smallListSimple.setCellFactory(_ => {
-      val loader = new FXMLLoaderProxy[Region, HeaderController]("header.fxml")
 
       NodeListCell[Game] { game =>
+        val loader = new FXMLLoaderProxy[Region, HeaderController]("header.fxml")
         loader.controller.load(game)
         loader.node
       }

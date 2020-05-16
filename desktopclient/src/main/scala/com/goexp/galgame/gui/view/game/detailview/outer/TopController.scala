@@ -24,19 +24,30 @@ class TopController extends DefaultController {
 
   }
 
+  def reset() = {
+    txtName.setText(null)
+    txtSubName.setText(null)
 
-  def load(game: Game) = loadWithoutImage(game)
+    boxTag.getChildren.clear()
+  }
+
+  def load(game: Game) = {
+    reset()
+    loadWithoutImage(game)
+  }
 
   private def loadWithoutImage(game: Game) = {
     this.targetGame = game
+
     starRatingController.load(game)
+    dateviewController.load(game.publishDate)
+    brandJumpController.load(game.brand)
 
     val Titles(mainTitle, subTitle) = game.getTitles
     txtName.setText(mainTitle)
     txtSubName.setText(subTitle)
 
-    dateviewController.load(game.publishDate)
-    brandJumpController.load(game.brand)
+
     if (game.tag.size > 0) {
       val nodes = Tags.toNodes(game.tag) { str =>
         val tagLabel = new Label(str)
@@ -47,6 +58,7 @@ class TopController extends DefaultController {
 
       boxTag.getChildren.setAll(nodes)
     }
-    else boxTag.getChildren.clear()
+    //    else
+    //      boxTag.getChildren.clear()
   }
 }

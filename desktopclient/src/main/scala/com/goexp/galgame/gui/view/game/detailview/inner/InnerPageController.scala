@@ -20,8 +20,7 @@ class InnerPageController extends DefaultController {
   @FXML private var tabSimple: Tab = _
   private var game: Game = _
 
-  override protected def initialize() =
-
+  override protected def initialize() = {
     personListView.setCellFactory(_ => {
       val loader = new FXMLLoaderProxy[Region, PersonCellController]("person_cell.fxml")
       val controller = loader.controller
@@ -31,21 +30,35 @@ class InnerPageController extends DefaultController {
         loader.node
       }
     })
+  }
+
+  def reset() = {
+
+  }
 
   def load(game: Game): Unit = {
     Objects.requireNonNull(game)
 
     this.game = game
+
+    contentTabPane.getSelectionModel.select(0)
+
+
     headerController.load(game)
     val personSize = Option(game.gameCharacters).map(_.size()).getOrElse(0)
-    if (personSize == 0) contentTabPane.getTabs.remove(tabPerson)
-    else personListView.setItems(FXCollections.observableList(game.gameCharacters))
+
+    if (personSize == 0)
+      contentTabPane.getTabs.remove(tabPerson)
+    else {
+      personListView.setItems(FXCollections.observableList(game.gameCharacters))
+    }
 
     val imgsSize = Option(game.gameImgs).map(_.size()).getOrElse(0)
 
     if (imgsSize == 0)
       contentTabPane.getTabs.remove(tabSimple)
-    else
+    else {
       simpleImgController.load(game)
+    }
   }
 }

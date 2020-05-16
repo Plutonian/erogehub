@@ -14,7 +14,9 @@ class ControllBarController extends DefaultController {
   override protected def initialize() = {
   }
 
-  def load(game: Game) = loadWithoutImage(game)
+  def load(game: Game) = {
+    loadWithoutImage(game)
+  }
 
   private def loadWithoutImage(game: Game) = {
     changeStateController.load(game)

@@ -14,17 +14,17 @@
         <fx:include fx:id="top" source="top.fxml"/>
     </top>
     <center>
-        <StackPane>
+<!--        <StackPane>-->
             <!--            <ImageView fx:id="imgBackground" scaleX="5.0" scaleY="5.0">-->
             <!--            <effect>-->
             <!--               <GaussianBlur radius="20.0" />-->
             <!--            </effect>-->
             <!--            </ImageView>-->
             <fx:include fx:id="innerPage" source="../inner/innerpage.fxml"/>
-        </StackPane>
+        <!--        </StackPane>-->
     </center>
     <bottom>
-        <fx:include fx:id="header" source="controll_bar.fxml"/>
+        <fx:include fx:id="footer" source="controll_bar.fxml"/>
     </bottom>
 
 </BorderPane>

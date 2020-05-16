@@ -6,9 +6,9 @@ import com.goexp.ui.javafx.DefaultController
 import javafx.fxml.FXML
 
 class OutPageController extends DefaultController {
-  @FXML var innerPageController: InnerPageController = _
-  @FXML var headerController: ControllBarController = _
   @FXML var topController: TopController = _
+  @FXML var innerPageController: InnerPageController = _
+  @FXML var footerController: ControllBarController = _
 
   override protected def initialize() = {
   }
@@ -35,9 +35,9 @@ class OutPageController extends DefaultController {
     loadInnerPage(game)
   }
 
-  def loadInnerPage(g: Game) = {
+  private def loadInnerPage(g: Game) = {
     topController.load(g)
     innerPageController.load(g)
-    headerController.load(g)
+    footerController.load(g)
   }
 }

@@ -9,7 +9,7 @@ case class DateItem(title: String,
                     count: Int,
                     dateType: DateType) extends DataItem {
 
-  def this(title: String, start: LocalDate, end: LocalDate, count: Int, dateType: DateType) {
+  def this(title: String, start: LocalDate, end: LocalDate, count: Int, dateType: DateType) = {
     this(title, new DateRange(start, end), count, dateType)
   }
 }

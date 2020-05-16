@@ -20,13 +20,13 @@ class TabSelect private(val root: TabPane) {
   private var loadData: DataLoader = _
 
   def whenNotFound(notFindAction: => Tab): TabSelect = {
-    this.notFoundAction = notFindAction _
+    this.notFoundAction = () => notFindAction
     this
   }
 
   def whenNotFound(loadData: => Unit, notFindAction: => Tab): TabSelect = {
-    this.notFoundAction = notFindAction _
-    this.loadData = loadData _
+    this.notFoundAction = () => notFindAction
+    this.loadData = () => loadData
     this
   }
 

@@ -56,7 +56,7 @@ class MainPanelController extends DefaultController {
   @FXML private var colName: TableColumn[Brand, String] = _
   @FXML private var colWebsite: TableColumn[Brand, String] = _
   @FXML private var colState: TableColumn[Brand, BrandState] = _
-  @FXML private var colCommand: TableColumn[Brand, Brand] = _
+  //  @FXML private var colCommand: TableColumn[Brand, Brand] = _
   @FXML private var choiceBrandType: ChoiceBox[BrandState] = _
   @FXML private var typeGroup: ToggleGroup = _
   @FXML private var btnSearch: Button = _
@@ -111,7 +111,29 @@ class MainPanelController extends DefaultController {
       colNetdisk.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.netdisk))
       colRemote.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.remote))
 
-      colCommand.setCellValueFactory(p => new SimpleObjectProperty(p.getValue))
+      colName.setCellFactory(_ => {
+
+        NodeTableCell { (brand, _) =>
+
+          if (brand != null) {
+            val link = new Hyperlink(brand.name)
+            link.setOnAction(_ => {
+              val text = brand.name
+              TabSelect().whenNotFound {
+                val conn = new CommonInfoTabController
+                val tab = new Tab(text, conn.node)
+                tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG))
+                conn.load(brand)
+                tab
+              }.select(text)
+            })
+            link
+          } else {
+            null
+          }
+
+        }
+      })
 
 
       colTag.setCellFactory(_ => {
@@ -148,26 +170,6 @@ class MainPanelController extends DefaultController {
         }
       })
 
-      colCommand.setCellFactory(_ => {
-        var brand: Brand = null
-
-        val link = new Hyperlink("関連ゲーム")
-        link.setOnAction(_ => {
-          val text = brand.name
-          TabSelect().whenNotFound {
-            val conn = new CommonInfoTabController
-            val tab = new Tab(text, conn.node)
-            tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG))
-            conn.load(brand)
-            tab
-          }.select(text)
-
-        })
-        NodeTableCell { b =>
-          brand = b
-          link
-        }
-      })
     }
 
     initTable()

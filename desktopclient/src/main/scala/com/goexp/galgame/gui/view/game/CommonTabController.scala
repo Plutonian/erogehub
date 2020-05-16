@@ -44,5 +44,5 @@ class CommonTabController(private val taskCreator: () => Task[ObservableList[Gam
 }
 
 object CommonTabController {
-  def apply(taskCreator: => Task[ObservableList[Game]]): CommonTabController = new CommonTabController(taskCreator _)
+  def apply(taskCreator: => Task[ObservableList[Game]]): CommonTabController = new CommonTabController(() => taskCreator)
 }

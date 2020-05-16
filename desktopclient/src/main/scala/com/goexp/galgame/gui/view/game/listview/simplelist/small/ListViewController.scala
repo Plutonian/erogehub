@@ -18,22 +18,23 @@ class ListViewController extends DefaultController {
 
     smallListSimple.setCellFactory(_ => {
 
+      val loader = new FXMLLoaderProxy[Region, HeaderController]("header.fxml")
       NodeListCell[Game] { game =>
-        val loader = new FXMLLoaderProxy[Region, HeaderController]("header.fxml")
+
         loader.controller.load(game)
         loader.node
       }
     })
 
 
-    smallListSimple.getSelectionModel.selectedItemProperty().addListener { (_, _, n) =>
-
-      if (n != null) {
-        detailPageController.load(n)
-        detailPage.setVisible(true)
-      }
-
-    }
+    //    smallListSimple.getSelectionModel.selectedItemProperty().addListener { (_, _, n) =>
+    //
+    //      if (n != null) {
+    //        detailPageController.load(n)
+    //        detailPage.setVisible(true)
+    //      }
+    //
+    //    }
 
     detailPage.setVisible(false)
 

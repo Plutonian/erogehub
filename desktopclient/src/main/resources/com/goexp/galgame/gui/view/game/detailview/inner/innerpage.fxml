@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
-<?import java.net.URL?>
-<TabPane fx:id="contentTabPane" side="RIGHT" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1"
-         xmlns:fx="http://javafx.com/fxml/1"
+
+<TabPane fx:id="contentTabPane" side="RIGHT" tabClosingPolicy="UNAVAILABLE"
+         xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="com.goexp.galgame.gui.view.game.detailview.inner.InnerPageController">
     <stylesheets>
         <URL value="@/view/view.css"/>

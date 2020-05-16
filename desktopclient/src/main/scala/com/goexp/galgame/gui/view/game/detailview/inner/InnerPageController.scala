@@ -45,20 +45,20 @@ class InnerPageController extends DefaultController {
 
 
     headerController.load(game)
-    val personSize = Option(game.gameCharacters).map(_.size()).getOrElse(0)
+    //    val personSize = Option(game.gameCharacters).map(_.size()).getOrElse(0)
 
-    if (personSize == 0)
-      contentTabPane.getTabs.remove(tabPerson)
-    else {
-      personListView.setItems(FXCollections.observableList(game.gameCharacters))
-    }
+    //    if (personSize == 0)
+    //      contentTabPane.getTabs.remove(tabPerson)
+    //    else {
+    personListView.setItems(FXCollections.observableList(game.gameCharacters))
+    //    }
 
-    val imgsSize = Option(game.gameImgs).map(_.size()).getOrElse(0)
+    //    val imgsSize = Option(game.gameImgs).map(_.size()).getOrElse(0)
 
-    if (imgsSize == 0)
-      contentTabPane.getTabs.remove(tabSimple)
-    else {
-      simpleImgController.load(game)
-    }
+    //    if (imgsSize == 0)
+    //      contentTabPane.getTabs.remove(tabSimple)
+    //    else {
+    simpleImgController.load(game)
+    //    }
   }
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
 <?import java.net.URL?>
 <BorderPane style="-fx-background-color:#FFF" xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -14,14 +13,7 @@
         <fx:include fx:id="top" source="top.fxml"/>
     </top>
     <center>
-<!--        <StackPane>-->
-            <!--            <ImageView fx:id="imgBackground" scaleX="5.0" scaleY="5.0">-->
-            <!--            <effect>-->
-            <!--               <GaussianBlur radius="20.0" />-->
-            <!--            </effect>-->
-            <!--            </ImageView>-->
-            <fx:include fx:id="innerPage" source="../inner/innerpage.fxml"/>
-        <!--        </StackPane>-->
+        <fx:include fx:id="innerPage" source="../inner/innerpage.fxml"/>
     </center>
     <bottom>
         <fx:include fx:id="footer" source="controll_bar.fxml"/>

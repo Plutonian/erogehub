@@ -89,7 +89,6 @@
                 </TableColumn>
 
                 <TableColumn fx:id="colState" prefWidth="75.0" text="State"/>
-                <TableColumn fx:id="colCommand" prefWidth="100.0" sortable="false" text="Command"/>
             </columns>
         </TableView>
     </center>

@@ -56,7 +56,6 @@ class MainPanelController extends DefaultController {
   @FXML private var colName: TableColumn[Brand, String] = _
   @FXML private var colWebsite: TableColumn[Brand, String] = _
   @FXML private var colState: TableColumn[Brand, BrandState] = _
-  //  @FXML private var colCommand: TableColumn[Brand, Brand] = _
   @FXML private var choiceBrandType: ChoiceBox[BrandState] = _
   @FXML private var typeGroup: ToggleGroup = _
   @FXML private var btnSearch: Button = _

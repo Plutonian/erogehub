@@ -26,7 +26,7 @@ application {
 }
 
 dependencies {
-    implementation project(':common')
-    implementation 'com.goexp.ui:javafx:1.1.2'
-    implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.0.2-SNAPSHOT'
+    compile project(':common')
+    compile 'com.goexp.ui:javafx:1.0.0'
+    compile group: 'org.controlsfx', name: 'controlsfx', version: '11.0.2-SNAPSHOT'
 }

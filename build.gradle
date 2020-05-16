@@ -9,13 +9,13 @@ allprojects {
 
 subprojects {
     apply plugin: 'scala'
-    apply plugin: 'maven-publish'
+//    apply plugin: 'maven-publish'
 
     dependencies {
-        implementation 'org.scala-lang:scala-library:2.13.2'
+        compile 'org.scala-lang:scala-library:2.13.2'
 
-        implementation 'ch.qos.logback:logback-classic:1.2.3'
-        implementation group: 'com.typesafe.scala-logging', name: 'scala-logging_2.13', version: '3.9.2'
+        compile 'ch.qos.logback:logback-classic:1.2.3'
+        compile group: 'com.typesafe.scala-logging', name: 'scala-logging_2.13', version: '3.9.2'
     }
 
     repositories {
@@ -25,13 +25,13 @@ subprojects {
         }
     }
 
-    publishing {
-        publications {
-            maven(MavenPublication) {
-                from(components.java)
-            }
-        }
-    }
+//    publishing {
+//        publications {
+//            maven(MavenPublication) {
+//                from(components.java)
+//            }
+//        }
+//    }
 
     tasks.withType(ScalaCompile) {
         options.encoding = 'UTF-8'

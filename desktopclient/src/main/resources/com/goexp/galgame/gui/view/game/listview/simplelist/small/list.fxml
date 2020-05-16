@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.ListView?>
-<ListView xmlns:fx="http://javafx.com/fxml/1" fx:id="smallListSimple" nodeOrientation="LEFT_TO_RIGHT"
-          stylesheets="@/view/view.css" xmlns="http://javafx.com/javafx/8.0.172-ea"
-          fx:controller="com.goexp.galgame.gui.view.game.listview.simplelist.small.ListViewController">
-</ListView>
+<?import javafx.scene.layout.*?>
+<AnchorPane nodeOrientation="LEFT_TO_RIGHT" stylesheets="@/view/view.css" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.goexp.galgame.gui.view.game.listview.simplelist.small.ListViewController">
+    <children>
+        <ListView fx:id="smallListSimple" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+        <fx:include fx:id="detailPage" source="../../../detailview/outer/out_page.fxml"
+                    AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="200.0"
+                    AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0"/>
+
+    </children>
+</AnchorPane>

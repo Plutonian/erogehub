@@ -9,9 +9,10 @@ import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.view.game.listview.sidebar.{BrandGroupController, DateGroupController, FilterPanelController}
+import com.goexp.galgame.gui.view.game.listview.simplelist.small.ListViewController
 import com.goexp.galgame.gui.view.game.listview.tableview.TableController
-import com.goexp.ui.javafx.{DefaultController, TaskService}
 import com.goexp.ui.javafx.control.cell.NodeListCell
+import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.collections.transformation.{FilteredList, SortedList}
 import javafx.collections.{FXCollections, ObservableList}
@@ -31,6 +32,7 @@ class DataViewController extends DefaultController {
   @FXML private var filterPanelController: FilterPanelController = _
   @FXML private var brandGroupController: BrandGroupController = _
   @FXML private var dateGroupController: DateGroupController = _
+  @FXML private var smallListSimpleController: ListViewController = _
   /**
    * Status bar
    */
@@ -40,7 +42,6 @@ class DataViewController extends DefaultController {
    * main panel
    */
   @FXML private var tableView: TableView[Game] = _
-  @FXML private var smallListSimple: ListView[Game] = _
   @FXML private var mainTab: TabPane = _
   /**
    * Sidebar
@@ -168,7 +169,7 @@ class DataViewController extends DefaultController {
 
   def recount(): Unit = {
     tableView.scrollTo(0)
-    smallListSimple.scrollTo(0)
+    smallListSimpleController.smallListSimple.scrollTo(0)
     resetCount(filteredGames)
   }
 
@@ -208,8 +209,8 @@ class DataViewController extends DefaultController {
   private def loadItems(sortedData: SortedList[Game]) = {
     tableView.setItems(sortedData)
     tableView.scrollTo(0)
-    smallListSimple.setItems(sortedData)
-    smallListSimple.scrollTo(0)
+    smallListSimpleController.smallListSimple.setItems(sortedData)
+    smallListSimpleController.smallListSimple.scrollTo(0)
   }
 
   private def resetCount(filteredGames: util.List[Game]) =

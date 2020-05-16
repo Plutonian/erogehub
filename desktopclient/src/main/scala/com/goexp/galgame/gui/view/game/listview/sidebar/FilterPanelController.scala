@@ -61,7 +61,7 @@ class FilterPanelController extends FilterController[Game] {
     resetStar()
 
     def resetLocation() = {
-      val nodes = GameLocation.values.to(LazyList)
+      val nodes = List(GameLocation.REMOTE, GameLocation.NETDISK, GameLocation.LOCAL).to(LazyList)
         .sortBy {
           _.value
         }.reverse

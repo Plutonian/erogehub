@@ -62,9 +62,6 @@ class FilterPanelController extends FilterController[Game] {
 
     def resetLocation() = {
       val nodes = List(GameLocation.REMOTE, GameLocation.NETDISK, GameLocation.LOCAL).to(LazyList)
-        .sortBy {
-          _.value
-        }.reverse
         .map(gameLoc => {
           val btn = new CheckBox(gameLoc.name)
           btn.setUserData(gameLoc)

@@ -4,6 +4,6 @@
 
 
 dependencies {
-    compile 'com.goexp:core:1.0.1'
-    compile 'com.goexp.db:db_mongo:1.1.1'
+    implementation 'com.goexp:core:1.0.1'
+    implementation 'com.goexp.db:db_mongo:1.1.1'
 }

@@ -7,7 +7,7 @@ plugins {
 
 dependencies {
     implementation project(':common')
-    implementation 'com.goexp:piplline:1.0.1'
+    implementation 'com.goexp:piplline:1.1.2'
     implementation 'org.jsoup:jsoup:1.13.1'
 }
 

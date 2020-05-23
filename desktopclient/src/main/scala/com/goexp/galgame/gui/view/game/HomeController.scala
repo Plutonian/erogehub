@@ -23,8 +23,6 @@ class HomeController extends DefaultController {
 
   @FXML var mainTabPanel: TabPane = _
 
-  @FXML private var menuPanel: Accordion = _
-  //  @FXML private var date: Region = _
   @FXML private var gameStateLinkPanel: VBox = _
   @FXML private var gameStateLikeLinkPanel: VBox = _
   @FXML private var linkDate: Hyperlink = _
@@ -77,7 +75,7 @@ class HomeController extends DefaultController {
 
 
     //    date.setVisible(false)
-    menuPanel.setExpandedPane(menuPanel.getPanes.get(0))
+    //    menuPanel.setExpandedPane(menuPanel.getPanes.get(0))
     initBlockList()
 
     val links = state2Link(List(GameState.READYTOVIEW, GameState.HOPE, GameState.PLAYING)).asJava

@@ -2,26 +2,45 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+
 <BorderPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.game.listview.DataViewController">
     <center>
-        <AnchorPane>
-            <TabPane fx:id="mainTab" nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"
-                     AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
-                     AnchorPane.topAnchor="0">
-                <Tab text="Grid">
-                    <fx:include fx:id="tableView" source="tableview/table.fxml"/>
-                </Tab>
-                <Tab text="List">
-                    <fx:include fx:id="smallListSimple" source="simplelist/small/list.fxml"/>
-                </Tab>
-            </TabPane>
-            <HBox AnchorPane.bottomAnchor="3" AnchorPane.leftAnchor="10">
-                <Label fx:id="lbItemCount" prefWidth="80.0"/>
-                <ProgressBar fx:id="progessloading" prefHeight="25.0" prefWidth="77.0" visible="false"/>
-            </HBox>
-        </AnchorPane>
+        <SplitPane dividerPositions="0.2">
+            <items>
+                <TabPane prefHeight="433.0" prefWidth="0.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
+                    <Tab text="Date">
+                        <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml"/>
+                    </Tab>
+                    <Tab text="Brand">
+                        <fx:include fx:id="brandGroup" source="sidebar/brandgroup.fxml"/>
+                    </Tab>
+                    <Tab text="Tag">
+                        <ListView fx:id="tagList" prefHeight="100.0"/>
+                    </Tab>
+                    <Tab text="CV">
+                        <ListView fx:id="cvList" prefHeight="100.0"/>
+                    </Tab>
+                </TabPane>
+                <AnchorPane>
+                    <TabPane fx:id="mainTab" nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM"
+                             tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
+                             AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                        <Tab text="Grid">
+                            <fx:include fx:id="tableView" source="tableview/table.fxml"/>
+                        </Tab>
+                        <Tab text="List">
+                            <fx:include fx:id="smallListSimple" source="simplelist/small/list.fxml"/>
+                        </Tab>
+                    </TabPane>
+                    <HBox AnchorPane.bottomAnchor="3" AnchorPane.leftAnchor="10">
+                        <Label fx:id="lbItemCount" prefWidth="80.0"/>
+                        <ProgressBar fx:id="progessloading" prefHeight="25.0" prefWidth="77.0" visible="false"/>
+                    </HBox>
+                </AnchorPane>
+            </items>
+        </SplitPane>
     </center>
     <right>
         <BorderPane>
@@ -36,23 +55,6 @@
                     <panes>
                         <TitledPane text="Filter">
                             <fx:include fx:id="filterPanel" source="sidebar/filterpanel.fxml"/>
-                        </TitledPane>
-
-                        <TitledPane text="Group">
-                            <TabPane side="RIGHT" tabClosingPolicy="UNAVAILABLE">
-                                <Tab text="Date">
-                                    <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml"/>
-                                </Tab>
-                                <Tab text="Brand">
-                                    <fx:include fx:id="brandGroup" source="sidebar/brandgroup.fxml"/>
-                                </Tab>
-                                <Tab text="Tag">
-                                    <ListView fx:id="tagList" prefHeight="100.0"/>
-                                </Tab>
-                                <Tab text="CV">
-                                    <ListView fx:id="cvList" prefHeight="100.0"/>
-                                </Tab>
-                            </TabPane>
                         </TitledPane>
                     </panes>
                 </Accordion>

@@ -11,7 +11,7 @@ import com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController
 import com.goexp.ui.javafx.{DefaultController, FXMLLoaderProxy}
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.scene.control.{Accordion, Hyperlink, Tab, TabPane}
+import javafx.scene.control.{Hyperlink, Tab, TabPane}
 import javafx.scene.image.ImageView
 import javafx.scene.input.TransferMode
 import javafx.scene.layout.{Region, VBox}
@@ -48,7 +48,7 @@ class HomeController extends DefaultController {
   override protected def initialize() = {
 
     def initBlockList() = {
-      val links = state2Link(List(GameState.PLAYED)).asJava
+      val links = state2Link(List(GameState.PLAYED, GameState.PLAYING, GameState.BOUGHT)).asJava
       gameStateLinkPanel.getChildren.setAll(links)
     }
 
@@ -78,7 +78,7 @@ class HomeController extends DefaultController {
     //    menuPanel.setExpandedPane(menuPanel.getPanes.get(0))
     initBlockList()
 
-    val links = state2Link(List(GameState.READYTOVIEW, GameState.HOPE, GameState.PLAYING)).asJava
+    val links = state2Link(List(GameState.READYTOVIEW, GameState.HOPE)).asJava
     gameStateLikeLinkPanel.getChildren.setAll(links)
 
     {

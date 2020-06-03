@@ -3,7 +3,6 @@ package com.goexp.galgame.gui
 import java.util.function.Predicate
 
 import com.goexp.galgame.common.model.game.GameState
-import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.gui.HGameApp.app
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.view.MainController
@@ -41,7 +40,6 @@ class HGameApp extends Application {
 
   override def init(): Unit = {
     app = this
-    Network.initProxy()
   }
 
   override def start(primaryStage: Stage): Unit = {

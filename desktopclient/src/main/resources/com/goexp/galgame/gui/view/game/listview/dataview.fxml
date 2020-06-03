@@ -7,7 +7,7 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.game.listview.DataViewController">
     <center>
-        <SplitPane dividerPositions="0.2">
+        <SplitPane dividerPositions="0">
             <items>
                 <TabPane prefHeight="433.0" prefWidth="0.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
                     <Tab text="Date">

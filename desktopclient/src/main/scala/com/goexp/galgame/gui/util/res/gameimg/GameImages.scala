@@ -1,10 +1,8 @@
 package com.goexp.galgame.gui.util.res.gameimg
 
-import java.nio.file.Files
 import java.util.Objects
 
-import com.goexp.common.util.string.ConsoleColors.RED
-import com.goexp.galgame.common.Config.IMG_PATH
+import com.goexp.galgame.gui.Config
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.cache.ImageCache
 import com.typesafe.scalalogging.Logger
@@ -15,25 +13,27 @@ object GameImages {
 
 
   def get(game: Game)(diskCacheKey: String, memCacheKey: String) = {
-    Objects.requireNonNull(diskCacheKey)
+    getFromUrl(game)(memCacheKey)
+  }
+
+  def getFromUrl(game: Game)(memCacheKey: String) = {
     Objects.requireNonNull(memCacheKey)
 
-    logger.debug(s"LocalKey=${RED.s(diskCacheKey)},memCacheKey=${memCacheKey}")
+    logger.debug(s"memCacheKey=${memCacheKey}")
 
     //try heat cache
 
     ImageCache().get(memCacheKey).getOrElse {
-      val localPath = IMG_PATH.resolve(diskCacheKey + ".jpg")
-      logger.debug(s"localPath=[${localPath}]")
 
-      //heat disk cache or load from remote
-      if (Files.exists(localPath)) {
-        val image = new Image("file:" + localPath.toString)
-        ImageCache().put(memCacheKey, image)
-        image
-      } else {
-        null
-      }
+      val imgUrl = s"${Config.IMG_REMOTE}/${memCacheKey}.jpg"
+      logger.debug(s"imgUrl=[${imgUrl}]")
+
+      println(imgUrl)
+
+
+      val image = new Image(imgUrl, true)
+      ImageCache().put(memCacheKey, image)
+      image
     }
 
   }

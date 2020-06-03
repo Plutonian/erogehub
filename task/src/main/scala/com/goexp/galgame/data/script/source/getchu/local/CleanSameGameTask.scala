@@ -2,9 +2,9 @@ package com.goexp.galgame.data.script.source.getchu.local
 
 import java.nio.file.Files
 
-import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.common.website.getchu.GetchuGameLocal
+import com.goexp.galgame.data.Config
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameSimpleQuery}
 import com.mongodb.client.model.Filters
@@ -20,7 +20,7 @@ object CleanSameGameTask {
   def main(args: Array[String]) = {
 
     def remove(g: Game): Unit = {
-      val path = Config.IMG_PATH.resolve(GetchuGameLocal.gamePathString(g))
+      val path = Config.IMG_LOCAL_ROOT.resolve(GetchuGameLocal.gamePathString(g))
 
       if (Files.exists(path)) {
 

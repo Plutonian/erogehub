@@ -1,6 +1,7 @@
 package com.goexp.galgame.data.source.getchu.importor
 
 import com.goexp.db.mongo.DBOperator
+import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.{Brand, Game}
 import com.goexp.galgame.data.source.getchu.DB_NAME
@@ -13,7 +14,7 @@ import org.bson.Document
 import scala.jdk.CollectionConverters._
 
 object GameDB {
-  val tlp = new DBOperator(DB_NAME, "game")
+  val tlp = new DBOperator(Config.DB_STRING, DB_NAME, "game")
 
   def insert(game: Game) = {
     val gameDoc = new Document("_id", game.id)

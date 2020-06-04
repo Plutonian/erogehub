@@ -3,6 +3,7 @@ package com.goexp.galgame.gui.db.mongo.query
 import java.util
 
 import com.goexp.db.mongo.{DBQuery, ObjectCreator}
+import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.model.TagType
 import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.typesafe.scalalogging.Logger
@@ -27,7 +28,7 @@ object TagQuery {
     tagType
   }
 
-  private val tpl = DBQuery[TagType](DB_NAME, "tag", creator).build
+  private val tpl = DBQuery[TagType](Config.DB_STRING, DB_NAME, "tag", creator).build
 
   def apply() = tpl
 

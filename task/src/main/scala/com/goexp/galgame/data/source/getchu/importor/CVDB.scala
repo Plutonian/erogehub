@@ -1,13 +1,14 @@
 package com.goexp.galgame.data.source.getchu.importor
 
 import com.goexp.db.mongo.DBOperator
+import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.model._
 import com.goexp.galgame.data.source.getchu.DB_NAME
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.{combine, set}
 
 object CVDB {
-  val tlp = new DBOperator(DB_NAME, "cv")
+  val tlp = new DBOperator(Config.DB_STRING, DB_NAME, "cv")
 
   def updateStatistics(cv: CV, statistics: GameStatistics) = {
 

@@ -3,6 +3,7 @@ package com.goexp.galgame.data.source.getchu.importor
 import java.util
 
 import com.goexp.db.mongo.DBOperator
+import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.model.{GameStatistics, LocationStatistics, StarStatistics, StateStatistics}
 import com.goexp.galgame.data.model.Brand
 import com.goexp.galgame.data.source.getchu.DB_NAME
@@ -12,7 +13,7 @@ import org.bson.Document
 
 object BrandDB {
 
-  val tlp = new DBOperator(DB_NAME, "brand")
+  val tlp = new DBOperator(Config.DB_STRING, DB_NAME, "brand")
 
   def insert(item: Brand) = {
     val doc = new Document("_id", item.id)

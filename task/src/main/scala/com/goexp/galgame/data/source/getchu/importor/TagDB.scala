@@ -1,15 +1,16 @@
 package com.goexp.galgame.data.source.getchu.importor
 
 import com.goexp.db.mongo.DBOperator
-import com.goexp.galgame.data.source.getchu.DB_NAME
+import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.model.TagType
+import com.goexp.galgame.data.source.getchu.DB_NAME
 import org.bson.Document
 
 import scala.jdk.CollectionConverters._
 
 object TagDB {
 
-  val tlp = new DBOperator(DB_NAME, "tag")
+  val tlp = new DBOperator(Config.DB_STRING, DB_NAME, "tag")
 
   def insert(item: List[TagType]) = {
     val docs = item

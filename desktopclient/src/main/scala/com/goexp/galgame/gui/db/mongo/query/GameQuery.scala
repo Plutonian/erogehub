@@ -1,6 +1,7 @@
 package com.goexp.galgame.gui.db.mongo.query
 
 import com.goexp.db.mongo.{DBQuery, ObjectCreator}
+import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.db.mongo.query.CommonGameCreator
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.db.mongo.DB_NAME
@@ -43,7 +44,7 @@ object GameQuery {
     }
   }
 
-  private val tpl = DBQuery[Game](DB_NAME, TABLE_NAME, SimpleGame)
+  private val tpl = DBQuery[Game](Config.DB_STRING, DB_NAME, TABLE_NAME, SimpleGame)
     //      .defaultSelect(exclude("gamechar", "simpleImg"))
     .defaultSort(descending("publishDate", "name"))
     .build
@@ -56,7 +57,7 @@ object GameImgQuery {
 
   import GameQuery.TABLE_NAME
 
-  private val tpl = DBQuery[Game](DB_NAME, TABLE_NAME, SimpleGame)
+  private val tpl = DBQuery[Game](Config.DB_STRING, DB_NAME, TABLE_NAME, SimpleGame)
     .defaultSelect(include("simpleImg"))
     .build
 
@@ -67,7 +68,7 @@ object GamePersonQuery {
 
   import GameQuery.TABLE_NAME
 
-  private val tpl = DBQuery[Game](DB_NAME, TABLE_NAME, SimpleGame)
+  private val tpl = DBQuery[Game](Config.DB_STRING, DB_NAME, TABLE_NAME, SimpleGame)
     .defaultSelect(include("gamechar"))
     .build
 

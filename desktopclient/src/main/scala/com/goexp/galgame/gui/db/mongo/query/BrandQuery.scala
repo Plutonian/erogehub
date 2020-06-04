@@ -3,6 +3,7 @@ package com.goexp.galgame.gui.db.mongo.query
 import java.util
 
 import com.goexp.db.mongo.{DBQuery, ObjectCreator}
+import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.db.mongo.query.CommonBrandCreator
 import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.goexp.galgame.gui.db.mongo.query.StatCreators.statisticsCreator
@@ -33,7 +34,7 @@ object BrandQuery {
   }
 
 
-  private val tpl = DBQuery[Brand](DB_NAME, "brand", creator)
+  private val tpl = DBQuery[Brand](Config.DB_STRING, DB_NAME, "brand", creator)
     .defaultSort(ascending("comp"))
     .build
 

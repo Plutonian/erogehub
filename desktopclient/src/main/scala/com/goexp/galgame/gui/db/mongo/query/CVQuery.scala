@@ -1,6 +1,7 @@
 package com.goexp.galgame.gui.db.mongo.query
 
 import com.goexp.db.mongo.{DBQuery, ObjectCreator}
+import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.db.mongo.query.CVCreator
 import com.goexp.galgame.common.model.CV
 import com.goexp.galgame.gui.db.mongo.DB_NAME
@@ -23,7 +24,7 @@ object CVQuery {
 
   }
 
-  private val tpl = DBQuery[CV](DB_NAME, "cv", creator).build
+  private val tpl = DBQuery[CV](Config.DB_STRING, DB_NAME, "cv", creator).build
 
   def apply() = tpl
 

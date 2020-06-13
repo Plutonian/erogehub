@@ -46,7 +46,7 @@ class DownloadImage extends DefaultHandler {
               case _: ConnectException =>
                 logger.warn(s"CannotConnect")
               case e: IOException =>
-                logger.warn(s"ConnectionReset")
+                logger.warn(s"IOException ${e.getClass.getName} ${e.getMessage}")
               case ErrorCodeException(errorCode) =>
                 logger.warn(s"Response Error:code=${errorCode}")
               case _: FileIsNotImageException =>

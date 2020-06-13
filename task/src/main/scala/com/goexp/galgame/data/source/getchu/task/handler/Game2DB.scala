@@ -16,10 +16,11 @@ import com.typesafe.scalalogging.Logger
 import scala.jdk.CollectionConverters._
 
 /**
-  * process game detail(upgrade content,cv,simple img)
-  */
-class Game2DB extends DefaultHandler {
-  final private val logger = Logger(classOf[Game2DB])
+ * process game detail(upgrade content,cv,simple img)
+ */
+
+private object Game2DB {
+  final private val logger = Logger(Game2DB.getClass)
 
   private def merge(localCharList: util.List[GameCharacter], remoteCharList: util.List[GameCharacter]): util.List[GameCharacter] = {
     val localSize = Option(localCharList).map(_.size()).getOrElse(0)
@@ -62,6 +63,10 @@ class Game2DB extends DefaultHandler {
 
     }.asJava
   }
+}
+
+class Game2DB extends DefaultHandler {
+  final private val logger = Logger(classOf[Game2DB])
 
 
   override def processEntity: PartialFunction[Any, Unit] = {
@@ -71,17 +76,18 @@ class Game2DB extends DefaultHandler {
 
 
           /**
-            * upgrade base content
-            */
+           * upgrade base content
+           */
           if (localGame != remoteGame) {
             //        logger.debug(s"\nOld:${localGame.simpleView}\nNew:${remoteGame.simpleView}\n")
             GameDB.updateAll(remoteGame)
           }
 
+          import Game2DB.merge
 
           /**
-            * upgrade person
-            */
+           * upgrade person
+           */
           remoteGame.gameCharacters = merge(localGame.gameCharacters, remoteGame.gameCharacters)
 
           if (remoteGame.gameCharacters != null)
@@ -89,8 +95,8 @@ class Game2DB extends DefaultHandler {
 
 
           /**
-            * upgrade simple img
-            */
+           * upgrade simple img
+           */
           val localImgSize = Option(localGame.gameImgs).map(_.size).getOrElse(0)
           val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)
 
@@ -111,8 +117,8 @@ class Game2DB extends DefaultHandler {
               if (imgs.nonEmpty)
                 logger.info(s"DownloadImage for Game[${localGame.id}] ${localGame.name} ${localGame.state}")
 
-              imgs.foreach { pear =>
-                sendTo[DownloadImage](pear)
+              imgs.foreach { case (path, local) =>
+                sendTo[DownloadImage](ImageParam(path, local))
               }
             }
           }

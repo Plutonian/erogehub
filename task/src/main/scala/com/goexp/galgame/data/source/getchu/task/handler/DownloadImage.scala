@@ -13,12 +13,14 @@ import com.typesafe.scalalogging.Logger
 
 import scala.jdk.CollectionConverters._
 
+case class ImageParam(local: Path, remote: String)
+
 class DownloadImage extends DefaultHandler {
   final private val logger = Logger(classOf[DownloadImage])
 
 
   override def processEntity: PartialFunction[Any, Unit] = {
-    case (local: Path, remote: String) =>
+    case ImageParam(local, remote) =>
       def rPath(path: Path) =
         path.iterator().asScala.to(LazyList).takeRight(2).mkString("/")
 

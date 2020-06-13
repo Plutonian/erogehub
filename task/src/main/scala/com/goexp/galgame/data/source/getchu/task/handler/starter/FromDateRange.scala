@@ -7,7 +7,6 @@ import com.goexp.piplline.core.Starter
 import com.typesafe.scalalogging.Logger
 
 class FromDateRange(val start: LocalDate, val end: LocalDate) extends Starter {
-  private val logger = Logger(classOf[FromDateRange])
 
   override def process() = {
     sendTo[DownloadPage]((start, end))

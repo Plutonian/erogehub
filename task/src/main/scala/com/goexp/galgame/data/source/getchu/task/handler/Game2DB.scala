@@ -9,7 +9,7 @@ import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.importor.GameDB
 import com.goexp.galgame.data.source.getchu.query.GameFullQuery
 import com.goexp.galgame.data.source.getchu.task.Util
-import com.goexp.piplline.handler.DefaultHandler
+import com.goexp.piplline.handler.DefaultActor
 import com.mongodb.client.model.Filters
 import com.typesafe.scalalogging.Logger
 
@@ -65,11 +65,10 @@ private object Game2DB {
   }
 }
 
-class Game2DB extends DefaultHandler {
-  final private val logger = Logger(classOf[Game2DB])
+class Game2DB extends DefaultActor {
 
 
-  override def processEntity: PartialFunction[Any, Unit] = {
+  override def receive = {
     case remoteGame: Game =>
       GameFullQuery().where(Filters.eq(remoteGame.id)).one() match {
         case Some(localGame) =>
@@ -79,7 +78,6 @@ class Game2DB extends DefaultHandler {
            * upgrade base content
            */
           if (localGame != remoteGame) {
-            //        logger.debug(s"\nOld:${localGame.simpleView}\nNew:${remoteGame.simpleView}\n")
             GameDB.updateAll(remoteGame)
           }
 
@@ -95,13 +93,13 @@ class Game2DB extends DefaultHandler {
 
 
           /**
-           * upgrade simple img
+           * upgrade sample img
            */
           val localImgSize = Option(localGame.gameImgs).map(_.size).getOrElse(0)
           val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)
 
           if (remoteImgSize > localImgSize) {
-            logger.debug(s"Local:${localGame.gameImgs}  Remote:${remoteGame.gameImgs}")
+            logger.debug(s"[${localGame.id}] ${localGame.name} Local:${localGame.gameImgs}  Remote:${remoteGame.gameImgs}")
 
             logger.info(s"Update [${localGame.id}] ${localGame.name} ${localGame.state} Local:$localImgSize,Remote:$remoteImgSize")
             GameDB.updateImg(remoteGame)
@@ -114,8 +112,8 @@ class Game2DB extends DefaultHandler {
             GameFullQuery().where(Filters.eq(remoteGame.id)).one().map { game =>
               val imgs = Util.getGameAllImgs(game)
 
-              if (imgs.nonEmpty)
-                logger.info(s"DownloadImage for Game[${localGame.id}] ${localGame.name} ${localGame.state}")
+              //              if (imgs.nonEmpty)
+              //                logger.info(s"DownloadImage for Game[${localGame.id}] ${localGame.name} ${localGame.state}")
 
               imgs.foreach { case (path, local) =>
                 sendTo[DownloadImage](ImageParam(path, local))

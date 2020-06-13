@@ -3,7 +3,7 @@ package com.goexp.galgame.data.source.getchu.task.handler
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.importor.GameDB
-import com.goexp.piplline.handler.DefaultHandler
+import com.goexp.piplline.handler.DefaultActor
 import com.typesafe.scalalogging.Logger
 
 import scala.io.{Codec, Source}
@@ -11,13 +11,11 @@ import scala.jdk.CollectionConverters._
 
 
 /**
-  * Check game is new or already has
-  */
-class PreProcessGame extends DefaultHandler {
-  final private val logger = Logger(classOf[PreProcessGame])
+ * Check game is new or already has
+ */
+class PreProcessGame extends DefaultActor {
 
-
-  override def processEntity = {
+  override def receive = {
     case game: Game =>
 
       //already has

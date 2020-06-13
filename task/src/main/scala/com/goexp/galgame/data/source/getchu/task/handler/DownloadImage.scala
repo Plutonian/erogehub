@@ -8,18 +8,16 @@ import java.util.concurrent.CompletionException
 
 import com.goexp.galgame.common.util.ImageUtil
 import com.goexp.galgame.common.util.ImageUtil.{ErrorCodeException, FileIsNotImageException}
-import com.goexp.piplline.handler.DefaultHandler
+import com.goexp.piplline.handler.DefaultActor
 import com.typesafe.scalalogging.Logger
 
 import scala.jdk.CollectionConverters._
 
 case class ImageParam(local: Path, remote: String)
 
-class DownloadImage extends DefaultHandler {
-  final private val logger = Logger(classOf[DownloadImage])
+class DownloadImage extends DefaultActor {
 
-
-  override def processEntity: PartialFunction[Any, Unit] = {
+  override def receive = {
     case ImageParam(local, remote) =>
       def rPath(path: Path) =
         path.iterator().asScala.to(LazyList).takeRight(2).mkString("/")

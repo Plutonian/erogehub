@@ -3,16 +3,14 @@ package com.goexp.galgame.data.source.getchu.task.handler
 import java.util.Objects
 
 import com.goexp.galgame.data.source.getchu.parser.game.{DetailPageParser, ListPageParser}
-import com.goexp.piplline.handler.DefaultHandler
-import com.typesafe.scalalogging.Logger
+import com.goexp.piplline.handler.DefaultActor
 
 /**
-  * Parse String => Game
-  */
-class ParsePage extends DefaultHandler {
-  final private val logger = Logger(classOf[ParsePage])
+ * Parse String => Game
+ */
+class ParsePage extends DefaultActor {
 
-  override def processEntity: PartialFunction[Any, Unit] = {
+  override def receive = {
 
     // parse Game detail page
     case (gameId: Int, html: String) =>

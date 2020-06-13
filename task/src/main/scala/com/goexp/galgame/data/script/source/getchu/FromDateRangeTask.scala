@@ -3,8 +3,7 @@ package com.goexp.galgame.data.script.source.getchu
 import java.time.LocalDate
 
 import com.goexp.galgame.common.util.Network
-import com.goexp.galgame.data.source.getchu.task.handler.DefaultGameProcessGroup
-import com.goexp.galgame.data.source.getchu.task.handler.starter.FromDateRange
+import com.goexp.galgame.data.source.getchu.task.handler.{DefaultGameProcessGroup, DownloadPage}
 import com.goexp.piplline.core.Pipeline
 
 object FromDateRangeTask {
@@ -17,8 +16,12 @@ object FromDateRangeTask {
     //    val end = LocalDate.now.withMonth(12).withDayOfMonth(31)
 
 
-    new Pipeline(new FromDateRange(start, end))
+    val pipeline = new Pipeline()
       .regGroup(DefaultGameProcessGroup)
       .start()
+
+    pipeline.sendTo[DownloadPage]((start, end))
+
+
   }
 }

@@ -9,6 +9,7 @@ import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.importor.GameDB
 import com.goexp.galgame.data.source.getchu.query.GameFullQuery
 import com.goexp.galgame.data.source.getchu.task.Util
+import com.goexp.galgame.data.source.getchu.task.handler.DownloadImage.ImageParam
 import com.goexp.piplline.handler.DefaultActor
 import com.mongodb.client.model.Filters
 import com.typesafe.scalalogging.Logger

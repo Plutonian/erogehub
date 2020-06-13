@@ -8,12 +8,17 @@ import java.util.concurrent.CompletionException
 
 import com.goexp.galgame.common.util.ImageUtil
 import com.goexp.galgame.common.util.ImageUtil.{ErrorCodeException, FileIsNotImageException}
+import com.goexp.galgame.data.source.getchu.task.handler.DownloadImage.ImageParam
 import com.goexp.piplline.handler.DefaultActor
-import com.typesafe.scalalogging.Logger
 
 import scala.jdk.CollectionConverters._
 
-case class ImageParam(local: Path, remote: String)
+
+object DownloadImage {
+
+  case class ImageParam(local: Path, remote: String)
+
+}
 
 class DownloadImage extends DefaultActor {
 

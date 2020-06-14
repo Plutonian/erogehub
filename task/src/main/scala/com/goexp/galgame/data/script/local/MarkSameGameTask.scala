@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.script.source.getchu.local
+package com.goexp.galgame.data.script.local
 
 import com.goexp.galgame.common.model.game.CommonGame.Titles
 import com.goexp.galgame.common.model.game.GameState

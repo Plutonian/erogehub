@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.script.source.getchu.local
+package com.goexp.galgame.data.script.local
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.CV

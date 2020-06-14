@@ -3,11 +3,11 @@ package com.goexp.galgame.data.script
 import java.util.Objects
 
 import com.goexp.galgame.data.script.guide.Seiya_saiga_com
-import com.goexp.galgame.data.script.source.getchu.local.cal.{CalBrandGameTask, CalCVGameTask}
-import com.goexp.galgame.data.script.source.getchu.local.getimage.{ByBrand, ByDateRange}
-import com.goexp.galgame.data.script.source.getchu.local.{CleanSameGameTask, GetTrueCVTask, GroupBrandTask, MarkSameGameTask}
-import com.goexp.galgame.data.script.source.getchu.others.UpdateBrandTask
-import com.goexp.galgame.data.script.source.getchu.{FromDateRangeTask, FromDoujinBrandTask}
+import com.goexp.galgame.data.script.local.cal.{CalBrandGameTask, CalCVGameTask}
+import com.goexp.galgame.data.script.local.{CleanSameGameTask, GetTrueCVTask, GroupBrandTask, MarkSameGameTask}
+import com.goexp.galgame.data.source.getchu.script.getimage.{ByBrand, ByDateRange}
+import com.goexp.galgame.data.source.getchu.script.others.UpdateBrandTask
+import com.goexp.galgame.data.source.getchu.script.{FromDateRangeTask, FromDoujinBrandTask}
 
 object ImporterStart {
 

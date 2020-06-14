@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.script.source.getchu.local.getimage
+package com.goexp.galgame.data.source.getchu.script.getimage
 
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.common.model.game.brand.BrandState

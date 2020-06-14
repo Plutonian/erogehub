@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.script.source.getchu.local
+package com.goexp.galgame.data.script.local
 
 import java.nio.file.Files
 

@@ -1,8 +1,8 @@
-package com.goexp.galgame.data.script.source.getchu.local.cal
+package com.goexp.galgame.data.script.local.cal
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.GameState
-import com.goexp.galgame.data.script.source.getchu.local.cal.GameStat.calStat
+import GameStat.calStat
 import com.goexp.galgame.data.source.getchu.importor.BrandDB
 import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameSimpleQuery}
 import com.mongodb.client.model.Filters

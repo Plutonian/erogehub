@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.script.source.getchu.local.cal
+package com.goexp.galgame.data.script.local.cal
 
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.source.getchu.importor.CVDB

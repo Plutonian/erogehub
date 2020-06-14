@@ -1,10 +1,10 @@
-package com.goexp.galgame.data.script.source.getchu.local
+package com.goexp.galgame.data.script.local
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.data.ansyn.Pool
 import com.goexp.galgame.data.ansyn.Pool.CPU_POOL
 import com.goexp.galgame.data.model.Brand
-import com.goexp.galgame.data.script.source.getchu.local.GroupBrandTask.Extracker.getHost
+import GroupBrandTask.Extracker.getHost
 import com.goexp.galgame.data.source.getchu.importor.BrandDB
 import com.goexp.galgame.data.source.getchu.query.BrandQuery
 import com.typesafe.scalalogging.Logger

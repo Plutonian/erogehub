@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.script.source.getchu.others
+package com.goexp.galgame.data.source.getchu.script.others
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.util.Network

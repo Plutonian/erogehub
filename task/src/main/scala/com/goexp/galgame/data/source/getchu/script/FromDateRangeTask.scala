@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.script.source.getchu
+package com.goexp.galgame.data.source.getchu.script
 
 import java.time.LocalDate
 

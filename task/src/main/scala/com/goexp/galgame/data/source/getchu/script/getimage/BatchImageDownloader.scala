@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.script.source.getchu.local.getimage
+package com.goexp.galgame.data.source.getchu.script.getimage
 
 import java.io.IOException
 import java.net.ConnectException

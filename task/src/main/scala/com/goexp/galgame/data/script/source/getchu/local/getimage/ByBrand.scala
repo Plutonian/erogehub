@@ -4,7 +4,6 @@ import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameFullQuery}
-import com.goexp.galgame.data.source.getchu.task.Util
 import com.mongodb.client.model.Filters.and
 import com.mongodb.client.model.{Filters, Sorts}
 import com.typesafe.scalalogging.Logger
@@ -53,7 +52,7 @@ object ByBrand {
           }
 
 
-        Util.downloadImage(games)
+        BatchImageDownloader.download(games)
     }
 
 

@@ -6,7 +6,6 @@ import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.source.getchu.query.GameFullQuery
-import com.goexp.galgame.data.source.getchu.task.Util
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters._
 import com.typesafe.scalalogging.Logger
@@ -41,7 +40,7 @@ object ByDateRange {
       .scalaList().to(LazyList)
 
 
-    Util.downloadImage(games)
+    BatchImageDownloader.download(games)
   }
 
 }

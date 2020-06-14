@@ -2,13 +2,12 @@ package com.goexp.galgame.data.script.source.getchu.local
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.data.model.Brand
+import com.goexp.galgame.data.script.ansyn.Pool._
+import com.goexp.galgame.data.script.source.getchu.local.GroupBrandTask.Extracker.getHost
 import com.goexp.galgame.data.source.getchu.importor.BrandDB
 import com.goexp.galgame.data.source.getchu.query.BrandQuery
-import com.goexp.galgame.data.script.ansyn.Pool._
-import GroupBrandTask.Extracker.getHost
 import com.typesafe.scalalogging.Logger
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 
@@ -34,7 +33,7 @@ object GroupBrandTask {
 
               Future {
                 BrandDB.updateComp(b)
-              }(IO_POOL)
+              }(DB_POOL)
             }
       }
 

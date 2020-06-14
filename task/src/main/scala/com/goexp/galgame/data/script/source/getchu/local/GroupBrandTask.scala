@@ -1,6 +1,8 @@
 package com.goexp.galgame.data.script.source.getchu.local
 
 import com.goexp.common.util.string.Strings
+import com.goexp.galgame.data.ansyn.Pool
+import com.goexp.galgame.data.ansyn.Pool.CPU_POOL
 import com.goexp.galgame.data.model.Brand
 import com.goexp.galgame.data.script.source.getchu.local.GroupBrandTask.Extracker.getHost
 import com.goexp.galgame.data.source.getchu.importor.BrandDB
@@ -32,7 +34,7 @@ object GroupBrandTask {
 
               Future {
                 BrandDB.updateComp(b)
-              }(DB_POOL)
+              }(Pool.DB_POOL)
             }
       }
 

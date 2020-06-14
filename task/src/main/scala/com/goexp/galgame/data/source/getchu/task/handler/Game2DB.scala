@@ -4,12 +4,10 @@ import java.util
 
 import com.goexp.common.util.string.StringOption
 import com.goexp.common.util.string.Strings.{isEmpty, isNotEmpty}
-import com.goexp.galgame.common.model.game.{GameCharacter, GameState}
+import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.importor.GameDB
 import com.goexp.galgame.data.source.getchu.query.GameFullQuery
-import com.goexp.galgame.data.source.getchu.task.Util
-import com.goexp.galgame.data.source.getchu.task.handler.DownloadImage.ImageParam
 import com.goexp.piplline.handler.DefaultActor
 import com.mongodb.client.model.Filters
 import com.typesafe.scalalogging.Logger
@@ -106,21 +104,8 @@ class Game2DB extends DefaultActor {
             GameDB.updateImg(remoteGame)
           }
 
-
           // check game state
-          if ((localGame.state ne GameState.SAME) && (localGame.state ne GameState.BLOCK)) {
-
-            GameFullQuery().where(Filters.eq(remoteGame.id)).one().map { game =>
-              val imgs = Util.getGameAllImgs(game)
-
-              //              if (imgs.nonEmpty)
-              //                logger.info(s"DownloadImage for Game[${localGame.id}] ${localGame.name} ${localGame.state}")
-
-              imgs.foreach { case (path, local) =>
-                sendTo[DownloadImage](ImageParam(path, local))
-              }
-            }
-          }
+          sendTo[CheckState](localGame)
 
         case _ =>
       }

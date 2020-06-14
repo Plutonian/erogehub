@@ -2,8 +2,7 @@ package com.goexp.galgame.data.script.source.getchu.others
 
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.common.website.getchu
-import com.goexp.galgame.data.Client
-import com.goexp.galgame.data.source.getchu.DEFAULT_CHARSET
+import com.goexp.galgame.data.source.getchu.{Client, DEFAULT_CHARSET}
 import com.goexp.galgame.data.source.getchu.importor.TagDB
 import com.goexp.galgame.data.source.getchu.parser.GetchuTagParser
 import com.typesafe.scalalogging.Logger

@@ -5,8 +5,8 @@ import java.time.LocalDate
 import com.goexp.common.util.Gzip._
 import com.goexp.common.util.charset._
 import com.goexp.galgame.common.website.getchu.{GameList, RequestBuilder}
-import com.goexp.galgame.data.Client._
 import com.goexp.galgame.data.model.{Brand, Game}
+import Client._
 import com.goexp.galgame.data.source.getchu.parser.GetchuBrandParser
 import com.goexp.galgame.data.source.getchu.parser.game.ListPageParser
 import com.typesafe.scalalogging.Logger

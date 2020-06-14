@@ -2,7 +2,6 @@ package com.goexp.galgame.data.script.source.getchu.local
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.data.model.Brand
-import com.goexp.galgame.data.script.ansyn.Pool._
 import com.goexp.galgame.data.script.source.getchu.local.GroupBrandTask.Extracker.getHost
 import com.goexp.galgame.data.source.getchu.importor.BrandDB
 import com.goexp.galgame.data.source.getchu.query.BrandQuery

@@ -1,13 +1,14 @@
-package com.goexp.galgame.common.util
+package com.goexp.galgame.data.source.getchu
 
 import java.net.http.HttpResponse.BodySubscribers
 import java.net.http.{HttpRequest, HttpResponse}
 import java.time.Duration
 
 import com.goexp.common.util.web.url._
+import com.goexp.galgame.data.ansyn.LimitHttpClient
 import com.typesafe.scalalogging.Logger
 
-object ImageUtil {
+object ImageDownloader {
 
   //  object ErrorCodeException {
   //    def apply(errorCode: Int): ErrorCodeException = new ErrorCodeException(errorCode)
@@ -21,13 +22,13 @@ object ImageUtil {
     //    override def toString =s"Error code:${errorCode}"
   }
 
-  private val logger = Logger(ImageUtil.getClass)
+  private val logger = Logger(ImageDownloader.getClass)
 
-  def loadFrom(url: String): Array[Byte] = {
-    loadFromAsyn(url).join().body()
+  def download(url: String): Array[Byte] = {
+    downloadAsyn(url).join().body()
   }
 
-  def loadFromAsyn(url: String) = {
+  def downloadAsyn(url: String) = {
     logger.debug(s"Url:${url}")
 
     val request: HttpRequest = HttpRequest.newBuilder.uri(url)

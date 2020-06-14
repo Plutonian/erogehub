@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.source.getchu.task
 
-import com.goexp.galgame.data.script.ansyn.Pool
+import com.goexp.galgame.data.ansyn.Pool
 import com.goexp.piplline.handler.HandlerConfig
 
 package object handler {

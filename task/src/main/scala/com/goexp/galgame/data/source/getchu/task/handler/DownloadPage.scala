@@ -4,7 +4,7 @@ import java.time.LocalDate
 import java.util.concurrent.TimeUnit
 
 import com.goexp.galgame.common.website.getchu.{GameList, GetchuGameRemote, RequestBuilder}
-import com.goexp.galgame.data.Client._
+import com.goexp.galgame.data.source.getchu.Client._
 import com.goexp.galgame.data.source.getchu.DEFAULT_CHARSET
 import com.goexp.piplline.handler.OnErrorReTryActor
 

@@ -8,9 +8,9 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.{CompletionException, CountDownLatch}
 
 import com.goexp.common.util.Logger
-import com.goexp.galgame.common.util.ImageUtil
-import com.goexp.galgame.common.util.ImageUtil.{ErrorCodeException, FileIsNotImageException}
+import com.goexp.galgame.data.source.getchu.ImageDownloader.{ErrorCodeException, FileIsNotImageException}
 import com.goexp.galgame.data.model.Game
+import com.goexp.galgame.data.source.getchu.ImageDownloader
 
 import scala.jdk.CollectionConverters._
 
@@ -42,7 +42,7 @@ object BatchImageDownloader extends Logger {
         requestNum += 1
         logger.info(s"Downloading... [$requestNum/$hopeDownload] ${showLocal} --> $remote")
 
-        ImageUtil.loadFromAsyn(remote)
+        ImageDownloader.downloadAsyn(remote)
           .thenApply[Array[Byte]] { res => res.body() }
           .thenAccept { bytes =>
             Files.createDirectories(local.getParent)

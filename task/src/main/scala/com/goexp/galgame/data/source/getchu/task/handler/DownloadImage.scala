@@ -6,8 +6,8 @@ import java.net.http.HttpTimeoutException
 import java.nio.file.{Files, Path}
 import java.util.concurrent.CompletionException
 
-import com.goexp.galgame.common.util.ImageUtil
-import com.goexp.galgame.common.util.ImageUtil.{ErrorCodeException, FileIsNotImageException}
+import com.goexp.galgame.data.source.getchu.ImageDownloader
+import com.goexp.galgame.data.source.getchu.ImageDownloader.{ErrorCodeException, FileIsNotImageException}
 import com.goexp.galgame.data.source.getchu.task.handler.DownloadImage.ImageParam
 import com.goexp.piplline.handler.DefaultActor
 
@@ -32,7 +32,7 @@ class DownloadImage extends DefaultActor {
 
       logger.info(s"Downloading...  ${showLocal} --> $remote")
 
-      ImageUtil.loadFromAsyn(remote)
+      ImageDownloader.downloadAsyn(remote)
         .thenApply[Array[Byte]] { res => res.body() }
         .thenAccept { bytes =>
           Files.createDirectories(local.getParent)

@@ -1,4 +1,4 @@
-package com.goexp.galgame.data
+package com.goexp.galgame.data.source.getchu
 
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse.BodyHandlers.ofByteArray
@@ -7,7 +7,7 @@ import java.util.concurrent.{CompletableFuture, TimeUnit}
 
 import com.goexp.common.util.Gzip._
 import com.goexp.common.util.charset._
-import com.goexp.galgame.common.util.LimitHttpClient
+import com.goexp.galgame.data.ansyn.LimitHttpClient
 import com.typesafe.scalalogging.Logger
 
 object Client {

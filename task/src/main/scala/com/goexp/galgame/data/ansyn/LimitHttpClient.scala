@@ -1,15 +1,26 @@
-package com.goexp.galgame.common.util
+package com.goexp.galgame.data.ansyn
 
-import java.net.URI
 import java.net.http.HttpResponse.BodyHandlers
-import java.net.http.{HttpRequest, HttpResponse}
+import java.net.http.{HttpClient, HttpRequest, HttpResponse}
+import java.net.{ProxySelector, URI}
+import java.time.Duration
 import java.util.concurrent.{CompletableFuture, Executors, TimeUnit}
 
-import com.goexp.common.util.web.HttpUtil
-import com.typesafe.scalalogging.Logger
+import com.goexp.common.util.Logger
 
 import scala.concurrent.duration.TimeUnit
 import scala.concurrent.{ExecutionContext, Future}
+
+
+private[ansyn]
+object SpClient {
+  val httpClient: HttpClient = HttpClient.newBuilder
+    .followRedirects(HttpClient.Redirect.ALWAYS)
+    .executor(Pool.DOWN_POOL_SERV)
+    .proxy(ProxySelector.getDefault)
+    .connectTimeout(Duration.ofMinutes(2))
+    .build
+}
 
 /**
  * HttpRequest send limit client
@@ -20,9 +31,7 @@ import scala.concurrent.{ExecutionContext, Future}
  * @param waitTime wait for time
  * @param unit     wait for time unit
  */
-class LimitHttpClient(val limits: Int, val waitTime: Int, val unit: TimeUnit) {
-
-  final private val logger = Logger(classOf[LimitHttpClient])
+class LimitHttpClient(val limits: Int, val waitTime: Int, val unit: TimeUnit) extends Logger {
 
   var downTaskCount = 0
 
@@ -47,8 +56,9 @@ class LimitHttpClient(val limits: Int, val waitTime: Int, val unit: TimeUnit) {
       logger.trace(s"[${downTaskCount}] Sending")
     }
 
+    import SpClient.httpClient
 
-    HttpUtil.httpClient.sendAsync(request, responseBodyHandler)
+    httpClient.sendAsync(request, responseBodyHandler)
   }
 
 

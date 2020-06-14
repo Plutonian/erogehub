@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.source.getchu.task.handler
+package com.goexp.galgame.data.source.getchu.actor
 
 import java.util.Objects
 
@@ -8,7 +8,7 @@ import com.goexp.piplline.handler.DefaultActor
 /**
  * Parse String => Game
  */
-class ParsePage extends DefaultActor {
+class ParsePageActor extends DefaultActor {
 
   override def receive = {
 
@@ -23,7 +23,7 @@ class ParsePage extends DefaultActor {
         logger.error(s"Get brandid error Game[${game.id}] ${game.name}")
       } else {
 
-        sendTo[Game2DB](game)
+        sendTo[SaveGameActor](game)
       }
 
 
@@ -36,7 +36,7 @@ class ParsePage extends DefaultActor {
       logger.info(s"${list.size}")
 
       list.foreach { game =>
-        sendTo[PreProcessGame](game)
+        sendTo[PreProcessGameActor](game)
       }
 
   }

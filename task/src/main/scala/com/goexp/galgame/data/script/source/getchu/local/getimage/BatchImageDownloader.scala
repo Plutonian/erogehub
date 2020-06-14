@@ -42,7 +42,7 @@ object BatchImageDownloader extends Logger {
         requestNum += 1
         logger.info(s"Downloading... [$requestNum/$hopeDownload] ${showLocal} --> $remote")
 
-        ImageDownloader.downloadAsyn(remote)
+        ImageDownloader.downloadAnsyn(remote)
           .thenApply[Array[Byte]] { res => res.body() }
           .thenAccept { bytes =>
             Files.createDirectories(local.getParent)

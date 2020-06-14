@@ -7,6 +7,7 @@ import java.time.Duration
 import java.util.concurrent.{CompletableFuture, Executors, TimeUnit}
 
 import com.goexp.common.util.Logger
+import com.goexp.common.util.web.HttpUtil
 
 import scala.concurrent.duration.TimeUnit
 import scala.concurrent.{ExecutionContext, Future}
@@ -16,7 +17,7 @@ private[ansyn]
 object SpClient {
   val httpClient: HttpClient = HttpClient.newBuilder
     .followRedirects(HttpClient.Redirect.ALWAYS)
-    .executor(Pool.DOWN_POOL_SERV)
+    //    .executor(Pool.DOWN_POOL_SERV)
     .proxy(ProxySelector.getDefault)
     .connectTimeout(Duration.ofMinutes(2))
     .build
@@ -53,12 +54,12 @@ class LimitHttpClient(val limits: Int, val waitTime: Int, val unit: TimeUnit) ex
                    responseBodyHandler: HttpResponse.BodyHandler[T]): CompletableFuture[HttpResponse[T]] = {
     this.synchronized {
       delay()
-      logger.trace(s"[${downTaskCount}] Sending")
+      logger.debug(s"Sending[${downTaskCount}] ${request.uri()}")
     }
 
-    import SpClient.httpClient
+    //    import SpClient.httpClient
 
-    httpClient.sendAsync(request, responseBodyHandler)
+    HttpUtil.httpClient.sendAsync(request, responseBodyHandler)
   }
 
 

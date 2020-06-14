@@ -10,20 +10,18 @@ import com.goexp.common.util.charset._
 import com.goexp.galgame.data.ansyn.LimitHttpClient
 import com.typesafe.scalalogging.Logger
 
-object Client {
+object PageDownloader {
 
   val client = new LimitHttpClient(20, 20, TimeUnit.SECONDS)
 
-  private val logger = Logger(Client.getClass)
-
   implicit val DEFAULT_CHARSET = StandardCharsets.UTF_8
 
-  def getHtml(request: HttpRequest)(implicit charset: Charset): String = {
-    getHtmlAsy(request)(charset)
+  def download(request: HttpRequest)(implicit charset: Charset): String = {
+    downloadAnsyn(request)(charset)
       .join()
   }
 
-  def getHtmlAsy(request: HttpRequest)(implicit charset: Charset): CompletableFuture[String] = {
+  def downloadAnsyn(request: HttpRequest)(implicit charset: Charset): CompletableFuture[String] = {
 
     client.sendAsync(request, ofByteArray)
       .thenApply[String] { res =>

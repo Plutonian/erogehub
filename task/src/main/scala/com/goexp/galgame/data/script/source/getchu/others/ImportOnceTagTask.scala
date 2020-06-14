@@ -2,7 +2,7 @@ package com.goexp.galgame.data.script.source.getchu.others
 
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.common.website.getchu
-import com.goexp.galgame.data.source.getchu.{Client, DEFAULT_CHARSET}
+import com.goexp.galgame.data.source.getchu.{PageDownloader, DEFAULT_CHARSET}
 import com.goexp.galgame.data.source.getchu.importor.TagDB
 import com.goexp.galgame.data.source.getchu.parser.GetchuTagParser
 import com.typesafe.scalalogging.Logger
@@ -14,10 +14,10 @@ object ImportOnceTagTask {
     Network.initProxy()
 
     /**
-      * download page from getchu
-      */
+     * download page from getchu
+     */
     val request = getchu.RequestBuilder("http://www.getchu.com/pc/genre.html").adaltFlag.build
-    val html = Client.getHtml(request)
+    val html = PageDownloader.download(request)
 
     /**
       * parse html

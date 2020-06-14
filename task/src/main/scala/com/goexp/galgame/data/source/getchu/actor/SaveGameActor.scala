@@ -1,7 +1,8 @@
-package com.goexp.galgame.data.source.getchu.task.handler
+package com.goexp.galgame.data.source.getchu.actor
 
 import java.util
 
+import com.goexp.common.util.Logger
 import com.goexp.common.util.string.StringOption
 import com.goexp.common.util.string.Strings.{isEmpty, isNotEmpty}
 import com.goexp.galgame.common.model.game.GameCharacter
@@ -10,7 +11,6 @@ import com.goexp.galgame.data.source.getchu.importor.GameDB
 import com.goexp.galgame.data.source.getchu.query.GameFullQuery
 import com.goexp.piplline.handler.DefaultActor
 import com.mongodb.client.model.Filters
-import com.typesafe.scalalogging.Logger
 
 import scala.jdk.CollectionConverters._
 
@@ -18,8 +18,7 @@ import scala.jdk.CollectionConverters._
  * process game detail(upgrade content,cv,simple img)
  */
 
-private object Game2DB {
-  final private val logger = Logger(Game2DB.getClass)
+private object SaveGameActor extends Logger {
 
   private def merge(localCharList: util.List[GameCharacter], remoteCharList: util.List[GameCharacter]): util.List[GameCharacter] = {
     val localSize = Option(localCharList).map(_.size()).getOrElse(0)
@@ -64,7 +63,7 @@ private object Game2DB {
   }
 }
 
-class Game2DB extends DefaultActor {
+class SaveGameActor extends DefaultActor {
 
 
   override def receive = {
@@ -78,17 +77,20 @@ class Game2DB extends DefaultActor {
            */
           if (localGame != remoteGame) {
             GameDB.updateAll(remoteGame)
+            logger.info(s"Update Basic [${localGame.id}] ${localGame.name} ")
           }
 
-          import Game2DB.merge
+          import SaveGameActor.merge
 
           /**
            * upgrade person
            */
           remoteGame.gameCharacters = merge(localGame.gameCharacters, remoteGame.gameCharacters)
 
-          if (remoteGame.gameCharacters != null)
+          if (remoteGame.gameCharacters != null) {
             GameDB.updateChar(remoteGame)
+            logger.info(s"Update Char [${localGame.id}] ${localGame.name} ")
+          }
 
 
           /**
@@ -98,14 +100,14 @@ class Game2DB extends DefaultActor {
           val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)
 
           if (remoteImgSize > localImgSize) {
-            logger.debug(s"[${localGame.id}] ${localGame.name} Local:${localGame.gameImgs}  Remote:${remoteGame.gameImgs}")
+            //            logger.debug(s"[${localGame.id}] ${localGame.name} Local:${localGame.gameImgs}  Remote:${remoteGame.gameImgs}")
 
-            logger.info(s"Update [${localGame.id}] ${localGame.name} ${localGame.state} Local:$localImgSize,Remote:$remoteImgSize")
+            logger.info(s"Update Sample Img[${localGame.id}] ${localGame.name} ${localGame.state} Local:$localImgSize,Remote:$remoteImgSize")
             GameDB.updateImg(remoteGame)
           }
 
           // check game state
-          sendTo[CheckState](localGame)
+          sendTo[CheckStateActor](localGame)
 
         case _ =>
       }

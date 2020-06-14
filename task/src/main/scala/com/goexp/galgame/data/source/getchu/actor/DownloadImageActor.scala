@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.source.getchu.task.handler
+package com.goexp.galgame.data.source.getchu.actor
 
 import java.io.IOException
 import java.net.ConnectException
@@ -8,19 +8,19 @@ import java.util.concurrent.CompletionException
 
 import com.goexp.galgame.data.source.getchu.ImageDownloader
 import com.goexp.galgame.data.source.getchu.ImageDownloader.{ErrorCodeException, FileIsNotImageException}
-import com.goexp.galgame.data.source.getchu.task.handler.DownloadImage.ImageParam
+import DownloadImageActor.ImageParam
 import com.goexp.piplline.handler.DefaultActor
 
 import scala.jdk.CollectionConverters._
 
 
-object DownloadImage {
+object DownloadImageActor {
 
   case class ImageParam(local: Path, remote: String)
 
 }
 
-class DownloadImage extends DefaultActor {
+class DownloadImageActor extends DefaultActor {
 
   override def receive = {
     case ImageParam(local, remote) =>
@@ -32,7 +32,7 @@ class DownloadImage extends DefaultActor {
 
       logger.info(s"Downloading...  ${showLocal} --> $remote")
 
-      ImageDownloader.downloadAsyn(remote)
+      ImageDownloader.downloadAnsyn(remote)
         .thenApply[Array[Byte]] { res => res.body() }
         .thenAccept { bytes =>
           Files.createDirectories(local.getParent)

@@ -6,7 +6,7 @@ import com.goexp.common.util.Gzip._
 import com.goexp.common.util.charset._
 import com.goexp.galgame.common.website.getchu.{GameList, RequestBuilder}
 import com.goexp.galgame.data.model.{Brand, Game}
-import Client._
+import PageDownloader._
 import com.goexp.galgame.data.source.getchu.parser.GetchuBrandParser
 import com.goexp.galgame.data.source.getchu.parser.game.ListPageParser
 import com.typesafe.scalalogging.Logger
@@ -18,7 +18,7 @@ object GameRemote {
   def from(brandId: Int): LazyList[Game] = {
 
     val request = RequestBuilder(GameList.byBrand(brandId)).adaltFlag.build
-    val html = getHtml(request)
+    val html = download(request)
 
     new ListPageParser().parse(html)
   }
@@ -29,7 +29,7 @@ object GameRemote {
 
     logger.debug(url)
 
-    val html = getHtml(request)
+    val html = download(request)
 
     new ListPageParser().parse(html)
   }
@@ -48,7 +48,7 @@ object BrandService {
   def all(): LazyList[Brand] = {
 
     val request = RequestBuilder("http://www.getchu.com/all/brand.html?genre=pc_soft").adaltFlag.build
-    val html = getHtml(request)
+    val html = download(request)
 
     logger.debug(html)
 

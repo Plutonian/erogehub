@@ -1,7 +1,7 @@
 package com.goexp.galgame.data.source.getchu
 
+import java.net.http.HttpRequest
 import java.net.http.HttpResponse.BodySubscribers
-import java.net.http.{HttpRequest, HttpResponse}
 import java.time.Duration
 
 import com.goexp.common.util.web.url._
@@ -25,10 +25,10 @@ object ImageDownloader {
   private val logger = Logger(ImageDownloader.getClass)
 
   def download(url: String): Array[Byte] = {
-    downloadAsyn(url).join().body()
+    downloadAnsyn(url).join().body()
   }
 
-  def downloadAsyn(url: String) = {
+  def downloadAnsyn(url: String) = {
     logger.debug(s"Url:${url}")
 
     val request: HttpRequest = HttpRequest.newBuilder.uri(url)
@@ -44,7 +44,8 @@ object ImageDownloader {
       .timeout(Duration.ofMinutes(2))
       .build()
 
-    val handler: HttpResponse.BodyHandler[Array[Byte]] = reponseInfo => {
+
+    LimitHttpClient().sendAsync(request, reponseInfo => {
       val code = reponseInfo.statusCode()
 
       if (code != 200)
@@ -57,9 +58,7 @@ object ImageDownloader {
         else
           BodySubscribers.ofByteArray()
       }
-    }
-
-    LimitHttpClient().sendAsync(request, handler)
+    })
 
   }
 

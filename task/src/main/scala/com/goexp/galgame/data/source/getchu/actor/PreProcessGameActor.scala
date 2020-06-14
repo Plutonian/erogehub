@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.source.getchu.task.handler
+package com.goexp.galgame.data.source.getchu.actor
 
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.Game
@@ -13,7 +13,7 @@ import scala.jdk.CollectionConverters._
 /**
  * Check game is new or already has
  */
-class PreProcessGame extends DefaultActor {
+class PreProcessGameActor extends DefaultActor {
 
   override def receive = {
     case game: Game =>
@@ -25,7 +25,7 @@ class PreProcessGame extends DefaultActor {
       }
       else {
         //new game
-        import PreProcessGame._
+        import PreProcessGameActor._
 
         //Mark game is spec
         if (isSameGame(game)) {
@@ -38,13 +38,13 @@ class PreProcessGame extends DefaultActor {
         logger.info(s"<Insert> ${game.simpleView} ${game.state}")
         GameDB.insert(game)
       }
-      sendTo[DownloadPage](game.id)
+      sendTo[DownloadPageActor](game.id)
 
   }
 
 }
 
-object PreProcessGame {
+object PreProcessGameActor {
   private val samelist = {
     val source = Source.fromInputStream(getClass.getResourceAsStream("/same.list"))(Codec.UTF8)
     try source.getLines().toList finally source.close()

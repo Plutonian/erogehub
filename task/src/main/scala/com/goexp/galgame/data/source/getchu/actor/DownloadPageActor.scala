@@ -1,32 +1,32 @@
-package com.goexp.galgame.data.source.getchu.task.handler
+package com.goexp.galgame.data.source.getchu.actor
 
 import java.time.LocalDate
 import java.util.concurrent.TimeUnit
 
 import com.goexp.galgame.common.website.getchu.{GameList, GetchuGameRemote, RequestBuilder}
-import com.goexp.galgame.data.source.getchu.Client._
+import com.goexp.galgame.data.source.getchu.PageDownloader._
 import com.goexp.galgame.data.source.getchu.DEFAULT_CHARSET
 import com.goexp.piplline.handler.OnErrorReTryActor
 
 /**
  * Net IO
  */
-class DownloadPage extends OnErrorReTryActor(20, 5, TimeUnit.SECONDS) {
+class DownloadPageActor extends OnErrorReTryActor(20, 5, TimeUnit.SECONDS) {
 
   override def receive = {
 
     // download game detail page
     case gid: Int =>
 
-      logger.trace(s"Download:Game: $gid")
+      logger.debug(s"GET:GameDetail: $gid")
 
       val url = GetchuGameRemote.byId(gid)
       val request = RequestBuilder(url).adaltFlag.build
-      val html = getHtml(request)
+      val html = download(request)
 
-      logger.trace(s"Download OK:${gid}")
+      logger.debug(s"GET GameDetail:${gid} OK")
 
-      sendTo[ParsePage]((gid, html))
+      sendTo[ParsePageActor]((gid, html))
 
     // download page from date range
     case (start: LocalDate, end: LocalDate) =>
@@ -35,9 +35,9 @@ class DownloadPage extends OnErrorReTryActor(20, 5, TimeUnit.SECONDS) {
 
       val url = GameList.byDateRange(start, end)
       val request = RequestBuilder(url).adaltFlag.build
-      val html = getHtml(request)
+      val html = download(request)
 
-      sendTo[ParsePage]((html, "ListPageParser"))
+      sendTo[ParsePageActor]((html, "ListPageParser"))
 
     // download page by brand(Doujin)
     case (brandId: Int, "doujin") =>
@@ -45,9 +45,9 @@ class DownloadPage extends OnErrorReTryActor(20, 5, TimeUnit.SECONDS) {
 
       val url = GameList.byBrandDoujin(brandId)
       val request = RequestBuilder(url).adaltFlag.build
-      val html = getHtml(request)
+      val html = download(request)
 
-      sendTo[ParsePage]((html, "ListPageParser"))
+      sendTo[ParsePageActor]((html, "ListPageParser"))
 
     // download page by brand(normal)
     case (brandId: Int, "normal") =>
@@ -55,8 +55,8 @@ class DownloadPage extends OnErrorReTryActor(20, 5, TimeUnit.SECONDS) {
 
       val url = GameList.byBrand(brandId)
       val request = RequestBuilder(url).adaltFlag.build
-      val html = getHtml(request)
+      val html = download(request)
 
-      sendTo[ParsePage]((html, "ListPageParser"))
+      sendTo[ParsePageActor]((html, "ListPageParser"))
   }
 }

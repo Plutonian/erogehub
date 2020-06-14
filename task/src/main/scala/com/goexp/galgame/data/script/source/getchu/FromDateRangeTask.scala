@@ -3,7 +3,7 @@ package com.goexp.galgame.data.script.source.getchu
 import java.time.LocalDate
 
 import com.goexp.galgame.common.util.Network
-import com.goexp.galgame.data.source.getchu.task.handler.{DefaultGameProcessGroup, DownloadPage}
+import com.goexp.galgame.data.source.getchu.actor.{ActorConfig, DownloadPageActor}
 import com.goexp.piplline.core.Pipeline
 
 object FromDateRangeTask {
@@ -17,10 +17,10 @@ object FromDateRangeTask {
 
 
     val pipeline = new Pipeline()
-      .regGroup(DefaultGameProcessGroup)
+      .regGroup(ActorConfig.DefaultGameProcessGroup)
       .start()
 
-    pipeline.sendTo[DownloadPage]((start, end))
+    pipeline.sendTo[DownloadPageActor]((start, end))
 
 
   }

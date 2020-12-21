@@ -89,7 +89,7 @@ class SaveGameActor extends DefaultActor {
 
           if (remoteGame.gameCharacters != null) {
             GameDB.updateChar(remoteGame)
-            logger.info(s"Update Char [${localGame.id}] ${localGame.name} ")
+            logger.debug(s"Update Char [${localGame.id}] ${localGame.name} ")
           }
 
 

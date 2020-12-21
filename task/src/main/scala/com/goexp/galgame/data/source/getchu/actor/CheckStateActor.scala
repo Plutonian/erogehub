@@ -29,10 +29,10 @@ class CheckStateActor extends DefaultActor {
             sendTo[DownloadImageActor](ImageParam(path, local))
           }
         } else {
-          logger.info(s"Image already in local [${game.id}] ${game.name} [${game.publishDate}] ${game.state}")
+          logger.debug(s"Image already in local [${game.id}] ${game.name} [${game.publishDate}] ${game.state}")
         }
       } else {
-        logger.info(s"Skip download image [${game.id}] ${game.name} [${game.publishDate}] ${game.state}")
+        logger.debug(s"Skip download image [${game.id}] ${game.name} [${game.publishDate}] ${game.state}")
       }
   }
 }

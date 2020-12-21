@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
+<?import javafx.scene.text.Font?>
+<?import java.net.URL?>
 <BorderPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.game.detailview.inner.HeaderPartController">
     <stylesheets>
@@ -20,46 +20,39 @@
         </AnchorPane>
     </left>
     <center>
-        <VBox fx:id="right" spacing="5.0">
+        <BorderPane fx:id="right">
             <BorderPane.margin>
                 <Insets left="10"/>
             </BorderPane.margin>
-            <Pane>
-                <children>
-                    <HBox>
+            <top>
+                <VBox>
+                    <children>
                         <Label text="原画" textFill="#6e6d6d">
                             <font>
                                 <Font size="14.0"/>
                             </font>
                         </Label>
                         <FlowPane fx:id="flowPainter"/>
-                    </HBox>
-                    <HBox layoutY="26.0">
-                        <Label text="シナリオ" textFill="#6e6d6d">
-                            <font>
-                                <Font name="System Bold" size="14.0"/>
-                            </font>
-                        </Label>
-                        <Label fx:id="txtWriter" text="XX" wrapText="true"/>
-                    </HBox>
-                </children>
-            </Pane>
-            <TitledPane expanded="false" text="Intro">
-                <content>
+                        <!--                    <Label text="シナリオ" textFill="#6e6d6d">-->
+                        <!--                        <font>-->
+                        <!--                            <Font name="System Bold" size="14.0"/>-->
+                        <!--                        </font>-->
+                        <!--                    </Label>-->
+                        <!--                    <Label fx:id="txtWriter" text="XX" wrapText="true"/>-->
+                    </children>
+                </VBox>
+            </top>
 
-                    <Text fx:id="txtIntro" fill="grey"/>
-                </content>
-                <VBox.margin>
-                    <Insets/>
-                </VBox.margin>
-            </TitledPane>
-            <TextArea fx:id="txtStory" prefHeight="520.0" style="-fx-margin-top:10px;-fx-background-color: #eee;"
-                      wrapText="true">
-                <font>
-                    <Font size="16.0"/>
-                </font>
-            </TextArea>
-        </VBox>
+            <center>
+                <TextArea fx:id="txtStory" prefHeight="600.0" style="-fx-margin-top:10px;-fx-background-color: #eee;"
+                          wrapText="true">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </TextArea>
+            </center>
+
+        </BorderPane>
     </center>
 
     <padding>

@@ -1,10 +1,11 @@
 package com.goexp.galgame.gui.view.game.listview.tablelist
 
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
-import com.goexp.galgame.gui.model.{Brand, Game}
+import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.change.{MultiBlock, MultiLocation, MultiState}
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
 import com.goexp.galgame.gui.view.game.detailview.part.DateShowController
+import com.goexp.galgame.gui.view.game.listview.simplelist.small.InfoController
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TableCell, TextTableCell}
 import com.goexp.ui.javafx.{DefaultController, FXMLLoaderProxy, TaskService}
 import javafx.beans.property.SimpleObjectProperty
@@ -135,6 +136,24 @@ class TableListController extends DefaultController {
         name.replaceAll("＜[^＞]*＞", "")
       }
     )
+
+    tableColTitle.setCellFactory(_ => {
+
+      val loader = new FXMLLoaderProxy[Region, InfoController]("info.fxml")
+
+      new TableCell[Game, String]() {
+
+        override protected def notEmpty(gameState: String): Unit = {
+
+          Option(this.getTableRow.getItem).foreach { game =>
+            loader.controller.load(game)
+            this.setGraphic(loader.node)
+          }
+        }
+
+      }
+    })
+
 
     tableColLocation.setCellFactory(_ =>
       TextTableCell { location =>

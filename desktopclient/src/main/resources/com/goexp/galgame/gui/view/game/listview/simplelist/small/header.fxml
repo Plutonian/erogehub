@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.goexp.galgame.gui.view.common.control.StarRatingView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.text.TextFlow?>
 <?import java.net.URL?>
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.game.listview.simplelist.small.HeaderController">
@@ -36,10 +32,7 @@
                 </HBox>
             </right>
             <bottom>
-                <StackPane style="-fx-background-color: rgba(200,200,100,0.4);" alignment="BOTTOM_CENTER"
-                           BorderPane.alignment="CENTER">
-                    <Hyperlink fx:id="linkView" text="View"/>
-                </StackPane>
+
             </bottom>
         </BorderPane>
 

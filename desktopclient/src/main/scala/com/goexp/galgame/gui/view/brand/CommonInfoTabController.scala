@@ -15,7 +15,7 @@ class CommonInfoTabController() extends DefaultController {
 
     node = loader.node
     controller = loader.controller
-    controller.dataViewController.tableViewController.tableColBrand.setVisible(false)
+//    controller.dataViewController.tablelistController.tableColBrand.setVisible(false)
   }
 
   def load(brand: Brand) =

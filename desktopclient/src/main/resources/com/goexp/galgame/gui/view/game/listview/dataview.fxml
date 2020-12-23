@@ -27,15 +27,15 @@
                     <TabPane fx:id="mainTab" nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM"
                              tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
                              AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-                        <Tab text="TableList">
+                        <Tab text="List">
                             <fx:include fx:id="tablelist" source="tablelist/tablelist.fxml"/>
                         </Tab>
-                        <Tab text="Grid">
-                            <fx:include fx:id="tableView" source="tableview/table.fxml"/>
-                        </Tab>
-                        <Tab text="List">
-                            <fx:include fx:id="smallListSimple" source="simplelist/small/list.fxml"/>
-                        </Tab>
+                        <!--                        <Tab text="Grid">-->
+                        <!--                            <fx:include fx:id="tableView" source="tableview/table.fxml"/>-->
+                        <!--                        </Tab>-->
+                        <!--                        <Tab text="List">-->
+                        <!--                            <fx:include fx:id="smallListSimple" source="simplelist/small/list.fxml"/>-->
+                        <!--                        </Tab>-->
                     </TabPane>
                     <HBox AnchorPane.bottomAnchor="3" AnchorPane.leftAnchor="10">
                         <Label fx:id="lbItemCount" prefWidth="80.0"/>

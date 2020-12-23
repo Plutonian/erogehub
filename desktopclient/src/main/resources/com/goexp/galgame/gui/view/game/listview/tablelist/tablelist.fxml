@@ -10,11 +10,11 @@
         <URL value="@/view/view.css"/>
     </stylesheets>
     <columns>
-        <TableColumn fx:id="tableColDate" minWidth="-1.0" prefWidth="65.0" resizable="false" sortType="DESCENDING"
+        <TableColumn fx:id="tableColDate" minWidth="-1.0" prefWidth="65.0" sortType="DESCENDING"
                      text="Date"/>
-        <TableColumn fx:id="tableColImg" prefWidth="140.0" resizable="false" text="Img"/>
+        <TableColumn fx:id="tableColImg" prefWidth="140.0" sortable="false" resizable="false" text="Img"/>
         <!--        <TableColumn fx:id="tableColBrand" prefWidth="150.0" text="Brand"/>-->
-        <TableColumn fx:id="tableColTitle" prefWidth="600.0" text="Title"/>
+        <TableColumn fx:id="tableColTitle" prefWidth="1200.0" text="Info"/>
         <TableColumn fx:id="tableColType" prefWidth="124.0" text="Type" visible="false"/>
         <TableColumn fx:id="tableColPainter" prefWidth="200.0" text="原画" visible="false"/>
         <TableColumn fx:id="tableColWriter" prefWidth="191.0" text="シナリオ" visible="false"/>

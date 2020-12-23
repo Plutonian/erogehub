@@ -64,8 +64,8 @@ class HomeController extends DefaultController {
           link.setUserData(state)
           link.setOnAction(_ => {
             val conn = CommonTabController(new ByState(state))
-            conn.controller.tableViewController.tableColStar.setVisible(false)
-            conn.controller.tableViewController.tableColState.setVisible(false)
+            //            conn.controller.tablelistController.tableColStar.setVisible(false)
+            //            conn.controller.tablelistController.tableColState.setVisible(false)
             val text = state.name
             TabSelect()
               .whenNotFound(conn.load(), new Tab(text, conn.node))
@@ -188,7 +188,7 @@ class HomeController extends DefaultController {
       val title = "优"
       val conn = CommonTabController(new ByStarRange(4, 5))
       TabSelect().whenNotFound(conn.load((g: Game) => g.star.get() > 3), {
-        conn.controller.tableViewController.tableColState.setVisible(false)
+        conn.controller.tablelistController.tableColState.setVisible(false)
         new Tab(title, conn.node)
       }).select(title)
 
@@ -199,7 +199,7 @@ class HomeController extends DefaultController {
       val conn = CommonTabController(new ByStarRange(3, 3))
 
       TabSelect().whenNotFound {
-        conn.controller.tableViewController.tableColState.setVisible(false)
+        conn.controller.tablelistController.tableColState.setVisible(false)
         val tab = new Tab(title, conn.node)
         conn.load((g: Game) => g.star.get() == 3)
         tab
@@ -212,7 +212,7 @@ class HomeController extends DefaultController {
       val conn = CommonTabController(new ByStarRange(1, 2))
 
       TabSelect().whenNotFound {
-        conn.controller.tableViewController.tableColState.setVisible(false)
+        conn.controller.tablelistController.tableColState.setVisible(false)
         val tab = new Tab(title, conn.node)
         conn.load(_.star.get() < 3)
         tab
@@ -225,7 +225,7 @@ class HomeController extends DefaultController {
       val conn = CommonTabController(new ByLocation(GameLocation.LOCAL))
       TabSelect()
         .whenNotFound({
-          conn.controller.tableViewController.tableColState.setVisible(false)
+          conn.controller.tablelistController.tableColState.setVisible(false)
           conn.load()
         }, new Tab(title, conn.node))
         .select(title)
@@ -238,7 +238,7 @@ class HomeController extends DefaultController {
 
       TabSelect()
         .whenNotFound({
-          conn.controller.tableViewController.tableColState.setVisible(false)
+          conn.controller.tablelistController.tableColState.setVisible(false)
           conn.load()
         }, new Tab(title, conn.node))
         .select(title)

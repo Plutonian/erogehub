@@ -20,15 +20,14 @@ class HeaderController extends DefaultController {
   @FXML private var changeStateController: StateChangeController = _
 
 
-  @FXML private var linkView: Hyperlink = _
   @FXML private var imageImg: ImageView = _
 
   @FXML private var lbLoc: Label = _
 
-  private var targetGame: Game = _
+
 
   override protected def initialize() = {
-    linkView.setOnAction(_ => MainController().loadDetail(targetGame))
+
 
   }
 
@@ -57,8 +56,6 @@ class HeaderController extends DefaultController {
   def setImage(image: Image) = imageImg.setImage(image)
 
   private def loadWithoutImage(game: Game) = {
-
-    this.targetGame = game
 
     infoController.load(game)
     changeStateController.load(game)

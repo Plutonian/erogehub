@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.goexp.galgame.gui.view.common.control.StarRatingView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml" spacing="3.0"
+      fx:controller="com.goexp.galgame.gui.view.game.listview.simplelist.small.InfoController">
+    <TextFlow>
+        <Text fx:id="txtName" styleClass="mainTitle"/>
+        <Text fx:id="txtSubName"/>
+    </TextFlow>
+    <fx:include fx:id="brandJump" source="../../../../common/jump/jumpbrand.fxml"/>
+
+    <StarRatingView fx:id="ratingView"/>
+
+    <HBox fx:id="boxTag" spacing="5.0"/>
+
+</VBox>

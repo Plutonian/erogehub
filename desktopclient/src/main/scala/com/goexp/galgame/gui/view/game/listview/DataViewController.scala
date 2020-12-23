@@ -42,6 +42,7 @@ class DataViewController extends DefaultController {
    * main panel
    */
   @FXML private var tableView: TableView[Game] = _
+  @FXML private var tablelist: TableView[Game] = _
   @FXML private var mainTab: TabPane = _
   /**
    * Sidebar
@@ -209,6 +210,8 @@ class DataViewController extends DefaultController {
   private def loadItems(sortedData: SortedList[Game]) = {
     tableView.setItems(sortedData)
     tableView.scrollTo(0)
+    tablelist.setItems(sortedData)
+    tablelist.scrollTo(0)
     smallListSimpleController.smallListSimple.setItems(sortedData)
     smallListSimpleController.smallListSimple.scrollTo(0)
   }

@@ -27,6 +27,9 @@
                     <TabPane fx:id="mainTab" nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM"
                              tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
                              AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                        <Tab text="TableList">
+                            <fx:include fx:id="tablelist" source="tablelist/tablelist.fxml"/>
+                        </Tab>
                         <Tab text="Grid">
                             <fx:include fx:id="tableView" source="tableview/table.fxml"/>
                         </Tab>

@@ -27,18 +27,7 @@
                 <Insets left="10.0"/>
             </BorderPane.margin>
             <center>
-                <VBox spacing="3.0">
-                    <TextFlow>
-                        <Text fx:id="txtName" styleClass="mainTitle"/>
-                        <Text fx:id="txtSubName"/>
-                    </TextFlow>
-                    <fx:include fx:id="brandJump" source="../../../../common/jump/jumpbrand.fxml"/>
-
-                    <StarRatingView fx:id="ratingView"/>
-
-                    <HBox fx:id="boxTag" spacing="5.0"/>
-
-                </VBox>
+                <fx:include fx:id="info" source="info.fxml"/>
             </center>
             <right>
                 <HBox StackPane.alignment="TOP_RIGHT">

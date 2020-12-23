@@ -16,7 +16,7 @@
         <!--        </BorderPane>-->
     </top>
     <center>
-        <StackPane maxHeight="-Infinity" prefHeight="800.0">
+        <StackPane prefHeight="800.0">
             <fx:include fx:id="dataView" source="../game/listview/dataview.fxml"
                         StackPane.alignment="TOP_LEFT"/>
         </StackPane>

@@ -37,7 +37,7 @@ class HeaderPartController extends DefaultController {
     this.targetGame = game
     loadWithoutImage(game)
     if (game.isOkImg)
-      setImage(GameImage(game).large)
+      setImage(GameImage(game).large())
     else
       setImage(null)
   }

@@ -8,10 +8,8 @@ public enum BrandState {
     BLOCK("ブロック", -2),
     UNCHECKED("...", 0),
     HOPE("気になり", 80),
-    CHECKING("進行中", 85),
     LIKE("好き", 99),
-    MARK("後で見る", 100),
-    EXTEND_NUKI("抜き", 101);
+    MARK("後で見る", 100);
 
 
     public final String name;

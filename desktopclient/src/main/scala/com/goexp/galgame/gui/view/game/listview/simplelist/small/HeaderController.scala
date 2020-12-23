@@ -52,7 +52,7 @@ class HeaderController extends DefaultController {
 
 
     imageImg.setImage {
-      if (game.isOkImg) GameImage(game).tiny else null
+      if (game.isOkImg) GameImage(game).tiny() else null
     }
   }
 

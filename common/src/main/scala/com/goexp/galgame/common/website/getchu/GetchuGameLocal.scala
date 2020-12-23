@@ -36,7 +36,7 @@ object GetchuGameLocal {
 
   @inline
   def gamePathString(game: CommonGame) = {
-    val (year, month) = Option(game.getPublishDate).map { d => (d.getYear, d.getMonthValue) }.getOrElse((0, 0))
+    val (year, month) = Option(game.publishDate).map { d => (d.getYear, d.getMonthValue) }.getOrElse((0, 0))
     s"$year/$month/${game.id}"
   }
 

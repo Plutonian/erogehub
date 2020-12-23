@@ -228,6 +228,6 @@ class MainPanelController extends DefaultController {
 
   }
 
-  def load() = choiceBrandType.setValue(BrandState.CHECKING)
+  def load() = {}
 
 }

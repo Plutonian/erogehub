@@ -106,7 +106,7 @@ class FilterPanelController extends FilterController[Game] {
 
     if (switchAll.isSelected)
       predicate = predicate.and { game: Game =>
-        Option(game.getPublishDate).exists {
+        Option(game.publishDate).exists {
           _.isBefore(LocalDate.now())
         }
       }

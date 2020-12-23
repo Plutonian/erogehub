@@ -18,7 +18,6 @@ object ByBrand {
 
     val types = List(
       BrandState.LIKE,
-      BrandState.CHECKING,
       BrandState.HOPE,
       BrandState.MARK,
       BrandState.UNCHECKED

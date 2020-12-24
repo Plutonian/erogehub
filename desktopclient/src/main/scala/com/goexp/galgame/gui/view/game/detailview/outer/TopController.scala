@@ -3,12 +3,14 @@ package com.goexp.galgame.gui.view.game.detailview.outer
 import com.goexp.galgame.common.model.game.CommonGame.Titles
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
+import com.goexp.galgame.gui.view.MainController
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController
 import com.goexp.galgame.gui.view.game.detailview.part.{DateShowController, StarRatingController}
 import com.goexp.ui.javafx.DefaultController
+import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.scene.control.Label
-import javafx.scene.layout.HBox
+import javafx.scene.control.{Hyperlink, Label}
+import javafx.scene.layout.{FlowPane, HBox}
 import javafx.scene.text.Text
 
 class TopController extends DefaultController {
@@ -18,10 +20,21 @@ class TopController extends DefaultController {
   @FXML private var boxTag: HBox = _
   @FXML private var txtName: Text = _
   @FXML private var txtSubName: Text = _
+
+  @FXML private var flowPainter: FlowPane = _
+
   private var targetGame: Game = _
 
   override protected def initialize() = {
-
+    //    flowPainter.prefWrapLengthProperty().bind(right.widthProperty.subtract(10))
+    flowPainter.addEventFilter(ActionEvent.ACTION, (event: ActionEvent) => {
+      event.getTarget match {
+        case painter: Hyperlink =>
+          val str = painter.getText.replaceAll("（[^）]+）", "")
+          MainController().loadPainterTab(str)
+        case _ =>
+      }
+    })
   }
 
   def reset() = {
@@ -58,7 +71,9 @@ class TopController extends DefaultController {
 
       boxTag.getChildren.setAll(nodes)
     }
-    //    else
-    //      boxTag.getChildren.clear()
+
+    flowPainter.getChildren.setAll(Tags.toNodes(game.painter) {
+      new Hyperlink(_)
+    })
   }
 }

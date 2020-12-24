@@ -38,6 +38,7 @@
                     </HBox>
                     <fx:include fx:id="starRating" source="../part/star_rating.fxml"/>
                 </HBox>
+                <FlowPane fx:id="flowPainter"/>
             </VBox>
         </AnchorPane>
     </center>

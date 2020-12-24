@@ -24,25 +24,6 @@
             <BorderPane.margin>
                 <Insets left="10"/>
             </BorderPane.margin>
-            <top>
-                <VBox>
-                    <children>
-                        <Label text="原画" textFill="#6e6d6d">
-                            <font>
-                                <Font size="14.0"/>
-                            </font>
-                        </Label>
-                        <FlowPane fx:id="flowPainter"/>
-                        <!--                    <Label text="シナリオ" textFill="#6e6d6d">-->
-                        <!--                        <font>-->
-                        <!--                            <Font name="System Bold" size="14.0"/>-->
-                        <!--                        </font>-->
-                        <!--                    </Label>-->
-                        <!--                    <Label fx:id="txtWriter" text="XX" wrapText="true"/>-->
-                    </children>
-                </VBox>
-            </top>
-
             <center>
                 <TextArea fx:id="txtStory" prefHeight="600.0" style="-fx-margin-top:10px;-fx-background-color: #eee;"
                           wrapText="true">

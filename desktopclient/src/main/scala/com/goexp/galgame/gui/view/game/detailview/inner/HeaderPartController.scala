@@ -1,36 +1,21 @@
 package com.goexp.galgame.gui.view.game.detailview.inner
 
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
-import com.goexp.galgame.gui.view.MainController
 import com.goexp.ui.javafx.DefaultController
-import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.scene.control.{Hyperlink, Label, TextArea}
+import javafx.scene.control.TextArea
 import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{FlowPane, Region}
+import javafx.scene.layout.Region
 
 class HeaderPartController extends DefaultController {
   @FXML private var right: Region = _
   @FXML private var imageImg: ImageView = _
-  @FXML private var flowPainter: FlowPane = _
-//  @FXML private var txtWriter: Label = _
   @FXML private var txtStory: TextArea = _
   private var targetGame: Game = _
 
   override protected def initialize() = {
-    flowPainter.prefWrapLengthProperty().bind(right.widthProperty.subtract(10))
     txtStory.prefWidthProperty.bind(right.widthProperty.subtract(10))
-
-    flowPainter.addEventFilter(ActionEvent.ACTION, (event: ActionEvent) => {
-      event.getTarget match {
-        case painter: Hyperlink =>
-          val str = painter.getText.replaceAll("（[^）]+）", "")
-          MainController().loadPainterTab(str)
-        case _ =>
-      }
-    })
   }
 
   def load(game: Game) = {
@@ -49,11 +34,6 @@ class HeaderPartController extends DefaultController {
 
   private def loadWithoutImage(game: Game) = {
     this.targetGame = game
-
-    flowPainter.getChildren.setAll(Tags.toNodes(game.painter) {
-      new Hyperlink(_)
-    })
-    //    txtWriter.setText(String.join(",", game.writer))
 
     txtStory.setText(game.story)
   }

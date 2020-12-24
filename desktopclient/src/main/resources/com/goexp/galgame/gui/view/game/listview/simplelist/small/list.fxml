@@ -13,7 +13,7 @@
     <children>
 
         <ListView fx:id="smallListSimple" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" orientation="HORIZONTAL"/>
         <fx:include fx:id="detailPage" source="../../../detailview/outer/out_page.fxml"
                     AnchorPane.bottomAnchor="0.0"
                     AnchorPane.leftAnchor="220.0"

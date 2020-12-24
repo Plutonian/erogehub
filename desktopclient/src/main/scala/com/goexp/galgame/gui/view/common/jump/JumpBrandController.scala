@@ -7,19 +7,20 @@ import com.goexp.galgame.gui.util.Websites
 import com.goexp.galgame.gui.view.MainController
 import com.goexp.ui.javafx.DefaultController
 import javafx.fxml.FXML
-import javafx.scene.control.{MenuButton, MenuItem}
+import javafx.scene.control.{MenuButton, MenuItem, SplitMenuButton}
 
 class JumpBrandController extends DefaultController {
   private var brand = new Brand
   @FXML private var searchLinkController: SearchController = _
-  @FXML private var brandLabel: MenuButton = _
-  @FXML private var jumpBrand: MenuItem = _
+  @FXML private var brandLabel: SplitMenuButton = _
+  //  @FXML private var jumpBrand: MenuItem = _
   @FXML private var linkWebsite: MenuItem = _
   @FXML private var linkGetchu: MenuItem = _
 
   override protected def initialize() = {
+
+    brandLabel.setOnAction(_ => MainController().viewBrand(brand))
     linkGetchu.setOnAction(_ => Websites.open(GameList.byBrand(brand.id)))
-    jumpBrand.setOnAction(_ => MainController().viewBrand(brand))
     linkWebsite.setOnAction(_ => Websites.open(brand.website))
   }
 

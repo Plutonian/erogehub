@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <BorderPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.game.listview.DataViewController">
@@ -33,9 +32,9 @@
                         <!--                        <Tab text="Grid">-->
                         <!--                            <fx:include fx:id="tableView" source="tableview/table.fxml"/>-->
                         <!--                        </Tab>-->
-                        <!--                        <Tab text="List">-->
-                        <!--                            <fx:include fx:id="smallListSimple" source="simplelist/small/list.fxml"/>-->
-                        <!--                        </Tab>-->
+                        <Tab text="Flow">
+                            <fx:include fx:id="smallListSimple" source="simplelist/small/list.fxml"/>
+                        </Tab>
                     </TabPane>
                     <HBox AnchorPane.bottomAnchor="3" AnchorPane.leftAnchor="10">
                         <Label fx:id="lbItemCount" prefWidth="80.0"/>

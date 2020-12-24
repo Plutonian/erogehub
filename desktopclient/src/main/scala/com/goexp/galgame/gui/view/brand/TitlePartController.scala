@@ -3,19 +3,17 @@ package com.goexp.galgame.gui.view.brand
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.gui.model.{Brand, Game}
-import com.goexp.ui.javafx.TaskService
 import com.goexp.galgame.gui.task.brand.ChangeStateTask
 import com.goexp.galgame.gui.task.brand.list.ByComp
 import com.goexp.galgame.gui.task.game.change.MultiBlockByBrand
 import com.goexp.galgame.gui.view.MainController
-import com.goexp.ui.javafx.DefaultController
+import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.value.ChangeListener
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.fxml.FXML
-import javafx.scene.control.{ChoiceBox, Label, MenuButton, MenuItem}
+import javafx.scene.control._
 import javafx.scene.layout.{FlowPane, HBox}
 import javafx.scene.text.Text
-import javafx.util.StringConverter
 
 import scala.jdk.CollectionConverters._
 
@@ -23,9 +21,10 @@ class TitlePartController extends DefaultController {
 
   @FXML private var txtComp: Text = _
   @FXML private var menuComp: MenuButton = _
-  @FXML private var boxWebsite: HBox = _
+  //  @FXML private var boxWebsite: HBox = _
   @FXML private var tagPanel: FlowPane = _
   @FXML private var choiceBrandState: ChoiceBox[BrandState] = _
+  @FXML private var btnBlock: Button = _
   private var changeBrand: Brand = _
   final private val changeBrandStateService = TaskService(new ChangeStateTask(changeBrand))
   final private val changeGameStateService = TaskService(new MultiBlockByBrand(changeBrand.id))
@@ -72,6 +71,10 @@ class TitlePartController extends DefaultController {
 
     }
 
+    btnBlock.setOnAction { _ =>
+      choiceBrandState.getSelectionModel.select(BrandState.BLOCK)
+    }
+
   }
 
   def init(brand: Brand) = {
@@ -85,7 +88,7 @@ class TitlePartController extends DefaultController {
       listBrandService.restart()
     }
     //            menuComp.setVisible(false);
-    boxWebsite.getChildren.clear()
+    //    boxWebsite.getChildren.clear()
     choiceBrandState.valueProperty.removeListener(listener)
     choiceBrandState.setValue(brand.state)
     choiceBrandState.valueProperty.addListener(listener)

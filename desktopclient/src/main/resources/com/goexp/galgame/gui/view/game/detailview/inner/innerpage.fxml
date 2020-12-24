@@ -13,7 +13,7 @@
         <fx:include fx:id="header" source="header.fxml"/>
     </Tab>
     <Tab fx:id="tabPerson" text="キャラクター">
-        <ListView fx:id="personListView" styleClass="copyablelabel"/>
+        <ListView fx:id="personListView" styleClass="copyablelabel" orientation="HORIZONTAL"/>
     </Tab>
     <Tab fx:id="tabSimple" text="サンプル画像">
         <fx:include fx:id="simpleImg" source="simple_img.fxml"/>

@@ -13,28 +13,32 @@
     <left>
         <HBox spacing="5">
             <fx:include fx:id="dateview" source="../../../detailview/part/dateshow.fxml"/>
-            <ImageView fx:id="imageImg" pickOnBounds="true"/>
         </HBox>
     </left>
 
     <center>
-        <BorderPane>
-            <BorderPane.margin>
-                <Insets left="10.0"/>
-            </BorderPane.margin>
-            <center>
-                <fx:include fx:id="info" source="info.fxml"/>
-            </center>
-            <right>
-                <HBox StackPane.alignment="TOP_RIGHT">
-                    <Label fx:id="lbLoc"/>
-                    <fx:include fx:id="changeState" source="../../../part/statechange.fxml"/>
-                </HBox>
-            </right>
-            <bottom>
+        <VBox>
+            <ImageView fx:id="imageImg" pickOnBounds="true"/>
+            <fx:include fx:id="info" source="info.fxml"/>
+            <HBox StackPane.alignment="TOP_RIGHT">
+                <Label fx:id="lbLoc"/>
+                <fx:include fx:id="changeState" source="../../../part/statechange.fxml"/>
+            </HBox>
+        </VBox>
+        <!--        <BorderPane>-->
+        <!--            <BorderPane.margin>-->
+        <!--                <Insets left="10.0"/>-->
+        <!--            </BorderPane.margin>-->
+        <!--            <center>-->
 
-            </bottom>
-        </BorderPane>
+        <!--            </center>-->
+        <!--            <right>-->
+
+        <!--            </right>-->
+        <!--            <bottom>-->
+
+        <!--            </bottom>-->
+        <!--        </BorderPane>-->
 
     </center>
 

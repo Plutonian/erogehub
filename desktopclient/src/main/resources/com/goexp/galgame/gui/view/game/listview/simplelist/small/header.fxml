@@ -10,33 +10,26 @@
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
-    <top>
-    </top>
     <center>
-        <BorderPane>
-            <left>
-                <HBox spacing="5">
-                    <fx:include fx:id="dateview" source="../../../detailview/part/dateshow.fxml"/>
-                </HBox>
-            </left>
-            <center>
-                <VBox>
-
-                    <fx:include fx:id="info" source="info.fxml"/>
-
-                </VBox>
-            </center>
-            <top>
-                <ImageView fx:id="imageImg" pickOnBounds="true"/>
-            </top>
-        </BorderPane>
+        <VBox>
+            <ImageView fx:id="imageImg" pickOnBounds="true"/>
+            <BorderPane>
+                <left>
+                    <VBox spacing="5">
+                        <fx:include fx:id="dateview" source="../../../detailview/part/dateshow.fxml"/>
+                        <Label fx:id="lbLoc"/>
+                    </VBox>
+                </left>
+                <center>
+                    <VBox>
+                        <fx:include fx:id="info" source="info.fxml"/>
+                    </VBox>
+                </center>
+            </BorderPane>
+        </VBox>
     </center>
     <bottom>
-        <HBox StackPane.alignment="TOP_RIGHT">
-            <Label fx:id="lbLoc"/>
-            <fx:include fx:id="changeState" source="../../../part/statechange.fxml"/>
-        </HBox>
-
+        <fx:include fx:id="changeState" source="../../../part/statechange.fxml"/>
     </bottom>
 
     <padding>

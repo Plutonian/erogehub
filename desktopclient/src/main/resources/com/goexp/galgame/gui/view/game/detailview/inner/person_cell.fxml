@@ -13,6 +13,14 @@
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
+    <left>
+        <StackPane BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+            <ImageView fx:id="imageImg" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT"/>
+        </StackPane>
+    </left>
     <center>
         <VBox>
             <BorderPane.margin>
@@ -46,19 +54,14 @@
                     </font>
                 </MenuButton>
             </HBox>
-            <StackPane BorderPane.alignment="CENTER">
-                <padding>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                </padding>
-                <ImageView fx:id="imageImg" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT"/>
-            </StackPane>
+
 
             <StackPane style="-fx-background-color: #ccc;">
                 <padding>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </padding>
                 <Text fx:id="txtIntro" fill="#515151" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="dsdssssssssssssssssss\nsssssssssssssssssssssssssssssssssssssssddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddsssssssssss"
+                      text=""
                       wrappingWidth="600.0" StackPane.alignment="TOP_LEFT">
                     <font>
                         <Font size="14.0"/>

@@ -4,29 +4,23 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.goexp.galgame.gui.view.game.listview.simplelist.small.InfoController">
-    <center>
-        <VBox spacing="3.0" minHeight="100" prefHeight="150">
-            <TextFlow>
-                <Text fx:id="txtName" styleClass="mainTitle"/>
-                <Text fx:id="txtSubName"/>
-            </TextFlow>
-            <fx:include fx:id="brandJump" source="../../../../common/jump/jumpbrand.fxml"/>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml" spacing="3.0" minHeight="100" prefHeight="150"
+      fx:controller="com.goexp.galgame.gui.view.game.listview.simplelist.small.InfoController">
+    <!--    <center>-->
+    <!--        <VBox spacing="3.0" minHeight="100" prefHeight="150">-->
+    <TextFlow>
+        <Hyperlink fx:id="txtName" styleClass="mainTitle"/>
+        <Text fx:id="txtSubName"/>
+    </TextFlow>
+    <fx:include fx:id="brandJump" source="../../../../common/jump/jumpbrand.fxml"/>
 
-            <StarRatingView fx:id="ratingView"/>
+    <StarRatingView fx:id="ratingView"/>
 
-            <HBox fx:id="boxTag" spacing="5.0"/>
-        </VBox>
-    </center>
-    <bottom>
-        <StackPane style="-fx-background-color: rgba(200,200,100,0.4);" alignment="BOTTOM_CENTER">
-            <Hyperlink fx:id="linkView" text="View"/>
-        </StackPane>
-    </bottom>
-</BorderPane>
+    <HBox fx:id="boxTag" spacing="5.0"/>
+    <!--        </VBox>-->
+    <!--    </center>-->
+</VBox>

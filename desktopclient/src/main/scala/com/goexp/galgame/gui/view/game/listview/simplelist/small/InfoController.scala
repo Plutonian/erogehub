@@ -15,7 +15,7 @@ import javafx.scene.text.Text
 class InfoController extends DefaultController {
   @FXML private var brandJumpController: JumpBrandController = _
 
-  @FXML private var txtName: Text = _
+  @FXML private var txtName: Hyperlink = _
   @FXML private var txtSubName: Text = _
 
   @FXML private var ratingView: StarRatingView = _
@@ -25,10 +25,10 @@ class InfoController extends DefaultController {
 
   private var targetGame: Game = _
 
-  @FXML private var linkView: Hyperlink = _
+  //  @FXML private var linkView: Hyperlink = _
 
   override protected def initialize(): Unit = {
-    linkView.setOnAction(_ => MainController().loadDetail(targetGame))
+    txtName.setOnAction(_ => MainController().loadDetail(targetGame))
   }
 
   def load(game: Game): Unit = {

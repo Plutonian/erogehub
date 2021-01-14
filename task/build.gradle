@@ -8,6 +8,8 @@ plugins {
 dependencies {
     implementation project(':common')
     implementation 'com.goexp.db:db_mongo:1.0.3'
+    implementation group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.7'
+
     implementation 'com.goexp:piplline:1.0.4'
     implementation 'org.jsoup:jsoup:1.13.1'
 }

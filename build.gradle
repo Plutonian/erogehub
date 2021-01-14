@@ -9,6 +9,7 @@ allprojects {
 
 subprojects {
     apply plugin: 'scala'
+//    apply plugin: 'java-library'
 
     dependencies {
         implementation 'org.scala-lang:scala-library:2.13.4'

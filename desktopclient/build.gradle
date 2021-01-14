@@ -29,6 +29,8 @@ application {
 dependencies {
     implementation project(':common')
     implementation 'com.goexp.db:db_mongo:1.0.3'
+    implementation group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.7'
+
     implementation 'com.goexp.ui:javafx:1.0.3'
     implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.0.3-SNAPSHOT'
 }

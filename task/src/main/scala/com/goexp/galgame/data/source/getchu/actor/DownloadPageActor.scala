@@ -1,12 +1,12 @@
 package com.goexp.galgame.data.source.getchu.actor
 
+import com.goexp.galgame.common.website.getchu.{GameList, GetchuGameRemote, RequestBuilder}
+import com.goexp.galgame.data.source.getchu.DEFAULT_CHARSET
+import com.goexp.galgame.data.source.getchu.PageDownloader._
+import com.goexp.piplline.handler.OnErrorReTryActor
+
 import java.time.LocalDate
 import java.util.concurrent.TimeUnit
-
-import com.goexp.galgame.common.website.getchu.{GameList, GetchuGameRemote, RequestBuilder}
-import com.goexp.galgame.data.source.getchu.PageDownloader._
-import com.goexp.galgame.data.source.getchu.DEFAULT_CHARSET
-import com.goexp.piplline.handler.OnErrorReTryActor
 
 /**
  * Net IO
@@ -22,11 +22,12 @@ class DownloadPageActor extends OnErrorReTryActor(20, 5, TimeUnit.SECONDS) {
 
       val url = GetchuGameRemote.byId(gid)
       val request = RequestBuilder(url).adaltFlag.build
-      val html = download(request)
+      val html = download(request)(DEFAULT_CHARSET)
 
       logger.debug(s"GET GameDetail:${gid} OK")
 
       sendTo[ParsePageActor]((gid, html))
+      sendTo[ShutdownActor]("reset")
 
     // download page from date range
     case (start: LocalDate, end: LocalDate) =>
@@ -35,9 +36,11 @@ class DownloadPageActor extends OnErrorReTryActor(20, 5, TimeUnit.SECONDS) {
 
       val url = GameList.byDateRange(start, end)
       val request = RequestBuilder(url).adaltFlag.build
-      val html = download(request)
+      val html = download(request)(DEFAULT_CHARSET)
 
       sendTo[ParsePageActor]((html, "ListPageParser"))
+      sendTo[ShutdownActor]("reset")
+
 
     // download page by brand(Doujin)
     case (brandId: Int, "doujin") =>
@@ -45,9 +48,11 @@ class DownloadPageActor extends OnErrorReTryActor(20, 5, TimeUnit.SECONDS) {
 
       val url = GameList.byBrandDoujin(brandId)
       val request = RequestBuilder(url).adaltFlag.build
-      val html = download(request)
+      val html = download(request)(DEFAULT_CHARSET)
 
       sendTo[ParsePageActor]((html, "ListPageParser"))
+      sendTo[ShutdownActor]("reset")
+
 
     // download page by brand(normal)
     case (brandId: Int, "normal") =>
@@ -55,8 +60,10 @@ class DownloadPageActor extends OnErrorReTryActor(20, 5, TimeUnit.SECONDS) {
 
       val url = GameList.byBrand(brandId)
       val request = RequestBuilder(url).adaltFlag.build
-      val html = download(request)
+      val html = download(request)(DEFAULT_CHARSET)
 
       sendTo[ParsePageActor]((html, "ListPageParser"))
+      sendTo[ShutdownActor]("reset")
+
   }
 }

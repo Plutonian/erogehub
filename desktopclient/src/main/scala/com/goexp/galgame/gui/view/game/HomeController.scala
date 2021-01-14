@@ -29,6 +29,7 @@ class HomeController extends DefaultController {
 
   @FXML private var linkLocal: Hyperlink = _
   @FXML private var linkNetDisk: Hyperlink = _
+  @FXML private var linkRemote: Hyperlink = _
 
   @FXML private var linkCV: Hyperlink = _
   @FXML private var linkSearch: Hyperlink = _
@@ -235,6 +236,19 @@ class HomeController extends DefaultController {
     linkNetDisk.setOnAction { _ =>
       val title = "NetDisk"
       val conn = CommonTabController(new ByLocation(GameLocation.NETDISK))
+
+      TabSelect()
+        .whenNotFound({
+          conn.controller.tablelistController.tableColState.setVisible(false)
+          conn.load()
+        }, new Tab(title, conn.node))
+        .select(title)
+
+    }
+
+    linkRemote.setOnAction { _ =>
+      val title = "Remote"
+      val conn = CommonTabController(new ByLocation(GameLocation.REMOTE))
 
       TabSelect()
         .whenNotFound({

@@ -23,13 +23,14 @@ class BrandGroupController extends FilterController[Game] {
         case CompItem(title, count, _) =>
           new Label(s"${title} (${count})")
         case BrandItem(title, count, brand) =>
-          new VBox(
-            new Label(s"${title} (${count})"),
-            {
-              val label = new Label(brand.state.name)
-              label.setStyle("-fx-text-fill:grey;")
-              label
-            })
+          //          new VBox(
+          new Label(s"${title} (${count})")
+        //        ,
+        //            {
+        //              val label = new Label(brand.state.name)
+        //              label.setStyle("-fx-text-fill:grey;")
+        //              label
+        //            })
 
 
       }

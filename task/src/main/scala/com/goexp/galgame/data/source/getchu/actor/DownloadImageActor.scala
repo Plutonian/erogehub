@@ -1,16 +1,15 @@
 package com.goexp.galgame.data.source.getchu.actor
 
+import com.goexp.galgame.data.source.getchu.ImageDownloader
+import com.goexp.galgame.data.source.getchu.ImageDownloader.{ErrorCodeException, FileIsNotImageException}
+import com.goexp.galgame.data.source.getchu.actor.DownloadImageActor.ImageParam
+import com.goexp.piplline.handler.DefaultActor
+
 import java.io.IOException
 import java.net.ConnectException
 import java.net.http.HttpTimeoutException
 import java.nio.file.{Files, Path}
 import java.util.concurrent.CompletionException
-
-import com.goexp.galgame.data.source.getchu.ImageDownloader
-import com.goexp.galgame.data.source.getchu.ImageDownloader.{ErrorCodeException, FileIsNotImageException}
-import DownloadImageActor.ImageParam
-import com.goexp.piplline.handler.DefaultActor
-
 import scala.jdk.CollectionConverters._
 
 
@@ -67,6 +66,8 @@ class DownloadImageActor extends DefaultActor {
             null
         }
         .join()
+
+      sendTo[ShutdownActor]("reset")
 
   }
 

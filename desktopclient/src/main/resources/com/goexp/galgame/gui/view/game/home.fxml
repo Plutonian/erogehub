@@ -72,7 +72,8 @@
                         <TitledPane animated="false" collapsible="false" text="Loc.">
                             <VBox>
                                 <Hyperlink fx:id="linkLocal" text="Local"/>
-                                <Hyperlink fx:id="linkNetDisk" text="NetDisk"/>
+                                <Hyperlink fx:id="linkNetDisk" text="Net"/>
+                                <Hyperlink fx:id="linkRemote" text="Remote"/>
                             </VBox>
                         </TitledPane>
                         <TitledPane animated="false" collapsible="false" text="Other">

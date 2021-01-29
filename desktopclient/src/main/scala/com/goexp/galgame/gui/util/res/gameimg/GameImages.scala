@@ -25,7 +25,7 @@ object GameImages {
 
     ImageCache().get(memCacheKey).getOrElse {
 
-      val imgUrl = s"${Config.IMG_REMOTE}/${memCacheKey}.jpg"
+      val imgUrl = s"${Config.IMG_REMOTE}/game/${memCacheKey}.jpg"
       logger.debug(s"imgUrl=[${imgUrl}]")
 
       val image = new Image(imgUrl, true)

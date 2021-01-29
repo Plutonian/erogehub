@@ -1,8 +1,7 @@
 package com.goexp.galgame.data.source.getchu.actor
 
-import java.util
-
 import com.goexp.common.util.Logger
+import com.goexp.common.util.string.ConsoleColors.RED
 import com.goexp.common.util.string.StringOption
 import com.goexp.common.util.string.Strings.{isEmpty, isNotEmpty}
 import com.goexp.galgame.common.model.game.GameCharacter
@@ -12,6 +11,7 @@ import com.goexp.galgame.data.source.getchu.query.GameFullQuery
 import com.goexp.piplline.handler.DefaultActor
 import com.mongodb.client.model.Filters
 
+import java.util
 import scala.jdk.CollectionConverters._
 
 /**
@@ -77,7 +77,7 @@ class SaveGameActor extends DefaultActor {
            */
           if (localGame != remoteGame) {
             GameDB.updateAll(remoteGame)
-            logger.info(s"Update Basic [${localGame.id}] ${localGame.name} ")
+            logger.info(s"Update Basic ${localGame.simpleView} ")
           }
 
           import SaveGameActor.merge
@@ -102,7 +102,7 @@ class SaveGameActor extends DefaultActor {
           if (remoteImgSize > localImgSize) {
             //            logger.debug(s"[${localGame.id}] ${localGame.name} Local:${localGame.gameImgs}  Remote:${remoteGame.gameImgs}")
 
-            logger.info(s"Update Sample Img[${localGame.id}] ${localGame.name} ${localGame.state} Local:$localImgSize,Remote:$remoteImgSize")
+            logger.info(s"Update SampleImage [${RED.s(localGame.id.toString)}] ${RED.s(localGame.name)} ${RED.s(localGame.state.toString)} ($localImgSize --> $remoteImgSize)")
             GameDB.updateImg(remoteGame)
           }
 

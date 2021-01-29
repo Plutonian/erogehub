@@ -1,8 +1,5 @@
 package com.goexp.galgame.data.model
 
-import java.nio.file.{Files, Path}
-import java.util.{Objects, StringJoiner}
-
 import com.goexp.common.util.Logger
 import com.goexp.common.util.string.ConsoleColors.RED
 import com.goexp.common.util.string.Strings
@@ -10,6 +7,8 @@ import com.goexp.galgame.common.model.game.{CommonGame, GameLocation, GameState}
 import com.goexp.galgame.common.website.getchu.{GetchuGameLocal, GetchuGameRemote}
 import com.goexp.galgame.data.Config
 
+import java.nio.file.{Files, Path}
+import java.util.{Objects, StringJoiner}
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
@@ -36,7 +35,7 @@ class Game extends CommonGame with Logger {
     }
   }
 
-  def simpleView: String = "Game{" + "id=" + RED.s(id.toString) + ", name='" + RED.s(name) + '\'' + ", publishDate=" + publishDate + ", imgUrl='" + smallImg + '}'
+  def simpleView: String = s"[${RED.s(id.toString)}] [$publishDate] [$state] ${RED.s(name)}"
 
 
   override def toString: String = {

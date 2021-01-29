@@ -1,7 +1,5 @@
 package com.goexp.galgame.data.script.local
 
-import java.nio.file.Files
-
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.common.website.getchu.GetchuGameLocal
 import com.goexp.galgame.data.Config
@@ -10,6 +8,7 @@ import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameSimpleQuery}
 import com.mongodb.client.model.Filters
 import com.typesafe.scalalogging.Logger
 
+import java.nio.file.Files
 import scala.jdk.CollectionConverters._
 
 
@@ -24,8 +23,8 @@ object CleanSameGameTask {
 
       if (Files.exists(path)) {
 
-        logger.info(s"[${g.id}] ${g.name} [${g.state}]")
-        logger.info(s"Clean:$path")
+        logger.info(s"${g.simpleView}")
+        logger.info(s"Image: $path")
 
         Files.list(path).iterator().asScala.to(LazyList)
           .foreach(Files.delete)

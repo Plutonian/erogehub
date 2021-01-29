@@ -60,7 +60,7 @@ object MarkSameGameTask {
         }
         .foreach {
           case game: Game =>
-            logger.info(s"ID:${game.id} Name: ${game.name}  State: ${game.state}")
+            logger.info(s"${game.simpleView}")
             StateDB.update(game)
           //        case _ =>
         }

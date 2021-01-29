@@ -29,7 +29,8 @@ class DownloadImageActor extends DefaultActor {
 
       val showLocal = rPath(local)
 
-      logger.info(s"Downloading...  ${showLocal} --> $remote")
+      logger.info(s"Downloading...  ${showLocal}")
+      logger.debug(s"Downloading...  ${showLocal} --> $remote")
 
       ImageDownloader.downloadAnsyn(remote)
         .thenApply[Array[Byte]] { res => res.body() }

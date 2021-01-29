@@ -57,7 +57,7 @@ object GetTrueCVTask {
               val trueCV = localCV(cv)
               tempP = tempP.copy(trueCV = trueCV.name)
 
-              logger.info(s"CV:${tempP.cv},trueCV:${tempP.trueCV}  Game: ${g.name} ")
+              logger.info(s"${tempP.cv} --> ${tempP.trueCV}  Game: ${g.simpleView} ")
               change = true
             }
 

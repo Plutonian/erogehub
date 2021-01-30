@@ -107,7 +107,7 @@ class SaveGameActor extends DefaultActor {
           }
 
           // check game state
-          sendTo[CheckStateActor](localGame)
+          sendTo[PrepareDownloadImageActor](localGame)
 
         case _ =>
       }

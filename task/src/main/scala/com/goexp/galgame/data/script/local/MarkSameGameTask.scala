@@ -3,7 +3,7 @@ package com.goexp.galgame.data.script.local
 import com.goexp.galgame.common.model.game.CommonGame.Titles
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.Game
-import com.goexp.galgame.data.source.getchu.actor.PreProcessGameActor._
+import com.goexp.galgame.data.source.getchu.actor.InsertOrUpdateGameActor._
 import com.goexp.galgame.data.source.getchu.importor.GameDB.StateDB
 import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameFullQuery}
 import com.mongodb.client.model.Filters

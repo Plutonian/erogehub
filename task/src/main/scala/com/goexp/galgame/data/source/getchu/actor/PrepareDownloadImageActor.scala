@@ -6,16 +6,16 @@ import com.goexp.galgame.data.source.getchu.actor.DownloadImageActor.ImageParam
 import com.goexp.piplline.handler.DefaultActor
 
 
-object CheckStateActor {
+object PrepareDownloadImageActor {
   private val SkipState = Set(GameState.SAME, GameState.BLOCK)
 }
 
-class CheckStateActor extends DefaultActor {
+class PrepareDownloadImageActor extends DefaultActor {
   override def receive: Rec = {
     case game: Game =>
       // check game state
 
-      import CheckStateActor.SkipState
+      import PrepareDownloadImageActor.SkipState
 
 
       //State not skip

@@ -36,7 +36,7 @@ class ParsePageActor extends DefaultActor {
       logger.info(s"${list.size}")
 
       list.foreach { game =>
-        sendTo[PreProcessGameActor](game)
+        sendTo[InsertOrUpdateGameActor](game)
       }
 
   }

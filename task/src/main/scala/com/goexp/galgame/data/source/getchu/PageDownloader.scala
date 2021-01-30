@@ -12,8 +12,6 @@ import com.typesafe.scalalogging.Logger
 
 object PageDownloader {
 
-  val client = new LimitHttpClient(20, 20, TimeUnit.SECONDS)
-
   implicit val DEFAULT_CHARSET = StandardCharsets.UTF_8
 
   def download(request: HttpRequest)(implicit charset: Charset): String = {
@@ -23,7 +21,7 @@ object PageDownloader {
 
   def downloadAnsyn(request: HttpRequest)(implicit charset: Charset): CompletableFuture[String] = {
 
-    client.sendAsync(request, ofByteArray)
+    LimitHttpClient().sendAsync(request, ofByteArray)
       .thenApply[String] { res =>
         val bytes = res.body()
 

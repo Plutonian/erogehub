@@ -13,7 +13,7 @@ import scala.jdk.CollectionConverters._
 /**
  * Check game is new or already has
  */
-class PreProcessGameActor extends DefaultActor {
+class InsertOrUpdateGameActor extends DefaultActor {
 
   override def receive = {
     case game: Game =>
@@ -25,7 +25,7 @@ class PreProcessGameActor extends DefaultActor {
       }
       else {
         //new game
-        import PreProcessGameActor._
+        import InsertOrUpdateGameActor._
 
         //Mark game is spec
         if (isSameGame(game)) {
@@ -44,7 +44,7 @@ class PreProcessGameActor extends DefaultActor {
 
 }
 
-object PreProcessGameActor {
+object InsertOrUpdateGameActor {
   private val samelist = {
     val source = Source.fromInputStream(getClass.getResourceAsStream("/same.list"))(Codec.UTF8)
     try source.getLines().toList finally source.close()

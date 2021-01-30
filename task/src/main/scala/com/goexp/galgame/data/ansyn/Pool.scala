@@ -1,10 +1,11 @@
 package com.goexp.galgame.data.ansyn
 
 import java.util.concurrent.Executors
-
 import scala.concurrent.ExecutionContext
 
 object Pool {
+  val DOWN_POOL_SIZE = 30
+  val DB_POOL_SIZE = 10
 
   val DOWN_POOL_SERV = Executors.newFixedThreadPool(30, new TaskThreadFactory("download"))
   val DB_POOL_SERV = Executors.newFixedThreadPool(10, new TaskThreadFactory("db"))

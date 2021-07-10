@@ -1,7 +1,7 @@
 package com.goexp.galgame.data.script.local.cal
 
-import com.goexp.galgame.common.model.{GameStatistics, LocationStatistics, StarStatistics, StateStatistics}
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
+import com.goexp.galgame.common.model.{GameStatistics, LocationStatistics, StarStatistics, StateStatistics}
 import com.goexp.galgame.data.model.Game
 
 object GameStat {
@@ -10,7 +10,7 @@ object GameStat {
     val start = games.filter(_.publishDate != null).map(_.publishDate).minOption
     val end = games.filter(_.publishDate != null).map(_.publishDate).maxOption
 
-    val filterdList = games.filter { g => (g.state ne GameState.SAME) && (g.state ne GameState.BLOCK) }
+    val filterdList = games.filter { g => !GameState.ignoreState().contains(g.state) }
 
     val realCount = filterdList.size
 

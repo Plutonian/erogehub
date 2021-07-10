@@ -2,7 +2,7 @@ package com.goexp.galgame.data.source.getchu.actor
 
 import com.goexp.galgame.data.source.getchu.ImageDownloader
 import com.goexp.galgame.data.source.getchu.ImageDownloader.{ErrorCodeException, FileIsNotImageException}
-import com.goexp.galgame.data.source.getchu.actor.DownloadImageActor.ImageParam
+import com.goexp.galgame.data.source.getchu.actor.DownloadImageActor.{ImageParam, allCount, errorCount, finishCount}
 import com.goexp.piplline.handler.DefaultActor
 
 import java.io.IOException
@@ -10,12 +10,18 @@ import java.net.ConnectException
 import java.net.http.HttpTimeoutException
 import java.nio.file.{Files, Path}
 import java.util.concurrent.CompletionException
+import java.util.concurrent.atomic.AtomicInteger
 import scala.jdk.CollectionConverters._
 
 
 object DownloadImageActor {
 
   case class ImageParam(local: Path, remote: String)
+
+  val allCount = new AtomicInteger(0)
+  val finishCount = new AtomicInteger(0)
+  val errorCount = new AtomicInteger(0)
+
 
 }
 
@@ -35,10 +41,13 @@ class DownloadImageActor extends DefaultActor {
       ImageDownloader.downloadAnsyn(remote)
         .thenApply[Array[Byte]] { res => res.body() }
         .thenAccept { bytes =>
+          finishCount.incrementAndGet()
+
           Files.createDirectories(local.getParent)
           Files.write(local, bytes)
 
-          logger.info(s"Success!!! ${showLocal} (${bytes.length})")
+          logger.info(s"Success!!! ${showLocal} (${bytes.length})   (${finishCount.get()}/${allCount.get()}) ")
+          logger.debug(s"Success!!! ${showLocal} (${bytes.length})   (${finishCount.get()}/${allCount.get()}) Error:${errorCount.get()}")
 
         }
         .exceptionally {
@@ -60,6 +69,8 @@ class DownloadImageActor extends DefaultActor {
                 logger.error(s"NoneCatchExecption")
                 e.printStackTrace()
             }
+
+            errorCount.incrementAndGet()
             null
 
           case _ =>

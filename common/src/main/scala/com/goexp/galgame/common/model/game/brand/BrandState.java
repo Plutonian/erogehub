@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 
 public enum BrandState {
     ALL("ALL", -99),
-    BLOCK("ブロック", -2),
+    BLOCK("Ignore", -2),
     UNCHECKED("...", 0),
     HOPE("気になり", 80),
     LIKE("好き", 99),

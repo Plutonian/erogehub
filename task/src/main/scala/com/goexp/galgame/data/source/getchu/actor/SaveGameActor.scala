@@ -1,13 +1,16 @@
 package com.goexp.galgame.data.source.getchu.actor
 
+import com.goexp.common.cache.SimpleCache
 import com.goexp.common.util.Logger
 import com.goexp.common.util.string.ConsoleColors.RED
 import com.goexp.common.util.string.StringOption
 import com.goexp.common.util.string.Strings.{isEmpty, isNotEmpty}
-import com.goexp.galgame.common.model.game.GameCharacter
-import com.goexp.galgame.data.model.Game
+import com.goexp.galgame.common.model.game.brand.BrandState
+import com.goexp.galgame.common.model.game.{GameCharacter, GameState}
+import com.goexp.galgame.data.model.{Brand, Game}
+import com.goexp.galgame.data.source.getchu.actor.InsertOrUpdateGameActor.isSameGame
 import com.goexp.galgame.data.source.getchu.importor.GameDB
-import com.goexp.galgame.data.source.getchu.query.GameFullQuery
+import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameFullQuery}
 import com.goexp.piplline.handler.DefaultActor
 import com.mongodb.client.model.Filters
 
@@ -71,14 +74,41 @@ class SaveGameActor extends DefaultActor {
       GameFullQuery().where(Filters.eq(remoteGame.id)).one() match {
         case Some(localGame) =>
 
+          remoteGame.state = localGame.state
+
+          //Mark game is spec
+          if (!(localGame.state eq GameState.SAME)) {
+            if (isSameGame(remoteGame)) {
+              remoteGame.state = GameState.SAME
+
+              logger.info(s"Mark SAME!!! ${remoteGame.simpleView}")
+
+            } else {
+              logger.debug(s"Not SAME!!! ${remoteGame.simpleView}")
+
+            }
+          }
+
+          //if normal
+          if (!GameState.ignoreState().contains(remoteGame.state)) {
+            // check brand state
+            val brandState = Option(BrandCache.get(remoteGame.brandId)).map {
+              _.state
+            }.getOrElse(BrandState.UNCHECKED)
+
+            if (brandState eq BrandState.BLOCK) {
+              remoteGame.state = GameState.BLOCK
+
+              logger.info(s"Brand state is block,game will ignore! ${remoteGame.simpleView}")
+            }
+          }
 
           /**
            * upgrade base content
            */
-          if (localGame != remoteGame) {
-            GameDB.updateAll(remoteGame)
+          GameDB.updateAll(remoteGame)
+          if (!GameState.ignoreState().contains(remoteGame.state))
             logger.info(s"Update Basic ${localGame.simpleView} ")
-          }
 
           import SaveGameActor.merge
 
@@ -89,7 +119,12 @@ class SaveGameActor extends DefaultActor {
 
           if (remoteGame.gameCharacters != null) {
             GameDB.updateChar(remoteGame)
-            logger.debug(s"Update Char [${localGame.id}] ${localGame.name} ")
+            val localCharSize = Option(localGame.gameCharacters).map(_.size()).getOrElse(0)
+            val remoteCharSize = remoteGame.gameCharacters.size()
+
+            if (remoteCharSize > localCharSize) {
+              logger.info(s"Update Char [${remoteGame.id}] ${remoteGame.name} ($localCharSize --> $remoteCharSize)")
+            }
           }
 
 
@@ -100,17 +135,38 @@ class SaveGameActor extends DefaultActor {
           val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)
 
           if (remoteImgSize > localImgSize) {
-            //            logger.debug(s"[${localGame.id}] ${localGame.name} Local:${localGame.gameImgs}  Remote:${remoteGame.gameImgs}")
 
             logger.info(s"Update SampleImage [${RED.s(localGame.id.toString)}] ${RED.s(localGame.name)} ${RED.s(localGame.state.toString)} ($localImgSize --> $remoteImgSize)")
             GameDB.updateImg(remoteGame)
           }
 
+          remoteGame.smallImg = localGame.smallImg
+
           // check game state
-          sendTo[PrepareDownloadImageActor](localGame)
+
+          //State not skip
+          if (!GameState.ignoreState().contains(remoteGame.state)) {
+            sendTo[PrepareDownloadImageActor](remoteGame)
+          } else {
+            logger.debug(s"Skip download image ${remoteGame.simpleView}")
+          }
 
         case _ =>
       }
   }
 
+}
+
+private object BrandCache {
+  private val brandCache = new SimpleCache[Int, Brand]
+
+  def apply() = brandCache
+
+  def get(brandId: Int) = {
+    brandCache.get(brandId).getOrElse {
+      val brand = BrandQuery().where(Filters.eq(brandId)).one().orNull
+      BrandCache().put(brandId, brand)
+      brand
+    }
+  }
 }

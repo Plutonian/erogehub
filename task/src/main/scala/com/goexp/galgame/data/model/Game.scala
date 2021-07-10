@@ -8,7 +8,7 @@ import com.goexp.galgame.common.website.getchu.{GetchuGameLocal, GetchuGameRemot
 import com.goexp.galgame.data.Config
 
 import java.nio.file.{Files, Path}
-import java.util.{Objects, StringJoiner}
+import java.util.StringJoiner
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
@@ -19,21 +19,21 @@ class Game extends CommonGame with Logger {
   var brandId = 0
   var group: String = _
 
-  override def equals(o: Any): Boolean = {
-
-    o match {
-      case game: Game =>
-        id == game.id &&
-          (isAdult == game.isAdult) &&
-          (brandId == game.brandId) &&
-          (writer == game.writer) &&
-          (painter == game.painter) &&
-          (`type` == game.`type`) &&
-          (tag == game.tag) &&
-          (story == game.story)
-      case _ => false
-    }
-  }
+  //  override def equals(o: Any): Boolean = {
+  //
+  //    o match {
+  //      case game: Game =>
+  //        id == game.id &&
+  //          (isAdult == game.isAdult) &&
+  //          (brandId == game.brandId) &&
+  //          (writer == game.writer) &&
+  //          (painter == game.painter) &&
+  //          (`type` == game.`type`) &&
+  //          (tag == game.tag) &&
+  //          (story == game.story)
+  //      case _ => false
+  //    }
+  //  }
 
   def simpleView: String = s"[${RED.s(id.toString)}] [$publishDate] [$state] ${RED.s(name)}"
 
@@ -56,16 +56,16 @@ class Game extends CommonGame with Logger {
       .toString
   }
 
-  override def hashCode: Int =
-    Objects.hash(
-      id.asInstanceOf,
-      isAdult.asInstanceOf,
-      brandId.asInstanceOf,
-      writer,
-      painter,
-      `type`,
-      tag,
-      story)
+  //  override def hashCode: Int =
+  //    Objects.hash(
+  //      id.asInstanceOf,
+  //      isAdult.asInstanceOf,
+  //      brandId.asInstanceOf,
+  //      writer,
+  //      painter,
+  //      `type`,
+  //      tag,
+  //      story)
 
 
   def allImgs = {
@@ -109,34 +109,36 @@ class Game extends CommonGame with Logger {
     /*
   GameChar
    */
-    g.gameCharacters.asScala.to(LazyList)
-      .filter { p => Strings.isNotEmpty(p.img) }
-      .foreach { p =>
-        val pLocal = Config.IMG_LOCAL_ROOT.resolve(s"${GetchuGameLocal.gameChar(g, p.index)}.jpg")
-        val pRemote = GetchuGameRemote.getUrlFromSrc(p.img)
+    if (g.gameCharacters != null)
+      g.gameCharacters.asScala.to(LazyList)
+        .filter { p => Strings.isNotEmpty(p.img) }
+        .foreach { p =>
+          val pLocal = Config.IMG_LOCAL_ROOT.resolve(s"${GetchuGameLocal.gameChar(g, p.index)}.jpg")
+          val pRemote = GetchuGameRemote.getUrlFromSrc(p.img)
 
-        logger.debug(s"[Char] [${g.id}] [${g.name}] [${g.publishDate}] [${p.name}]  Local:$pLocal(${Files.exists(pLocal)}) --> Remote:$pRemote")
+          logger.debug(s"[Char] [${g.id}] [${g.name}] [${g.publishDate}] [${p.name}]  Local:$pLocal(${Files.exists(pLocal)}) --> Remote:$pRemote")
 
-        list.addOne((pLocal, pRemote))
-      }
+          list.addOne((pLocal, pRemote))
+        }
 
     /*
   SimpleImg
    */
-    g.gameImgs.asScala.to(LazyList)
-      .filter { sampleImg => Strings.isNotEmpty(sampleImg.src) }
-      .foreach { sampleImg =>
+    if (g.gameImgs != null)
+      g.gameImgs.asScala.to(LazyList)
+        .filter { sampleImg => Strings.isNotEmpty(sampleImg.src) }
+        .foreach { sampleImg =>
 
-        val smallSimpleLocal = Config.IMG_LOCAL_ROOT.resolve(s"${GetchuGameLocal.smallSimpleImg(g, sampleImg.index)}.jpg")
-        val smallSimpleRemote = GetchuGameRemote.smallSimpleImg(sampleImg.src)
+          val smallSimpleLocal = Config.IMG_LOCAL_ROOT.resolve(s"${GetchuGameLocal.smallSimpleImg(g, sampleImg.index)}.jpg")
+          val smallSimpleRemote = GetchuGameRemote.smallSimpleImg(sampleImg.src)
 
-        list.addOne((smallSimpleLocal, smallSimpleRemote))
+          list.addOne((smallSimpleLocal, smallSimpleRemote))
 
-        val largeSimpleLocal = Config.IMG_LOCAL_ROOT.resolve(s"${GetchuGameLocal.largeSimpleImg(g, sampleImg.index)}.jpg")
-        val largeSimpleRemote = GetchuGameRemote.largeSimpleImg(sampleImg.src)
+          val largeSimpleLocal = Config.IMG_LOCAL_ROOT.resolve(s"${GetchuGameLocal.largeSimpleImg(g, sampleImg.index)}.jpg")
+          val largeSimpleRemote = GetchuGameRemote.largeSimpleImg(sampleImg.src)
 
-        list.addOne((largeSimpleLocal, largeSimpleRemote))
-      }
+          list.addOne((largeSimpleLocal, largeSimpleRemote))
+        }
 
     list.to(LazyList).filter { case (local: Path, _) => !Files.exists(local) }
   }

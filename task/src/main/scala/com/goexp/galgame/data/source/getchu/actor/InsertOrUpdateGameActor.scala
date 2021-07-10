@@ -1,10 +1,8 @@
 package com.goexp.galgame.data.source.getchu.actor
 
-import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.importor.GameDB
 import com.goexp.piplline.handler.DefaultActor
-import com.typesafe.scalalogging.Logger
 
 import scala.io.{Codec, Source}
 import scala.jdk.CollectionConverters._
@@ -20,22 +18,12 @@ class InsertOrUpdateGameActor extends DefaultActor {
 
       //already has
       if (GameDB.exist(game.id)) {
-        logger.debug(s"<Update> ${game.simpleView}")
-        GameDB.update(game)
+        logger.debug(s"<UpdateSmallImg> [${game.id}] ${game.smallImg}")
+        GameDB.updateSmallImg(game)
       }
       else {
         //new game
-        import InsertOrUpdateGameActor._
-
-        //Mark game is spec
-        if (isSameGame(game)) {
-          game.state = GameState.SAME
-        }
-        else {
-          game.state = GameState.UNCHECKED
-        }
-
-        logger.info(s"<Insert> ${game.simpleView} ${game.state}")
+        logger.debug(s"<Insert> Placehold: ${game.id}")
         GameDB.insert(game)
       }
       sendTo[DownloadPageActor](game.id)

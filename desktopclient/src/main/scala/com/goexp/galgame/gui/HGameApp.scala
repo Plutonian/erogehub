@@ -1,7 +1,5 @@
 package com.goexp.galgame.gui
 
-import java.util.function.Predicate
-
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.HGameApp.app
 import com.goexp.galgame.gui.model.Game
@@ -13,11 +11,12 @@ import javafx.scene.paint.Color
 import javafx.scene.{Parent, Scene}
 import javafx.stage.Stage
 
+import java.util.function.Predicate
+
 object HGameApp extends App {
   var app: HGameApp = _
 
-  var DEFAULT_GAME_PREDICATE: Predicate[Game] = (g: Game) => (g.state.get ne GameState.SAME) &&
-    (g.state.get ne GameState.BLOCK)
+  var DEFAULT_GAME_PREDICATE: Predicate[Game] = (g: Game) => !GameState.ignoreState().contains(g.state.get)
 
   def mergeP(p: Predicate[Game]) = {
     if (p != null) {

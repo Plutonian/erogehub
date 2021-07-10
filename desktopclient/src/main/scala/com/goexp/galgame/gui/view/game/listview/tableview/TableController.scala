@@ -57,7 +57,7 @@ class TableController extends DefaultController {
               selectedGames = table.getSelectionModel.getSelectedItems
               selectedGames.forEach(_.state.set(gameState))
 
-              if (gameState == GameState.BLOCK) {
+              if (gameState eq GameState.BLOCK) {
 
                 selectedGames.forEach { g =>
                   g.star.set(0)

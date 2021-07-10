@@ -4,12 +4,11 @@ import com.goexp.common.util.string.ConsoleColors.RED
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
-import com.goexp.galgame.gui.view.MainController
 import com.goexp.galgame.gui.view.game.detailview.part.DateShowController
 import com.goexp.galgame.gui.view.game.part.StateChangeController
 import com.goexp.ui.javafx.DefaultController
 import javafx.fxml.FXML
-import javafx.scene.control.{Hyperlink, Label}
+import javafx.scene.control.Label
 import javafx.scene.effect.ColorAdjust
 import javafx.scene.image.{Image, ImageView}
 
@@ -23,7 +22,6 @@ class HeaderController extends DefaultController {
   @FXML private var imageImg: ImageView = _
 
   @FXML private var lbLoc: Label = _
-
 
 
   override protected def initialize() = {
@@ -47,7 +45,8 @@ class HeaderController extends DefaultController {
     }
 
     imageImg.setEffect {
-      if ((game.state.get eq GameState.BLOCK) || (game.state.get eq GameState.SAME))
+
+      if (GameState.ignoreState().contains(game.state.get))
         new ColorAdjust(0, -1, 0, 0)
       else null
     }

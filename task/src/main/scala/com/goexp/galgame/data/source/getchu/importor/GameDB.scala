@@ -18,14 +18,8 @@ object GameDB {
 
   def insert(game: Game) = {
     val gameDoc = new Document("_id", game.id)
-      .append("name", game.name)
       .append("isAdult", game.isAdult)
-      .append("publishDate", game.publishDate)
       .append("smallImg", game.smallImg)
-      .append("state", 0)
-      .append("star", 0)
-      .append("state", game.state.value)
-      .append("brandId", game.brandId)
       .append("isNew", true)
 
     tlp.exec(documentMongoCollection => {
@@ -33,12 +27,11 @@ object GameDB {
     })
   }
 
-  def update(game: Game): Unit =
+  def updateSmallImg(game: Game): Unit =
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(
         Filters.eq(game.id),
         combine(
-          set("publishDate", game.publishDate),
           set("smallImg", game.smallImg)
         )
       )
@@ -50,12 +43,15 @@ object GameDB {
       documentMongoCollection.updateOne(
         Filters.eq(game.id),
         combine(
+          set("name", game.name),
+          set("publishDate", game.publishDate),
           set("painter", game.painter),
           set("writer", game.writer),
           set("type", game.`type`),
           set("tag", game.tag),
           set("story", game.story),
           set("intro", game.intro),
+          set("state", game.state.value),
           set("brandId", game.brandId))
       )
     })

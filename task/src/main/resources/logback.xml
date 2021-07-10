@@ -28,6 +28,7 @@
     <!--    <logger name="com.goexp.galgame.data.parser" level="error"/>-->
     <!--    <logger name="com.goexp.galgame.data.source.getchu.task.handler.PreProcessGame" level="debug"/>-->
     <!--    <logger name="com.goexp.galgame.data.task.FromDateRangeTask" level="debug"/>-->
+    <logger name="com.goexp.galgame.data.source.getchu.actor.ShutdownActor" level="info"/>
 
 
     <root level="info">

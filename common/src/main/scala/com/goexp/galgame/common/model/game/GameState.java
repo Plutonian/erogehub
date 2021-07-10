@@ -1,6 +1,7 @@
 package com.goexp.galgame.common.model.game;
 
 
+import java.util.Set;
 import java.util.stream.Stream;
 
 public enum GameState {
@@ -10,7 +11,7 @@ public enum GameState {
     UNCHECKED("...", 0),
     READYTOVIEW("後で見る", 2),
     HOPE("気になり", 3),
-//    BOUGHT("入荷済み", 4),
+    //    BOUGHT("入荷済み", 4),
     PLAYING("進行中", 80),
     PLAYED("プレイ済み", 90);
 
@@ -36,6 +37,9 @@ public enum GameState {
                 .findFirst().orElseThrow();
     }
 
+    public static Set ignoreState() {
+        return Set.of(GameState.BLOCK, GameState.SAME);
+    }
 
     @Override
     public String toString() {

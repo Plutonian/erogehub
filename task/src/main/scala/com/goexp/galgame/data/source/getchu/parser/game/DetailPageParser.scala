@@ -6,6 +6,8 @@ import com.goexp.galgame.data.source.getchu.parser.game.DetailPageParser.{Detail
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
+import java.time.LocalDate
+import java.time.format.{DateTimeFormatter, DateTimeParseException}
 import scala.jdk.CollectionConverters._
 
 private object DetailPageParser {
@@ -18,11 +20,19 @@ private object DetailPageParser {
 
     import DetailParser._
 
+    def parseDate(str: String) = {
+      try LocalDate.parse(str, DateTimeFormatter.ofPattern("yyyy/MM/dd")) catch {
+        case _: DateTimeParseException => null
+      }
+    }
+
     def parse(gameId: Int, root: Document) = {
 
       val ele = root.select("#soft_table >tbody>tr:nth-of-type(2)")
       val g = new Game
       g.id = gameId
+      g.name = root.select("#soft-title").first().text().replace("（このタイトルの関連商品）", "").trim
+      g.publishDate = parseDate(ele.select("td:contains(発売日)").next.text)
       g.painter = ele.select("td:contains(原画)").next.text.split("、").to(LazyList).map(s => s.trim).asJava
       g.writer = ele.select("td:contains(シナリオ)").next.text.split("、").to(LazyList).map(s => s.trim).asJava
       g.`type` = ele.select("td:contains(サブジャンル)").next.text.replace("[一覧]", "").split("、").to(LazyList).map(s => s.trim).asJava

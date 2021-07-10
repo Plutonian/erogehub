@@ -12,7 +12,7 @@ subprojects {
 //    apply plugin: 'java-library'
 
     dependencies {
-        implementation 'org.scala-lang:scala-library:2.13.4'
+        implementation 'org.scala-lang:scala-library:2.13.6'
 
         implementation 'ch.qos.logback:logback-classic:1.2.3'
         implementation group: 'com.typesafe.scala-logging', name: 'scala-logging_2.13', version: '3.9.2'

@@ -15,5 +15,5 @@ dependencies {
 }
 
 application {
-    mainClassName = "com.goexp.galgame.data.script.ImporterStart"
+    mainClass.set("com.goexp.galgame.data.script.ImporterStart")
 }

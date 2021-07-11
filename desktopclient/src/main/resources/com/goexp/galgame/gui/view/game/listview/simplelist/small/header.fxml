@@ -15,21 +15,25 @@
             <ImageView fx:id="imageImg" pickOnBounds="true"/>
             <BorderPane>
                 <left>
-                    <VBox spacing="5">
-                        <fx:include fx:id="dateview" source="../../../detailview/part/dateshow.fxml"/>
-                        <Label fx:id="lbLoc"/>
-                    </VBox>
+                    <!--                    <VBox spacing="5">-->
+                    <fx:include fx:id="dateview" source="../../../detailview/part/dateshow.fxml"/>
+
+                    <!--                    </VBox>-->
                 </left>
                 <center>
                     <VBox>
                         <fx:include fx:id="info" source="info.fxml"/>
+                        <HBox>
+                            <fx:include fx:id="changeState" source="../../../part/statechange.fxml"/>
+                            <Label fx:id="lbLoc"/>
+                        </HBox>
                     </VBox>
                 </center>
             </BorderPane>
         </VBox>
     </center>
     <bottom>
-        <fx:include fx:id="changeState" source="../../../part/statechange.fxml"/>
+
     </bottom>
 
     <padding>

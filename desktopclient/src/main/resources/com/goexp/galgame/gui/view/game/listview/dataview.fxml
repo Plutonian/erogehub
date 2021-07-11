@@ -32,9 +32,11 @@
                         <Tab text="List">
                             <fx:include fx:id="tablelist" source="tablelist/tablelist.fxml"/>
                         </Tab>
-                        <!--                        <Tab text="Grid">-->
-                        <!--                            <fx:include fx:id="tableView" source="tableview/table.fxml"/>-->
-                        <!--                        </Tab>-->
+                        <Tab text="Grid">
+                            <ScrollPane fitToWidth="true" nodeOrientation="LEFT_TO_RIGHT">
+                                <FlowPane fx:id="gridView" vgap="20" hgap="20"/>
+                            </ScrollPane>
+                        </Tab>
 
                     </TabPane>
                     <HBox AnchorPane.bottomAnchor="3" AnchorPane.leftAnchor="10">

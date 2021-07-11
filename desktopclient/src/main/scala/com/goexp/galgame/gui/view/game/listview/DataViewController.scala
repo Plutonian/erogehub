@@ -5,18 +5,22 @@ import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
 import com.goexp.galgame.gui.util.Tags
+import com.goexp.galgame.gui.util.res.gameimg.GameImage
 import com.goexp.galgame.gui.view.game.listview.sidebar.{BrandGroupController, DateGroupController, FilterPanelController}
-import com.goexp.galgame.gui.view.game.listview.simplelist.small.ListViewController
+import com.goexp.galgame.gui.view.game.listview.simplelist.small.{HeaderController, ListViewController}
 import com.goexp.galgame.gui.view.game.listview.tablelist.TableListController
 import com.goexp.ui.javafx.control.cell.NodeListCell
-import com.goexp.ui.javafx.{DefaultController, TaskService}
+import com.goexp.ui.javafx.{DefaultController, FXMLLoaderProxy, TaskService}
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.collections.transformation.{FilteredList, SortedList}
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control._
-import javafx.scene.layout.{HBox, Region}
+import javafx.scene.image.ImageView
+import javafx.scene.input.MouseButton
+import javafx.scene.layout.{FlowPane, HBox, Region}
+import org.controlsfx.control.PopOver
 
 import java.util
 import java.util.function.Predicate
@@ -52,6 +56,9 @@ class DataViewController extends DefaultController {
   @FXML private var cvList: ListView[DataItem] = _
   @FXML private var tagList: ListView[DataItem] = _
 
+  @FXML private var gridView: FlowPane = _
+  private val popPanel = new PopOver
+
   private var filteredGames: FilteredList[Game] = _
   private var groupPredicate: Predicate[Game] = _
 
@@ -66,6 +73,10 @@ class DataViewController extends DefaultController {
     initSideBar()
     initGroupPanel()
     btnHide.fire()
+
+    //    popPanel.setArrowLocation(PopOver.ArrowLocation.TOP_LEFT)
+    popPanel.setAutoHide(true)
+    popPanel.setAnimated(false)
   }
 
   private def initGroupPanel() = {
@@ -213,10 +224,48 @@ class DataViewController extends DefaultController {
     tablelist.scrollTo(0)
     smallListSimpleController.smallListSimple.setItems(sortedData)
     smallListSimpleController.smallListSimple.scrollTo(0)
+
+    loadFlow(sortedData)
   }
 
-  private def resetCount(filteredGames: util.List[Game]) =
+  private def resetCount(filteredGames: util.List[Game]) = {
+
     lbItemCount.setText(s"${filteredGames.size} 件")
+    loadFlow(filteredGames)
+
+  }
+
+  private def loadFlow(filteredGames: util.List[Game]) = {
+
+
+    gridView.getChildren.clear()
+
+    val iamges = filteredGames.listIterator().asScala.map { game =>
+      val imageView = new ImageView(GameImage(game).tiny200())
+      imageView.setOnMouseClicked { e =>
+        if (e.getButton eq MouseButton.PRIMARY) {
+
+          val loader = new FXMLLoaderProxy[Region, HeaderController]("header.fxml")
+          loader.controller.load(game)
+
+          //        if (!popPanel.isShowing)
+          popPanel.show(imageView)
+
+          popPanel.setContentNode(loader.node)
+        }
+
+
+      }
+      //      imageView.setOnMouseExited { _ =>
+      //        if (popPanel.isShowing)
+      //          popPanel.hide()
+      //      }
+      imageView
+
+    }.toArray
+    gridView.getChildren.addAll(iamges: _*)
+
+  }
 
   @FXML private def reload_OnAction(event: ActionEvent) = {
     reloadProperty.set(true)

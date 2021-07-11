@@ -9,14 +9,14 @@ plugins {
 
 javafx {
     version = '16'
-    modules = ['javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.base', 'javafx.web', 'javafx.swing', 'javafx.media']
+    modules = ['javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.base', 'javafx.swing', 'javafx.media']
 }
 
 application {
-    mainClassName = 'com.goexp.galgame.gui.HGameApp'
+    mainClass.set('com.goexp.galgame.gui.HGameApp')
     applicationDefaultJvmArgs = [
             '--module-path=../lib/',
-            '--add-modules=javafx.controls,javafx.graphics,javafx.fxml,javafx.base'
+            '--add-modules=javafx.base,javafx.controls,javafx.graphics,javafx.fxml,javafx.swing,javafx.media'
 //            ,
             //For accessing VirtualFlow field from the base class in GridViewSkin
 //            '--add-opens=javafx.controls/javafx.scene.control.skin=ALL-UNNAMED'

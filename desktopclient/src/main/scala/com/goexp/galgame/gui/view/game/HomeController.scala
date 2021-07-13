@@ -2,9 +2,8 @@ package com.goexp.galgame.gui.view.game
 
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.HGameApp
-import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.search._
-import com.goexp.galgame.gui.util.TabSelect
+import com.goexp.galgame.gui.util.TabManager
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.brand.MainPanelController
 import com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController
@@ -68,9 +67,13 @@ class HomeController extends DefaultController {
             //            conn.controller.tablelistController.tableColStar.setVisible(false)
             //            conn.controller.tablelistController.tableColState.setVisible(false)
             val text = state.name
-            TabSelect()
-              .whenNotFound(conn.load(), new Tab(text, conn.node))
-              .select(text)
+
+            TabManager().open(text, {
+              new Tab(text, conn.node)
+            }) {
+              conn.load()
+            }
+
           })
           link
         })
@@ -125,25 +128,28 @@ class HomeController extends DefaultController {
 
     linkCV.setGraphic(new ImageView(LocalRes.IMG_CV_PNG))
     linkCV.setOnAction { _ =>
-      TabSelect().whenNotFound {
-        val loader = new FXMLLoaderProxy[Region, CVInfoController]("cvinfo.fxml")
-        loader.controller.load()
-        val tab = new Tab("CV", loader.node)
-        tab.setGraphic(new ImageView(LocalRes.CV_16_PNG))
-        tab
-      }.select("CV")
+      val loader = new FXMLLoaderProxy[Region, CVInfoController]("cvinfo.fxml")
 
+      TabManager().open("CV", {
+        new Tab("CV", loader.node) {
+          setGraphic(new ImageView(LocalRes.CV_16_PNG))
+        }
+      }) {
+        loader.controller.load()
+      }
     }
 
     linkSearch.setGraphic(new ImageView(LocalRes.IMG_search_PNG))
     linkSearch.setOnAction { _ =>
-      TabSelect().whenNotFound {
-        val loader = new FXMLLoaderProxy[Region, SearchController]("search.fxml")
-        val tab = new Tab("Search", loader.node)
+      val loader = new FXMLLoaderProxy[Region, SearchController]("search.fxml")
+
+      TabManager().open("Search", {
+        new Tab("Search", loader.node)
+      }) {
         loader.controller.load()
-        tab
-      }.select("Search")
+      }
     }
+
     linkSearch.setOnDragOver { e =>
       val board = e.getDragboard
       val files = board.getFiles
@@ -155,43 +161,50 @@ class HomeController extends DefaultController {
       if (files.size > 0) {
         val f = files.get(0)
         val title = f.getName.replaceFirst("""\.[^.]+""", "")
-        TabSelect().whenNotFound {
-          val loader = new FXMLLoaderProxy[Region, SearchController]("search.fxml")
-          val tab = new Tab("Search", loader.node)
+
+        val loader = new FXMLLoaderProxy[Region, SearchController]("search.fxml")
+
+        TabManager().open("Search", {
+          new Tab("Search", loader.node)
+        }) {
           loader.controller.load(title)
-          tab
-        }.select("Search")
+        }
       }
 
     }
 
     linkTags.setGraphic(new ImageView(LocalRes.IMG_TAG_PNG))
     linkTags.setOnAction { _ =>
-      TabSelect().whenNotFound {
-        val loader = new FXMLLoaderProxy[Region, TagController]("tag.fxml")
-        val tab = new Tab("Tags", loader.node)
+      val loader = new FXMLLoaderProxy[Region, TagController]("tag.fxml")
+
+      TabManager().open("Tags", {
+        new Tab("Tags", loader.node)
+      }) {
         loader.controller.load()
-        tab
-
-      }.select("Tags")
-
+      }
     }
 
     linkBrand.setOnAction { _ =>
       val loader = new FXMLLoaderProxy[Region, MainPanelController]("mainpanel.fxml")
 
-      TabSelect()
-        .whenNotFound(loader.controller.load(), new Tab("Brand", loader.node))
-        .select("Brand")
+      TabManager().open("Brand", {
+        new Tab("Brand", loader.node)
+      }) {
+        loader.controller.load()
+      }
+
     }
 
     linkGood.setOnAction { _ =>
       val title = "优"
       val conn = CommonTabController(new ByStarRange(4, 5))
-      TabSelect().whenNotFound(conn.load((g: Game) => g.star.get() > 3), {
+
+      TabManager().open(title, {
         conn.controller.tablelistController.tableColState.setVisible(false)
         new Tab(title, conn.node)
-      }).select(title)
+      }) {
+        conn.load(_.star.get() > 3)
+      }
 
     }
 
@@ -199,50 +212,48 @@ class HomeController extends DefaultController {
       val title = "良"
       val conn = CommonTabController(new ByStarRange(3, 3))
 
-      TabSelect().whenNotFound {
+      TabManager().open(title, {
         conn.controller.tablelistController.tableColState.setVisible(false)
-        val tab = new Tab(title, conn.node)
-        conn.load((g: Game) => g.star.get() == 3)
-        tab
-      }.select(title)
-
+        new Tab(title, conn.node)
+      }) {
+        conn.load(_.star.get() == 3)
+      }
     }
 
     linkPass.setOnAction { _ =>
       val title = "差"
       val conn = CommonTabController(new ByStarRange(1, 2))
 
-      TabSelect().whenNotFound {
+      TabManager().open(title, {
         conn.controller.tablelistController.tableColState.setVisible(false)
-        val tab = new Tab(title, conn.node)
+        new Tab(title, conn.node)
+      }) {
         conn.load(_.star.get() < 3)
-        tab
-      }.select(title)
-
+      }
     }
 
     linkLocal.setOnAction { _ =>
       val title = "Local"
       val conn = CommonTabController(new ByLocation(GameLocation.LOCAL))
-      TabSelect()
-        .whenNotFound({
-          conn.controller.tablelistController.tableColState.setVisible(false)
-          conn.load()
-        }, new Tab(title, conn.node))
-        .select(title)
 
+      TabManager().open(title, {
+        conn.controller.tablelistController.tableColState.setVisible(false)
+        new Tab(title, conn.node)
+      }) {
+        conn.load()
+      }
     }
 
     linkNetDisk.setOnAction { _ =>
       val title = "NetDisk"
       val conn = CommonTabController(new ByLocation(GameLocation.NETDISK))
 
-      TabSelect()
-        .whenNotFound({
-          conn.controller.tablelistController.tableColState.setVisible(false)
-          conn.load()
-        }, new Tab(title, conn.node))
-        .select(title)
+      TabManager().open(title, {
+        conn.controller.tablelistController.tableColState.setVisible(false)
+        new Tab(title, conn.node)
+      }) {
+        conn.load()
+      }
 
     }
 
@@ -250,22 +261,16 @@ class HomeController extends DefaultController {
       val title = "Remote"
       val conn = CommonTabController(new ByLocation(GameLocation.REMOTE))
 
-      TabSelect()
-        .whenNotFound({
-          conn.controller.tablelistController.tableColState.setVisible(false)
-          conn.load()
-        }, new Tab(title, conn.node))
-        .select(title)
+      TabManager().open(title, {
+        conn.controller.tablelistController.tableColState.setVisible(false)
+        new Tab(title, conn.node)
+
+      }) {
+        conn.load()
+      }
 
     }
 
-  }
-
-  def insertTab(tab: Tab, select: Boolean = true): Unit = {
-
-    val index = mainTabPanel.getSelectionModel.getSelectedIndex
-    mainTabPanel.getTabs.add(index + 1, tab)
-    if (select) mainTabPanel.getSelectionModel.select(tab)
   }
 
 

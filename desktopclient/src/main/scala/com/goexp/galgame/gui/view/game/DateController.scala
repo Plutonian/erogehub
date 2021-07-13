@@ -1,9 +1,7 @@
 package com.goexp.galgame.gui.view.game
 
-import java.time.LocalDate
-
 import com.goexp.galgame.gui.task.game.search.ByDateRange
-import com.goexp.galgame.gui.util.TabSelect
+import com.goexp.galgame.gui.util.TabManager
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.ui.javafx.DefaultController
 import com.goexp.ui.javafx.control.cell.TextListCell
@@ -12,6 +10,7 @@ import javafx.fxml.FXML
 import javafx.scene.control.{ListView, Tab}
 import javafx.scene.image.ImageView
 
+import java.time.LocalDate
 import scala.jdk.CollectionConverters._
 
 class DateController extends DefaultController {
@@ -37,13 +36,16 @@ class DateController extends DefaultController {
 
         logger.debug(s"Range:${from}  ${to}")
 
-        TabSelect().whenNotFound {
-          val conn = CommonTabController(new ByDateRange(from, to))
-          val tab = new Tab(title, conn.node)
-          tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG))
+        val conn = CommonTabController(new ByDateRange(from, to))
+
+        TabManager().open(title, {
+          new Tab(title, conn.node) {
+            setGraphic(new ImageView(LocalRes.DATE_16_PNG))
+          }
+        }) {
           conn.load()
-          tab
-        }.select(title)
+        }
+
       }
 
       val months = (1 to 12).asJava
@@ -72,14 +74,17 @@ class DateController extends DefaultController {
 
         logger.debug(s"Range:${from}  ${to}")
 
+        val conn = CommonTabController(new ByDateRange(from, to))
 
-        TabSelect().whenNotFound {
-          val conn = CommonTabController(new ByDateRange(from, to))
-          val tab = new Tab(title, conn.node)
-          tab.setGraphic(new ImageView(LocalRes.DATE_16_PNG))
+        TabManager().open(title, {
+          new Tab(title, conn.node) {
+
+            setGraphic(new ImageView(LocalRes.DATE_16_PNG))
+          }
+        }) {
           conn.load()
-          tab
-        }.select(title)
+        }
+
       }
 
       val years = (2000 to LocalDate.now.getYear + 1).reverse.asJava

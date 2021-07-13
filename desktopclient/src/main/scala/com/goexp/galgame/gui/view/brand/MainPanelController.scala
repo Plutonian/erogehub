@@ -1,15 +1,12 @@
 package com.goexp.galgame.gui.view.brand
 
-import java.time.LocalDate
-import java.util
-
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.gui.model.Brand
 import com.goexp.galgame.gui.task.brand.search.{ByComp, ByName, ByType}
 import com.goexp.galgame.gui.util.Tags.maker
-import com.goexp.galgame.gui.util.res.LocalRes
-import com.goexp.galgame.gui.util.{TabSelect, Tags, Websites}
+import com.goexp.galgame.gui.util.{Tags, Websites}
+import com.goexp.galgame.gui.view.MainController
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TextTableCell}
 import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
@@ -17,9 +14,10 @@ import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control._
-import javafx.scene.image.ImageView
 import javafx.scene.layout.HBox
 
+import java.time.LocalDate
+import java.util
 import scala.jdk.CollectionConverters._
 
 class MainPanelController extends DefaultController {
@@ -117,14 +115,7 @@ class MainPanelController extends DefaultController {
           if (brand != null) {
             val link = new Hyperlink(brand.name)
             link.setOnAction(_ => {
-              val text = brand.name
-              TabSelect().whenNotFound {
-                val conn = new CommonInfoTabController
-                val tab = new Tab(text, conn.node)
-                tab.setGraphic(new ImageView(LocalRes.BRAND_16_PNG))
-                conn.load(brand)
-                tab
-              }.select(text)
+              MainController().viewBrand(brand)
             })
             link
           } else {

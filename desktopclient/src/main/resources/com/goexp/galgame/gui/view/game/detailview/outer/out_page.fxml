@@ -4,7 +4,8 @@
 <?import java.net.URL?>
 <BorderPane style="-fx-background-color:#FFF" xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.goexp.galgame.gui.view.game.detailview.outer.OutPageController">
+            fx:controller="com.goexp.galgame.gui.view.game.detailview.outer.OutPageController"
+            prefWidth="1200">
 
     <stylesheets>
         <URL value="@/view/view.css"/>

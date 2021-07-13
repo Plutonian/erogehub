@@ -6,6 +6,7 @@ import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
+import com.goexp.galgame.gui.view.game.detailview.outer.OutPageController
 import com.goexp.galgame.gui.view.game.listview.sidebar.{BrandGroupController, DateGroupController, FilterPanelController}
 import com.goexp.galgame.gui.view.game.listview.simplelist.small.{HeaderController, ListViewController}
 import com.goexp.galgame.gui.view.game.listview.tablelist.TableListController
@@ -246,6 +247,7 @@ class DataViewController extends DefaultController {
         if (e.getButton eq MouseButton.PRIMARY) {
 
           val loader = new FXMLLoaderProxy[Region, HeaderController]("header.fxml")
+          //          val loader = new FXMLLoaderProxy[Region, OutPageController]("out_page.fxml")
           loader.controller.load(game)
 
           //        if (!popPanel.isShowing)

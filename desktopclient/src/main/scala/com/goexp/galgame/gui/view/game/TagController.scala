@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game
 import com.goexp.galgame.common.model.TagType
 import com.goexp.galgame.gui.task.TagListTask
 import com.goexp.galgame.gui.task.game.search.ByTag
-import com.goexp.galgame.gui.util.TabSelect
+import com.goexp.galgame.gui.util.TabManager
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.property.SimpleBooleanProperty
@@ -63,13 +63,18 @@ class TagController extends DefaultController {
     onLoadProperty.addListener((_, _, newValue) => {
       if (newValue != null && newValue) {
         val targetTag = tag
-        TabSelect().whenNotFound {
-          val conn = CommonTabController(new ByTag(targetTag))
-          val tab = new Tab(targetTag, conn.node)
-          tab.setGraphic(new ImageView(LocalRes.TAG_16_PNG))
+
+
+        val conn = CommonTabController(new ByTag(targetTag))
+
+        TabManager().open(targetTag, {
+          new Tab(targetTag, conn.node) {
+            setGraphic(new ImageView(LocalRes.TAG_16_PNG))
+          }
+        }) {
           conn.load()
-          tab
-        }.select(targetTag)
+        }
+
       }
     })
   }

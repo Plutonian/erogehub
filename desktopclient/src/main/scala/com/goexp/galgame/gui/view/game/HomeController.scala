@@ -2,21 +2,46 @@ package com.goexp.galgame.gui.view.game
 
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.HGameApp
+import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.search._
-import com.goexp.galgame.gui.util.TabManager
 import com.goexp.galgame.gui.util.res.LocalRes
+import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager}
 import com.goexp.galgame.gui.view.brand.MainPanelController
+import com.goexp.galgame.gui.view.game.HomeController.{queryByLocationConfig, queryByQuConfig}
 import com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController
-import com.goexp.ui.javafx.{DefaultController, FXMLLoaderProxy}
+import com.goexp.ui.javafx.DefaultController
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.{Hyperlink, Tab, TabPane}
 import javafx.scene.image.ImageView
 import javafx.scene.input.TransferMode
-import javafx.scene.layout.{Region, VBox}
+import javafx.scene.layout.{Pane, VBox}
 import org.controlsfx.control.PopOver
 
+import java.util.function.Predicate
 import scala.jdk.CollectionConverters._
+
+object HomeController {
+
+  val queryByQuConfig = List(
+    ("优", (4, 5), {
+      _.star.get() > 3
+    }: Predicate[Game]),
+    ("良", (3, 3), {
+      _.star.get() == 3
+    }: Predicate[Game]),
+    ("差", (1, 2), {
+      _.star.get() < 3
+    }: Predicate[Game])
+  )
+
+  val queryByLocationConfig = List(
+    GameLocation.LOCAL,
+    GameLocation.NETDISK,
+    GameLocation.REMOTE
+  )
+
+}
 
 class HomeController extends DefaultController {
 
@@ -26,20 +51,17 @@ class HomeController extends DefaultController {
   @FXML private var gameStateLikeLinkPanel: VBox = _
   @FXML private var linkDate: Hyperlink = _
 
-  @FXML private var linkLocal: Hyperlink = _
-  @FXML private var linkNetDisk: Hyperlink = _
-  @FXML private var linkRemote: Hyperlink = _
-
   @FXML private var linkCV: Hyperlink = _
   @FXML private var linkSearch: Hyperlink = _
   @FXML private var linkTags: Hyperlink = _
   @FXML private var linkBrand: Hyperlink = _
 
-  @FXML private var linkGood: Hyperlink = _
-  @FXML private var linkNormal: Hyperlink = _
-  @FXML private var linkPass: Hyperlink = _
-
   @FXML private var linkConfig: Hyperlink = _
+
+  @FXML private var queryByQuPanel: Pane = _
+  @FXML private var queryByLocationPanel: Pane = _
+
+
   private val popPanel = new PopOver
 
   private val popConfigPanel = new PopOver
@@ -54,6 +76,60 @@ class HomeController extends DefaultController {
       )).asJava
       gameStateLinkPanel.getChildren.setAll(links)
     }
+
+    def initQuList() = {
+      val array = queryByQuConfig
+        .map { case (name, (from, to), call) =>
+
+          //template
+
+          new Hyperlink(name) {
+            setOnAction { _ =>
+              val conn = CommonTabController(new ByStarRange(from, to))
+
+              TabManager().open(name, {
+                conn.controller.tablelistController.tableColState.setVisible(false)
+                new Tab(name, conn.node)
+              }) {
+                conn.load(call)
+              }
+
+            }
+          }
+
+        }
+        .toArray
+
+      queryByQuPanel.getChildren.addAll(array: _*)
+    }
+
+    initQuList()
+
+    def initLocationList(): Unit = {
+      val array = queryByLocationConfig
+        .map { location =>
+          //template
+          val title = location.name
+
+          new Hyperlink(title) {
+            setOnAction { _ =>
+              val conn = CommonTabController(new ByLocation(location))
+
+              TabManager().open(title, {
+                conn.controller.tablelistController.tableColState.setVisible(false)
+                new Tab(title, conn.node)
+              }) {
+                conn.load()
+              }
+            }
+          }
+        }
+        .toArray
+
+      queryByLocationPanel.getChildren.addAll(array: _*)
+    }
+
+    initLocationList()
 
 
     def state2Link(gameState: List[GameState]): LazyList[Hyperlink] = {
@@ -89,7 +165,7 @@ class HomeController extends DefaultController {
     gameStateLikeLinkPanel.getChildren.setAll(links)
 
     {
-      val loader = new FXMLLoaderProxy[Region, DateController]("date.fxml")
+      val loader = new SimpleFxmlLoader[DateController]("date.fxml")
       popPanel.setArrowLocation(PopOver.ArrowLocation.LEFT_TOP)
       popPanel.setAutoHide(true)
       popPanel.setContentNode(loader.node)
@@ -105,7 +181,7 @@ class HomeController extends DefaultController {
     }
 
     {
-      val loaderConfig = new FXMLLoaderProxy[Region, FilterPanelController]("filterpanel.fxml")
+      val loaderConfig = new SimpleFxmlLoader[FilterPanelController]("filterpanel.fxml")
       popConfigPanel.setArrowLocation(PopOver.ArrowLocation.BOTTOM_LEFT)
       popConfigPanel.setAutoHide(true)
       popConfigPanel.setContentNode(loaderConfig.node)
@@ -128,7 +204,7 @@ class HomeController extends DefaultController {
 
     linkCV.setGraphic(new ImageView(LocalRes.IMG_CV_PNG))
     linkCV.setOnAction { _ =>
-      val loader = new FXMLLoaderProxy[Region, CVInfoController]("cvinfo.fxml")
+      val loader = new SimpleFxmlLoader[CVInfoController]("cvinfo.fxml")
 
       TabManager().open("CV", {
         new Tab("CV", loader.node) {
@@ -141,7 +217,7 @@ class HomeController extends DefaultController {
 
     linkSearch.setGraphic(new ImageView(LocalRes.IMG_search_PNG))
     linkSearch.setOnAction { _ =>
-      val loader = new FXMLLoaderProxy[Region, SearchController]("search.fxml")
+      val loader = new SimpleFxmlLoader[SearchController]("search.fxml")
 
       TabManager().open("Search", {
         new Tab("Search", loader.node)
@@ -162,7 +238,7 @@ class HomeController extends DefaultController {
         val f = files.get(0)
         val title = f.getName.replaceFirst("""\.[^.]+""", "")
 
-        val loader = new FXMLLoaderProxy[Region, SearchController]("search.fxml")
+        val loader = new SimpleFxmlLoader[SearchController]("search.fxml")
 
         TabManager().open("Search", {
           new Tab("Search", loader.node)
@@ -175,7 +251,7 @@ class HomeController extends DefaultController {
 
     linkTags.setGraphic(new ImageView(LocalRes.IMG_TAG_PNG))
     linkTags.setOnAction { _ =>
-      val loader = new FXMLLoaderProxy[Region, TagController]("tag.fxml")
+      val loader = new SimpleFxmlLoader[TagController]("tag.fxml")
 
       TabManager().open("Tags", {
         new Tab("Tags", loader.node)
@@ -185,7 +261,7 @@ class HomeController extends DefaultController {
     }
 
     linkBrand.setOnAction { _ =>
-      val loader = new FXMLLoaderProxy[Region, MainPanelController]("mainpanel.fxml")
+      val loader = new SimpleFxmlLoader[MainPanelController]("mainpanel.fxml")
 
       TabManager().open("Brand", {
         new Tab("Brand", loader.node)
@@ -195,81 +271,45 @@ class HomeController extends DefaultController {
 
     }
 
-    linkGood.setOnAction { _ =>
-      val title = "优"
-      val conn = CommonTabController(new ByStarRange(4, 5))
 
-      TabManager().open(title, {
-        conn.controller.tablelistController.tableColState.setVisible(false)
-        new Tab(title, conn.node)
-      }) {
-        conn.load(_.star.get() > 3)
-      }
-
-    }
-
-    linkNormal.setOnAction { _ =>
-      val title = "良"
-      val conn = CommonTabController(new ByStarRange(3, 3))
-
-      TabManager().open(title, {
-        conn.controller.tablelistController.tableColState.setVisible(false)
-        new Tab(title, conn.node)
-      }) {
-        conn.load(_.star.get() == 3)
-      }
-    }
-
-    linkPass.setOnAction { _ =>
-      val title = "差"
-      val conn = CommonTabController(new ByStarRange(1, 2))
-
-      TabManager().open(title, {
-        conn.controller.tablelistController.tableColState.setVisible(false)
-        new Tab(title, conn.node)
-      }) {
-        conn.load(_.star.get() < 3)
-      }
-    }
-
-    linkLocal.setOnAction { _ =>
-      val title = "Local"
-      val conn = CommonTabController(new ByLocation(GameLocation.LOCAL))
-
-      TabManager().open(title, {
-        conn.controller.tablelistController.tableColState.setVisible(false)
-        new Tab(title, conn.node)
-      }) {
-        conn.load()
-      }
-    }
-
-    linkNetDisk.setOnAction { _ =>
-      val title = "NetDisk"
-      val conn = CommonTabController(new ByLocation(GameLocation.NETDISK))
-
-      TabManager().open(title, {
-        conn.controller.tablelistController.tableColState.setVisible(false)
-        new Tab(title, conn.node)
-      }) {
-        conn.load()
-      }
-
-    }
-
-    linkRemote.setOnAction { _ =>
-      val title = "Remote"
-      val conn = CommonTabController(new ByLocation(GameLocation.REMOTE))
-
-      TabManager().open(title, {
-        conn.controller.tablelistController.tableColState.setVisible(false)
-        new Tab(title, conn.node)
-
-      }) {
-        conn.load()
-      }
-
-    }
+    //    linkLocal.setOnAction { _ =>
+    //      val title = "Local"
+    //      val conn = CommonTabController(new ByLocation(GameLocation.LOCAL))
+    //
+    //      TabManager().open(title, {
+    //        conn.controller.tablelistController.tableColState.setVisible(false)
+    //        new Tab(title, conn.node)
+    //      }) {
+    //        conn.load()
+    //      }
+    //    }
+    //
+    //    linkNetDisk.setOnAction { _ =>
+    //      val title = "NetDisk"
+    //      val conn = CommonTabController(new ByLocation(GameLocation.NETDISK))
+    //
+    //      TabManager().open(title, {
+    //        conn.controller.tablelistController.tableColState.setVisible(false)
+    //        new Tab(title, conn.node)
+    //      }) {
+    //        conn.load()
+    //      }
+    //
+    //    }
+    //
+    //    linkRemote.setOnAction { _ =>
+    //      val title = "Remote"
+    //      val conn = CommonTabController(new ByLocation(GameLocation.REMOTE))
+    //
+    //      TabManager().open(title, {
+    //        conn.controller.tablelistController.tableColState.setVisible(false)
+    //        new Tab(title, conn.node)
+    //
+    //      }) {
+    //        conn.load()
+    //      }
+    //
+    //    }
 
   }
 

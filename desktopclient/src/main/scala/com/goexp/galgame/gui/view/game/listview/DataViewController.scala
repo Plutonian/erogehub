@@ -4,14 +4,13 @@ import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
-import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
-import com.goexp.galgame.gui.view.game.detailview.outer.OutPageController
+import com.goexp.galgame.gui.util.{SimpleFxmlLoader, Tags}
 import com.goexp.galgame.gui.view.game.listview.sidebar.{BrandGroupController, DateGroupController, FilterPanelController}
 import com.goexp.galgame.gui.view.game.listview.simplelist.small.{HeaderController, ListViewController}
 import com.goexp.galgame.gui.view.game.listview.tablelist.TableListController
 import com.goexp.ui.javafx.control.cell.NodeListCell
-import com.goexp.ui.javafx.{DefaultController, FXMLLoaderProxy, TaskService}
+import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.collections.transformation.{FilteredList, SortedList}
 import javafx.collections.{FXCollections, ObservableList}
@@ -246,8 +245,8 @@ class DataViewController extends DefaultController {
       imageView.setOnMouseClicked { e =>
         if (e.getButton eq MouseButton.PRIMARY) {
 
-          val loader = new FXMLLoaderProxy[Region, HeaderController]("header.fxml")
-          //          val loader = new FXMLLoaderProxy[Region, OutPageController]("out_page.fxml")
+          val loader = new SimpleFxmlLoader[HeaderController]("header.fxml")
+          //          val loader = new SimpleFxmlLoader[OutPageController]("out_page.fxml")
           loader.controller.load(game)
 
           //        if (!popPanel.isShowing)

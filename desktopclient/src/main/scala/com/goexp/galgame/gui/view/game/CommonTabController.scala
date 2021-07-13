@@ -1,16 +1,16 @@
 package com.goexp.galgame.gui.view.game
 
-import java.util.function.Predicate
-
 import com.goexp.galgame.gui.model.Game
+import com.goexp.galgame.gui.util.SimpleFxmlLoader
 import com.goexp.galgame.gui.view.game.listview.DataViewController
-import com.goexp.ui.javafx.{FXMLLoaderProxy, TaskService}
+import com.goexp.ui.javafx.TaskService
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
-import javafx.scene.layout.Region
+
+import java.util.function.Predicate
 
 class CommonTabController(private val taskCreator: () => Task[ObservableList[Game]]) {
-  val loader = new FXMLLoaderProxy[Region, DataViewController]("dataview.fxml")
+  val loader = new SimpleFxmlLoader[DataViewController]("dataview.fxml")
   val node = loader.node
   val controller = loader.controller
   private val gameSearchService = new TaskService(taskCreator)

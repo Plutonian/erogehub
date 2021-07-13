@@ -2,17 +2,16 @@ package com.goexp.galgame.gui.view
 
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.game.search.{ByCV, ByPainter}
-import com.goexp.galgame.gui.util.TabManager
 import com.goexp.galgame.gui.util.res.LocalRes
+import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager}
 import com.goexp.galgame.gui.view.brand.CommonInfoTabController
 import com.goexp.galgame.gui.view.game.detailview.outer.OutPageController
 import com.goexp.galgame.gui.view.game.{CommonTabController, HomeController}
 import com.goexp.galgame.gui.view.guide.SearchGuideController
-import com.goexp.ui.javafx.{DefaultController, FXMLLoaderProxy}
+import com.goexp.ui.javafx.DefaultController
 import javafx.fxml.FXML
 import javafx.scene.control.Tab
 import javafx.scene.image.ImageView
-import javafx.scene.layout.Region
 
 class MainController extends DefaultController {
 
@@ -61,7 +60,7 @@ class MainController extends DefaultController {
   }
 
   def loadDetail(game: Game) = {
-    val loader = new FXMLLoaderProxy[Region, OutPageController]("out_page.fxml")
+    val loader = new SimpleFxmlLoader[OutPageController]("out_page.fxml")
 
     TabManager().open(game.name, {
       new Tab(game.name, loader.node) {
@@ -75,7 +74,7 @@ class MainController extends DefaultController {
 
   def loadGuide(name: String) = {
     val title = s"攻略:${name}"
-    val loader = new FXMLLoaderProxy[Region, SearchGuideController]("searchguide.fxml")
+    val loader = new SimpleFxmlLoader[SearchGuideController]("searchguide.fxml")
 
     TabManager().open(title, {
       new Tab(title, loader.node)

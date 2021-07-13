@@ -63,17 +63,13 @@
                             </VBox>
                         </TitledPane>
                         <TitledPane animated="false" collapsible="false" text="Star">
-                            <VBox>
-                                <Hyperlink fx:id="linkGood" text="优"/>
-                                <Hyperlink fx:id="linkNormal" text="良"/>
-                                <Hyperlink fx:id="linkPass" text="差"/>
-                            </VBox>
+                            <VBox fx:id="queryByQuPanel"/>
                         </TitledPane>
                         <TitledPane animated="false" collapsible="false" text="Loc.">
-                            <VBox>
-                                <Hyperlink fx:id="linkLocal" text="Local"/>
-                                <Hyperlink fx:id="linkNetDisk" text="Net"/>
-                                <Hyperlink fx:id="linkRemote" text="Remote"/>
+                            <VBox fx:id="queryByLocationPanel">
+                                <!--                                <Hyperlink fx:id="linkLocal" text="Local"/>-->
+                                <!--                                <Hyperlink fx:id="linkNetDisk" text="Net"/>-->
+                                <!--                                <Hyperlink fx:id="linkRemote" text="Remote"/>-->
                             </VBox>
                         </TitledPane>
                         <TitledPane animated="false" collapsible="false" text="Other">

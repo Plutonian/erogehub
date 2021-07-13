@@ -1,7 +1,8 @@
 package com.goexp.galgame.gui.view.brand
 
 import com.goexp.galgame.gui.model.Brand
-import com.goexp.ui.javafx.{DefaultController, FXMLLoaderProxy}
+import com.goexp.galgame.gui.util.SimpleFxmlLoader
+import com.goexp.ui.javafx.DefaultController
 import javafx.scene.layout.Region
 
 class CommonInfoTabController() extends DefaultController {
@@ -11,11 +12,11 @@ class CommonInfoTabController() extends DefaultController {
   private var controller: InfoController = _
 
   private def init() = {
-    val loader = new FXMLLoaderProxy[Region, InfoController]("info.fxml")
+    val loader = new SimpleFxmlLoader[InfoController]("info.fxml")
 
     node = loader.node
     controller = loader.controller
-//    controller.dataViewController.tablelistController.tableColBrand.setVisible(false)
+    //    controller.dataViewController.tablelistController.tableColBrand.setVisible(false)
   }
 
   def load(brand: Brand) =

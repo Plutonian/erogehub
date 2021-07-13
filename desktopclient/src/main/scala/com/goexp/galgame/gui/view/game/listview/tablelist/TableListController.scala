@@ -3,16 +3,16 @@ package com.goexp.galgame.gui.view.game.listview.tablelist
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.change.{MultiBlock, MultiLocation, MultiState}
+import com.goexp.galgame.gui.util.SimpleFxmlLoader
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
 import com.goexp.galgame.gui.view.game.detailview.part.DateShowController
 import com.goexp.galgame.gui.view.game.listview.simplelist.small.InfoController
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TableCell, TextTableCell}
-import com.goexp.ui.javafx.{DefaultController, FXMLLoaderProxy, TaskService}
+import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.property.SimpleObjectProperty
 import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.image.ImageView
-import javafx.scene.layout.Region
 
 import java.time.LocalDate
 import java.util
@@ -115,7 +115,7 @@ class TableListController extends DefaultController {
 
     tableColDate.setCellFactory { _ =>
 
-      val loader = new FXMLLoaderProxy[Region, DateShowController]("dateshow.fxml")
+      val loader = new SimpleFxmlLoader[DateShowController]("dateshow.fxml")
 
       NodeTableCell { publishDate =>
         loader.controller.load(publishDate)
@@ -139,7 +139,7 @@ class TableListController extends DefaultController {
 
     tableColTitle.setCellFactory(_ => {
 
-      val loader = new FXMLLoaderProxy[Region, InfoController]("info.fxml")
+      val loader = new SimpleFxmlLoader[InfoController]("info.fxml")
 
       new TableCell[Game, String]() {
 

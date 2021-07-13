@@ -1,15 +1,15 @@
 package com.goexp.galgame.gui.view.game.detailview.inner
 
-import java.util.Objects
-
 import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.gui.model.Game
+import com.goexp.galgame.gui.util.SimpleFxmlLoader
+import com.goexp.ui.javafx.DefaultController
 import com.goexp.ui.javafx.control.cell.NodeListCell
-import com.goexp.ui.javafx.{DefaultController, FXMLLoaderProxy}
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.{ListView, Tab, TabPane}
-import javafx.scene.layout.Region
+
+import java.util.Objects
 
 class InnerPageController extends DefaultController {
   @FXML var headerController: HeaderPartController = _
@@ -22,7 +22,7 @@ class InnerPageController extends DefaultController {
 
   override protected def initialize() = {
     personListView.setCellFactory(_ => {
-      val loader = new FXMLLoaderProxy[Region, PersonCellController]("person_cell.fxml")
+      val loader = new SimpleFxmlLoader[PersonCellController]("person_cell.fxml")
       val controller = loader.controller
 
       NodeListCell[GameCharacter] { gameCharacter =>

@@ -1,9 +1,10 @@
 package com.goexp.galgame.gui.view.game.listview.simplelist.small
 
 import com.goexp.galgame.gui.model.Game
+import com.goexp.galgame.gui.util.SimpleFxmlLoader
 import com.goexp.galgame.gui.view.game.detailview.outer.OutPageController
+import com.goexp.ui.javafx.DefaultController
 import com.goexp.ui.javafx.control.cell.NodeListCell
-import com.goexp.ui.javafx.{DefaultController, FXMLLoaderProxy}
 import javafx.fxml.FXML
 import javafx.scene.control.ListView
 import javafx.scene.layout.Region
@@ -18,7 +19,7 @@ class ListViewController extends DefaultController {
 
     smallListSimple.setCellFactory(_ => {
 
-      val loader = new FXMLLoaderProxy[Region, HeaderController]("header.fxml")
+      val loader = new SimpleFxmlLoader[HeaderController]("header.fxml")
       NodeListCell[Game] { game =>
 
         loader.controller.load(game)

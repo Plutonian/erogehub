@@ -33,6 +33,10 @@ class TabManager private(val root: TabPane) {
       case None =>
         val t = tab
 
+        t.setOnClosed { _ =>
+          tabs.remove(key)
+        }
+
         val index = root.getSelectionModel.getSelectedIndex
         root.getTabs.add(index + 1, t)
         root.getSelectionModel.select(t)

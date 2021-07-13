@@ -1,9 +1,9 @@
 package com.goexp.galgame.gui.view.game.detailview.outer
 
 import com.goexp.galgame.common.model.game.CommonGame.Titles
+import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
-import com.goexp.galgame.gui.view.MainController
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController
 import com.goexp.galgame.gui.view.game.detailview.part.{DateShowController, StarRatingController}
 import com.goexp.ui.javafx.DefaultController
@@ -31,7 +31,7 @@ class TopController extends DefaultController {
       event.getTarget match {
         case painter: Hyperlink =>
           val str = painter.getText.replaceAll("（[^）]+）", "")
-          MainController().loadPainterTab(str)
+          HGameApp.loadPainterTab(str)
         case _ =>
       }
     })

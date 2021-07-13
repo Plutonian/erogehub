@@ -1,9 +1,9 @@
 package com.goexp.galgame.gui.view.game.listview.simplelist.small
 
 import com.goexp.galgame.common.model.game.CommonGame.Titles
+import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
-import com.goexp.galgame.gui.view.MainController
 import com.goexp.galgame.gui.view.common.control.StarRatingView
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController
 import com.goexp.ui.javafx.DefaultController
@@ -28,7 +28,7 @@ class InfoController extends DefaultController {
   //  @FXML private var linkView: Hyperlink = _
 
   override protected def initialize(): Unit = {
-    txtName.setOnAction(_ => MainController().loadDetail(targetGame))
+    txtName.setOnAction(_ => HGameApp.loadDetail(targetGame))
   }
 
   def load(game: Game): Unit = {

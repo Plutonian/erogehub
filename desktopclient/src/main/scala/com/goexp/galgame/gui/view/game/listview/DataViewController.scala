@@ -5,7 +5,7 @@ import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
-import com.goexp.galgame.gui.util.{SimpleFxmlLoader, Tags}
+import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager, Tags}
 import com.goexp.galgame.gui.view.game.listview.sidebar.{BrandGroupController, DateGroupController, FilterPanelController}
 import com.goexp.galgame.gui.view.game.listview.simplelist.small.{HeaderController, ListViewController}
 import com.goexp.galgame.gui.view.game.listview.tablelist.TableListController
@@ -27,7 +27,6 @@ import java.util.function.Predicate
 import scala.jdk.CollectionConverters._
 
 class DataViewController extends DefaultController {
-  final val reloadProperty = new SimpleBooleanProperty(false)
   /**
    * Controllers
    */
@@ -40,11 +39,10 @@ class DataViewController extends DefaultController {
    * Status bar
    */
   @FXML private var lbItemCount: Label = _
-  @FXML var progessloading: ProgressBar = _
+  @FXML var loadingBar: ProgressBar = _
   /**
    * main panel
    */
-  //  @FXML private var tableView: TableView[Game] = _
   @FXML private var tablelist: TableView[Game] = _
   @FXML private var mainTab: TabPane = _
   /**
@@ -269,7 +267,6 @@ class DataViewController extends DefaultController {
   }
 
   @FXML private def reload_OnAction(event: ActionEvent) = {
-    reloadProperty.set(true)
-    reloadProperty.set(false)
+    TabManager().reloadActiveTabData()
   }
 }

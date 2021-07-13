@@ -2,17 +2,17 @@ package com.goexp.galgame.gui.view.brand
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.brand.BrandState
+import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.brand.ChangeStateTask
 import com.goexp.galgame.gui.task.brand.list.ByComp
 import com.goexp.galgame.gui.task.game.change.MultiBlockByBrand
-import com.goexp.galgame.gui.view.MainController
 import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.value.ChangeListener
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.fxml.FXML
 import javafx.scene.control._
-import javafx.scene.layout.{FlowPane, HBox}
+import javafx.scene.layout.FlowPane
 import javafx.scene.text.Text
 
 import scala.jdk.CollectionConverters._
@@ -62,7 +62,7 @@ class TitlePartController extends DefaultController {
             val item = new MenuItem
             item.setText(brand.name)
             item.setUserData(brand)
-            item.setOnAction(_ => MainController().viewBrand(brand))
+            item.setOnAction(_ => HGameApp.viewBrand(brand))
             item
           }.asJava
 

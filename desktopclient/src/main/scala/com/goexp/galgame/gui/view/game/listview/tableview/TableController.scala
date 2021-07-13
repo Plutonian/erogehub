@@ -1,13 +1,9 @@
 package com.goexp.galgame.gui.view.game.listview.tableview
 
-import java.time.LocalDate
-import java.util
-
 import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.game.change.{MultiBlock, MultiLocation, MultiState}
-import com.goexp.galgame.gui.view.MainController
 import com.goexp.galgame.gui.view.common.control.StarRatingView
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TableCell, TextTableCell}
 import com.goexp.ui.javafx.{DefaultController, TaskService}
@@ -15,8 +11,9 @@ import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
 import javafx.scene.control._
-import javafx.scene.input.MouseButton
 
+import java.time.LocalDate
+import java.util
 import scala.jdk.CollectionConverters._
 
 class TableController extends DefaultController {

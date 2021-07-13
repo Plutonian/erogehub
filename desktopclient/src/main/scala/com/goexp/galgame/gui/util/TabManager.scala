@@ -1,14 +1,15 @@
 package com.goexp.galgame.gui.util
 
-import com.goexp.galgame.gui.view.MainController
+import com.goexp.galgame.gui.view.game.HomeController
 import javafx.scene.control.{Tab, TabPane}
 
 import scala.collection.mutable
+import scala.jdk.CollectionConverters._
 
 object TabManager {
   def apply(root: TabPane): TabManager = new TabManager(root)
 
-  def apply(): TabManager = new TabManager(MainController().homeController.mainTabPanel)
+  def apply(): TabManager = TabManager(HomeController.tabPanel)
 
   type TabAndReload = (Tab, () => Unit)
 
@@ -32,6 +33,7 @@ class TabManager private(val root: TabPane) {
         root.getSelectionModel.select(tab)
       case None =>
         val t = tab
+        t.setUserData(key)
 
         t.setOnClosed { _ =>
           tabs.remove(key)
@@ -45,6 +47,58 @@ class TabManager private(val root: TabPane) {
 
         load
     }
+  }
+
+  private def close(tab: Tab) = {
+    //remove from cache
+    tabs.remove(tab.getUserData.asInstanceOf[String])
+    root.getTabs.remove(tab)
+  }
+
+  def closeOther() = {
+    root.getTabs.asScala
+      .filter(_ ne root.getSelectionModel.getSelectedItem)
+      .foreach {
+        close
+      }
+  }
+
+  def closeLeft() = {
+    val index = root.getSelectionModel.getSelectedIndex
+
+    if (index > 0) {
+      (0 until index).foreach { i =>
+
+        val t = root.getTabs.get(0)
+
+        close(t)
+      }
+    }
+
+
+  }
+
+  def closeRight() = {
+
+    val index = root.getSelectionModel.getSelectedIndex
+    val total = root.getTabs.size
+
+    if (index < total - 1) {
+      (index + 1 until total).foreach { i =>
+        val t = root.getTabs.get(index + 1)
+
+        close(t)
+      }
+    }
+  }
+
+
+  def reloadActiveTabData() = {
+    val key = root.getSelectionModel.getSelectedItem.getUserData.asInstanceOf[String]
+
+    val (_, reload) = tabs(key)
+
+    reload()
   }
 
 }

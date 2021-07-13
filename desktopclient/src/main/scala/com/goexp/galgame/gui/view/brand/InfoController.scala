@@ -1,15 +1,14 @@
 package com.goexp.galgame.gui.view.brand
 
-import java.util.Objects
-
 import com.goexp.galgame.gui.model.{Brand, Game}
-import com.goexp.ui.javafx.TaskService
 import com.goexp.galgame.gui.task.game.search.ByBrand
 import com.goexp.galgame.gui.view.game.listview.DataViewController
-import com.goexp.ui.javafx.DefaultController
+import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.collections.ObservableList
 import javafx.collections.transformation.FilteredList
 import javafx.fxml.FXML
+
+import java.util.Objects
 
 class InfoController extends DefaultController {
 
@@ -25,12 +24,8 @@ class InfoController extends DefaultController {
       if (newValue != null) load(newValue)
     })
 
-    dataViewController.progessloading.visibleProperty.bind(gameByBrand.runningProperty)
+    //    dataViewController.loadingBar.visibleProperty.bind(gameByBrand.runningProperty)
 
-    dataViewController.reloadProperty.addListener((_, _, newValue) => {
-      if (newValue) gameByBrand.restart()
-
-    })
   }
 
   private def load(games: ObservableList[Game]) = {

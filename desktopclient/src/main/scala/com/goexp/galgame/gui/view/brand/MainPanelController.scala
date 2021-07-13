@@ -2,11 +2,11 @@ package com.goexp.galgame.gui.view.brand
 
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.common.model.game.brand.BrandState
+import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Brand
 import com.goexp.galgame.gui.task.brand.search.{ByComp, ByName, ByType}
 import com.goexp.galgame.gui.util.Tags.maker
 import com.goexp.galgame.gui.util.{Tags, Websites}
-import com.goexp.galgame.gui.view.MainController
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TextTableCell}
 import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
@@ -115,7 +115,7 @@ class MainPanelController extends DefaultController {
           if (brand != null) {
             val link = new Hyperlink(brand.name)
             link.setOnAction(_ => {
-              MainController().viewBrand(brand)
+              HGameApp.viewBrand(brand)
             })
             link
           } else {

@@ -7,7 +7,7 @@ import com.goexp.galgame.gui.task.game.search._
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager}
 import com.goexp.galgame.gui.view.brand.MainPanelController
-import com.goexp.galgame.gui.view.game.HomeController.{queryByLocationConfig2, queryByQuConfig2, queryLocalConfig, queryRemoteConfig}
+import com.goexp.galgame.gui.view.game.HomeController._
 import com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController
 import com.goexp.ui.javafx.DefaultController
 import javafx.collections.ObservableList
@@ -29,9 +29,11 @@ class ConfigItem[T] {
   var dataTask: Task[ObservableList[T]] = _
 }
 
-private object HomeController {
+object HomeController {
 
-  val queryByQuConfig2 = List(
+  var tabPanel: TabPane = _
+
+  private val queryByQuConfig2 = List(
     new ConfigItem[Game] {
       title = "优"
       dataTask = new ByStarRange(4, 5)
@@ -46,7 +48,7 @@ private object HomeController {
     }
   )
 
-  val queryByLocationConfig2 = List(
+  private val queryByLocationConfig2 = List(
     new ConfigItem[Game] {
       title = GameLocation.LOCAL.name
       dataTask = new ByLocation(GameLocation.LOCAL)
@@ -61,7 +63,7 @@ private object HomeController {
     }
   )
 
-  val queryLocalConfig = List(
+  private val queryLocalConfig = List(
     new ConfigItem[Game] {
       title = GameState.PLAYED.name
       dataTask = new ByState(GameState.PLAYED)
@@ -72,7 +74,7 @@ private object HomeController {
     }
   )
 
-  val queryRemoteConfig = List(
+  private val queryRemoteConfig = List(
     new ConfigItem[Game] {
       title = GameState.READYTOVIEW.name
       dataTask = new ByState(GameState.READYTOVIEW)
@@ -104,6 +106,8 @@ class HomeController extends DefaultController {
   @FXML private var linkConfig: Hyperlink = _
 
   override protected def initialize() = {
+
+    tabPanel = mainTabPanel
 
     def initInLocalList() = {
 
@@ -155,7 +159,6 @@ class HomeController extends DefaultController {
           val conn = CommonTabController(item.dataTask)
 
           TabManager().open(item.title, {
-            conn.controller.tablelistController.tableColState.setVisible(false)
             new Tab(item.title, conn.node)
           }) {
             conn.load()
@@ -329,13 +332,15 @@ class HomeController extends DefaultController {
 
 
   @FXML private def miCloseOther_OnAction(actionEvent: ActionEvent) = {
-    val tabs = mainTabPanel.getTabs.asScala.to(LazyList)
-      .filter(_ ne mainTabPanel.getSelectionModel.getSelectedItem)
-      .asJava
-    mainTabPanel.getTabs.removeAll(tabs)
+    TabManager().closeOther()
   }
 
-  @FXML private def miCloseRight_OnAction(actionEvent: ActionEvent) =
-    mainTabPanel.getTabs.remove(mainTabPanel.getSelectionModel.getSelectedIndex + 1, mainTabPanel.getTabs.size)
+  @FXML private def miCloseRight_OnAction(actionEvent: ActionEvent) = {
+    TabManager().closeRight()
+  }
+
+  @FXML private def miCloseLeft_OnAction(actionEvent: ActionEvent) = {
+    TabManager().closeLeft()
+  }
 
 }

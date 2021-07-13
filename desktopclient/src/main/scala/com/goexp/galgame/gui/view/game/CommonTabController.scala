@@ -7,37 +7,31 @@ import com.goexp.ui.javafx.TaskService
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
 
-import java.util.function.Predicate
-
 class CommonTabController(private val taskCreator: () => Task[ObservableList[Game]]) {
-  val loader = new SimpleFxmlLoader[DataViewController]("dataview.fxml")
+
+  private val loader = new SimpleFxmlLoader[DataViewController]("dataview.fxml")
   val node = loader.node
   val controller = loader.controller
-  private val gameSearchService = new TaskService(taskCreator)
+
+  private val queryService = new TaskService(taskCreator)
 
   init()
 
-
   private def init() = {
 
-    controller.reloadProperty.addListener((_, _, newValue) => {
-      if (newValue) gameSearchService.restart()
-
-    })
-    gameSearchService.valueProperty.addListener((_, _, newValue) => {
-      if (newValue != null)
+    queryService.valueProperty.addListener((_, _, newValue) => {
+      if (newValue != null) {
         controller.load(newValue)
+        //        controller.loadingBar.setVisible(false)
+      }
     })
 
-    controller.progessloading.visibleProperty.bind(gameSearchService.runningProperty)
+    //    controller.loadingBar.visibleProperty.bind(queryService.runningProperty)
   }
 
-  private var initPredicate: Predicate[Game] = _
-
-  def load(initPredicate: Predicate[Game] = null): Unit = {
-    this.initPredicate = initPredicate
-
-    gameSearchService.restart()
+  def load(): Unit = {
+    queryService.restart()
+    //    controller.loadingBar.setVisible(true)
   }
 
 

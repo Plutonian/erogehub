@@ -1,14 +1,12 @@
 package com.goexp.galgame.gui.view.game
 
-import java.time.LocalDate
-
 import com.goexp.galgame.common.model.CV
 import com.goexp.galgame.common.model.game.GameState
+import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.task.CVListTask
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.util.Tags.maker
 import com.goexp.galgame.gui.util.res.LocalRes
-import com.goexp.galgame.gui.view.MainController
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TextTableCell}
 import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
@@ -17,6 +15,7 @@ import javafx.scene.control._
 import javafx.scene.image.ImageView
 import javafx.scene.layout.HBox
 
+import java.time.LocalDate
 import scala.jdk.CollectionConverters._
 
 class CVInfoController extends DefaultController {
@@ -107,7 +106,7 @@ class CVInfoController extends DefaultController {
 
       NodeTableCell { name =>
         link.setText(name)
-        link.setOnAction(_ => MainController().loadCVTab(name, true))
+        link.setOnAction(_ => HGameApp.loadCVTab(name, true))
         link
       }
     }

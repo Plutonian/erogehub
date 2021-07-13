@@ -2,11 +2,19 @@ package com.goexp.galgame.gui
 
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.HGameApp.app
-import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.view.MainController
+import com.goexp.galgame.gui.model.{Brand, Game}
+import com.goexp.galgame.gui.task.game.search.{ByCV, ByPainter}
+import com.goexp.galgame.gui.util.res.LocalRes
+import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager}
+import com.goexp.galgame.gui.view.brand.CommonInfoTabController
+import com.goexp.galgame.gui.view.game.detailview.outer.OutPageController
+import com.goexp.galgame.gui.view.game.{CommonTabController, HomeController}
+import com.goexp.galgame.gui.view.guide.SearchGuideController
 import com.goexp.ui.javafx.FXMLLoaderProxy
 import com.typesafe.scalalogging.Logger
 import javafx.application.Application
+import javafx.scene.control.Tab
+import javafx.scene.image.ImageView
 import javafx.scene.paint.Color
 import javafx.scene.{Parent, Scene}
 import javafx.stage.Stage
@@ -30,6 +38,69 @@ object HGameApp extends App {
     }
   }
 
+  def viewBrand(brand: Brand) = {
+    val text = brand.name
+    val conn = new CommonInfoTabController
+
+    TabManager().open(text, {
+      new Tab(text, conn.node) {
+        setGraphic(new ImageView(LocalRes.BRAND_16_PNG))
+      }
+    }) {
+      conn.load(brand)
+    }
+
+  }
+
+  def loadPainterTab(painter: String) = {
+    val conn = CommonTabController(new ByPainter(painter))
+
+    TabManager().open(painter, {
+      new Tab(painter, conn.node)
+    }) {
+      conn.load()
+    }
+  }
+
+  def loadCVTab(cv: String, real: Boolean) = {
+    val conn = CommonTabController(new ByCV(cv, real))
+
+    TabManager().open(cv, {
+      new Tab(cv, conn.node) {
+        setGraphic(new ImageView(LocalRes.CV_16_PNG))
+      }
+    }) {
+      conn.load()
+    }
+
+  }
+
+  def loadDetail(game: Game) = {
+    val loader = new SimpleFxmlLoader[OutPageController]("out_page.fxml")
+
+    TabManager().open(game.name, {
+      new Tab(game.name, loader.node) {
+        setGraphic(new ImageView(LocalRes.GAME_16_PNG))
+      }
+    }) {
+      loader.controller.load(game)
+    }
+
+  }
+
+  def loadGuide(name: String) = {
+    val title = s"攻略:${name}"
+    val loader = new SimpleFxmlLoader[SearchGuideController]("searchguide.fxml")
+
+    TabManager().open(title, {
+      new Tab(title, loader.node)
+    }) {
+
+      loader.controller.load(name)
+    }
+
+  }
+
   Application.launch(classOf[HGameApp])
 
 }
@@ -45,7 +116,7 @@ class HGameApp extends Application {
 
     logger.info("Starting App")
 
-    val proxy = new FXMLLoaderProxy[Parent, MainController](getClass.getResource("HGameApp.fxml"))
+    val proxy = new FXMLLoaderProxy[Parent, HomeController]("home.fxml")
     primaryStage.setTitle("エロゲ まとめ")
     //    primaryStage.initStyle(StageStyle.UNDECORATED)
     primaryStage.setWidth(1400)

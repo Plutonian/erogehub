@@ -26,10 +26,6 @@ class PersonCellPanel extends BorderPane with Logger {
   private val image = new SimpleObjectProperty[Image]()
 
 
-  //  private val isTrueCV = Strings.isNotEmpty(gameChar.trueCV)
-  //  private val cv = if (isTrueCV) s"*${gameChar.trueCV}*" else gameChar.cv
-
-
   class GameCharacterInfo extends VBox {
 
 
@@ -66,11 +62,7 @@ class PersonCellPanel extends BorderPane with Logger {
           new MenuItem("Bangumi") {
             setOnAction(_ => Websites.open(BangumiURL.fromTitle(cv.get())))
 
-          },
-
-          //TODO query
-          //      ,
-          //      new MenuItem("関連ゲーム")
+          }
         )
 
       }
@@ -156,16 +148,5 @@ class PersonCellPanel extends BorderPane with Logger {
 
 
   }
-
-  //  @FXML private var txtIntro: Text = _
-  //
-  //  def init() = {
-  //
-  //    if (Strings.isEmpty(gameChar.intro))
-  //      txtIntro.setVisible(false)
-  //    else
-  //      txtIntro.setText(gameChar.intro)
-  //
-  //  }
 
 }

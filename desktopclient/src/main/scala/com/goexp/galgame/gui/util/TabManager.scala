@@ -49,6 +49,28 @@ class TabManager private(val root: TabPane) {
     }
   }
 
+  def open(key: String, tab: => Tab with Datas): Unit = {
+    tabs.get(key) match {
+      case Some((tab, _)) =>
+        root.getSelectionModel.select(tab)
+      case None =>
+        val t = tab
+        t.setUserData(key)
+
+        t.setOnClosed { _ =>
+          tabs.remove(key)
+        }
+
+        val index = root.getSelectionModel.getSelectedIndex
+        root.getTabs.add(index + 1, t)
+        root.getSelectionModel.select(t)
+
+        tabs.addOne(key, (t, () => t.load()))
+
+        t.load()
+    }
+  }
+
   private def close(tab: Tab) = {
     //remove from cache
     tabs.remove(tab.getUserData.asInstanceOf[String])

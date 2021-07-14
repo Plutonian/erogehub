@@ -7,8 +7,9 @@ import com.goexp.galgame.gui.task.game.search.{ByCV, ByPainter}
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager}
 import com.goexp.galgame.gui.view.brand.CommonInfoTabController
+import com.goexp.galgame.gui.view.common.control.DataTab
 import com.goexp.galgame.gui.view.game.detailview.outer.OutPageController
-import com.goexp.galgame.gui.view.game.{CommonTabController, HomeController}
+import com.goexp.galgame.gui.view.game.{CommonDataViewPanel, HomeController}
 import com.goexp.galgame.gui.view.guide.SearchGuideController
 import com.goexp.ui.javafx.FXMLLoaderProxy
 import com.typesafe.scalalogging.Logger
@@ -53,26 +54,22 @@ object HGameApp extends App {
   }
 
   def loadPainterTab(painter: String) = {
-    val conn = CommonTabController(new ByPainter(painter))
 
     TabManager().open(painter, {
-      new Tab(painter, conn.node)
-    }) {
-      conn.load()
-    }
+      new DataTab(CommonDataViewPanel(new ByPainter(painter))) {
+        setText(painter)
+      }
+    })
   }
 
   def loadCVTab(cv: String, real: Boolean) = {
-    val conn = CommonTabController(new ByCV(cv, real))
 
     TabManager().open(cv, {
-      new Tab(cv, conn.node) {
+      new DataTab(CommonDataViewPanel(new ByCV(cv, real))) {
+        setText(cv)
         setGraphic(new ImageView(LocalRes.CV_16_PNG))
       }
-    }) {
-      conn.load()
-    }
-
+    })
   }
 
   def loadDetail(game: Game) = {

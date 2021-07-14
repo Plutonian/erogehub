@@ -1,17 +1,18 @@
 package com.goexp.galgame.gui.view.game
 
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.util.SimpleFxmlLoader
+import com.goexp.galgame.gui.util.{Datas, SimpleFxmlLoader}
 import com.goexp.galgame.gui.view.game.listview.DataViewController
 import com.goexp.ui.javafx.TaskService
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
+import javafx.scene.layout.StackPane
 
-class CommonTabController(private val taskCreator: () => Task[ObservableList[Game]]) {
+class CommonDataViewPanel(private val taskCreator: () => Task[ObservableList[Game]]) extends StackPane with Datas {
 
   private val loader = new SimpleFxmlLoader[DataViewController]("dataview.fxml")
-  val node = loader.node
-  val controller = loader.controller
+  private val node = loader.node
+  private val controller = loader.controller
 
   private val queryService = new TaskService(taskCreator)
 
@@ -22,21 +23,21 @@ class CommonTabController(private val taskCreator: () => Task[ObservableList[Gam
     queryService.valueProperty.addListener((_, _, newValue) => {
       if (newValue != null) {
         controller.load(newValue)
-        //        controller.loadingBar.setVisible(false)
       }
     })
 
-    //    controller.loadingBar.visibleProperty.bind(queryService.runningProperty)
+    controller.loadingBar.visibleProperty.bind(queryService.runningProperty)
+
+    getChildren.setAll(node)
   }
 
-  def load(): Unit = {
+  override def load(): Unit = {
     queryService.restart()
-    //    controller.loadingBar.setVisible(true)
   }
 
 
 }
 
-object CommonTabController {
-  def apply(taskCreator: => Task[ObservableList[Game]]): CommonTabController = new CommonTabController(() => taskCreator)
+object CommonDataViewPanel {
+  def apply(taskCreator: => Task[ObservableList[Game]]): CommonDataViewPanel = new CommonDataViewPanel(() => taskCreator)
 }

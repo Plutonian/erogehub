@@ -3,11 +3,12 @@ package com.goexp.galgame.gui.view.game
 import com.goexp.galgame.gui.task.game.search.ByDateRange
 import com.goexp.galgame.gui.util.TabManager
 import com.goexp.galgame.gui.util.res.LocalRes
+import com.goexp.galgame.gui.view.common.control.DataTab
 import com.goexp.ui.javafx.DefaultController
 import com.goexp.ui.javafx.control.cell.TextListCell
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
-import javafx.scene.control.{ListView, Tab}
+import javafx.scene.control.ListView
 import javafx.scene.image.ImageView
 
 import java.time.LocalDate
@@ -36,16 +37,12 @@ class DateController extends DefaultController {
 
         logger.debug(s"Range:${from}  ${to}")
 
-        val conn = CommonTabController(new ByDateRange(from, to))
-
         TabManager().open(title, {
-          new Tab(title, conn.node) {
+          new DataTab(CommonDataViewPanel(new ByDateRange(from, to))) {
+            setText(title)
             setGraphic(new ImageView(LocalRes.DATE_16_PNG))
           }
-        }) {
-          conn.load()
-        }
-
+        })
       }
 
       val months = (1 to 12).asJava
@@ -74,17 +71,13 @@ class DateController extends DefaultController {
 
         logger.debug(s"Range:${from}  ${to}")
 
-        val conn = CommonTabController(new ByDateRange(from, to))
 
         TabManager().open(title, {
-          new Tab(title, conn.node) {
-
+          new DataTab(CommonDataViewPanel(new ByDateRange(from, to))) {
+            setText(title)
             setGraphic(new ImageView(LocalRes.DATE_16_PNG))
           }
-        }) {
-          conn.load()
-        }
-
+        })
       }
 
       val years = (2000 to LocalDate.now.getYear + 1).reverse.asJava

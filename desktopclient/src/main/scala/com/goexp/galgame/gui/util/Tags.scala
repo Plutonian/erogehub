@@ -29,7 +29,7 @@ object Tags {
     Objects.requireNonNull(tag)
     Objects.requireNonNull(mapper)
     tag.asScala.to(LazyList)
-      .filter((str: String) => !str.isEmpty)
+      .filter((str: String) => str.nonEmpty)
       .map(mapper)
       .asJava
   }

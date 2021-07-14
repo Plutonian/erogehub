@@ -22,7 +22,7 @@ class SearchController extends DefaultController {
   override protected def initialize() = {
     onLoadProperty.addListener((_, _, newValue) => {
       if (newValue) {
-        val conn = CommonTabController(
+        val conn = CommonDataViewPanel(
           searchType match {
             case SearchType.Simple => new ByName(key.get())
             case SearchType.Extend => new ByNameEx(key.get())
@@ -30,7 +30,7 @@ class SearchController extends DefaultController {
             case _ => null
           }
         )
-        searchPanel.setCenter(conn.node)
+        searchPanel.setCenter(conn)
         conn.load()
       }
     })

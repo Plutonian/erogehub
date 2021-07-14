@@ -7,6 +7,7 @@ import com.goexp.galgame.gui.task.game.search._
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager}
 import com.goexp.galgame.gui.view.brand.MainPanelController
+import com.goexp.galgame.gui.view.common.control.DataTab
 import com.goexp.galgame.gui.view.game.HomeController._
 import com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController
 import com.goexp.ui.javafx.DefaultController
@@ -156,13 +157,11 @@ class HomeController extends DefaultController {
       new Hyperlink(item.title) {
         setGraphic(item.icon)
         setOnAction { _ =>
-          val conn = CommonTabController(item.dataTask)
-
-          TabManager().open(item.title, {
-            new Tab(item.title, conn.node)
-          }) {
-            conn.load()
-          }
+          TabManager().open(item.title,
+            new DataTab(CommonDataViewPanel(item.dataTask)) {
+              setText(item.title)
+            }
+          )
         }
       }
     }
@@ -267,13 +266,13 @@ class HomeController extends DefaultController {
     {
       linkTags.setGraphic(new ImageView(LocalRes.IMG_TAG_PNG))
       linkTags.setOnAction { _ =>
-        val loader = new SimpleFxmlLoader[TagController]("tag.fxml")
 
-        TabManager().open("Tags", {
-          new Tab("Tags", loader.node)
-        }) {
-          loader.controller.load()
-        }
+        TabManager().open("Tags",
+          new DataTab(new TagView()) {
+            setText("Tags")
+          }
+        )
+
       }
     }
 

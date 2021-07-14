@@ -124,8 +124,9 @@ class CVInfoController extends DefaultController {
     )
 
     colTag.setCellFactory(_ => {
-      val hbox = new HBox
-      hbox.setSpacing(5)
+      val hbox = new HBox {
+        setSpacing(5)
+      }
 
       NodeTableCell { tag =>
         hbox.getChildren.setAll(Tags.toNodes(tag.asJava))

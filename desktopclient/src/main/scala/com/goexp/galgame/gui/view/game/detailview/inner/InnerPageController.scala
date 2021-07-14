@@ -2,7 +2,6 @@ package com.goexp.galgame.gui.view.game.detailview.inner
 
 import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.util.SimpleFxmlLoader
 import com.goexp.ui.javafx.DefaultController
 import com.goexp.ui.javafx.control.cell.NodeListCell
 import javafx.collections.FXCollections
@@ -22,15 +21,17 @@ class InnerPageController extends DefaultController {
 
   override protected def initialize() = {
     personListView.setCellFactory(_ => {
-      val loader = new SimpleFxmlLoader[PersonCellController]("person_cell.fxml")
-      val controller = loader.controller
+
+      val panel = new PersonCellPanel()
 
       NodeListCell[GameCharacter] { gameCharacter =>
-        controller.init(game, gameCharacter)
-        loader.node
+
+        panel.load(game, gameCharacter)
+        panel
       }
     })
   }
+
 
   def reset() = {
 

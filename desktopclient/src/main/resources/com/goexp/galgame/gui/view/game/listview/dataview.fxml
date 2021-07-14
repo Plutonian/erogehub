@@ -7,44 +7,42 @@
             fx:controller="com.goexp.galgame.gui.view.game.listview.DataViewController">
     <center>
         <SplitPane dividerPositions="0">
-            <items>
-                <TabPane prefHeight="433.0" prefWidth="0.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
-                    <Tab text="Date">
-                        <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml"/>
+            <TabPane prefHeight="433.0" prefWidth="0.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
+                <Tab text="Date">
+                    <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml"/>
+                </Tab>
+                <Tab text="Brand">
+                    <fx:include fx:id="brandGroup" source="sidebar/brandgroup.fxml"/>
+                </Tab>
+                <Tab text="Tag">
+                    <ListView fx:id="tagList" prefHeight="100.0"/>
+                </Tab>
+                <Tab text="CV">
+                    <ListView fx:id="cvList" prefHeight="100.0"/>
+                </Tab>
+            </TabPane>
+            <AnchorPane>
+                <TabPane fx:id="mainTab" nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM"
+                         tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
+                         AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                    <Tab text="Flow">
+                        <fx:include fx:id="smallListSimple" source="simplelist/small/list.fxml"/>
                     </Tab>
-                    <Tab text="Brand">
-                        <fx:include fx:id="brandGroup" source="sidebar/brandgroup.fxml"/>
+                    <Tab text="List">
+                        <fx:include fx:id="tablelist" source="tablelist/tablelist.fxml"/>
                     </Tab>
-                    <Tab text="Tag">
-                        <ListView fx:id="tagList" prefHeight="100.0"/>
+                    <Tab text="Grid">
+                        <ScrollPane fitToWidth="true" nodeOrientation="LEFT_TO_RIGHT">
+                            <FlowPane fx:id="gridView" vgap="20" hgap="20"/>
+                        </ScrollPane>
                     </Tab>
-                    <Tab text="CV">
-                        <ListView fx:id="cvList" prefHeight="100.0"/>
-                    </Tab>
-                </TabPane>
-                <AnchorPane>
-                    <TabPane fx:id="mainTab" nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM"
-                             tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
-                             AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-                        <Tab text="Flow">
-                            <fx:include fx:id="smallListSimple" source="simplelist/small/list.fxml"/>
-                        </Tab>
-                        <Tab text="List">
-                            <fx:include fx:id="tablelist" source="tablelist/tablelist.fxml"/>
-                        </Tab>
-                        <Tab text="Grid">
-                            <ScrollPane fitToWidth="true" nodeOrientation="LEFT_TO_RIGHT">
-                                <FlowPane fx:id="gridView" vgap="20" hgap="20"/>
-                            </ScrollPane>
-                        </Tab>
 
-                    </TabPane>
-                    <HBox AnchorPane.bottomAnchor="3" AnchorPane.leftAnchor="10">
-                        <Label fx:id="lbItemCount" prefWidth="80.0"/>
-                        <ProgressBar fx:id="loadingBar" prefHeight="25.0" prefWidth="77.0" visible="false"/>
-                    </HBox>
-                </AnchorPane>
-            </items>
+                </TabPane>
+                <HBox AnchorPane.bottomAnchor="3" AnchorPane.leftAnchor="10">
+                    <Label fx:id="lbItemCount" prefWidth="80.0"/>
+                    <ProgressBar fx:id="loadingBar" prefHeight="25.0" prefWidth="77.0" visible="false"/>
+                </HBox>
+            </AnchorPane>
         </SplitPane>
     </center>
     <right>

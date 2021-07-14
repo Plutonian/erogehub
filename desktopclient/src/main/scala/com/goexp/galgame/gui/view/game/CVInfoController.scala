@@ -48,6 +48,7 @@ class CVInfoController extends DefaultController {
   @FXML var colNetdisk: TableColumn[CV, Int] = _
   @FXML var colRemote: TableColumn[CV, Int] = _
 
+
   final private val loadCVService = TaskService(new CVListTask())
 
   override protected def initialize() = {

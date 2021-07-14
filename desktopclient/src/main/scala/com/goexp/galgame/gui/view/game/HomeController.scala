@@ -223,6 +223,13 @@ class HomeController extends DefaultController {
         }) {
           loader.controller.load()
         }
+
+        //        TabManager().open("CV",
+        //          new DataTab(new CVView) {
+        //            setText("CV")
+        //            setGraphic(new ImageView(LocalRes.CV_16_PNG))
+        //          }
+        //        )
       }
     }
 

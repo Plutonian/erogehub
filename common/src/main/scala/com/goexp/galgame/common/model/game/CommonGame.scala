@@ -1,15 +1,14 @@
 package com.goexp.galgame.common.model.game
 
+import com.goexp.galgame.common.model.game.CommonGame.Titles
+
 import java.time.LocalDate
 import java.util
 import java.util.regex.Pattern
-
-import com.goexp.galgame.common.model.game.CommonGame.Titles
-
 import scala.beans.BeanProperty
 
 object CommonGame {
-  private val NAME_SPLITER_REX = Pattern.compile("[〜「]")
+  private val NAME_SPLITER_REX = Pattern.compile("""[〜\-「]""")
 
   case class Titles(mainTitle: String, subTitle: String)
 

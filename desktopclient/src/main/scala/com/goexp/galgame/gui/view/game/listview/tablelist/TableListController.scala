@@ -6,7 +6,6 @@ import com.goexp.galgame.gui.task.game.change.{MultiBlock, MultiLocation, MultiS
 import com.goexp.galgame.gui.util.SimpleFxmlLoader
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
 import com.goexp.galgame.gui.view.game.detailview.part.DateShowController
-import com.goexp.galgame.gui.view.game.listview.simplelist.small.InfoController
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TableCell, TextTableCell}
 import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.property.SimpleObjectProperty

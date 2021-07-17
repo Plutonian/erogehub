@@ -4,21 +4,17 @@ import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
-import com.goexp.galgame.gui.util.res.gameimg.GameImage
 import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager, Tags}
 import com.goexp.galgame.gui.view.game.listview.sidebar.{BrandGroupController, DateGroupController, FilterPanelController}
 import com.goexp.galgame.gui.view.game.listview.simplelist.small.{HeaderController, ListViewController}
 import com.goexp.galgame.gui.view.game.listview.tablelist.TableListController
 import com.goexp.ui.javafx.control.cell.NodeListCell
 import com.goexp.ui.javafx.{DefaultController, TaskService}
-import javafx.beans.property.SimpleBooleanProperty
 import javafx.collections.transformation.{FilteredList, SortedList}
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control._
-import javafx.scene.image.ImageView
-import javafx.scene.input.MouseButton
 import javafx.scene.layout.{FlowPane, HBox, Region}
 import org.controlsfx.control.PopOver
 
@@ -238,28 +234,31 @@ class DataViewController extends DefaultController {
 
     gridView.getChildren.clear()
 
-    val iamges = filteredGames.listIterator().asScala.map { game =>
-      val imageView = new ImageView(GameImage(game).tiny200())
-      imageView.setOnMouseClicked { e =>
-        if (e.getButton eq MouseButton.PRIMARY) {
-
-          val loader = new SimpleFxmlLoader[HeaderController]("header.fxml")
-          //          val loader = new SimpleFxmlLoader[OutPageController]("out_page.fxml")
-          loader.controller.load(game)
-
-          //        if (!popPanel.isShowing)
-          popPanel.show(imageView)
-
-          popPanel.setContentNode(loader.node)
-        }
+    val iamges = filteredGames.listIterator().asScala.to(LazyList).map { game =>
 
 
-      }
+      val loader = new SimpleFxmlLoader[HeaderController]("header.fxml")
+      loader.controller.load(game)
+      loader.node
+
+
+      //      val imageView = new ImageView(GameImage(game).tiny200())
+      //      imageView.setOnMouseClicked { e =>
+      //        if (e.getButton eq MouseButton.PRIMARY) {
+      //
+      //          val loader = new SimpleFxmlLoader[HeaderController]("header.fxml")
+      //          loader.controller.load(game)
+      //
+      //          popPanel.show(imageView)
+      //
+      //          popPanel.setContentNode(loader.node)
+      //        }
+      //      }
       //      imageView.setOnMouseExited { _ =>
       //        if (popPanel.isShowing)
       //          popPanel.hide()
       //      }
-      imageView
+      //      imageView
 
     }.toArray
     gridView.getChildren.addAll(iamges: _*)

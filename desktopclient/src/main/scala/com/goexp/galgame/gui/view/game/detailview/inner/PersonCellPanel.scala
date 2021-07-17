@@ -11,6 +11,7 @@ import com.goexp.galgame.gui.util.res.gameimg.PersonImage
 import javafx.beans.binding.Bindings
 import javafx.beans.property.{SimpleBooleanProperty, SimpleObjectProperty, SimpleStringProperty}
 import javafx.geometry.{Insets, Pos}
+import javafx.scene.control.skin.MenuButtonSkin
 import javafx.scene.control.{Label, MenuButton, MenuItem, SeparatorMenuItem}
 import javafx.scene.image.{Image, ImageView}
 import javafx.scene.layout.{BorderPane, HBox, StackPane, VBox}
@@ -37,6 +38,16 @@ class PersonCellPanel extends BorderPane with Logger {
        * +++++++++
        */
       class CVMenu extends MenuButton {
+
+        class Skin extends MenuButtonSkin(this) {
+
+          val control = this.getSkinnable
+
+          control.setStyle("-fx-background-color: transparent")
+          HBox.setMargin(control, new Insets(0, 0, 0, 5))
+        }
+
+        setSkin(new Skin)
         textProperty().bind(cv)
         textFillProperty().bind(
           Bindings
@@ -44,8 +55,7 @@ class PersonCellPanel extends BorderPane with Logger {
             .`then`(Color.valueOf("red"))
             .otherwise(Color.valueOf("black"))
         )
-        setStyle("-fx-background-color: transparent")
-        HBox.setMargin(this, new Insets(0, 0, 0, 5))
+
 
         getItems.setAll(
           new MenuItem("関連ゲーム") {

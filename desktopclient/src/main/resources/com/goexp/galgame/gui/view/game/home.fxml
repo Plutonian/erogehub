@@ -12,12 +12,20 @@
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
+    <fx:define>
+        <Font fx:id="font" name="System Bold" size="96.0"/>
+        <ContextMenu fx:id="menu">
+            <items>
+                <MenuItem mnemonicParsing="false" onAction="#miCloseLeft_OnAction" text="Close Left"/>
+                <MenuItem mnemonicParsing="false" onAction="#miCloseRight_OnAction" text="Close Right"/>
+                <SeparatorMenuItem/>
+                <MenuItem mnemonicParsing="false" onAction="#miCloseOther_OnAction" text="Close Other"/>
+            </items>
+        </ContextMenu>
+    </fx:define>
     <center>
         <StackPane>
-            <Text strokeLineCap="ROUND" text="ようこそ、エロゲー世界へ">
-                <font>
-                    <Font name="System Bold" size="96.0"/>
-                </font>
+            <Text strokeLineCap="ROUND" text="ようこそ、エロゲー世界へ" font="$font">
                 <effect>
                     <Reflection bottomOpacity="0.15" fraction="0.59" topOffset="-10.0" topOpacity="0.37">
                         <input>
@@ -26,18 +34,10 @@
                     </Reflection>
                 </effect>
             </Text>
-            <TabPane fx:id="mainTabPanel" tabMaxWidth="150.0">
-                <contextMenu>
-                    <ContextMenu>
-                        <items>
-                            <MenuItem mnemonicParsing="false" onAction="#miCloseLeft_OnAction" text="Close Left"/>
-                            <MenuItem mnemonicParsing="false" onAction="#miCloseRight_OnAction" text="Close Right"/>
-                            <SeparatorMenuItem/>
-                            <MenuItem mnemonicParsing="false" onAction="#miCloseOther_OnAction" text="Close Other"/>
-                        </items>
-                    </ContextMenu>
-                </contextMenu>
-            </TabPane>
+            <TabPane fx:id="mainTabPanel" tabMaxWidth="150.0"
+                     style="-fx-open-tab-animation:none;-fx-close-tab-animation:none" styleClass="floating"
+                     tabDragPolicy="REORDER"
+                     contextMenu="$menu"/>
         </StackPane>
     </center>
     <left>

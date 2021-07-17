@@ -2,6 +2,7 @@ package com.goexp.galgame.gui.view.game.detailview.inner
 
 import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.gui.model.Game
+import com.goexp.galgame.gui.view.common.control.listview.ReadOnlyCellSkin
 import com.goexp.ui.javafx.DefaultController
 import com.goexp.ui.javafx.control.cell.NodeListCell
 import javafx.collections.FXCollections
@@ -24,11 +25,13 @@ class InnerPageController extends DefaultController {
 
       val panel = new PersonCellPanel()
 
-      NodeListCell[GameCharacter] { gameCharacter =>
+      val cell = NodeListCell[GameCharacter] { gameCharacter =>
 
         panel.load(game, gameCharacter)
         panel
       }
+      cell.setSkin(new ReadOnlyCellSkin[GameCharacter](cell))
+      cell
     })
   }
 

@@ -16,7 +16,16 @@ application {
     mainClass.set('com.goexp.galgame.gui.HGameApp')
     applicationDefaultJvmArgs = [
             '--module-path=../lib/',
-            '--add-modules=javafx.base,javafx.controls,javafx.graphics,javafx.fxml,javafx.swing,javafx.media'
+            '--add-modules=javafx.base,javafx.controls,javafx.graphics,javafx.fxml,javafx.swing,javafx.media',
+
+            '--add-opens=javafx.controls/javafx.scene.control.skin=ALL-UNNAMED',
+            '--add-opens=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED',
+            '--add-opens=javafx.controls/com.sun.javafx.scene.control.skin.resources=ALL-UNNAMED',
+            '--add-opens=javafx.controls/javafx.scene.control.skin=ALL-UNNAMED',
+            '--add-opens=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED',
+            '--add-opens=javafx.base/com.sun.javafx.binding=ALL-UNNAMED',
+            '--add-opens=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED',
+            '--add-opens=javafx.base/com.sun.javafx.event=ALL-UNNAMED'
 //            ,
             //For accessing VirtualFlow field from the base class in GridViewSkin
 //            '--add-opens=javafx.controls/javafx.scene.control.skin=ALL-UNNAMED'

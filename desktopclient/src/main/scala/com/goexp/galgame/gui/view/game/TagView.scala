@@ -62,6 +62,7 @@ class TagView extends ScrollPane with Datas {
     val eventFilter: EventHandler[ActionEvent] = e =>
       e.getTarget match {
         case link: Hyperlink =>
+          e.consume()
           val targetTag = link.getText
 
           TabManager().open(targetTag,

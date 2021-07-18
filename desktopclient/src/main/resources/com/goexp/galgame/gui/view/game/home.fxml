@@ -36,8 +36,7 @@
             </Text>
             <TabPane fx:id="mainTabPanel" tabMaxWidth="150.0"
                      style="-fx-open-tab-animation:none;-fx-close-tab-animation:none" styleClass="floating"
-                     tabDragPolicy="REORDER"
-                     contextMenu="$menu"/>
+                     tabDragPolicy="REORDER"/>
         </StackPane>
     </center>
     <left>

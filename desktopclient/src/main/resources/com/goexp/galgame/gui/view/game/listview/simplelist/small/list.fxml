@@ -2,20 +2,12 @@
 
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.*?>
-<AnchorPane nodeOrientation="LEFT_TO_RIGHT" stylesheets="@/view/view.css" xmlns:fx="http://javafx.com/fxml/1"
-            xmlns="http://javafx.com/javafx/10.0.2-internal"
-            fx:controller="com.goexp.galgame.gui.view.game.listview.simplelist.small.ListViewController">
+<ListView nodeOrientation="LEFT_TO_RIGHT" stylesheets="@/view/view.css" xmlns:fx="http://javafx.com/fxml/1"
+          xmlns="http://javafx.com/javafx/10.0.2-internal"
+          fx:id="smallListSimple" orientation="HORIZONTAL"
+          fx:controller="com.goexp.galgame.gui.view.game.listview.simplelist.small.ListViewController">
     <effect>
         <DropShadow/>
     </effect>
-    <children>
-        <ListView fx:id="smallListSimple" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" orientation="HORIZONTAL"/>
-        <fx:include fx:id="detailPage" source="../../../detailview/outer/out_page.fxml"
-                    AnchorPane.bottomAnchor="0.0"
-                    AnchorPane.leftAnchor="220.0"
-                    AnchorPane.rightAnchor="0.0"
-                    AnchorPane.topAnchor="0.0"/>
-    </children>
-</AnchorPane>
+
+</ListView>

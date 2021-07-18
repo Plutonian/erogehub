@@ -5,36 +5,31 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 <?import java.net.URL?>
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             style="-fx-background-color:#ddd"
             fx:controller="com.goexp.galgame.gui.view.game.detailview.outer.TopController">
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
-    <center>
-        <AnchorPane>
-            <BorderPane.margin>
-                <Insets left="10"/>
-            </BorderPane.margin>
-            <fx:include fx:id="dateview" source="../part/dateshow.fxml" AnchorPane.rightAnchor="0.0"
-                        AnchorPane.topAnchor="0.0" BorderPane.alignment="TOP_CENTER"/>
-            <VBox spacing="5.0">
-                <TextFlow>
-                    <Text fx:id="txtName" styleClass="mainTitle"/>
-                    <Text fx:id="txtSubName"/>
-                </TextFlow>
-                <HBox>
-                    <fx:include fx:id="brandJump" source="../../../common/jump/jumpbrand.fxml"/>
-                    <HBox fx:id="boxTag" spacing="5.0"/>
-                    <HBox fx:id="boxStar"/>
-                    <fx:include fx:id="starRating" source="../part/star_rating.fxml"/>
-                </HBox>
-                <FlowPane fx:id="flowPainter"/>
-            </VBox>
-        </AnchorPane>
-    </center>
 
+    <fx:include fx:id="dateview" source="../part/dateshow.fxml" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0"/>
+    <VBox spacing="5.0">
+        <TextFlow>
+            <Text fx:id="txtName" styleClass="mainTitle"/>
+            <Text fx:id="txtSubName"/>
+        </TextFlow>
+        <HBox>
+            <fx:include fx:id="brandJump" source="../../../common/jump/jumpbrand.fxml"/>
+            <HBox fx:id="boxTag" spacing="5.0"/>
+            <HBox fx:id="boxStar"/>
+            <fx:include fx:id="starRating" source="../part/star_rating.fxml"/>
+        </HBox>
+        <FlowPane fx:id="flowPainter"/>
+    </VBox>
     <padding>
         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
     </padding>
-</BorderPane>
+
+
+</AnchorPane>

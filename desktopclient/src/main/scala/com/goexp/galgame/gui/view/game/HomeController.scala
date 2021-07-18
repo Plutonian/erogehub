@@ -294,46 +294,6 @@ class HomeController extends DefaultController {
 
     }
 
-
-    //    linkLocal.setOnAction { _ =>
-    //      val title = "Local"
-    //      val conn = CommonTabController(new ByLocation(GameLocation.LOCAL))
-    //
-    //      TabManager().open(title, {
-    //        conn.controller.tablelistController.tableColState.setVisible(false)
-    //        new Tab(title, conn.node)
-    //      }) {
-    //        conn.load()
-    //      }
-    //    }
-    //
-    //    linkNetDisk.setOnAction { _ =>
-    //      val title = "NetDisk"
-    //      val conn = CommonTabController(new ByLocation(GameLocation.NETDISK))
-    //
-    //      TabManager().open(title, {
-    //        conn.controller.tablelistController.tableColState.setVisible(false)
-    //        new Tab(title, conn.node)
-    //      }) {
-    //        conn.load()
-    //      }
-    //
-    //    }
-    //
-    //    linkRemote.setOnAction { _ =>
-    //      val title = "Remote"
-    //      val conn = CommonTabController(new ByLocation(GameLocation.REMOTE))
-    //
-    //      TabManager().open(title, {
-    //        conn.controller.tablelistController.tableColState.setVisible(false)
-    //        new Tab(title, conn.node)
-    //
-    //      }) {
-    //        conn.load()
-    //      }
-    //
-    //    }
-
   }
 
 

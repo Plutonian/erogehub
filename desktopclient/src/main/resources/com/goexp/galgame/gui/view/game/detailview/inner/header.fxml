@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 <?import java.net.URL?>
 <BorderPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
@@ -12,27 +12,18 @@
         <URL value="@/view/view.css"/>
     </stylesheets>
     <left>
-        <AnchorPane BorderPane.alignment="CENTER">
-            <ImageView fx:id="imageImg" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0"
-                       AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            </ImageView>
-        </AnchorPane>
+        <ImageView fx:id="imageImg" pickOnBounds="true" preserveRatio="true"/>
     </left>
     <center>
-        <BorderPane fx:id="right">
+        <TextArea fx:id="txtStory" prefHeight="600.0" style="-fx-margin-top:10px;-fx-background-color: #eee;"
+                  wrapText="true">
+            <font>
+                <Font size="16.0"/>
+            </font>
             <BorderPane.margin>
                 <Insets left="10"/>
             </BorderPane.margin>
-            <center>
-                <TextArea fx:id="txtStory" prefHeight="600.0" style="-fx-margin-top:10px;-fx-background-color: #eee;"
-                          wrapText="true">
-                    <font>
-                        <Font size="16.0"/>
-                    </font>
-                </TextArea>
-            </center>
-
-        </BorderPane>
+        </TextArea>
     </center>
 
     <padding>

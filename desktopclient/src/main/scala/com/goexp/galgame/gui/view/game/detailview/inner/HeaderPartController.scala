@@ -9,13 +9,11 @@ import javafx.scene.image.{Image, ImageView}
 import javafx.scene.layout.Region
 
 class HeaderPartController extends DefaultController {
-  @FXML private var right: Region = _
   @FXML private var imageImg: ImageView = _
   @FXML private var txtStory: TextArea = _
   private var targetGame: Game = _
 
   override protected def initialize() = {
-    txtStory.prefWidthProperty.bind(right.widthProperty.subtract(10))
   }
 
   def load(game: Game) = {

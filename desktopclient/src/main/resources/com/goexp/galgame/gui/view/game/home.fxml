@@ -18,8 +18,10 @@
             <items>
                 <MenuItem mnemonicParsing="false" onAction="#miCloseLeft_OnAction" text="Close Left"/>
                 <MenuItem mnemonicParsing="false" onAction="#miCloseRight_OnAction" text="Close Right"/>
-                <SeparatorMenuItem/>
                 <MenuItem mnemonicParsing="false" onAction="#miCloseOther_OnAction" text="Close Other"/>
+                <SeparatorMenuItem/>
+                <MenuItem mnemonicParsing="false" onAction="#miReload_OnAction" text="Reload"/>
+
             </items>
         </ContextMenu>
     </fx:define>
@@ -36,7 +38,7 @@
             </Text>
             <TabPane fx:id="mainTabPanel" tabMaxWidth="150.0"
                      style="-fx-open-tab-animation:none;-fx-close-tab-animation:none" styleClass="floating"
-                     tabDragPolicy="REORDER"/>
+                     tabDragPolicy="REORDER" contextMenu="$menu"/>
         </StackPane>
     </center>
     <left>

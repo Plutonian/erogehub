@@ -47,14 +47,8 @@
     </center>
     <right>
         <BorderPane>
-            <left>
-                <ToolBar orientation="VERTICAL">
-                    <Button fx:id="btnHide" mnemonicParsing="false" text="+"/>
-                    <Button mnemonicParsing="false" onAction="#reload_OnAction" text="R"/>
-                </ToolBar>
-            </left>
             <center>
-                <Accordion fx:id="groupPanel" prefWidth="200.0">
+                <Accordion>
                     <panes>
                         <TitledPane text="Filter">
                             <fx:include fx:id="filterPanel" source="sidebar/filterpanel.fxml"/>

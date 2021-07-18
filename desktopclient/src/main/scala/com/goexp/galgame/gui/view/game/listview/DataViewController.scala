@@ -44,9 +44,7 @@ class DataViewController extends DefaultController {
   /**
    * Sidebar
    */
-  @FXML private var groupPanel: Accordion = _
   @FXML private var filterPanel: Region = _
-  @FXML private var btnHide: Button = _
   @FXML private var cvList: ListView[DataItem] = _
   @FXML private var tagList: ListView[DataItem] = _
 
@@ -66,7 +64,6 @@ class DataViewController extends DefaultController {
 
     initSideBar()
     initGroupPanel()
-    btnHide.fire()
 
     //    popPanel.setArrowLocation(PopOver.ArrowLocation.TOP_LEFT)
     popPanel.setAutoHide(true)
@@ -118,20 +115,20 @@ class DataViewController extends DefaultController {
 
   private def initSideBar() = {
 
-    groupPanel.setExpandedPane(groupPanel.getPanes.get(0))
+    //    groupPanel.setExpandedPane(groupPanel.getPanes.get(0))
 
 
-    btnHide.setUserData(true)
-    btnHide.getProperties.put("groupPanel", groupPanel.getPrefWidth)
-    btnHide.setOnAction { _ =>
-      var state = btnHide.getUserData.asInstanceOf[Boolean]
-      val width = btnHide.getProperties.get("groupPanel").asInstanceOf[Double]
-      state = !state
-      groupPanel.setVisible(state)
-      groupPanel.setManaged(state)
-      groupPanel.setPrefWidth(if (state) width else 0)
-      btnHide.setUserData(state)
-    }
+    //    btnHide.setUserData(true)
+    //    btnHide.getProperties.put("groupPanel", groupPanel.getPrefWidth)
+    //    btnHide.setOnAction { _ =>
+    //      var state = btnHide.getUserData.asInstanceOf[Boolean]
+    //      val width = btnHide.getProperties.get("groupPanel").asInstanceOf[Double]
+    //      state = !state
+    //      groupPanel.setVisible(state)
+    //      groupPanel.setManaged(state)
+    //      groupPanel.setPrefWidth(if (state) width else 0)
+    //      btnHide.setUserData(state)
+    //    }
     initSidebarContentView()
   }
 
@@ -265,7 +262,4 @@ class DataViewController extends DefaultController {
 
   }
 
-  @FXML private def reload_OnAction(event: ActionEvent) = {
-    TabManager().reloadActiveTabData()
-  }
 }

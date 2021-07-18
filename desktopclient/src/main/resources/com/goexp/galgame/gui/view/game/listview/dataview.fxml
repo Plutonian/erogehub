@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<BorderPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1"
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.game.listview.DataViewController">
     <center>
-        <SplitPane dividerPositions="0">
-            <TabPane prefHeight="433.0" prefWidth="0.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
+        <SplitPane dividerPositions="0.5, 0.5">
+            <TabPane maxWidth="250.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
                 <Tab text="Date">
                     <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml"/>
                 </Tab>
@@ -22,9 +33,9 @@
                 </Tab>
             </TabPane>
             <AnchorPane>
-                <TabPane fx:id="mainTab" nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM"
-                         tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
-                         AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                <TabPane fx:id="mainTab" nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"
+                         AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+                         AnchorPane.topAnchor="0">
                     <Tab text="Flow">
                         <fx:include fx:id="smallListSimple" source="simplelist/small/list.fxml"/>
                     </Tab>
@@ -33,7 +44,7 @@
                     </Tab>
                     <Tab text="Grid">
                         <ScrollPane fitToWidth="true" nodeOrientation="LEFT_TO_RIGHT">
-                            <FlowPane fx:id="gridView" vgap="20" hgap="20"/>
+                            <FlowPane fx:id="gridView" hgap="20" vgap="20"/>
                         </ScrollPane>
                     </Tab>
 
@@ -43,19 +54,13 @@
                     <ProgressBar fx:id="loadingBar" prefHeight="25.0" prefWidth="77.0" visible="false"/>
                 </HBox>
             </AnchorPane>
+            <Accordion maxWidth="250.0">
+                <panes>
+                    <TitledPane animated="false" text="Filter">
+                        <fx:include fx:id="filterPanel" source="sidebar/filterpanel.fxml"/>
+                    </TitledPane>
+                </panes>
+            </Accordion>
         </SplitPane>
     </center>
-    <right>
-        <BorderPane>
-            <center>
-                <Accordion>
-                    <panes>
-                        <TitledPane text="Filter">
-                            <fx:include fx:id="filterPanel" source="sidebar/filterpanel.fxml"/>
-                        </TitledPane>
-                    </panes>
-                </Accordion>
-            </center>
-        </BorderPane>
-    </right>
 </BorderPane>

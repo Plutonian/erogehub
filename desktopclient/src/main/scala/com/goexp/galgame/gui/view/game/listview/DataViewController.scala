@@ -40,7 +40,7 @@ class DataViewController extends DefaultController {
    * main panel
    */
   @FXML private var tablelist: TableView[Game] = _
-  @FXML private var mainTab: TabPane = _
+//  @FXML private var mainTab: TabPane = _
   /**
    * Sidebar
    */
@@ -60,7 +60,7 @@ class DataViewController extends DefaultController {
   override protected def initialize() = {
     //    val tabs = mainTab.getTabs
     //    val lastTab = tabs.get(tabs.size() - 1)
-    mainTab.getSelectionModel.selectLast()
+    //    mainTab.getSelectionModel.selectLast()
 
     initSideBar()
     initGroupPanel()

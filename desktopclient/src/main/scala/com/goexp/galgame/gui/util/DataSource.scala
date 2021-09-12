@@ -1,7 +1,9 @@
 package com.goexp.galgame.gui.util
 
-trait Datas {
+trait DataSource {
 
   def load(): Unit
+
+  def dispose(): Unit
 
 }

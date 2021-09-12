@@ -68,7 +68,9 @@ class HeaderController extends DefaultController {
 
     if (game.isOkImg) {
       val image = GameImage(game).normal()
-      txtName.setPrefWidth(image.getWidth - dateview.getWidth)
+      //TODO
+      if (image != null)
+        txtName.setPrefWidth(image.getWidth - dateview.getWidth)
       imageImg.setImage(image)
     } else {
       imageImg.setImage(null)

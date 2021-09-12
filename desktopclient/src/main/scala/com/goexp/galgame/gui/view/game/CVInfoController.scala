@@ -4,7 +4,7 @@ import com.goexp.galgame.common.model.CV
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.task.CVListTask
-import com.goexp.galgame.gui.util.Tags
+import com.goexp.galgame.gui.util.{Controller, Tags}
 import com.goexp.galgame.gui.util.Tags.maker
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TextTableCell}
@@ -18,7 +18,7 @@ import javafx.scene.layout.HBox
 import java.time.LocalDate
 import scala.jdk.CollectionConverters._
 
-class CVInfoController extends DefaultController {
+class CVInfoController extends DefaultController with Controller {
   @FXML private var tableCV: TableView[CV] = _
   @FXML private var colName: TableColumn[CV, String] = _
   @FXML private var colStar: TableColumn[CV, Int] = _
@@ -139,5 +139,10 @@ class CVInfoController extends DefaultController {
 
   }
 
-  def load() = loadCVService.restart()
+  override def load() = loadCVService.restart()
+
+  override def dispose(): Unit = {
+    tableCV.itemsProperty().unbind()
+
+  }
 }

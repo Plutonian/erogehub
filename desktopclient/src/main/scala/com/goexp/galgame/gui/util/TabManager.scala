@@ -49,7 +49,7 @@ class TabManager private(val root: TabPane) {
     }
   }
 
-  def open(key: String, tab: => Tab with Datas): Unit = {
+  def open(key: String, tab: => Tab with Controller): Unit = {
     tabs.get(key) match {
       case Some((tab, _)) =>
         root.getSelectionModel.select(tab)
@@ -58,6 +58,8 @@ class TabManager private(val root: TabPane) {
         t.setUserData(key)
 
         t.setOnClosed { _ =>
+          tab.dispose()
+          t.setOnClosed(null)
           tabs.remove(key)
         }
 
@@ -72,6 +74,11 @@ class TabManager private(val root: TabPane) {
   }
 
   private def close(tab: Tab) = {
+    tab match {
+      case t: Tab with Controller => t.dispose()
+      case _ =>
+    }
+
     //remove from cache
     tabs.remove(tab.getUserData.asInstanceOf[String])
     root.getTabs.remove(tab)

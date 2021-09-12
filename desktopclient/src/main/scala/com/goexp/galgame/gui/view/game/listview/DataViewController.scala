@@ -30,7 +30,7 @@ class DataViewController extends DefaultController {
   @FXML private var filterPanelController: FilterPanelController = _
   @FXML private var brandGroupController: BrandGroupController = _
   @FXML private var dateGroupController: DateGroupController = _
-  @FXML private var smallListSimpleController: ListViewController = _
+//  @FXML private var smallListSimpleController: ListViewController = _
   /**
    * Status bar
    */
@@ -171,7 +171,7 @@ class DataViewController extends DefaultController {
 
   def recount(): Unit = {
     tablelist.scrollTo(0)
-    smallListSimpleController.smallListSimple.scrollTo(0)
+    //    smallListSimpleController.smallListSimple.scrollTo(0)
     resetCount(filteredGames)
   }
 
@@ -213,8 +213,8 @@ class DataViewController extends DefaultController {
     //    tableView.scrollTo(0)
     tablelist.setItems(sortedData)
     tablelist.scrollTo(0)
-    smallListSimpleController.smallListSimple.setItems(sortedData)
-    smallListSimpleController.smallListSimple.scrollTo(0)
+    //    smallListSimpleController.smallListSimple.setItems(sortedData)
+    //    smallListSimpleController.smallListSimple.scrollTo(0)
 
     loadFlow(sortedData)
   }

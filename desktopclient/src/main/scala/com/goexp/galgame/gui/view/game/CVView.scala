@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game
 import com.goexp.galgame.common.model.CV
 import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.task.CVListTask
-import com.goexp.galgame.gui.util.Datas
+import com.goexp.galgame.gui.util.Controller
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.common.control.DataTableColumn
 import com.goexp.ui.javafx.TaskService
@@ -16,7 +16,7 @@ import javafx.scene.layout.HBox
 
 import java.time.LocalDate
 
-class CVView extends TableView[CV] with Datas {
+class CVView extends TableView[CV] with Controller {
 
   setPrefHeight(651.0)
   setPrefWidth(1120.0)
@@ -100,5 +100,9 @@ class CVView extends TableView[CV] with Datas {
 
   override def load(): Unit = {
     loadCVService.restart()
+  }
+
+  override def dispose(): Unit = {
+
   }
 }

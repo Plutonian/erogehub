@@ -1,51 +1,90 @@
 package com.goexp.galgame.gui.view.game
 
-import com.goexp.galgame.common.model.TagType
 import com.goexp.galgame.gui.task.TagListTask
 import com.goexp.galgame.gui.task.game.search.ByTag
 import com.goexp.galgame.gui.util.res.LocalRes
-import com.goexp.galgame.gui.util.{Datas, EventProcessor, TabManager}
+import com.goexp.galgame.gui.util.{Controller, TabManager}
 import com.goexp.galgame.gui.view.common.control.DataTab
 import com.goexp.ui.javafx.TaskService
-import javafx.event.{ActionEvent, EventHandler}
-import javafx.geometry.{Insets, Orientation, VPos}
-import javafx.scene.control.{Hyperlink, ScrollPane, TitledPane}
-import javafx.scene.image.ImageView
-import javafx.scene.layout.FlowPane
+import javafx.scene.control
+import scalafx.event.ActionEvent
+//import scalafx.event.ActionEvent
+//import javafx.event.{ActionEvent, EventHandler}
+import scalafx.Includes._
+import scalafx.geometry.{Insets, Orientation, VPos}
+import scalafx.scene.control.{Hyperlink, TitledPane}
+import scalafx.scene.image.ImageView
+import scalafx.scene.layout.FlowPane
 
-import scala.jdk.CollectionConverters._
+class TagView extends javafx.scene.control.ScrollPane with Controller {
 
-class TagView extends ScrollPane with Datas {
+  //Init
 
-  object Data {
+  val main = new FlowPane() {
+    hgap = 5
+    vgap = 5
+    padding = Insets(3, 3, 3, 3)
+    orientation = Orientation.Vertical
+    rowValignment = VPos.Top
+
+    val subscription = filterEvent(ActionEvent.Action) { e: ActionEvent =>
+      e.target match {
+        case link: control.Hyperlink =>
+          e.consume()
+          val targetTag = link.text()
+
+          TabManager().open(targetTag,
+            new DataTab(CommonDataViewPanel(new ByTag(targetTag))) {
+              setText(targetTag)
+              setGraphic(new ImageView(LocalRes.TAG_16_PNG))
+            }
+          )
+        case _ =>
+      }
+    }
+
+    def dispose() = {
+      subscription.cancel()
+    }
+
+  }
+
+  setFitToHeight(true)
+  setContent(main)
+
+  override def load(): Unit = {
+    DataSource.load()
+  }
+
+  override def dispose() = {
+    main.dispose()
+  }
+
+  object DataSource {
 
     val typeService = TaskService(new TagListTask())
 
-    typeService.valueProperty.addListener((_, _, newValue) => {
-      if (newValue != null) {
-        val contents = newValue.to(LazyList)
-          .map((tagType: TagType) => {
-            val flowPanel = new FlowPane
+    typeService.valueProperty.addListener((_, _, datas) => {
+      if (datas != null) {
 
-            val tags = tagType.tags.to(LazyList)
-              .map((tag: String) => {
-                new Hyperlink(tag) {
-                  getStyleClass.add("tag")
-                }
+        main.children = datas
+          .map(tagType => {
+            new TitledPane {
+              text = tagType.`type`
+              prefWidth = 250
+              collapsible = false
 
-              })
-              .asJava
-
-            flowPanel.getChildren.setAll(tags)
-
-            new TitledPane(tagType.`type`, flowPanel) {
-              setPrefWidth(250)
-              setCollapsible(false)
+              content = new FlowPane {
+                children = tagType.tags
+                  .map((tag: String) => {
+                    new Hyperlink {
+                      text = tag
+                      styleClass.add("tag")
+                    }
+                  })
+              }
             }
           })
-          .asJava
-
-        main.getChildren.setAll(contents)
       }
     })
 
@@ -58,41 +97,4 @@ class TagView extends ScrollPane with Datas {
 
   }
 
-  object Events extends EventProcessor {
-    val eventFilter: EventHandler[ActionEvent] = e =>
-      e.getTarget match {
-        case link: Hyperlink =>
-          e.consume()
-          val targetTag = link.getText
-
-          TabManager().open(targetTag,
-            new DataTab(CommonDataViewPanel(new ByTag(targetTag))) {
-              setText(targetTag)
-              setGraphic(new ImageView(LocalRes.TAG_16_PNG))
-            }
-          )
-        case _ =>
-      }
-
-    override def dispose(): Unit = {
-      main.removeEventFilter(ActionEvent.ACTION, eventFilter)
-    }
-  }
-
-  val main = new FlowPane() {
-    setHgap(5)
-    setVgap(5)
-    setOrientation(Orientation.VERTICAL)
-    setRowValignment(VPos.TOP)
-    setPadding(new Insets(3, 3, 3, 3))
-
-    addEventFilter(ActionEvent.ACTION, Events.eventFilter)
-  }
-
-  setFitToHeight(true)
-  this.setContent(main)
-
-  override def load(): Unit = {
-    Data.load()
-  }
 }

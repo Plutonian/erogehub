@@ -1,14 +1,14 @@
 package com.goexp.galgame.gui.view.game
 
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.util.{Datas, SimpleFxmlLoader}
+import com.goexp.galgame.gui.util.{Controller, SimpleFxmlLoader}
 import com.goexp.galgame.gui.view.game.listview.DataViewController
 import com.goexp.ui.javafx.TaskService
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
 import javafx.scene.layout.StackPane
 
-class CommonDataViewPanel(private val taskCreator: () => Task[ObservableList[Game]]) extends StackPane with Datas {
+class CommonDataViewPanel(private val taskCreator: () => Task[ObservableList[Game]]) extends StackPane with Controller {
 
   private val loader = new SimpleFxmlLoader[DataViewController]("dataview.fxml")
   private val node = loader.node
@@ -35,7 +35,9 @@ class CommonDataViewPanel(private val taskCreator: () => Task[ObservableList[Gam
     queryService.restart()
   }
 
-
+  override def dispose(): Unit = {
+    controller.loadingBar.visibleProperty.unbind()
+  }
 }
 
 object CommonDataViewPanel {

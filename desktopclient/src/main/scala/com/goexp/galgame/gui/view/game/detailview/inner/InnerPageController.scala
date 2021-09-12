@@ -2,14 +2,11 @@ package com.goexp.galgame.gui.view.game.detailview.inner
 
 import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.view.common.control.listview.ReadOnlyCellSkin
 import com.goexp.ui.javafx.DefaultController
 import com.goexp.ui.javafx.control.cell.NodeListCell
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.{ListView, Tab, TabPane}
-
-import java.util.Objects
 
 class InnerPageController extends DefaultController {
   @FXML var headerController: HeaderPartController = _
@@ -25,13 +22,14 @@ class InnerPageController extends DefaultController {
 
       val panel = new PersonCellPanel()
 
-      val cell = NodeListCell[GameCharacter] { gameCharacter =>
+      //      val cell =
+      NodeListCell[GameCharacter] { gameCharacter =>
 
         panel.load(game, gameCharacter)
         panel
       }
-      cell.setSkin(new ReadOnlyCellSkin[GameCharacter](cell))
-      cell
+      //      cell.setSkin(new ReadOnlyCellSkin[GameCharacter](cell))
+      //      cell
     })
   }
 
@@ -41,7 +39,7 @@ class InnerPageController extends DefaultController {
   }
 
   def load(game: Game): Unit = {
-    Objects.requireNonNull(game)
+    require(game != null)
 
     this.game = game
 

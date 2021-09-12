@@ -102,7 +102,4 @@ class CVView extends TableView[CV] with Controller {
     loadCVService.restart()
   }
 
-  override def dispose(): Unit = {
-
-  }
 }

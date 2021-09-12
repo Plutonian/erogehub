@@ -8,8 +8,6 @@ import com.goexp.galgame.gui.view.common.control.DataTab
 import com.goexp.ui.javafx.TaskService
 import javafx.scene.control
 import scalafx.event.ActionEvent
-//import scalafx.event.ActionEvent
-//import javafx.event.{ActionEvent, EventHandler}
 import scalafx.Includes._
 import scalafx.geometry.{Insets, Orientation, VPos}
 import scalafx.scene.control.{Hyperlink, TitledPane}
@@ -57,6 +55,7 @@ class TagView extends javafx.scene.control.ScrollPane with Controller {
   }
 
   override def dispose() = {
+    super.dispose()
     main.dispose()
   }
 

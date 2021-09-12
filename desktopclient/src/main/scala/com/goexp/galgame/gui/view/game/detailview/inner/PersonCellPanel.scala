@@ -6,131 +6,114 @@ import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.common.website.{BangumiURL, WikiURL}
 import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.util.Websites
 import com.goexp.galgame.gui.util.res.gameimg.PersonImage
-import javafx.beans.binding.Bindings
-import javafx.beans.property.{SimpleBooleanProperty, SimpleObjectProperty, SimpleStringProperty}
-import javafx.geometry.{Insets, Pos}
-import javafx.scene.control.skin.MenuButtonSkin
-import javafx.scene.control.{Label, MenuButton, MenuItem, SeparatorMenuItem}
-import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{BorderPane, HBox, StackPane, VBox}
-import javafx.scene.paint.Color
-import javafx.scene.text.{Font, Text}
+import com.goexp.galgame.gui.util.{Controller, Websites}
+import javafx.scene.image.Image
+import scalafx.Includes._
+import scalafx.beans.property.{BooleanProperty, ObjectProperty, StringProperty}
+import scalafx.geometry.{Insets, Pos}
+import scalafx.scene.control.{Label, MenuButton, MenuItem, SeparatorMenuItem}
+import scalafx.scene.image.ImageView
+import scalafx.scene.layout.{BorderPane, HBox, StackPane, VBox}
+import scalafx.scene.paint.Color
+import scalafx.scene.text.{Font, Text}
 
-class PersonCellPanel extends BorderPane with Logger {
+class PersonCellPanel extends BorderPane with Logger with Controller {
 
-  private val cv = new SimpleStringProperty()
-  private val intro = new SimpleStringProperty()
-  private val name = new SimpleStringProperty()
-  private val isTrueCV = new SimpleBooleanProperty()
-  private val image = new SimpleObjectProperty[Image]()
-
-
-  class GameCharacterInfo extends VBox {
+  private val cv = new StringProperty()
+  private val intro = new StringProperty()
+  private val name = new StringProperty()
+  private val isTrueCV = new BooleanProperty()
+  private val img = new ObjectProperty[Image]()
 
 
-    class CVPanel extends HBox {
+  padding = Insets(10)
 
-      /**
-       * 関連ゲーム
-       * ----------
-       * +++++++++
-       */
-      class CVMenu extends MenuButton {
+  left = new ImageView {
+    image <== img
 
-        class Skin extends MenuButtonSkin(this) {
+    registestListener(image)
+  }
 
-          val control = this.getSkinnable
+  center = new VBox {
+    margin = Insets(0, 0, 0, 10)
 
-          control.setStyle("-fx-background-color: transparent")
-          HBox.setMargin(control, new Insets(0, 0, 0, 5))
-        }
+    children = Seq(
+      //name
+      new Text {
+        text <== name
 
-        setSkin(new Skin)
-        textProperty().bind(cv)
-        textFillProperty().bind(
-          Bindings
-            .when(isTrueCV)
-            .`then`(Color.valueOf("red"))
-            .otherwise(Color.valueOf("black"))
-        )
+        font = Font.font("System Bold", 18)
+
+        registestListener(text)
+      },
+      new HBox {
+        margin = (Insets(0, 0, 10, 0))
+        visible <== cv.isNotEmpty
 
 
-        getItems.setAll(
-          new MenuItem("関連ゲーム") {
-            setOnAction { _ =>
-              HGameApp.loadCVTab(cv.get(), isTrueCV.get())
-            }
-
+        children = Seq(
+          new Label {
+            text = "CV"
+            font = Font.font("System Bold", 18)
           },
-          new SeparatorMenuItem,
-          new MenuItem("Wiki") {
-            setOnAction(_ => Websites.open(WikiURL.fromTitle(cv.get())))
+          new MenuButton {
+            text <== (cv)
+            textFill <==
+              when(isTrueCV).choose(Color.valueOf("red")) otherwise (Color.valueOf("black"))
 
-          },
-          new MenuItem("Bangumi") {
-            setOnAction(_ => Websites.open(BangumiURL.fromTitle(cv.get())))
+            style = ("-fx-background-color: transparent")
+            margin = (Insets(0, 0, 0, 5))
 
+            items = Seq(
+              new MenuItem {
+                text = "関連ゲーム"
+                onAction = _ => HGameApp.loadCVTab(cv.get(), isTrueCV.get())
+              },
+              new SeparatorMenuItem,
+              new MenuItem {
+                text = "Wiki"
+                onAction = _ => Websites.open(WikiURL.fromTitle(cv.get()))
+
+              },
+              new MenuItem {
+                text = "Bangumi"
+                onAction = _ => Websites.open(BangumiURL.fromTitle(cv.get()))
+
+              }
+
+            )
           }
         )
 
-      }
+        registestListener(visible)
+      },
+      new StackPane {
+        style = ("-fx-background-color: #ccc;")
+        padding = (Insets(5))
+
+        visible <== intro.isNotEmpty
+        managed <== intro.isNotEmpty
+
+        children = Seq(
+          new Text {
+            text <== (intro)
+            fill = (Color.valueOf("#515151"))
+            font = (Font.font(14))
+            wrappingWidth = (600)
+            alignment = (Pos.TopLeft)
 
 
-      VBox.setMargin(this, new Insets(0, 0, 10, 0))
-      getChildren.setAll(
-        new Label("CV") {
-          setFont(Font.font("System Bold", 18))
-        },
-        new CVMenu
-      )
-    }
+            registestListener(text)
+          }
+        )
 
-    class GameCharacterDesc extends StackPane {
-      setStyle("-fx-background-color: #ccc;")
-      setPadding(new Insets(5))
 
-      getChildren.setAll(new Text {
-        textProperty().bind(intro)
-        setFill(Color.valueOf("#515151"))
-        setFont(Font.font(14))
-        setWrappingWidth(600)
-
-        setAlignment(Pos.TOP_LEFT)
-
-      })
-    }
-
-    //    setPadding(new Insets(5))
-    BorderPane.setMargin(this, new Insets(0, 0, 0, 10))
-
-    //Name
-    getChildren.setAll(
-      new Text {
-        textProperty().bind(name)
-        setFont(Font.font("System Bold", 18))
-      }
-      , new CVPanel {
-        visibleProperty().bind(Bindings.isNotEmpty(cv))
-      }
-      , new GameCharacterDesc {
-        visibleProperty().bind(Bindings.isNotEmpty(intro))
-        managedProperty().bind(Bindings.isNotEmpty(intro))
+        registestListener(visible)
+        registestListener(managed)
       }
     )
-
   }
-
-
-  setPadding(new Insets(10))
-
-  setLeft(new ImageView {
-    //    setPadding(new Insets(5))
-    imageProperty().bind(image)
-  })
-
-  setCenter(new GameCharacterInfo)
 
 
   def load(g: Game, gchar: GameCharacter) = {
@@ -146,7 +129,7 @@ class PersonCellPanel extends BorderPane with Logger {
     this.isTrueCV.set(isTrueCV)
     intro.set(gchar.intro)
 
-    image.set({
+    img.set({
 
       if (Strings.isNotEmpty(gchar.img)) {
         new PersonImage(g).small(gchar.index)
@@ -159,4 +142,11 @@ class PersonCellPanel extends BorderPane with Logger {
 
   }
 
+  override def load(): Unit = {
+
+  }
+
+  //  override def dispose(): Unit = {
+  //    super.dispose()
+  //  }
 }

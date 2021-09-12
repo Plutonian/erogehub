@@ -137,12 +137,10 @@ class CVInfoController extends DefaultController with Controller {
 
     tableCV.itemsProperty().bind(loadCVService.valueProperty())
 
+    registestListener(tableCV.itemsProperty())
+
   }
 
   override def load() = loadCVService.restart()
 
-  override def dispose(): Unit = {
-    tableCV.itemsProperty().unbind()
-
-  }
 }

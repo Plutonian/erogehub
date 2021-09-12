@@ -28,6 +28,8 @@ class CommonDataViewPanel(private val taskCreator: () => Task[ObservableList[Gam
 
     controller.loadingBar.visibleProperty.bind(queryService.runningProperty)
 
+    registestListener(controller.loadingBar.visibleProperty)
+
     getChildren.setAll(node)
   }
 
@@ -35,9 +37,6 @@ class CommonDataViewPanel(private val taskCreator: () => Task[ObservableList[Gam
     queryService.restart()
   }
 
-  override def dispose(): Unit = {
-    controller.loadingBar.visibleProperty.unbind()
-  }
 }
 
 object CommonDataViewPanel {

@@ -25,6 +25,8 @@ import java.util
 
 class HeaderView extends BorderPane with Controller {
 
+  val $this = this;
+
   import VO._
 
   object VO {
@@ -38,8 +40,6 @@ class HeaderView extends BorderPane with Controller {
     val _star = new IntegerProperty()
     val _tags = new ObjectProperty[util.List[String]]()
     val _publishDate = new ObjectProperty[LocalDate]()
-
-
   }
 
 
@@ -52,23 +52,33 @@ class HeaderView extends BorderPane with Controller {
   val brandJumpController = new SimpleFxmlLoader[JumpBrandController]("jumpbrand.fxml")
   //  loader.controller.load()
 
+  var formattedDate: FormattedDate = _
+
   center = new VBox {
     children = Seq(
       new ImageView() {
         pickOnBounds = true
 
         image <== _image
-      },
+      }
+      ,
       new BorderPane {
-        right = new FormattedDate() {
-          dateProperty <== _publishDate
+        right = {
+          formattedDate = new FormattedDate() {
+            dateProperty <== _publishDate
+          }
+          formattedDate
         }
         center = new TextFlow {
+
+          prefWidth <== $this.width.-(formattedDate.width)
+
           children = Seq(
-            new Hyperlink() {
+            new Hyperlink {
               text <== _mainTitle
               styleClass.add("mainTitle")
               wrapText = true
+              maxWidth <== $this.width.-(formattedDate.width)
 
               onAction = _ => HGameApp.loadDetail(targetGame)
             },
@@ -96,11 +106,6 @@ class HeaderView extends BorderPane with Controller {
     )
 
   }
-
-
-  //  textFlow.prefWidth <== imageImg.fitWidth.subtract(dateview.width)
-
-  //  @FXML private var dateview: Pane = _
 
   //  @FXML private var changeStateController: StateChangeController = _
 

@@ -19,19 +19,19 @@
     </stylesheets>
     <center>
         <VBox>
-            <ImageView fx:id="imageImg" pickOnBounds="true"/>
-            <BorderPane>
-                <right>
-                    <FormattedDate fx:id="dateview"/>
-                </right>
-                <center>
-                    <TextFlow fx:id="textFlow">
-                        <Hyperlink fx:id="txtName" styleClass="mainTitle" wrapText="true"/>
-                        <Text fx:id="txtSubName"/>
-                    </TextFlow>
+            <!--            <ImageView fx:id="imageImg" pickOnBounds="true"/>-->
+            <!--            <BorderPane>-->
+            <!--                <right>-->
+            <!--                    <FormattedDate fx:id="dateview"/>-->
+            <!--                </right>-->
+            <!--                <center>-->
+            <!--                    <TextFlow fx:id="textFlow">-->
+            <Hyperlink fx:id="txtName" styleClass="mainTitle" wrapText="true"/>
+            <!--                        <Text fx:id="txtSubName"/>-->
+            <!--                    </TextFlow>-->
 
-                </center>
-            </BorderPane>
+            <!--                </center>-->
+            <!--            </BorderPane>-->
             <!--            <VBox spacing="3.0">-->
             <!--                <fx:include fx:id="brandJump" source="../../../../common/jump/jumpbrand.fxml"/>-->
             <!--                <StarRatingView fx:id="ratingView"/>-->

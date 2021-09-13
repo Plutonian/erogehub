@@ -29,7 +29,6 @@ class DataViewController extends DefaultController {
   @FXML private var filterPanelController: FilterPanelController = _
   @FXML private var brandGroupController: BrandGroupController = _
   @FXML private var dateGroupController: DateGroupController = _
-  //  @FXML private var smallListSimpleController: ListViewController = _
   /**
    * Status bar
    */

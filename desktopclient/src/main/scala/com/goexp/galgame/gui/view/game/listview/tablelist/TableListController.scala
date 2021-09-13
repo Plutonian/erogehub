@@ -22,7 +22,6 @@ class TableListController extends DefaultController {
 
   @FXML var tableColDate: TableColumn[Game, LocalDate] = _
   @FXML var tableColImg: TableColumn[Game, Game] = _
-  //  @FXML var tableColBrand: TableColumn[Game, Brand] = _
   @FXML var tableColTitle: TableColumn[Game, String] = _
   @FXML var tableColType: TableColumn[Game, String] = _
   @FXML var tableColPainter: TableColumn[Game, String] = _
@@ -104,7 +103,6 @@ class TableListController extends DefaultController {
 
     tableColLocation.setCellValueFactory(param => param.getValue.location)
     tableColState.setCellValueFactory(param => param.getValue.state)
-    //    tableColBrand.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.brand))
     tableColImg.setCellValueFactory(param => new SimpleObjectProperty(param.getValue))
     tableColPainter.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.getPainter))
     tableColWriter.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.getWriter))
@@ -124,11 +122,6 @@ class TableListController extends DefaultController {
 
     }
 
-    //    tableColBrand.setCellFactory(_ =>
-    //      TextTableCell { brand =>
-    //        brand.name
-    //      }
-    //    )
 
     tableColTitle.setCellFactory(_ =>
       TextTableCell { name =>

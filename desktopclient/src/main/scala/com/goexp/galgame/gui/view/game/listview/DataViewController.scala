@@ -14,8 +14,8 @@ import javafx.collections.transformation.{FilteredList, SortedList}
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.fxml.FXML
 import javafx.scene.control._
-import javafx.scene.layout.{FlowPane, HBox, Region}
-import org.controlsfx.control.PopOver
+import javafx.scene.layout.{HBox, Region}
+import org.controlsfx.control.{GridCell, GridView, PopOver}
 
 import java.util
 import java.util.function.Predicate
@@ -46,7 +46,7 @@ class DataViewController extends DefaultController {
   @FXML private var cvList: ListView[DataItem] = _
   @FXML private var tagList: ListView[DataItem] = _
 
-  @FXML private var gridView: FlowPane = _
+  @FXML private var gridView: GridView[Game] = _
   private val popPanel = new PopOver
 
   private var filteredGames: FilteredList[Game] = _
@@ -56,14 +56,31 @@ class DataViewController extends DefaultController {
   final private val groupTagServ = TaskService(new ByTag(filteredGames))
 
   override protected def initialize() = {
-    //    val tabs = mainTab.getTabs
-    //    val lastTab = tabs.get(tabs.size() - 1)
-    //    mainTab.getSelectionModel.selectLast()
 
     initSideBar()
     initGroupPanel()
 
-    //    popPanel.setArrowLocation(PopOver.ArrowLocation.TOP_LEFT)
+    gridView.setCellWidth(300)
+    gridView.setCellHeight(600)
+
+    gridView.setCellFactory { _ =>
+      val loader = new SimpleFxmlLoader[HeaderController]("header.fxml")
+
+      new GridCell[Game] {
+        itemProperty().addListener { (_, _, g) => {
+          setGraphic({
+            if (g != null) {
+              loader.controller.load(g)
+              loader.node
+            } else
+              null
+          })
+        }
+        }
+      }
+
+    }
+
     popPanel.setAutoHide(true)
     popPanel.setAnimated(false)
   }
@@ -113,20 +130,6 @@ class DataViewController extends DefaultController {
 
   private def initSideBar() = {
 
-    //    groupPanel.setExpandedPane(groupPanel.getPanes.get(0))
-
-
-    //    btnHide.setUserData(true)
-    //    btnHide.getProperties.put("groupPanel", groupPanel.getPrefWidth)
-    //    btnHide.setOnAction { _ =>
-    //      var state = btnHide.getUserData.asInstanceOf[Boolean]
-    //      val width = btnHide.getProperties.get("groupPanel").asInstanceOf[Double]
-    //      state = !state
-    //      groupPanel.setVisible(state)
-    //      groupPanel.setManaged(state)
-    //      groupPanel.setPrefWidth(if (state) width else 0)
-    //      btnHide.setUserData(state)
-    //    }
     initSidebarContentView()
   }
 
@@ -169,7 +172,6 @@ class DataViewController extends DefaultController {
 
   def recount(): Unit = {
     tablelist.scrollTo(0)
-    //    smallListSimpleController.smallListSimple.scrollTo(0)
     resetCount(filteredGames)
   }
 
@@ -192,12 +194,6 @@ class DataViewController extends DefaultController {
     setSideBarData(filteredGames)
   }
 
-  //  def load(games: ObservableList[Game]): Unit = {
-  //    val defaultP: Predicate[Game] = (g: Game) => (g.state.get ne GameState.SAME) &&
-  //      (g.state.get ne GameState.BLOCK)
-  //
-  //    load(games, defaultP)
-  //  }
 
   private def setSideBarData(filteredGames: FilteredList[Game]) = {
     dateGroupController.init(filteredGames)
@@ -207,57 +203,31 @@ class DataViewController extends DefaultController {
   }
 
   private def loadItems(sortedData: SortedList[Game]) = {
-    //    tableView.setItems(sortedData)
-    //    tableView.scrollTo(0)
     tablelist.setItems(sortedData)
     tablelist.scrollTo(0)
-    //    smallListSimpleController.smallListSimple.setItems(sortedData)
-    //    smallListSimpleController.smallListSimple.scrollTo(0)
 
-    loadFlow(sortedData)
+    gridView.setItems(sortedData)
+
+    //    loadFlow(sortedData)
   }
 
   private def resetCount(filteredGames: util.List[Game]) = {
 
     lbItemCount.setText(s"${filteredGames.size} 件")
-    loadFlow(filteredGames)
+    //    loadFlow(filteredGames)
 
   }
 
-  private def loadFlow(filteredGames: util.List[Game]) = {
-
-
-    gridView.getChildren.clear()
-
-    val iamges = filteredGames.listIterator().asScala.to(LazyList).map { game =>
-
-
-      val loader = new SimpleFxmlLoader[HeaderController]("header.fxml")
-      loader.controller.load(game)
-      loader.node
-
-
-      //      val imageView = new ImageView(GameImage(game).tiny200())
-      //      imageView.setOnMouseClicked { e =>
-      //        if (e.getButton eq MouseButton.PRIMARY) {
-      //
-      //          val loader = new SimpleFxmlLoader[HeaderController]("header.fxml")
-      //          loader.controller.load(game)
-      //
-      //          popPanel.show(imageView)
-      //
-      //          popPanel.setContentNode(loader.node)
-      //        }
-      //      }
-      //      imageView.setOnMouseExited { _ =>
-      //        if (popPanel.isShowing)
-      //          popPanel.hide()
-      //      }
-      //      imageView
-
-    }.toArray
-    gridView.getChildren.addAll(iamges: _*)
-
-  }
+  //  private def loadFlow(filteredGames: util.List[Game]) = {
+  //
+  //    val iamges = filteredGames.listIterator().asScala.to(LazyList).map { game =>
+  //
+  //
+  //
+  //    }.asJava
+  //
+  //    //    gridView.setItems(filteredGames)
+  //
+  //  }
 
 }

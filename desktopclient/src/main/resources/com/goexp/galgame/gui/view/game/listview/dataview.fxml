@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 
+<?import org.controlsfx.control.GridView?>
 <SplitPane dividerPositions="0.0, 0.5" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.goexp.galgame.gui.view.game.listview.DataViewController">
     <Accordion maxWidth="220.0">
@@ -37,13 +38,8 @@
                  AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
                  AnchorPane.topAnchor="0">
             <Tab text="Grid">
-                <ScrollPane fitToWidth="true" nodeOrientation="LEFT_TO_RIGHT">
-                    <FlowPane fx:id="gridView" hgap="20" vgap="20"/>
-                </ScrollPane>
+                <GridView fx:id="gridView" nodeOrientation="LEFT_TO_RIGHT"/>
             </Tab>
-            <!--            <Tab text="Flow">-->
-            <!--                <fx:include fx:id="smallListSimple" source="simplelist/small/list.fxml"/>-->
-            <!--            </Tab>-->
             <Tab text="List">
                 <fx:include fx:id="tablelist" source="tablelist/tablelist.fxml"/>
             </Tab>

@@ -7,9 +7,9 @@ import com.goexp.galgame.gui.task.game.search.{ByCV, ByPainter}
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager}
 import com.goexp.galgame.gui.view.brand.CommonInfoTabController
-import com.goexp.galgame.gui.view.common.control.DataTab
+import com.goexp.galgame.gui.view.common.control.DataPage
 import com.goexp.galgame.gui.view.game.detailview.outer.OutPageController
-import com.goexp.galgame.gui.view.game.{CommonDataViewPanel, HomeController}
+import com.goexp.galgame.gui.view.game.{ExplorerData, HomeController}
 import com.goexp.galgame.gui.view.guide.SearchView
 import com.goexp.ui.javafx.FXMLLoaderProxy
 import com.typesafe.scalalogging.Logger
@@ -59,7 +59,7 @@ object HGameApp extends App {
   def loadPainterTab(painter: String) = {
 
     TabManager().open(painter, {
-      new DataTab(CommonDataViewPanel(new ByPainter(painter))) {
+      new DataPage(ExplorerData(new ByPainter(painter))) {
         text = (painter)
       }
     })
@@ -68,7 +68,7 @@ object HGameApp extends App {
   def loadCVTab(cv: String, real: Boolean) = {
 
     TabManager().open(cv, {
-      new DataTab(CommonDataViewPanel(new ByCV(cv, real))) {
+      new DataPage(ExplorerData(new ByCV(cv, real))) {
         text = (cv)
         graphic = (new ImageView(LocalRes.CV_16_PNG))
       }

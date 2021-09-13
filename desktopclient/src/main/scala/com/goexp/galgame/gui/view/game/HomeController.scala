@@ -7,7 +7,7 @@ import com.goexp.galgame.gui.task.game.search._
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager}
 import com.goexp.galgame.gui.view.brand.MainPanelController
-import com.goexp.galgame.gui.view.common.control.DataTab
+import com.goexp.galgame.gui.view.common.control.DataPage
 import com.goexp.galgame.gui.view.game.HomeController._
 import com.goexp.galgame.gui.view.game.explorer.sidebar.FilterPanelController
 import com.goexp.ui.javafx.DefaultController
@@ -161,7 +161,7 @@ class HomeController extends DefaultController {
         setGraphic(item.icon)
         setOnAction { _ =>
           TabManager().open(item.title,
-            new DataTab(CommonDataViewPanel(item.dataTask)) {
+            new DataPage(ExplorerData(item.dataTask)) {
               text = item.title
             }
           )
@@ -281,7 +281,7 @@ class HomeController extends DefaultController {
       linkTags.setOnAction { _ =>
 
         TabManager().open("Tags",
-          new DataTab(new TagView()) {
+          new DataPage(new TagView()) {
             text = "Tags"
           }
         )

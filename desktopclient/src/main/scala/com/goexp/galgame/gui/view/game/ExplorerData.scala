@@ -8,7 +8,7 @@ import javafx.collections.ObservableList
 import javafx.concurrent.Task
 import scalafx.scene.layout.StackPane
 
-class CommonDataViewPanel(private val taskCreator: () => Task[ObservableList[Game]]) extends StackPane with Controller {
+class ExplorerData(private val taskCreator: () => Task[ObservableList[Game]]) extends StackPane with Controller {
 
   private val loader = new SimpleFxmlLoader[ExplorerController]("explorer.fxml")
   private val node = loader.node
@@ -39,6 +39,6 @@ class CommonDataViewPanel(private val taskCreator: () => Task[ObservableList[Gam
 
 }
 
-object CommonDataViewPanel {
-  def apply(taskCreator: => Task[ObservableList[Game]]): CommonDataViewPanel = new CommonDataViewPanel(() => taskCreator)
+object ExplorerData {
+  def apply(taskCreator: => Task[ObservableList[Game]]): ExplorerData = new ExplorerData(() => taskCreator)
 }

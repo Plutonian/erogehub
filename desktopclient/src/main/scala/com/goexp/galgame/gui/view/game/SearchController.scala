@@ -22,7 +22,7 @@ class SearchController extends DefaultController {
   override protected def initialize() = {
     onLoadProperty.addListener((_, _, newValue) => {
       if (newValue) {
-        val conn = CommonDataViewPanel(
+        val conn = ExplorerData(
           searchType match {
             case SearchType.Simple => new ByName(key.get())
             case SearchType.Extend => new ByNameEx(key.get())

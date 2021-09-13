@@ -4,7 +4,7 @@ import com.goexp.galgame.gui.task.TagListTask
 import com.goexp.galgame.gui.task.game.search.ByTag
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{Controller, TabManager}
-import com.goexp.galgame.gui.view.common.control.DataTab
+import com.goexp.galgame.gui.view.common.control.DataPage
 import com.goexp.ui.javafx.TaskService
 import javafx.scene.control
 import scalafx.Includes._
@@ -33,7 +33,7 @@ class TagView extends ScrollPane with Controller {
           val targetTag = link.text()
 
           TabManager().open(targetTag,
-            new DataTab(CommonDataViewPanel(new ByTag(targetTag))) {
+            new DataPage(ExplorerData(new ByTag(targetTag))) {
               text = (targetTag)
               graphic = (new ImageView(LocalRes.TAG_16_PNG))
             }

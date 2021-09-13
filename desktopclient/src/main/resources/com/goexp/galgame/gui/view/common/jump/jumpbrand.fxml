@@ -6,10 +6,9 @@
                  text="Jump" xmlns="http://javafx.com/javafx/8.0.172-ea"
                  fx:controller="com.goexp.galgame.gui.view.common.jump.JumpBrandController">
     <items>
-        <!--        <MenuItem fx:id="jumpBrand" mnemonicParsing="false" text="関連ゲーム"/>-->
-        <MenuItem fx:id="linkWebsite" mnemonicParsing="false" text="公式サイト"/>
-        <MenuItem fx:id="linkGetchu" mnemonicParsing="false" text="Getchu"/>
-        <SeparatorMenuItem mnemonicParsing="false"/>
+        <MenuItem fx:id="linkWebsite" text="公式サイト"/>
+        <MenuItem fx:id="linkGetchu" text="Getchu"/>
+        <SeparatorMenuItem/>
         <fx:include fx:id="searchLink" source="search.fxml"/>
     </items>
 </SplitMenuButton>

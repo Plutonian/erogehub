@@ -2,13 +2,13 @@
 
 
 <?import javafx.scene.control.*?>
-<Menu xmlns:fx="http://javafx.com/fxml/1" mnemonicParsing="false" text="Search"
+<Menu xmlns:fx="http://javafx.com/fxml/1" text="Search"
       xmlns="http://javafx.com/javafx/8.0.172-ea"
       fx:controller="com.goexp.galgame.gui.view.common.jump.SearchController">
-    <MenuItem fx:id="linkWiki" mnemonicParsing="false" text="Wiki"/>
-    <MenuItem fx:id="linkEgs" mnemonicParsing="false" text="ErogameScape"/>
-    <MenuItem fx:id="link2DF" mnemonicParsing="false" text="2DF"/>
+    <MenuItem fx:id="linkWiki" text="Wiki"/>
+    <MenuItem fx:id="linkEgs" text="ErogameScape"/>
+    <MenuItem fx:id="link2DF" text="2DF"/>
 
-    <SeparatorMenuItem mnemonicParsing="false"/>
-    <MenuItem fx:id="linkGGBases" mnemonicParsing="false" text="GGBases"/>
+    <SeparatorMenuItem/>
+    <MenuItem fx:id="linkGGBases" text="GGBases"/>
 </Menu>

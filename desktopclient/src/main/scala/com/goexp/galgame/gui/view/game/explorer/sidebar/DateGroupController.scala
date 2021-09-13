@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.view.game.listview.sidebar
+package com.goexp.galgame.gui.view.game.explorer.sidebar
 
 import java.util
 

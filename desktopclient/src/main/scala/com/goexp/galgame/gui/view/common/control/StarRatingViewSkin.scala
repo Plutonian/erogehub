@@ -1,11 +1,11 @@
 package com.goexp.galgame.gui.view.common.control
 
 import com.goexp.galgame.gui.util.res.LocalRes
+import com.goexp.galgame.gui.view.common.control.StarRatingViewSkin.genImages
 import javafx.scene.control.SkinBase
-import javafx.scene.image.ImageView
-import javafx.scene.layout.HBox
-
-import scala.jdk.CollectionConverters._
+import scalafx.scene.image.ImageView
+import scalafx.Includes._
+import scalafx.scene.layout.HBox
 
 class StarRatingViewSkin(control: StarRatingView) extends SkinBase[StarRatingView](control) {
   private lazy val container = new HBox()
@@ -26,17 +26,16 @@ class StarRatingViewSkin(control: StarRatingView) extends SkinBase[StarRatingVie
 
   def reCreate() = {
 
-    import StarRatingViewSkin.image
+    container.children = genImages(control.rating())
 
-    container.getChildren.setAll {
-      (1 to control.rating()).map { _ => new ImageView(image) }.asJava
-    }
   }
 
-  //  override def computeMaxWidth(height: Double, topInset: Double, rightInset: Double, bottomInset: Double, leftInset: Double): Double =
-  //    super.computeMaxWidth(height, topInset, rightInset, bottomInset, leftInset)
 }
 
 object StarRatingViewSkin {
-  private val image = LocalRes.HEART_16_PNG
+  private val _image = LocalRes.HEART_16_PNG
+
+  private def genImages(i: Int) = {
+    (0 until i).map { _ => new ImageView(_image) }
+  }
 }

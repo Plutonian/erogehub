@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.GridView?>
 <SplitPane dividerPositions="0.0, 0.5" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.goexp.galgame.gui.view.game.listview.DataViewController">
+           fx:controller="com.goexp.galgame.gui.view.game.explorer.ExplorerController">
     <Accordion maxWidth="220.0">
         <panes>
             <TitledPane animated="false" text="Date">
@@ -29,7 +29,7 @@
                 <GridView fx:id="gridView" nodeOrientation="LEFT_TO_RIGHT"/>
             </Tab>
             <Tab text="List">
-                <fx:include fx:id="tablelist" source="tablelist/tablelist.fxml"/>
+                <fx:include fx:id="tablelist" source="tableview/tablelist.fxml"/>
             </Tab>
 
         </TabPane>

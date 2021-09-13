@@ -9,7 +9,7 @@ import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager}
 import com.goexp.galgame.gui.view.brand.MainPanelController
 import com.goexp.galgame.gui.view.common.control.DataTab
 import com.goexp.galgame.gui.view.game.HomeController._
-import com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController
+import com.goexp.galgame.gui.view.game.explorer.sidebar.FilterPanelController
 import com.goexp.ui.javafx.DefaultController
 import javafx.collections.ObservableList
 import javafx.concurrent.Task

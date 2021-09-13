@@ -12,7 +12,7 @@
 <?import java.net.URL?>
 <?import com.goexp.galgame.gui.view.common.control.FormattedDate?>
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.goexp.galgame.gui.view.game.listview.simplelist.small.HeaderView"
+            fx:controller="com.goexp.galgame.gui.view.game.explorer.gridview.GameDetailView"
             style="-fx-background-color:white">
     <stylesheets>
         <URL value="@/view/view.css"/>

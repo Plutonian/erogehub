@@ -9,7 +9,7 @@
 <?import com.goexp.galgame.gui.view.common.control.TagPanel?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml" spacing="3.0" minHeight="100" prefHeight="150"
-      fx:controller="com.goexp.galgame.gui.view.game.listview.tablelist.InfoController">
+      fx:controller="com.goexp.galgame.gui.view.game.explorer.tableview.InfoController">
     <!--    <center>-->
     <!--        <VBox spacing="3.0" minHeight="100" prefHeight="150">-->
     <TextFlow fx:id="textFlow">

@@ -8,7 +8,7 @@
 
 <BorderPane styleClass="copyablelabel" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.goexp.galgame.gui.view.game.listview.sidebar.FilterPanelController">
+            fx:controller="com.goexp.galgame.gui.view.game.explorer.sidebar.FilterPanelController">
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>

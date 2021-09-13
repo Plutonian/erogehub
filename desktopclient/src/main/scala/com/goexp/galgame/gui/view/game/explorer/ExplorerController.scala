@@ -1,13 +1,13 @@
-package com.goexp.galgame.gui.view.game.listview
+package com.goexp.galgame.gui.view.game.explorer
 
 import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
-import com.goexp.galgame.gui.util.{SimpleFxmlLoader, Tags}
-import com.goexp.galgame.gui.view.game.listview.sidebar.{BrandGroupView, DateGroupController, FilterPanelController}
-import com.goexp.galgame.gui.view.game.listview.simplelist.small.HeaderView
-import com.goexp.galgame.gui.view.game.listview.tablelist.TableListController
+import com.goexp.galgame.gui.util.Tags
+import com.goexp.galgame.gui.view.game.explorer.gridview.GameDetailView
+import com.goexp.galgame.gui.view.game.explorer.sidebar.{BrandGroupView, DateGroupController, FilterPanelController}
+import com.goexp.galgame.gui.view.game.explorer.tableview.TableListController
 import com.goexp.ui.javafx.control.cell.NodeListCell
 import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.collections.transformation.{FilteredList, SortedList}
@@ -16,17 +16,22 @@ import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.layout.{HBox, Region}
 import org.controlsfx.control.{GridCell, GridView, PopOver}
-import scalafx.Includes._
 
 import java.util
 import java.util.function.Predicate
 import scala.jdk.CollectionConverters._
 
-class DataViewController extends DefaultController {
+class ExplorerController extends DefaultController {
+  final private val groupCVServ = TaskService(new ByCV(filteredGames))
+  final private val groupTagServ = TaskService(new ByTag(filteredGames))
+  val view = new BrandGroupView()
+  private val popPanel = new PopOver
   /**
    * Controllers
    */
   @FXML var tablelistController: TableListController = _
+  @FXML var loadingBar: ProgressBar = _
+  //  @FXML private var mainTab: TabPane = _
   @FXML private var filterPanelController: FilterPanelController = _
   //  @FXML private var brandGroupController: BrandGroupView = _
   @FXML private var dateGroupController: DateGroupController = _
@@ -34,12 +39,10 @@ class DataViewController extends DefaultController {
    * Status bar
    */
   @FXML private var lbItemCount: Label = _
-  @FXML var loadingBar: ProgressBar = _
   /**
    * main panel
    */
   @FXML private var tablelist: TableView[Game] = _
-  //  @FXML private var mainTab: TabPane = _
   /**
    * Sidebar
    */
@@ -47,15 +50,56 @@ class DataViewController extends DefaultController {
   @FXML private var cvList: ListView[DataItem] = _
   @FXML private var tagList: ListView[DataItem] = _
   @FXML private var brandGroup: TitledPane = _
-
   @FXML private var gridView: GridView[Game] = _
-  private val popPanel = new PopOver
-
   private var filteredGames: FilteredList[Game] = _
   private var groupPredicate: Predicate[Game] = _
 
-  final private val groupCVServ = TaskService(new ByCV(filteredGames))
-  final private val groupTagServ = TaskService(new ByTag(filteredGames))
+  def load(games: ObservableList[Game], initPredicate: Predicate[Game] = null): Unit = {
+    filterPanel.setVisible(true)
+    groupPredicate = null
+    filteredGames = new FilteredList(games)
+
+
+    val initP = HGameApp.mergeP(initPredicate)
+    // set filter
+    filteredGames.setPredicate(initP)
+    recount()
+
+    // set defaultPredicate
+    filterPanelController.predicate = initP
+    val sortedData = new SortedList[Game](filteredGames)
+    sortedData.comparatorProperty.bind(tablelist.comparatorProperty)
+    loadItems(sortedData)
+    setSideBarData(filteredGames)
+  }
+
+  def recount(): Unit = {
+    tablelist.scrollTo(0)
+    resetCount(filteredGames)
+  }
+
+  private def resetCount(filteredGames: util.List[Game]) = {
+
+    lbItemCount.setText(s"${filteredGames.size} 件")
+    //    loadFlow(filteredGames)
+
+  }
+
+  private def setSideBarData(filteredGames: FilteredList[Game]) = {
+    dateGroupController.init(filteredGames)
+    view.init(filteredGames)
+    groupCVServ.restart()
+    groupTagServ.restart()
+  }
+
+  private def loadItems(sortedData: SortedList[Game]) = {
+    tablelist.setItems(sortedData)
+    tablelist.scrollTo(0)
+
+    gridView.setItems(sortedData)
+
+    //    loadFlow(sortedData)
+  }
 
   override protected def initialize() = {
 
@@ -65,10 +109,13 @@ class DataViewController extends DefaultController {
     gridView.setCellWidth(300)
     gridView.setCellHeight(600)
 
+    gridView.setHorizontalCellSpacing(5)
+    gridView.setVerticalCellSpacing(5)
+
     gridView.setCellFactory { _ =>
       //      val loader = new SimpleFxmlLoader[HeaderController]("header.fxml")
 
-      val view = new HeaderView()
+      val view = new GameDetailView()
 
       new GridCell[Game] {
         itemProperty().addListener { (_, _, g) => {
@@ -88,8 +135,6 @@ class DataViewController extends DefaultController {
     popPanel.setAutoHide(true)
     popPanel.setAnimated(false)
   }
-
-  val view = new BrandGroupView()
 
   private def initGroupPanel() = {
     cvList.setCellFactory(_ =>
@@ -132,7 +177,6 @@ class DataViewController extends DefaultController {
       if (newValue != null) tagList.setItems(FXCollections.observableList(newValue))
     })
   }
-
 
   private def initSideBar() = {
 
@@ -179,54 +223,6 @@ class DataViewController extends DefaultController {
 
     })
     brandGroup.setContent(view)
-  }
-
-  def recount(): Unit = {
-    tablelist.scrollTo(0)
-    resetCount(filteredGames)
-  }
-
-  def load(games: ObservableList[Game], initPredicate: Predicate[Game] = null): Unit = {
-    filterPanel.setVisible(true)
-    groupPredicate = null
-    filteredGames = new FilteredList(games)
-
-
-    val initP = HGameApp.mergeP(initPredicate)
-    // set filter
-    filteredGames.setPredicate(initP)
-    recount()
-
-    // set defaultPredicate
-    filterPanelController.predicate = initP
-    val sortedData = new SortedList[Game](filteredGames)
-    sortedData.comparatorProperty.bind(tablelist.comparatorProperty)
-    loadItems(sortedData)
-    setSideBarData(filteredGames)
-  }
-
-
-  private def setSideBarData(filteredGames: FilteredList[Game]) = {
-    dateGroupController.init(filteredGames)
-    view.init(filteredGames)
-    groupCVServ.restart()
-    groupTagServ.restart()
-  }
-
-  private def loadItems(sortedData: SortedList[Game]) = {
-    tablelist.setItems(sortedData)
-    tablelist.scrollTo(0)
-
-    gridView.setItems(sortedData)
-
-    //    loadFlow(sortedData)
-  }
-
-  private def resetCount(filteredGames: util.List[Game]) = {
-
-    lbItemCount.setText(s"${filteredGames.size} 件")
-    //    loadFlow(filteredGames)
-
   }
 
   //  private def loadFlow(filteredGames: util.List[Game]) = {

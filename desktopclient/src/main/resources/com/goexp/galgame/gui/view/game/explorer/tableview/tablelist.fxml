@@ -5,7 +5,7 @@
 <TableView xmlns:fx="http://javafx.com/fxml/1" fx:id="table" styleClass="left-pill" tableMenuButtonVisible="true"
            xmlns="http://javafx.com/javafx/"
            nodeOrientation="LEFT_TO_RIGHT"
-           fx:controller="com.goexp.galgame.gui.view.game.listview.tablelist.TableListController">
+           fx:controller="com.goexp.galgame.gui.view.game.explorer.tableview.TableListController">
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>

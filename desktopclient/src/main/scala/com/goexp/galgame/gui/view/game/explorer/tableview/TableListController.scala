@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.view.game.listview.tablelist
+package com.goexp.galgame.gui.view.game.explorer.tableview
 
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.Game

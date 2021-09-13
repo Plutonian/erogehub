@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.view.game.listview.tablelist
+package com.goexp.galgame.gui.view.game.explorer.tableview
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.CommonGame.Titles

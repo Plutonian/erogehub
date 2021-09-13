@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.view.game.listview.simplelist.small
+package com.goexp.galgame.gui.view.game.explorer.gridview
 
 import com.goexp.galgame.common.model.game.CommonGame.Titles
 import com.goexp.galgame.gui.HGameApp
@@ -23,7 +23,7 @@ import scalafx.scene.layout.{BorderPane, VBox}
 
 import java.util
 
-class HeaderView extends BorderPane with Controller {
+class GameDetailView extends BorderPane with Controller {
 
   val $this = this;
 
@@ -34,9 +34,6 @@ class HeaderView extends BorderPane with Controller {
     val _mainTitle = new StringProperty()
     val _subTitle = new StringProperty()
 
-    val b = new ObjectProperty[Brand]()
-
-
     val _star = new IntegerProperty()
     val _tags = new ObjectProperty[util.List[String]]()
     val _publishDate = new ObjectProperty[LocalDate]()
@@ -45,6 +42,7 @@ class HeaderView extends BorderPane with Controller {
 
   stylesheets.add("/view/view.css")
   style = "-fx-background-color:white"
+  prefHeight = 400
 
   padding = Insets(3)
 

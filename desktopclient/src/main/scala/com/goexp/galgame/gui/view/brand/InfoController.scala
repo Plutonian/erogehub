@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.view.brand
 
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.game.search.ByBrand
-import com.goexp.galgame.gui.view.game.listview.DataViewController
+import com.goexp.galgame.gui.view.game.explorer.ExplorerController
 import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.collections.ObservableList
 import javafx.collections.transformation.FilteredList
@@ -13,7 +13,7 @@ import java.util.Objects
 class InfoController extends DefaultController {
 
   @FXML var titleController: TitlePartController = _
-  @FXML var dataViewController: DataViewController = _
+  @FXML var dataViewController: ExplorerController = _
 
   private var brand = new Brand
 

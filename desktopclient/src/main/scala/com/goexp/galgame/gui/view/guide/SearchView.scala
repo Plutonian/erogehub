@@ -9,7 +9,7 @@ import scalafx.geometry.Pos
 import scalafx.scene.control._
 import scalafx.scene.layout.{BorderPane, HBox, Priority, StackPane}
 
-class SearchGuideController extends BorderPane with Controller {
+class SearchView extends BorderPane with Controller {
   object DataSource {
     val guideService = TaskService(new GuideSearchTask(VO.searchKey.get()))
   }

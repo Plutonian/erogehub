@@ -10,7 +10,7 @@ import com.goexp.galgame.gui.view.brand.CommonInfoTabController
 import com.goexp.galgame.gui.view.common.control.DataTab
 import com.goexp.galgame.gui.view.game.detailview.outer.OutPageController
 import com.goexp.galgame.gui.view.game.{CommonDataViewPanel, HomeController}
-import com.goexp.galgame.gui.view.guide.SearchGuideController
+import com.goexp.galgame.gui.view.guide.SearchView
 import com.goexp.ui.javafx.FXMLLoaderProxy
 import com.typesafe.scalalogging.Logger
 import javafx.application.Application
@@ -95,7 +95,7 @@ object HGameApp extends App {
 
   def loadGuide(name: String) = {
     val title = s"攻略:${name}"
-    val view = new SearchGuideController()
+    val view = new SearchView()
 
     TabManager().open(title, {
       new Tab {

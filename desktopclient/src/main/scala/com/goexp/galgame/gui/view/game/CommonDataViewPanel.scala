@@ -6,7 +6,8 @@ import com.goexp.galgame.gui.view.game.listview.DataViewController
 import com.goexp.ui.javafx.TaskService
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
-import javafx.scene.layout.StackPane
+import scalafx.scene.layout.StackPane
+//import javafx.scene.layout.StackPane
 
 class CommonDataViewPanel(private val taskCreator: () => Task[ObservableList[Game]]) extends StackPane with Controller {
 
@@ -30,7 +31,7 @@ class CommonDataViewPanel(private val taskCreator: () => Task[ObservableList[Gam
 
     registestListener(controller.loadingBar.visibleProperty)
 
-    getChildren.setAll(node)
+    children += node
   }
 
   override def load(): Unit = {

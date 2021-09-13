@@ -14,11 +14,14 @@ import com.goexp.galgame.gui.view.guide.SearchGuideController
 import com.goexp.ui.javafx.FXMLLoaderProxy
 import com.typesafe.scalalogging.Logger
 import javafx.application.Application
-import javafx.scene.control.Tab
-import javafx.scene.image.ImageView
+import scalafx.scene.control.Tab
+import scalafx.scene.image.ImageView
+//import javafx.scene.control.Tab
+//import javafx.scene.image.ImageView
 import javafx.scene.paint.Color
 import javafx.scene.{Parent, Scene}
 import javafx.stage.Stage
+import scalafx.Includes._
 
 import java.util.function.Predicate
 
@@ -40,12 +43,14 @@ object HGameApp extends App {
   }
 
   def viewBrand(brand: Brand) = {
-    val text = brand.name
+    val t = brand.name
     val conn = new CommonInfoTabController
 
-    TabManager().open(text, {
-      new Tab(text, conn.node) {
-        setGraphic(new ImageView(LocalRes.BRAND_16_PNG))
+    TabManager().open(t, {
+      new Tab {
+        text = t
+        graphic = (new ImageView(LocalRes.BRAND_16_PNG))
+        content = conn.node
       }
     }) {
       conn.load(brand)
@@ -57,7 +62,7 @@ object HGameApp extends App {
 
     TabManager().open(painter, {
       new DataTab(CommonDataViewPanel(new ByPainter(painter))) {
-        setText(painter)
+        text = (painter)
       }
     })
   }
@@ -66,8 +71,8 @@ object HGameApp extends App {
 
     TabManager().open(cv, {
       new DataTab(CommonDataViewPanel(new ByCV(cv, real))) {
-        setText(cv)
-        setGraphic(new ImageView(LocalRes.CV_16_PNG))
+        text = (cv)
+        graphic = (new ImageView(LocalRes.CV_16_PNG))
       }
     })
   }
@@ -76,8 +81,11 @@ object HGameApp extends App {
     val loader = new SimpleFxmlLoader[OutPageController]("out_page.fxml")
 
     TabManager().open(game.name, {
-      new Tab(game.name, loader.node) {
-        setGraphic(new ImageView(LocalRes.GAME_16_PNG))
+      new Tab {
+        text = game.name
+
+        graphic = (new ImageView(LocalRes.GAME_16_PNG))
+        content = loader.node
       }
     }) {
       loader.controller.load(game)
@@ -87,13 +95,17 @@ object HGameApp extends App {
 
   def loadGuide(name: String) = {
     val title = s"攻略:${name}"
-    val loader = new SimpleFxmlLoader[SearchGuideController]("searchguide.fxml")
+    val view = new SearchGuideController()
 
     TabManager().open(title, {
-      new Tab(title, loader.node)
+      new Tab {
+        text = title
+        content = view
+      }
+
     }) {
 
-      loader.controller.load(name)
+      view.load(name)
     }
 
   }

@@ -7,54 +7,70 @@ import com.goexp.galgame.gui.util.Controller
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.common.control.DataTableColumn
 import com.goexp.ui.javafx.TaskService
-import com.goexp.ui.javafx.control.cell.NodeTableCell
 import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
 import javafx.fxml.FXML
-import javafx.scene.control.{Hyperlink, Label, TableColumn, TableView}
+import scalafx.scene.control.{TableCell, TableColumn, TableView}
+import scalafx.scene.layout.HBox
 import javafx.scene.image.ImageView
-import javafx.scene.layout.HBox
+import scalafx.Includes._
+import scalafx.scene.control.{Hyperlink, Label}
 
 import java.time.LocalDate
 
 class CVView extends TableView[CV] with Controller {
 
-  setPrefHeight(651.0)
-  setPrefWidth(1120.0)
-  setTableMenuButtonVisible(true)
+  prefHeight = 651.0
+  prefWidth = 1120.0
+  tableMenuButtonVisible = true
 
-  getColumns.setAll(
+  columns ++= Seq(
     new TableColumn[CV, Int]("Star") {
-      setPrefWidth(120)
-      setEditable(false)
-      setResizable(false)
+      prefWidth = (120)
+      editable = (false)
+      resizable = (false)
 
-      setCellValueFactory(param => new SimpleObjectProperty(param.getValue.star))
-      setCellFactory { _ =>
+      cellValueFactory = param => new SimpleObjectProperty(param.value.star)
+      cellFactory = (_: TableColumn[CV, Int]) => {
         val image = LocalRes.HEART_16_PNG
 
-        NodeTableCell { star =>
-          if (star > 0) {
-            val stars = (0 until star).to(LazyList)
-              .map { _ => new ImageView(image) }
-              .toArray
-            new HBox(stars: _*)
+        new TableCell[CV, Int] {
+          item.onChange { (_, _, star) => {
+            graphic =
+              if (star != null)
+                if (star > 0) {
+                  new HBox {
+                    children ++= (0 until star).map { _ => new ImageView(image) }
+                  }
+                }
+                else new Label {
+                  text = star.toString
+                }
+              else
+                null
           }
-          else new Label(star.toString)
+
+          }
         }
+
       }
     },
     new TableColumn[CV, String]("Name") {
-      setPrefWidth(120)
-      setEditable(false)
+      prefWidth = (120)
+      editable = (false)
 
-      setCellValueFactory(param => new SimpleStringProperty(param.getValue.name))
+      cellValueFactory = (param => new SimpleStringProperty(param.value.name))
 
-      setCellFactory { _ =>
-
-        NodeTableCell { name =>
-          new Hyperlink() {
-            setText(name)
-            setOnAction(_ => HGameApp.loadCVTab(name, true))
+      cellFactory = { (_: TableColumn[CV, String]) =>
+        new TableCell[CV, String] {
+          item.onChange { (_, _, name) =>
+            graphic =
+              if (name != null)
+                new Hyperlink() {
+                  text = name
+                  onAction = _ => HGameApp.loadCVTab(name, true)
+                }
+              else
+                null
           }
         }
       }
@@ -68,8 +84,9 @@ class CVView extends TableView[CV] with Controller {
     }
   )
 
+
   final private val loadCVService = TaskService(new CVListTask())
-  itemsProperty().bind(loadCVService.valueProperty())
+  items <== loadCVService.valueProperty()
 
 
   @FXML private var colTag: TableColumn[CV, List[String]] = _

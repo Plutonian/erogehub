@@ -15,6 +15,8 @@ trait Controller extends DataSource {
     listeners.foreach { p =>
       p.unbind()
     }
+
+    listeners.clear()
   }
 
   def dispose(): Unit = {

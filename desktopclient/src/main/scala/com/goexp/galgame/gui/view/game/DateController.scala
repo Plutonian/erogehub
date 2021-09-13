@@ -9,7 +9,10 @@ import com.goexp.ui.javafx.control.cell.TextListCell
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.ListView
-import javafx.scene.image.ImageView
+import scalafx.scene.image.ImageView
+//import javafx.scene.image.ImageView
+
+import scalafx.Includes._
 
 import java.time.LocalDate
 import scala.jdk.CollectionConverters._
@@ -39,8 +42,8 @@ class DateController extends DefaultController {
 
         TabManager().open(title, {
           new DataTab(CommonDataViewPanel(new ByDateRange(from, to))) {
-            setText(title)
-            setGraphic(new ImageView(LocalRes.DATE_16_PNG))
+            text = (title)
+            graphic = new ImageView(LocalRes.DATE_16_PNG)
           }
         })
       }
@@ -74,8 +77,8 @@ class DateController extends DefaultController {
 
         TabManager().open(title, {
           new DataTab(CommonDataViewPanel(new ByDateRange(from, to))) {
-            setText(title)
-            setGraphic(new ImageView(LocalRes.DATE_16_PNG))
+            text = (title)
+            graphic = new ImageView(LocalRes.DATE_16_PNG)
           }
         })
       }

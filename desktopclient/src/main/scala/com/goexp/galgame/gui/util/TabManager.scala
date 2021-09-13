@@ -1,10 +1,10 @@
 package com.goexp.galgame.gui.util
 
 import com.goexp.galgame.gui.view.game.HomeController
-import javafx.scene.control.{Tab, TabPane}
-
+import scalafx.scene.control.{Tab, TabPane}
+//import javafx.scene.control.{Tab, TabPane}
+import scalafx.Includes._
 import scala.collection.mutable
-import scala.jdk.CollectionConverters._
 
 object TabManager {
   def apply(root: TabPane): TabManager = new TabManager(root)
@@ -85,10 +85,10 @@ class TabManager private(val root: TabPane) {
   }
 
   def closeOther() = {
-    root.getTabs.asScala
-      .filter(_ ne root.getSelectionModel.getSelectedItem)
-      .foreach {
-        close
+    root.tabs
+      .filter(_ ne root.selectionModel().getSelectedItem)
+      .foreach { t =>
+        close(t)
       }
   }
 

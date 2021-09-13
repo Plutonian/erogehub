@@ -7,14 +7,15 @@ import com.goexp.galgame.gui.util.{Controller, TabManager}
 import com.goexp.galgame.gui.view.common.control.DataTab
 import com.goexp.ui.javafx.TaskService
 import javafx.scene.control
-import scalafx.event.ActionEvent
 import scalafx.Includes._
+import scalafx.event.ActionEvent
 import scalafx.geometry.{Insets, Orientation, VPos}
-import scalafx.scene.control.{Hyperlink, TitledPane}
+import scalafx.scene.control.{Hyperlink, ScrollPane, TitledPane}
 import scalafx.scene.image.ImageView
 import scalafx.scene.layout.FlowPane
 
-class TagView extends javafx.scene.control.ScrollPane with Controller {
+
+class TagView extends ScrollPane with Controller {
 
   //Init
 
@@ -33,8 +34,8 @@ class TagView extends javafx.scene.control.ScrollPane with Controller {
 
           TabManager().open(targetTag,
             new DataTab(CommonDataViewPanel(new ByTag(targetTag))) {
-              setText(targetTag)
-              setGraphic(new ImageView(LocalRes.TAG_16_PNG))
+              text = (targetTag)
+              graphic = (new ImageView(LocalRes.TAG_16_PNG))
             }
           )
         case _ =>
@@ -47,8 +48,8 @@ class TagView extends javafx.scene.control.ScrollPane with Controller {
 
   }
 
-  setFitToHeight(true)
-  setContent(main)
+  fitToHeight = (true)
+  content = (main)
 
   override def load(): Unit = {
     DataSource.load()

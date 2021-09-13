@@ -4,15 +4,14 @@ import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
-import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager, Tags}
+import com.goexp.galgame.gui.util.{SimpleFxmlLoader, Tags}
 import com.goexp.galgame.gui.view.game.listview.sidebar.{BrandGroupController, DateGroupController, FilterPanelController}
-import com.goexp.galgame.gui.view.game.listview.simplelist.small.{HeaderController, ListViewController}
+import com.goexp.galgame.gui.view.game.listview.simplelist.small.HeaderController
 import com.goexp.galgame.gui.view.game.listview.tablelist.TableListController
 import com.goexp.ui.javafx.control.cell.NodeListCell
 import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.collections.transformation.{FilteredList, SortedList}
 import javafx.collections.{FXCollections, ObservableList}
-import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.layout.{FlowPane, HBox, Region}
@@ -30,7 +29,7 @@ class DataViewController extends DefaultController {
   @FXML private var filterPanelController: FilterPanelController = _
   @FXML private var brandGroupController: BrandGroupController = _
   @FXML private var dateGroupController: DateGroupController = _
-//  @FXML private var smallListSimpleController: ListViewController = _
+  //  @FXML private var smallListSimpleController: ListViewController = _
   /**
    * Status bar
    */
@@ -40,7 +39,7 @@ class DataViewController extends DefaultController {
    * main panel
    */
   @FXML private var tablelist: TableView[Game] = _
-//  @FXML private var mainTab: TabPane = _
+  //  @FXML private var mainTab: TabPane = _
   /**
    * Sidebar
    */

@@ -15,12 +15,15 @@ import javafx.collections.ObservableList
 import javafx.concurrent.Task
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.scene.control.{Hyperlink, Tab, TabPane}
-import javafx.scene.image.ImageView
+import javafx.scene.control.Hyperlink
+import scalafx.scene.image.ImageView
+//import javafx.scene.image.ImageView
 import javafx.scene.input.TransferMode
 import javafx.scene.layout.Pane
 import org.controlsfx.control.PopOver
 import org.controlsfx.control.PopOver.ArrowLocation
+import scalafx.Includes._
+import scalafx.scene.control.{Tab, TabPane}
 
 import scala.jdk.CollectionConverters._
 
@@ -90,7 +93,7 @@ object HomeController {
 
 class HomeController extends DefaultController {
 
-  @FXML var mainTabPanel: TabPane = _
+  @FXML var mainTabPanel: javafx.scene.control.TabPane = _
 
   @FXML private var gameStateLinkPanel: Pane = _
   @FXML private var gameStateLikeLinkPanel: Pane = _
@@ -214,22 +217,19 @@ class HomeController extends DefaultController {
     {
       linkCV.setGraphic(new ImageView(LocalRes.IMG_CV_PNG))
       linkCV.setOnAction { _ =>
-        val loader = new SimpleFxmlLoader[CVInfoController]("cvinfo.fxml")
+        //        val loader = new SimpleFxmlLoader[CVInfoController]("cvinfo.fxml")
+
+        val view = new CVView
 
         TabManager().open("CV", {
-          new Tab("CV", loader.node) {
-            setGraphic(new ImageView(LocalRes.CV_16_PNG))
+          new Tab() {
+            text = "CV"
+            content = view
+            graphic = (new ImageView(LocalRes.CV_16_PNG))
           }
         }) {
-          loader.controller.load()
+          view.load()
         }
-
-        //        TabManager().open("CV",
-        //          new DataTab(new CVView) {
-        //            setText("CV")
-        //            setGraphic(new ImageView(LocalRes.CV_16_PNG))
-        //          }
-        //        )
       }
     }
 
@@ -239,7 +239,10 @@ class HomeController extends DefaultController {
         val loader = new SimpleFxmlLoader[SearchController]("search.fxml")
 
         TabManager().open("Search", {
-          new Tab("Search", loader.node)
+          new Tab {
+            text = "Search"
+            content = loader.node
+          }
         }) {
           loader.controller.load()
         }
@@ -261,7 +264,10 @@ class HomeController extends DefaultController {
           val loader = new SimpleFxmlLoader[SearchController]("search.fxml")
 
           TabManager().open("Search", {
-            new Tab("Search", loader.node)
+            new Tab {
+              text = "Search"
+              content = loader.node
+            }
           }) {
             loader.controller.load(title)
           }
@@ -276,7 +282,7 @@ class HomeController extends DefaultController {
 
         TabManager().open("Tags",
           new DataTab(new TagView()) {
-            setText("Tags")
+            text = "Tags"
           }
         )
 
@@ -287,7 +293,10 @@ class HomeController extends DefaultController {
       val loader = new SimpleFxmlLoader[MainPanelController]("mainpanel.fxml")
 
       TabManager().open("Brand", {
-        new Tab("Brand", loader.node)
+        new Tab {
+          text = "Brand"
+          content = loader.node
+        }
       }) {
         loader.controller.load()
       }

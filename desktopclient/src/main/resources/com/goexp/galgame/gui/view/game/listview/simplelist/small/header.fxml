@@ -10,20 +10,19 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 <?import java.net.URL?>
+<?import com.goexp.galgame.gui.view.common.control.DateShow?>
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.goexp.galgame.gui.view.game.listview.simplelist.small.HeaderController"
+            fx:controller="com.goexp.galgame.gui.view.game.listview.simplelist.small.HeaderView"
             style="-fx-background-color:white">
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
     <center>
-
-
         <VBox>
             <ImageView fx:id="imageImg" pickOnBounds="true"/>
             <BorderPane>
                 <right>
-                    <fx:include fx:id="dateview" source="../../../detailview/part/dateshow.fxml"/>
+                    <DateShow fx:id="dateview"/>
                 </right>
                 <center>
                     <TextFlow fx:id="textFlow">
@@ -33,11 +32,11 @@
 
                 </center>
             </BorderPane>
-            <VBox spacing="3.0">
-                <fx:include fx:id="brandJump" source="../../../../common/jump/jumpbrand.fxml"/>
-                <StarRatingView fx:id="ratingView"/>
-                <FlowPane fx:id="boxTag" hgap="5"/>
-            </VBox>
+            <!--            <VBox spacing="3.0">-->
+            <!--                <fx:include fx:id="brandJump" source="../../../../common/jump/jumpbrand.fxml"/>-->
+            <!--                <StarRatingView fx:id="ratingView"/>-->
+            <!--                <FlowPane fx:id="boxTag" hgap="5"/>-->
+            <!--            </VBox>-->
         </VBox>
     </center>
     <bottom>

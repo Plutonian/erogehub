@@ -5,7 +5,7 @@ import com.goexp.galgame.common.model.game.CommonGame.Titles
 import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
-import com.goexp.galgame.gui.view.common.control.StarRatingView
+import com.goexp.galgame.gui.view.common.control.{StarRatingView, TagPanel}
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController
 import com.goexp.ui.javafx.DefaultController
 import javafx.fxml.FXML
@@ -21,13 +21,11 @@ class InfoController extends DefaultController {
 
   @FXML private var ratingView: StarRatingView = _
 
-  @FXML private var boxTag: HBox = _
+  @FXML private var tagView: TagPanel = _
 
   @FXML var textFlow: TextFlow = _
 
   private var targetGame: Game = _
-
-  //  @FXML private var linkView: Hyperlink = _
 
   override protected def initialize(): Unit = {
     txtName.setOnAction(_ => HGameApp.loadDetail(targetGame))
@@ -54,16 +52,6 @@ class InfoController extends DefaultController {
 
     ratingView.ratingProperty.bind(game.star)
 
-    if (game.tag.size > 0)
-      boxTag.getChildren.setAll {
-        Tags.toNodes(game.tag) { str =>
-          val tagLabel = new Label(str)
-          tagLabel.getStyleClass.add("tag")
-          tagLabel.getStyleClass.add("tagsmall")
-          tagLabel
-        }
-      }
-    else
-      boxTag.getChildren.clear()
+    tagView.tags(game.tag)
   }
 }

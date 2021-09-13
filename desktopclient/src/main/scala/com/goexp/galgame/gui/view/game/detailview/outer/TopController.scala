@@ -4,8 +4,9 @@ import com.goexp.galgame.common.model.game.CommonGame.Titles
 import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
+import com.goexp.galgame.gui.view.common.control.DateShow
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController
-import com.goexp.galgame.gui.view.game.detailview.part.{DateShowController, StarRatingController}
+import com.goexp.galgame.gui.view.game.detailview.part.StarRatingController
 import com.goexp.ui.javafx.DefaultController
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
@@ -14,12 +15,12 @@ import javafx.scene.layout.{FlowPane, HBox}
 import javafx.scene.text.Text
 
 class TopController extends DefaultController {
-  @FXML private var dateviewController: DateShowController = _
   @FXML private var starRatingController: StarRatingController = _
   @FXML private var brandJumpController: JumpBrandController = _
   @FXML private var boxTag: HBox = _
   @FXML private var txtName: Text = _
   @FXML private var txtSubName: Text = _
+  @FXML private var dateview: DateShow = _
 
   @FXML private var flowPainter: FlowPane = _
 
@@ -53,7 +54,8 @@ class TopController extends DefaultController {
     this.targetGame = game
 
     starRatingController.load(game)
-    dateviewController.load(game.publishDate)
+
+    dateview.date(game.publishDate)
     brandJumpController.load(game.brand)
 
     val Titles(mainTitle, subTitle) = game.getTitles

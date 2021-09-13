@@ -5,7 +5,7 @@ import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.change.{MultiBlock, MultiLocation, MultiState}
 import com.goexp.galgame.gui.util.SimpleFxmlLoader
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
-import com.goexp.galgame.gui.view.game.detailview.part.DateShowController
+import com.goexp.galgame.gui.view.common.control.DateShow
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TableCell, TextTableCell}
 import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.property.SimpleObjectProperty
@@ -112,12 +112,12 @@ class TableListController extends DefaultController {
 
     tableColDate.setCellFactory { _ =>
 
-      val loader = new SimpleFxmlLoader[DateShowController]("dateshow.fxml")
+      val dateShow = new DateShow()
 
       NodeTableCell { publishDate =>
-        loader.controller.load(publishDate)
 
-        loader.node
+        dateShow.date(publishDate)
+        dateShow
       }
 
     }

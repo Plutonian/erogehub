@@ -5,8 +5,8 @@ import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
 import com.goexp.galgame.gui.util.{SimpleFxmlLoader, Tags}
-import com.goexp.galgame.gui.view.game.listview.sidebar.{BrandGroupController, DateGroupController, FilterPanelController}
-import com.goexp.galgame.gui.view.game.listview.simplelist.small.HeaderController
+import com.goexp.galgame.gui.view.game.listview.sidebar.{BrandGroupView, DateGroupController, FilterPanelController}
+import com.goexp.galgame.gui.view.game.listview.simplelist.small.HeaderView
 import com.goexp.galgame.gui.view.game.listview.tablelist.TableListController
 import com.goexp.ui.javafx.control.cell.NodeListCell
 import com.goexp.ui.javafx.{DefaultController, TaskService}
@@ -16,6 +16,7 @@ import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.layout.{HBox, Region}
 import org.controlsfx.control.{GridCell, GridView, PopOver}
+import scalafx.Includes._
 
 import java.util
 import java.util.function.Predicate
@@ -27,7 +28,7 @@ class DataViewController extends DefaultController {
    */
   @FXML var tablelistController: TableListController = _
   @FXML private var filterPanelController: FilterPanelController = _
-  @FXML private var brandGroupController: BrandGroupController = _
+  //  @FXML private var brandGroupController: BrandGroupView = _
   @FXML private var dateGroupController: DateGroupController = _
   /**
    * Status bar
@@ -45,6 +46,7 @@ class DataViewController extends DefaultController {
   @FXML private var filterPanel: Region = _
   @FXML private var cvList: ListView[DataItem] = _
   @FXML private var tagList: ListView[DataItem] = _
+  @FXML private var brandGroup: TitledPane = _
 
   @FXML private var gridView: GridView[Game] = _
   private val popPanel = new PopOver
@@ -64,14 +66,16 @@ class DataViewController extends DefaultController {
     gridView.setCellHeight(600)
 
     gridView.setCellFactory { _ =>
-      val loader = new SimpleFxmlLoader[HeaderController]("header.fxml")
+      //      val loader = new SimpleFxmlLoader[HeaderController]("header.fxml")
+
+      val view = new HeaderView()
 
       new GridCell[Game] {
         itemProperty().addListener { (_, _, g) => {
           setGraphic({
             if (g != null) {
-              loader.controller.load(g)
-              loader.node
+              view.load(g)
+              view
             } else
               null
           })
@@ -84,6 +88,8 @@ class DataViewController extends DefaultController {
     popPanel.setAutoHide(true)
     popPanel.setAnimated(false)
   }
+
+  val view = new BrandGroupView()
 
   private def initGroupPanel() = {
     cvList.setCellFactory(_ =>
@@ -146,17 +152,8 @@ class DataViewController extends DefaultController {
       }
 
     })
-    brandGroupController.onSetProperty.addListener((_, _, newValue) => {
-      if (newValue) {
-        groupPredicate = brandGroupController.predicate
-        val filterPredicate = filterPanelController.predicate
-        val p = if (filterPredicate != null) groupPredicate.and(filterPredicate)
-        else groupPredicate
-        filteredGames.setPredicate(p)
-        recount()
-      }
 
-    })
+
     dateGroupController.onSetProperty.addListener((_, _, newValue) => {
       if (newValue) {
         groupPredicate = dateGroupController.predicate
@@ -168,6 +165,20 @@ class DataViewController extends DefaultController {
       }
 
     })
+
+
+    view.onSetProperty.onChange((_, _, newValue) => {
+      if (newValue) {
+        groupPredicate = view.predicate
+        val filterPredicate = filterPanelController.predicate
+        val p = if (filterPredicate != null) groupPredicate.and(filterPredicate)
+        else groupPredicate
+        filteredGames.setPredicate(p)
+        recount()
+      }
+
+    })
+    brandGroup.setContent(view)
   }
 
   def recount(): Unit = {
@@ -197,7 +208,7 @@ class DataViewController extends DefaultController {
 
   private def setSideBarData(filteredGames: FilteredList[Game]) = {
     dateGroupController.init(filteredGames)
-    brandGroupController.init(filteredGames)
+    view.init(filteredGames)
     groupCVServ.restart()
     groupTagServ.restart()
   }

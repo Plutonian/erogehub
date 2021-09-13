@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
+<?import com.goexp.galgame.gui.view.common.control.TagPanel?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml" spacing="3.0" minHeight="100" prefHeight="150"
       fx:controller="com.goexp.galgame.gui.view.game.listview.tablelist.InfoController">
@@ -20,6 +21,7 @@
     <StarRatingView fx:id="ratingView"/>
 
     <HBox fx:id="boxTag" spacing="5.0"/>
+    <TagPanel fx:id="tagView"/>
     <!--        </VBox>-->
     <!--    </center>-->
 </VBox>

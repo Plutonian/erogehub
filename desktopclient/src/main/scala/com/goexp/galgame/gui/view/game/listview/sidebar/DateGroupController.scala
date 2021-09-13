@@ -10,6 +10,8 @@ import com.goexp.ui.javafx.control.cell.TextTreeCell
 import javafx.fxml.FXML
 import javafx.scene.control.TreeView
 
+import scalafx.Includes._
+
 class DateGroupController extends FilterController[Game] {
   @FXML private var dateTree: TreeView[DateItem] = _
   private var filteredGames: util.List[Game] = _
@@ -22,7 +24,7 @@ class DateGroupController extends FilterController[Game] {
       }
     )
 
-    dateTree.getSelectionModel.selectedItemProperty.addListener((_, _, newValue) => {
+    dateTree.getSelectionModel.selectedItem.onChange((_, _, newValue) => {
       if (newValue != null) {
         predicate = (game: Game) => game.publishDate != null &&
           game.publishDate.isBefore(newValue.getValue.range.end) &&
@@ -32,7 +34,7 @@ class DateGroupController extends FilterController[Game] {
         onSetProperty.set(false)
       }
     })
-    groupDateServ.valueProperty.addListener((_, _, newValue) => {
+    groupDateServ.value.onChange((_, _, newValue) => {
       if (newValue != null) dateTree.setRoot(newValue)
 
     })

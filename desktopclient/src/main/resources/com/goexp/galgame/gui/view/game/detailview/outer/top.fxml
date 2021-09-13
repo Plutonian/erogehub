@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.goexp.galgame.gui.view.common.control.DateShow?>
+<?import com.goexp.galgame.gui.view.common.control.FormattedDate?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
@@ -13,8 +13,8 @@
         <URL value="@/view/view.css"/>
     </stylesheets>
 
-    <DateShow fx:id="dateview" AnchorPane.rightAnchor="0.0"
-              AnchorPane.topAnchor="0.0"/>
+    <FormattedDate fx:id="dateview" AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="0.0"/>
     <VBox spacing="5.0">
         <TextFlow>
             <Text fx:id="txtName" styleClass="mainTitle"/>

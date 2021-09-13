@@ -4,7 +4,7 @@ import com.goexp.galgame.common.model.game.CommonGame.Titles
 import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Tags
-import com.goexp.galgame.gui.view.common.control.DateShow
+import com.goexp.galgame.gui.view.common.control.FormattedDate
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController
 import com.goexp.galgame.gui.view.game.detailview.part.StarRatingController
 import com.goexp.ui.javafx.DefaultController
@@ -20,7 +20,7 @@ class TopController extends DefaultController {
   @FXML private var boxTag: HBox = _
   @FXML private var txtName: Text = _
   @FXML private var txtSubName: Text = _
-  @FXML private var dateview: DateShow = _
+  @FXML private var dateview: FormattedDate = _
 
   @FXML private var flowPainter: FlowPane = _
 

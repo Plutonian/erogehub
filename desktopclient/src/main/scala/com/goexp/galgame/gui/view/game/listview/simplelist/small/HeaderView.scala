@@ -5,7 +5,7 @@ import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.util.res.gameimg.GameImage
 import com.goexp.galgame.gui.util.{Controller, SimpleFxmlLoader}
-import com.goexp.galgame.gui.view.common.control.{DateShow, StarRatingView, TagPanel}
+import com.goexp.galgame.gui.view.common.control.{FormattedDate, StarRatingView, TagPanel}
 import com.goexp.galgame.gui.view.common.jump.JumpBrandController
 import javafx.fxml.FXML
 import scalafx.beans.property.StringProperty
@@ -60,7 +60,7 @@ class HeaderView extends BorderPane with Controller {
         image <== _image
       },
       new BorderPane {
-        right = new DateShow() {
+        right = new FormattedDate() {
           dateProperty <== _publishDate
         }
         center = new TextFlow {

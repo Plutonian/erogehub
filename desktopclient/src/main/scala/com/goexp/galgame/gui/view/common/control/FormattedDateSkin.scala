@@ -12,7 +12,7 @@ import scalafx.scene.text.Font
 
 import java.time.format.DateTimeFormatter
 
-class DateShowSkin(control: DateShow) extends SkinBase[DateShow](control) {
+class FormattedDateSkin(control: FormattedDate) extends SkinBase[FormattedDate](control) {
 
   lazy val _date = control.dateProperty
 

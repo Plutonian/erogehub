@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 <?import java.net.URL?>
-<?import com.goexp.galgame.gui.view.common.control.DateShow?>
+<?import com.goexp.galgame.gui.view.common.control.FormattedDate?>
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.goexp.galgame.gui.view.game.listview.simplelist.small.HeaderView"
             style="-fx-background-color:white">
@@ -22,7 +22,7 @@
             <ImageView fx:id="imageImg" pickOnBounds="true"/>
             <BorderPane>
                 <right>
-                    <DateShow fx:id="dateview"/>
+                    <FormattedDate fx:id="dateview"/>
                 </right>
                 <center>
                     <TextFlow fx:id="textFlow">

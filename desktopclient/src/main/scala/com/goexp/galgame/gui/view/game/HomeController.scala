@@ -162,7 +162,7 @@ class HomeController extends DefaultController {
         setOnAction { _ =>
           TabManager().open(item.title,
             new DataTab(CommonDataViewPanel(item.dataTask)) {
-              setText(item.title)
+              text = item.title
             }
           )
         }

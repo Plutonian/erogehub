@@ -7,7 +7,6 @@ import com.goexp.ui.javafx.TaskService
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
 import scalafx.scene.layout.StackPane
-//import javafx.scene.layout.StackPane
 
 class CommonDataViewPanel(private val taskCreator: () => Task[ObservableList[Game]]) extends StackPane with Controller {
 
@@ -18,6 +17,10 @@ class CommonDataViewPanel(private val taskCreator: () => Task[ObservableList[Gam
   private val queryService = new TaskService(taskCreator)
 
   init()
+
+  override def load(): Unit = {
+    queryService.restart()
+  }
 
   private def init() = {
 
@@ -32,10 +35,6 @@ class CommonDataViewPanel(private val taskCreator: () => Task[ObservableList[Gam
     registestListener(controller.loadingBar.visibleProperty)
 
     children += node
-  }
-
-  override def load(): Unit = {
-    queryService.restart()
   }
 
 }

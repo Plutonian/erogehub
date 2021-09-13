@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.common.control
 import com.goexp.common.util.date.DateUtil
 import javafx.scene.control.SkinBase
 import scalafx.Includes._
-import scalafx.beans.binding.Bindings
+import scalafx.beans.property.{BooleanProperty, StringProperty}
 import scalafx.geometry.Pos
 import scalafx.scene.control.Label
 import scalafx.scene.effect.DropShadow
@@ -14,53 +14,65 @@ import java.time.format.DateTimeFormatter
 
 class FormattedDateSkin(control: FormattedDate) extends SkinBase[FormattedDate](control) {
 
-  lazy val _date = control.dateProperty
+  import VO._
 
-  lazy val needFormat = _date.isNotNull.and(Bindings.createBooleanBinding { () => DateUtil.needFormat(_date.value) })
+  object VO {
+    val _year = new StringProperty()
+    val _month = new StringProperty()
+    val _day = new StringProperty()
+    val _fdate = new StringProperty()
 
-  lazy val notNeedFormat = _date.isNotNull and needFormat.not()
 
-  lazy private val container = new StackPane() {
+    val needFormat = new BooleanProperty()
+  }
+
+  val _date = control.dateProperty
+
+
+  private val container = new StackPane() {
     maxWidth = 100
     effect = new DropShadow
   }
 
-  lazy private val style1Container = new StackPane {
+  private val style1Container = new StackPane {
     alignment = Pos.TopRight
     prefHeight = 50.0
+
+    visible <== needFormat
 
     children = Seq(
       //lbDays
       new Label() {
         font = Font(18)
 
-        text <== when(needFormat) choose DateUtil.formatDate(_date.value) otherwise ""
+        text <== _fdate
       }
     )
   }
 
-  lazy private val style2Container = new VBox {
+  private val style2Container = new VBox {
     alignment = Pos.TopRight
     prefHeight = 50.0
+
+    visible <== needFormat.not()
 
     children = Seq(
       //lbYear
       new Label() {
-        text <== when(notNeedFormat) choose _date.value.format(DateTimeFormatter.ofPattern("yyyy")) otherwise ""
+        text <== _year
         font = Font(24)
       },
       //lbMonth
       new Label() {
-        text <== when(notNeedFormat) choose _date.value.format(DateTimeFormatter.ofPattern("MMM")) otherwise ""
+        text <== _month
         font = Font(14)
       },
       //lbDay
       new Label() {
-        text <== when(notNeedFormat) choose _date.value.format(DateTimeFormatter.ofPattern("dd")) otherwise ""
+        text <== _day
         font = Font(10)
       }
     )
-
   }
 
   init()
@@ -82,37 +94,23 @@ class FormattedDateSkin(control: FormattedDate) extends SkinBase[FormattedDate](
 
     if (_date.value == null) {
       container.children.clear()
+      needFormat.value = false
     } else {
 
+      needFormat.value = DateUtil.needFormat(_date.value)
+
       if (DateUtil.needFormat(_date.value)) {
+        _fdate.value = DateUtil.formatDate(_date.value)
         container.children = Seq(style1Container)
 
       } else {
+        _year.value = _date.value.format(DateTimeFormatter.ofPattern("yyyy"))
+        _month.value = _date.value.format(DateTimeFormatter.ofPattern("MMM"))
+        _day.value = _date.value.format(DateTimeFormatter.ofPattern("dd"))
+
         container.children = Seq(style2Container)
       }
     }
-    //
-    //    if (date == null) {
-    //      strPanel.setVisible(false)
-    //      calPanel.setVisible(false)
-    //      lbDays.setText("")
-    //      return
-    //    }
-    //    if (DateUtil.needFormat(date)) {
-    //      strPanel.setVisible(true)
-    //      calPanel.setVisible(false)
-    //      lbDays.setText(DateUtil.formatDate(date))
-    //    }
-    //    else {
-    //      strPanel.setVisible(false)
-    //      calPanel.setVisible(true)
-    //
-    //      lbYear.setText(date.format(DateTimeFormatter.ofPattern("yyyy")))
-    //      lbMonth.setText(date.format(DateTimeFormatter.ofPattern("MMM")))
-    //      lbDay.setText(date.format(DateTimeFormatter.ofPattern("dd")))
-    //      calPanel.toFront()
-    //    }
-
   }
 
 }

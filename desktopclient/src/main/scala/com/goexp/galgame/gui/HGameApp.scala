@@ -14,14 +14,12 @@ import com.goexp.galgame.gui.view.guide.SearchView
 import com.goexp.ui.javafx.FXMLLoaderProxy
 import com.typesafe.scalalogging.Logger
 import javafx.application.Application
-import scalafx.scene.control.Tab
-import scalafx.scene.image.ImageView
-//import javafx.scene.control.Tab
-//import javafx.scene.image.ImageView
 import javafx.scene.paint.Color
 import javafx.scene.{Parent, Scene}
 import javafx.stage.Stage
 import scalafx.Includes._
+import scalafx.scene.control.Tab
+import scalafx.scene.image.ImageView
 
 import java.util.function.Predicate
 

@@ -3,11 +3,16 @@ package com.goexp.galgame.gui.view.game.explorer.sidebar
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.ByBrand
 import com.goexp.galgame.gui.task.game.panel.group.node.{BrandItem, CompItem, DataItem}
+import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{Controller, DataSource}
 import com.goexp.ui.javafx.TaskService
 import scalafx.Includes._
 import scalafx.beans.property.BooleanProperty
+import scalafx.geometry.Pos
 import scalafx.scene.control.{Label, TreeCell, TreeView}
+import scalafx.scene.image.ImageView
+import scalafx.scene.layout.{HBox, VBox}
+
 
 import java.util
 import java.util.function.Predicate
@@ -41,7 +46,28 @@ class BrandGroupView extends TreeView[DataItem] with Controller {
                 new Label(s"${title} (${count})")
               case BrandItem(title, count, brand) =>
                 //          new VBox(
-                new Label(s"${title} (${count})")
+
+                new HBox {
+                  spacing = 5
+                  children = Seq(
+                    new ImageView(LocalRes.BRAND_16_PNG) {
+                      alignment = Pos.CenterLeft
+                    },
+                    //                    new Text {
+                    //                      font = Font(32)
+                    //
+                    //                      text = "B"
+                    //                    },
+                    new VBox {
+
+                      children = Seq(
+                        new Label(s"${title} "),
+                        new Label(s"(${count})")
+                      )
+                    }
+                  )
+                }
+              //                new Label(s"${title} (${count})")
             }
 
           } else

@@ -10,12 +10,12 @@ import scalafx.scene.control._
 import scalafx.scene.layout.{BorderPane, HBox, Priority, StackPane}
 
 class SearchView extends BorderPane with Controller {
-  object DataSource {
-    val guideService = TaskService(new GuideSearchTask(VO.searchKey.get()))
+  def load(title: String = ""): Unit = {
+    VO.searchKey.set(title)
   }
 
-  object VO {
-    lazy val searchKey = new StringProperty()
+  override def load(): Unit = {
+
   }
 
 
@@ -71,7 +71,6 @@ class SearchView extends BorderPane with Controller {
               } else
                 null
             }
-
             }
           }
         }
@@ -79,13 +78,11 @@ class SearchView extends BorderPane with Controller {
     )
   }
 
-
-  def load(title: String = ""): Unit = {
-    VO.searchKey.set(title)
+  object DataSource {
+    val guideService = TaskService(new GuideSearchTask(VO.searchKey.get()))
   }
 
-
-  override def load(): Unit = {
-
+  object VO {
+    lazy val searchKey = new StringProperty()
   }
 }

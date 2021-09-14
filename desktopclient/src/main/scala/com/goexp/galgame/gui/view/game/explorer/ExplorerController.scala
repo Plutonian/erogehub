@@ -14,8 +14,10 @@ import javafx.collections.transformation.{FilteredList, SortedList}
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.fxml.FXML
 import javafx.scene.control._
-import javafx.scene.layout.HBox
 import org.controlsfx.control.{GridCell, GridView, PopOver}
+import scalafx.Includes._
+import scalafx.beans.property.StringProperty
+import scalafx.scene.layout.HBox
 
 import java.util
 import java.util.function.Predicate
@@ -136,10 +138,47 @@ class ExplorerController extends DefaultController {
 
   private def initGroupPanel() = {
     cvList.setCellFactory(_ =>
-      NodeListCell[DataItem] {
-        case SampleItem(title, count) =>
-          new HBox(Tags.toNodes(title), new Label(String.valueOf(count)))
+
+
+      new ListCell[DataItem] {
+
+        import VO._
+
+        object VO {
+          val _title = new StringProperty()
+          val _count = new StringProperty()
+        }
+
+        val c = new HBox {
+          children ++= Seq(
+            new Label {
+              textProperty() <== _title
+            },
+            new Label {
+              textProperty <== _count
+            }
+          )
+        }
+
+        itemProperty().onChange { (_, _, item) =>
+          if (item != null) {
+
+            val SampleItem(title, count) = item
+            _title.value = title
+            _count.value = s"($count)"
+
+            setGraphic(c)
+          }
+          else {
+            //            _title.value = ""
+            //            _count.value = ""
+
+            setGraphic(null)
+          }
+
+        }
       }
+
     )
 
     cvList.getSelectionModel.selectedItemProperty().addListener((_, _, cv) => {
@@ -159,9 +198,44 @@ class ExplorerController extends DefaultController {
     })
 
     tagList.setCellFactory(_ =>
-      NodeListCell[DataItem] {
-        case SampleItem(title, count) =>
-          new HBox(Tags.toNodes(title), new Label(String.valueOf(count)))
+      new ListCell[DataItem] {
+
+        import VO._
+
+        object VO {
+          val _title = new StringProperty()
+          val _count = new StringProperty()
+        }
+
+        val c = new HBox {
+          children ++= Seq(
+            new Label {
+              textProperty() <== _title
+              getStyleClass.add("tag")
+            },
+            new Label {
+              textProperty <== _count
+            }
+          )
+        }
+
+        itemProperty().onChange { (_, _, item) =>
+          if (item != null) {
+
+            val SampleItem(title, count) = item
+            _title.value = title
+            _count.value = s"($count)"
+
+            setGraphic(c)
+          }
+          else {
+            //            _title.value = ""
+            //            _count.value = ""
+
+            setGraphic(null)
+          }
+
+        }
       }
     )
 

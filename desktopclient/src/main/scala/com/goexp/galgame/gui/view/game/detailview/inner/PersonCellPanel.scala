@@ -20,17 +20,20 @@ import scalafx.scene.text.{Font, Text}
 
 class PersonCellPanel extends BorderPane with Logger with Controller {
 
-  private val cv = new StringProperty()
-  private val intro = new StringProperty()
-  private val name = new StringProperty()
-  private val isTrueCV = new BooleanProperty()
-  private val img = new ObjectProperty[Image]()
+  object VO {
+    lazy val _cv = new StringProperty()
+    lazy val _intro = new StringProperty()
+    lazy val _name = new StringProperty()
+    lazy val _isTrueCV = new BooleanProperty()
+    lazy val _image = new ObjectProperty[Image]()
+  }
 
+  import VO._
 
   padding = Insets(10)
 
   left = new ImageView {
-    image <== img
+    image <== _image
 
     registestListener(image)
   }
@@ -41,7 +44,7 @@ class PersonCellPanel extends BorderPane with Logger with Controller {
     children = Seq(
       //name
       new Text {
-        text <== name
+        text <== _name
 
         font = Font.font("System Bold", 18)
 
@@ -49,7 +52,7 @@ class PersonCellPanel extends BorderPane with Logger with Controller {
       },
       new HBox {
         margin = (Insets(0, 0, 10, 0))
-        visible <== cv.isNotEmpty
+        visible <== _cv.isNotEmpty
 
 
         children = Seq(
@@ -58,9 +61,9 @@ class PersonCellPanel extends BorderPane with Logger with Controller {
             font = Font.font("System Bold", 18)
           },
           new MenuButton {
-            text <== (cv)
+            text <== (_cv)
             textFill <==
-              when(isTrueCV).choose(Color.valueOf("red")) otherwise (Color.valueOf("black"))
+              when(_isTrueCV).choose(Color.valueOf("red")) otherwise (Color.valueOf("black"))
 
             style = ("-fx-background-color: transparent")
             margin = (Insets(0, 0, 0, 5))
@@ -68,17 +71,17 @@ class PersonCellPanel extends BorderPane with Logger with Controller {
             items = Seq(
               new MenuItem {
                 text = "関連ゲーム"
-                onAction = _ => HGameApp.loadCVTab(cv.get(), isTrueCV.get())
+                onAction = _ => HGameApp.loadCVTab(_cv.get(), _isTrueCV.get())
               },
               new SeparatorMenuItem,
               new MenuItem {
                 text = "Wiki"
-                onAction = _ => Websites.open(WikiURL.fromTitle(cv.get()))
+                onAction = _ => Websites.open(WikiURL.fromTitle(_cv.get()))
 
               },
               new MenuItem {
                 text = "Bangumi"
-                onAction = _ => Websites.open(BangumiURL.fromTitle(cv.get()))
+                onAction = _ => Websites.open(BangumiURL.fromTitle(_cv.get()))
 
               }
 
@@ -92,12 +95,12 @@ class PersonCellPanel extends BorderPane with Logger with Controller {
         style = ("-fx-background-color: #ccc;")
         padding = (Insets(5))
 
-        visible <== intro.isNotEmpty
-        managed <== intro.isNotEmpty
+        visible <== _intro.isNotEmpty
+        managed <== _intro.isNotEmpty
 
         children = Seq(
           new Text {
-            text <== (intro)
+            text <== (_intro)
             fill = (Color.valueOf("#515151"))
             font = (Font.font(14))
             wrappingWidth = (600)
@@ -124,12 +127,12 @@ class PersonCellPanel extends BorderPane with Logger with Controller {
     val cv = if (isTrueCV) gchar.trueCV else gchar.cv
 
 
-    name.set(gchar.name)
-    this.cv.set(cv)
-    this.isTrueCV.set(isTrueCV)
-    intro.set(gchar.intro)
+    _name.set(gchar.name)
+    _cv.set(cv)
+    _isTrueCV.set(isTrueCV)
+    _intro.set(gchar.intro)
 
-    img.set({
+    _image.set({
 
       if (Strings.isNotEmpty(gchar.img)) {
         new PersonImage(g).small(gchar.index)
@@ -146,7 +149,4 @@ class PersonCellPanel extends BorderPane with Logger with Controller {
 
   }
 
-  //  override def dispose(): Unit = {
-  //    super.dispose()
-  //  }
 }

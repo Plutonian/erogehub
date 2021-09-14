@@ -4,11 +4,9 @@ import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
-import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.view.game.explorer.gridview.GameDetailView
 import com.goexp.galgame.gui.view.game.explorer.sidebar.{BrandGroupView, DateGroupController, FilterPanel}
 import com.goexp.galgame.gui.view.game.explorer.tableview.TableListController
-import com.goexp.ui.javafx.control.cell.NodeListCell
 import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.collections.transformation.{FilteredList, SortedList}
 import javafx.collections.{FXCollections, ObservableList}
@@ -113,9 +111,9 @@ class ExplorerController extends DefaultController {
 
     gridView.setCellFactory { _ =>
 
-      val view = new GameDetailView()
-
       new GridCell[Game] {
+        val view = new GameDetailView()
+
         itemProperty().addListener { (_, _, g) => {
           setGraphic({
             if (g != null) {

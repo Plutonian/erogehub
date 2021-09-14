@@ -1,11 +1,10 @@
 package com.goexp.galgame.gui.util
 
-import java.util
-import java.util.Objects
-
 import javafx.scene.Node
 import javafx.scene.control.Label
 
+import java.util
+import java.util.Objects
 import scala.jdk.CollectionConverters._
 
 object Tags {
@@ -29,8 +28,21 @@ object Tags {
     Objects.requireNonNull(tag)
     Objects.requireNonNull(mapper)
     tag.asScala.to(LazyList)
-      .filter((str: String) => str.nonEmpty)
+      .filter {
+        _.nonEmpty
+      }
       .map(mapper)
       .asJava
+  }
+
+  def toNodes(tag: List[String])(implicit mapper: NodeMaker) = {
+    Objects.requireNonNull(tag)
+    Objects.requireNonNull(mapper)
+
+    tag.to(LazyList)
+      .filter {
+        _.nonEmpty
+      }
+      .map(mapper)
   }
 }

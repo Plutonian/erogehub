@@ -1,10 +1,11 @@
 package com.goexp.galgame.gui.view.common.control
 
-import com.goexp.galgame.gui.util.Tags
 import javafx.scene.control.SkinBase
 import scalafx.Includes._
 import scalafx.scene.control.Label
 import scalafx.scene.layout.FlowPane
+
+import scala.jdk.CollectionConverters._
 
 class TagPanelSkin(control: TagPanel) extends SkinBase[TagPanel](control) {
   private lazy val container = new FlowPane()
@@ -25,15 +26,22 @@ class TagPanelSkin(control: TagPanel) extends SkinBase[TagPanel](control) {
 
   def reCreate(): Unit = {
 
-    if (control.tags().size > 0)
-      container.getChildren.setAll {
-        Tags.toNodes(control.tags()) { str =>
-          new Label(str) {
+    if (!control.tags().isEmpty) {
+      val nodes = control.tags().asScala.to(LazyList)
+        .filter {
+          _.nonEmpty
+        }
+        .map {
+          new Label(_) {
             styleClass.add("tag")
             styleClass.add("tagsmall")
           }
         }
-      } else
+
+      container.children = nodes
+
+    }
+    else
       container.getChildren.clear()
   }
 

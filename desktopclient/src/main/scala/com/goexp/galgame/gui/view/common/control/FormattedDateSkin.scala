@@ -16,7 +16,7 @@ class FormattedDateSkin(control: FormattedDate) extends SkinBase[FormattedDate](
 
   import VO._
 
-  object VO {
+  private object VO {
     val _year = new StringProperty()
     val _month = new StringProperty()
     val _day = new StringProperty()

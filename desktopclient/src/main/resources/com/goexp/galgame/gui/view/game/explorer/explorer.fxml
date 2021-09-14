@@ -40,8 +40,8 @@
     </AnchorPane>
     <Accordion maxWidth="220.0">
         <panes>
-            <TitledPane animated="false" text="Filter">
-                <fx:include fx:id="filterPanel" source="sidebar/filterpanel.fxml"/>
+            <TitledPane fx:id="filterPanel" animated="false" text="Filter">
+                <!--                <fx:include fx:id="filterPanel" source="sidebar/filterpanel.fxml"/>-->
             </TitledPane>
         </panes>
     </Accordion>

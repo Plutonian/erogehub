@@ -9,7 +9,7 @@ import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager}
 import com.goexp.galgame.gui.view.brand.MainPanelController
 import com.goexp.galgame.gui.view.common.control.DataPage
 import com.goexp.galgame.gui.view.game.HomeController._
-import com.goexp.galgame.gui.view.game.explorer.sidebar.FilterPanelController
+import com.goexp.galgame.gui.view.game.explorer.sidebar.FilterPanel
 import com.goexp.ui.javafx.DefaultController
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
@@ -190,18 +190,19 @@ class HomeController extends DefaultController {
     }
 
     {
-      val loaderConfig = new SimpleFxmlLoader[FilterPanelController]("filterpanel.fxml")
+      val filterPanel = new FilterPanel()
+      //      val loaderConfig = new SimpleFxmlLoader[FilterPanelController]("filterpanel.fxml")
 
       val popConfigPanel = new PopOver {
         setArrowLocation(ArrowLocation.BOTTOM_LEFT)
         setAutoHide(true)
-        setContentNode(loaderConfig.node)
+        setContentNode(filterPanel)
       }
 
-      val controller = loaderConfig.controller
-      controller.onSetProperty.addListener { (_, _, v) =>
+      //      val controller = loaderConfig.controller
+      filterPanel.onSetProperty.addListener { (_, _, v) =>
         if (v) {
-          HGameApp.DEFAULT_GAME_PREDICATE = controller.predicate
+          HGameApp.DEFAULT_GAME_PREDICATE = filterPanel.predicate
         }
       }
 
@@ -217,7 +218,6 @@ class HomeController extends DefaultController {
     {
       linkCV.setGraphic(new ImageView(LocalRes.IMG_CV_PNG))
       linkCV.setOnAction { _ =>
-        //        val loader = new SimpleFxmlLoader[CVInfoController]("cvinfo.fxml")
 
         val view = new CVView
 

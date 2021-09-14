@@ -6,7 +6,7 @@ import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
 import com.goexp.galgame.gui.util.Tags
 import com.goexp.galgame.gui.view.game.explorer.gridview.GameDetailView
-import com.goexp.galgame.gui.view.game.explorer.sidebar.{BrandGroupView, DateGroupController, FilterPanelController}
+import com.goexp.galgame.gui.view.game.explorer.sidebar.{BrandGroupView, DateGroupController, FilterPanel}
 import com.goexp.galgame.gui.view.game.explorer.tableview.TableListController
 import com.goexp.ui.javafx.control.cell.NodeListCell
 import com.goexp.ui.javafx.{DefaultController, TaskService}
@@ -14,7 +14,7 @@ import javafx.collections.transformation.{FilteredList, SortedList}
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.fxml.FXML
 import javafx.scene.control._
-import javafx.scene.layout.{HBox, Region}
+import javafx.scene.layout.HBox
 import org.controlsfx.control.{GridCell, GridView, PopOver}
 
 import java.util
@@ -31,9 +31,7 @@ class ExplorerController extends DefaultController {
    */
   @FXML var tablelistController: TableListController = _
   @FXML var loadingBar: ProgressBar = _
-  //  @FXML private var mainTab: TabPane = _
-  @FXML private var filterPanelController: FilterPanelController = _
-  //  @FXML private var brandGroupController: BrandGroupView = _
+  @FXML private var filterPanel: TitledPane = _
   @FXML private var dateGroupController: DateGroupController = _
   /**
    * Status bar
@@ -43,16 +41,18 @@ class ExplorerController extends DefaultController {
    * main panel
    */
   @FXML private var tablelist: TableView[Game] = _
+
   /**
    * Sidebar
    */
-  @FXML private var filterPanel: Region = _
   @FXML private var cvList: ListView[DataItem] = _
   @FXML private var tagList: ListView[DataItem] = _
   @FXML private var brandGroup: TitledPane = _
   @FXML private var gridView: GridView[Game] = _
   private var filteredGames: FilteredList[Game] = _
   private var groupPredicate: Predicate[Game] = _
+
+  val panel = new FilterPanel()
 
   def load(games: ObservableList[Game], initPredicate: Predicate[Game] = null): Unit = {
     filterPanel.setVisible(true)
@@ -66,7 +66,8 @@ class ExplorerController extends DefaultController {
     recount()
 
     // set defaultPredicate
-    filterPanelController.predicate = initP
+    panel.predicate = initP
+
     val sortedData = new SortedList[Game](filteredGames)
     sortedData.comparatorProperty.bind(tablelist.comparatorProperty)
     loadItems(sortedData)
@@ -79,10 +80,7 @@ class ExplorerController extends DefaultController {
   }
 
   private def resetCount(filteredGames: util.List[Game]) = {
-
     lbItemCount.setText(s"${filteredGames.size} 件")
-    //    loadFlow(filteredGames)
-
   }
 
   private def setSideBarData(filteredGames: FilteredList[Game]) = {
@@ -98,7 +96,6 @@ class ExplorerController extends DefaultController {
 
     gridView.setItems(sortedData)
 
-    //    loadFlow(sortedData)
   }
 
   override protected def initialize() = {
@@ -113,7 +110,6 @@ class ExplorerController extends DefaultController {
     gridView.setVerticalCellSpacing(5)
 
     gridView.setCellFactory { _ =>
-      //      val loader = new SimpleFxmlLoader[HeaderController]("header.fxml")
 
       val view = new GameDetailView()
 
@@ -134,6 +130,8 @@ class ExplorerController extends DefaultController {
 
     popPanel.setAutoHide(true)
     popPanel.setAnimated(false)
+
+
   }
 
   private def initGroupPanel() = {
@@ -150,7 +148,7 @@ class ExplorerController extends DefaultController {
           val defaultP: Predicate[Game] = (g: Game) => Option(g.gameCharacters).exists(_.asScala.exists(_.getShowCV().exists(_ == title)))
 
           groupPredicate = defaultP
-          val filterPredicate = filterPanelController.predicate
+          val filterPredicate = panel.predicate
           val p = if (filterPredicate != null) groupPredicate.and(filterPredicate)
           else groupPredicate
           filteredGames.setPredicate(p)
@@ -184,10 +182,12 @@ class ExplorerController extends DefaultController {
   }
 
   private def initSidebarContentView() = {
-    filterPanelController.onSetProperty.addListener((_, _, newV) => {
+    filterPanel.setContent(panel)
+
+    panel.onSetProperty.addListener((_, _, newV) => {
       if (newV) {
         val load = groupPredicate == null
-        val filterPredicate = filterPanelController.predicate
+        val filterPredicate = panel.predicate
         val p = if (groupPredicate != null) filterPredicate.and(groupPredicate)
         else filterPredicate
         filteredGames.setPredicate(p)
@@ -201,7 +201,7 @@ class ExplorerController extends DefaultController {
     dateGroupController.onSetProperty.addListener((_, _, newValue) => {
       if (newValue) {
         groupPredicate = dateGroupController.predicate
-        val filterPredicate = filterPanelController.predicate
+        val filterPredicate = panel.predicate
         val p = if (filterPredicate != null) groupPredicate.and(filterPredicate)
         else groupPredicate
         filteredGames.setPredicate(p)
@@ -214,7 +214,7 @@ class ExplorerController extends DefaultController {
     view.onSetProperty.onChange((_, _, newValue) => {
       if (newValue) {
         groupPredicate = view.predicate
-        val filterPredicate = filterPanelController.predicate
+        val filterPredicate = panel.predicate
         val p = if (filterPredicate != null) groupPredicate.and(filterPredicate)
         else groupPredicate
         filteredGames.setPredicate(p)
@@ -224,17 +224,5 @@ class ExplorerController extends DefaultController {
     })
     brandGroup.setContent(view)
   }
-
-  //  private def loadFlow(filteredGames: util.List[Game]) = {
-  //
-  //    val iamges = filteredGames.listIterator().asScala.to(LazyList).map { game =>
-  //
-  //
-  //
-  //    }.asJava
-  //
-  //    //    gridView.setItems(filteredGames)
-  //
-  //  }
 
 }

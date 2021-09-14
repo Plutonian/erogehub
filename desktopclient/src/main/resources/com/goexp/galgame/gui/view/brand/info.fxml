@@ -9,26 +9,12 @@
         <URL value="@/view/view.css"/>
     </stylesheets>
     <top>
-        <!--        <BorderPane style="-fx-background-color: white;">-->
-        <!--            <center>-->
         <fx:include fx:id="title" source="title.fxml"/>
-        <!--            </center>-->
-        <!--        </BorderPane>-->
     </top>
     <center>
         <StackPane prefHeight="800.0">
-            <fx:include fx:id="dataView" source="../game/listview/dataview.fxml"
+            <fx:include fx:id="dataView" source="../game/explorer/explorer.fxml"
                         StackPane.alignment="TOP_LEFT"/>
         </StackPane>
     </center>
-    <!--<left>-->
-    <!--<AnchorPane BorderPane.alignment="CENTER">-->
-    <!--<children>-->
-    <!--<Accordion fx:id="placehoder" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">-->
-    <!--<panes>-->
-    <!--</panes>-->
-    <!--</Accordion>-->
-    <!--</children>-->
-    <!--</AnchorPane>-->
-    <!--</left>-->
 </BorderPane>

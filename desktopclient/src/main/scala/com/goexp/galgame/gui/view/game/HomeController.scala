@@ -57,10 +57,10 @@ object HomeController {
       title = GameLocation.LOCAL.name
       dataTask = new ByLocation(GameLocation.LOCAL)
     },
-    new ConfigItem[Game] {
-      title = GameLocation.NETDISK.name
-      dataTask = new ByLocation(GameLocation.NETDISK)
-    },
+    //    new ConfigItem[Game] {
+    //      title = GameLocation.NETDISK.name
+    //      dataTask = new ByLocation(GameLocation.NETDISK)
+    //    },
     new ConfigItem[Game] {
       title = GameLocation.REMOTE.name
       dataTask = new ByLocation(GameLocation.REMOTE)
@@ -79,12 +79,12 @@ object HomeController {
   )
 
   private val queryRemoteConfig = List(
+    //    new ConfigItem[Game] {
+    //      title = GameState.READYTOVIEW.name
+    //      dataTask = new ByState(GameState.READYTOVIEW)
+    //    },
     new ConfigItem[Game] {
-      title = GameState.READYTOVIEW.name
-      dataTask = new ByState(GameState.READYTOVIEW)
-    },
-    new ConfigItem[Game] {
-      title = GameState.HOPE.name
+      title = "Wishlist"
       dataTask = new ByState(GameState.HOPE)
     }
   )

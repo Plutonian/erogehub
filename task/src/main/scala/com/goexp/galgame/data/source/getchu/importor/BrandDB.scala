@@ -1,7 +1,5 @@
 package com.goexp.galgame.data.source.getchu.importor
 
-import java.util
-
 import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.model.{GameStatistics, LocationStatistics, StarStatistics, StateStatistics}
@@ -10,6 +8,8 @@ import com.goexp.galgame.data.source.getchu.DB_NAME
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.{combine, set}
 import org.bson.Document
+
+import java.util
 
 object BrandDB {
 
@@ -40,9 +40,9 @@ object BrandDB {
   def updateStatistics(item: Brand, tag: util.List[String], statistics: GameStatistics) = {
 
     val GameStatistics(start, end, count, realCount,
-    StateStatistics(played, playing, hope, viewLater, uncheck),
+    StateStatistics(played, playing, hope, uncheck),
     StarStatistics(zero, one, two, three, four, five),
-    LocationStatistics(local, netdisk, remote)) = statistics
+    LocationStatistics(local, remote)) = statistics
 
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(item.id), combine(
@@ -55,7 +55,6 @@ object BrandDB {
         set("statistics.state.played", played),
         set("statistics.state.playing", playing),
         set("statistics.state.hope", hope),
-        set("statistics.state.viewLater", viewLater),
         set("statistics.state.uncheck", uncheck),
 
         set("statistics.star.zero", zero),
@@ -66,7 +65,6 @@ object BrandDB {
         set("statistics.star.five", five),
 
         set("statistics.location.local", local),
-        set("statistics.location.netdisk", netdisk),
         set("statistics.location.remote", remote)
       ))
     })

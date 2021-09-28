@@ -35,7 +35,7 @@ object StatCreators {
       doc.getInteger("played"),
       doc.getInteger("playing"),
       doc.getInteger("hope"),
-      doc.getInteger("viewLater"),
+//      doc.getInteger("viewLater"),
       doc.getInteger("uncheck")
     )
 
@@ -66,7 +66,7 @@ object StatCreators {
 
     val statistics = LocationStatistics(
       doc.getInteger("local"),
-      doc.getInteger("netdisk"),
+      //      doc.getInteger("netdisk"),
       doc.getInteger("remote")
     )
 

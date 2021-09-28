@@ -13,7 +13,7 @@ case class GameStatistics(start: LocalDate,
 case class StateStatistics(played: Int,
                            playing: Int,
                            hope: Int,
-                           viewLater: Int,
+                           //                           viewLater: Int,
                            uncheck: Int)
 
 case class StarStatistics(zero: Int,
@@ -24,6 +24,6 @@ case class StarStatistics(zero: Int,
                           five: Int)
 
 case class LocationStatistics(local: Int,
-                              netdisk: Int,
+                              //                              netdisk: Int,
                               remote: Int)
 

@@ -86,7 +86,9 @@ class FilterPanel extends BorderPane with Controller {
             prefHeight = 100
 
             children =
-              List(GameLocation.REMOTE, GameLocation.NETDISK, GameLocation.LOCAL)
+              List(GameLocation.REMOTE,
+                //                GameLocation.NETDISK,
+                GameLocation.LOCAL)
                 .map(gameLoc => {
                   new CheckBox() {
                     text = gameLoc.name
@@ -135,7 +137,10 @@ class FilterPanel extends BorderPane with Controller {
 
     _selectedGameState.addAll(states)
 
-    lazy val _selectedGameLocation = mutable.Set[GameLocation](GameLocation.REMOTE, GameLocation.NETDISK, GameLocation.LOCAL)
+    lazy val _selectedGameLocation = mutable.Set[GameLocation](
+      GameLocation.REMOTE,
+      //      GameLocation.NETDISK,
+      GameLocation.LOCAL)
 
     lazy val _switchAll = new BooleanProperty
   }

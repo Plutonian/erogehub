@@ -76,7 +76,7 @@ class MainPanelController extends DefaultController {
       colPlayed.setText(GameState.PLAYED.name)
       colPlaying.setText(GameState.PLAYING.name)
       colHope.setText(GameState.HOPE.name)
-      colViewLater.setText(GameState.READYTOVIEW.name)
+//      colViewLater.setText(GameState.READYTOVIEW.name)
       colUncheck.setText(GameState.UNCHECKED.name)
 
       colComp.setCellValueFactory(p => new SimpleStringProperty(p.getValue.comp))
@@ -92,7 +92,7 @@ class MainPanelController extends DefaultController {
       colPlayed.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.played))
       colPlaying.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.playing))
       colHope.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.hope))
-      colViewLater.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.viewLater))
+      //      colViewLater.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.viewLater))
       colUncheck.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.uncheck))
 
 
@@ -105,7 +105,7 @@ class MainPanelController extends DefaultController {
 
 
       colLocal.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.local))
-      colNetdisk.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.netdisk))
+      //      colNetdisk.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.netdisk))
       colRemote.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.remote))
 
       colName.setCellFactory(_ => {

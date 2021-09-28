@@ -29,7 +29,7 @@
                 <DataTableColumn fx:id="colPlayed" prefWidth="100.0" resizable="false" text="Played"/>
                 <DataTableColumn fx:id="colPlaying" prefWidth="80.0" resizable="false" text="Playing"/>
                 <DataTableColumn fx:id="colHope" prefWidth="80.0" resizable="false" text="Hope"/>
-                <DataTableColumn fx:id="colViewLater" prefWidth="80.0" resizable="false" text="ViewLater"/>
+<!--                <DataTableColumn fx:id="colViewLater" prefWidth="80.0" resizable="false" text="ViewLater"/>-->
                 <DataTableColumn fx:id="colUncheck" prefWidth="80.0" resizable="false" text="Uncheck"/>
             </columns>
         </TableColumn>
@@ -46,7 +46,7 @@
         <TableColumn text="Location Statistics">
             <columns>
                 <DataTableColumn fx:id="colLocal" prefWidth="60.0" resizable="false" text="Local"/>
-                <DataTableColumn fx:id="colNetdisk" prefWidth="60.0" resizable="false" text="NetDisk"/>
+                <!--                <DataTableColumn fx:id="colNetdisk" prefWidth="60.0" resizable="false" text="NetDisk"/>-->
                 <DataTableColumn fx:id="colRemote" prefWidth="60.0" resizable="false" text="Remote"/>
             </columns>
         </TableColumn>

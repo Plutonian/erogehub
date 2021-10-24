@@ -8,7 +8,7 @@ plugins {
 }
 
 javafx {
-    version = '16'
+    version = '17.0.1'
     modules = ['javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.base', 'javafx.swing', 'javafx.media']
 }
 
@@ -38,14 +38,12 @@ application {
 dependencies {
     implementation project(':common')
     implementation 'com.goexp.db:db_mongo:1.0.3'
-    implementation group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.7'
+    implementation group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.10'
 
-    // https://mvnrepository.com/artifact/org.scalafx/scalafx
+//    // https://mvnrepository.com/artifact/org.scalafx/scalafx
     implementation 'org.scalafx:scalafx_2.13:16.0.0-R24'
 
-
     implementation 'com.goexp.ui:javafx:1.0.3'
-//    implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.0.3-SNAPSHOT'
     // https://mvnrepository.com/artifact/org.controlsfx/controlsfx
     implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.1.0'
 

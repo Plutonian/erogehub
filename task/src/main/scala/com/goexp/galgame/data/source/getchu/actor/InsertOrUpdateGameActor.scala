@@ -2,6 +2,7 @@ package com.goexp.galgame.data.source.getchu.actor
 
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.importor.GameDB
+import com.goexp.galgame.data.source.getchu.parser.game.ListPageParser
 import com.goexp.piplline.handler.DefaultActor
 
 import scala.io.{Codec, Source}
@@ -14,11 +15,17 @@ import scala.jdk.CollectionConverters._
 class InsertOrUpdateGameActor extends DefaultActor {
 
   override def receive = {
-    case game: Game =>
+    case item: ListPageParser#ListItem =>
+
+      val game = new Game()
+      game.id = item.id
+      game.isAdult = item.isAdult
+      game.smallImg = item.smallImg
 
       //already has
       if (GameDB.exist(game.id)) {
         logger.debug(s"<UpdateSmallImg> [${game.id}] ${game.smallImg}")
+
         GameDB.updateSmallImg(game)
       }
       else {

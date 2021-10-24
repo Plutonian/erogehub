@@ -36,17 +36,17 @@ class CVView extends TableView[CV] with Controller {
         new TableCell[CV, Int] {
           item.onChange { (_, _, star) => {
             graphic =
-              if (star != null)
-                if (star > 0) {
-                  new HBox {
-                    children ++= (0 until star).map { _ => new ImageView(image) }
-                  }
+            //              if (star != null)
+              if (star > 0) {
+                new HBox {
+                  children ++= (0 until star).map { _ => new ImageView(image) }
                 }
-                else new Label {
-                  text = star.toString
-                }
-              else
-                null
+              }
+              else new Label {
+                text = star.toString
+              }
+            //              else
+            //                null
           }
 
           }

@@ -110,6 +110,8 @@ class TableListController extends DefaultController {
     tableColTitle.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.name))
     tableColType.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.getType))
 
+
+    tableColDate.setPrefWidth(100)
     tableColDate.setCellFactory { _ =>
 
       val dateShow = new FormattedDate()
@@ -123,11 +125,13 @@ class TableListController extends DefaultController {
     }
 
 
-    tableColTitle.setCellFactory(_ =>
-      TextTableCell { name =>
-        name.replaceAll("＜[^＞]*＞", "")
-      }
-    )
+    //    tableColTitle.setCellFactory(_ =>
+    //      TextTableCell { name =>
+    //        name.replaceAll("＜[^＞]*＞", "")
+    //      }
+    //    )
+
+    tableColTitle.setPrefWidth(900)
 
     tableColTitle.setCellFactory(_ => {
 

@@ -1,9 +1,9 @@
 package com.goexp.galgame.data.source.getchu.actor
 
-import java.util.Objects
-
 import com.goexp.galgame.data.source.getchu.parser.game.{DetailPageParser, ListPageParser}
 import com.goexp.piplline.handler.DefaultActor
+
+import java.util.Objects
 
 /**
  * Parse String => Game
@@ -16,8 +16,7 @@ class ParsePageActor extends DefaultActor {
     case (gameId: Int, html: String) =>
       Objects.requireNonNull(html)
 
-      val parser = new DetailPageParser
-      val game = parser.parse(gameId, html)
+      val game = new DetailPageParser().parse(gameId, html)
 
       if (game.brandId == 0) {
         logger.error(s"Get brandid error Game[${game.id}] ${game.name}")
@@ -35,8 +34,8 @@ class ParsePageActor extends DefaultActor {
 
       logger.info(s"${list.size}")
 
-      list.foreach { game =>
-        sendTo[InsertOrUpdateGameActor](game)
+      list.foreach { item =>
+        sendTo[InsertOrUpdateGameActor](item)
       }
 
   }

@@ -94,7 +94,7 @@ class ExplorerController extends DefaultController {
     tablelist.setItems(sortedData)
     tablelist.scrollTo(0)
 
-    gridView.setItems(sortedData)
+//    gridView.setItems(sortedData)
 
   }
 

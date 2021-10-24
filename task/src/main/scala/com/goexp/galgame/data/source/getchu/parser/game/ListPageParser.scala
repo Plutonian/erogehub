@@ -1,6 +1,5 @@
 package com.goexp.galgame.data.source.getchu.parser.game
 
-import com.goexp.galgame.data.model.Game
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 
@@ -15,29 +14,34 @@ smallImg
  */
 class ListPageParser {
 
+  case class ListItem(id: Int = 0, isAdult: Boolean = false, smallImg: String = "")
 
-  def parse(item: Element): Game = {
+
+  def parse(item: Element): ListItem = {
     def parseId(url: String) = {
       """id=(\d+)""".r("id").findFirstMatchIn(url).map(_.group("id").toInt).getOrElse(0)
     }
 
-
-    val g = new Game
-    g.smallImg = item.select("img.lazy").attr("data-original")
-
+    //    val g = new Game
+    val smallImg = item.select("img.lazy").attr("data-original")
     val itemContentEle = item.select("div.content_block")
 
     val url = itemContentEle.select("a.blueb").attr("href")
-    g.id = parseId(url)
+    val id = parseId(url)
 
     val gType = itemContentEle.select("p span.orangeb").text
-    g.isAdult = gType == "[PCゲーム・アダルト]"
-    g
+    val isAdult = gType == "[PCゲーム・アダルト]"
+
+    ListItem(
+      id,
+      isAdult,
+      smallImg
+    )
 
   }
 
 
-  def parse(html: String): LazyList[Game] =
+  def parse(html: String): LazyList[ListItem] =
     Jsoup.parse(html)
       .select("ul.display>li>div.content_block")
       .asScala.to(LazyList)

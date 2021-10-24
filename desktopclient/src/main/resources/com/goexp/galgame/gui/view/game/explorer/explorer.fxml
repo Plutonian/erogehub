@@ -25,13 +25,12 @@
         <TabPane nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"
                  AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
                  AnchorPane.topAnchor="0">
-            <Tab text="Grid">
-                <GridView fx:id="gridView" nodeOrientation="LEFT_TO_RIGHT"/>
-            </Tab>
             <Tab text="List">
                 <fx:include fx:id="tablelist" source="tableview/tablelist.fxml"/>
             </Tab>
-
+            <Tab text="Grid">
+                <GridView fx:id="gridView" nodeOrientation="LEFT_TO_RIGHT"/>
+            </Tab>
         </TabPane>
         <HBox AnchorPane.bottomAnchor="3" AnchorPane.leftAnchor="10">
             <Label fx:id="lbItemCount" prefWidth="80.0"/>

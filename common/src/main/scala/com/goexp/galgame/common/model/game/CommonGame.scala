@@ -59,7 +59,6 @@ abstract class CommonGame {
   }
 
   override def hashCode(): Int = {
-    val state = Seq(id)
-    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+    id
   }
 }

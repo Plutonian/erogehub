@@ -5,7 +5,7 @@ import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.cache.ImageCache
 import com.typesafe.scalalogging.Logger
 import javafx.embed.swing.SwingFXUtils
-import javafx.scene.image.WritableImage
+import javafx.scene.image.{Image, WritableImage}
 
 import java.net.URL
 import java.util.Objects
@@ -32,19 +32,20 @@ object GameImages {
       val imgUrl = s"${Config.IMG_REMOTE}/game/${memCacheKey}.jpg"
       logger.debug(s"imgUrl=[${imgUrl}]")
 
-      val triedImage = Try {
-        val bufferedImage = ImageIO.read(new URL(imgUrl))
-        val writableImage = new WritableImage(bufferedImage.getWidth, bufferedImage.getHeight)
-        SwingFXUtils.toFXImage(bufferedImage, writableImage)
+      //      val triedImage = Try {
+      //        val bufferedImage = ImageIO.read(new URL(imgUrl))
+      //        val writableImage = new WritableImage(bufferedImage.getWidth, bufferedImage.getHeight)
+      //        SwingFXUtils.toFXImage(bufferedImage, writableImage)
+      //
+      //        writableImage
+      //
+      //      }
 
-        writableImage
+      //      val writableImage = triedImage.getOrElse(null)
 
-      }
-
-      val writableImage = triedImage.getOrElse(null)
-
-      ImageCache().put(memCacheKey, writableImage)
-      writableImage
+      val image = new Image(imgUrl, true)
+      ImageCache().put(memCacheKey, image)
+      image
 
     }
 

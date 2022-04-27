@@ -12,6 +12,8 @@ import com.typesafe.scalalogging.Logger
 
 object PageDownloader {
 
+  private val logger = Logger(PageDownloader.getClass)
+
   implicit val DEFAULT_CHARSET = StandardCharsets.UTF_8
 
   def download(request: HttpRequest)(implicit charset: Charset): String = {
@@ -20,6 +22,8 @@ object PageDownloader {
   }
 
   def downloadAnsyn(request: HttpRequest)(implicit charset: Charset): CompletableFuture[String] = {
+
+    logger.debug(s"request HEADER:${request.headers()}")
 
     LimitHttpClient().sendAsync(request, ofByteArray)
       .thenApply[String] { res =>
@@ -30,9 +34,20 @@ object PageDownloader {
             _ == "gzip"
           }.orElse(false)
 
-        val rawBytes = if (isGzip) bytes.unGzip() else bytes
 
-        rawBytes.decode(charset)
+        logger.debug(s"response HEADER:${res.headers()}")
+
+        if (bytes.isEmpty) {
+          logger.error(s"Empty page: ${request.uri()}")
+
+
+          ""
+        } else {
+
+          val rawBytes = if (isGzip) bytes.unGzip() else bytes
+
+          rawBytes.decode(charset)
+        }
 
       }
     //      .exceptionally { e =>

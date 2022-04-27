@@ -23,7 +23,7 @@ object GroupBrandTask {
     val futures = brands
       .filter(b => Strings.isNotEmpty(b.website))
       .groupBy(b => Extracker.getComp(b.website))
-      .filter { case (comp, v) => !comp.isEmpty && v.size > 1 }
+      .filter { case (comp, v) => comp.nonEmpty && v.size > 1 }
       .flatten {
         case (comp, v: LazyList[Brand]) =>
           v.filter { b => Strings.isEmpty(b.comp) }

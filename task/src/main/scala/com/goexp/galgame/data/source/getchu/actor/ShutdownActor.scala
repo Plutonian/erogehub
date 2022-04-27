@@ -1,6 +1,6 @@
 package com.goexp.galgame.data.source.getchu.actor
 
-import com.goexp.piplline.handler.DefaultActor
+import com.goexp.pipeline.handler.DefaultActor
 
 import java.util.concurrent.{Executors, TimeUnit}
 

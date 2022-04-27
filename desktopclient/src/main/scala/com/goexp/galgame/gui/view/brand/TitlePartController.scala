@@ -35,7 +35,9 @@ class TitlePartController extends DefaultController {
 
     val types =
       BrandState.values().to(LazyList)
-        .filter { t: BrandState => t ne BrandState.ALL }
+        .filter {
+          _ ne BrandState.ALL
+        }
         .reverse
         .asJava
 
@@ -46,7 +48,7 @@ class TitlePartController extends DefaultController {
 
         logger.debug(s"<Action>Value:${choiceBrandState.getValue},New:${newValue}")
 
-        changeBrand.setState(newValue)
+        changeBrand.state = newValue
         changeBrandStateService.restart()
         if (newValue eq BrandState.BLOCK)
           changeGameStateService.restart()

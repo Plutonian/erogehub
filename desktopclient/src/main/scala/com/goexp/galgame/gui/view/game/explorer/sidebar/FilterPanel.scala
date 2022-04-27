@@ -160,7 +160,7 @@ class FilterPanel extends BorderPane with Controller {
 
     predicate =
       if (_switchAll.value) {
-        p.and { game: Game =>
+        p.and { (game: Game) =>
           Option(game.publishDate).exists {
             _.isBefore(LocalDate.now())
           }

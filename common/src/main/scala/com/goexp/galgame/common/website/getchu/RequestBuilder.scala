@@ -24,7 +24,7 @@ class RequestBuilder private(val url: String) {
   private def webClientParam = {
     builder = builder
       .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
-      .header("Accept-Encoding", "gzip, deflate")
+//      .header("Accept-Encoding", "gzip, deflate")
       .header("Accept-Language", "ja,en-US;q=0.7,en;q=0.3")
       .header("Cache-Control", "max-age=0")
       .header("Upgrade-Insecure-Requests", "1")

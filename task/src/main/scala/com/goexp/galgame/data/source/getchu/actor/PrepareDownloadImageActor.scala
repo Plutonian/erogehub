@@ -2,7 +2,7 @@ package com.goexp.galgame.data.source.getchu.actor
 
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.actor.DownloadImageActor.{ImageParam, allCount}
-import com.goexp.piplline.handler.DefaultActor
+import com.goexp.pipeline.handler.DefaultActor
 
 
 class PrepareDownloadImageActor extends DefaultActor {

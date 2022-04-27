@@ -7,7 +7,7 @@ import org.jsoup.nodes.Element
 import scala.jdk.CollectionConverters._
 
 private object GetchuBrandParser {
-  private val ID_REGEX = """search_brand_id=(\d+)""".r("id")
+  private val ID_REGEX = """search_brand_id=(?<id>\d+)""".r
 
 }
 

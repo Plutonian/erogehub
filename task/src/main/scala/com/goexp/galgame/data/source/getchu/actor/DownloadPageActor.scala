@@ -3,7 +3,7 @@ package com.goexp.galgame.data.source.getchu.actor
 import com.goexp.galgame.common.website.getchu.{GameList, GetchuGameRemote, RequestBuilder}
 import com.goexp.galgame.data.source.getchu.DEFAULT_CHARSET
 import com.goexp.galgame.data.source.getchu.PageDownloader._
-import com.goexp.piplline.handler.OnErrorReTryActor
+import com.goexp.pipeline.handler.OnErrorReTryActor
 
 import java.time.LocalDate
 import java.util.concurrent.TimeUnit

@@ -7,7 +7,7 @@ class DataTableColumn[S] extends TableColumn[S, Number] {
 
 
   def this(text: String) = {
-    this
+    this()
     setText(text)
   }
 

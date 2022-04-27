@@ -11,7 +11,7 @@ import com.goexp.galgame.data.model.{Brand, Game}
 import com.goexp.galgame.data.source.getchu.actor.InsertOrUpdateGameActor.isSameGame
 import com.goexp.galgame.data.source.getchu.importor.GameDB
 import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameFullQuery}
-import com.goexp.piplline.handler.DefaultActor
+import com.goexp.pipeline.handler.DefaultActor
 import com.mongodb.client.model.Filters
 
 import java.util

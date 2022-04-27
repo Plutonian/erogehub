@@ -3,7 +3,7 @@ package com.goexp.galgame.data.source.getchu.actor
 import com.goexp.galgame.data.source.getchu.ImageDownloader
 import com.goexp.galgame.data.source.getchu.ImageDownloader.{ErrorCodeException, FileIsNotImageException}
 import com.goexp.galgame.data.source.getchu.actor.DownloadImageActor.{ImageParam, allCount, errorCount, finishCount}
-import com.goexp.piplline.handler.DefaultActor
+import com.goexp.pipeline.handler.DefaultActor
 
 import java.io.IOException
 import java.net.ConnectException

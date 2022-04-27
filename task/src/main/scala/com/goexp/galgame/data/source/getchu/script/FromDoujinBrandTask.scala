@@ -2,7 +2,7 @@ package com.goexp.galgame.data.source.getchu.script
 
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.source.getchu.actor.{ActorConfig, DownloadPageActor}
-import com.goexp.piplline.core.Pipeline
+import com.goexp.pipeline.core.Pipeline
 
 object FromDoujinBrandTask {
   def main(args: Array[String]) = {

@@ -26,7 +26,7 @@ class TagView extends ScrollPane with Controller {
     orientation = Orientation.Vertical
     rowValignment = VPos.Top
 
-    val subscription = filterEvent(ActionEvent.Action) { e: ActionEvent =>
+    val subscription = filterEvent(ActionEvent.Action) { (e: ActionEvent) =>
       e.target match {
         case link: control.Hyperlink =>
           e.consume()

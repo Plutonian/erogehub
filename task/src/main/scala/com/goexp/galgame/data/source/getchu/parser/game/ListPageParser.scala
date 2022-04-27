@@ -19,7 +19,7 @@ class ListPageParser {
 
   def parse(item: Element): ListItem = {
     def parseId(url: String) = {
-      """id=(\d+)""".r("id").findFirstMatchIn(url).map(_.group("id").toInt).getOrElse(0)
+      """id=(?<id>\d+)""".r.findFirstMatchIn(url).map(_.group("id").toInt).getOrElse(0)
     }
 
     //    val g = new Game

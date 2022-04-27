@@ -2,7 +2,7 @@ package com.goexp.galgame.data.source.getchu.actor
 
 import com.goexp.galgame.data.ansyn.Pool
 import com.goexp.galgame.data.ansyn.Pool.{DB_POOL_SIZE, DOWN_POOL_SIZE}
-import com.goexp.piplline.handler.HandlerConfig
+import com.goexp.pipeline.handler.HandlerConfig
 
 import java.util.concurrent.TimeUnit
 

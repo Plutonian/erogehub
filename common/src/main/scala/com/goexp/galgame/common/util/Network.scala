@@ -22,7 +22,7 @@ object Network {
       prop.keySet.forEach(k => {
         val v = prop.getString(k)
 
-        logger.debug(s"${k}->${v}")
+        logger.debug(s"$k->$v")
 
         System.setProperty(k, v)
       })

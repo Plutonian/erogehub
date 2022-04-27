@@ -12,16 +12,22 @@ subprojects {
 //    apply plugin: 'java-library'
 
     dependencies {
-//        // https://mvnrepository.com/artifact/org.scala-lang/scala3-library
-//        implementation 'org.scala-lang:scala3-library_3:3.0.2'
-
         // https://mvnrepository.com/artifact/org.scala-lang/scala3-library
-        implementation 'org.scala-lang:scala3-library_3:3.1.0'
+//        implementation 'org.scala-lang:scala3-library_3:3.1.0'
+
+
+        // https://mvnrepository.com/artifact/org.scala-lang/scala-library
+        implementation group: 'org.scala-lang', name: 'scala-library', version: '2.13.7'
+
 
         implementation 'ch.qos.logback:logback-classic:1.2.6'
 
 //        // https://mvnrepository.com/artifact/com.typesafe.scala-logging/scala-logging
         implementation group: 'com.typesafe.scala-logging', name: 'scala-logging_2.13', version: '3.9.4'
+
+        // https://mvnrepository.com/artifact/com.typesafe.scala-logging/scala-logging
+//        implementation 'com.typesafe.scala-logging:scala-logging_3:3.9.4'
+
 
     }
 

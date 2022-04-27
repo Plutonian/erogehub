@@ -13,7 +13,7 @@ import scala.jdk.CollectionConverters._
 private object DetailPageParser {
 
   private object DetailParser {
-    private val BRAND_ID_REX = """search_brand_id=(\d+)$""".r("brandid")
+    private val BRAND_ID_REX = """search_brand_id=(?<brandid>\d+)$""".r
   }
 
   private class DetailParser {
@@ -46,7 +46,7 @@ private object DetailPageParser {
   }
 
   private object GameCharParser {
-    private val cvPattern = """（?[Cc][vV]\s*[：:.／/]?\s*([^）]+)）?$""".r("cv")
+    private val cvPattern = """（?[Cc][vV]\s*[：:.／/]?\s*(?<cv>[^）]+)）?$""".r
   }
 
   private class GameCharParser {

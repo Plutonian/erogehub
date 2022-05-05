@@ -1,0 +1,36 @@
+<game class="grid game" style="width:280px;height:600px;flex-direction:column;align-items:stretch; ">
+    <imageborder class="imageborder">
+        <img src='{imgUrl}'/>
+    </imageborder>
+
+    <detail class="grid" style="flex:1;align-items:stretch; flex-direction:column;position:relative;">
+        <article>
+            <svg width="10" height="10" version="1.1"
+                 xmlns="http://www.w3.org/2000/svg">
+                <circle cx="5" cy="5" r="5" fill="{g.location}"/>
+            </svg>
+            <a style="color:black;" href='javascript:app.openDetail({g.id})'>
+                <span style='font-size:24px;'>{titles.mainTitle}</span>
+                <span>{titles.subTitle}</span>
+            </a>
+        </article>
+
+        <main style="flex:1">
+            <brand style="display:block;font-size:14px;">
+                <a style="margin-right:5px;" href="javascript:app.openBrand({g.id})">{brand.name}</a>
+                (<a href="javascript:app.openUrl('{brand.website}')">公式サイト</a>)
+            </brand>
+            <stars>
+                {stars}
+            </stars>
+
+        </main>
+        <tags style="position:absolute;bottom:10px;right:10px">{tags}
+        </tags>
+
+        <footer class="grid" style="position:absolute;bottom:10px;flex-direction:column;">
+            <div>{g.state}</div>
+            <div>{g.publishDate}</div>
+        </footer>
+    </detail>
+</game>

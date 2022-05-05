@@ -8,7 +8,7 @@
     <items>
         <MenuItem fx:id="linkWebsite" text="公式サイト"/>
         <MenuItem fx:id="linkGetchu" text="Getchu"/>
-        <SeparatorMenuItem/>
-        <fx:include fx:id="searchLink" source="search.fxml"/>
+        <!--        <SeparatorMenuItem/>-->
+        <!--        <fx:include fx:id="searchLink" source="search.fxml"/>-->
     </items>
 </SplitMenuButton>

@@ -11,7 +11,7 @@ import javafx.scene.control.{MenuItem, SplitMenuButton}
 
 class JumpBrandController extends DefaultController {
   private var brand = new Brand
-  @FXML private var searchLinkController: SearchController = _
+//  @FXML private var searchLinkController: SearchController = _
   @FXML private var brandLabel: SplitMenuButton = _
   //  @FXML private var jumpBrand: MenuItem = _
   @FXML private var linkWebsite: MenuItem = _
@@ -30,6 +30,6 @@ class JumpBrandController extends DefaultController {
     this.brand = brand
     brandLabel.setText(brand.name)
     linkWebsite.setVisible(Strings.isNotEmpty(brand.website))
-    searchLinkController.load(brand.name)
+    //    searchLinkController.load(brand.name)
   }
 }

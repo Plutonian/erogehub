@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.GridView?>
+<?import javafx.scene.web.WebView?>
 <SplitPane dividerPositions="0.0, 0.5" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.goexp.galgame.gui.view.game.explorer.ExplorerController">
     <Accordion maxWidth="220.0">
@@ -25,11 +26,18 @@
         <TabPane nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"
                  AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
                  AnchorPane.topAnchor="0">
+            <Tab text="Grid">
+                <WebView fx:id="gridWebView"/>
+            </Tab>
+            <Tab text="List-View">
+                <WebView fx:id="listView"/>
+            </Tab>
+
+            <Tab text="View">
+                <GridView fx:id="gridView" nodeOrientation="LEFT_TO_RIGHT"/>
+            </Tab>
             <Tab text="List">
                 <fx:include fx:id="tablelist" source="tableview/tablelist.fxml"/>
-            </Tab>
-            <Tab text="Grid">
-                <GridView fx:id="gridView" nodeOrientation="LEFT_TO_RIGHT"/>
             </Tab>
         </TabPane>
         <HBox AnchorPane.bottomAnchor="3" AnchorPane.leftAnchor="10">

@@ -79,7 +79,7 @@ class CVView extends TableView[CV] with Controller {
     new DataTableColumn[CV]("Count") {
       setPrefWidth(60)
       setResizable(false)
-      setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.five))
+      setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.realCount))
 
     }
   )

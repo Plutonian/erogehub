@@ -9,14 +9,14 @@ plugins {
 
 javafx {
     version = '18.0.1'
-    modules = ['javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.base', 'javafx.swing', 'javafx.media']
+    modules = ['javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.base', 'javafx.swing', 'javafx.media', 'javafx.web']
 }
 
 application {
     mainClass.set('com.goexp.galgame.gui.HGameApp')
     applicationDefaultJvmArgs = [
             '--module-path=../lib/',
-            '--add-modules=javafx.base,javafx.controls,javafx.graphics,javafx.fxml,javafx.swing,javafx.media',
+            '--add-modules=javafx.base,javafx.controls,javafx.graphics,javafx.fxml,javafx.swing,javafx.media,javafx.web',
 
             '--add-opens=javafx.controls/javafx.scene.control.skin=ALL-UNNAMED',
             '--add-opens=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED',
@@ -49,6 +49,6 @@ dependencies {
 
     implementation 'com.goexp.ui:javafx:1.0.5'
     // https://mvnrepository.com/artifact/org.controlsfx/controlsfx
-    implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.1.0'
+    implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.1.1'
 
 }

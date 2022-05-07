@@ -1,0 +1,45 @@
+<game class="grid game" style="width:1800px;flex-direction:column;align-items:stretch; ">
+    <top class="grid anchor_parent" style="align-items:stretch; flex-direction:column;">
+        <article>
+            <svg width="10" height="10" version="1.1"
+                 xmlns="http://www.w3.org/2000/svg">
+                <circle cx="5" cy="5" r="5" fill="{g.location}"/>
+            </svg>
+            <a style="color:black;display:inline;" href='javascript:app.openDetail({g.id})'>
+                <span style='font-size:40px;'>{titles.mainTitle}</span>
+                <span>{titles.subTitle}</span>
+            </a>
+        </article>
+        <hbox class="grid" style="flex:1;flex-direction:row;">
+            <brand style="font-size:14px;">
+                <a style="margin-right:5px;" href="javascript:app.openBrand({g.id})">{brand.name}</a>
+                (<a href="javascript:app.openUrl('{brand.website}')">公式サイト</a>)
+            </brand>
+            <tags>{tags}</tags>
+
+        </hbox>
+    </top>
+
+    <imageGroup class="grid" style="flex-direction:row;flex:1;">
+        <mainImage class="anchor_parent" style="flex-direction:column;align-items:stretch;">
+            <div>
+                <div class="imageborder anchor_parent">
+                    <img src='{imgUrl}'/>
+                    <div class="anchor" style="bottom:3px;right:3px;">{stars}</div>
+                </div>
+            </div>
+
+            <div class="anchor_parent" style="height:20px">
+                <div class="anchor" style="right:1px;">{g.publishDate}</div>
+                <div class="anchor" style="left:1px;">{g.state}</div>
+            </div>
+        </mainImage>
+        <sampleImages class="grid" style="flex-direction:column;flex:1;margin-left:10px;">
+            <images class="grid"
+                    style="flex-direction:row;align-items:flex-start ;justify-content: flex-start; align-content: flex-start;">
+                {images}
+            </images>
+        </sampleImages>
+    </imageGroup>
+
+</game>

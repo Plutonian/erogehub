@@ -1,9 +1,12 @@
 <game class="grid game" style="width:650px;min-height:150px;align-items:stretch;">
-    <imageborder class="imageborder">
-        <img src='{imgUrl}'/>
-    </imageborder>
+    <div>
+        <div class="imageborder anchor_parent">
+            <img src='{imgUrl}'/>
+            <div class="anchor" style="bottom:3px;right:3px;">{stars}</div>
+        </div>
+    </div>
 
-    <detail class="grid" style="margin-left:10px;flex:1;align-items:stretch; flex-direction:column;position:relative;">
+    <detail class="grid anchor_parent" style="margin-left:10px;flex:1;align-items:stretch; flex-direction:column;">
         <article>
             <svg width="10" height="10" version="1.1"
                  xmlns="http://www.w3.org/2000/svg">
@@ -21,17 +24,11 @@
                 <a style="margin-right:5px;" href="javascript:app.openBrand({g.id})">{brand.name}</a>
                 (<a href="javascript:app.openUrl('{brand.website}')">公式サイト</a>)
             </brand>
-            <stars>
-                {stars}
-            </stars>
+            <div>{tags}</div>
 
         </main>
-        <tags style="position:absolute;bottom:10px;right:10px">{tags}
-        </tags>
 
-        <footer class="grid" style="position:absolute;bottom:10px;flex-direction:column;">
-            <div>{g.state}</div>
-            <div>{g.publishDate}</div>
-        </footer>
+        <div class="anchor" style="right:1px;bottom:1px;">{g.publishDate}</div>
+        <div class="anchor" style="left:1px;bottom:1px;">{g.state}</div>
     </detail>
 </game>

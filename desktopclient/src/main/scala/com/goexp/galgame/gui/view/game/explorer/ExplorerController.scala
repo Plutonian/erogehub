@@ -2,13 +2,13 @@ package com.goexp.galgame.gui.view.game.explorer
 
 import com.goexp.common.util.date.DateUtil
 import com.goexp.common.util.string.Strings.isNotEmpty
-import com.goexp.galgame.common.model.game.GameLocation
+import com.goexp.galgame.common.model.game.{GameImg, GameLocation}
 import com.goexp.galgame.common.website.getchu.GetchuGameLocal
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
+import com.goexp.galgame.gui.util.res.gameimg.GameImage
 import com.goexp.galgame.gui.util.{Tpl, Websites}
-import com.goexp.galgame.gui.view.game.explorer.gridview.GameDetailView
 import com.goexp.galgame.gui.view.game.explorer.sidebar.{BrandGroupView, DateGroupController, FilterPanel}
 import com.goexp.galgame.gui.view.game.explorer.tableview.TableListController
 import com.goexp.galgame.gui.{Config, HGameApp}
@@ -20,7 +20,7 @@ import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.web.WebView
 import netscape.javascript.JSObject
-import org.controlsfx.control.{GridCell, GridView, PopOver}
+import org.controlsfx.control.PopOver
 import scalafx.Includes._
 import scalafx.beans.property.StringProperty
 import scalafx.scene.layout.HBox
@@ -58,15 +58,15 @@ class ExplorerController extends DefaultController {
   @FXML private var cvList: ListView[DataItem] = _
   @FXML private var tagList: ListView[DataItem] = _
   @FXML private var brandGroup: TitledPane = _
-  @FXML private var gridView: GridView[Game] = _
 
   @FXML private var listView: WebView = _
   @FXML private var gridWebView: WebView = _
+  @FXML private var detailWebView: WebView = _
   private var filteredGames: FilteredList[Game] = _
   private var groupPredicate: Predicate[Game] = _
 
-  //  val gameTpl = Tpl("game-tpl.html", this.getClass)
   val listTpl = Tpl("list-tpl.html", this.getClass)
+  val detailTpl = Tpl("detail-tpl.html", this.getClass)
   val starTpl = Tpl("star.html", this.getClass)
   val gridTpl = Tpl("grid-tpl.html", this.getClass)
   val gridContainerTpl = Tpl("grid.html", this.getClass)
@@ -89,6 +89,7 @@ class ExplorerController extends DefaultController {
 
     val sortedData = new SortedList[Game](filteredGames)
     sortedData.comparatorProperty.bind(tablelist.comparatorProperty)
+
     loadItems(sortedData)
     setSideBarData(filteredGames)
   }
@@ -165,6 +166,70 @@ class ExplorerController extends DefaultController {
 
     reList()
 
+
+    def reDetail() = {
+      val htmlPart = filteredGames.asScala.to(LazyList)
+        .map { g =>
+          val imgUrl = s"${Config.IMG_REMOTE}/game/${GetchuGameLocal.normalImg(g)}.jpg"
+          val titles = g.getTitles
+
+
+          val tags = g.tag.asScala.to(LazyList)
+            .filter(isNotEmpty)
+            .map { tag => s"<tag class='tag'>${tag}</tag>" }
+            .foldLeft[StringBuilder](new StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
+
+          val images = g.gameImgs.asScala.to(LazyList).take(9).zipWithIndex
+            .map { case (img: GameImg, i: Int) =>
+              val imgUrl = s"${Config.IMG_REMOTE}/game/${GetchuGameLocal.largeSimpleImg(g, i + 1)}.jpg"
+              s"<div class='imageborder'><img style='width:300px;' class='sample_img' src='${imgUrl}'/></div>"
+            }
+            .foldLeft[StringBuilder](new StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
+
+
+          val stars = (0 until g.star.get()).to(LazyList).map { _ => starTpl.get() }.foldLeft[StringBuilder](new StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
+
+
+          detailTpl
+            .put("titles.mainTitle", titles.mainTitle)
+            .put("titles.subTitle", titles.subTitle)
+            .put("g.id", g.id.toString)
+            .put("imgUrl", imgUrl)
+            .put("brand.id", g.brand.id.toString)
+            .put("brand.name", g.brand.name)
+            .put("brand.website", g.brand.website)
+            .put("g.state", g.state.get().name)
+            .put("g.location", if (g.location.get() eq GameLocation.LOCAL) "green" else "red")
+            .put("stars", stars)
+            //            .put("text", g.story)
+
+            .put("tags", tags)
+            .put("images", images)
+            .put("g.publishDate", if (DateUtil.needFormat(g.publishDate)) s"${DateUtil.formatDate(g.publishDate)}(${g.publishDate.toString})" else g.publishDate.toString)
+            .get()
+
+
+        }
+        .foldLeft[mutable.StringBuilder](new mutable.StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
+
+
+      val str = gridContainerTpl.put("htmlPart", htmlPart).get()
+
+
+      // set js obj
+      val webEngine = detailWebView.getEngine
+      webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {
+        if (newState eq Worker.State.SUCCEEDED) {
+          val win = webEngine.executeScript("window").asInstanceOf[JSObject] // 获取js对象
+          win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
+        }
+      })
+      webEngine.loadContent(str)
+
+    }
+
+    reDetail()
+
     def reGrid() = {
       val htmlPart = filteredGames.asScala.to(LazyList)
         .map { g =>
@@ -238,41 +303,12 @@ class ExplorerController extends DefaultController {
   private def loadItems(sortedData: SortedList[Game]) = {
     tablelist.setItems(sortedData)
     tablelist.scrollTo(0)
-
-
-    gridView.setItems(sortedData)
-
   }
 
   override protected def initialize() = {
 
     initSideBar()
     initGroupPanel()
-
-    gridView.setCellWidth(300)
-    gridView.setCellHeight(600)
-
-    gridView.setHorizontalCellSpacing(5)
-    gridView.setVerticalCellSpacing(5)
-
-    gridView.setCellFactory { _ =>
-
-      new GridCell[Game] {
-        val view = new GameDetailView()
-
-        itemProperty().addListener { (_, _, g) => {
-          setGraphic({
-            if (g != null) {
-              view.load(g)
-              view
-            } else
-              null
-          })
-        }
-        }
-      }
-
-    }
 
     popPanel.setAutoHide(true)
     popPanel.setAnimated(false)

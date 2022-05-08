@@ -7,7 +7,6 @@ import com.goexp.galgame.common.website.getchu.GetchuGameLocal
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
-import com.goexp.galgame.gui.util.res.gameimg.GameImage
 import com.goexp.galgame.gui.util.{Tpl, Websites}
 import com.goexp.galgame.gui.view.game.explorer.sidebar.{BrandGroupView, DateGroupController, FilterPanel}
 import com.goexp.galgame.gui.view.game.explorer.tableview.TableListController
@@ -65,11 +64,16 @@ class ExplorerController extends DefaultController {
   private var filteredGames: FilteredList[Game] = _
   private var groupPredicate: Predicate[Game] = _
 
+
+  val cssTpl = Tpl("css.css", this.getClass)
+
+
   val listTpl = Tpl("list-tpl.html", this.getClass)
   val detailTpl = Tpl("detail-tpl.html", this.getClass)
   val starTpl = Tpl("star.html", this.getClass)
   val gridTpl = Tpl("grid-tpl.html", this.getClass)
   val gridContainerTpl = Tpl("grid.html", this.getClass)
+  val grid_ContainerTpl = Tpl("grid-container.html", this.getClass)
 
   val panel = new FilterPanel()
 
@@ -149,7 +153,10 @@ class ExplorerController extends DefaultController {
         .foldLeft[mutable.StringBuilder](new mutable.StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
 
 
-      val str = gridContainerTpl.put("htmlPart", htmlPart).get()
+      val str = gridContainerTpl
+        .put("css", cssTpl.get())
+        .put("htmlPart", htmlPart)
+        .get()
 
 
       // set js obj
@@ -170,7 +177,7 @@ class ExplorerController extends DefaultController {
     def reDetail() = {
       val htmlPart = filteredGames.asScala.to(LazyList)
         .map { g =>
-          val imgUrl = s"${Config.IMG_REMOTE}/game/${GetchuGameLocal.normalImg(g)}.jpg"
+          val imgUrl = s"${Config.IMG_REMOTE}/game/${GetchuGameLocal.tiny200Img(g)}.jpg"
           val titles = g.getTitles
 
 
@@ -179,10 +186,10 @@ class ExplorerController extends DefaultController {
             .map { tag => s"<tag class='tag'>${tag}</tag>" }
             .foldLeft[StringBuilder](new StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
 
-          val images = g.gameImgs.asScala.to(LazyList).take(9).zipWithIndex
+          val images = g.gameImgs.asScala.to(LazyList).zipWithIndex
             .map { case (img: GameImg, i: Int) =>
-              val imgUrl = s"${Config.IMG_REMOTE}/game/${GetchuGameLocal.largeSimpleImg(g, i + 1)}.jpg"
-              s"<div class='imageborder'><img style='width:300px;' class='sample_img' src='${imgUrl}'/></div>"
+              val imgUrl = s"${Config.IMG_REMOTE}/game/${GetchuGameLocal.smallSimpleImg(g, i + 1)}.jpg"
+              s"<img class='sample_img' src='${imgUrl}'/>"
             }
             .foldLeft[StringBuilder](new StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
 
@@ -213,7 +220,10 @@ class ExplorerController extends DefaultController {
         .foldLeft[mutable.StringBuilder](new mutable.StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
 
 
-      val str = gridContainerTpl.put("htmlPart", htmlPart).get()
+      val str = gridContainerTpl
+        .put("css", cssTpl.get())
+        .put("htmlPart", htmlPart)
+        .get()
 
 
       // set js obj
@@ -268,7 +278,10 @@ class ExplorerController extends DefaultController {
         .foldLeft[mutable.StringBuilder](new mutable.StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
 
 
-      val str = gridContainerTpl.put("htmlPart", htmlPart).get()
+      val str = grid_ContainerTpl
+        .put("css", cssTpl.get())
+        .put("htmlPart", htmlPart)
+        .get()
 
 
       // set js obj

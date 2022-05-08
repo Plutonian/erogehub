@@ -1,15 +1,12 @@
-<game class="grid game" style="width:650px;min-height:150px;align-items:stretch;">
-    <div>
-        <div class="imageborder anchor_parent">
-            <img src='{imgUrl}'/>
-            <div class="anchor" style="bottom:3px;right:3px;">{stars}</div>
-        </div>
+<game class="flex_row game" style="width:1400px;">
+    <div class="imageborder anchor_parent">
+        <img src='{imgUrl}'/>
+        <div class="anchor" style="bottom:3px;right:3px;">{stars}</div>
     </div>
 
-    <detail class="grid anchor_parent" style="margin-left:10px;flex:1;align-items:stretch; flex-direction:column;">
+    <detail class="flex_column" style="flex:1;">
         <article>
-            <svg width="10" height="10" version="1.1"
-                 xmlns="http://www.w3.org/2000/svg">
+            <svg width="10" height="10" version="1.1" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="5" cy="5" r="5" fill="{g.location}"/>
             </svg>
             <a style="color:black;" href='javascript:app.openDetail({g.id})'>
@@ -27,8 +24,10 @@
             <div>{tags}</div>
 
         </main>
+        <footer class="flex_row">
+            <span>{g.publishDate}</span>
+            <span style="margin-left: auto;">{g.state}</span>
+        </footer>
 
-        <div class="anchor" style="right:1px;bottom:1px;">{g.publishDate}</div>
-        <div class="anchor" style="left:1px;bottom:1px;">{g.state}</div>
     </detail>
 </game>

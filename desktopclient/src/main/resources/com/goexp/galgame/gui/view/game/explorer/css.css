@@ -36,7 +36,7 @@ a:hover {
     grid-template-columns: repeat(auto-fill, 280px);
     justify-items: start;
     align-items: start;
-    justify-content: start;
+    justify-content: center;
     align-content: start;
     gap: 10px;
 }

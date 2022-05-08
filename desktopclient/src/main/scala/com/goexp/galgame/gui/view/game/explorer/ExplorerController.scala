@@ -29,8 +29,21 @@ import java.util.function.Predicate
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
+object TplObj {
+  val cssTpl = Tpl("css.css", this.getClass)
+  val listTpl = Tpl("list-tpl.html", this.getClass)
+  val detailTpl = Tpl("detail-tpl.html", this.getClass)
+  val starTpl = Tpl("star.html", this.getClass)
+  val gridTpl = Tpl("grid-tpl.html", this.getClass)
+  val gridContainerTpl = Tpl("grid.html", this.getClass)
+  val grid_ContainerTpl = Tpl("grid-container.html", this.getClass)
+}
+
 
 class ExplorerController extends DefaultController {
+
+  import TplObj._
+
   final private val groupCVServ = TaskService(new ByCV(filteredGames))
   final private val groupTagServ = TaskService(new ByTag(filteredGames))
   val view = new BrandGroupView()
@@ -64,16 +77,6 @@ class ExplorerController extends DefaultController {
   private var filteredGames: FilteredList[Game] = _
   private var groupPredicate: Predicate[Game] = _
 
-
-  val cssTpl = Tpl("css.css", this.getClass)
-
-
-  val listTpl = Tpl("list-tpl.html", this.getClass)
-  val detailTpl = Tpl("detail-tpl.html", this.getClass)
-  val starTpl = Tpl("star.html", this.getClass)
-  val gridTpl = Tpl("grid-tpl.html", this.getClass)
-  val gridContainerTpl = Tpl("grid.html", this.getClass)
-  val grid_ContainerTpl = Tpl("grid-container.html", this.getClass)
 
   val panel = new FilterPanel()
 

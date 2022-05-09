@@ -4,19 +4,25 @@ import com.goexp.galgame.common.model.CV
 import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.task.CVListTask
-import com.goexp.galgame.gui.util.{Controller, Tags}
 import com.goexp.galgame.gui.util.Tags.maker
 import com.goexp.galgame.gui.util.res.LocalRes
+import com.goexp.galgame.gui.util.{Controller, Tags, Tpl}
+import com.goexp.galgame.gui.view.VelocityTemplateConfig
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TextTableCell}
 import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
+import javafx.concurrent.Worker
 import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.image.ImageView
 import javafx.scene.layout.HBox
+import javafx.scene.web.WebView
+import netscape.javascript.JSObject
+import org.apache.velocity.VelocityContext
 
 import java.time.LocalDate
 import scala.jdk.CollectionConverters._
+
 
 class CVInfoController extends DefaultController with Controller {
   @FXML private var tableCV: TableView[CV] = _
@@ -49,13 +55,16 @@ class CVInfoController extends DefaultController with Controller {
   @FXML var colRemote: TableColumn[CV, Int] = _
 
 
+  @FXML var cvWebView: WebView = _
+
+
   final private val loadCVService = TaskService(new CVListTask())
 
   override protected def initialize() = {
     colPlayed.setText(GameState.PLAYED.name)
     colPlaying.setText(GameState.PLAYING.name)
     colHope.setText(GameState.HOPE.name)
-//    colViewLater.setText(GameState.READYTOVIEW.name)
+    //    colViewLater.setText(GameState.READYTOVIEW.name)
     colUncheck.setText(GameState.UNCHECKED.name)
 
 
@@ -137,10 +146,47 @@ class CVInfoController extends DefaultController with Controller {
 
     tableCV.itemsProperty().bind(loadCVService.valueProperty())
 
+    object Page {
+      def openCV(name: String) = {
+        HGameApp.loadCVTab(name, true)
+      }
+    }
+
+
+    loadCVService.valueProperty().addListener {
+      (_, _, list) => {
+        if (list != null) {
+
+          val root = new VelocityContext()
+          root.put("cvlist", list)
+
+          val str = VelocityTemplateConfig
+            .tpl("/game/cvinfo.html")
+            .process(root)
+
+
+          // set js obj
+          val webEngine = cvWebView.getEngine
+          webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {
+            if (newState eq Worker.State.SUCCEEDED) {
+              val win = webEngine.executeScript("window").asInstanceOf[JSObject] // 获取js对象
+              win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
+            }
+          })
+          webEngine.loadContent(str)
+        }
+
+      }
+    }
+
     registestListener(tableCV.itemsProperty())
 
   }
 
-  override def load() = loadCVService.restart()
+  override def load() = {
+    loadCVService.restart()
+
+
+  }
 
 }

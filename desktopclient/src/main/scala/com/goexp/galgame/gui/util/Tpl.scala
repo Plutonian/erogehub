@@ -10,6 +10,14 @@ case class Tpl(name: String, classLoader: Class[_]) {
       TplSegment(html.replace(s"{$key}", value))
     }
 
+    def put(key: String, value: Int): TplSegment = {
+      put(key, value.toString)
+    }
+
+    def put(key: String, value: Long): TplSegment = {
+      put(key, value.toString)
+    }
+
     def get() = html
   }
 
@@ -19,6 +27,14 @@ case class Tpl(name: String, classLoader: Class[_]) {
 
   def put(key: String, value: String): TplSegment = {
     TplSegment(tpl).put(key, value)
+  }
+
+  def put(key: String, value: Int): TplSegment = {
+    put(key, value.toString)
+  }
+
+  def put(key: String, value: Long): TplSegment = {
+    put(key, value.toString)
   }
 
   def get() = tpl

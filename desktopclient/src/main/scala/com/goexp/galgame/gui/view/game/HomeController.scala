@@ -214,21 +214,20 @@ class HomeController extends DefaultController {
       }
     }
 
-
     {
       linkCV.setGraphic(new ImageView(LocalRes.IMG_CV_PNG))
       linkCV.setOnAction { _ =>
 
-        val view = new CVView
+        val loader = new SimpleFxmlLoader[CVInfoController]("cvinfo.fxml")
 
         TabManager().open("CV", {
           new Tab() {
             text = "CV"
-            content = view
+            content = loader.node
             graphic = (new ImageView(LocalRes.CV_16_PNG))
           }
         }) {
-          view.load()
+          loader.controller.load()
         }
       }
     }

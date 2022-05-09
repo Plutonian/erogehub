@@ -29,6 +29,7 @@ class CV {
   @BeanProperty
   var tag: List[String] = _
 
+  @BeanProperty
   var statistics: GameStatistics = _
 
 

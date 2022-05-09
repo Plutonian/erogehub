@@ -1,13 +1,13 @@
 package com.goexp.galgame.gui.view.game.explorer
 
 import com.goexp.common.util.date.DateUtil
-import com.goexp.common.util.string.Strings.isNotEmpty
-import com.goexp.galgame.common.model.game.{GameImg, GameLocation}
+import com.goexp.galgame.common.model.game.GameLocation
 import com.goexp.galgame.common.website.getchu.GetchuGameLocal
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
 import com.goexp.galgame.gui.util.{Tpl, Websites}
+import com.goexp.galgame.gui.view.VelocityTemplateConfig
 import com.goexp.galgame.gui.view.game.explorer.sidebar.{BrandGroupView, DateGroupController, FilterPanel}
 import com.goexp.galgame.gui.view.game.explorer.tableview.TableListController
 import com.goexp.galgame.gui.{Config, HGameApp}
@@ -19,6 +19,7 @@ import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.web.WebView
 import netscape.javascript.JSObject
+import org.apache.velocity.VelocityContext
 import org.controlsfx.control.PopOver
 import scalafx.Includes._
 import scalafx.beans.property.StringProperty
@@ -26,23 +27,10 @@ import scalafx.scene.layout.HBox
 
 import java.util
 import java.util.function.Predicate
-import scala.collection.mutable
 import scala.jdk.CollectionConverters._
-
-object TplObj {
-  val cssTpl = Tpl("css.css", this.getClass)
-  val listTpl = Tpl("list-tpl.html", this.getClass)
-  val detailTpl = Tpl("detail-tpl.html", this.getClass)
-  val starTpl = Tpl("star.html", this.getClass)
-  val gridTpl = Tpl("grid-tpl.html", this.getClass)
-  val gridContainerTpl = Tpl("grid.html", this.getClass)
-  val grid_ContainerTpl = Tpl("grid-container.html", this.getClass)
-}
 
 
 class ExplorerController extends DefaultController {
-
-  import TplObj._
 
   final private val groupCVServ = TaskService(new ByCV(filteredGames))
   final private val groupTagServ = TaskService(new ByTag(filteredGames))
@@ -120,47 +108,18 @@ class ExplorerController extends DefaultController {
 
 
     def reList() = {
-      val htmlPart = filteredGames.asScala.to(LazyList)
-        .map { g =>
-          val imgUrl = s"${Config.IMG_REMOTE}/game/${GetchuGameLocal.tiny120Img(g)}.jpg"
-          val titles = g.getTitles
 
+      val root = new VelocityContext()
 
-          val tags = g.tag.asScala.to(LazyList)
-            .filter(isNotEmpty)
-            .map { tag => s"<tag class='tag'>${tag}</tag>" }
-            .foldLeft[StringBuilder](new StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
+      root.put("IMG_REMOTE", Config.IMG_REMOTE)
+      root.put("GetchuGameLocal", GetchuGameLocal)
+      root.put("LOCAL", GameLocation.LOCAL)
+      root.put("DateUtil", DateUtil)
+      root.put("gamelist", filteredGames)
 
-
-          val stars = (0 until g.star.get()).to(LazyList).map { _ => starTpl.get() }.foldLeft[StringBuilder](new StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
-
-
-          listTpl
-            .put("titles.mainTitle", titles.mainTitle)
-            .put("titles.subTitle", titles.subTitle)
-            .put("g.id", g.id.toString)
-            .put("imgUrl", imgUrl)
-            .put("brand.id", g.brand.id.toString)
-            .put("brand.name", g.brand.name)
-            .put("brand.website", g.brand.website)
-            .put("g.state", g.state.get().name)
-            .put("g.location", if (g.location.get() eq GameLocation.LOCAL) "green" else "red")
-            .put("stars", stars)
-
-            .put("tags", tags)
-            .put("g.publishDate", if (DateUtil.needFormat(g.publishDate)) s"${DateUtil.formatDate(g.publishDate)}(${g.publishDate.toString})" else g.publishDate.toString)
-            .get()
-
-
-        }
-        .foldLeft[mutable.StringBuilder](new mutable.StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
-
-
-      val str = gridContainerTpl
-        .put("css", cssTpl.get())
-        .put("htmlPart", htmlPart)
-        .get()
-
+      val str = VelocityTemplateConfig
+        .tpl("/game/explorer/list.html")
+        .process(root)
 
       // set js obj
       val webEngine = listView.getEngine
@@ -178,55 +137,18 @@ class ExplorerController extends DefaultController {
 
 
     def reDetail() = {
-      val htmlPart = filteredGames.asScala.to(LazyList)
-        .map { g =>
-          val imgUrl = s"${Config.IMG_REMOTE}/game/${GetchuGameLocal.tiny200Img(g)}.jpg"
-          val titles = g.getTitles
 
+      val root = new VelocityContext()
 
-          val tags = g.tag.asScala.to(LazyList)
-            .filter(isNotEmpty)
-            .map { tag => s"<tag class='tag'>${tag}</tag>" }
-            .foldLeft[StringBuilder](new StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
+      root.put("IMG_REMOTE", Config.IMG_REMOTE)
+      root.put("GetchuGameLocal", GetchuGameLocal)
+      root.put("LOCAL", GameLocation.LOCAL)
+      root.put("DateUtil", DateUtil)
+      root.put("gamelist", filteredGames)
 
-          val images = g.gameImgs.asScala.to(LazyList).zipWithIndex
-            .map { case (img: GameImg, i: Int) =>
-              val imgUrl = s"${Config.IMG_REMOTE}/game/${GetchuGameLocal.smallSimpleImg(g, i + 1)}.jpg"
-              s"<img class='sample_img' src='${imgUrl}'/>"
-            }
-            .foldLeft[StringBuilder](new StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
-
-
-          val stars = (0 until g.star.get()).to(LazyList).map { _ => starTpl.get() }.foldLeft[StringBuilder](new StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
-
-
-          detailTpl
-            .put("titles.mainTitle", titles.mainTitle)
-            .put("titles.subTitle", titles.subTitle)
-            .put("g.id", g.id.toString)
-            .put("imgUrl", imgUrl)
-            .put("brand.id", g.brand.id.toString)
-            .put("brand.name", g.brand.name)
-            .put("brand.website", g.brand.website)
-            .put("g.state", g.state.get().name)
-            .put("g.location", if (g.location.get() eq GameLocation.LOCAL) "green" else "red")
-            .put("stars", stars)
-            //            .put("text", g.story)
-
-            .put("tags", tags)
-            .put("images", images)
-            .put("g.publishDate", if (DateUtil.needFormat(g.publishDate)) s"${DateUtil.formatDate(g.publishDate)}(${g.publishDate.toString})" else g.publishDate.toString)
-            .get()
-
-
-        }
-        .foldLeft[mutable.StringBuilder](new mutable.StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
-
-
-      val str = gridContainerTpl
-        .put("css", cssTpl.get())
-        .put("htmlPart", htmlPart)
-        .get()
+      val str = VelocityTemplateConfig
+        .tpl("/game/explorer/detail_list.html")
+        .process(root)
 
 
       // set js obj
@@ -244,47 +166,18 @@ class ExplorerController extends DefaultController {
     reDetail()
 
     def reGrid() = {
-      val htmlPart = filteredGames.asScala.to(LazyList)
-        .map { g =>
-          val imgUrl = s"${Config.IMG_REMOTE}/game/${GetchuGameLocal.normalImg(g)}.jpg"
-          val titles = g.getTitles
 
+      val root = new VelocityContext()
 
-          val tags = g.tag.asScala.to(LazyList)
-            .filter(isNotEmpty)
-            .map { tag => s"<tag class='tag'>${tag}</tag>" }
-            .foldLeft[StringBuilder](new StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
+      root.put("IMG_REMOTE", Config.IMG_REMOTE)
+      root.put("GetchuGameLocal", GetchuGameLocal)
+      root.put("LOCAL", GameLocation.LOCAL)
+      root.put("DateUtil", DateUtil)
+      root.put("gamelist", filteredGames)
 
-
-          val stars = (0 until g.star.get()).to(LazyList).map { _ => starTpl.get() }.foldLeft[StringBuilder](new StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
-
-
-          gridTpl
-            .put("titles.mainTitle", titles.mainTitle)
-            .put("titles.subTitle", titles.subTitle)
-            .put("g.id", g.id.toString)
-            .put("imgUrl", imgUrl)
-            .put("brand.id", g.brand.id.toString)
-            .put("brand.name", g.brand.name)
-            .put("brand.website", g.brand.website)
-            .put("g.state", g.state.get().name)
-            .put("g.location", if (g.location.get() eq GameLocation.LOCAL) "green" else "red")
-            .put("stars", stars)
-
-
-            .put("tags", tags)
-            .put("g.publishDate", if (DateUtil.needFormat(g.publishDate)) s"${DateUtil.formatDate(g.publishDate)}(${g.publishDate.toString})" else g.publishDate.toString)
-            .get()
-
-
-        }
-        .foldLeft[mutable.StringBuilder](new mutable.StringBuilder()) { case (builder, s) => builder.append(s) }.toString()
-
-
-      val str = grid_ContainerTpl
-        .put("css", cssTpl.get())
-        .put("htmlPart", htmlPart)
-        .get()
+      val str = VelocityTemplateConfig
+        .tpl("/game/explorer/grid.html")
+        .process(root)
 
 
       // set js obj

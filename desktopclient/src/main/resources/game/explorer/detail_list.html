@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        #include("/css.css")
+    </style>
+    <title>Title</title>
+</head>
+
+<body>
+<main class="flex_column">
+
+    #foreach($g in $gamelist)
+    <game class="flex_column game">
+        <header class="flex_column anchor_parent">
+            <article>
+                <svg width="10" height="10" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="5" cy="5" r="5" fill="#if ($g.location.value == $LOCAL)green #else red#end"/>
+                </svg>
+                <a style="color:black;" href='javascript:app.openDetail(${g.id})'>
+                    <span style='font-size:40px;'>${g.titles.mainTitle}</span>
+                </a>
+                <span>${g.titles.subTitle}</span>
+
+            </article>
+            <hbox class="flex_row" style="flex:1;">
+                <brand style="font-size:14px;">
+                    <a style="margin-right:5px;" href="javascript:app.openBrand(${g.id})">${g.brand.name}</a>
+                    (<a href="javascript:app.openUrl('${g.brand.website}')">公式サイト</a>)
+                </brand>
+                <tags>
+                    #foreach($tag in $g.tag)
+                    #if($tag.length()>0)
+                    <tag class='tag'>$tag</tag>
+                    #end
+                    #end
+                </tags>
+
+            </hbox>
+        </header>
+
+        <imageGroup class="flex_row" style="flex:1;column-gap: 10px;">
+            <mainImage class="imageborder anchor_parent">
+                <img src="$IMG_REMOTE/game/${GetchuGameLocal.tiny200Img($g)}.jpg"/>
+                <stars class="anchor" style="bottom:3px;right:3px;">
+                    #if($g.star.value>0)
+                    #foreach($i in [1..$g.star.value])
+                    #include("/game/explorer/star.html")
+                    #end
+                    #end
+                </stars>
+            </mainImage>
+            <images class="image_grid" style="flex:1;">
+                #foreach($img in $g.gameImgs)
+                <img class="sample_img"
+                     src="$IMG_REMOTE/game/${GetchuGameLocal.smallSimpleImg($g,$foreach.count)}.jpg"/>
+                #end
+            </images>
+        </imageGroup>
+        <footer class="flex_row">
+                <span>
+                    #if ($DateUtil.needFormat($g.publishDate))
+                    ${DateUtil.formatDate($g.publishDate)} (${g.publishDate})
+                    #else
+                    $g.publishDate
+                    #end
+                </span>
+            <span style="margin-left: auto;">${g.state.value}</span>
+        </footer>
+
+    </game>
+    #end
+
+</main>
+
+</body>
+
+</html>

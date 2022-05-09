@@ -17,7 +17,7 @@ subprojects {
 
 
         // https://mvnrepository.com/artifact/org.scala-lang/scala-library
-        implementation group: 'org.scala-lang', name: 'scala-library', version: '2.13.7'
+        implementation group: 'org.scala-lang', name: 'scala-library', version: '2.13.8'
 
 
         implementation 'ch.qos.logback:logback-classic:1.2.6'
@@ -36,6 +36,10 @@ subprojects {
         maven {
             url = 'https://repo.maven.apache.org/maven2/'
         }
+//        maven {
+//            name "lightbend-maven-release"
+//            url "https://repo.lightbend.com/lightbend/maven-releases"
+//        }
     }
 
     tasks.withType(ScalaCompile) {

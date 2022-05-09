@@ -10,7 +10,10 @@ import scala.beans.BeanProperty
 object CommonGame {
   private val NAME_SPLITER_REX = Pattern.compile("""[〜\-「]""")
 
-  case class Titles(mainTitle: String, subTitle: String)
+  case class Titles(
+                     @BeanProperty mainTitle: String,
+                     @BeanProperty subTitle: String
+                   )
 
 }
 
@@ -40,11 +43,11 @@ abstract class CommonGame {
   var writer: util.List[String] = _ //シナリオ
   var painter: util.List[String] = _ //原画
   var `type`: util.List[String] = _ //サブジャンル
-  var tag: util.List[String] = _
+  @BeanProperty var tag: util.List[String] = _
   var story: String = "" // ストーリー(HTML)
   var intro: String = ""
   var gameCharacters: util.List[GameCharacter] = _
-  var gameImgs: util.List[GameImg] = _
+  @BeanProperty var gameImgs: util.List[GameImg] = _
   var isNew = false
   var isAdult = true
 

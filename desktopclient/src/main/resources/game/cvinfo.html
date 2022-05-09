@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+    #include("/css.css")
+
+    </style>
+    <title>Title</title>
+</head>
+
+<body>
+<main style="grid-template-columns: repeat(auto-fill, 120px); " class="grid">
+    #foreach($cv in $cvlist)
+    <cv class="flex_column" style="border: 3px solid pink; height: 80px; width:120px;">
+        <a href="javascript:app.openCV('$cv.name')">$cv.name</a>
+        <star>$cv.star</star>
+        <count>$cv.statistics.count</count>
+    </cv>
+    #end
+</main>
+
+</body>
+
+</html>

@@ -19,12 +19,12 @@ object VelocityTemplateConfig {
     }
   }
 
-  val ve = new VelocityEngine
+  private val ve = new VelocityEngine
 
   init()
 
 
-  def init() = {
+  private def init() = {
 
     ve.setProperty(RuntimeConstants.RESOURCE_LOADERS, "classpath")
     ve.setProperty("resource.loader.classpath.class", classOf[ClasspathResourceLoader].getName)

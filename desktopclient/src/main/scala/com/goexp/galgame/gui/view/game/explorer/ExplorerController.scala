@@ -6,7 +6,7 @@ import com.goexp.galgame.common.website.getchu.GetchuGameLocal
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
-import com.goexp.galgame.gui.util.{Tpl, Websites}
+import com.goexp.galgame.gui.util.Websites
 import com.goexp.galgame.gui.view.VelocityTemplateConfig
 import com.goexp.galgame.gui.view.game.explorer.sidebar.{BrandGroupView, DateGroupController, FilterCondition, FilterPanel}
 import com.goexp.galgame.gui.view.game.explorer.tableview.TableListController
@@ -16,9 +16,8 @@ import javafx.collections.transformation.{FilteredList, SortedList}
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Worker
 import javafx.fxml.FXML
-import javafx.scene.Parent
 import javafx.scene.control._
-import javafx.scene.layout.{Pane, Region}
+import javafx.scene.layout.Pane
 import javafx.scene.web.WebView
 import netscape.javascript.JSObject
 import org.apache.velocity.VelocityContext
@@ -71,7 +70,7 @@ class ExplorerController extends DefaultController {
   private var groupPredicate: Predicate[Game] = _
 
 
-  val panel = new FilterPanel()
+  val filter = new FilterPanel()
 
   def load(games: ObservableList[Game], initPredicate: Predicate[Game] = null): Unit = {
     filterPanel.setVisible(true)
@@ -79,13 +78,13 @@ class ExplorerController extends DefaultController {
     filteredGames = new FilteredList(games)
 
 
-    val initP = HGameApp.mergeP(initPredicate)
+    val initP = FilterCondition.mergeDefaultPredicate(initPredicate)
     // set filter
     filteredGames.setPredicate(initP)
     recount()
 
     // set defaultPredicate
-    panel.predicate = initP
+    filter.predicate = initP
 
     val sortedData = new SortedList[Game](filteredGames)
     sortedData.comparatorProperty.bind(tablelist.comparatorProperty)
@@ -284,23 +283,18 @@ class ExplorerController extends DefaultController {
     )
 
     cvList.getSelectionModel.selectedItemProperty().addListener((_, _, cv) => {
-      cv match {
-        case SampleItem(title, _) =>
-          val defaultP: Predicate[Game] = (g: Game) => Option(g.gameCharacters).exists(_.asScala.exists(_.getShowCV().exists(_ == title)))
 
-          groupPredicate = defaultP
-          val filterPredicate = panel.predicate
-          val p = if (filterPredicate != null) groupPredicate.and(filterPredicate)
-          else groupPredicate
+      FilterCondition.cv = cv
+      FilterCondition.makeCVPredicate()
 
-          filteredGames.setPredicate(p)
+      groupPredicate = FilterCondition.groupPredicate
+      val filterPredicate = filter.predicate
+      val p = if (filterPredicate != null) groupPredicate.and(filterPredicate)
+      else groupPredicate
 
+      filteredGames.setPredicate(p)
 
-          FilterCondition.cv = cv
-
-          recount()
-        case _ =>
-      }
+      recount()
 
     })
 
@@ -363,12 +357,13 @@ class ExplorerController extends DefaultController {
   }
 
   private def initSidebarContentView() = {
-    filterPanel.setContent(panel)
+    filterPanel.setContent(filter)
 
-    panel.onSetProperty.addListener((_, _, newV) => {
+    filter.onSetProperty.addListener((_, _, newV) => {
       if (newV) {
         val load = groupPredicate == null
-        val filterPredicate = panel.predicate
+
+        val filterPredicate = filter.predicate
         val p = if (groupPredicate != null) filterPredicate.and(groupPredicate)
         else filterPredicate
         filteredGames.setPredicate(p)
@@ -381,15 +376,17 @@ class ExplorerController extends DefaultController {
 
     dateGroupController.onSetProperty.addListener((_, _, newValue) => {
       if (newValue) {
-        groupPredicate = dateGroupController.predicate
-        val filterPredicate = panel.predicate
+        FilterCondition.date = dateGroupController.selectedDate
+        FilterCondition.makeDatePredicate()
+
+
+        groupPredicate = FilterCondition.groupPredicate
+
+        val filterPredicate = filter.predicate
         val p = if (filterPredicate != null) groupPredicate.and(filterPredicate)
         else groupPredicate
         filteredGames.setPredicate(p)
 
-        FilterCondition.date = dateGroupController.selectedDate
-
-        //        conditionBox
         recount()
       }
 
@@ -398,8 +395,11 @@ class ExplorerController extends DefaultController {
 
     brandGroupView.onSetProperty.onChange((_, _, newValue) => {
       if (newValue) {
-        groupPredicate = brandGroupView.predicate
-        val filterPredicate = panel.predicate
+        FilterCondition.brand = brandGroupView.selectedBrand
+        FilterCondition.makeBrandPredicate()
+
+        groupPredicate = FilterCondition.groupPredicate
+        val filterPredicate = filter.predicate
         val p = if (filterPredicate != null) groupPredicate.and(filterPredicate)
         else groupPredicate
         filteredGames.setPredicate(p)

@@ -13,19 +13,17 @@ import scalafx.scene.control.{Label, TreeCell, TreeView}
 import scalafx.scene.image.ImageView
 import scalafx.scene.layout.{HBox, VBox}
 
-
 import java.util
 import java.util.function.Predicate
 
 class BrandGroupView extends TreeView[DataItem] with Controller {
   showRoot = false
 
-
   final val onSetProperty = new BooleanProperty()
-  var predicate: Predicate[Game] = _
 
-  //  @FXML private var compTree: TreeView[DataItem] = _
   private var filteredGames: util.List[Game] = _
+
+  var selectedBrand: DataItem = _
 
   object Data extends DataSource {
     val groupBrandServ = TaskService(new ByBrand(filteredGames))
@@ -80,20 +78,7 @@ class BrandGroupView extends TreeView[DataItem] with Controller {
 
   selectionModel().selectedItem.onChange((_, _, item) => {
     if (item != null) {
-      predicate =
-        item.value() match {
-          case CompItem(_, _, acomp) =>
-            (game: Game) => {
-
-              val comp = Option(game.brand.comp).getOrElse("")
-              comp == acomp
-            }
-          case BrandItem(_, _, abrand) =>
-            (game: Game) => game.brand == abrand
-        }
-
-      FilterCondition.brand = item.getValue
-
+      selectedBrand = item.getValue
 
       onSetProperty.set(true)
       onSetProperty.set(false)

@@ -28,12 +28,8 @@ class DateGroupController extends FilterController[Game] {
 
     dateTree.getSelectionModel.selectedItem.onChange((_, _, newValue) => {
       if (newValue != null) {
-        predicate = (game: Game) => game.publishDate != null &&
-          game.publishDate.isBefore(newValue.getValue.range.end) &&
-          game.publishDate.isAfter(newValue.getValue.range.start)
 
         selectedDate = newValue.getValue
-
 
         onSetProperty.set(true)
         onSetProperty.set(false)

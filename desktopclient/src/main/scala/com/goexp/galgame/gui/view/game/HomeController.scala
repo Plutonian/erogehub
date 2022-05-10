@@ -1,7 +1,6 @@
 package com.goexp.galgame.gui.view.game
 
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
-import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.search._
 import com.goexp.galgame.gui.util.res.LocalRes
@@ -9,7 +8,7 @@ import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager}
 import com.goexp.galgame.gui.view.brand.MainPanelController
 import com.goexp.galgame.gui.view.common.control.DataPage
 import com.goexp.galgame.gui.view.game.HomeController._
-import com.goexp.galgame.gui.view.game.explorer.sidebar.FilterPanel
+import com.goexp.galgame.gui.view.game.explorer.sidebar.{FilterCondition, FilterPanel}
 import com.goexp.ui.javafx.DefaultController
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
@@ -191,7 +190,6 @@ class HomeController extends DefaultController {
 
     {
       val filterPanel = new FilterPanel()
-      //      val loaderConfig = new SimpleFxmlLoader[FilterPanelController]("filterpanel.fxml")
 
       val popConfigPanel = new PopOver {
         setArrowLocation(ArrowLocation.BOTTOM_LEFT)
@@ -199,10 +197,9 @@ class HomeController extends DefaultController {
         setContentNode(filterPanel)
       }
 
-      //      val controller = loaderConfig.controller
       filterPanel.onSetProperty.addListener { (_, _, v) =>
         if (v) {
-          HGameApp.DEFAULT_GAME_PREDICATE = filterPanel.predicate
+          FilterCondition.DEFAULT_GAME_PREDICATE = filterPanel.predicate
         }
       }
 

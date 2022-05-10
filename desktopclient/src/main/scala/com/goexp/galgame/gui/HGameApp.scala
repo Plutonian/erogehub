@@ -1,6 +1,5 @@
 package com.goexp.galgame.gui
 
-import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.gui.HGameApp.app
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.game.search.{ByCV, ByPainter}
@@ -21,24 +20,9 @@ import scalafx.Includes._
 import scalafx.scene.control.Tab
 import scalafx.scene.image.ImageView
 
-import java.util.function.Predicate
-
 object HGameApp extends App {
   var app: HGameApp = _
 
-  var DEFAULT_GAME_PREDICATE: Predicate[Game] = (g: Game) => !GameState.ignoreState().contains(g.state.get)
-
-  def mergeP(p: Predicate[Game]) = {
-    if (p != null) {
-      if (DEFAULT_GAME_PREDICATE == null) {
-        p
-      } else {
-        DEFAULT_GAME_PREDICATE.and(p)
-      }
-    } else {
-      DEFAULT_GAME_PREDICATE
-    }
-  }
 
   def viewBrand(brand: Brand) = {
     val t = brand.name

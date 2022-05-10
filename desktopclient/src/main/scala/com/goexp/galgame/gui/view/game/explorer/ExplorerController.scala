@@ -77,14 +77,13 @@ class ExplorerController extends DefaultController {
     groupPredicate = null
     filteredGames = new FilteredList(games)
 
+    // set defaultPredicate
+    filter.predicate = FilterCondition.mergeDefaultPredicate(initPredicate)
 
-    val initP = FilterCondition.mergeDefaultPredicate(initPredicate)
     // set filter
-    filteredGames.setPredicate(initP)
+    filteredGames.setPredicate(filter.predicate)
     recount()
 
-    // set defaultPredicate
-    filter.predicate = initP
 
     val sortedData = new SortedList[Game](filteredGames)
     sortedData.comparatorProperty.bind(tablelist.comparatorProperty)
@@ -288,11 +287,8 @@ class ExplorerController extends DefaultController {
       FilterCondition.makeCVPredicate()
 
       groupPredicate = FilterCondition.groupPredicate
-      val filterPredicate = filter.predicate
-      val p = if (filterPredicate != null) groupPredicate.and(filterPredicate)
-      else groupPredicate
 
-      filteredGames.setPredicate(p)
+      filteredGames.setPredicate(FilterCondition.mergePredicate(filter.predicate, groupPredicate))
 
       recount()
 

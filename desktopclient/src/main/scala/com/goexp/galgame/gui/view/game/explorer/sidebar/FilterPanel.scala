@@ -132,14 +132,10 @@ class FilterPanel extends BorderPane with Controller {
   object VO {
     lazy val _selectedStar = mutable.Set[Int](0, 1, 2, 3, 4, 5)
     lazy val _selectedGameState = mutable.Set[GameState]()
-
-    private val states: Array[GameState] = GameState.values.filter(_.value > GameState.BLOCK.value)
-
-    _selectedGameState.addAll(states)
+      .addAll(GameState.values.filter(_.value > GameState.BLOCK.value))
 
     lazy val _selectedGameLocation = mutable.Set[GameLocation](
       GameLocation.REMOTE,
-      //      GameLocation.NETDISK,
       GameLocation.LOCAL)
 
     lazy val _switchAll = new BooleanProperty

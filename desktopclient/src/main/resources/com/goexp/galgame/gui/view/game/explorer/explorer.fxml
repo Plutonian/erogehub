@@ -21,29 +21,38 @@
         </panes>
     </Accordion>
 
-    <AnchorPane>
-        <TabPane nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"
-                 AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
-                 AnchorPane.topAnchor="0">
-            <Tab text="Detail">
-                <WebView fx:id="detailWebView"/>
-            </Tab>
-            <Tab text="Grid">
-                <WebView fx:id="gridWebView"/>
-            </Tab>
-            <Tab text="List-View">
-                <WebView fx:id="listView"/>
-            </Tab>
+    <BorderPane>
+        <top>
+            <HBox fx:id="conditionBox">
+            </HBox>
+        </top>
+        <center>
+            <AnchorPane>
+                <TabPane nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"
+                         AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+                         AnchorPane.topAnchor="0">
+                    <Tab text="Detail">
+                        <WebView fx:id="detailWebView"/>
+                    </Tab>
+                    <Tab text="Grid">
+                        <WebView fx:id="gridWebView"/>
+                    </Tab>
+                    <Tab text="List-View">
+                        <WebView fx:id="listView"/>
+                    </Tab>
 
-            <Tab text="List">
-                <fx:include fx:id="tablelist" source="tableview/tablelist.fxml"/>
-            </Tab>
-        </TabPane>
-        <HBox AnchorPane.bottomAnchor="3" AnchorPane.leftAnchor="10">
-            <Label fx:id="lbItemCount" prefWidth="80.0"/>
-            <ProgressBar fx:id="loadingBar" prefHeight="25.0" prefWidth="77.0" visible="false"/>
-        </HBox>
-    </AnchorPane>
+                    <Tab text="List">
+                        <fx:include fx:id="tablelist" source="tableview/tablelist.fxml"/>
+                    </Tab>
+                </TabPane>
+                <HBox AnchorPane.bottomAnchor="3" AnchorPane.leftAnchor="10">
+                    <Label fx:id="lbItemCount" prefWidth="80.0"/>
+                    <ProgressBar fx:id="loadingBar" prefHeight="25.0" prefWidth="77.0" visible="false"/>
+                </HBox>
+            </AnchorPane>
+        </center>
+    </BorderPane>
+
     <Accordion maxWidth="220.0">
         <panes>
             <TitledPane fx:id="filterPanel" animated="false" text="Filter">

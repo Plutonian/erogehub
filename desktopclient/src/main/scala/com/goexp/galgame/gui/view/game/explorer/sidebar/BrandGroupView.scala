@@ -92,6 +92,9 @@ class BrandGroupView extends TreeView[DataItem] with Controller {
             (game: Game) => game.brand == abrand
         }
 
+      FilterCondition.brand = item.getValue
+
+
       onSetProperty.set(true)
       onSetProperty.set(false)
     }

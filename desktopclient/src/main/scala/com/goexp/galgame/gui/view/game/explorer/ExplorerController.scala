@@ -8,7 +8,7 @@ import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
 import com.goexp.galgame.gui.util.{Tpl, Websites}
 import com.goexp.galgame.gui.view.VelocityTemplateConfig
-import com.goexp.galgame.gui.view.game.explorer.sidebar.{BrandGroupView, DateGroupController, FilterPanel}
+import com.goexp.galgame.gui.view.game.explorer.sidebar.{BrandGroupView, DateGroupController, FilterCondition, FilterPanel}
 import com.goexp.galgame.gui.view.game.explorer.tableview.TableListController
 import com.goexp.galgame.gui.{Config, HGameApp}
 import com.goexp.ui.javafx.{DefaultController, TaskService}
@@ -16,7 +16,9 @@ import javafx.collections.transformation.{FilteredList, SortedList}
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.concurrent.Worker
 import javafx.fxml.FXML
+import javafx.scene.Parent
 import javafx.scene.control._
+import javafx.scene.layout.{Pane, Region}
 import javafx.scene.web.WebView
 import netscape.javascript.JSObject
 import org.apache.velocity.VelocityContext
@@ -62,6 +64,9 @@ class ExplorerController extends DefaultController {
   @FXML private var listView: WebView = _
   @FXML private var gridWebView: WebView = _
   @FXML private var detailWebView: WebView = _
+
+  @FXML private var conditionBox: Pane = _
+
   private var filteredGames: FilteredList[Game] = _
   private var groupPredicate: Predicate[Game] = _
 
@@ -196,6 +201,17 @@ class ExplorerController extends DefaultController {
 
 
     resetCount(filteredGames)
+
+    //    conditionBox.getChildren.clear()
+
+    //    if (FilterCondition.date != null) {
+    //      conditionBox.getChildren.add(new Label("Date"))
+    //    }
+    //
+    //    if (FilterCondition.brand != null) {
+    //      conditionBox.getChildren.add(new Label(FilterCondition.brand.toString))
+    //    }
+
   }
 
   private def resetCount(filteredGames: util.List[Game]) = {
@@ -276,7 +292,12 @@ class ExplorerController extends DefaultController {
           val filterPredicate = panel.predicate
           val p = if (filterPredicate != null) groupPredicate.and(filterPredicate)
           else groupPredicate
+
           filteredGames.setPredicate(p)
+
+
+          FilterCondition.cv = cv
+
           recount()
         case _ =>
       }
@@ -365,6 +386,10 @@ class ExplorerController extends DefaultController {
         val p = if (filterPredicate != null) groupPredicate.and(filterPredicate)
         else groupPredicate
         filteredGames.setPredicate(p)
+
+        FilterCondition.date = dateGroupController.selectedDate
+
+        //        conditionBox
         recount()
       }
 

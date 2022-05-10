@@ -17,7 +17,18 @@ import scala.collection.mutable
 
 class FilterPanel extends BorderPane with Controller {
 
-  import VO._
+  private val _selectedStar = mutable.Set[Int](0, 1, 2, 3, 4, 5)
+  private val _selectedGameState = mutable.Set[GameState]()
+    .addAll(GameState.values.filter(_.value > GameState.BLOCK.value))
+
+  private val _selectedGameLocation = mutable.Set[GameLocation](
+    GameLocation.REMOTE,
+    GameLocation.LOCAL)
+
+  private val _switchAll = new BooleanProperty
+
+  lazy val onSetProperty = new BooleanProperty()
+
 
   stylesheets.add("/view/view.css")
 
@@ -128,21 +139,6 @@ class FilterPanel extends BorderPane with Controller {
   }
 
   setP()
-
-  object VO {
-    lazy val _selectedStar = mutable.Set[Int](0, 1, 2, 3, 4, 5)
-    lazy val _selectedGameState = mutable.Set[GameState]()
-      .addAll(GameState.values.filter(_.value > GameState.BLOCK.value))
-
-    lazy val _selectedGameLocation = mutable.Set[GameLocation](
-      GameLocation.REMOTE,
-      GameLocation.LOCAL)
-
-    lazy val _switchAll = new BooleanProperty
-  }
-
-
-  lazy val onSetProperty = new BooleanProperty()
 
   var predicate: Predicate[Game] = _
 

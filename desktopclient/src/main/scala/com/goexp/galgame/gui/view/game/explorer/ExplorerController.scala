@@ -34,7 +34,7 @@ class ExplorerController extends DefaultController {
 
   final private val groupCVServ = TaskService(new ByCV(filteredGames))
   final private val groupTagServ = TaskService(new ByTag(filteredGames))
-  val view = new BrandGroupView()
+  val brandGroupView = new BrandGroupView()
   private val popPanel = new PopOver
   /**
    * Controllers
@@ -204,7 +204,7 @@ class ExplorerController extends DefaultController {
 
   private def setSideBarData(filteredGames: FilteredList[Game]) = {
     dateGroupController.init(filteredGames)
-    view.init(filteredGames)
+    brandGroupView.init(filteredGames)
     groupCVServ.restart()
     groupTagServ.restart()
   }
@@ -371,9 +371,9 @@ class ExplorerController extends DefaultController {
     })
 
 
-    view.onSetProperty.onChange((_, _, newValue) => {
+    brandGroupView.onSetProperty.onChange((_, _, newValue) => {
       if (newValue) {
-        groupPredicate = view.predicate
+        groupPredicate = brandGroupView.predicate
         val filterPredicate = panel.predicate
         val p = if (filterPredicate != null) groupPredicate.and(filterPredicate)
         else groupPredicate
@@ -382,7 +382,7 @@ class ExplorerController extends DefaultController {
       }
 
     })
-    brandGroup.setContent(view)
+    brandGroup.setContent(brandGroupView)
   }
 
 }

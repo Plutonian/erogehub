@@ -17,15 +17,15 @@ import scala.collection.mutable
 
 class FilterPanel extends BorderPane with Controller {
 
-  private val _selectedStar = mutable.Set[Int](0, 1, 2, 3, 4, 5)
-  private val _selectedGameState = mutable.Set[GameState]()
+  val _selectedStar = mutable.Set[Int](0, 1, 2, 3, 4, 5)
+  val _selectedGameState = mutable.Set[GameState]()
     .addAll(GameState.values.filter(_.value > GameState.BLOCK.value))
 
-  private val _selectedGameLocation = mutable.Set[GameLocation](
+  val _selectedGameLocation = mutable.Set[GameLocation](
     GameLocation.REMOTE,
     GameLocation.LOCAL)
 
-  private val _switchAll = new BooleanProperty
+  val _switchAll = new BooleanProperty
 
   lazy val onSetProperty = new BooleanProperty()
 

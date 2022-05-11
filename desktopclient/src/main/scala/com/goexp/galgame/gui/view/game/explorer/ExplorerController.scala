@@ -32,6 +32,7 @@ import scala.jdk.CollectionConverters._
 
 
 class ExplorerController extends DefaultController {
+  private val filterCondition = new FilterCondition()
 
   final private val groupCVServ = TaskService(new ByCV(filteredGames))
   final private val groupTagServ = TaskService(new ByTag(filteredGames))
@@ -71,6 +72,7 @@ class ExplorerController extends DefaultController {
 
 
   val filter = new FilterPanel()
+
 
   def load(games: ObservableList[Game], initPredicate: Predicate[Game] = null): Unit = {
     filterPanel.setVisible(true)
@@ -230,7 +232,7 @@ class ExplorerController extends DefaultController {
 
   override protected def initialize() = {
 
-    initSideBar()
+    initFilterPanel()
     initGroupPanel()
 
     popPanel.setAutoHide(true)
@@ -240,6 +242,37 @@ class ExplorerController extends DefaultController {
   }
 
   private def initGroupPanel() = {
+
+    dateGroupController.onSetProperty.addListener((_, _, newValue) => {
+      if (newValue) {
+        filterCondition.date = dateGroupController.selectedDate
+        filterCondition.makeDatePredicate()
+
+
+        groupPredicate = filterCondition.groupPredicate
+
+        filteredGames.setPredicate(FilterCondition.mergePredicate(filter.predicate, groupPredicate))
+
+        recount()
+      }
+
+    })
+
+    brandGroupView.onSetProperty.onChange((_, _, newValue) => {
+      if (newValue) {
+        filterCondition.brand = brandGroupView.selectedBrand
+        filterCondition.makeBrandPredicate()
+
+        groupPredicate = filterCondition.groupPredicate
+
+        filteredGames.setPredicate(FilterCondition.mergePredicate(filter.predicate, groupPredicate))
+        recount()
+      }
+
+    })
+    brandGroup.setContent(brandGroupView)
+
+
     cvList.setCellFactory(_ =>
       new ListCell[DataItem] {
 
@@ -280,13 +313,12 @@ class ExplorerController extends DefaultController {
         }
       }
     )
-
     cvList.getSelectionModel.selectedItemProperty().addListener((_, _, cv) => {
 
-      FilterCondition.cv = cv
-      FilterCondition.makeCVPredicate()
+      filterCondition.cv = cv
+      filterCondition.makeCVPredicate()
 
-      groupPredicate = FilterCondition.groupPredicate
+      groupPredicate = filterCondition.groupPredicate
 
       filteredGames.setPredicate(FilterCondition.mergePredicate(filter.predicate, groupPredicate))
 
@@ -347,14 +379,11 @@ class ExplorerController extends DefaultController {
     })
   }
 
-  private def initSideBar() = {
+  private def initFilterPanel() = {
 
-    initSidebarContentView()
-  }
-
-  private def initSidebarContentView() = {
     filterPanel.setContent(filter)
 
+    // right sideBar
     filter.onSetProperty.addListener((_, _, newV) => {
       if (newV) {
         val load = groupPredicate == null
@@ -366,36 +395,6 @@ class ExplorerController extends DefaultController {
 
     })
 
-
-    dateGroupController.onSetProperty.addListener((_, _, newValue) => {
-      if (newValue) {
-        FilterCondition.date = dateGroupController.selectedDate
-        FilterCondition.makeDatePredicate()
-
-
-        groupPredicate = FilterCondition.groupPredicate
-
-        filteredGames.setPredicate(FilterCondition.mergePredicate(filter.predicate, groupPredicate))
-
-        recount()
-      }
-
-    })
-
-
-    brandGroupView.onSetProperty.onChange((_, _, newValue) => {
-      if (newValue) {
-        FilterCondition.brand = brandGroupView.selectedBrand
-        FilterCondition.makeBrandPredicate()
-
-        groupPredicate = FilterCondition.groupPredicate
-
-        filteredGames.setPredicate(FilterCondition.mergePredicate(filter.predicate, groupPredicate))
-        recount()
-      }
-
-    })
-    brandGroup.setContent(brandGroupView)
   }
 
 }

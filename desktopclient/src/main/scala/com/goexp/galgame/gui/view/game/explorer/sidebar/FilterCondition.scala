@@ -9,24 +9,32 @@ import java.util.function.Predicate
 import scala.collection.mutable
 
 object FilterCondition {
+  var DEFAULT_GAME_PREDICATE: Predicate[Game] = (g: Game) => !GameState.ignoreState().contains(g.state.get)
+
+  def mergeDefaultPredicate(p: Predicate[Game]) = {
+    mergePredicate(DEFAULT_GAME_PREDICATE, p)
+  }
+
+  def mergePredicate(p1: Predicate[Game], p2: Predicate[Game]): Predicate[Game] = {
+    if (p1 != null && p2 != null) {
+      p1.and(p2)
+    } else if (p1 != null) p1
+    else if (p2 != null) p2
+    else null
+  }
+}
+
+class FilterCondition {
   var date: DataItem = _
-
   var brand: DataItem = _
-
   var cv: DataItem = _
-
   var tag: DataItem = _
 
+  var _selectedStar: mutable.Set[Int] = _
+  var _selectedGameState: mutable.Set[GameState] = _
+  var _selectedGameLocation: mutable.Set[GameLocation] = _
 
-  val _selectedStar = mutable.Set[Int](0, 1, 2, 3, 4, 5)
-  val _selectedGameState = mutable.Set[GameState]()
-    .addAll(GameState.values.filter(_.value > GameState.BLOCK.value))
-
-  val _selectedGameLocation = mutable.Set[GameLocation](
-    GameLocation.REMOTE,
-    GameLocation.LOCAL)
-
-  val _switchAll = new BooleanProperty
+  var _switchAll: Boolean = false
 
   var groupPredicate: Predicate[Game] = _
 
@@ -35,6 +43,10 @@ object FilterCondition {
     brand = null
     cv = null
     tag = null
+
+    _selectedStar = null
+    _selectedGameState = null
+    _selectedGameLocation = null
   }
 
   def makeBrandPredicate() = {
@@ -81,17 +93,4 @@ object FilterCondition {
 
   }
 
-  var DEFAULT_GAME_PREDICATE: Predicate[Game] = (g: Game) => !GameState.ignoreState().contains(g.state.get)
-
-  def mergeDefaultPredicate(p: Predicate[Game]) = {
-    mergePredicate(DEFAULT_GAME_PREDICATE, p)
-  }
-
-  def mergePredicate(p1: Predicate[Game], p2: Predicate[Game]): Predicate[Game] = {
-    if (p1 != null && p2 != null) {
-      p1.and(p2)
-    } else if (p1 != null) p1
-    else if (p2 != null) p2
-    else null
-  }
 }

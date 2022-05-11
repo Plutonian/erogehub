@@ -13,10 +13,11 @@
             <TitledPane fx:id="brandGroup" animated="false" text="Brand">
             </TitledPane>
             <TitledPane animated="false" text="Tag">
-                <ListView fx:id="tagList"/>
+                <WebView fx:id="tagWebView"/>
             </TitledPane>
             <TitledPane animated="false" text="CV">
-                <ListView fx:id="cvList"/>
+                <WebView fx:id="cvWebView"/>
+                <!--                <ListView fx:id="cvList"/>-->
             </TitledPane>
         </panes>
     </Accordion>

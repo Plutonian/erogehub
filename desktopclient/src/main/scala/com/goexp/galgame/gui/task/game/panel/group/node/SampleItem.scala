@@ -1,4 +1,8 @@
 package com.goexp.galgame.gui.task.game.panel.group.node
 
-case class SampleItem(title: String,
-                      count: Int) extends DataItem
+import scala.beans.BeanProperty
+
+case class SampleItem(
+                       @BeanProperty title: String,
+                       @BeanProperty count: Int
+                     ) extends DataItem

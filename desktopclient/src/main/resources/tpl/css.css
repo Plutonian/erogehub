@@ -86,6 +86,10 @@ a:hover {
 
 }
 
+.border{
+    border: #000 solid 1px;
+}
+
 /* body{
      display: flex;
      justify-content: space-around;

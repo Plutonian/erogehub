@@ -1,8 +1,9 @@
 package com.goexp.galgame.common.model
 
+import com.goexp.common.util.string.Strings
+
 import java.time.LocalDate
 import java.util.StringJoiner
-
 import scala.beans.BeanProperty
 
 class CV {
@@ -31,6 +32,15 @@ class CV {
 
   @BeanProperty
   var statistics: GameStatistics = _
+
+  def isReal() = {
+    Strings.isNotEmpty(trueName)
+  }
+
+  def getShowName(): Option[String] = {
+    if (isReal()) Some(s"*$trueName")
+    else Some(name).filter(Strings.isNotEmpty)
+  }
 
 
   override def toString: String =

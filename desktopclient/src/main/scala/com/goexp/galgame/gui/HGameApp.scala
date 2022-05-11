@@ -2,7 +2,7 @@ package com.goexp.galgame.gui
 
 import com.goexp.galgame.gui.HGameApp.app
 import com.goexp.galgame.gui.model.{Brand, Game}
-import com.goexp.galgame.gui.task.game.search.{ByCV, ByPainter}
+import com.goexp.galgame.gui.task.game.search.{ByCV, ByPainter, ByTag}
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager}
 import com.goexp.galgame.gui.view.brand.CommonInfoTabController
@@ -26,10 +26,12 @@ import scalafx.scene.image.ImageView
 
 object WebPageServer {
 
+  private val server = new Server
+
   def start() = {
     import org.eclipse.jetty.server.handler.{HandlerList, ResourceHandler}
 
-    val server = new Server
+
     val connector = new ServerConnector(server)
     connector.setPort(8080)
     server.addConnector(connector)
@@ -46,6 +48,10 @@ object WebPageServer {
     server.setHandler(handlers)
 
     server.start
+  }
+
+  def stop() = {
+    server.stop()
   }
 
 
@@ -106,6 +112,15 @@ object HGameApp extends App {
 
   }
 
+  def openTag(tag: String) = {
+    TabManager().open(tag,
+      new DataPage(ExplorerData(new com.goexp.galgame.gui.task.game.search.ByTag(tag))) {
+        text = (tag)
+        graphic = (new ImageView(LocalRes.TAG_16_PNG))
+      }
+    )
+  }
+
   def loadGuide(name: String) = {
     val title = s"攻略:${name}"
     val view = new SearchView()
@@ -156,6 +171,8 @@ class HGameApp extends Application {
 
   override def stop(): Unit = {
     logger.info("Stopping App")
+
+    WebPageServer.stop()
 
     logger.info("Stop App OK")
 

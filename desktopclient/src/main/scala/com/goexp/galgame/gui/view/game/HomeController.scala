@@ -16,7 +16,6 @@ import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.Hyperlink
 import scalafx.scene.image.ImageView
-//import javafx.scene.image.ImageView
 import javafx.scene.input.TransferMode
 import javafx.scene.layout.Pane
 import org.controlsfx.control.PopOver
@@ -199,7 +198,16 @@ class HomeController extends DefaultController {
 
       filterPanel.onSetProperty.addListener { (_, _, v) =>
         if (v) {
-          FilterCondition.DEFAULT_GAME_PREDICATE = filterPanel.predicate
+          val filterCondition = new FilterCondition()
+
+          filterCondition._selectedGameLocation = filterPanel._selectedGameLocation
+          filterCondition._selectedGameState = filterPanel._selectedGameState
+          filterCondition._selectedStar = filterPanel._selectedStar
+          filterCondition._switchAll = filterPanel._switchAll.get()
+
+          filterCondition.makeFilterPredicate()
+
+          FilterCondition.DEFAULT_GAME_PREDICATE = filterCondition.filterPredicate
         }
       }
 

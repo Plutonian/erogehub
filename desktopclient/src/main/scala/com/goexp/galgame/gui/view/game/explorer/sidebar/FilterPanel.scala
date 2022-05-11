@@ -11,7 +11,6 @@ import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.control.{Button, CheckBox, Label}
 import scalafx.scene.layout.{BorderPane, FlowPane, HBox, VBox}
 
-import java.time.LocalDate
 import java.util.function.Predicate
 import scala.collection.mutable
 
@@ -138,32 +137,32 @@ class FilterPanel extends BorderPane with Controller {
     )
   }
 
-  setP()
+  //  setP()
 
-  var predicate: Predicate[Game] = _
+  //  var predicate: Predicate[Game] = _
 
-  private def setP() = {
-
-    val p: Predicate[Game] = (game: Game) => {
-      _selectedStar.contains(game.star.get()) &&
-        _selectedGameState.contains(game.state.get) &&
-        _selectedGameLocation.contains(game.location.get)
-    }
-
-    predicate =
-      if (_switchAll.value) {
-        p.and { (game: Game) =>
-          Option(game.publishDate).exists {
-            _.isBefore(LocalDate.now())
-          }
-        }
-      } else {
-        p
-      }
-  }
+  //  private def setP() = {
+  //
+  //    val p: Predicate[Game] = (game: Game) => {
+  //      _selectedStar.contains(game.star.get()) &&
+  //        _selectedGameState.contains(game.state.get) &&
+  //        _selectedGameLocation.contains(game.location.get)
+  //    }
+  //
+  //    predicate =
+  //      if (_switchAll.value) {
+  //        p.and { (game: Game) =>
+  //          Option(game.publishDate).exists {
+  //            _.isBefore(LocalDate.now())
+  //          }
+  //        }
+  //      } else {
+  //        p
+  //      }
+  //  }
 
   private def SetFilter_OnAction(event: ActionEvent) = {
-    setP()
+    //    setP()
     onSetProperty.set(true)
     onSetProperty.set(false)
   }

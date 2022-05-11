@@ -69,6 +69,7 @@ class ExplorerController extends DefaultController {
 
   private var filteredGames: FilteredList[Game] = _
   private var groupPredicate: Predicate[Game] = _
+  private var filterPredicate: Predicate[Game] = _
 
 
   val filter = new FilterPanel()
@@ -76,14 +77,15 @@ class ExplorerController extends DefaultController {
 
   def load(games: ObservableList[Game], initPredicate: Predicate[Game] = null): Unit = {
     filterPanel.setVisible(true)
+
     groupPredicate = null
     filteredGames = new FilteredList(games)
 
     // set defaultPredicate
-    filter.predicate = FilterCondition.mergeDefaultPredicate(initPredicate)
+    filterPredicate = FilterCondition.mergeDefaultPredicate(initPredicate)
 
     // set filter
-    filteredGames.setPredicate(filter.predicate)
+    filteredGames.setPredicate(filterPredicate)
     recount()
 
 
@@ -91,7 +93,7 @@ class ExplorerController extends DefaultController {
     sortedData.comparatorProperty.bind(tablelist.comparatorProperty)
 
     loadItems(sortedData)
-    setSideBarData(filteredGames)
+    loadGroupPanelData(filteredGames)
   }
 
   object Page {
@@ -218,7 +220,7 @@ class ExplorerController extends DefaultController {
     lbItemCount.setText(s"${filteredGames.size} 件")
   }
 
-  private def setSideBarData(filteredGames: FilteredList[Game]) = {
+  private def loadGroupPanelData(filteredGames: FilteredList[Game]) = {
     dateGroupController.init(filteredGames)
     brandGroupView.init(filteredGames)
     groupCVServ.restart()
@@ -251,7 +253,7 @@ class ExplorerController extends DefaultController {
 
         groupPredicate = filterCondition.groupPredicate
 
-        filteredGames.setPredicate(FilterCondition.mergePredicate(filter.predicate, groupPredicate))
+        filteredGames.setPredicate(FilterCondition.mergePredicate(filterPredicate, groupPredicate))
 
         recount()
       }
@@ -265,7 +267,7 @@ class ExplorerController extends DefaultController {
 
         groupPredicate = filterCondition.groupPredicate
 
-        filteredGames.setPredicate(FilterCondition.mergePredicate(filter.predicate, groupPredicate))
+        filteredGames.setPredicate(FilterCondition.mergePredicate(filterPredicate, groupPredicate))
         recount()
       }
 
@@ -320,7 +322,7 @@ class ExplorerController extends DefaultController {
 
       groupPredicate = filterCondition.groupPredicate
 
-      filteredGames.setPredicate(FilterCondition.mergePredicate(filter.predicate, groupPredicate))
+      filteredGames.setPredicate(FilterCondition.mergePredicate(filterPredicate, groupPredicate))
 
       recount()
 
@@ -388,9 +390,21 @@ class ExplorerController extends DefaultController {
       if (newV) {
         val load = groupPredicate == null
 
-        filteredGames.setPredicate(FilterCondition.mergePredicate(filter.predicate, groupPredicate))
+
+        filterCondition._selectedGameLocation = filter._selectedGameLocation
+        filterCondition._selectedGameState = filter._selectedGameState
+        filterCondition._selectedStar = filter._selectedStar
+        filterCondition._switchAll = filter._switchAll.get()
+
+        filterCondition.makeFilterPredicate()
+
+        filterPredicate = filterCondition.filterPredicate
+
+
+        filteredGames.setPredicate(FilterCondition.mergePredicate(filterCondition.filterPredicate, groupPredicate))
         recount()
-        if (load) setSideBarData(filteredGames)
+        if (load)
+          loadGroupPanelData(filteredGames)
       }
 
     })

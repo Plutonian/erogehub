@@ -3,7 +3,10 @@ package com.goexp.galgame.gui.view.game.explorer.sidebar
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.node.{BrandItem, CompItem, DataItem, DateItem, SampleItem}
+import com.goexp.galgame.gui.view.game.explorer.sidebar.FilterCondition.mergePredicate
 import scalafx.beans.property.BooleanProperty
+
+import java.time.LocalDate
 import scala.jdk.CollectionConverters._
 import java.util.function.Predicate
 import scala.collection.mutable
@@ -37,6 +40,7 @@ class FilterCondition {
   var _switchAll: Boolean = false
 
   var groupPredicate: Predicate[Game] = _
+  var filterPredicate: Predicate[Game] = _
 
   def reset() = {
     date = null
@@ -91,6 +95,27 @@ class FilterCondition {
       }
     } else null
 
+  }
+
+
+  def makeFilterPredicate() = {
+
+    val p: Predicate[Game] = (game: Game) => {
+      _selectedStar.contains(game.star.get()) &&
+        _selectedGameState.contains(game.state.get) &&
+        _selectedGameLocation.contains(game.location.get)
+    }
+    val p2: Predicate[Game] = (game: Game) =>
+      Option(game.publishDate).exists {
+        _.isBefore(LocalDate.now())
+      }
+
+    filterPredicate =
+      if (_switchAll) {
+        mergePredicate(p, p2)
+      } else {
+        p
+      }
   }
 
 }

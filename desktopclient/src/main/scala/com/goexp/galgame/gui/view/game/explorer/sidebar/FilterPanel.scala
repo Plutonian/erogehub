@@ -1,7 +1,6 @@
 package com.goexp.galgame.gui.view.game.explorer.sidebar
 
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
-import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Controller
 import javafx.event.ActionEvent
 import org.controlsfx.control.ToggleSwitch
@@ -11,20 +10,19 @@ import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.control.{Button, CheckBox, Label}
 import scalafx.scene.layout.{BorderPane, FlowPane, HBox, VBox}
 
-import java.util.function.Predicate
 import scala.collection.mutable
 
 class FilterPanel extends BorderPane with Controller {
 
-  val _selectedStar = mutable.Set[Int](0, 1, 2, 3, 4, 5)
-  val _selectedGameState = mutable.Set[GameState]()
+  lazy val _selectedStar = mutable.Set[Int](0, 1, 2, 3, 4, 5)
+  lazy val _selectedGameState = mutable.Set[GameState]()
     .addAll(GameState.values.filter(_.value > GameState.BLOCK.value))
 
-  val _selectedGameLocation = mutable.Set[GameLocation](
+  lazy val _selectedGameLocation = mutable.Set[GameLocation](
     GameLocation.REMOTE,
     GameLocation.LOCAL)
 
-  val _switchAll = new BooleanProperty
+  lazy val _switchAll = new BooleanProperty
 
   lazy val onSetProperty = new BooleanProperty()
 
@@ -137,32 +135,7 @@ class FilterPanel extends BorderPane with Controller {
     )
   }
 
-  //  setP()
-
-  //  var predicate: Predicate[Game] = _
-
-  //  private def setP() = {
-  //
-  //    val p: Predicate[Game] = (game: Game) => {
-  //      _selectedStar.contains(game.star.get()) &&
-  //        _selectedGameState.contains(game.state.get) &&
-  //        _selectedGameLocation.contains(game.location.get)
-  //    }
-  //
-  //    predicate =
-  //      if (_switchAll.value) {
-  //        p.and { (game: Game) =>
-  //          Option(game.publishDate).exists {
-  //            _.isBefore(LocalDate.now())
-  //          }
-  //        }
-  //      } else {
-  //        p
-  //      }
-  //  }
-
   private def SetFilter_OnAction(event: ActionEvent) = {
-    //    setP()
     onSetProperty.set(true)
     onSetProperty.set(false)
   }

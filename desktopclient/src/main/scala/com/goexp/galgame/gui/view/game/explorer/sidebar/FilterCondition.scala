@@ -2,14 +2,13 @@ package com.goexp.galgame.gui.view.game.explorer.sidebar
 
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.task.game.panel.group.node.{BrandItem, CompItem, DataItem, DateItem, SampleItem}
+import com.goexp.galgame.gui.task.game.panel.group.node._
 import com.goexp.galgame.gui.view.game.explorer.sidebar.FilterCondition.mergePredicate
-import scalafx.beans.property.BooleanProperty
 
 import java.time.LocalDate
-import scala.jdk.CollectionConverters._
 import java.util.function.Predicate
 import scala.collection.mutable
+import scala.jdk.CollectionConverters._
 
 object FilterCondition {
   var DEFAULT_GAME_PREDICATE: Predicate[Game] = (g: Game) => !GameState.ignoreState().contains(g.state.get)

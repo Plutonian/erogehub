@@ -48,15 +48,15 @@ class BrandGroupView extends TreeView[DataItem] with Controller {
                 new HBox {
                   spacing = 5
                   children = Seq(
-                    new ImageView(LocalRes.BRAND_16_PNG) {
-                      alignment = Pos.CenterLeft
-                    },
+                    //                    new ImageView(LocalRes.BRAND_16_PNG) {
+                    //                      alignment = Pos.CenterLeft
+                    //                    },
                     //                    new Text {
                     //                      font = Font(32)
                     //
                     //                      text = "B"
                     //                    },
-                    new VBox {
+                    new HBox {
 
                       children = Seq(
                         new Label(s"${title} "),

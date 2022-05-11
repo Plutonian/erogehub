@@ -5,7 +5,7 @@
 <?import javafx.scene.web.WebView?>
 <SplitPane dividerPositions="0.0, 0.5" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.goexp.galgame.gui.view.game.explorer.ExplorerController">
-    <Accordion maxWidth="220.0">
+    <Accordion prefWidth="220.0">
         <panes>
             <TitledPane animated="false" text="Date">
                 <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml"/>

@@ -3,10 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <style type="text/css">
-    #include("/css.css")
-
-    </style>
+    <link rel="stylesheet" href="http://localhost:8080/css.css">
     <title>Title</title>
 </head>
 
@@ -15,8 +12,16 @@
     #foreach($cv in $cvlist)
     <cv class="flex_column" style="border: 3px solid pink; height: 80px; width:120px;">
         <a href="javascript:app.openCV('$cv.name')">$cv.name</a>
-        <star>$cv.star</star>
-        <count>$cv.statistics.count</count>
+        <stars>
+            #if($cv.star>0)
+            #foreach($i in [1..$cv.star])
+            #include("/tpl/game/explorer/star.html")
+            #end
+            #else
+            $cv.star
+            #end
+        </stars>
+        <count>$cv.statistics.realCount / $cv.statistics.count</count>
     </cv>
     #end
 </main>

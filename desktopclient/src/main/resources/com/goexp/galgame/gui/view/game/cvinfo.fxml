@@ -3,7 +3,9 @@
 <?import com.goexp.galgame.gui.view.common.control.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.web.WebView?>
-<TabPane fx:controller="com.goexp.galgame.gui.view.game.CVInfoController" xmlns:fx="http://javafx.com/fxml/1"
+<TabPane fx:controller="com.goexp.galgame.gui.view.game.CVInfoController"
+         side="RIGHT"
+         xmlns:fx="http://javafx.com/fxml/1"
          stylesheets="@/view/view.css" xmlns="http://javafx.com/javafx/10.0.2-internal"
 >
     <Tab text="List">

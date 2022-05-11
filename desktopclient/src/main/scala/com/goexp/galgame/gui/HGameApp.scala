@@ -16,9 +16,40 @@ import javafx.application.Application
 import javafx.scene.paint.Color
 import javafx.scene.{Parent, Scene}
 import javafx.stage.Stage
+import org.eclipse.jetty.server.handler.DefaultHandler
+import org.eclipse.jetty.server.{Handler, Server, ServerConnector}
+import org.eclipse.jetty.util.resource.Resource
 import scalafx.Includes._
 import scalafx.scene.control.Tab
 import scalafx.scene.image.ImageView
+
+
+object WebPageServer {
+
+  def start() = {
+    import org.eclipse.jetty.server.handler.{HandlerList, ResourceHandler}
+
+    val server = new Server
+    val connector = new ServerConnector(server)
+    connector.setPort(8080)
+    server.addConnector(connector)
+
+    val resource_handler = new ResourceHandler
+    resource_handler.setDirectoriesListed(true)
+    resource_handler.setWelcomeFiles(Array[String]("index.html"))
+
+    //    resource_handler.set
+    resource_handler.setBaseResource(Resource.newResource(this.getClass.getResource("/tpl")))
+
+    val handlers = new HandlerList
+    handlers.setHandlers(Array[Handler](resource_handler, new DefaultHandler))
+    server.setHandler(handlers)
+
+    server.start
+  }
+
+
+}
 
 object HGameApp extends App {
   var app: HGameApp = _
@@ -106,6 +137,8 @@ class HGameApp extends Application {
   override def start(primaryStage: Stage): Unit = {
 
     logger.info("Starting App")
+
+    WebPageServer.start()
 
     val proxy = new FXMLLoaderProxy[Parent, HomeController]("home.fxml")
     primaryStage.setTitle("エロゲ まとめ")

@@ -125,7 +125,7 @@ class ExplorerController extends DefaultController {
       root.put("gamelist", filteredGames)
 
       val str = VelocityTemplateConfig
-        .tpl("/game/explorer/list.html")
+        .tpl("/tpl/game/explorer/list.html")
         .process(root)
 
       // set js obj
@@ -154,7 +154,7 @@ class ExplorerController extends DefaultController {
       root.put("gamelist", filteredGames)
 
       val str = VelocityTemplateConfig
-        .tpl("/game/explorer/detail_list.html")
+        .tpl("/tpl/game/explorer/detail_list.html")
         .process(root)
 
 
@@ -183,7 +183,7 @@ class ExplorerController extends DefaultController {
       root.put("gamelist", filteredGames)
 
       val str = VelocityTemplateConfig
-        .tpl("/game/explorer/grid.html")
+        .tpl("/tpl/game/explorer/grid.html")
         .process(root)
 
 

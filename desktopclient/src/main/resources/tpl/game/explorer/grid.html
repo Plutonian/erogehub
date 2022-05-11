@@ -3,10 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <style type="text/css">
-        #include("/css.css")
-
-    </style>
+    <link rel="stylesheet" href="http://localhost:8080/css.css">
     <title>Title</title>
 </head>
 
@@ -19,7 +16,7 @@
             <stars class="anchor" style="bottom:3px;right:3px;">
                 #if($g.star.value>0)
                 #foreach($i in [1..$g.star.value])
-                #include("/game/explorer/star.html")
+                #include("/tpl/game/explorer/star.html")
                 #end
                 #end
             </stars>

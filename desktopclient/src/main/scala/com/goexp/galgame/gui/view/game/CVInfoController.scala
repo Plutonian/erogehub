@@ -161,7 +161,7 @@ class CVInfoController extends DefaultController with Controller {
           root.put("cvlist", list)
 
           val str = VelocityTemplateConfig
-            .tpl("/game/cvinfo.html")
+            .tpl("/tpl/game/cvinfo.html")
             .process(root)
 
 

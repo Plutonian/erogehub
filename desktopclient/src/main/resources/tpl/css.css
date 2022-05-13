@@ -1,5 +1,5 @@
 * {
-    font-family: "NudMotoyaCedarStd-W2b"
+    font-family: "System Bold";
 }
 
 .tag {
@@ -33,7 +33,7 @@ a:hover {
 
 .grid {
     display: grid;
-    justify-items: start;
+    justify-items: stretch;
     align-items: start;
     justify-content: center;
     align-content: start;

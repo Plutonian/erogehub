@@ -2,12 +2,14 @@ package com.goexp.galgame.common.model.game
 
 import com.goexp.common.util.string.Strings
 
-case class GameCharacter(name: String,
-                         cv: String,
-                         intro: String,
-                         trueCV: String,
-                         img: String,
-                         index: Int) {
+import scala.beans.BeanProperty
+
+case class GameCharacter(@BeanProperty name: String,
+                         @BeanProperty cv: String,
+                         @BeanProperty intro: String,
+                         @BeanProperty trueCV: String,
+                         @BeanProperty img: String,
+                         @BeanProperty index: Int) {
 
 
   override def toString = s"GameCharacter([$index]$name, $cv, $trueCV, $img)"

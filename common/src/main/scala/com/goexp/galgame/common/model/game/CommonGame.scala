@@ -41,12 +41,12 @@ abstract class CommonGame {
   var smallImg: String = ""
   var website = ""
   var writer: util.List[String] = _ //シナリオ
-  var painter: util.List[String] = _ //原画
+  @BeanProperty var painter: util.List[String] = _ //原画
   var `type`: util.List[String] = _ //サブジャンル
   @BeanProperty var tag: util.List[String] = _
-  var story: String = "" // ストーリー(HTML)
-  var intro: String = ""
-  var gameCharacters: util.List[GameCharacter] = _
+  @BeanProperty var story: String = "" // ストーリー(HTML)
+  @BeanProperty var intro: String = ""
+  @BeanProperty var gameCharacters: util.List[GameCharacter] = _
   @BeanProperty var gameImgs: util.List[GameImg] = _
   var isNew = false
   var isAdult = true

@@ -104,7 +104,7 @@ class TableListController extends DefaultController {
     tableColLocation.setCellValueFactory(param => param.getValue.location)
     tableColState.setCellValueFactory(param => param.getValue.state)
     tableColImg.setCellValueFactory(param => new SimpleObjectProperty(param.getValue))
-    tableColPainter.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.getPainter))
+//    tableColPainter.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.getPainter))
     tableColWriter.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.getWriter))
     tableColDate.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.publishDate))
     tableColTitle.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.name))

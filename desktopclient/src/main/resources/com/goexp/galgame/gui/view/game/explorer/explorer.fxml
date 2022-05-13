@@ -32,11 +32,11 @@
                 <TabPane nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"
                          AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
                          AnchorPane.topAnchor="0">
-                    <Tab text="Detail">
-                        <WebView fx:id="detailWebView"/>
-                    </Tab>
                     <Tab text="Grid">
                         <WebView fx:id="gridWebView"/>
+                    </Tab>
+                    <Tab text="Detail">
+                        <WebView fx:id="detailWebView"/>
                     </Tab>
                     <Tab text="List-View">
                         <WebView fx:id="listView"/>

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import javafx.scene.control.*?>
-
-<TabPane fx:id="contentTabPane" side="RIGHT" tabClosingPolicy="UNAVAILABLE"
-         xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="com.goexp.galgame.gui.view.game.detailview.inner.InnerPageController">
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.web.WebView?>
+<?import java.net.URL?>
+<BorderPane
+        xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="com.goexp.galgame.gui.view.game.detailview.inner.InnerPageController">
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
-    <Tab text="Intro">
-        <fx:include fx:id="header" source="header.fxml"/>
-    </Tab>
-    <Tab fx:id="tabPerson" text="キャラクター">
-        <ListView fx:id="personListView" styleClass="copyablelabel"/>
-    </Tab>
-    <Tab fx:id="tabSimple" text="サンプル画像">
-        <fx:include fx:id="simpleImg" source="simple_img.fxml"/>
-    </Tab>
-</TabPane>
+    <center>
+        <WebView fx:id="indexWebView"/>
+    </center>
+    <!--    <Tab fx:id="tabPerson" text="キャラクター">-->
+    <!--        <ListView fx:id="personListView" styleClass="copyablelabel"/>-->
+    <!--    </Tab>-->
+    <!--    <bottom>-->
+    <!--        <fx:include fx:id="simpleImg" source="simple_img.fxml"/>-->
+    <!--    </bottom>-->
+</BorderPane>

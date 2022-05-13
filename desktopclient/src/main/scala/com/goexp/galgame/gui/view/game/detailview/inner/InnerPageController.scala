@@ -1,66 +1,106 @@
 package com.goexp.galgame.gui.view.game.detailview.inner
 
-import com.goexp.galgame.common.model.game.GameCharacter
+import com.goexp.common.util.date.DateUtil
+import com.goexp.common.util.string.Strings
+import com.goexp.galgame.common.model.game.GameLocation
+import com.goexp.galgame.common.website.getchu.GetchuGameLocal
+import com.goexp.galgame.common.website.{BangumiURL, WikiURL}
 import com.goexp.galgame.gui.model.Game
+import com.goexp.galgame.gui.util.Websites
+import com.goexp.galgame.gui.util.res.gameimg.SimpleImage
+import com.goexp.galgame.gui.view.VelocityTemplateConfig
+import com.goexp.galgame.gui.{Config, HGameApp}
 import com.goexp.ui.javafx.DefaultController
-import com.goexp.ui.javafx.control.cell.NodeListCell
-import javafx.collections.FXCollections
+import javafx.concurrent.Worker
 import javafx.fxml.FXML
-import javafx.scene.control.{ListView, Tab, TabPane}
+import javafx.scene.web.WebView
+import netscape.javascript.JSObject
+import org.apache.velocity.VelocityContext
 
 class InnerPageController extends DefaultController {
-  @FXML var headerController: HeaderPartController = _
-  @FXML var simpleImgController: SimpleImgPartController = _
-  @FXML private var personListView: ListView[GameCharacter] = _
-  @FXML private var contentTabPane: TabPane = _
-  @FXML private var tabPerson: Tab = _
-  @FXML private var tabSimple: Tab = _
   private var game: Game = _
 
-  override protected def initialize() = {
-    personListView.setCellFactory(_ => {
+  @FXML private var indexWebView: WebView = _
 
-      val panel = new PersonCellPanel()
+  object Page {
 
-      //      val cell =
-      NodeListCell[GameCharacter] { gameCharacter =>
+    def loadPainterTab(painter: String) = {
+      val str = painter.replaceAll("（[^）]+）", "")
+      HGameApp.loadPainterTab(str)
+    }
 
-        panel.load(game, gameCharacter)
-        panel
-      }
-      //      cell.setSkin(new ReadOnlyCellSkin[GameCharacter](cell))
-      //      cell
-    })
+    def loadCVTab(cv: String, real: Boolean) = {
+      HGameApp.loadCVTab(cv, real)
+    }
+
+    def openWiki(cv: String) = {
+      Websites.open(WikiURL.fromTitle(cv))
+    }
+
+    def openBangumi(cv: String) = {
+      Websites.open(BangumiURL.fromTitle(cv))
+    }
+
   }
 
-
-  def reset() = {
-
-  }
 
   def load(game: Game): Unit = {
     require(game != null)
 
     this.game = game
 
-    contentTabPane.getSelectionModel.select(0)
+
+    val root = new VelocityContext()
+
+    root.put("IMG_REMOTE", Config.IMG_REMOTE)
+    root.put("GetchuGameLocal", GetchuGameLocal)
+    root.put("LOCAL", GameLocation.LOCAL)
+    root.put("DateUtil", DateUtil)
+    root.put("Strings", Strings)
+    root.put("g", game)
 
 
-    headerController.load(game)
-    val personSize = Option(game.gameCharacters).map(_.size()).getOrElse(0)
+    val str = VelocityTemplateConfig
+      .tpl("/tpl/game/detail/index.html")
+      .process(root)
 
-    if (personSize == 0)
-      contentTabPane.getTabs.remove(tabPerson)
-    else {
-      personListView.setItems(FXCollections.observableList(game.gameCharacters))
-    }
 
-    val imgsSize = Option(game.gameImgs).map(_.size()).getOrElse(0)
+    // set js obj
+    val webEngine = indexWebView.getEngine
+    webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {
+      if (newState eq Worker.State.SUCCEEDED) {
+        val win = webEngine.executeScript("window").asInstanceOf[JSObject] // 获取js对象
+        win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
+      }
+    })
+    webEngine.loadContent(str)
 
-    if (imgsSize == 0)
-      contentTabPane.getTabs.remove(tabSimple)
-    else {
-      simpleImgController.load(game)
-    }
+
+    //    indexWebView
+
+    //    contentTabPane.getSelectionModel.select(0)
+
+
+    //    headerController.load(game)
+
+    //    val personSize = Option(game.gameCharacters).map(_.size()).getOrElse(0)
+    //
+    //    if (personSize == 0)
+    //      contentTabPane.getTabs.remove(tabPerson)
+    //    else {
+    //      personListView.setItems(FXCollections.observableList(game.gameCharacters))
+    //    }
+    //    simpleImgController.load(game)
+
+    //    val imgsSize = Option(game.gameImgs).map(_.size()).getOrElse(0)
+    //
+    //    if (imgsSize == 0)
+    //    //      contentTabPane.getTabs.remove(tabSimple)
+    //    else {
+    //    }
+  }
+
+  override protected def initialize(): Unit = {
+
   }
 }

@@ -17,7 +17,7 @@ class Game extends CommonGame {
 
   def getWriter: String = String.join(",", writer)
 
-  def getPainter: String = String.join(",", painter)
+//  def getPainter: String = String.join(",", painter)
 
   def getType: String = String.join(",", `type`)
 

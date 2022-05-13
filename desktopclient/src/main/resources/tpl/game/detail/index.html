@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://localhost:8080/css.css">
+    <title>Title</title>
+</head>
+
+<body>
+<section class="flex_row">
+    <img src="$IMG_REMOTE/game/${GetchuGameLocal.largeImg($g)}.jpg"/>
+    <detail class="flex_column" style="flex:1">
+        <painters class="flex_row" style="gap:10px">
+            #foreach($painter in $g.painter)
+            <a href="javascript:app.loadPainterTab('$painter')">$painter</a>
+            #end
+        </painters>
+        <textarea readonly="readonly" rows="20" style="flex:1">${g.intro}${g.story}</textarea>
+    </detail>
+
+</section>
+
+<characters class="grid" style="grid-template-columns: 1fr 1fr;gap: 20px">
+    #foreach($character in $g.gameCharacters)
+    <character class="flex_row">
+        <div class="imageborder">
+            <img src="$IMG_REMOTE/game/${GetchuGameLocal.gameChar($g,$character.index)}.jpg"/>
+        </div>
+        <main class="flex_column" style="flex:1">
+                <span>
+                    ${character.name}
+                </span>
+            #if(${Strings.isNotEmpty($character.cv)})
+            <cv class="flex_row" style="gap:3px;font-size:14px">
+                <span>CV: </span>
+                #if(${Strings.isNotEmpty($character.trueCV)})
+                <span><a style="color:red"
+                         href="javascript:app.loadCVTab('${character.trueCV}',true)">${character.trueCV}</a></span>
+
+                #else
+                <span><a href="javascript:app.loadCVTab('${character.cv}',false)">${character.cv}</a></span>
+                <span>(<a href="javascript:app.openWiki('${character.cv}')">Wiki</a>)</span>
+                <span>(<a href="javascript:app.openBangumi('${character.cv}')">Bangumi</a>)</span>
+
+                #end
+            </cv>
+            #end
+            <textarea readonly="readonly" style="flex:1">${character.intro}</textarea>
+
+        </main>
+
+    </character>
+    #end
+</characters>
+<sampleIamges class="image_grid">
+    #foreach($img in $g.gameImgs)
+    <a><img class="sample_img"
+            src="$IMG_REMOTE/game/${GetchuGameLocal.smallSimpleImg($g,$img.index)}.jpg"/>
+    </a>
+    #end
+</sampleIamges>
+<sampleIamges class="flex_row" style="flex-wrap: wrap;align-items: start;">
+    #foreach($img in $g.gameImgs)
+    <img src="$IMG_REMOTE/game/${GetchuGameLocal.largeSimpleImg($g,$img.index)}.jpg"/>
+    #end
+</sampleIamges>
+
+</body>
+
+</html>

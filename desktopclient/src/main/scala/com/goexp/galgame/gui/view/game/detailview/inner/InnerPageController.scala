@@ -7,7 +7,6 @@ import com.goexp.galgame.common.website.getchu.GetchuGameLocal
 import com.goexp.galgame.common.website.{BangumiURL, WikiURL}
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Websites
-import com.goexp.galgame.gui.util.res.gameimg.SimpleImage
 import com.goexp.galgame.gui.view.VelocityTemplateConfig
 import com.goexp.galgame.gui.{Config, HGameApp}
 import com.goexp.ui.javafx.DefaultController
@@ -77,31 +76,6 @@ class InnerPageController extends DefaultController {
     })
     webEngine.loadContent(str)
 
-
-
-
-    //    indexWebView
-
-    //    contentTabPane.getSelectionModel.select(0)
-
-
-    //    headerController.load(game)
-
-    //    val personSize = Option(game.gameCharacters).map(_.size()).getOrElse(0)
-    //
-    //    if (personSize == 0)
-    //      contentTabPane.getTabs.remove(tabPerson)
-    //    else {
-    //      personListView.setItems(FXCollections.observableList(game.gameCharacters))
-    //    }
-    //    simpleImgController.load(game)
-
-    //    val imgsSize = Option(game.gameImgs).map(_.size()).getOrElse(0)
-    //
-    //    if (imgsSize == 0)
-    //    //      contentTabPane.getTabs.remove(tabSimple)
-    //    else {
-    //    }
   }
 
   override protected def initialize(): Unit = {

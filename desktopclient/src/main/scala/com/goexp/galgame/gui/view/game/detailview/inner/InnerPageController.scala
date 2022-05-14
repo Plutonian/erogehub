@@ -64,6 +64,8 @@ class InnerPageController extends DefaultController {
       .tpl("/tpl/game/detail/index.html")
       .process(root)
 
+    println(str)
+
 
     // set js obj
     val webEngine = indexWebView.getEngine
@@ -74,6 +76,8 @@ class InnerPageController extends DefaultController {
       }
     })
     webEngine.loadContent(str)
+
+
 
 
     //    indexWebView

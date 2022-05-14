@@ -4,6 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="http://localhost:8080/css.css">
+    <script type="text/javascript">
+
+        function showLarge(index) {
+            document.querySelectorAll("#sampleLarge>img").forEach((node, index, list) => node.style.display = 'none')
+
+            document.getElementById(`large_${index}`).style.display = 'block'
+        }
+
+
+    </script>
     <title>Title</title>
 </head>
 
@@ -53,18 +63,23 @@
     </character>
     #end
 </characters>
-<sampleIamges class="image_grid">
-    #foreach($img in $g.gameImgs)
-    <a><img class="sample_img"
-            src="$IMG_REMOTE/game/${GetchuGameLocal.smallSimpleImg($g,$img.index)}.jpg"/>
-    </a>
-    #end
-</sampleIamges>
-<sampleIamges class="flex_row" style="flex-wrap: wrap;align-items: start;">
-    #foreach($img in $g.gameImgs)
-    <img src="$IMG_REMOTE/game/${GetchuGameLocal.largeSimpleImg($g,$img.index)}.jpg"/>
-    #end
-</sampleIamges>
+<section class="flex_row" style="min-height:600px;">
+    <sampleIamges class="image_grid" style="flex:1;">
+        #foreach($img in $g.gameImgs)
+        <img class="sample_img" onmouseover="showLarge($img.index)"
+             src="$IMG_REMOTE/game/${GetchuGameLocal.smallSimpleImg($g,$img.index)}.jpg"/>
+        #end
+    </sampleIamges>
+
+    <sampleIamges id="sampleLarge" class="flex_row" style="flex-wrap: wrap;align-items: start;flex:1;">
+        #foreach($img in $g.gameImgs)
+        <img id="large_$img.index" src="$IMG_REMOTE/game/${GetchuGameLocal.largeSimpleImg($g,$img.index)}.jpg"
+             style="display:none"/>
+        #end
+    </sampleIamges>
+
+</section>
+
 
 </body>
 

@@ -64,7 +64,7 @@ class InnerPageController extends DefaultController {
       .tpl("/tpl/game/detail/index.html")
       .process(root)
 
-    println(str)
+    logger.debug(str)
 
 
     // set js obj

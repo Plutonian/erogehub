@@ -100,7 +100,6 @@ class HomeController extends DefaultController {
   @FXML private var queryByLocationPanel: Pane = _
 
   @FXML private var linkDate: Hyperlink = _
-
   @FXML private var linkCV: Hyperlink = _
   @FXML private var linkSearch: Hyperlink = _
   @FXML private var linkTags: Hyperlink = _
@@ -108,9 +107,25 @@ class HomeController extends DefaultController {
 
   @FXML private var linkConfig: Hyperlink = _
 
-  override protected def initialize() = {
+  private lazy val filterPanel = new FilterPanel()
+
+
+  override protected def initComponent(): Unit = {
 
     tabPanel = mainTabPanel
+
+    def configItemToNode(item: ConfigItem[Game]) = {
+      new Hyperlink(item.title) {
+        setGraphic(item.icon)
+        setOnAction { _ =>
+          TabManager().open(item.title,
+            new DataPage(ExplorerData(item.dataTask)) {
+              text = item.title
+            }
+          )
+        }
+      }
+    }
 
     def initInLocalList() = {
 
@@ -155,143 +170,108 @@ class HomeController extends DefaultController {
     initQuList()
     initLocationList()
 
-    def configItemToNode(item: ConfigItem[Game]) = {
-      new Hyperlink(item.title) {
-        setGraphic(item.icon)
-        setOnAction { _ =>
-          TabManager().open(item.title,
-            new DataPage(ExplorerData(item.dataTask)) {
-              text = item.title
-            }
-          )
-        }
-      }
+    linkDate.setGraphic(new ImageView(LocalRes.IMG_DATE_PNG))
+
+    linkCV.setGraphic(new ImageView(LocalRes.IMG_CV_PNG))
+
+    linkSearch.setGraphic(new ImageView(LocalRes.IMG_search_PNG))
+
+    linkTags.setGraphic(new ImageView(LocalRes.IMG_TAG_PNG))
+
+
+  }
+
+  override protected def dataBinding(): Unit = super.dataBinding()
+
+  override protected def eventBinding(): Unit = {
+
+    /**
+     * Date panel
+     */
+    val loader = new SimpleFxmlLoader[DateController]("date.fxml")
+    val popPanel = new PopOver {
+      setArrowLocation(ArrowLocation.LEFT_TOP)
+      setAutoHide(true)
+      setContentNode(loader.node)
+    }
+    linkDate.setOnAction { _ =>
+
+      if (!popPanel.isShowing)
+        popPanel.show(linkDate)
+
     }
 
 
-    {
-      val loader = new SimpleFxmlLoader[DateController]("date.fxml")
+    /**
+     * Filter Panel
+     */
+    filterPanel.onSetProperty.addListener { (_, _, v) =>
+      if (v) {
+        val filterCondition = new FilterCondition()
 
-      val popPanel = new PopOver {
-        setArrowLocation(ArrowLocation.LEFT_TOP)
-        setAutoHide(true)
-        setContentNode(loader.node)
-      }
+        filterCondition._selectedGameLocation = filterPanel._selectedGameLocation
+        filterCondition._selectedGameState = filterPanel._selectedGameState
+        filterCondition._selectedStar = filterPanel._selectedStar
+        filterCondition._switchAll = filterPanel._switchAll.get()
 
+        filterCondition.makeFilterPredicate()
 
-      linkDate.setGraphic(new ImageView(LocalRes.IMG_DATE_PNG))
-      linkDate.setOnAction { _ =>
-
-        if (!popPanel.isShowing)
-          popPanel.show(linkDate)
-
-      }
-    }
-
-    {
-      val filterPanel = new FilterPanel()
-
-      val popConfigPanel = new PopOver {
-        setArrowLocation(ArrowLocation.BOTTOM_LEFT)
-        setAutoHide(true)
-        setContentNode(filterPanel)
-      }
-
-      filterPanel.onSetProperty.addListener { (_, _, v) =>
-        if (v) {
-          val filterCondition = new FilterCondition()
-
-          filterCondition._selectedGameLocation = filterPanel._selectedGameLocation
-          filterCondition._selectedGameState = filterPanel._selectedGameState
-          filterCondition._selectedStar = filterPanel._selectedStar
-          filterCondition._switchAll = filterPanel._switchAll.get()
-
-          filterCondition.makeFilterPredicate()
-
-          FilterCondition.DEFAULT_GAME_PREDICATE = filterCondition.filterPredicate
-        }
-      }
-
-      linkConfig.setOnAction { _ =>
-
-        if (!popConfigPanel.isShowing)
-          popConfigPanel.show(linkConfig)
-
+        FilterCondition.DEFAULT_GAME_PREDICATE = filterCondition.filterPredicate
       }
     }
 
-    {
-      linkCV.setGraphic(new ImageView(LocalRes.IMG_CV_PNG))
-      linkCV.setOnAction { _ =>
+    val popConfigPanel = new PopOver {
+      setArrowLocation(ArrowLocation.BOTTOM_LEFT)
+      setAutoHide(true)
+      setContentNode(filterPanel)
+    }
 
-        val loader = new SimpleFxmlLoader[CVInfoController]("cvinfo.fxml")
+    linkConfig.setOnAction { _ =>
+      if (!popConfigPanel.isShowing)
+        popConfigPanel.show(linkConfig)
+    }
 
-        TabManager().open("CV", {
-          new Tab() {
-            text = "CV"
-            content = loader.node
-            graphic = (new ImageView(LocalRes.CV_16_PNG))
-          }
-        }) {
-          loader.controller.load()
+
+    /**
+     * Other Links
+     */
+
+    linkCV.setOnAction { _ =>
+
+      val loader = new SimpleFxmlLoader[CVInfoController]("cvinfo.fxml")
+
+      TabManager().open("CV", {
+        new Tab() {
+          text = "CV"
+          content = loader.node
+          graphic = (new ImageView(LocalRes.CV_16_PNG))
         }
+      }) {
+        loader.controller.load()
       }
     }
 
-    {
-      linkSearch.setGraphic(new ImageView(LocalRes.IMG_search_PNG))
-      linkSearch.setOnAction { _ =>
-        val loader = new SimpleFxmlLoader[SearchController]("search.fxml")
+    linkSearch.setOnAction { _ =>
+      val loader = new SimpleFxmlLoader[SearchController]("search.fxml")
 
-        TabManager().open("Search", {
-          new Tab {
-            text = "Search"
-            content = loader.node
-          }
-        }) {
-          loader.controller.load()
+      TabManager().open("Search", {
+        new Tab {
+          text = "Search"
+          content = loader.node
         }
-      }
-
-
-      linkSearch.setOnDragOver { e =>
-        val board = e.getDragboard
-        val files = board.getFiles
-        if (files.size == 1) e.acceptTransferModes(TransferMode.LINK)
-      }
-      linkSearch.setOnDragDropped { e =>
-        val board = e.getDragboard
-        val files = board.getFiles
-        if (files.size > 0) {
-          val f = files.get(0)
-          val title = f.getName.replaceFirst("""\.[^.]+""", "")
-
-          val loader = new SimpleFxmlLoader[SearchController]("search.fxml")
-
-          TabManager().open("Search", {
-            new Tab {
-              text = "Search"
-              content = loader.node
-            }
-          }) {
-            loader.controller.load(title)
-          }
-        }
-
+      }) {
+        loader.controller.load()
       }
     }
 
-    {
-      linkTags.setGraphic(new ImageView(LocalRes.IMG_TAG_PNG))
-      linkTags.setOnAction { _ =>
+    linkTags.setOnAction { _ =>
 
-        TabManager().open("Tags",
-          new DataPage(new TagView()) {
-            text = "Tags"
-          }
-        )
+      TabManager().open("Tags",
+        new DataPage(new TagView()) {
+          text = "Tags"
+        }
+      )
 
-      }
     }
 
     linkBrand.setOnAction { _ =>

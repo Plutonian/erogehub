@@ -6,7 +6,7 @@ import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.task.CVListTask
 import com.goexp.galgame.gui.util.Tags.maker
 import com.goexp.galgame.gui.util.res.LocalRes
-import com.goexp.galgame.gui.util.{Controller, Tags, Tpl}
+import com.goexp.galgame.gui.util.{Controller, Tags}
 import com.goexp.galgame.gui.view.VelocityTemplateConfig
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TextTableCell}
 import com.goexp.ui.javafx.{DefaultController, TaskService}
@@ -60,7 +60,9 @@ class CVInfoController extends DefaultController with Controller {
 
   final private val loadCVService = TaskService(new CVListTask())
 
-  override protected def initialize() = {
+
+  override protected def initComponent(): Unit = {
+
     colPlayed.setText(GameState.PLAYED.name)
     colPlaying.setText(GameState.PLAYING.name)
     colHope.setText(GameState.HOPE.name)
@@ -143,15 +145,18 @@ class CVInfoController extends DefaultController with Controller {
         hbox
       }
     })
+  }
 
+  override protected def dataBinding(): Unit = {
     tableCV.itemsProperty().bind(loadCVService.valueProperty())
+  }
 
+  override protected def eventBinding(): Unit = {
     object Page {
       def openCV(name: String) = {
         HGameApp.loadCVTab(name, true)
       }
     }
-
 
     loadCVService.valueProperty().addListener {
       (_, _, list) => {
@@ -180,7 +185,6 @@ class CVInfoController extends DefaultController with Controller {
     }
 
     registestListener(tableCV.itemsProperty())
-
   }
 
   override def load() = {

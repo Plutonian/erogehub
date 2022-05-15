@@ -3,17 +3,15 @@ package com.goexp.galgame.gui.view.brand
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.gui.HGameApp
-import com.goexp.galgame.gui.model.{Brand, Game}
+import com.goexp.galgame.gui.model.Brand
 import com.goexp.galgame.gui.task.brand.ChangeStateTask
 import com.goexp.galgame.gui.task.brand.list.ByComp
 import com.goexp.galgame.gui.task.game.change.MultiBlockByBrand
 import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
-import javafx.beans.value.ChangeListener
-import javafx.collections.{FXCollections, ObservableList}
+import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control._
-import javafx.scene.layout.FlowPane
 import javafx.scene.text.Text
 import scalafx.Includes._
 

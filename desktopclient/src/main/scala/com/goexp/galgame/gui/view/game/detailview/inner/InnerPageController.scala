@@ -78,7 +78,4 @@ class InnerPageController extends DefaultController {
 
   }
 
-  override protected def initialize(): Unit = {
-
-  }
 }

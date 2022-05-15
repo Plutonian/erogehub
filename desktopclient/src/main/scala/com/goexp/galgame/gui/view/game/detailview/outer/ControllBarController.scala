@@ -11,8 +11,6 @@ class ControllBarController extends DefaultController {
   @FXML private var changeStateController: StateChangeController = _
   @FXML private var changeLocationController: LocationChangeController = _
 
-  override protected def initialize() = {
-  }
 
   def load(game: Game) = {
     loadWithoutImage(game)

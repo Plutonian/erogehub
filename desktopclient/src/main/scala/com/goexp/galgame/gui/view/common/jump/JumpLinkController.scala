@@ -15,7 +15,7 @@ class JumpLinkController extends DefaultController {
   @FXML private var linkGetchu: MenuItem = _
   @FXML private var linkGuide: MenuItem = _
 
-  override protected def initialize() = {
+  override protected def eventBinding() = {
     linkGetchu.setOnAction(_ => Websites.open(GetchuGameRemote.byId(game.id)))
     linkGuide.setOnAction(_ => HGameApp.loadGuide(game.name))
   }

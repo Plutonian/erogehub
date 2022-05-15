@@ -6,22 +6,11 @@ import com.goexp.ui.javafx.DefaultController
 import javafx.scene.layout.Region
 
 class CommonInfoTabController() extends DefaultController {
-  init()
-  var node: Region = _
+  val loader = new SimpleFxmlLoader[InfoController]("info.fxml")
 
-  private var controller: InfoController = _
-
-  private def init() = {
-    val loader = new SimpleFxmlLoader[InfoController]("info.fxml")
-
-    node = loader.node
-    controller = loader.controller
-    //    controller.dataViewController.tablelistController.tableColBrand.setVisible(false)
-  }
+  private val controller: InfoController = loader.controller
+  val node = loader.node
 
   def load(brand: Brand) =
     controller.load(brand)
-
-  override protected def initialize() = {
-  }
 }

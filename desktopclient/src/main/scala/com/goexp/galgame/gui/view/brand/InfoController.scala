@@ -19,13 +19,11 @@ class InfoController extends DefaultController {
 
   final private val gameByBrand = TaskService(new ByBrand(brand.id))
 
-  override protected def initialize() = {
+
+  override protected def eventBinding(): Unit = {
     gameByBrand.valueProperty.addListener((_, _, newValue) => {
       if (newValue != null) load(newValue)
     })
-
-    //    dataViewController.loadingBar.visibleProperty.bind(gameByBrand.runningProperty)
-
   }
 
   private def load(games: ObservableList[Game]) = {

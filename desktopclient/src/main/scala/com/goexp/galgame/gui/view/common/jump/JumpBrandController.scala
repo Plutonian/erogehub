@@ -17,7 +17,7 @@ class JumpBrandController extends DefaultController {
   @FXML private var linkWebsite: MenuItem = _
   @FXML private var linkGetchu: MenuItem = _
 
-  override protected def initialize() = {
+  override protected def eventBinding() = {
 
     brandLabel.setOnAction(_ => HGameApp.viewBrand(brand))
     linkGetchu.setOnAction(_ => Websites.open(GameList.byBrand(brand.id)))

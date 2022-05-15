@@ -241,15 +241,18 @@ class ExplorerController extends DefaultController {
     tablelist.scrollTo(0)
   }
 
-  override protected def initialize() = {
-
-    initFilterPanel()
-    initGroupPanel()
-
+  override protected def initComponent() = {
     popPanel.setAutoHide(true)
     popPanel.setAnimated(false)
 
+    brandGroup.setContent(brandGroupView)
+    filterPanel.setContent(filter)
+  }
 
+
+  override protected def eventBinding(): Unit = {
+    initFilterPanel()
+    initGroupPanel()
   }
 
   private def initGroupPanel() = {
@@ -281,8 +284,6 @@ class ExplorerController extends DefaultController {
       }
 
     })
-    brandGroup.setContent(brandGroupView)
-
 
     groupCVServ.valueProperty.addListener((_, _, newValue) => {
       if (newValue != null) {
@@ -333,8 +334,6 @@ class ExplorerController extends DefaultController {
   }
 
   private def initFilterPanel() = {
-
-    filterPanel.setContent(filter)
 
     // right sideBar
     filter.onSetProperty.addListener((_, _, newV) => {

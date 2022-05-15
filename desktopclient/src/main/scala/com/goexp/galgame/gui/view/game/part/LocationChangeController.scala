@@ -26,7 +26,7 @@ class LocationChangeController extends DefaultController {
     }
   }
 
-  override protected def initialize() = {
+  override protected def initComponent() = {
     val types = List(GameLocation.REMOTE,
       //      GameLocation.NETDISK,
       GameLocation.LOCAL

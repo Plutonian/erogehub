@@ -21,18 +21,23 @@ class TitlePartController extends DefaultController {
 
   @FXML private var txtComp: Text = _
   @FXML private var menuComp: MenuButton = _
-  //  @FXML private var boxWebsite: HBox = _
-  @FXML private var tagPanel: FlowPane = _
   @FXML private var choiceBrandState: ChoiceBox[BrandState] = _
   @FXML private var btnBlock: Button = _
-  private var changeBrand: Brand = _
+
+  private object VO {
+    var changeBrand: Brand = _
+  }
+
+  import VO._
+
   final private val changeBrandStateService = TaskService(new ChangeStateTask(changeBrand))
   final private val changeGameStateService = TaskService(new MultiBlockByBrand(changeBrand.id))
   final private val listBrandService = TaskService(new ByComp(changeBrand.comp))
+
+
   private var listener: ChangeListener[BrandState] = _
 
-  override protected def initialize() = {
-
+  override protected def initComponent(): Unit = {
     val types =
       BrandState.values().to(LazyList)
         .filter {
@@ -42,6 +47,7 @@ class TitlePartController extends DefaultController {
         .asJava
 
     choiceBrandState.setItems(FXCollections.observableArrayList(types))
+
 
     listener = (_, _, newValue) => {
       if (newValue != null) {
@@ -55,6 +61,10 @@ class TitlePartController extends DefaultController {
       }
 
     }
+
+  }
+
+  override protected def eventBinding(): Unit = {
 
     listBrandService.valueProperty.addListener { (_, _, newValue) =>
       if (newValue != null) {
@@ -70,13 +80,11 @@ class TitlePartController extends DefaultController {
 
         menuComp.getItems.setAll(FXCollections.observableArrayList(items))
       }
-
     }
 
     btnBlock.setOnAction { _ =>
       choiceBrandState.getSelectionModel.select(BrandState.BLOCK)
     }
-
   }
 
   def init(brand: Brand) = {
@@ -95,35 +103,5 @@ class TitlePartController extends DefaultController {
     choiceBrandState.setValue(brand.state)
     choiceBrandState.valueProperty.addListener(listener)
   }
-
-  def initTag(games: ObservableList[Game]) =
-
-    Option(games.asScala.to(LazyList)).foreach {
-      list => {
-        val tagLbs = list
-          .flatMap {
-            _.tag.asScala
-          }
-          .filter(_.trim.length > 0)
-          .groupBy {
-            s => s
-          }
-          .to(LazyList)
-          .sortBy { case (_, v) => v.size }.reverse
-          .take(10)
-          .map { case (k, _) =>
-            val lb = new Label
-            lb.setText(k)
-            lb.getStyleClass.add("tag")
-            lb
-
-          }
-          .asJava
-
-
-        tagLbs.add(new Label("..."))
-        tagPanel.getChildren.setAll(tagLbs)
-      }
-    }
 
 }

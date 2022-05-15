@@ -37,7 +37,7 @@ class TableListController extends DefaultController {
   final private val blockGameService = TaskService(new MultiBlock(selectedGames))
   final private val changeGameLocationService = TaskService(new MultiLocation(selectedGames))
 
-  override protected def initialize() = {
+  override protected def initComponent() = {
 
     def initMenuState() = {
       val items =
@@ -104,7 +104,6 @@ class TableListController extends DefaultController {
     tableColLocation.setCellValueFactory(param => param.getValue.location)
     tableColState.setCellValueFactory(param => param.getValue.state)
     tableColImg.setCellValueFactory(param => new SimpleObjectProperty(param.getValue))
-//    tableColPainter.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.getPainter))
     tableColWriter.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.getWriter))
     tableColDate.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.publishDate))
     tableColTitle.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.name))
@@ -124,12 +123,6 @@ class TableListController extends DefaultController {
 
     }
 
-
-    //    tableColTitle.setCellFactory(_ =>
-    //      TextTableCell { name =>
-    //        name.replaceAll("＜[^＞]*＞", "")
-    //      }
-    //    )
 
     tableColTitle.setPrefWidth(900)
 

@@ -14,7 +14,7 @@ class SearchController extends DefaultController {
   @FXML private var linkEgs: MenuItem = _
   @FXML private var link2DF: MenuItem = _
 
-  override protected def initialize() = {
+  override protected def eventBinding() = {
     linkGGBases.setOnAction(_ => Websites.open(GGBasesURL.fromTitle(keyword)))
     linkWiki.setOnAction(_ => Websites.open(WikiURL.fromTitle(keyword)))
     linkEgs.setOnAction(_ => Websites.open(ErogameScapeURL.fromTitle(keyword)))

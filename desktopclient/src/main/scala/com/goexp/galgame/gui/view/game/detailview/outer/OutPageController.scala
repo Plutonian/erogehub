@@ -10,8 +10,6 @@ class OutPageController extends DefaultController {
   @FXML var innerPageController: InnerPageController = _
   @FXML var footerController: ControllBarController = _
 
-  override protected def initialize() = {
-  }
 
   def load(game: Game) = {
     logger.info("====================================summery====================================")

@@ -22,21 +22,8 @@ class TopController extends DefaultController {
   @FXML private var txtSubName: Text = _
   @FXML private var dateview: FormattedDate = _
 
-//  @FXML private var flowPainter: FlowPane = _
-
   private var targetGame: Game = _
 
-  override protected def initialize() = {
-    //    flowPainter.prefWrapLengthProperty().bind(right.widthProperty.subtract(10))
-    //    flowPainter.addEventFilter(ActionEvent.ACTION, (event: ActionEvent) => {
-    //      event.getTarget match {
-    //        case painter: Hyperlink =>
-    //          val str = painter.getText.replaceAll("（[^）]+）", "")
-    //          HGameApp.loadPainterTab(str)
-    //        case _ =>
-    //      }
-    //    })
-  }
 
   def reset() = {
     txtName.setText(null)

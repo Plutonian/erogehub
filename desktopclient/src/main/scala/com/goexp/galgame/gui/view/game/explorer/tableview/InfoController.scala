@@ -27,7 +27,7 @@ class InfoController extends DefaultController {
 
   private var targetGame: Game = _
 
-  override protected def initialize(): Unit = {
+  override protected def eventBinding(): Unit = {
     txtName.setOnAction(_ => HGameApp.loadDetail(targetGame))
   }
 

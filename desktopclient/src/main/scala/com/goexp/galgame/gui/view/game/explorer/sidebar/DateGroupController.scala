@@ -19,13 +19,16 @@ class DateGroupController extends FilterController[Game] {
 
   var selectedDate: DateItem = _
 
-  override protected def initialize() = {
+
+  override protected def initComponent(): Unit = {
     dateTree.setCellFactory(_ =>
       TextTreeCell[DateItem] { item =>
         item.title
       }
     )
+  }
 
+  override protected def eventBinding(): Unit = {
     dateTree.getSelectionModel.selectedItem.onChange((_, _, newValue) => {
       if (newValue != null) {
 
@@ -39,6 +42,7 @@ class DateGroupController extends FilterController[Game] {
       if (newValue != null) dateTree.setRoot(newValue)
 
     })
+
   }
 
   override def init(filteredGames: util.List[Game]) = {

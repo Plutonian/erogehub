@@ -60,111 +60,22 @@ class MainPanelController extends DefaultController {
   @FXML private var btn_reload: Button = _
 
   @FXML private var lbCount: Label = _
-  @FXML var progessloading: ProgressBar = _
+  @FXML private var progessloading: ProgressBar = _
 
 
-  private var brandType = BrandState.LIKE
-  private lazy val keyword = new SimpleStringProperty
+  private object VO {
+    lazy val keyword = new SimpleStringProperty
+    var brandType = BrandState.LIKE
+  }
+
+  import VO._
 
   final private val brandListByStateService = TaskService(new ByType(brandType))
   final private val brandSearchByNameService = TaskService(new ByName(keyword.get))
   final private val brandSearchByCompService = TaskService(new ByComp(keyword.get))
 
-  override protected def initialize() = {
-    def initTable() = {
 
-      colPlayed.setText(GameState.PLAYED.name)
-      colPlaying.setText(GameState.PLAYING.name)
-      colHope.setText(GameState.HOPE.name)
-//      colViewLater.setText(GameState.READYTOVIEW.name)
-      colUncheck.setText(GameState.UNCHECKED.name)
-
-      colComp.setCellValueFactory(p => new SimpleStringProperty(p.getValue.comp))
-      colName.setCellValueFactory(p => new SimpleStringProperty(p.getValue.name))
-      colTag.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.tag))
-      colWebsite.setCellValueFactory(p => new SimpleStringProperty(p.getValue.website))
-      colState.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.state))
-      colStart.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.start))
-      colEnd.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.end))
-
-      colCount.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.count))
-      colRealCount.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.realCount))
-      colPlayed.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.played))
-      colPlaying.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.playing))
-      colHope.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.hope))
-      //      colViewLater.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.viewLater))
-      colUncheck.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.uncheck))
-
-
-      colZero.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.zero))
-      colOne.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.one))
-      colTwo.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.two))
-      colThree.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.three))
-      colFour.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.four))
-      colFive.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.five))
-
-
-      colLocal.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.local))
-      //      colNetdisk.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.netdisk))
-      colRemote.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.remote))
-
-      colName.setCellFactory(_ => {
-
-        NodeTableCell { (brand, _) =>
-
-          if (brand != null) {
-            val link = new Hyperlink(brand.name)
-            link.setOnAction(_ => {
-              HGameApp.viewBrand(brand)
-            })
-            link
-          } else {
-            null
-          }
-
-        }
-      })
-
-
-      colTag.setCellFactory(_ => {
-        val hbox = new HBox
-        hbox.setSpacing(5)
-
-        NodeTableCell { tag =>
-          hbox.getChildren.setAll(Tags.toNodes(tag.asJava))
-          hbox
-        }
-      })
-
-      colStart.setCellFactory { _ =>
-        TextTableCell { startDate =>
-          startDate.getYear.toString
-        }
-      }
-
-      colEnd.setCellFactory(_ =>
-        TextTableCell { endDate =>
-          endDate.getYear.toString
-        }
-      )
-      colWebsite.setCellFactory(_ => {
-        var url: String = null
-        val titleLabel = new Hyperlink()
-        titleLabel.setOnAction(_ => Websites.open(url))
-
-        NodeTableCell { website =>
-          url = website
-          titleLabel.setText(website)
-
-          titleLabel
-        }
-      })
-
-    }
-
-    initTable()
-
-
+  override protected def eventBinding(): Unit = {
     val handler: ChangeListener[util.List[Brand]] = (_, _, brands) => {
       if (brands != null) {
         val list = FXCollections.observableArrayList(brands)
@@ -175,15 +86,11 @@ class MainPanelController extends DefaultController {
       }
     }
 
-
-
     //for data
     brandListByStateService.valueProperty.addListener(handler)
     brandSearchByNameService.valueProperty.addListener(handler)
     brandSearchByCompService.valueProperty.addListener(handler)
 
-
-    choiceBrandType.setItems(FXCollections.observableArrayList(BrandState.values.reverse: _*))
 
     choiceBrandType.getSelectionModel.selectedItemProperty().addListener { (_, _, t) =>
       if (t != null) {
@@ -211,13 +118,109 @@ class MainPanelController extends DefaultController {
     btn_reload.setOnAction { _ =>
       brandListByStateService.restart()
     }
+  }
+
+
+  override protected def dataBinding(): Unit = {
 
     progessloading.visibleProperty().bind(brandListByStateService.runningProperty())
 
     textBrandKey.textProperty().bindBidirectional(keyword)
     btnSearch.disableProperty().bind(textBrandKey.textProperty().isEmpty)
-
   }
+
+  override protected def initComponent(): Unit = {
+
+    colPlayed.setText(GameState.PLAYED.name)
+    colPlaying.setText(GameState.PLAYING.name)
+    colHope.setText(GameState.HOPE.name)
+    //      colViewLater.setText(GameState.READYTOVIEW.name)
+    colUncheck.setText(GameState.UNCHECKED.name)
+
+    colComp.setCellValueFactory(p => new SimpleStringProperty(p.getValue.comp))
+    colName.setCellValueFactory(p => new SimpleStringProperty(p.getValue.name))
+    colTag.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.tag))
+    colWebsite.setCellValueFactory(p => new SimpleStringProperty(p.getValue.website))
+    colState.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.state))
+    colStart.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.start))
+    colEnd.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.end))
+
+    colCount.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.count))
+    colRealCount.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.realCount))
+    colPlayed.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.played))
+    colPlaying.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.playing))
+    colHope.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.hope))
+    //      colViewLater.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.viewLater))
+    colUncheck.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.uncheck))
+
+
+    colZero.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.zero))
+    colOne.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.one))
+    colTwo.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.two))
+    colThree.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.three))
+    colFour.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.four))
+    colFive.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.five))
+
+
+    colLocal.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.local))
+    //      colNetdisk.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.netdisk))
+    colRemote.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.remote))
+
+    colName.setCellFactory(_ => {
+
+      NodeTableCell { (brand, _) =>
+
+        if (brand != null) {
+          val link = new Hyperlink(brand.name)
+          link.setOnAction(_ => {
+            HGameApp.viewBrand(brand)
+          })
+          link
+        } else {
+          null
+        }
+
+      }
+    })
+
+
+    colTag.setCellFactory(_ => {
+      val hbox = new HBox
+      hbox.setSpacing(5)
+
+      NodeTableCell { tag =>
+        hbox.getChildren.setAll(Tags.toNodes(tag.asJava))
+        hbox
+      }
+    })
+
+    colStart.setCellFactory { _ =>
+      TextTableCell { startDate =>
+        startDate.getYear.toString
+      }
+    }
+
+    colEnd.setCellFactory(_ =>
+      TextTableCell { endDate =>
+        endDate.getYear.toString
+      }
+    )
+    colWebsite.setCellFactory(_ => {
+      var url: String = null
+      val titleLabel = new Hyperlink()
+      titleLabel.setOnAction(_ => Websites.open(url))
+
+      NodeTableCell { website =>
+        url = website
+        titleLabel.setText(website)
+
+        titleLabel
+      }
+    })
+
+    choiceBrandType.setItems(FXCollections.observableArrayList(BrandState.values.reverse: _*))
+  }
+
 
   def load() = {}
 

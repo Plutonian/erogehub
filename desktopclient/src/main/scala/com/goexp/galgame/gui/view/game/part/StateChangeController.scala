@@ -36,7 +36,7 @@ class StateChangeController extends DefaultController {
     }
   }
 
-  override protected def initialize() = {
+  override protected def initComponent() = {
     val types = GameState.values.to(LazyList).sortBy(gs => gs.value)(Ordering[Int].reverse).asJava
     choiceState.setItems(FXCollections.observableArrayList(types))
 

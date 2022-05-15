@@ -8,12 +8,14 @@ import com.goexp.galgame.gui.task.brand.ChangeStateTask
 import com.goexp.galgame.gui.task.brand.list.ByComp
 import com.goexp.galgame.gui.task.game.change.MultiBlockByBrand
 import com.goexp.ui.javafx.{DefaultController, TaskService}
+import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
 import javafx.beans.value.ChangeListener
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.layout.FlowPane
 import javafx.scene.text.Text
+import scalafx.Includes._
 
 import scala.jdk.CollectionConverters._
 
@@ -24,18 +26,22 @@ class TitlePartController extends DefaultController {
   @FXML private var choiceBrandState: ChoiceBox[BrandState] = _
   @FXML private var btnBlock: Button = _
 
-  private object VO {
-    var changeBrand: Brand = _
-  }
+  var brand: Brand = _
 
-  import VO._
+  /**
+   * VO
+   */
+  final val compName = new SimpleStringProperty
+  final val brandName = new SimpleStringProperty
+  final val state = new SimpleObjectProperty[BrandState]
 
-  final private val changeBrandStateService = TaskService(new ChangeStateTask(changeBrand))
-  final private val changeGameStateService = TaskService(new MultiBlockByBrand(changeBrand.id))
-  final private val listBrandService = TaskService(new ByComp(changeBrand.comp))
 
-
-  private var listener: ChangeListener[BrandState] = _
+  /**
+   * Service
+   */
+  final private val changeBrandStateService = TaskService(new ChangeStateTask(brand))
+  final private val changeGameStateService = TaskService(new MultiBlockByBrand(brand.id))
+  final private val listBrandService = TaskService(new ByComp(brand.comp))
 
   override protected def initComponent(): Unit = {
     val types =
@@ -48,28 +54,14 @@ class TitlePartController extends DefaultController {
 
     choiceBrandState.setItems(FXCollections.observableArrayList(types))
 
-
-    listener = (_, _, newValue) => {
-      if (newValue != null) {
-
-        logger.debug(s"<Action>Value:${choiceBrandState.getValue},New:${newValue}")
-
-        changeBrand.state = newValue
-        changeBrandStateService.restart()
-        if (newValue eq BrandState.BLOCK)
-          changeGameStateService.restart()
-      }
-
-    }
-
   }
 
   override protected def eventBinding(): Unit = {
 
-    listBrandService.valueProperty.addListener { (_, _, newValue) =>
+    listBrandService.value.onChange { (_, _, newValue) =>
       if (newValue != null) {
         val items = newValue.to(LazyList)
-          .filter { b => b != changeBrand }
+          .filter { b => b != brand }
           .map { brand =>
             val item = new MenuItem
             item.setText(brand.name)
@@ -83,25 +75,32 @@ class TitlePartController extends DefaultController {
     }
 
     btnBlock.setOnAction { _ =>
-      choiceBrandState.getSelectionModel.select(BrandState.BLOCK)
+      state.set(BrandState.BLOCK)
     }
+
+
+    state.onChange((_, oldValue, newValue) => {
+      if (oldValue != null && newValue != null) {
+
+        logger.debug(s"<Action>Old:${oldValue},New:${newValue}")
+
+        changeBrandStateService.restart()
+        if (newValue eq BrandState.BLOCK)
+          changeGameStateService.restart()
+      }
+    })
+
+    compName.onChange((_, _, newValue) => {
+      if (Strings.isNotEmpty(newValue)) {
+        listBrandService.restart()
+      }
+    })
   }
 
-  def init(brand: Brand) = {
-    choiceBrandState.setVisible(true)
-
-    changeBrand = brand
-    menuComp.setText(brand.name)
-
-    if (Strings.isNotEmpty(brand.comp)) {
-      txtComp.setText(brand.comp)
-      listBrandService.restart()
-    }
-    //            menuComp.setVisible(false);
-    //    boxWebsite.getChildren.clear()
-    choiceBrandState.valueProperty.removeListener(listener)
-    choiceBrandState.setValue(brand.state)
-    choiceBrandState.valueProperty.addListener(listener)
+  override protected def dataBinding(): Unit = {
+    choiceBrandState.value <==> state
+    menuComp.text <== brandName
+    txtComp.text <== compName
   }
 
 }

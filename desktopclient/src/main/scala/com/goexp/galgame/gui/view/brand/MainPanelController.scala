@@ -141,7 +141,7 @@ class MainPanelController extends DefaultController {
     colName.setCellValueFactory(p => new SimpleStringProperty(p.getValue.name))
     colTag.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.tag))
     colWebsite.setCellValueFactory(p => new SimpleStringProperty(p.getValue.website))
-    colState.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.state))
+    colState.setCellValueFactory(p => p.getValue.state)
     colStart.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.start))
     colEnd.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.end))
 

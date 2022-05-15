@@ -7,6 +7,8 @@ import com.goexp.ui.javafx.{DefaultController, TaskService}
 import javafx.collections.ObservableList
 import javafx.collections.transformation.FilteredList
 import javafx.fxml.FXML
+import scalafx.Includes._
+import scalafx.beans.binding.Bindings
 
 import java.util.Objects
 
@@ -37,7 +39,12 @@ class InfoController extends DefaultController {
     logger.info(s"Brand[${brand.id}] ${brand.name} state:<${brand.state}>")
 
     this.brand = brand
-    titleController.init(brand)
+
+    titleController.brand = brand
+    titleController.compName <== Bindings.createStringBinding(() => brand.comp)
+    titleController.brandName <== Bindings.createStringBinding(() => brand.name)
+    titleController.state <==> brand.state
+
     gameByBrand.restart()
   }
 }

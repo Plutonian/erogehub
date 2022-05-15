@@ -26,7 +26,7 @@
         </FlowPane>
         <HBox maxWidth="-Infinity" StackPane.alignment="CENTER_RIGHT">
             <Button fx:id="btnBlock" text="Block"/>
-            <ChoiceBox fx:id="choiceBrandState" visible="false"/>
+            <ChoiceBox fx:id="choiceBrandState"/>
             <StackPane.margin>
                 <Insets right="35.0"/>
             </StackPane.margin>

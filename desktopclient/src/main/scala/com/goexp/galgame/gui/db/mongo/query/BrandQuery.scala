@@ -1,10 +1,10 @@
 package com.goexp.galgame.gui.db.mongo.query
 
 import java.util
-
 import com.goexp.db.mongo.{DBQuery, ObjectCreator}
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.db.mongo.query.CommonBrandCreator
+import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.goexp.galgame.gui.db.mongo.query.StatCreators.statisticsCreator
 import com.goexp.galgame.gui.model.Brand
@@ -24,6 +24,7 @@ object BrandQuery {
     val parentCreator = new CommonBrandCreator(new Brand)
     val b = parentCreator.create(doc).asInstanceOf[Brand]
 
+    b.state.set(BrandState.from(doc.getInteger("type")))
     b.tag = Option(doc.get("tag", classOf[util.List[String]])).map { l => l.asScala.toList }.orNull
     b.statistics = Option(doc.get("statistics").asInstanceOf[Document]).map(statisticsCreator.create).orNull
 

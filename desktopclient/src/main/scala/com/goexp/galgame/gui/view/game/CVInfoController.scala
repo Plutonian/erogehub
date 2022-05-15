@@ -31,31 +31,31 @@ class CVInfoController extends DefaultController with Controller {
   @FXML private var colTag: TableColumn[CV, List[String]] = _
 
 
-  @FXML var colStart: TableColumn[CV, LocalDate] = _
-  @FXML var colEnd: TableColumn[CV, LocalDate] = _
+  @FXML private var colStart: TableColumn[CV, LocalDate] = _
+  @FXML private var colEnd: TableColumn[CV, LocalDate] = _
 
-  @FXML var colCount: TableColumn[CV, Int] = _
-  @FXML var colRealCount: TableColumn[CV, Int] = _
+  @FXML private var colCount: TableColumn[CV, Int] = _
+  @FXML private var colRealCount: TableColumn[CV, Int] = _
 
-  @FXML var colPlayed: TableColumn[CV, Int] = _
-  @FXML var colPlaying: TableColumn[CV, Int] = _
-  @FXML var colHope: TableColumn[CV, Int] = _
-  @FXML var colViewLater: TableColumn[CV, Int] = _
-  @FXML var colUncheck: TableColumn[CV, Int] = _
+  @FXML private var colPlayed: TableColumn[CV, Int] = _
+  @FXML private var colPlaying: TableColumn[CV, Int] = _
+  @FXML private var colHope: TableColumn[CV, Int] = _
+  @FXML private var colViewLater: TableColumn[CV, Int] = _
+  @FXML private var colUncheck: TableColumn[CV, Int] = _
 
-  @FXML var colZero: TableColumn[CV, Int] = _
-  @FXML var colOne: TableColumn[CV, Int] = _
-  @FXML var colTwo: TableColumn[CV, Int] = _
-  @FXML var colThree: TableColumn[CV, Int] = _
-  @FXML var colFour: TableColumn[CV, Int] = _
-  @FXML var colFive: TableColumn[CV, Int] = _
+  @FXML private var colZero: TableColumn[CV, Int] = _
+  @FXML private var colOne: TableColumn[CV, Int] = _
+  @FXML private var colTwo: TableColumn[CV, Int] = _
+  @FXML private var colThree: TableColumn[CV, Int] = _
+  @FXML private var colFour: TableColumn[CV, Int] = _
+  @FXML private var colFive: TableColumn[CV, Int] = _
 
-  @FXML var colLocal: TableColumn[CV, Int] = _
-  @FXML var colNetdisk: TableColumn[CV, Int] = _
-  @FXML var colRemote: TableColumn[CV, Int] = _
+  @FXML private var colLocal: TableColumn[CV, Int] = _
+  @FXML private var colNetdisk: TableColumn[CV, Int] = _
+  @FXML private var colRemote: TableColumn[CV, Int] = _
 
 
-  @FXML var cvWebView: WebView = _
+  @FXML private var cvWebView: WebView = _
 
 
   final private val loadCVService = TaskService(new CVListTask())

@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.view.game;
+package com.goexp.galgame.gui.view.game.search;
 
 import java.util.Arrays;
 

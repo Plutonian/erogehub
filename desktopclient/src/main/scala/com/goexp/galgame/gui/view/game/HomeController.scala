@@ -9,6 +9,7 @@ import com.goexp.galgame.gui.view.brand.MainPanelController
 import com.goexp.galgame.gui.view.common.control.DataPage
 import com.goexp.galgame.gui.view.game.HomeController._
 import com.goexp.galgame.gui.view.game.explorer.sidebar.{FilterCondition, FilterPanel}
+import com.goexp.galgame.gui.view.game.search.SearchController
 import com.goexp.ui.javafx.DefaultController
 import javafx.collections.ObservableList
 import javafx.concurrent.Task

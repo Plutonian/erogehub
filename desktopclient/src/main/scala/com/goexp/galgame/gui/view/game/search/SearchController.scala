@@ -1,6 +1,7 @@
-package com.goexp.galgame.gui.view.game
+package com.goexp.galgame.gui.view.game.search
 
 import com.goexp.galgame.gui.task.game.search.{ByName, ByNameEx}
+import com.goexp.galgame.gui.view.game.ExplorerData
 import com.goexp.ui.javafx.DefaultController
 import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML

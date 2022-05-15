@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
 import javafx.scene.control.{Button, TextField, ToggleGroup}
 import javafx.scene.layout.BorderPane
+import scalafx.Includes._
 
 class SearchController extends DefaultController {
   @FXML private var textSearchGameKey: TextField = _
@@ -17,8 +18,8 @@ class SearchController extends DefaultController {
   lazy val title = new SimpleStringProperty()
 
   override protected def dataBinding(): Unit = {
-    btnSearchGame.disableProperty.bind(textSearchGameKey.textProperty.isEmpty)
-    textSearchGameKey.textProperty().bindBidirectional(title)
+    btnSearchGame.disable <== textSearchGameKey.text.isEmpty
+    textSearchGameKey.text <==> title
   }
 
   override protected def eventBinding(): Unit = {
@@ -26,8 +27,8 @@ class SearchController extends DefaultController {
 
       val searchType = SearchType.from(searchGroup.getSelectedToggle.getUserData.asInstanceOf[String].toInt)
       val task = searchType match {
-        case SearchType.Simple => new ByName(title.get())
-        case SearchType.Extend => new ByNameEx(title.get())
+        case SearchType.Simple => new ByName(title.value)
+        case SearchType.Extend => new ByNameEx(title.value)
         //            case SearchType.Full => new ByTag(key)
         case _ => null
       }

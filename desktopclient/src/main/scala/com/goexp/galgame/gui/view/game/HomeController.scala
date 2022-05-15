@@ -16,13 +16,12 @@ import javafx.concurrent.Task
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.Hyperlink
-import scalafx.scene.image.ImageView
-import javafx.scene.input.TransferMode
 import javafx.scene.layout.Pane
 import org.controlsfx.control.PopOver
 import org.controlsfx.control.PopOver.ArrowLocation
 import scalafx.Includes._
 import scalafx.scene.control.{Tab, TabPane}
+import scalafx.scene.image.ImageView
 
 import scala.jdk.CollectionConverters._
 

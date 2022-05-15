@@ -4,6 +4,7 @@ import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.game.search.ByBrand
 import com.goexp.galgame.gui.view.game.explorer.ExplorerController
 import com.goexp.ui.javafx.{DefaultController, TaskService}
+import javafx.beans.property.SimpleObjectProperty
 import javafx.collections.ObservableList
 import javafx.collections.transformation.FilteredList
 import javafx.fxml.FXML
@@ -17,34 +18,33 @@ class InfoController extends DefaultController {
   @FXML var titleController: TitlePartController = _
   @FXML var dataViewController: ExplorerController = _
 
-  private var brand = new Brand
+  final lazy val brand = new SimpleObjectProperty[Brand]
 
-  final private val gameByBrand = TaskService(new ByBrand(brand.id))
+  private val gameByBrand = TaskService(new ByBrand(brand.value.id))
 
 
   override protected def eventBinding(): Unit = {
-    gameByBrand.valueProperty.addListener((_, _, newValue) => {
-      if (newValue != null) load(newValue)
+    gameByBrand.value.onChange((_, _, newValue) => {
+      if (newValue != null) {
+        val filteredGames = new FilteredList[Game](newValue)
+        dataViewController.load(filteredGames)
+      }
     })
-  }
 
-  private def load(games: ObservableList[Game]) = {
-    val filteredGames = new FilteredList[Game](games)
-    dataViewController.load(filteredGames)
-  }
 
-  def load(brand: Brand) = {
-    Objects.requireNonNull(brand)
+    brand.onChange((_, _, newValue) => {
+      if (newValue != null) {
 
-    logger.info(s"Brand[${brand.id}] ${brand.name} state:<${brand.state}>")
+        logger.info(s"Brand[${newValue.id}] ${brand.name} state:<${newValue.state}>")
 
-    this.brand = brand
+        titleController.brand = newValue
+        titleController.compName <== Bindings.createStringBinding(() => newValue.comp)
+        titleController.brandName <== Bindings.createStringBinding(() => newValue.name)
+        titleController.state <==> newValue.state
 
-    titleController.brand = brand
-    titleController.compName <== Bindings.createStringBinding(() => brand.comp)
-    titleController.brandName <== Bindings.createStringBinding(() => brand.name)
-    titleController.state <==> brand.state
+        gameByBrand.restart()
+      }
 
-    gameByBrand.restart()
+    })
   }
 }

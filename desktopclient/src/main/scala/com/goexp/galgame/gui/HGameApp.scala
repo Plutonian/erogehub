@@ -73,7 +73,7 @@ object HGameApp extends App {
       }
     }) {
 
-      conn.controller.load(brand)
+      conn.controller.brand.value = brand
     }
 
   }

@@ -8,9 +8,8 @@
 <BorderPane fx:id="searchPanel" xmlns:fx="http://javafx.com/fxml/1" styleClass="back" stylesheets="@/view/view.css"
             xmlns="http://javafx.com/javafx/" fx:controller="com.goexp.galgame.gui.view.game.SearchController">
     <center>
-        <StackPane onDragDropped="#textSearchGameKey_OnDragDropped" onDragOver="#textSearchGameKey_OnDragOver"
-                   prefHeight="150.0" prefWidth="200.0">
-            <Text fill="#4d4d4d" strokeType="OUTSIDE" strokeWidth="0.0" text="Drag file hear">
+        <StackPane prefHeight="150.0" prefWidth="200.0">
+            <Text fill="#4d4d4d" strokeType="OUTSIDE" strokeWidth="0.0" text="Search">
                 <font>
                     <Font size="72.0"/>
                 </font>
@@ -30,16 +29,13 @@
                 </ToggleButton>
                 <ToggleButton mnemonicParsing="false" styleClass="right-pill" text="Extend"
                               toggleGroup="$searchGroup" userData="2"/>
-                <!--                <ToggleButton mnemonicParsing="false" styleClass="right-pill" text="Full"-->
-                <!--                              toggleGroup="$searchGroup" userData="1"/>-->
             </HBox>
             <TextField fx:id="textSearchGameKey" promptText="好みのゲームネイムをここで入れでください" HBox.hgrow="ALWAYS">
                 <font>
                     <Font size="14.0"/>
                 </font>
             </TextField>
-            <Button fx:id="btnSearchGame" defaultButton="true" mnemonicParsing="false"
-                    onAction="#btnSearchGame_OnAction" text="Search">
+            <Button fx:id="btnSearchGame" defaultButton="true" mnemonicParsing="false" text="Search">
                 <font>
                     <Font size="14.0"/>
                 </font>

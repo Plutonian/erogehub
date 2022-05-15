@@ -2,10 +2,10 @@ package com.goexp.galgame.gui
 
 import com.goexp.galgame.gui.HGameApp.app
 import com.goexp.galgame.gui.model.{Brand, Game}
-import com.goexp.galgame.gui.task.game.search.{ByCV, ByPainter, ByTag}
+import com.goexp.galgame.gui.task.game.search.{ByCV, ByPainter}
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager}
-import com.goexp.galgame.gui.view.brand.CommonInfoTabController
+import com.goexp.galgame.gui.view.brand.InfoController
 import com.goexp.galgame.gui.view.common.control.DataPage
 import com.goexp.galgame.gui.view.game.detailview.outer.OutPageController
 import com.goexp.galgame.gui.view.game.{ExplorerData, HomeController}
@@ -63,7 +63,7 @@ object HGameApp extends App {
 
   def viewBrand(brand: Brand) = {
     val t = brand.name
-    val conn = new CommonInfoTabController
+    val conn = new SimpleFxmlLoader[InfoController]("info.fxml")
 
     TabManager().open(t, {
       new Tab {
@@ -72,7 +72,8 @@ object HGameApp extends App {
         content = conn.node
       }
     }) {
-      conn.load(brand)
+
+      conn.controller.load(brand)
     }
 
   }

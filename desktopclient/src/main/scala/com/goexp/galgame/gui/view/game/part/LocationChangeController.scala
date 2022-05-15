@@ -17,7 +17,7 @@ class LocationChangeController extends DefaultController {
 
   var targetGame: Game = _
 
-  lazy val location = new SimpleObjectProperty[GameLocation]
+  final lazy val location = new SimpleObjectProperty[GameLocation]
 
 
   final private val changeGameLocationService = TaskService(new Location(targetGame))

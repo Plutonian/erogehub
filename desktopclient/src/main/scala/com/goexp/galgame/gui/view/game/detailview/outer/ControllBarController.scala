@@ -18,7 +18,8 @@ class ControllBarController extends DefaultController {
   }
 
   private def loadWithoutImage(game: Game) = {
-    changeStateController.load(game)
+    changeStateController.state <==> game.state
+    changeStateController.targetGame = game
 
     changeLocationController.location <==> game.location
     changeLocationController.targetGame = game

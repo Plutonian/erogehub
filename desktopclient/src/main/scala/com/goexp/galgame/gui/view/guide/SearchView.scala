@@ -10,13 +10,14 @@ import scalafx.scene.control._
 import scalafx.scene.layout.{BorderPane, HBox, Priority, StackPane}
 
 class SearchView extends BorderPane with Controller {
-  def load(title: String = ""): Unit = {
-    VO.searchKey.set(title)
+
+  lazy val searchKey = new StringProperty()
+
+  private object DataSource {
+    lazy val guideService = TaskService(new GuideSearchTask(searchKey.get()))
   }
 
-  override def load(): Unit = {
-
-  }
+  import DataSource._
 
 
   stylesheets.add("/view/view.css")
@@ -33,7 +34,7 @@ class SearchView extends BorderPane with Controller {
       promptText = "好みのゲームネイムをここで入れでください"
       hgrow = Priority.Always
 
-      text <==> VO.searchKey
+      text <==> searchKey
     }
 
 
@@ -46,7 +47,7 @@ class SearchView extends BorderPane with Controller {
 
         disable <== textSearchGameKey.text.isEmpty
 
-        onAction = _ => DataSource.guideService.restart()
+        onAction = _ => guideService.restart()
 
       }
     )
@@ -57,7 +58,7 @@ class SearchView extends BorderPane with Controller {
 
     children = Seq(
       new ListView[GameGuide] {
-        items <== DataSource.guideService.valueProperty()
+        items <== guideService.valueProperty()
 
         cellFactory = _ => {
 
@@ -78,11 +79,7 @@ class SearchView extends BorderPane with Controller {
     )
   }
 
-  object DataSource {
-    val guideService = TaskService(new GuideSearchTask(VO.searchKey.get()))
-  }
+  override def load(): Unit = {
 
-  object VO {
-    lazy val searchKey = new StringProperty()
   }
 }

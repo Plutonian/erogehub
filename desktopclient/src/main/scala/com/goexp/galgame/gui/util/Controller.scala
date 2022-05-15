@@ -7,7 +7,7 @@ import scala.collection.mutable
 trait Controller extends DataSource {
   private val listeners = mutable.Set[Property[_]]()
 
-  def registestListener(prop: Property[_]): Unit = {
+  protected def registestListener(prop: Property[_]): Unit = {
     listeners.add(prop)
   }
 

@@ -14,16 +14,11 @@ class SearchController extends DefaultController {
   @FXML private var btnSearchGame: Button = _
   @FXML private var searchPanel: BorderPane = _
 
-  private object VO {
-    lazy val key = new SimpleStringProperty()
-  }
-
-  import VO._
-
+  lazy val title = new SimpleStringProperty()
 
   override protected def dataBinding(): Unit = {
     btnSearchGame.disableProperty.bind(textSearchGameKey.textProperty.isEmpty)
-    textSearchGameKey.textProperty().bindBidirectional(key)
+    textSearchGameKey.textProperty().bindBidirectional(title)
   }
 
   override protected def eventBinding(): Unit = {
@@ -31,8 +26,8 @@ class SearchController extends DefaultController {
 
       val searchType = SearchType.from(searchGroup.getSelectedToggle.getUserData.asInstanceOf[String].toInt)
       val task = searchType match {
-        case SearchType.Simple => new ByName(key.get())
-        case SearchType.Extend => new ByNameEx(key.get())
+        case SearchType.Simple => new ByName(title.get())
+        case SearchType.Extend => new ByNameEx(title.get())
         //            case SearchType.Full => new ByTag(key)
         case _ => null
       }
@@ -41,10 +36,6 @@ class SearchController extends DefaultController {
       searchPanel.setCenter(conn)
       conn.load()
     })
-  }
-
-  def load(title: String = ""): Unit = {
-    key.set(title)
   }
 
 }

@@ -133,7 +133,7 @@ object HGameApp extends App {
 
     }) {
 
-      view.load(name)
+      view.searchKey.set(name)
     }
 
   }

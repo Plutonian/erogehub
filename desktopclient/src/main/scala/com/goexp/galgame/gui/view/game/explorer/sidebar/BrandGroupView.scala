@@ -6,6 +6,8 @@ import com.goexp.galgame.gui.task.game.panel.group.node.{BrandItem, CompItem, Da
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{Controller, DataSource}
 import com.goexp.ui.javafx.TaskService
+import javafx.beans.property.SimpleObjectProperty
+import javafx.scene.control.TreeItem
 import scalafx.Includes._
 import scalafx.beans.property.BooleanProperty
 import scalafx.geometry.Pos
@@ -19,19 +21,13 @@ import java.util.function.Predicate
 class BrandGroupView extends TreeView[DataItem] with Controller {
   showRoot = false
 
-  final val onSetProperty = new BooleanProperty()
+  private final lazy val groupBrandServ = TaskService(new ByBrand(filteredGames))
 
-  private var filteredGames: util.List[Game] = _
+  final lazy val selectedBrand = new SimpleObjectProperty[TreeItem[DataItem]]
 
-  var selectedBrand: DataItem = _
 
-  object Data extends DataSource {
-    val groupBrandServ = TaskService(new ByBrand(filteredGames))
-
-    def load() = {
-      groupBrandServ.restart()
-    }
-  }
+  var filteredGames: util.List[Game] = _
+  selectedBrand <== selectionModel().selectedItemProperty()
 
 
   cellFactory = _ => {
@@ -76,28 +72,18 @@ class BrandGroupView extends TreeView[DataItem] with Controller {
     }
   }
 
-  selectionModel().selectedItem.onChange((_, _, item) => {
-    if (item != null) {
-      selectedBrand = item.getValue
-
-      onSetProperty.set(true)
-      onSetProperty.set(false)
-    }
-  })
-
-  Data.groupBrandServ.value.onChange((_, _, newValue) => {
+  groupBrandServ.value.onChange((_, _, newValue) => {
     if (newValue != null) this.setRoot(newValue)
   })
 
-  this.filteredGames = filteredGames
-
 
   override def load(): Unit = {
-    Data.load()
+    groupBrandServ.restart()
   }
 
   def init(filteredGames: util.List[Game]): Unit = {
     this.filteredGames = filteredGames
+
     load()
   }
 

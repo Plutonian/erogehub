@@ -2,10 +2,10 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.web.WebView?>
+<?import javafx.scene.web.*?>
 <SplitPane dividerPositions="0.0, 0.5" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.goexp.galgame.gui.view.game.explorer.ExplorerController">
-    <Accordion prefWidth="220.0">
+    <Accordion maxWidth="220.0">
         <panes>
             <TitledPane animated="false" text="Date">
                 <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml"/>
@@ -17,16 +17,11 @@
             </TitledPane>
             <TitledPane animated="false" text="CV">
                 <WebView fx:id="cvWebView"/>
-                <!--                <ListView fx:id="cvList"/>-->
             </TitledPane>
         </panes>
     </Accordion>
 
     <BorderPane>
-        <top>
-            <HBox fx:id="conditionBox">
-            </HBox>
-        </top>
         <center>
             <AnchorPane>
                 <TabPane nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"
@@ -47,17 +42,15 @@
                     </Tab>
                 </TabPane>
                 <HBox AnchorPane.bottomAnchor="3" AnchorPane.leftAnchor="10">
-                    <Label fx:id="lbItemCount" prefWidth="80.0"/>
+                    <Label fx:id="lbItemCount"/>
+                    <Label text="/"/>
+                    <Label fx:id="lbItemFullCount"/>
                     <ProgressBar fx:id="loadingBar" prefHeight="25.0" prefWidth="77.0" visible="false"/>
                 </HBox>
             </AnchorPane>
         </center>
     </BorderPane>
 
-    <Accordion maxWidth="220.0">
-        <panes>
-            <TitledPane fx:id="filterPanel" animated="false" text="Filter">
-            </TitledPane>
-        </panes>
-    </Accordion>
+    <BorderPane maxWidth="200.0" fx:id="filterPanel">
+    </BorderPane>
 </SplitPane>

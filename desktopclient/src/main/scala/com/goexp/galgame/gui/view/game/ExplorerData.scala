@@ -6,6 +6,7 @@ import com.goexp.galgame.gui.view.game.explorer.ExplorerController
 import com.goexp.ui.javafx.TaskService
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
+import scalafx.Includes._
 import scalafx.scene.layout.StackPane
 
 class ExplorerData(private val taskCreator: () => Task[ObservableList[Game]]) extends StackPane with Controller {
@@ -24,15 +25,15 @@ class ExplorerData(private val taskCreator: () => Task[ObservableList[Game]]) ex
 
   private def init() = {
 
-    queryService.valueProperty.addListener((_, _, newValue) => {
+    queryService.value.onChange((_, _, newValue) => {
       if (newValue != null) {
         controller.load(newValue)
       }
     })
 
-    controller.loadingBar.visibleProperty.bind(queryService.runningProperty)
+    controller.loadingBar.visible <== queryService.running
 
-    registestListener(controller.loadingBar.visibleProperty)
+    registestListener(controller.loadingBar.visible)
 
     children += node
   }

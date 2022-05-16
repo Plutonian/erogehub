@@ -4,7 +4,6 @@ import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.model.game.GameLocation
 import com.goexp.galgame.common.website.getchu.GetchuGameLocal
 import com.goexp.galgame.gui.model.Game
-import com.goexp.galgame.gui.task.game.panel.group.node.DataItem
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
 import com.goexp.galgame.gui.util.Websites
 import com.goexp.galgame.gui.view.VelocityTemplateConfig
@@ -12,16 +11,18 @@ import com.goexp.galgame.gui.view.game.explorer.sidebar.{BrandGroupView, DateGro
 import com.goexp.galgame.gui.view.game.explorer.tableview.TableListController
 import com.goexp.galgame.gui.{Config, HGameApp}
 import com.goexp.ui.javafx.{DefaultController, TaskService}
+import javafx.beans.binding.Bindings
 import javafx.collections.ObservableList
 import javafx.collections.transformation.{FilteredList, SortedList}
 import javafx.concurrent.Worker
 import javafx.fxml.FXML
 import javafx.scene.control._
-import javafx.scene.layout.Pane
+import javafx.scene.layout.BorderPane
 import javafx.scene.web.WebView
 import netscape.javascript.JSObject
 import org.apache.velocity.VelocityContext
 import org.controlsfx.control.PopOver
+import scalafx.Includes._
 
 import java.util
 import java.util.function.Predicate
@@ -29,23 +30,25 @@ import scala.jdk.CollectionConverters._
 
 
 class ExplorerController extends DefaultController {
-  private val filterCondition = new FilterCondition()
+
 
   final private val groupCVServ = TaskService(new ByCV(filteredGames))
   final private val groupTagServ = TaskService(new ByTag(filteredGames))
-  val brandGroupView = new BrandGroupView()
-  private val popPanel = new PopOver
+  final private val brandGroupView = new BrandGroupView()
+  final private val popPanel = new PopOver
   /**
    * Controllers
    */
   @FXML var tablelistController: TableListController = _
   @FXML var loadingBar: ProgressBar = _
-  @FXML private var filterPanel: TitledPane = _
+
+  @FXML private var filterPanel: BorderPane = _
   @FXML private var dateGroupController: DateGroupController = _
   /**
    * Status bar
    */
   @FXML private var lbItemCount: Label = _
+  @FXML private var lbItemFullCount: Label = _
   /**
    * main panel
    */
@@ -64,22 +67,25 @@ class ExplorerController extends DefaultController {
   @FXML private var tagWebView: WebView = _
   @FXML private var cvWebView: WebView = _
 
-
-  @FXML private var conditionBox: Pane = _
-
   private var filteredGames: FilteredList[Game] = _
   private var groupPredicate: Predicate[Game] = _
   private var filterPredicate: Predicate[Game] = _
 
-
-  val filter = new FilterPanel()
+  final private val filterCondition = new FilterCondition()
+  final private val filter = new FilterPanel()
 
 
   def load(games: ObservableList[Game], initPredicate: Predicate[Game] = null): Unit = {
+
+
     filterPanel.setVisible(true)
 
     groupPredicate = null
     filteredGames = new FilteredList(games)
+
+
+    lbItemCount.text <== Bindings.size(filteredGames).asString()
+    lbItemFullCount.text <== Bindings.size(games).asString()
 
     // set defaultPredicate
     filterPredicate = FilterCondition.mergeDefaultPredicate(initPredicate)
@@ -226,7 +232,7 @@ class ExplorerController extends DefaultController {
   }
 
   private def resetCount(filteredGames: util.List[Game]) = {
-    lbItemCount.setText(s"${filteredGames.size} 件")
+    //    lbItemCount.setText(s"${filteredGames.size} 件")
   }
 
   private def loadGroupPanelData(filteredGames: FilteredList[Game]) = {
@@ -246,9 +252,8 @@ class ExplorerController extends DefaultController {
     popPanel.setAnimated(false)
 
     brandGroup.setContent(brandGroupView)
-    filterPanel.setContent(filter)
+    filterPanel.setCenter(filter)
   }
-
 
   override protected def eventBinding(): Unit = {
     initFilterPanel()
@@ -257,7 +262,7 @@ class ExplorerController extends DefaultController {
 
   private def initGroupPanel() = {
 
-    dateGroupController.onSetProperty.addListener((_, _, newValue) => {
+    dateGroupController.onSetProperty.onChange((_, _, newValue) => {
       if (newValue) {
         filterCondition.date = dateGroupController.selectedDate
         filterCondition.makeDatePredicate()
@@ -272,9 +277,10 @@ class ExplorerController extends DefaultController {
 
     })
 
-    brandGroupView.onSetProperty.onChange((_, _, newValue) => {
-      if (newValue) {
-        filterCondition.brand = brandGroupView.selectedBrand
+
+    brandGroupView.selectedBrand.onChange((_, _, newValue) => {
+      if (newValue != null) {
+        filterCondition.brand = newValue.getValue
         filterCondition.makeBrandPredicate()
 
         groupPredicate = filterCondition.groupPredicate

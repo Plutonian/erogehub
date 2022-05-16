@@ -31,9 +31,6 @@ import scala.jdk.CollectionConverters._
 
 class ExplorerController extends DefaultController {
 
-  //  private val queryService = new TaskService(taskCreator)
-
-
   final private val groupCVServ = TaskService(new ByCV(filteredGames))
   final private val groupTagServ = TaskService(new ByTag(filteredGames))
   final private val brandGroupView = new BrandGroupView()
@@ -77,30 +74,31 @@ class ExplorerController extends DefaultController {
   final private val filter = new FilterPanel()
 
 
-  def load(games: ObservableList[Game], initPredicate: Predicate[Game] = null): Unit = {
+  def load(games: ObservableList[Game]): Unit = {
 
+
+    filteredGames = new FilteredList(games)
+    // set defaultPredicate
+    filterPredicate = FilterCondition.DEFAULT_GAME_PREDICATE
 
     filterPanel.setVisible(true)
-
-    groupPredicate = null
-    filteredGames = new FilteredList(games)
 
 
     lbItemCount.text <== Bindings.size(filteredGames).asString()
     lbItemFullCount.text <== Bindings.size(games).asString()
 
-    // set defaultPredicate
-    filterPredicate = FilterCondition.mergeDefaultPredicate(initPredicate)
+
 
     // set filter
     filteredGames.setPredicate(filterPredicate)
-    recount()
 
 
     val sortedData = new SortedList[Game](filteredGames)
-    sortedData.comparatorProperty.bind(tablelist.comparatorProperty)
+    sortedData.comparator <== tablelist.comparator
 
-    loadItems(sortedData)
+
+    reload()
+    loadTable(sortedData)
     loadGroupPanelData(filteredGames)
   }
 
@@ -127,7 +125,7 @@ class ExplorerController extends DefaultController {
     }
   }
 
-  def recount(): Unit = {
+  def reload(): Unit = {
     tablelist.scrollTo(0)
 
 
@@ -227,7 +225,7 @@ class ExplorerController extends DefaultController {
     groupTagServ.restart()
   }
 
-  private def loadItems(sortedData: SortedList[Game]) = {
+  private def loadTable(sortedData: SortedList[Game]) = {
     tablelist.setItems(sortedData)
     tablelist.scrollTo(0)
   }
@@ -243,6 +241,20 @@ class ExplorerController extends DefaultController {
   override protected def eventBinding(): Unit = {
     initFilterPanel()
     initGroupPanel()
+
+
+    lbItemFullCount.setOnAction(_ => {
+      filterPredicate = FilterCondition.DEFAULT_GAME_PREDICATE
+      groupPredicate = null
+
+      // set filter
+      filteredGames.setPredicate(filterPredicate)
+
+
+      reload()
+
+      loadGroupPanelData(filteredGames)
+    })
   }
 
   private def initGroupPanel() = {
@@ -257,7 +269,7 @@ class ExplorerController extends DefaultController {
 
         filteredGames.setPredicate(FilterCondition.mergePredicate(filterPredicate, groupPredicate))
 
-        recount()
+        reload()
       }
 
     })
@@ -271,7 +283,7 @@ class ExplorerController extends DefaultController {
         groupPredicate = filterCondition.groupPredicate
 
         filteredGames.setPredicate(FilterCondition.mergePredicate(filterPredicate, groupPredicate))
-        recount()
+        reload()
       }
 
     })
@@ -343,7 +355,9 @@ class ExplorerController extends DefaultController {
 
 
         filteredGames.setPredicate(FilterCondition.mergePredicate(filterCondition.filterPredicate, groupPredicate))
-        recount()
+        reload()
+
+
         if (load)
           loadGroupPanelData(filteredGames)
       }

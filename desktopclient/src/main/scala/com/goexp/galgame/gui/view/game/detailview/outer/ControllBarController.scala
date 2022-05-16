@@ -14,16 +14,18 @@ class ControllBarController extends DefaultController {
 
 
   def load(game: Game) = {
-    loadWithoutImage(game)
-  }
 
-  private def loadWithoutImage(game: Game) = {
     changeStateController.state <==> game.state
     changeStateController.targetGame = game
 
     changeLocationController.location <==> game.location
     changeLocationController.targetGame = game
 
-    webjumpController.load(game)
+
+    webjumpController.id.value = game.id
+    webjumpController.name.value = game.name.split("""[\s～\-]""")(0)
+
+
   }
+
 }

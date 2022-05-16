@@ -29,8 +29,6 @@ class ControllBarController extends DefaultController {
 
     webjumpController.id.value = game.id
     webjumpController.name.value = game.name.split("""[\s～\-]""")(0)
-
-
   }
 
 }

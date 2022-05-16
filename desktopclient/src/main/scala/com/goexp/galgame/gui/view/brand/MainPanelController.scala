@@ -9,12 +9,15 @@ import com.goexp.galgame.gui.util.Tags.maker
 import com.goexp.galgame.gui.util.{Tags, Websites}
 import com.goexp.ui.javafx.control.cell.{NodeTableCell, TextTableCell}
 import com.goexp.ui.javafx.{DefaultController, TaskService}
+import javafx.beans.binding.IntegerBinding
 import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
 import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.layout.HBox
+import scalafx.Includes._
+import scalafx.beans.binding.Bindings
 
 import java.time.LocalDate
 import java.util
@@ -65,12 +68,12 @@ class MainPanelController extends DefaultController {
 
   private object VO {
     lazy val keyword = new SimpleStringProperty
-    var brandType = BrandState.LIKE
+    lazy val brandType = new SimpleObjectProperty[BrandState]
   }
 
   import VO._
 
-  final private val brandListByStateService = TaskService(new ByType(brandType))
+  final private val brandListByStateService = TaskService(new ByType(brandType.get()))
   final private val brandSearchByNameService = TaskService(new ByName(keyword.get))
   final private val brandSearchByCompService = TaskService(new ByComp(keyword.get))
 
@@ -92,12 +95,10 @@ class MainPanelController extends DefaultController {
     brandSearchByCompService.valueProperty.addListener(handler)
 
 
-    choiceBrandType.getSelectionModel.selectedItemProperty().addListener { (_, _, t) =>
-      if (t != null) {
+    choiceBrandType.getSelectionModel.selectedItem.onChange { (_, oldValue, newValue) =>
+      if (newValue != null) {
 
-        brandType = t
-
-        logger.debug(s"Value: ${t}")
+        logger.debug(s"Old:${oldValue} New: ${newValue}")
 
         brandListByStateService.restart()
       }
@@ -120,13 +121,13 @@ class MainPanelController extends DefaultController {
     }
   }
 
-
   override protected def dataBinding(): Unit = {
 
-    progessloading.visibleProperty().bind(brandListByStateService.runningProperty())
+    brandType <== choiceBrandType.getSelectionModel.selectedItem
 
-    textBrandKey.textProperty().bindBidirectional(keyword)
-    btnSearch.disableProperty().bind(textBrandKey.textProperty().isEmpty)
+    progessloading.visible <== brandListByStateService.running
+    keyword <== textBrandKey.text
+    btnSearch.disable <== textBrandKey.text.isEmpty
   }
 
   override protected def initComponent(): Unit = {
@@ -220,8 +221,5 @@ class MainPanelController extends DefaultController {
 
     choiceBrandType.setItems(FXCollections.observableArrayList(BrandState.values.reverse: _*))
   }
-
-
-  def load() = {}
 
 }

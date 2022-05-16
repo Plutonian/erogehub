@@ -282,7 +282,6 @@ class HomeController extends DefaultController {
           content = loader.node
         }
       }) {
-        loader.controller.load()
       }
 
     }

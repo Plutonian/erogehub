@@ -122,12 +122,12 @@ class TabManager private(val root: TabPane) {
   }
 
 
-  def reloadActiveTabData() = {
-    val key = root.getSelectionModel.getSelectedItem.getUserData.asInstanceOf[String]
-
-    val (_, reload) = tabs(key)
-
-    reload()
-  }
+  //  def reloadActiveTabData() = {
+  //    val key = root.getSelectionModel.getSelectedItem.getUserData.asInstanceOf[String]
+  //
+  //    val (_, reload) = tabs(key)
+  //
+  //    reload()
+  //  }
 
 }

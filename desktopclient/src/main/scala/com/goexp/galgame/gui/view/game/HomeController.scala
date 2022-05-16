@@ -6,7 +6,7 @@ import com.goexp.galgame.gui.task.game.search._
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager}
 import com.goexp.galgame.gui.view.brand.MainPanelController
-import com.goexp.galgame.gui.view.common.control.DataPage
+import com.goexp.galgame.gui.view.common.control.DataTab
 import com.goexp.galgame.gui.view.game.HomeController._
 import com.goexp.galgame.gui.view.game.explorer.sidebar.{FilterCondition, FilterPanel}
 import com.goexp.galgame.gui.view.game.search.SearchController
@@ -118,7 +118,7 @@ class HomeController extends DefaultController {
         setGraphic(item.icon)
         setOnAction { _ =>
           TabManager().open(item.title,
-            new DataPage(ExplorerData(item.dataTask)) {
+            new DataTab(ExplorerData(item.dataTask)) {
               text = item.title
             }
           )
@@ -266,7 +266,7 @@ class HomeController extends DefaultController {
     linkTags.setOnAction { _ =>
 
       TabManager().open("Tags",
-        new DataPage(new TagView()) {
+        new DataTab(new TagView()) {
           text = "Tags"
         }
       )
@@ -301,8 +301,8 @@ class HomeController extends DefaultController {
     TabManager().closeLeft()
   }
 
-  @FXML private def miReload_OnAction(actionEvent: ActionEvent) = {
-    TabManager().reloadActiveTabData()
-  }
+  //  @FXML private def miReload_OnAction(actionEvent: ActionEvent) = {
+  //    TabManager().reloadActiveTabData()
+  //  }
 
 }

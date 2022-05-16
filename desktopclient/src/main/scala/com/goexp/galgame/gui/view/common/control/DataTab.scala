@@ -19,7 +19,7 @@ import scalafx.scene.control.Tab
 //  }
 //}
 
-class DataPage(c: Node with Controller) extends Tab with Controller {
+class DataTab(c: Node with Controller) extends Tab with Controller {
 
   content = c
 

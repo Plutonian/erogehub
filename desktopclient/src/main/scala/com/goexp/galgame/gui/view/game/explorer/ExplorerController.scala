@@ -31,6 +31,8 @@ import scala.jdk.CollectionConverters._
 
 class ExplorerController extends DefaultController {
 
+  //  private val queryService = new TaskService(taskCreator)
+
 
   final private val groupCVServ = TaskService(new ByCV(filteredGames))
   final private val groupTagServ = TaskService(new ByTag(filteredGames))

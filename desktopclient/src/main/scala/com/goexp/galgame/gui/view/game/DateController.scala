@@ -3,7 +3,7 @@ package com.goexp.galgame.gui.view.game
 import com.goexp.galgame.gui.task.game.search.ByDateRange
 import com.goexp.galgame.gui.util.TabManager
 import com.goexp.galgame.gui.util.res.LocalRes
-import com.goexp.galgame.gui.view.common.control.DataPage
+import com.goexp.galgame.gui.view.common.control.DataTab
 import com.goexp.ui.javafx.DefaultController
 import com.goexp.ui.javafx.control.cell.TextListCell
 import javafx.collections.FXCollections
@@ -60,7 +60,7 @@ class DateController extends DefaultController {
       logger.debug(s"Range:${from}  ${to}")
 
       TabManager().open(title, {
-        new DataPage(ExplorerData(new ByDateRange(from, to))) {
+        new DataTab(ExplorerData(new ByDateRange(from, to))) {
           text = (title)
           graphic = new ImageView(LocalRes.DATE_16_PNG)
         }
@@ -77,7 +77,7 @@ class DateController extends DefaultController {
 
 
       TabManager().open(title, {
-        new DataPage(ExplorerData(new ByDateRange(from, to))) {
+        new DataTab(ExplorerData(new ByDateRange(from, to))) {
           text = (title)
           graphic = new ImageView(LocalRes.DATE_16_PNG)
         }

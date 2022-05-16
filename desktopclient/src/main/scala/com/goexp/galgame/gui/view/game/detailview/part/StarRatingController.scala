@@ -44,8 +44,6 @@ class StarRatingController extends DefaultController {
     this.targetGame = game
 
     star <==> game.star
-    //    star.set(game.star.value)
-
   }
 
 }

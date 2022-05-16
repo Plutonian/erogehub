@@ -10,9 +10,6 @@
     <stylesheets>
         <URL value="@/view/view.css"/>
     </stylesheets>
-    <!--    <top>-->
-    <!--        <fx:include fx:id="top" source="top.fxml"/>-->
-    <!--    </top>-->
     <center>
         <fx:include fx:id="innerPage" source="../inner/innerpage.fxml"/>
     </center>

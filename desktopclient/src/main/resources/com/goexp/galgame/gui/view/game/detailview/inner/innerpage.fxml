@@ -12,10 +12,4 @@
     <center>
         <WebView fx:id="indexWebView"/>
     </center>
-    <!--    <Tab fx:id="tabPerson" text="キャラクター">-->
-    <!--        <ListView fx:id="personListView" styleClass="copyablelabel"/>-->
-    <!--    </Tab>-->
-    <!--    <bottom>-->
-    <!--        <fx:include fx:id="simpleImg" source="simple_img.fxml"/>-->
-    <!--    </bottom>-->
 </BorderPane>

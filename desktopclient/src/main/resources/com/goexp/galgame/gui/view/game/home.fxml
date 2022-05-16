@@ -19,8 +19,6 @@
                 <MenuItem mnemonicParsing="false" onAction="#miCloseLeft_OnAction" text="Close Left"/>
                 <MenuItem mnemonicParsing="false" onAction="#miCloseRight_OnAction" text="Close Right"/>
                 <MenuItem mnemonicParsing="false" onAction="#miCloseOther_OnAction" text="Close Other"/>
-                <!--                <SeparatorMenuItem/>-->
-                <!--                <MenuItem mnemonicParsing="false" onAction="#miReload_OnAction" text="Reload"/>-->
 
             </items>
         </ContextMenu>

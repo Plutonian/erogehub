@@ -301,8 +301,4 @@ class HomeController extends DefaultController {
     TabManager().closeLeft()
   }
 
-  //  @FXML private def miReload_OnAction(actionEvent: ActionEvent) = {
-  //    TabManager().reloadActiveTabData()
-  //  }
-
 }

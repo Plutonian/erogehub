@@ -44,7 +44,7 @@
                 <HBox AnchorPane.bottomAnchor="3" AnchorPane.leftAnchor="10">
                     <Label fx:id="lbItemCount"/>
                     <Label text="/"/>
-                    <Label fx:id="lbItemFullCount"/>
+                    <Hyperlink fx:id="lbItemFullCount"/>
                     <ProgressBar fx:id="loadingBar" prefHeight="25.0" prefWidth="77.0" visible="false"/>
                 </HBox>
             </AnchorPane>

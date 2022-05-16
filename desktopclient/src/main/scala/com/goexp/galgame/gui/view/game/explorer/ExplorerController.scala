@@ -48,7 +48,7 @@ class ExplorerController extends DefaultController {
    * Status bar
    */
   @FXML private var lbItemCount: Label = _
-  @FXML private var lbItemFullCount: Label = _
+  @FXML private var lbItemFullCount: Hyperlink = _
   /**
    * main panel
    */
@@ -216,23 +216,6 @@ class ExplorerController extends DefaultController {
 
     reGrid()
 
-
-    resetCount(filteredGames)
-
-    //    conditionBox.getChildren.clear()
-
-    //    if (FilterCondition.date != null) {
-    //      conditionBox.getChildren.add(new Label("Date"))
-    //    }
-    //
-    //    if (FilterCondition.brand != null) {
-    //      conditionBox.getChildren.add(new Label(FilterCondition.brand.toString))
-    //    }
-
-  }
-
-  private def resetCount(filteredGames: util.List[Game]) = {
-    //    lbItemCount.setText(s"${filteredGames.size} 件")
   }
 
   private def loadGroupPanelData(filteredGames: FilteredList[Game]) = {

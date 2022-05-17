@@ -5,33 +5,23 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="http://localhost:8080/css.css">
     <script type="text/javascript">
+        function showLarge(gid,index) {
+            document.querySelectorAll(`#sampleLarge_${gid}>img`).forEach((node, index, list) => node.style.display = 'none')
 
-        function showLarge(index) {
-            document.querySelectorAll("#sampleLarge>img").forEach((node, index, list) => node.style.display = 'none')
-
-            document.getElementById(`large_${index}`).style.display = 'block'
+            document.getElementById(`${gid}_large_${index}`).style.display = 'block'
         }
 
     </script>
     <title>Title</title>
 </head>
 
-<body>
-<header class="flex_column anchor_parent" style="position:sticky;top:0;background-color: #ddd;">
+<body class="flex_column" style="gap:3px;">
+<header class="flex_column" style="background-color: #ddd;">
     #parse("/tpl/game/explorer/part/gameInfomain.html")
 </header>
-<section class="flex_row">
-    <img src="$IMG_REMOTE/game/${GetchuGameLocal.largeImg($g)}.jpg"/>
-    <detail class="flex_column" style="flex:1">
-        <painters class="flex_row" style="gap:10px">
-            #foreach($painter in $g.painter)
-            <a href="javascript:app.loadPainterTab('$painter')">$painter</a>
-            #end
-        </painters>
-        <textarea readonly="readonly" rows="20" style="flex:1">${g.intro}${g.story}</textarea>
-    </detail>
 
-</section>
+#parse("/tpl/game/explorer/part/imageside.html")
+<textarea readonly="readonly" rows="20">${g.intro}${g.story}</textarea>
 
 <characters class="grid" style="grid-template-columns: 1fr 1fr;gap: 20px">
     #foreach($character in $g.gameCharacters)
@@ -65,23 +55,6 @@
     </character>
     #end
 </characters>
-<section class="flex_row" style="min-height:600px;">
-    <sampleIamges class="image_grid" style="flex:1;">
-        #foreach($img in $g.gameImgs)
-        <img class="sample_img" onmouseover="showLarge($img.index)"
-             src="$IMG_REMOTE/game/${GetchuGameLocal.smallSimpleImg($g,$img.index)}.jpg"/>
-        #end
-    </sampleIamges>
-
-    <sampleIamges id="sampleLarge" class="flex_row" style="flex-wrap: wrap;align-items: start;flex:1;">
-        #foreach($img in $g.gameImgs)
-        <img id="large_$img.index" src="$IMG_REMOTE/game/${GetchuGameLocal.largeSimpleImg($g,$img.index)}.jpg"
-             style="display:none"/>
-        #end
-    </sampleIamges>
-
-</section>
-
 
 </body>
 

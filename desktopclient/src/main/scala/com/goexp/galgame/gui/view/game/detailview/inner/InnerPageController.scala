@@ -71,9 +71,6 @@ class InnerPageController extends DefaultController {
       .tpl("/tpl/game/detail/index.html")
       .process(root)
 
-    logger.debug(str)
-
-
     // set js obj
     val webEngine = indexWebView.getEngine
     webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {

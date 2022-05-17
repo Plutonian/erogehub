@@ -1,0 +1,26 @@
+<section class="flex_row" style="gap:10px;">
+    <sampleIamges id="sampleLarge_${g.id}" class="flex_row"
+                  style="justify-content:center; align-content: center; align-items: start;">
+        <img id="${g.id}_large_0" class="img_alone" src="$IMG_REMOTE/game/${GetchuGameLocal.largeImg($g)}.jpg"/>
+        #foreach($img in $g.gameImgs)
+        <img id="${g.id}_large_${img.index}" style="display:none"
+             src="$IMG_REMOTE/game/${GetchuGameLocal.largeSimpleImg($g,$img.index)}.jpg"/>
+        #end
+    </sampleIamges>
+    <detail class="flex_column" style="flex:1">
+        <painters class="flex_row" style="gap:10px">
+            #foreach($painter in $g.painter)
+            <a href="javascript:app.loadPainterTab('$painter')">$painter</a>
+            #end
+        </painters>
+
+        <sampleIamges class="image_grid" style="flex:1;">
+            <img class="sample_img" style="width:150px;" onclick="showLarge(${g.id},0)"
+                 src="$IMG_REMOTE/game/${GetchuGameLocal.largeImg($g)}.jpg"/>
+            #foreach($img in $g.gameImgs)
+            <img class="sample_img" onclick="showLarge(${g.id},$img.index)"
+                 src="$IMG_REMOTE/game/${GetchuGameLocal.smallSimpleImg($g,$img.index)}.jpg"/>
+            #end
+        </sampleIamges>
+    </detail>
+</section>

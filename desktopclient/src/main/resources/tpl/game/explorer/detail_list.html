@@ -4,6 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="http://localhost:8080/css.css">
+    <script type="text/javascript">
+        function showLarge(gid,index) {
+            document.querySelectorAll(`#sampleLarge_${gid}>img`).forEach((node, index, list) => node.style.display = 'none')
+
+            document.getElementById(`${gid}_large_${index}`).style.display = 'block'
+        }
+
+
+    </script>
     <title>Title</title>
 </head>
 
@@ -12,16 +21,9 @@
 
         #foreach($g in $gamelist)
         <game class="flex_column game">
-            <imageGroup class="flex_row" style="flex:1;column-gap: 10px;">
-                <img class="img_alone" src="$IMG_REMOTE/game/${GetchuGameLocal.largeImg($g)}.jpg"/>
-                <images class="image_grid" style="flex:1;">
-                    #foreach($img in $g.gameImgs)
-                    <img class="sample_img"
-                         src="$IMG_REMOTE/game/${GetchuGameLocal.smallSimpleImg($g,$foreach.count)}.jpg"/>
-                    #end
-                </images>
-            </imageGroup>
             #parse("/tpl/game/explorer/part/gameInfomain.html")
+            #parse("/tpl/game/explorer/part/imageside.html")
+
             <span style="margin-left: auto;">${g.state.value}</span>
         </game>
         #end

@@ -63,6 +63,10 @@ a:hover {
 
 }
 
+.img_alone{
+align-self: start;
+}
+
 .flex_row,
 .flex_column {
     display: flex;
@@ -79,9 +83,10 @@ a:hover {
 }
 
 .game {
+padding:5px;
     /* margin:20px 50px 0 0; */
     background-color: #eee;
-    border: #e0e0e0 solid 3px;
+    border: #e0e0e0 solid 1px;
     gap: 5px 10px;
 
 }

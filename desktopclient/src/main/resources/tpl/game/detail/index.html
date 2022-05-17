@@ -18,36 +18,7 @@
 
 <body>
 <header class="flex_column anchor_parent" style="position:sticky;top:0;background-color: #ddd;">
-    <article>
-        <svg width="10" height="10" version="1.1" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="5" cy="5" r="5" fill="#if ($g.location.value == $LOCAL)green #else red#end"/>
-        </svg>
-        <span style='font-size:40px;'>${g.titles.mainTitle}</span>
-        <span>${g.titles.subTitle}</span>
-
-    </article>
-    <hbox class="flex_row" style="flex:1;">
-        <brand style="font-size:14px;">
-            <a style="margin-right:5px;" href="javascript:app.openBrand()">${g.brand.name}</a>
-            (<a href="javascript:app.openUrl('${g.brand.website}')">公式サイト</a>)
-        </brand>
-        <tags>
-            #foreach($tag in $g.tag)
-            #if($tag.length()>0)
-            <tag class='tag'>$tag</tag>
-            #end
-            #end
-        </tags>
-        <span>
-                #if ($DateUtil.needFormat($g.publishDate))
-                ${DateUtil.formatDate($g.publishDate)} (${g.publishDate})
-                #else
-                $g.publishDate
-                #end
-            </span>
-
-
-    </hbox>
+    #parse("/tpl/game/explorer/part/gameInfomain.html")
 </header>
 <section class="flex_row">
     <img src="$IMG_REMOTE/game/${GetchuGameLocal.largeImg($g)}.jpg"/>

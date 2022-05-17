@@ -8,61 +8,17 @@
 </head>
 
 <body>
-<main class="flex_column">
+    <main class="flex_column" style="gap:10px;">
 
-    #foreach($g in $gamelist)
-    <game class="flex_row game">
-        <header class="imageborder anchor_parent">
-            <img src="$IMG_REMOTE/game/${GetchuGameLocal.tiny120Img($g)}.jpg"/>
-            <stars class="anchor" style="bottom:3px;right:3px;">
-                #if($g.star.value>0)
-                #foreach($i in [1..$g.star.value])
-                #include("/tpl/game/explorer/star.html")
-                #end
-                #end
-            </stars>
-        </header>
-        <detail class="flex_column" style="flex:1;">
-            <article>
-                <svg width="10" height="10" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="5" cy="5" r="5" fill="#if ($g.location.value == $LOCAL)green #else red#end"/>
-                </svg>
-                <a style="color:black;" href='javascript:app.openDetail($g.id)'>
-                    <span style='font-size:24px;'>${g.titles.mainTitle}</span>
-                </a>
-                <span>${g.titles.subTitle}</span>
+        #foreach($g in $gamelist)
+        <game class="flex_row game">
+            <img class="img_alone" src="$IMG_REMOTE/game/${GetchuGameLocal.tiny120Img($g)}.jpg"/>
+            #parse("/tpl/game/explorer/part/gameInfomain.html")
+            <span>${g.state.value}</span>
+        </game>
 
-            </article>
-
-            <main style="flex:1">
-                <brand style="display:block;font-size:14px;">
-                    <a style="margin-right:5px;" href="javascript:app.openBrand($g.id)">${g.brand.name}</a>
-                    (<a href="javascript:app.openUrl('${g.brand.website}')">公式サイト</a>)
-                </brand>
-                <tags>
-                    #foreach($tag in $g.tag)
-                    #if($tag.length()>0)
-                    <tag class='tag'>$tag</tag>
-                    #end
-                    #end
-                </tags>
-            </main>
-            <footer class="flex_row">
-                    <span>
-                        #if ($DateUtil.needFormat($g.publishDate))
-                        ${DateUtil.formatDate($g.publishDate)}(${g.publishDate})
-                        #else
-                        $g.publishDate
-                        #end
-                    </span>
-                <span style="margin-left: auto;">${g.state.value}</span>
-            </footer>
-        </detail>
-    </game>
-
-
-    #end
-</main>
+        #end
+    </main>
 
 </body>
 

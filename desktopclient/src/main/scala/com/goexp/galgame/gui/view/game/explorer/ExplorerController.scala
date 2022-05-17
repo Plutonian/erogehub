@@ -143,6 +143,8 @@ class ExplorerController extends DefaultController {
         .tpl("/tpl/game/explorer/list.html")
         .process(root)
 
+      println(str)
+
       // set js obj
       val webEngine = listView.getEngine
       webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {

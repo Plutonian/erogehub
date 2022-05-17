@@ -40,7 +40,7 @@ class InnerPageController extends DefaultController {
       Websites.open(BangumiURL.fromTitle(cv))
     }
 
-    def openBrand() = {
+    def openBrand(id: Int) = {
       HGameApp.viewBrand(game.brand)
     }
 

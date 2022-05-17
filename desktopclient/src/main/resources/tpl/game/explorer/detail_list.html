@@ -13,7 +13,7 @@
         #foreach($g in $gamelist)
         <game class="flex_column game">
             <imageGroup class="flex_row" style="flex:1;column-gap: 10px;">
-                <img class="img_alone" src="$IMG_REMOTE/game/${GetchuGameLocal.normalImg($g)}.jpg"/>
+                <img class="img_alone" src="$IMG_REMOTE/game/${GetchuGameLocal.largeImg($g)}.jpg"/>
                 <images class="image_grid" style="flex:1;">
                     #foreach($img in $g.gameImgs)
                     <img class="sample_img"

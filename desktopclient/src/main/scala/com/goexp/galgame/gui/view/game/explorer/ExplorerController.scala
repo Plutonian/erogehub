@@ -121,7 +121,7 @@ class ExplorerController extends DefaultController {
     }
 
     def openCV(cv: String) = {
-      HGameApp.loadCVTab(cv, false)
+      HGameApp.loadCVTab(cv, real = false)
     }
   }
 
@@ -142,9 +142,7 @@ class ExplorerController extends DefaultController {
       val str = VelocityTemplateConfig
         .tpl("/tpl/game/explorer/list.html")
         .process(root)
-
-      println(str)
-
+      
       // set js obj
       val webEngine = listView.getEngine
       webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {

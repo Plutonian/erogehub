@@ -10,6 +10,7 @@ import com.goexp.galgame.data.source.getchu.DB_NAME
 import com.goexp.galgame.data.source.getchu.query.GameQuery.{SimpleGameCreator, TABLE_NAME}
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Projections.exclude
+import com.mongodb.client.model.Sorts.descending
 import com.typesafe.scalalogging.Logger
 import org.bson.Document
 
@@ -58,7 +59,9 @@ object GameQuery {
 }
 
 object GameFullQuery {
-  val fullTlp = DBQuery[Game](Config.DB_STRING, DB_NAME, TABLE_NAME, SimpleGameCreator).build
+  val fullTlp = DBQuery[Game](Config.DB_STRING, DB_NAME, TABLE_NAME, SimpleGameCreator)
+    .defaultSort(descending("publishDate", "name"))
+    .build
 
   def apply() = fullTlp
 }
@@ -66,6 +69,7 @@ object GameFullQuery {
 object GameFullWithCharQuery {
   val fullTlpWithChar = DBQuery[Game](Config.DB_STRING, DB_NAME, TABLE_NAME, SimpleGameCreator)
     .defaultSelect(exclude("simpleImg"))
+    .defaultSort(descending("publishDate", "name"))
     .build
 
   def apply() = fullTlpWithChar
@@ -75,6 +79,7 @@ object GameSimpleQuery {
   val simpleTlp = DBQuery[Game](Config.DB_STRING, DB_NAME, TABLE_NAME, SimpleGameCreator)
     .defaultSelect(exclude("gamechar"))
     .defaultSelect(exclude("simpleImg"))
+    .defaultSort(descending("publishDate", "name"))
     .build
 
 

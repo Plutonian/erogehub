@@ -6,10 +6,11 @@ import com.goexp.galgame.gui.view.game.explorer.ExplorerController
 import com.goexp.ui.javafx.TaskService
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
+import org.bson.conversions.Bson
 import scalafx.Includes._
 import scalafx.scene.layout.StackPane
 
-class ExplorerData(private val taskCreator: () => Task[ObservableList[Game]]) extends StackPane with Controller {
+class ExplorerData(private val taskCreator: () => Task[ObservableList[Game]], filterCondition: Bson) extends StackPane with Controller {
 
   private val loader = new SimpleFxmlLoader[ExplorerController]("explorer.fxml")
   private val node = loader.node
@@ -21,12 +22,15 @@ class ExplorerData(private val taskCreator: () => Task[ObservableList[Game]]) ex
 
   override def load(): Unit = {
     queryService.restart()
+
+
   }
 
   private def init() = {
 
     queryService.value.onChange((_, _, newValue) => {
       if (newValue != null) {
+        controller.initFilter = filterCondition
         controller.load(newValue)
       }
     })
@@ -41,5 +45,7 @@ class ExplorerData(private val taskCreator: () => Task[ObservableList[Game]]) ex
 }
 
 object ExplorerData {
-  def apply(taskCreator: => Task[ObservableList[Game]]): ExplorerData = new ExplorerData(() => taskCreator)
+  def apply(taskCreator: => Task[ObservableList[Game]], filterCondition: Bson): ExplorerData = {
+    new ExplorerData(() => taskCreator, filterCondition)
+  }
 }

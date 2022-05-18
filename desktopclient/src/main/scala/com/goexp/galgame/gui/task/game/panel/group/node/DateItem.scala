@@ -10,6 +10,6 @@ case class DateItem(title: String,
                     dateType: DateType) extends DataItem {
 
   def this(title: String, start: LocalDate, end: LocalDate, count: Int, dateType: DateType) = {
-    this(title, new DateRange(start, end), count, dateType)
+    this(title, DateRange(start, end), count, dateType)
   }
 }

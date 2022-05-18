@@ -1,6 +1,7 @@
 package com.goexp.galgame.gui
 
 import com.goexp.galgame.gui.HGameApp.app
+import com.goexp.galgame.gui.db.mongo.query.GameQuery
 import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.game.search.{ByCV, ByPainter}
 import com.goexp.galgame.gui.util.res.LocalRes
@@ -11,6 +12,7 @@ import com.goexp.galgame.gui.view.game.detailview.outer.OutPageController
 import com.goexp.galgame.gui.view.game.{ExplorerData, HomeController}
 import com.goexp.galgame.gui.view.guide.SearchView
 import com.goexp.ui.javafx.FXMLLoaderProxy
+import com.mongodb.client.model.Filters
 import com.typesafe.scalalogging.Logger
 import javafx.application.Application
 import javafx.scene.paint.Color
@@ -44,7 +46,7 @@ object HGameApp extends App {
   def loadPainterTab(painter: String) = {
 
     TabManager().open(painter, {
-      new DataTab(ExplorerData(new ByPainter(painter))) {
+      new DataTab(ExplorerData(new ByPainter(painter), Filters.eq("painter", painter))) {
         text = (painter)
       }
     })
@@ -53,7 +55,14 @@ object HGameApp extends App {
   def loadCVTab(cv: String, real: Boolean) = {
 
     TabManager().open(cv, {
-      new DataTab(ExplorerData(new ByCV(cv, real))) {
+      new DataTab(ExplorerData(new ByCV(cv, real), {
+
+
+        if (real)
+          Filters.eq("gamechar.truecv", cv)
+        else
+          Filters.eq("gamechar.cv", cv)
+      })) {
         text = (cv)
         graphic = (new ImageView(LocalRes.CV_16_PNG))
       }
@@ -78,7 +87,7 @@ object HGameApp extends App {
 
   def openTag(tag: String) = {
     TabManager().open(tag,
-      new DataTab(ExplorerData(new com.goexp.galgame.gui.task.game.search.ByTag(tag))) {
+      new DataTab(ExplorerData(new com.goexp.galgame.gui.task.game.search.ByTag(tag),Filters.eq("tag", tag))) {
         text = (tag)
         graphic = (new ImageView(LocalRes.TAG_16_PNG))
       }

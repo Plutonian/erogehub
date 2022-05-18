@@ -4,6 +4,7 @@ import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.model.game.GameLocation
 import com.goexp.galgame.common.website.getchu.GetchuGameLocal
 import com.goexp.galgame.gui.model.Game
+import com.goexp.galgame.gui.task.game.panel.group.node.BrandItem
 import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
 import com.goexp.galgame.gui.util.Websites
 import com.goexp.galgame.gui.view.VelocityTemplateConfig
@@ -21,10 +22,13 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.web.WebView
 import netscape.javascript.JSObject
 import org.apache.velocity.VelocityContext
+import org.bson.BsonDocument
+import org.bson.codecs.configuration.CodecRegistries
+import org.bson.codecs.{BsonValueCodecProvider, ValueCodecProvider}
+import org.bson.conversions.Bson
 import org.controlsfx.control.PopOver
 import scalafx.Includes._
 
-import java.util
 import java.util.function.Predicate
 import scala.jdk.CollectionConverters._
 
@@ -67,11 +71,16 @@ class ExplorerController extends DefaultController {
   @FXML private var cvWebView: WebView = _
 
   private var filteredGames: FilteredList[Game] = _
-  private var groupPredicate: Predicate[Game] = _
-  private var filterPredicate: Predicate[Game] = _
+  //  private var groupPredicate: Predicate[Game] = _
+  //  private var filterPredicate: Predicate[Game] = _
+
+  //  private var groupFilter: Bson = _
+  //  private var filterFilter: Bson = _
 
   final private val filterCondition = new FilterCondition()
   final private val filter = new FilterPanel()
+
+  final var initFilter: Bson = _
 
 
   def load(games: ObservableList[Game]): Unit = {
@@ -79,7 +88,7 @@ class ExplorerController extends DefaultController {
 
     filteredGames = new FilteredList(games)
     // set defaultPredicate
-    filterPredicate = FilterCondition.DEFAULT_GAME_PREDICATE
+    //    filterPredicate = FilterCondition.DEFAULT_GAME_PREDICATE
 
     filterPanel.setVisible(true)
 
@@ -87,10 +96,12 @@ class ExplorerController extends DefaultController {
     lbItemCount.text <== Bindings.size(filteredGames).asString()
     lbItemFullCount.text <== Bindings.size(games).asString()
 
+    //    filterFilter = FilterCondition.FilterUtils.DEFAULT_GAME_FILTER
+    //    groupFilter = null
 
 
     // set filter
-    filteredGames.setPredicate(filterPredicate)
+    filteredGames.setPredicate(filterCondition.finalPredicate())
 
 
     val sortedData = new SortedList[Game](filteredGames)
@@ -131,18 +142,18 @@ class ExplorerController extends DefaultController {
 
     def reList() = {
 
-      val root = new VelocityContext()
+      //      val root = new VelocityContext()
+      //
+      //      root.put("IMG_REMOTE", Config.IMG_REMOTE)
+      //      root.put("GetchuGameLocal", GetchuGameLocal)
+      //      root.put("LOCAL", GameLocation.LOCAL)
+      //      root.put("DateUtil", DateUtil)
+      //      root.put("gamelist", filteredGames)
+      //
+      //      val str = VelocityTemplateConfig
+      //        .tpl("/tpl/game/explorer/list.html")
+      //        .process(root)
 
-      root.put("IMG_REMOTE", Config.IMG_REMOTE)
-      root.put("GetchuGameLocal", GetchuGameLocal)
-      root.put("LOCAL", GameLocation.LOCAL)
-      root.put("DateUtil", DateUtil)
-      root.put("gamelist", filteredGames)
-
-      val str = VelocityTemplateConfig
-        .tpl("/tpl/game/explorer/list.html")
-        .process(root)
-      
       // set js obj
       val webEngine = listView.getEngine
       webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {
@@ -151,7 +162,15 @@ class ExplorerController extends DefaultController {
           win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
         }
       })
-      webEngine.loadContent(str)
+      //      webEngine.loadContent(str)
+
+      val bson = FilterCondition.FilterUtils.mergeFilter(filterCondition.FilterUtil.finalFilter(), initFilter)
+      val filterStr =
+        bson.toBsonDocument(classOf[BsonDocument], CodecRegistries.fromProviders(new BsonValueCodecProvider(), new ValueCodecProvider()))
+
+      println(filterStr)
+
+      webEngine.load(s"http://localhost:9000/query?filter=$filterStr&tpl=list")
 
     }
 
@@ -160,17 +179,17 @@ class ExplorerController extends DefaultController {
 
     def reDetail() = {
 
-      val root = new VelocityContext()
-
-      root.put("IMG_REMOTE", Config.IMG_REMOTE)
-      root.put("GetchuGameLocal", GetchuGameLocal)
-      root.put("LOCAL", GameLocation.LOCAL)
-      root.put("DateUtil", DateUtil)
-      root.put("gamelist", filteredGames)
-
-      val str = VelocityTemplateConfig
-        .tpl("/tpl/game/explorer/detail_list.html")
-        .process(root)
+//      val root = new VelocityContext()
+//
+//      root.put("IMG_REMOTE", Config.IMG_REMOTE)
+//      root.put("GetchuGameLocal", GetchuGameLocal)
+//      root.put("LOCAL", GameLocation.LOCAL)
+//      root.put("DateUtil", DateUtil)
+//      root.put("gamelist", filteredGames)
+//
+//      val str = VelocityTemplateConfig
+//        .tpl("/tpl/game/explorer/detail_list.html")
+//        .process(root)
 
 
       // set js obj
@@ -181,7 +200,15 @@ class ExplorerController extends DefaultController {
           win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
         }
       })
-      webEngine.loadContent(str)
+//      webEngine.loadContent(str)
+
+      val bson = FilterCondition.FilterUtils.mergeFilter(filterCondition.FilterUtil.finalFilter(), initFilter)
+      val filterStr =
+        bson.toBsonDocument(classOf[BsonDocument], CodecRegistries.fromProviders(new BsonValueCodecProvider(), new ValueCodecProvider()))
+
+      println(filterStr)
+
+      webEngine.load(s"http://localhost:9000/query?filter=$filterStr&tpl=detail_list")
 
     }
 
@@ -189,17 +216,17 @@ class ExplorerController extends DefaultController {
 
     def reGrid() = {
 
-      val root = new VelocityContext()
-
-      root.put("IMG_REMOTE", Config.IMG_REMOTE)
-      root.put("GetchuGameLocal", GetchuGameLocal)
-      root.put("LOCAL", GameLocation.LOCAL)
-      root.put("DateUtil", DateUtil)
-      root.put("gamelist", filteredGames)
-
-      val str = VelocityTemplateConfig
-        .tpl("/tpl/game/explorer/grid.html")
-        .process(root)
+//      val root = new VelocityContext()
+//
+//      root.put("IMG_REMOTE", Config.IMG_REMOTE)
+//      root.put("GetchuGameLocal", GetchuGameLocal)
+//      root.put("LOCAL", GameLocation.LOCAL)
+//      root.put("DateUtil", DateUtil)
+//      root.put("gamelist", filteredGames)
+//
+//      val str = VelocityTemplateConfig
+//        .tpl("/tpl/game/explorer/grid.html")
+//        .process(root)
 
 
       // set js obj
@@ -210,7 +237,15 @@ class ExplorerController extends DefaultController {
           win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
         }
       })
-      webEngine.loadContent(str)
+//      webEngine.loadContent(str)
+
+      val bson = FilterCondition.FilterUtils.mergeFilter(filterCondition.FilterUtil.finalFilter(), initFilter)
+      val filterStr =
+        bson.toBsonDocument(classOf[BsonDocument], CodecRegistries.fromProviders(new BsonValueCodecProvider(), new ValueCodecProvider()))
+
+      println(filterStr)
+
+      webEngine.load(s"http://localhost:9000/query?filter=$filterStr&tpl=grid")
 
     }
 
@@ -244,11 +279,14 @@ class ExplorerController extends DefaultController {
 
 
     lbItemFullCount.setOnAction(_ => {
-      filterPredicate = FilterCondition.DEFAULT_GAME_PREDICATE
-      groupPredicate = null
+      //      filterPredicate = FilterCondition.DEFAULT_GAME_PREDICATE
+      //      groupPredicate = null
+
+      //      filterFilter = FilterCondition.FilterUtils.DEFAULT_GAME_FILTER
+      //      groupFilter = null
 
       // set filter
-      filteredGames.setPredicate(filterPredicate)
+      filteredGames.setPredicate(filterCondition.finalPredicate())
 
 
       reload()
@@ -263,11 +301,12 @@ class ExplorerController extends DefaultController {
       if (newValue) {
         filterCondition.date = dateGroupController.selectedDate
         filterCondition.makeDatePredicate()
+        filterCondition.FilterUtil.makeDateFilter()
 
 
-        groupPredicate = filterCondition.groupPredicate
+        //        groupPredicate = filterCondition.groupPredicate
 
-        filteredGames.setPredicate(FilterCondition.mergePredicate(filterPredicate, groupPredicate))
+        filteredGames.setPredicate(filterCondition.finalPredicate())
 
         reload()
       }
@@ -277,13 +316,19 @@ class ExplorerController extends DefaultController {
 
     brandGroupView.selectedBrand.onChange((_, _, newValue) => {
       if (newValue != null) {
-        filterCondition.brand = newValue.getValue
-        filterCondition.makeBrandPredicate()
+        newValue.getValue match {
+          case BrandItem(_, _, _) =>
 
-        groupPredicate = filterCondition.groupPredicate
+            filterCondition.brand = newValue.getValue
+            filterCondition.makeBrandPredicate()
+            filterCondition.FilterUtil.makeBrandFilter()
 
-        filteredGames.setPredicate(FilterCondition.mergePredicate(filterPredicate, groupPredicate))
-        reload()
+            filteredGames.setPredicate(filterCondition.finalPredicate())
+            reload()
+          case _ =>
+        }
+
+
       }
 
     })
@@ -341,7 +386,7 @@ class ExplorerController extends DefaultController {
     // right sideBar
     filter.onSetProperty.addListener((_, _, newV) => {
       if (newV) {
-        val load = groupPredicate == null
+        val load = filterCondition.groupPredicate == null
 
 
         filterCondition._selectedGameLocation = filter._selectedGameLocation
@@ -350,11 +395,12 @@ class ExplorerController extends DefaultController {
         filterCondition._switchAll = filter._switchAll.get()
 
         filterCondition.makeFilterPredicate()
+        filterCondition.FilterUtil.makeFilterFilter()
 
-        filterPredicate = filterCondition.filterPredicate
+        //        filterPredicate = filterCondition.filterPredicate
 
 
-        filteredGames.setPredicate(FilterCondition.mergePredicate(filterCondition.filterPredicate, groupPredicate))
+        filteredGames.setPredicate(filterCondition.finalPredicate())
         reload()
 
 

@@ -3,6 +3,7 @@ package com.goexp.galgame.gui.view.game.search
 import com.goexp.galgame.gui.task.game.search.{ByName, ByNameEx}
 import com.goexp.galgame.gui.view.game.ExplorerData
 import com.goexp.ui.javafx.DefaultController
+import com.mongodb.client.model.Filters.regex
 import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
 import javafx.scene.control.{Button, TextField, ToggleGroup}
@@ -33,7 +34,14 @@ class SearchController extends DefaultController {
         case _ => null
       }
 
-      val conn = ExplorerData(task)
+      val conn = ExplorerData(task, {
+        searchType match {
+          case SearchType.Simple => regex("name", s"^${title.value}")
+          case SearchType.Extend => regex("name", title.value)
+          //            case SearchType.Full => new ByTag(key)
+          case _ => null
+        }
+      })
       searchPanel.setCenter(conn)
       conn.load()
     })

@@ -4,7 +4,10 @@
 # ~~~~
 
 # An example controller showing a sample home page
+GET     /query                                controllers.GameController.queryGET(request: play.mvc.Http.Request)
+POST     /query                                controllers.GameController.queryPOST(request: play.mvc.Http.Request)
 GET     /game/:id                                controllers.GameController.info(id:Int)
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /*file               controllers.Assets.versioned(path="/public", file: Asset)

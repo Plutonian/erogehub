@@ -11,12 +11,15 @@ import com.goexp.galgame.gui.view.game.HomeController._
 import com.goexp.galgame.gui.view.game.explorer.sidebar.{FilterCondition, FilterPanel}
 import com.goexp.galgame.gui.view.game.search.SearchController
 import com.goexp.ui.javafx.DefaultController
+import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Filters.and
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.Hyperlink
 import javafx.scene.layout.Pane
+import org.bson.conversions.Bson
 import org.controlsfx.control.PopOver
 import org.controlsfx.control.PopOver.ArrowLocation
 import scalafx.Includes._
@@ -29,6 +32,8 @@ class ConfigItem[T] {
   var title: String = _
   var icon: ImageView = _
   var dataTask: Task[ObservableList[T]] = _
+
+  var filterCondition: Bson = _
 }
 
 object HomeController {
@@ -39,14 +44,24 @@ object HomeController {
     new ConfigItem[Game] {
       title = "优"
       dataTask = new ByStarRange(4, 5)
+      filterCondition = and(
+        Filters.gte("star", 4),
+        Filters.lte("star", 5)
+      )
     },
     new ConfigItem[Game] {
       title = "良"
       dataTask = new ByStarRange(3, 3)
+      filterCondition = Filters.eq("star", 3)
+
     },
     new ConfigItem[Game] {
       title = "差"
       dataTask = new ByStarRange(1, 2)
+      filterCondition = and(
+        Filters.gte("star", 1),
+        Filters.lte("star", 2)
+      )
     }
   )
 
@@ -54,6 +69,7 @@ object HomeController {
     new ConfigItem[Game] {
       title = GameLocation.LOCAL.name
       dataTask = new ByLocation(GameLocation.LOCAL)
+      filterCondition = Filters.eq("location", GameLocation.LOCAL.value)
     },
     //    new ConfigItem[Game] {
     //      title = GameLocation.NETDISK.name
@@ -62,6 +78,8 @@ object HomeController {
     new ConfigItem[Game] {
       title = GameLocation.REMOTE.name
       dataTask = new ByLocation(GameLocation.REMOTE)
+      filterCondition = Filters.eq("location", GameLocation.REMOTE.value)
+
     }
   )
 
@@ -69,10 +87,14 @@ object HomeController {
     new ConfigItem[Game] {
       title = GameState.PLAYED.name
       dataTask = new ByState(GameState.PLAYED)
+      filterCondition = Filters.eq("state", GameState.PLAYED.value)
+
     },
     new ConfigItem[Game] {
       title = GameState.PLAYING.name
       dataTask = new ByState(GameState.PLAYING)
+      filterCondition = Filters.eq("state", GameState.PLAYING.value)
+
     }
   )
 
@@ -84,6 +106,8 @@ object HomeController {
     new ConfigItem[Game] {
       title = "Wishlist"
       dataTask = new ByState(GameState.HOPE)
+      filterCondition = Filters.eq("state", GameState.HOPE.value)
+
     }
   )
 
@@ -118,7 +142,7 @@ class HomeController extends DefaultController {
         setGraphic(item.icon)
         setOnAction { _ =>
           TabManager().open(item.title,
-            new DataTab(ExplorerData(item.dataTask)) {
+            new DataTab(ExplorerData(item.dataTask,item.filterCondition)) {
               text = item.title
             }
           )

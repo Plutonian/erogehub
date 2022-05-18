@@ -14,13 +14,19 @@ import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
 class Game extends CommonGame with Logger {
+  @BeanProperty
   var state: GameState = _
+  @BeanProperty
   var location: GameLocation = _
+  @BeanProperty
   var star: Int = _
+  @BeanProperty
   var brandId = 0
+  @BeanProperty
   var group: String = _
 
-  @BeanProperty var brand: Brand = _
+  @BeanProperty
+  var brand: Brand = _
 
   //  override def equals(o: Any): Boolean = {
   //

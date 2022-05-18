@@ -1,11 +1,13 @@
 package com.goexp.galgame.gui.view.game
 
+import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.gui.task.game.search.ByDateRange
 import com.goexp.galgame.gui.util.TabManager
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.view.common.control.DataTab
 import com.goexp.ui.javafx.DefaultController
 import com.goexp.ui.javafx.control.cell.TextListCell
+import com.mongodb.client.model.Filters.{and, gte, lte}
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.ListView
@@ -59,8 +61,13 @@ class DateController extends DefaultController {
 
       logger.debug(s"Range:${from}  ${to}")
 
+      val dateFilter = and(
+        gte("publishDate", DateUtil.toDate(s"${from.toString} 00:00:00")),
+        lte("publishDate", DateUtil.toDate(s"${to.toString} 23:59:59"))
+      )
+
       TabManager().open(title, {
-        new DataTab(ExplorerData(new ByDateRange(from, to))) {
+        new DataTab(ExplorerData(new ByDateRange(from, to),dateFilter)) {
           text = (title)
           graphic = new ImageView(LocalRes.DATE_16_PNG)
         }
@@ -75,9 +82,14 @@ class DateController extends DefaultController {
 
       logger.debug(s"Range:${from}  ${to}")
 
+      val dateFilter = and(
+        gte("publishDate", DateUtil.toDate(s"${from.toString} 00:00:00")),
+        lte("publishDate", DateUtil.toDate(s"${to.toString} 23:59:59"))
+      )
+
 
       TabManager().open(title, {
-        new DataTab(ExplorerData(new ByDateRange(from, to))) {
+        new DataTab(ExplorerData(new ByDateRange(from, to),dateFilter)) {
           text = (title)
           graphic = new ImageView(LocalRes.DATE_16_PNG)
         }

@@ -6,6 +6,7 @@ import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{Controller, TabManager}
 import com.goexp.galgame.gui.view.common.control.DataTab
 import com.goexp.ui.javafx.TaskService
+import com.mongodb.client.model.Filters
 import javafx.scene.control
 import scalafx.Includes._
 import scalafx.event.ActionEvent
@@ -33,7 +34,7 @@ class TagView extends ScrollPane with Controller {
           val targetTag = link.text()
 
           TabManager().open(targetTag,
-            new DataTab(ExplorerData(new ByTag(targetTag))) {
+            new DataTab(ExplorerData(new ByTag(targetTag),Filters.eq("tag", targetTag))) {
               text = (targetTag)
               graphic = (new ImageView(LocalRes.TAG_16_PNG))
             }

@@ -4,6 +4,7 @@ import com.goexp.galgame.gui.model.{Brand, Game}
 import com.goexp.galgame.gui.task.game.search.ByBrand
 import com.goexp.galgame.gui.view.game.explorer.ExplorerController
 import com.goexp.ui.javafx.{DefaultController, TaskService}
+import com.mongodb.client.model.Filters
 import javafx.beans.property.SimpleObjectProperty
 import javafx.collections.ObservableList
 import javafx.collections.transformation.FilteredList
@@ -27,6 +28,7 @@ class InfoController extends DefaultController {
     gameByBrand.value.onChange((_, _, newValue) => {
       if (newValue != null) {
         val filteredGames = new FilteredList[Game](newValue)
+
         dataViewController.load(filteredGames)
       }
     })
@@ -42,6 +44,7 @@ class InfoController extends DefaultController {
         titleController.brandName <== Bindings.createStringBinding(() => newValue.name)
         titleController.state <==> newValue.state
 
+        dataViewController.initFilter = Filters.eq("brandId", newValue.id)
         gameByBrand.restart()
       }
 

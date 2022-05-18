@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://localhost:9000/css.css">
+    <title>Title</title>
+</head>
+
+<body>
+    <main class="flex_column" style="gap:10px;">
+
+        #foreach($g in $gamelist)
+        <game class="flex_row game">
+            <img class="img_alone" src="$IMG_REMOTE/game/${GetchuGameLocal.tiny120Img($g)}.jpg"/>
+            #parse("/tpl/game/explorer/part/gameInfomain.html")
+            <span>${g.state}</span>
+        </game>
+
+        #end
+    </main>
+
+</body>
+
+</html>

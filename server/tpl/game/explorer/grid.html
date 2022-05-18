@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://localhost:9000/css.css">
+    <title>Title</title>
+</head>
+
+<body>
+<main style="grid-template-columns: repeat(auto-fill, 280px);justify-items: center;" class="grid">
+    #foreach($g in $gamelist)
+    <game class="flex_column game" style="min-height:600px;">
+        <img class="img_alone" src="$IMG_REMOTE/game/${GetchuGameLocal.normalImg($g)}.jpg"/>
+        #parse("/tpl/game/explorer/part/gameInfomain.html")
+        <span style="margin-left: auto;">$g.state</span>
+    </game>
+    #end
+</main>
+
+</body>
+
+</html>

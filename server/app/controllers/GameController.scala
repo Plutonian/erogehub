@@ -1,20 +1,18 @@
 package controllers
 
-import com.goexp.galgame.data.source.getchu.query.GameFullQuery
-import com.mongodb.client.model.Filters
-import play.libs.Json
-import play.mvc.Controller
-import play.mvc.Results.{notFound, ok}
 import com.fasterxml.jackson.databind.DeserializationFeature._
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.goexp.common.util.date.DateUtil
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.GameLocation
 import com.goexp.galgame.common.website.getchu.GetchuGameLocal
+import com.goexp.galgame.data.source.getchu.query.GameFullQuery
 import com.goexp.galgame.gui.Config
-import com.goexp.galgame.gui.view.VelocityTemplateConfig
+import com.mongodb.client.model.Filters
 import org.apache.velocity.VelocityContext
 import play.libs.Json
+import play.mvc.Controller
+import play.mvc.Results.{notFound, ok}
 
 class GameController extends Controller {
 
@@ -54,6 +52,13 @@ class GameController extends Controller {
       case None => notFound()
     }
 
+
+  }
+
+  def query()={
+//    Filters.and(
+//      Filters.eq()
+//    )
 
   }
 }

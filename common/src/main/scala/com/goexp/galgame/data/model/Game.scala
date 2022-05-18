@@ -9,6 +9,7 @@ import com.goexp.galgame.data.Config
 
 import java.nio.file.{Files, Path}
 import java.util.StringJoiner
+import scala.beans.BeanProperty
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
@@ -18,6 +19,8 @@ class Game extends CommonGame with Logger {
   var star: Int = _
   var brandId = 0
   var group: String = _
+
+  @BeanProperty var brand: Brand = _
 
   //  override def equals(o: Any): Boolean = {
   //

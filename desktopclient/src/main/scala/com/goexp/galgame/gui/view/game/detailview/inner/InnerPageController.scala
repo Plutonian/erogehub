@@ -57,19 +57,19 @@ class InnerPageController extends DefaultController {
     this.game = game
 
 
-    val root = new VelocityContext()
-
-    root.put("IMG_REMOTE", Config.IMG_REMOTE)
-    root.put("GetchuGameLocal", GetchuGameLocal)
-    root.put("LOCAL", GameLocation.LOCAL)
-    root.put("DateUtil", DateUtil)
-    root.put("Strings", Strings)
-    root.put("g", game)
-
-
-    val str = VelocityTemplateConfig
-      .tpl("/tpl/game/detail/index.html")
-      .process(root)
+//    val root = new VelocityContext()
+//
+//    root.put("IMG_REMOTE", Config.IMG_REMOTE)
+//    root.put("GetchuGameLocal", GetchuGameLocal)
+//    root.put("LOCAL", GameLocation.LOCAL)
+//    root.put("DateUtil", DateUtil)
+//    root.put("Strings", Strings)
+//    root.put("g", game)
+//
+//
+//    val str = VelocityTemplateConfig
+//      .tpl("/tpl/game/detail/index.html")
+//      .process(root)
 
     // set js obj
     val webEngine = indexWebView.getEngine
@@ -79,7 +79,7 @@ class InnerPageController extends DefaultController {
         win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
       }
     })
-    webEngine.loadContent(str)
+    webEngine.load(s"http://localhost:9000/game/${game.id}")
 
   }
 

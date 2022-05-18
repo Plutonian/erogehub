@@ -1,11 +1,10 @@
 package com.goexp.galgame.gui.model
 
-import java.util.StringJoiner
 import com.goexp.galgame.common.model.GameStatistics
-import com.goexp.galgame.common.model.game.GameLocation
 import com.goexp.galgame.common.model.game.brand.{BrandState, CommonBrand}
 import javafx.beans.property.SimpleObjectProperty
 
+import java.util.StringJoiner
 import scala.beans.BeanProperty
 
 class Brand extends CommonBrand {

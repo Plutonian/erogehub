@@ -1,11 +1,11 @@
 package com.goexp.galgame.gui.model
 
-import java.util.StringJoiner
 import com.goexp.common.util.string.ConsoleColors.RED
 import com.goexp.common.util.string.StringOption
 import com.goexp.galgame.common.model.game.{CommonGame, GameLocation, GameState}
 import javafx.beans.property.{SimpleIntegerProperty, SimpleObjectProperty}
 
+import java.util.StringJoiner
 import scala.beans.BeanProperty
 
 class Game extends CommonGame {
@@ -17,7 +17,6 @@ class Game extends CommonGame {
 
   def getWriter: String = String.join(",", writer)
 
-//  def getPainter: String = String.join(",", painter)
 
   def getType: String = String.join(",", `type`)
 

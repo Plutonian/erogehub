@@ -3,7 +3,7 @@ package com.goexp.galgame.common.model.game
 import scala.beans.BeanProperty
 
 case class GameImg(
-                    @BeanProperty src: String,
+                    src: String,
                     @BeanProperty index: Int
                   ) {
 

@@ -5,10 +5,10 @@ import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.util.Websites
 import com.goexp.ui.javafx.DefaultController
-import javafx.concurrent.Worker
 import javafx.fxml.FXML
 import javafx.scene.web.WebView
 import netscape.javascript.JSObject
+import scalafx.Includes._
 
 class InnerPageController extends DefaultController {
   private var game: Game = _
@@ -53,14 +53,17 @@ class InnerPageController extends DefaultController {
 
     // set js obj
     val webEngine = indexWebView.getEngine
-    webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {
-      if (newState eq Worker.State.SUCCEEDED) {
-        val win = webEngine.executeScript("window").asInstanceOf[JSObject] // 获取js对象
-        win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
-      }
-    })
-    webEngine.load(s"http://localhost:9000/game/${game.id}")
 
+    webEngine.getLoadWorker.exceptionProperty().onChange((_,_,e)=>e.printStackTrace())
+
+    webEngine.documentProperty().onChange((_, _, newState) => {
+
+      webEngine.executeScript("if (!document.getElementById('FirebugLite')){E = document['createElement' + 'NS'] && document.documentElement.namespaceURI;E = E ? document['createElement' + 'NS'](E, 'script') : document['createElement']('script');E['setAttribute']('id', 'FirebugLite');E['setAttribute']('src', 'https://getfirebug.com/' + 'firebug-lite.js' + '#startOpened');E['setAttribute']('FirebugLite', '4');(document['getElementsByTagName']('head')[0] || document['getElementsByTagName']('body')[0]).appendChild(E);E = new Image;E['setAttribute']('src', 'https://getfirebug.com/' + '#startOpened');}");
+      val win = webEngine.executeScript("window").asInstanceOf[JSObject] // 获取js对象
+                win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
+    })
+
+    webEngine.load(s"http://localhost:9000/server/game/${game.id}")
   }
 
 }

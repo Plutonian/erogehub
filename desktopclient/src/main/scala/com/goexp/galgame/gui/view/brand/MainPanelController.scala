@@ -1,15 +1,13 @@
 package com.goexp.galgame.gui.view.brand
 
-import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Brand
 import com.goexp.galgame.gui.task.brand.search.{ByComp, ByName, ByType}
 import com.goexp.galgame.gui.util.Tags.maker
 import com.goexp.galgame.gui.util.{Tags, Websites}
-import com.goexp.ui.javafx.control.cell.{NodeTableCell, TextTableCell}
+import com.goexp.ui.javafx.control.cell.NodeTableCell
 import com.goexp.ui.javafx.{DefaultController, TaskService}
-import javafx.beans.binding.IntegerBinding
 import javafx.beans.property.{SimpleObjectProperty, SimpleStringProperty}
 import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
@@ -17,36 +15,11 @@ import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.layout.HBox
 import scalafx.Includes._
-import scalafx.beans.binding.Bindings
 
-import java.time.LocalDate
 import java.util
 import scala.jdk.CollectionConverters._
 
 class MainPanelController extends DefaultController {
-
-  @FXML var colStart: TableColumn[Brand, LocalDate] = _
-  @FXML var colEnd: TableColumn[Brand, LocalDate] = _
-
-  @FXML var colCount: TableColumn[Brand, Int] = _
-  @FXML var colRealCount: TableColumn[Brand, Int] = _
-
-  @FXML var colPlayed: TableColumn[Brand, Int] = _
-  @FXML var colPlaying: TableColumn[Brand, Int] = _
-  @FXML var colHope: TableColumn[Brand, Int] = _
-  @FXML var colViewLater: TableColumn[Brand, Int] = _
-  @FXML var colUncheck: TableColumn[Brand, Int] = _
-
-  @FXML var colZero: TableColumn[Brand, Int] = _
-  @FXML var colOne: TableColumn[Brand, Int] = _
-  @FXML var colTwo: TableColumn[Brand, Int] = _
-  @FXML var colThree: TableColumn[Brand, Int] = _
-  @FXML var colFour: TableColumn[Brand, Int] = _
-  @FXML var colFive: TableColumn[Brand, Int] = _
-
-  @FXML var colLocal: TableColumn[Brand, Int] = _
-  @FXML var colNetdisk: TableColumn[Brand, Int] = _
-  @FXML var colRemote: TableColumn[Brand, Int] = _
 
   @FXML private var colTag: TableColumn[Brand, List[String]] = _
 
@@ -132,40 +105,11 @@ class MainPanelController extends DefaultController {
 
   override protected def initComponent(): Unit = {
 
-    colPlayed.setText(GameState.PLAYED.name)
-    colPlaying.setText(GameState.PLAYING.name)
-    colHope.setText(GameState.HOPE.name)
-    //      colViewLater.setText(GameState.READYTOVIEW.name)
-    colUncheck.setText(GameState.UNCHECKED.name)
-
     colComp.setCellValueFactory(p => new SimpleStringProperty(p.getValue.comp))
     colName.setCellValueFactory(p => new SimpleStringProperty(p.getValue.name))
     colTag.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.tag))
     colWebsite.setCellValueFactory(p => new SimpleStringProperty(p.getValue.website))
     colState.setCellValueFactory(p => p.getValue.state)
-    colStart.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.start))
-    colEnd.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.end))
-
-    colCount.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.count))
-    colRealCount.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.realCount))
-    colPlayed.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.played))
-    colPlaying.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.playing))
-    colHope.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.hope))
-    //      colViewLater.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.viewLater))
-    colUncheck.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.uncheck))
-
-
-    colZero.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.zero))
-    colOne.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.one))
-    colTwo.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.two))
-    colThree.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.three))
-    colFour.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.four))
-    colFive.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.five))
-
-
-    colLocal.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.local))
-    //      colNetdisk.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.netdisk))
-    colRemote.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.remote))
 
     colName.setCellFactory(_ => {
 
@@ -195,17 +139,6 @@ class MainPanelController extends DefaultController {
       }
     })
 
-    colStart.setCellFactory { _ =>
-      TextTableCell { startDate =>
-        startDate.getYear.toString
-      }
-    }
-
-    colEnd.setCellFactory(_ =>
-      TextTableCell { endDate =>
-        endDate.getYear.toString
-      }
-    )
     colWebsite.setCellFactory(_ => {
       var url: String = null
       val titleLabel = new Hyperlink()

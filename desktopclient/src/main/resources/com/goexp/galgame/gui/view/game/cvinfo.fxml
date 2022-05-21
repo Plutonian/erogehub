@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.goexp.galgame.gui.view.common.control.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.web.WebView?>
 <TabPane fx:controller="com.goexp.galgame.gui.view.game.CVInfoController"
@@ -16,45 +15,7 @@
                 <TableColumn fx:id="colStar" editable="false" prefWidth="120.0" resizable="false"
                              text="Star"/>
                 <TableColumn fx:id="colName" editable="false" prefWidth="120" text="Name"/>
-                <TableColumn text="Date Statistics">
-                    <columns>
-                        <TableColumn fx:id="colStart" prefWidth="50.0" resizable="false" text="Start"/>
-                        <TableColumn fx:id="colEnd" prefWidth="50.0" resizable="false" text="End"/>
-                    </columns>
-                </TableColumn>
-                <TableColumn text="Count Statistics">
-                    <columns>
-                        <DataTableColumn fx:id="colCount" prefWidth="60.0" resizable="false" text="Count"/>
-                        <DataTableColumn fx:id="colRealCount" prefWidth="100.0" resizable="false" text="RealCount"/>
-                    </columns>
-                </TableColumn>
 
-                <TableColumn text="State Statistics">
-                    <columns>
-                        <DataTableColumn fx:id="colPlayed" prefWidth="100.0" resizable="false" text="Played"/>
-                        <DataTableColumn fx:id="colPlaying" prefWidth="80.0" resizable="false" text="Playing"/>
-                        <DataTableColumn fx:id="colHope" prefWidth="80.0" resizable="false" text="Hope"/>
-                        <!--                <DataTableColumn fx:id="colViewLater" prefWidth="80.0" resizable="false" text="ViewLater"/>-->
-                        <DataTableColumn fx:id="colUncheck" prefWidth="80.0" resizable="false" text="Uncheck"/>
-                    </columns>
-                </TableColumn>
-                <TableColumn text="Star Statistics">
-                    <columns>
-                        <DataTableColumn fx:id="colFive" prefWidth="30.0" resizable="false" text="5"/>
-                        <DataTableColumn fx:id="colFour" prefWidth="30.0" resizable="false" text="4"/>
-                        <DataTableColumn fx:id="colThree" prefWidth="30.0" resizable="false" text="3"/>
-                        <DataTableColumn fx:id="colTwo" prefWidth="30.0" resizable="false" text="2"/>
-                        <DataTableColumn fx:id="colOne" prefWidth="30.0" resizable="false" text="1"/>
-                        <DataTableColumn fx:id="colZero" prefWidth="30.0" resizable="false" text="0"/>
-                    </columns>
-                </TableColumn>
-                <TableColumn text="Location Statistics">
-                    <columns>
-                        <DataTableColumn fx:id="colLocal" prefWidth="60.0" resizable="false" text="Local"/>
-                        <!--                <DataTableColumn fx:id="colNetdisk" prefWidth="60.0" resizable="false" text="NetDisk"/>-->
-                        <DataTableColumn fx:id="colRemote" prefWidth="60.0" resizable="false" text="Remote"/>
-                    </columns>
-                </TableColumn>
                 <TableColumn fx:id="colTag" editable="false" prefWidth="400" sortable="false" text="Tag"/>
             </columns>
         </TableView>

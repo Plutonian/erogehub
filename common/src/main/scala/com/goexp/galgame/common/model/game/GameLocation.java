@@ -5,9 +5,9 @@ import java.util.stream.Stream;
 public enum GameLocation {
     REMOTE("Remote", 0),
     LOCAL("Local", 1);
-//    NETDISK("NetDisk", 2);
 
     public final String name;
+
     public final int value;
 
 

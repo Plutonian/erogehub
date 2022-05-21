@@ -170,7 +170,7 @@ class ExplorerController extends DefaultController {
 
       println(filterStr)
 
-      webEngine.load(s"http://localhost:9000/query?filter=$filterStr&tpl=list")
+      webEngine.load(s"http://localhost:9000/server/query?filter=$filterStr&tpl=list")
 
     }
 
@@ -208,7 +208,7 @@ class ExplorerController extends DefaultController {
 
       println(filterStr)
 
-      webEngine.load(s"http://localhost:9000/query?filter=$filterStr&tpl=detail_list")
+      webEngine.load(s"http://localhost:9000/server/query?filter=$filterStr&tpl=detail_list")
 
     }
 
@@ -245,7 +245,7 @@ class ExplorerController extends DefaultController {
 
       println(filterStr)
 
-      webEngine.load(s"http://localhost:9000/query?filter=$filterStr&tpl=grid")
+      webEngine.load(s"http://localhost:9000/server/query?filter=$filterStr&tpl=grid")
 
     }
 

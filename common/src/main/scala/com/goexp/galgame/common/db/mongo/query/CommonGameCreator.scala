@@ -28,7 +28,10 @@ class CommonGameCreator(
     game.smallImg = doc.getString("smallImg")
     game.painter = doc.get("painter", classOf[util.List[String]])
     game.writer = doc.get("writer", classOf[util.List[String]])
-    game.tag = doc.get("tag", classOf[util.List[String]])
+
+
+    val tags = doc.get("tag", classOf[util.List[String]])
+    game.tag = tags.asScala.to(LazyList).filter(Strings.isNotEmpty).asJava
     game.`type` = doc.get("type", classOf[util.List[String]])
 
     import Creator._

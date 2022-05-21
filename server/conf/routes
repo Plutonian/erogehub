@@ -4,10 +4,11 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /query                                controllers.GameController.queryGET(request: play.mvc.Http.Request)
-POST     /query                                controllers.GameController.queryPOST(request: play.mvc.Http.Request)
-GET     /game/:id                                controllers.GameController.info(id:Int)
+GET         /server/query                  controllers.GameController.queryGET(request: play.mvc.Http.Request)
+POST        /server/query                  controllers.GameController.queryPOST(request: play.mvc.Http.Request)
+GET         /server/game/:id               controllers.GameController.info(id:Int)
+GET         /api/game/detail/:id        controllers.GameController.info2(id:Int)
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET         /*file                      controllers.Assets.versioned(path="/public", file: Asset)

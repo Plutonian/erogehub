@@ -37,22 +37,6 @@ class GameController extends Controller {
     GameFullQuery().where(Filters.eq(id)).one() match {
       case Some(g) =>
 
-        val bson = Filters.and(
-          Filters.eq("name", "6565"),
-          Filters.gt("age", 300)
-        ).toBsonDocument(
-          classOf[BsonDocument],
-          CodecRegistries.fromProviders(new BsonValueCodecProvider(), new ValueCodecProvider())
-        )
-        println(s"Bson:${bson.toJson()}")
-
-        //        Bson
-
-        //        BsonDocument.parse()
-
-        //        BsonDocument.toJson()
-
-
         val root = new VelocityContext()
 
         root.put("IMG_REMOTE", Config.IMG_REMOTE)
@@ -64,13 +48,40 @@ class GameController extends Controller {
 
 
         val str = VelocityTemplateConfig
-          .tpl("/tpl/game/detail/index.html")
+          .tpl("/tpl/game/detail/index.vm")
           .process(root)
 
 
         println(g)
 
         ok(str).as("text/html; charset=utf-8")
+      case None => notFound()
+    }
+  }
+
+  def info2(id: Int) = {
+    GameFullQuery().where(Filters.eq(id)).one() match {
+      case Some(g) =>
+
+
+//        val root = new VelocityContext()
+//
+//        root.put("IMG_REMOTE", Config.IMG_REMOTE)
+//        root.put("GetchuGameLocal", GetchuGameLocal)
+//        root.put("LOCAL", GameLocation.LOCAL)
+//        root.put("DateUtil", DateUtil)
+//        root.put("Strings", Strings)
+//        root.put("g", g)
+//
+//
+//        val str = VelocityTemplateConfig
+//          .tpl("/tpl/game/detail/index.vm")
+//          .process(root)
+
+
+        println(g)
+
+        ok(Json.toJson(g)).as("application/json; charset=utf-8")
       case None => notFound()
     }
   }

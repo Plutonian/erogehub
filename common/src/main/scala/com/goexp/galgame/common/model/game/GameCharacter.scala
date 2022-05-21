@@ -8,7 +8,7 @@ case class GameCharacter(@BeanProperty name: String,
                          @BeanProperty cv: String,
                          @BeanProperty intro: String,
                          @BeanProperty trueCV: String,
-                         @BeanProperty img: String,
+                         img: String,
                          @BeanProperty index: Int) {
 
 

@@ -30,31 +30,6 @@ class CVInfoController extends DefaultController with Controller {
   @FXML private var colStar: TableColumn[CV, Int] = _
   @FXML private var colTag: TableColumn[CV, List[String]] = _
 
-
-  @FXML private var colStart: TableColumn[CV, LocalDate] = _
-  @FXML private var colEnd: TableColumn[CV, LocalDate] = _
-
-  @FXML private var colCount: TableColumn[CV, Int] = _
-  @FXML private var colRealCount: TableColumn[CV, Int] = _
-
-  @FXML private var colPlayed: TableColumn[CV, Int] = _
-  @FXML private var colPlaying: TableColumn[CV, Int] = _
-  @FXML private var colHope: TableColumn[CV, Int] = _
-  @FXML private var colViewLater: TableColumn[CV, Int] = _
-  @FXML private var colUncheck: TableColumn[CV, Int] = _
-
-  @FXML private var colZero: TableColumn[CV, Int] = _
-  @FXML private var colOne: TableColumn[CV, Int] = _
-  @FXML private var colTwo: TableColumn[CV, Int] = _
-  @FXML private var colThree: TableColumn[CV, Int] = _
-  @FXML private var colFour: TableColumn[CV, Int] = _
-  @FXML private var colFive: TableColumn[CV, Int] = _
-
-  @FXML private var colLocal: TableColumn[CV, Int] = _
-  @FXML private var colNetdisk: TableColumn[CV, Int] = _
-  @FXML private var colRemote: TableColumn[CV, Int] = _
-
-
   @FXML private var cvWebView: WebView = _
 
 
@@ -63,39 +38,8 @@ class CVInfoController extends DefaultController with Controller {
 
   override protected def initComponent(): Unit = {
 
-    colPlayed.setText(GameState.PLAYED.name)
-    colPlaying.setText(GameState.PLAYING.name)
-    colHope.setText(GameState.HOPE.name)
-    //    colViewLater.setText(GameState.READYTOVIEW.name)
-    colUncheck.setText(GameState.UNCHECKED.name)
-
-
     colName.setCellValueFactory(param => new SimpleStringProperty(param.getValue.name))
     colStar.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.star))
-
-    colStart.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.start))
-    colEnd.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.end))
-
-    colCount.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.count))
-    colRealCount.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.realCount))
-    colPlayed.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.played))
-    colPlaying.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.playing))
-    colHope.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.hope))
-    //    colViewLater.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.viewLater))
-    colUncheck.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.state.uncheck))
-
-
-    colZero.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.zero))
-    colOne.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.one))
-    colTwo.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.two))
-    colThree.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.three))
-    colFour.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.four))
-    colFive.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.star.five))
-
-
-    colLocal.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.local))
-    //    colNetdisk.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.netdisk))
-    colRemote.setCellValueFactory(p => new SimpleObjectProperty(p.getValue.statistics.location.remote))
 
     colTag.setCellValueFactory(param => new SimpleObjectProperty(param.getValue.tag))
 
@@ -122,18 +66,6 @@ class CVInfoController extends DefaultController with Controller {
         link
       }
     }
-
-    colStart.setCellFactory(_ =>
-      TextTableCell { startDate =>
-        startDate.getYear.toString
-      }
-    )
-
-    colEnd.setCellFactory(_ =>
-      TextTableCell { endDate =>
-        endDate.getYear.toString
-      }
-    )
 
     colTag.setCellFactory(_ => {
       val hbox = new HBox {

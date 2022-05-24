@@ -1,0 +1,17 @@
+<div *ngIf="g!=null" class="flex_column" style="gap:3px;">
+  <app-info [game]="g"></app-info>
+
+  <section class="flex_row">
+    <img class="img_alone"
+         src="{{imgUrl()}}/game_l.jpg"/>
+    <textarea style="flex: 1" readonly="readonly" rows="20">{{g.intro}}{{g.story}}</textarea>
+  </section>
+
+  <app-game-characters [game]="g"></app-game-characters>
+
+  <!--imgs-->
+  <section *ngIf="g.gameImgs?.length>0" class="flex_row" style="flex-wrap: wrap">
+    <img *ngFor="let img of g.gameImgs" class="sample_img"
+         src="{{imgUrl()}}/simple_l_{{img.index}}.jpg"/>
+  </section>
+</div>

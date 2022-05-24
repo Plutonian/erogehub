@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+
+        .taggroup {
+            max-width: 250px;
+        }
+    </style>
+    <link rel="stylesheet" href="/css.css">
+    <title>Title</title>
+</head>
+<body>
+<main class="flex_row" style="gap:5px 5px;flex-wrap: wrap">
+    #foreach($tagType in $tagGroup)
+        <section class="flex_column taggroup">
+            <span>${tagType.name}</span>
+            <main class="flex_row" style="flex-wrap: wrap;flex: 1;gap:3px;">
+                #foreach($tag in ${tagType.javaTag()})
+                    <a href="javascript:app.queryByTag('$tag')" class="tag">$tag</a>
+                #end
+            </main>
+        </section>
+
+    #end
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css.css">
+    <title>Title</title>
+</head>
+
+<body>
+YYYYY
+<main style="flex-wrap: wrap;gap: 10px;" class="flex_row">
+
+    #foreach($item in $taglist)
+    <section>
+        <a class="tag" style="font-size: 14px;" href="javascript:app.openTag('$item.title')">$item.title</a>
+        <span>($item.count)</span>
+    </section>
+
+    #end
+</main>
+
+</body>
+
+</html>

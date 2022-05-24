@@ -1,0 +1,30 @@
+
+<!--characters-->
+<section *ngIf="game.gameCharacters.length>0" class="grid characters">
+  <div *ngFor="let character of game.gameCharacters" class="flex_row">
+    <aside class="imageborder">
+      <img
+        src="{{imgUrl()}}/char_s_{{character.index}}.jpg"/>
+    </aside>
+    <main class="flex_column" style="flex:1">
+                <span>
+                    {{character.name}}
+                </span>
+      <div *ngIf="character.cv?.trim().length>0" class="flex_row" style="gap:3px;font-size:14px">
+        <span>CV: </span>
+
+        <span *ngIf="character.trueCV?.trim.length>0">
+            <a class="trueCV" href="javascript:app.loadCVTab('{{character.trueCV}}',true)">{{character.trueCV}}</a>
+            </span>
+        <span><a
+          href="javascript:app.loadCVTab('{{character.cv}}',false)">{{character.cv}}</a></span>
+        <span>(<a href="javascript:app.openWiki('{{character.cv}}')">Wiki</a>)</span>
+        <span>(<a href="javascript:app.openBangumi('{{character.cv}}')">Bangumi</a>)</span>
+      </div>
+
+      <textarea readonly="readonly" style="flex:1">{{character.intro}}</textarea>
+
+    </main>
+
+  </div>
+</section>

@@ -1,0 +1,43 @@
+<detail class="flex_column" style="flex:1;gap:2px;">
+    <article>
+        <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="5" cy="5" r="5" fill="#if ($g.location == $LOCAL)green #else red#end"/>
+        </svg>
+
+        <span style='font-size:24px;'>
+        <a style="color:black;" href='javascript:app.openDetail($g.id)'>
+            $g.titles.mainTitle
+        </a>
+            </span>
+        <span>$g.titles.subTitle</span>
+
+    </article>
+
+    <brand>
+        <a style="display:inline-block;" href="javascript:app.openBrand($g.id)">${g.brand.name}</a>
+        <span style="display:inline-block;margin-left:5px;">(<a
+                href="javascript:app.openUrl('$g.brand.website')">公式サイト</a>)</span>
+    </brand>
+    <gamedate>
+        #if ($DateUtil.needFormat($g.publishDate))
+        ${g.publishDate}(${DateUtil.formatDate($g.publishDate)})
+        #else
+        $g.publishDate
+        #end
+    </gamedate>
+    <stars>
+        #if($g.star>0)
+        #foreach($i in [1..$g.star])
+        #include("/tpl/game/explorer/star.vm")
+        #end
+        #end
+    </stars>
+    <tags>
+        #foreach($tag in $g.tag)
+        #if($tag.length()>0)
+        <tag class='tag'>$tag</tag>
+        #end
+        #end
+    </tags>
+
+</detail>

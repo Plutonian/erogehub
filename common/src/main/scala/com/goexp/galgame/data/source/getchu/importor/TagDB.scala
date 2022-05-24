@@ -16,7 +16,7 @@ object TagDB {
     val docs = item
       .to(LazyList)
       .map(tagType => {
-        new Document("type", tagType.`type`)
+        new Document("type", tagType.name)
           .append("order", tagType.order)
           .append("tags", tagType.tags)
       }).asJava

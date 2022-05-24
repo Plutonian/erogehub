@@ -1,36 +1,22 @@
 package controllers
 
-import com.fasterxml.jackson.databind.DeserializationFeature._
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.goexp.common.util.date.DateUtil
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.GameLocation
 import com.goexp.galgame.common.website.getchu.GetchuGameLocal
 import com.goexp.galgame.data.source.getchu.query.GameFullQuery
 import com.goexp.galgame.gui.Config
+import com.goexp.galgame.gui.task.game.panel.group.node.{DataItem, SampleItem}
 import com.mongodb.client.model.Filters
 import org.apache.velocity.VelocityContext
 import org.bson.BsonDocument
-import org.bson.codecs.configuration.CodecRegistries
-import org.bson.codecs.{BsonValueCodecProvider, ValueCodecProvider}
-import play.libs.Json
 import play.mvc.Controller
 import play.mvc.Http.Request
 import play.mvc.Results.{notFound, ok}
 
-import scala.beans.BeanProperty
+import scala.jdk.CollectionConverters._
 
 class GameController extends Controller {
-
-
-  val mapper = new ObjectMapper()
-    .disable(FAIL_ON_UNKNOWN_PROPERTIES)
-    .disable(READ_DATE_TIMESTAMPS_AS_NANOSECONDS)
-    .disable(ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
-
-
-  // Needs to set to Json helper
-  Json.setObjectMapper(mapper)
 
 
   def info(id: Int) = {
@@ -59,32 +45,6 @@ class GameController extends Controller {
     }
   }
 
-  def info2(id: Int) = {
-    GameFullQuery().where(Filters.eq(id)).one() match {
-      case Some(g) =>
-
-
-//        val root = new VelocityContext()
-//
-//        root.put("IMG_REMOTE", Config.IMG_REMOTE)
-//        root.put("GetchuGameLocal", GetchuGameLocal)
-//        root.put("LOCAL", GameLocation.LOCAL)
-//        root.put("DateUtil", DateUtil)
-//        root.put("Strings", Strings)
-//        root.put("g", g)
-//
-//
-//        val str = VelocityTemplateConfig
-//          .tpl("/tpl/game/detail/index.vm")
-//          .process(root)
-
-
-        println(g)
-
-        ok(Json.toJson(g)).as("application/json; charset=utf-8")
-      case None => notFound()
-    }
-  }
 
   def queryGET(request: Request) = {
 
@@ -92,11 +52,7 @@ class GameController extends Controller {
 
     val tpl = request.queryString("tpl").orElseThrow()
 
-    println(where)
-
     val list = GameFullQuery().where(BsonDocument.parse(where)).list()
-
-//    println(list)
 
     val root = new VelocityContext()
 
@@ -107,7 +63,7 @@ class GameController extends Controller {
     root.put("gamelist", list)
 
     val str = VelocityTemplateConfig
-      .tpl(s"/tpl/game/explorer/${tpl}.html")
+      .tpl(s"/tpl/game/explorer/${tpl}.vm")
       .process(root)
 
     //    val input = """{"id" : 1111,"name":"abc"}""";
@@ -127,39 +83,84 @@ class GameController extends Controller {
 
   }
 
-  def queryPOST(request: Request) = {
+  def sideCV(request: Request)={
+    val where = request.queryString("filter").orElseThrow()
 
-    //    val json = request.body().asJson()
-    //
-    //
+    val list = GameFullQuery().where(BsonDocument.parse(where)).scalaList()
 
-    val body = request.body().asText()
-    println(s"Body:${body}")
+    val cvlist = list.to(LazyList)
+      .filter(g => Option(g.gameCharacters).map(_.size()).getOrElse(0) > 0)
+      .flatMap { g =>
+        g.gameCharacters.asScala.to(LazyList)
+          .map { p => p.getShowCV() }
+          .filter {
+            _.isDefined
+          }
+          .map { c => c.get }
+        //          .filter(t => Strings.isNotEmpty(t))
+      }
 
-    //    val json = request.queryString("json").orElseThrow()
+      .groupBy(s => s).to(LazyList)
+      .sortBy { case (_, v) => v.size }.reverse
+      //        .take(20)
+      .map { case (key, value) =>
+        SampleItem(key, value.size).asInstanceOf[DataItem]
 
-    //    val input = """{"id" : 1111,"name":"abc"}""";
-
-    //    val a = Json.fromJson(Json.parse(request.body().asText()), classOf[A])
-    val a = Json.fromJson(Json.parse(body), classOf[A])
-
-    println(a.id)
-    println(a.name)
+      }.asJava
 
 
-    //    request.queryString().forEach((k, v) => println(s"$k=${v.flatten.mkString(" ")}"))
-    //    Filters.and(
-    //      Filters.eq()
-    //    )
 
-    ok()
 
+
+    val root = new VelocityContext()
+
+    root.put("IMG_REMOTE", Config.IMG_REMOTE)
+    root.put("GetchuGameLocal", GetchuGameLocal)
+    root.put("LOCAL", GameLocation.LOCAL)
+    root.put("DateUtil", DateUtil)
+    root.put("cvlist", cvlist)
+
+    val str = VelocityTemplateConfig
+      .tpl(s"/tpl/game/explorer/sidebar/cvlist.vm")
+      .process(root)
+
+    ok(str).as("text/html; charset=utf-8")
   }
 
+  def sideTag(request: Request)={
+    val where = request.queryString("filter").orElseThrow()
+
+    val list = GameFullQuery().where(BsonDocument.parse(where)).scalaList()
+
+    val taglist = list.to(LazyList)
+      .filter(g => g.tag.size > 0)
+      .flatMap(g => g.tag.asScala.to(LazyList).filter(t => Strings.isNotEmpty(t)))
+
+      .groupBy(s => s).to(LazyList)
+      .sortBy { case (_, v) => v.size }.reverse
+      //        .take(20)
+      .map { case (key, value) =>
+        SampleItem(key, value.size).asInstanceOf[DataItem]
+      }.asJava
+
+
+
+
+
+    val root = new VelocityContext()
+
+    root.put("IMG_REMOTE", Config.IMG_REMOTE)
+    root.put("GetchuGameLocal", GetchuGameLocal)
+    root.put("LOCAL", GameLocation.LOCAL)
+    root.put("DateUtil", DateUtil)
+    root.put("taglist", taglist)
+
+    val str = VelocityTemplateConfig
+      .tpl(s"/tpl/game/explorer/sidebar/taglist.vm")
+      .process(root)
+
+    ok(str).as("text/html; charset=utf-8")
+  }
 
 }
 
-class A {
-  @BeanProperty var id: Int = _
-  @BeanProperty var name: String = _
-}

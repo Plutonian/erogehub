@@ -22,8 +22,6 @@ class ExplorerData(private val taskCreator: () => Task[ObservableList[Game]], fi
 
   override def load(): Unit = {
     queryService.restart()
-
-
   }
 
   private def init() = {

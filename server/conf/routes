@@ -5,9 +5,11 @@
 
 # An example controller showing a sample home page
 GET         /server/query                  controllers.GameController.queryGET(request: play.mvc.Http.Request)
-POST        /server/query                  controllers.GameController.queryPOST(request: play.mvc.Http.Request)
+GET         /server/sidecv                  controllers.GameController.sideCV(request: play.mvc.Http.Request)
+GET         /server/sidetag                  controllers.GameController.sideTag(request: play.mvc.Http.Request)
+GET         /server/tags                  controllers.TagController.list()
+GET         /server/cv                 controllers.CVController.list()
 GET         /server/game/:id               controllers.GameController.info(id:Int)
-GET         /api/game/detail/:id        controllers.GameController.info2(id:Int)
 
 
 # Map static resources from the /public folder to the /assets URL path

@@ -15,13 +15,14 @@ import java.time.LocalDate
 import java.util.function.Predicate
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
+import scala.language.postfixOps
 
 object FilterCondition {
 
   object FilterUtils {
     var DEFAULT_GAME_FILTER = and(
       Filters.nin("state", Set(GameState.BLOCK, GameState.SAME).map(_.value).asJava),
-      Filters.nin("star",Set(1,2).asJava)
+      Filters.nin("star", Set(1, 2).asJava)
     )
 
 
@@ -40,7 +41,7 @@ object FilterCondition {
   }
 
 
-  var DEFAULT_GAME_PREDICATE: Predicate[Game] = (g: Game) => !GameState.ignoreState().contains(g.state.get) && !Set(1,2).contains(g.star.intValue())
+  var DEFAULT_GAME_PREDICATE: Predicate[Game] = (g: Game) => !GameState.ignoreState().contains(g.state.get) && !Set(1, 2).contains(g.star.intValue())
 
 
   def mergeDefaultPredicate(p: Predicate[Game]) = {
@@ -111,6 +112,9 @@ class FilterCondition {
       groupFilter = if (date != null) {
         date match {
           case DateItem(_, DateRange(start, end), _, _) =>
+            println(s"$start - $end")
+
+
             and(
               gte("publishDate", DateUtil.toDate(s"${start.toString} 00:00:00")),
               lte("publishDate", DateUtil.toDate(s"${end.toString} 23:59:59"))
@@ -175,8 +179,11 @@ class FilterCondition {
         case DateItem(_, range, _, _) =>
           (game: Game) =>
             game.publishDate != null &&
-              game.publishDate.isBefore(range.end) &&
-              game.publishDate.isAfter(range.start)
+            (game.publishDate.isEqual(range.end) ||
+              game.publishDate.isBefore(range.end)) && (
+              game.publishDate.isEqual(range.start) ||
+                game.publishDate.isAfter(range.start)
+              )
       }
     } else null
 

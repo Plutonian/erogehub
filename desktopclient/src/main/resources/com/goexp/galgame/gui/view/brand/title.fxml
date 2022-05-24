@@ -1,35 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
-<StackPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.goexp.galgame.gui.view.brand.TitlePartController">
-    <children>
-        <FlowPane maxWidth="-Infinity" StackPane.alignment="CENTER_LEFT">
+<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.goexp.galgame.gui.view.brand.TitlePartController">
+    <center>
+        <HBox maxWidth="-Infinity" StackPane.alignment="CENTER_LEFT">
+            <Text fx:id="txtComp"/>
+            <Text text=">"/>
             <MenuButton fx:id="menuComp" mnemonicParsing="false" styleClass="copyablelabel"
-                        stylesheets="@/view/view.css" text="########">
-                <font>
-                    <Font size="18.0"/>
-                </font>
-            </MenuButton>
-            <Text fx:id="txtComp" strokeType="OUTSIDE" strokeWidth="0.0">
-                <font>
-                    <Font size="18.0"/>
-                </font>
-            </Text>
-        </FlowPane>
-        <HBox maxWidth="-Infinity" StackPane.alignment="CENTER_RIGHT">
-            <Button fx:id="btnBlock" text="Block"/>
+                        stylesheets="@/view/view.css" text="########"/>
             <ChoiceBox fx:id="choiceBrandState"/>
-            <StackPane.margin>
-                <Insets right="35.0"/>
-            </StackPane.margin>
+            <Button fx:id="btnBlock" text="Block"/>
         </HBox>
-    </children>
-</StackPane>
+
+    </center>
+</BorderPane>

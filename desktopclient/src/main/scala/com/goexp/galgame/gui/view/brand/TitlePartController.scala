@@ -60,9 +60,10 @@ class TitlePartController extends DefaultController {
       if (newValue != null) {
         val items = newValue.to(LazyList)
           .filter { b => b != brand }
+          .sortBy(_.state.get().value).reverse
           .map { brand =>
             val item = new MenuItem
-            item.setText(brand.name)
+            item.setText(s"${brand.name} [${brand.state.get()}]")
             item.setUserData(brand)
             item.setOnAction(_ => HGameApp.viewBrand(brand))
             item

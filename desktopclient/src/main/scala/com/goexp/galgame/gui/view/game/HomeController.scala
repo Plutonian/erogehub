@@ -142,7 +142,7 @@ class HomeController extends DefaultController {
         setGraphic(item.icon)
         setOnAction { _ =>
           TabManager().open(item.title,
-            new DataTab(ExplorerData(item.dataTask,item.filterCondition)) {
+            new DataTab(ExplorerData(item.dataTask, item.filterCondition)) {
               text = item.title
             }
           )
@@ -267,7 +267,7 @@ class HomeController extends DefaultController {
         new Tab() {
           text = "CV"
           content = loader.node
-          graphic = (new ImageView(LocalRes.CV_16_PNG))
+          graphic = new ImageView(LocalRes.CV_16_PNG)
         }
       }) {
         loader.controller.load()

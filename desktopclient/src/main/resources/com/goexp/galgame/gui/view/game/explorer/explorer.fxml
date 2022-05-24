@@ -3,24 +3,28 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.*?>
-<SplitPane dividerPositions="0.0, 0.5" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+<SplitPane dividerPositions="0.05" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.goexp.galgame.gui.view.game.explorer.ExplorerController">
-    <Accordion maxWidth="220.0">
-        <panes>
-            <TitledPane animated="false" text="Date">
-                <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml"/>
-            </TitledPane>
-            <TitledPane fx:id="brandGroup" animated="false" text="Brand">
-            </TitledPane>
-            <TitledPane animated="false" text="Tag">
-                <WebView fx:id="tagWebView"/>
-            </TitledPane>
-            <TitledPane animated="false" text="CV">
-                <WebView fx:id="cvWebView"/>
-            </TitledPane>
-        </panes>
-    </Accordion>
+    <SplitPane dividerPositions="0.8" orientation="VERTICAL">
+        <Accordion>
+            <panes>
+                <TitledPane animated="false" text="Date">
+                    <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml"/>
+                </TitledPane>
+                <TitledPane fx:id="brandGroup" animated="false" text="Brand">
+                </TitledPane>
+                <TitledPane animated="false" text="Tag">
+                    <WebView fx:id="tagWebView"/>
+                </TitledPane>
+                <TitledPane animated="false" text="CV">
+                    <WebView fx:id="cvWebView"/>
+                </TitledPane>
+            </panes>
+        </Accordion>
 
+        <BorderPane fx:id="filterPanel">
+        </BorderPane>
+    </SplitPane>
     <BorderPane>
         <center>
             <AnchorPane>
@@ -51,6 +55,6 @@
         </center>
     </BorderPane>
 
-    <BorderPane maxWidth="200.0" fx:id="filterPanel">
-    </BorderPane>
+
+
 </SplitPane>

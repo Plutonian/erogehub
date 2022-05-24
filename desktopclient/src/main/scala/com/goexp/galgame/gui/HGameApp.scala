@@ -70,7 +70,14 @@ object HGameApp extends App {
   }
 
   def loadDetail(game: Game) = {
+
+//    val stage = new Stage()
     val loader = new SimpleFxmlLoader[OutPageController]("out_page.fxml")
+//    stage.setTitle(game.name)
+//    stage.setScene(new Scene(loader.node))
+//    loader.controller.load(game)
+//
+//    stage.show()
 
     TabManager().open(game.name, {
       new Tab {

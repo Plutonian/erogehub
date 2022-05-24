@@ -24,8 +24,8 @@ class ByDate(val groupGames: util.List[Game]) extends Task[TreeItem[DateItem]] {
         val yearNode = {
           new TreeItem[DateItem](new DateItem(
             s"$year (${games.size})",
-            LocalDate.of(year, 1, 1).minusDays(1),
-            LocalDate.of(year, 12, 31).plusDays(1),
+            LocalDate.of(year, 1, 1),
+            LocalDate.of(year, 12, 31),
             games.size,
             DateType.YEAR))
         }
@@ -34,8 +34,8 @@ class ByDate(val groupGames: util.List[Game]) extends Task[TreeItem[DateItem]] {
           .sortBy { case (k, _) => k }.reverse
           .map { case (month, v) =>
             new TreeItem[DateItem](new DateItem(s"$month 月 (${v.size})",
-              LocalDate.of(year, month, 1).minusDays(1),
-              LocalDate.of(year, month, 1).plusMonths(1),
+              LocalDate.of(year, month, 1),
+              LocalDate.of(year, month, 1).plusMonths(1).minusDays(1),
               v.size, DateType.MONTH))
 
           }.asJava

@@ -2,12 +2,11 @@ package com.goexp.galgame.gui.view.game.explorer.sidebar
 
 import com.goexp.galgame.common.model.game.{GameLocation, GameState}
 import com.goexp.galgame.gui.util.Controller
-import javafx.event.ActionEvent
 import org.controlsfx.control.ToggleSwitch
 import scalafx.Includes._
 import scalafx.beans.property.BooleanProperty
-import scalafx.geometry.{Insets, Pos}
-import scalafx.scene.control.{Button, CheckBox, Label}
+import scalafx.geometry.Insets
+import scalafx.scene.control.{CheckBox, Label}
 import scalafx.scene.layout.{BorderPane, FlowPane, HBox, VBox}
 
 import scala.collection.mutable
@@ -37,9 +36,11 @@ class FilterPanel extends BorderPane with Controller {
   center = new FlowPane() {
     hgap = 50
     children = Seq(
-      new VBox() {
-        spacing = 5
+      //      new VBox() {
+      //        spacing = 5
 
+      //        children ++= Seq(
+      new VBox() {
         children ++= Seq(
           new Label("Star"),
           new VBox {
@@ -58,12 +59,18 @@ class FilterPanel extends BorderPane with Controller {
                         _selectedStar.add(star)
                       else
                         _selectedStar.remove(star)
+
+                      SetFilter_OnAction
                     }
 
                   }
                 })
 
-          },
+          }
+        )
+      },
+      new VBox() {
+        children ++= Seq(
           new Label("State"),
           new VBox {
             prefHeight = 100
@@ -83,12 +90,19 @@ class FilterPanel extends BorderPane with Controller {
                         _selectedGameState.add(gameType)
                       else
                         _selectedGameState.remove(gameType)
+
+                      SetFilter_OnAction
                     }
                   }
 
                 })
 
-          },
+          }
+        )
+      },
+      new VBox() {
+        children ++= Seq(
+
           new Label("Location"),
           new VBox {
             prefHeight = 100
@@ -108,34 +122,43 @@ class FilterPanel extends BorderPane with Controller {
                         _selectedGameLocation.add(gameLoc)
                       else
                         _selectedGameLocation.remove(gameLoc)
+
+
+                      SetFilter_OnAction()
                     }
                   }
                 })
 
-          },
+          }
         )
-
-      }
-
-    )
+      })
   }
+
+
+  //        )
+
+  //      }
+
+  //    )
+  //  }
 
   bottom = new HBox {
     spacing = 5
-    alignment = Pos.CenterRight
+    //    alignment = Pos.CenterRight
 
     children ++= Seq(
       new ToggleSwitch("発売のみ") {
         selectedProperty <==> _switchAll
-      },
-      new Button() {
-        text = "OK"
-        onAction = SetFilter_OnAction
       }
+      //      ,
+      //      new Button() {
+      //        text = "OK"
+      //        onAction = SetFilter_OnAction
+      //      }
     )
   }
 
-  private def SetFilter_OnAction(event: ActionEvent) = {
+  private def SetFilter_OnAction() = {
     onSetProperty.set(true)
     onSetProperty.set(false)
   }

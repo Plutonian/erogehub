@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.web.WebView?>
-<TabPane fx:controller="com.goexp.galgame.gui.view.game.CVInfoController"
-         side="RIGHT"
-         xmlns:fx="http://javafx.com/fxml/1"
-         stylesheets="@/view/view.css" xmlns="http://javafx.com/javafx/10.0.2-internal"
->
-    <Tab text="List">
-        <TableView fx:id="tableCV" prefHeight="651.0" prefWidth="1120.0" tableMenuButtonVisible="true"
-                   styleClass="back"
-        >
-            <columns>
-                <TableColumn fx:id="colStar" editable="false" prefWidth="120.0" resizable="false"
-                             text="Star"/>
-                <TableColumn fx:id="colName" editable="false" prefWidth="120" text="Name"/>
+<BorderPane fx:controller="com.goexp.galgame.gui.view.game.CVInfoController"
+            xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@/view/view.css" xmlns="http://javafx.com/javafx/10.0.2-internal">
+    <center>
+        <WebView fx:id="cvWebView">
+        </WebView>
+    </center>
 
-                <TableColumn fx:id="colTag" editable="false" prefWidth="400" sortable="false" text="Tag"/>
-            </columns>
-        </TableView>
-    </Tab>
-    <Tab text="Grid">
-        <WebView fx:id="cvWebView"/>
-    </Tab>
-</TabPane>
+
+</BorderPane>
+
 

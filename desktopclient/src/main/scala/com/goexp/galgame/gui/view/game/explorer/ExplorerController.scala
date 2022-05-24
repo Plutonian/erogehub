@@ -1,17 +1,12 @@
 package com.goexp.galgame.gui.view.game.explorer
 
-import com.goexp.common.util.date.DateUtil
-import com.goexp.galgame.common.model.game.GameLocation
-import com.goexp.galgame.common.website.getchu.GetchuGameLocal
+import com.goexp.galgame.gui.HGameApp
 import com.goexp.galgame.gui.model.Game
 import com.goexp.galgame.gui.task.game.panel.group.node.BrandItem
-import com.goexp.galgame.gui.task.game.panel.group.{ByCV, ByTag}
 import com.goexp.galgame.gui.util.Websites
-import com.goexp.galgame.gui.view.VelocityTemplateConfig
 import com.goexp.galgame.gui.view.game.explorer.sidebar.{BrandGroupView, DateGroupController, FilterCondition, FilterPanel}
 import com.goexp.galgame.gui.view.game.explorer.tableview.TableListController
-import com.goexp.galgame.gui.{Config, HGameApp}
-import com.goexp.ui.javafx.{DefaultController, TaskService}
+import com.goexp.ui.javafx.DefaultController
 import javafx.beans.binding.Bindings
 import javafx.collections.ObservableList
 import javafx.collections.transformation.{FilteredList, SortedList}
@@ -21,7 +16,6 @@ import javafx.scene.control._
 import javafx.scene.layout.BorderPane
 import javafx.scene.web.WebView
 import netscape.javascript.JSObject
-import org.apache.velocity.VelocityContext
 import org.bson.BsonDocument
 import org.bson.codecs.configuration.CodecRegistries
 import org.bson.codecs.{BsonValueCodecProvider, ValueCodecProvider}
@@ -29,14 +23,11 @@ import org.bson.conversions.Bson
 import org.controlsfx.control.PopOver
 import scalafx.Includes._
 
-import java.util.function.Predicate
 import scala.jdk.CollectionConverters._
 
 
 class ExplorerController extends DefaultController {
 
-  final private val groupCVServ = TaskService(new ByCV(filteredGames))
-  final private val groupTagServ = TaskService(new ByTag(filteredGames))
   final private val brandGroupView = new BrandGroupView()
   final private val popPanel = new PopOver
   /**
@@ -174,22 +165,22 @@ class ExplorerController extends DefaultController {
 
     }
 
-    reList()
+    //    reList()
 
 
     def reDetail() = {
 
-//      val root = new VelocityContext()
-//
-//      root.put("IMG_REMOTE", Config.IMG_REMOTE)
-//      root.put("GetchuGameLocal", GetchuGameLocal)
-//      root.put("LOCAL", GameLocation.LOCAL)
-//      root.put("DateUtil", DateUtil)
-//      root.put("gamelist", filteredGames)
-//
-//      val str = VelocityTemplateConfig
-//        .tpl("/tpl/game/explorer/detail_list.html")
-//        .process(root)
+      //      val root = new VelocityContext()
+      //
+      //      root.put("IMG_REMOTE", Config.IMG_REMOTE)
+      //      root.put("GetchuGameLocal", GetchuGameLocal)
+      //      root.put("LOCAL", GameLocation.LOCAL)
+      //      root.put("DateUtil", DateUtil)
+      //      root.put("gamelist", filteredGames)
+      //
+      //      val str = VelocityTemplateConfig
+      //        .tpl("/tpl/game/explorer/detail_list.html")
+      //        .process(root)
 
 
       // set js obj
@@ -200,7 +191,7 @@ class ExplorerController extends DefaultController {
           win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
         }
       })
-//      webEngine.loadContent(str)
+      //      webEngine.loadContent(str)
 
       val bson = FilterCondition.FilterUtils.mergeFilter(filterCondition.FilterUtil.finalFilter(), initFilter)
       val filterStr =
@@ -212,21 +203,21 @@ class ExplorerController extends DefaultController {
 
     }
 
-    reDetail()
+    //    reDetail()
 
     def reGrid() = {
 
-//      val root = new VelocityContext()
-//
-//      root.put("IMG_REMOTE", Config.IMG_REMOTE)
-//      root.put("GetchuGameLocal", GetchuGameLocal)
-//      root.put("LOCAL", GameLocation.LOCAL)
-//      root.put("DateUtil", DateUtil)
-//      root.put("gamelist", filteredGames)
-//
-//      val str = VelocityTemplateConfig
-//        .tpl("/tpl/game/explorer/grid.html")
-//        .process(root)
+      //      val root = new VelocityContext()
+      //
+      //      root.put("IMG_REMOTE", Config.IMG_REMOTE)
+      //      root.put("GetchuGameLocal", GetchuGameLocal)
+      //      root.put("LOCAL", GameLocation.LOCAL)
+      //      root.put("DateUtil", DateUtil)
+      //      root.put("gamelist", filteredGames)
+      //
+      //      val str = VelocityTemplateConfig
+      //        .tpl("/tpl/game/explorer/grid.html")
+      //        .process(root)
 
 
       // set js obj
@@ -237,7 +228,7 @@ class ExplorerController extends DefaultController {
           win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
         }
       })
-//      webEngine.loadContent(str)
+      //      webEngine.loadContent(str)
 
       val bson = FilterCondition.FilterUtils.mergeFilter(filterCondition.FilterUtil.finalFilter(), initFilter)
       val filterStr =
@@ -256,8 +247,51 @@ class ExplorerController extends DefaultController {
   private def loadGroupPanelData(filteredGames: FilteredList[Game]) = {
     dateGroupController.init(filteredGames)
     brandGroupView.init(filteredGames)
-    groupCVServ.restart()
-    groupTagServ.restart()
+
+
+    loadCVGroup()
+    loadTagGroup()
+
+  }
+
+  private def loadTagGroup() = {
+
+    // set js obj
+    val webEngine = tagWebView.getEngine
+    webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {
+      if (newState eq Worker.State.SUCCEEDED) {
+        val win = webEngine.executeScript("window").asInstanceOf[JSObject] // 获取js对象
+        win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
+      }
+    })
+
+    val bson = FilterCondition.FilterUtils.mergeFilter(filterCondition.FilterUtil.finalFilter(), initFilter)
+    val filterStr =
+      bson.toBsonDocument(classOf[BsonDocument], CodecRegistries.fromProviders(new BsonValueCodecProvider(), new ValueCodecProvider()))
+
+    println(filterStr)
+
+    webEngine.load(s"http://localhost:9000/server/sidetag?filter=$filterStr")
+  }
+
+  private def loadCVGroup() = {
+    // set js obj
+    val webEngine = cvWebView.getEngine
+    //        webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {
+    //          if (newState eq Worker.State.SUCCEEDED) {
+    //            val win = webEngine.executeScript("window").asInstanceOf[JSObject] // 获取js对象
+    //            win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
+    //          }
+    //        })
+
+
+    val bson = FilterCondition.FilterUtils.mergeFilter(filterCondition.FilterUtil.finalFilter(), initFilter)
+    val filterStr =
+      bson.toBsonDocument(classOf[BsonDocument], CodecRegistries.fromProviders(new BsonValueCodecProvider(), new ValueCodecProvider()))
+
+    println(filterStr)
+
+    webEngine.load(s"http://localhost:9000/server/sidecv?filter=$filterStr")
   }
 
   private def loadTable(sortedData: SortedList[Game]) = {
@@ -333,52 +367,6 @@ class ExplorerController extends DefaultController {
 
     })
 
-    groupCVServ.valueProperty.addListener((_, _, newValue) => {
-      if (newValue != null) {
-
-        val root = new VelocityContext()
-        root.put("cvlist", newValue)
-
-        val str = VelocityTemplateConfig
-          .tpl("/tpl/game/explorer/sidebar/cvlist.html")
-          .process(root)
-
-
-        // set js obj
-        val webEngine = cvWebView.getEngine
-        //        webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {
-        //          if (newState eq Worker.State.SUCCEEDED) {
-        //            val win = webEngine.executeScript("window").asInstanceOf[JSObject] // 获取js对象
-        //            win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
-        //          }
-        //        })
-        webEngine.loadContent(str)
-
-      }
-    })
-    groupTagServ.valueProperty.addListener((_, _, newValue) => {
-      if (newValue != null) {
-
-        val root = new VelocityContext()
-        root.put("taglist", newValue)
-
-        val str = VelocityTemplateConfig
-          .tpl("/tpl/game/explorer/sidebar/taglist.html")
-          .process(root)
-
-
-        // set js obj
-        val webEngine = tagWebView.getEngine
-        webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {
-          if (newState eq Worker.State.SUCCEEDED) {
-            val win = webEngine.executeScript("window").asInstanceOf[JSObject] // 获取js对象
-            win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
-          }
-        })
-        webEngine.loadContent(str)
-
-      }
-    })
   }
 
   private def initFilterPanel() = {

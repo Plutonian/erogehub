@@ -54,11 +54,9 @@ class InnerPageController extends DefaultController {
     // set js obj
     val webEngine = indexWebView.getEngine
 
-    webEngine.getLoadWorker.exceptionProperty().onChange((_,_,e)=>e.printStackTrace())
+//    webEngine.getLoadWorker.exceptionProperty().onChange((_,_,e)=>e.printStackTrace())
 
-    webEngine.documentProperty().onChange((_, _, newState) => {
-
-      webEngine.executeScript("if (!document.getElementById('FirebugLite')){E = document['createElement' + 'NS'] && document.documentElement.namespaceURI;E = E ? document['createElement' + 'NS'](E, 'script') : document['createElement']('script');E['setAttribute']('id', 'FirebugLite');E['setAttribute']('src', 'https://getfirebug.com/' + 'firebug-lite.js' + '#startOpened');E['setAttribute']('FirebugLite', '4');(document['getElementsByTagName']('head')[0] || document['getElementsByTagName']('body')[0]).appendChild(E);E = new Image;E['setAttribute']('src', 'https://getfirebug.com/' + '#startOpened');}");
+    webEngine.documentProperty().onChange((_, _, _) => {
       val win = webEngine.executeScript("window").asInstanceOf[JSObject] // 获取js对象
                 win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
     })

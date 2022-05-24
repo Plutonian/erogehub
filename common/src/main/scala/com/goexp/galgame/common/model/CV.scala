@@ -20,12 +20,12 @@ class CV {
   @BeanProperty
   var trueName: String = _
 
-  @BeanProperty
-  var start: LocalDate = _
-  @BeanProperty
-  var end: LocalDate = _
-  @BeanProperty
-  var size: Int = _
+//  @BeanProperty
+//  var start: LocalDate = _
+//  @BeanProperty
+//  var end: LocalDate = _
+//  @BeanProperty
+//  var size: Int = _
 
   @BeanProperty
   var tag: List[String] = _

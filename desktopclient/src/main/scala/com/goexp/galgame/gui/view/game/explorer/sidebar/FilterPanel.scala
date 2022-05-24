@@ -60,7 +60,7 @@ class FilterPanel extends BorderPane with Controller {
                       else
                         _selectedStar.remove(star)
 
-                      SetFilter_OnAction
+                      SetFilter_OnAction()
                     }
 
                   }
@@ -91,7 +91,7 @@ class FilterPanel extends BorderPane with Controller {
                       else
                         _selectedGameState.remove(gameType)
 
-                      SetFilter_OnAction
+                      SetFilter_OnAction()
                     }
                   }
 
@@ -133,14 +133,6 @@ class FilterPanel extends BorderPane with Controller {
         )
       })
   }
-
-
-  //        )
-
-  //      }
-
-  //    )
-  //  }
 
   bottom = new HBox {
     spacing = 5

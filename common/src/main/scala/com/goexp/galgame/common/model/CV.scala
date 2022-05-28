@@ -1,6 +1,7 @@
 package com.goexp.galgame.common.model
 
 import com.goexp.common.util.string.Strings
+import com.goexp.galgame.common.model.game.GameStatistics
 
 import java.time.LocalDate
 import java.util.StringJoiner

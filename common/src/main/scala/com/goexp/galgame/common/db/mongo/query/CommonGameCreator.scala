@@ -1,14 +1,13 @@
 package com.goexp.galgame.common.db.mongo.query
 
-import java.util
-
-import com.goexp.db.mongo.ObjectCreator
 import com.goexp.common.util.date.DateUtil
 import com.goexp.common.util.string.Strings
+import com.goexp.db.mongo.ObjectCreator
 import com.goexp.galgame.common.model.game.{CommonGame, GameCharacter, GameImg}
 import com.typesafe.scalalogging.Logger
 import org.bson.Document
 
+import java.util
 import scala.jdk.CollectionConverters._
 
 
@@ -31,7 +30,12 @@ class CommonGameCreator(
 
 
     val tags = doc.get("tag", classOf[util.List[String]])
-    game.tag = tags.asScala.to(LazyList).filter(Strings.isNotEmpty).asJava
+    game.tag =
+      if (tags != null)
+        tags.asScala.to(LazyList).filter(Strings.isNotEmpty).asJava
+      else List[String]().asJava
+
+
     game.`type` = doc.get("type", classOf[util.List[String]])
 
     import Creator._

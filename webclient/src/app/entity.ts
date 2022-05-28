@@ -46,3 +46,42 @@ export interface Brand {
   "comp": String
   "state": String
 }
+
+
+export interface CV {
+  name: String
+}
+
+export interface TagGroup {
+  name: String
+  javaTags: String[]
+}
+
+export interface CVGroup {
+  star: Number
+  list: CV[]
+}
+
+export interface GroupItem {
+  title: String
+  count: Number
+}
+
+export interface CVGroupItem {
+  title: String
+  count: Number
+  real: Boolean
+}
+
+export interface DateGroupItem {
+  title: String,
+  // range: DateRange,
+  count: Number,
+  dateType: String,
+  children: DateGroupItem[]
+}
+
+export interface State {
+  name: String
+  value: Number
+}

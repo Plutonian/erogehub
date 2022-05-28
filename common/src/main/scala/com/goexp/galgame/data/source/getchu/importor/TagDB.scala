@@ -2,8 +2,8 @@ package com.goexp.galgame.data.source.getchu.importor
 
 import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
+import com.goexp.galgame.common.Config.DB_NAME
 import com.goexp.galgame.common.model.TagType
-import com.goexp.galgame.data.source.getchu.DB_NAME
 import org.bson.Document
 
 import scala.jdk.CollectionConverters._

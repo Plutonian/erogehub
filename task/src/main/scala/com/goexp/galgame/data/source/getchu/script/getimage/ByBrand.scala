@@ -1,7 +1,7 @@
 package com.goexp.galgame.data.source.getchu.script.getimage
 
+import com.goexp.galgame.common.model.brand.BrandState
 import com.goexp.galgame.common.model.game.GameState
-import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameFullQuery}
 import com.mongodb.client.model.Filters.and

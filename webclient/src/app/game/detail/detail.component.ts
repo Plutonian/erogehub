@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Game} from "../../entity";
 import {GameService} from "../game.service";
-import {Arrays} from "../../../main";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 
 @Component({
@@ -51,23 +50,20 @@ export class DetailComponent implements OnInit {
   // }
 
 
-  constructor(private service: GameService,private route:ActivatedRoute) {
 
-  }
+  constructor(private service: GameService, private route: ActivatedRoute) {
 
-  imgUrl() {
-    return `http://192.168.2.236/game/${this.g?.publishDate?.year}/${this.g?.publishDate?.monthValue}/${this.g?.id}`
   }
 
   ngOnInit(): void {
 
-    this.route.params.subscribe(p=> {
+    this.route.params.subscribe(p => {
 
       // @ts-ignore
       this.service.info(p.id)
         .subscribe((game: Game) => this.g = game)
 
-      })
+    })
 
   }
 

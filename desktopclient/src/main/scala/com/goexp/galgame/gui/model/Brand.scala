@@ -1,7 +1,7 @@
 package com.goexp.galgame.gui.model
 
-import com.goexp.galgame.common.model.GameStatistics
-import com.goexp.galgame.common.model.game.brand.{BrandState, CommonBrand}
+import com.goexp.galgame.common.model.brand.{BrandState, CommonBrand}
+import com.goexp.galgame.common.model.game.GameStatistics
 import javafx.beans.property.SimpleObjectProperty
 
 import java.util.StringJoiner

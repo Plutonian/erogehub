@@ -9,7 +9,7 @@ plugins {
 
 javafx {
     version = '18.0.1'
-    modules = ['javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.base', 'javafx.swing', 'javafx.media', 'javafx.web']
+    modules = ['javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.base', 'javafx.swing', 'javafx.media']
 }
 
 application {

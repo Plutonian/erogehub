@@ -2,22 +2,15 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.web.*?>
 <SplitPane dividerPositions="0.05" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.goexp.galgame.gui.view.game.explorer.ExplorerController">
-    <SplitPane dividerPositions="0.8" orientation="VERTICAL">
+    <SplitPane dividerPositions="0.8" orientation="VERTICAL" minWidth="320">
         <Accordion>
             <panes>
                 <TitledPane animated="false" text="Date">
                     <fx:include fx:id="dateGroup" source="sidebar/dategroup.fxml"/>
                 </TitledPane>
                 <TitledPane fx:id="brandGroup" animated="false" text="Brand">
-                </TitledPane>
-                <TitledPane animated="false" text="Tag">
-                    <WebView fx:id="tagWebView"/>
-                </TitledPane>
-                <TitledPane animated="false" text="CV">
-                    <WebView fx:id="cvWebView"/>
                 </TitledPane>
             </panes>
         </Accordion>
@@ -31,19 +24,10 @@
                 <TabPane nodeOrientation="RIGHT_TO_LEFT" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"
                          AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
                          AnchorPane.topAnchor="0">
-                    <Tab text="Grid">
-                        <WebView fx:id="gridWebView"/>
-                    </Tab>
-                    <Tab text="Detail">
-                        <WebView fx:id="detailWebView"/>
-                    </Tab>
-                    <Tab text="List-View">
-                        <WebView fx:id="listView"/>
-                    </Tab>
-
                     <Tab text="List">
                         <fx:include fx:id="tablelist" source="tableview/tablelist.fxml"/>
                     </Tab>
+
                 </TabPane>
                 <HBox AnchorPane.bottomAnchor="3" AnchorPane.leftAnchor="10">
                     <Label fx:id="lbItemCount"/>
@@ -54,7 +38,6 @@
             </AnchorPane>
         </center>
     </BorderPane>
-
 
 
 </SplitPane>

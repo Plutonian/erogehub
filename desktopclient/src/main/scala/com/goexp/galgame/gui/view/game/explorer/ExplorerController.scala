@@ -10,15 +10,9 @@ import com.goexp.ui.javafx.DefaultController
 import javafx.beans.binding.Bindings
 import javafx.collections.ObservableList
 import javafx.collections.transformation.{FilteredList, SortedList}
-import javafx.concurrent.Worker
 import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.scene.layout.BorderPane
-import javafx.scene.web.WebView
-import netscape.javascript.JSObject
-import org.bson.BsonDocument
-import org.bson.codecs.configuration.CodecRegistries
-import org.bson.codecs.{BsonValueCodecProvider, ValueCodecProvider}
 import org.bson.conversions.Bson
 import org.controlsfx.control.PopOver
 import scalafx.Includes._
@@ -52,14 +46,6 @@ class ExplorerController extends DefaultController {
    * Sidebar
    */
   @FXML private var brandGroup: TitledPane = _
-
-  @FXML private var listView: WebView = _
-  @FXML private var gridWebView: WebView = _
-  @FXML private var detailWebView: WebView = _
-
-
-  @FXML private var tagWebView: WebView = _
-  @FXML private var cvWebView: WebView = _
 
   private var filteredGames: FilteredList[Game] = _
   //  private var groupPredicate: Predicate[Game] = _
@@ -117,130 +103,11 @@ class ExplorerController extends DefaultController {
       Websites.open(url)
     }
 
-    def openTag(tag: String) = {
-
-      HGameApp.openTag(tag)
-    }
-
-    def openCV(cv: String) = {
-      HGameApp.loadCVTab(cv, real = false)
-    }
   }
 
   def reload(): Unit = {
     tablelist.scrollTo(0)
 
-
-    def reList() = {
-
-      //      val root = new VelocityContext()
-      //
-      //      root.put("IMG_REMOTE", Config.IMG_REMOTE)
-      //      root.put("GetchuGameLocal", GetchuGameLocal)
-      //      root.put("LOCAL", GameLocation.LOCAL)
-      //      root.put("DateUtil", DateUtil)
-      //      root.put("gamelist", filteredGames)
-      //
-      //      val str = VelocityTemplateConfig
-      //        .tpl("/tpl/game/explorer/list.html")
-      //        .process(root)
-
-      // set js obj
-      val webEngine = listView.getEngine
-      webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {
-        if (newState eq Worker.State.SUCCEEDED) {
-          val win = webEngine.executeScript("window").asInstanceOf[JSObject] // 获取js对象
-          win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
-        }
-      })
-      //      webEngine.loadContent(str)
-
-      val bson = FilterCondition.FilterUtils.mergeFilter(filterCondition.FilterUtil.finalFilter(), initFilter)
-      val filterStr =
-        bson.toBsonDocument(classOf[BsonDocument], CodecRegistries.fromProviders(new BsonValueCodecProvider(), new ValueCodecProvider()))
-
-      println(filterStr)
-
-      webEngine.load(s"http://localhost:9000/server/query?filter=$filterStr&tpl=list")
-
-    }
-
-    //    reList()
-
-
-    def reDetail() = {
-
-      //      val root = new VelocityContext()
-      //
-      //      root.put("IMG_REMOTE", Config.IMG_REMOTE)
-      //      root.put("GetchuGameLocal", GetchuGameLocal)
-      //      root.put("LOCAL", GameLocation.LOCAL)
-      //      root.put("DateUtil", DateUtil)
-      //      root.put("gamelist", filteredGames)
-      //
-      //      val str = VelocityTemplateConfig
-      //        .tpl("/tpl/game/explorer/detail_list.html")
-      //        .process(root)
-
-
-      // set js obj
-      val webEngine = detailWebView.getEngine
-      webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {
-        if (newState eq Worker.State.SUCCEEDED) {
-          val win = webEngine.executeScript("window").asInstanceOf[JSObject] // 获取js对象
-          win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
-        }
-      })
-      //      webEngine.loadContent(str)
-
-      val bson = FilterCondition.FilterUtils.mergeFilter(filterCondition.FilterUtil.finalFilter(), initFilter)
-      val filterStr =
-        bson.toBsonDocument(classOf[BsonDocument], CodecRegistries.fromProviders(new BsonValueCodecProvider(), new ValueCodecProvider()))
-
-      println(filterStr)
-
-      webEngine.load(s"http://localhost:9000/server/query?filter=$filterStr&tpl=detail_list")
-
-    }
-
-    //    reDetail()
-
-    def reGrid() = {
-
-      //      val root = new VelocityContext()
-      //
-      //      root.put("IMG_REMOTE", Config.IMG_REMOTE)
-      //      root.put("GetchuGameLocal", GetchuGameLocal)
-      //      root.put("LOCAL", GameLocation.LOCAL)
-      //      root.put("DateUtil", DateUtil)
-      //      root.put("gamelist", filteredGames)
-      //
-      //      val str = VelocityTemplateConfig
-      //        .tpl("/tpl/game/explorer/grid.html")
-      //        .process(root)
-
-
-      // set js obj
-      val webEngine = gridWebView.getEngine
-      webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {
-        if (newState eq Worker.State.SUCCEEDED) {
-          val win = webEngine.executeScript("window").asInstanceOf[JSObject] // 获取js对象
-          win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
-        }
-      })
-      //      webEngine.loadContent(str)
-
-      val bson = FilterCondition.FilterUtils.mergeFilter(filterCondition.FilterUtil.finalFilter(), initFilter)
-      val filterStr =
-        bson.toBsonDocument(classOf[BsonDocument], CodecRegistries.fromProviders(new BsonValueCodecProvider(), new ValueCodecProvider()))
-
-      println(filterStr)
-
-      webEngine.load(s"http://localhost:9000/server/query?filter=$filterStr&tpl=grid")
-
-    }
-
-    reGrid()
 
   }
 
@@ -248,50 +115,6 @@ class ExplorerController extends DefaultController {
     dateGroupController.init(filteredGames)
     brandGroupView.init(filteredGames)
 
-
-    loadCVGroup()
-    loadTagGroup()
-
-  }
-
-  private def loadTagGroup() = {
-
-    // set js obj
-    val webEngine = tagWebView.getEngine
-    webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {
-      if (newState eq Worker.State.SUCCEEDED) {
-        val win = webEngine.executeScript("window").asInstanceOf[JSObject] // 获取js对象
-        win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
-      }
-    })
-
-    val bson = FilterCondition.FilterUtils.mergeFilter(filterCondition.FilterUtil.finalFilter(), initFilter)
-    val filterStr =
-      bson.toBsonDocument(classOf[BsonDocument], CodecRegistries.fromProviders(new BsonValueCodecProvider(), new ValueCodecProvider()))
-
-    println(filterStr)
-
-    webEngine.load(s"http://localhost:9000/server/sidetag?filter=$filterStr")
-  }
-
-  private def loadCVGroup() = {
-    // set js obj
-    val webEngine = cvWebView.getEngine
-    //        webEngine.getLoadWorker.stateProperty.addListener((_, _, newState) => {
-    //          if (newState eq Worker.State.SUCCEEDED) {
-    //            val win = webEngine.executeScript("window").asInstanceOf[JSObject] // 获取js对象
-    //            win.setMember("app", Page) // 然后把应用程序对象设置成为js对象
-    //          }
-    //        })
-
-
-    val bson = FilterCondition.FilterUtils.mergeFilter(filterCondition.FilterUtil.finalFilter(), initFilter)
-    val filterStr =
-      bson.toBsonDocument(classOf[BsonDocument], CodecRegistries.fromProviders(new BsonValueCodecProvider(), new ValueCodecProvider()))
-
-    println(filterStr)
-
-    webEngine.load(s"http://localhost:9000/server/sidecv?filter=$filterStr")
   }
 
   private def loadTable(sortedData: SortedList[Game]) = {

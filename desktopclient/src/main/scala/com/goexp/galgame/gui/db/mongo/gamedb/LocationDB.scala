@@ -7,11 +7,6 @@ import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.set
 
 object LocationDB {
-  def update(game: Game): Unit =
-    tlp.exec(documentMongoCollection => {
-      documentMongoCollection.updateOne(Filters.eq(game.id), set("location", game.location.get.value))
-    })
-
 
   def batchUpdate(games: util.List[Game]): Unit =
     tlp.exec(documentMongoCollection => {

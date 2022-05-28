@@ -2,9 +2,9 @@ package com.goexp.galgame.data.source.getchu.importor
 
 import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
-import com.goexp.galgame.common.model.{GameStatistics, LocationStatistics, StarStatistics, StateStatistics}
+import com.goexp.galgame.common.Config.DB_NAME
+import com.goexp.galgame.common.model.game.{GameStatistics, LocationStatistics, StarStatistics, StateStatistics}
 import com.goexp.galgame.data.model.Brand
-import com.goexp.galgame.data.source.getchu.DB_NAME
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.{combine, set}
 import org.bson.Document

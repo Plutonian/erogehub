@@ -123,9 +123,7 @@ class HomeController extends DefaultController {
   @FXML private var queryByLocationPanel: Pane = _
 
   @FXML private var linkDate: Hyperlink = _
-  @FXML private var linkCV: Hyperlink = _
   @FXML private var linkSearch: Hyperlink = _
-  @FXML private var linkTags: Hyperlink = _
   @FXML private var linkBrand: Hyperlink = _
 
   @FXML private var linkConfig: Hyperlink = _
@@ -195,11 +193,7 @@ class HomeController extends DefaultController {
 
     linkDate.setGraphic(new ImageView(LocalRes.IMG_DATE_PNG))
 
-    linkCV.setGraphic(new ImageView(LocalRes.IMG_CV_PNG))
-
     linkSearch.setGraphic(new ImageView(LocalRes.IMG_search_PNG))
-
-    linkTags.setGraphic(new ImageView(LocalRes.IMG_TAG_PNG))
 
 
   }
@@ -259,21 +253,6 @@ class HomeController extends DefaultController {
      * Other Links
      */
 
-    linkCV.setOnAction { _ =>
-
-      val loader = new SimpleFxmlLoader[CVInfoController]("cvinfo.fxml")
-
-      TabManager().open("CV", {
-        new Tab() {
-          text = "CV"
-          content = loader.node
-          graphic = new ImageView(LocalRes.CV_16_PNG)
-        }
-      }) {
-        loader.controller.load()
-      }
-    }
-
     linkSearch.setOnAction { _ =>
       val loader = new SimpleFxmlLoader[SearchController]("search.fxml")
 
@@ -287,15 +266,6 @@ class HomeController extends DefaultController {
       }
     }
 
-    linkTags.setOnAction { _ =>
-
-      TabManager().open("Tags",
-        new DataTab(new TagView()) {
-          text = "Tags"
-        }
-      )
-
-    }
 
     linkBrand.setOnAction { _ =>
       val loader = new SimpleFxmlLoader[MainPanelController]("mainpanel.fxml")

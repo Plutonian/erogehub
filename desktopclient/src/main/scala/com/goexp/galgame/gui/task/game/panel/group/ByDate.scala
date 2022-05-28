@@ -22,21 +22,13 @@ class ByDate(val groupGames: util.List[Game]) extends Task[TreeItem[DateItem]] {
       .map { case (year, games) =>
 
         val yearNode = {
-          new TreeItem[DateItem](new DateItem(
-            s"$year (${games.size})",
-            LocalDate.of(year, 1, 1),
-            LocalDate.of(year, 12, 31),
-            games.size,
-            DateType.YEAR))
+          new TreeItem[DateItem](new DateItem(s"$year (${games.size})", LocalDate.of(year, 1, 1), LocalDate.of(year, 12, 31), games.size, DateType.YEAR))
         }
 
         val monthNode = games.groupBy(game => Option(game.publishDate).map(date => date.getMonthValue).getOrElse(0)).to(LazyList)
           .sortBy { case (k, _) => k }.reverse
           .map { case (month, v) =>
-            new TreeItem[DateItem](new DateItem(s"$month 月 (${v.size})",
-              LocalDate.of(year, month, 1),
-              LocalDate.of(year, month, 1).plusMonths(1).minusDays(1),
-              v.size, DateType.MONTH))
+            new TreeItem[DateItem](new DateItem(s"$month 月 (${v.size})", LocalDate.of(year, month, 1), LocalDate.of(year, month, 1).plusMonths(1).minusDays(1), v.size, DateType.MONTH))
 
           }.asJava
 

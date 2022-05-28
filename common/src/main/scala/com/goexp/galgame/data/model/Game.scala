@@ -22,8 +22,6 @@ class Game extends CommonGame with Logger {
   var star: Int = _
   @BeanProperty
   var brandId = 0
-  @BeanProperty
-  var group: String = _
 
   @BeanProperty
   var brand: Brand = _

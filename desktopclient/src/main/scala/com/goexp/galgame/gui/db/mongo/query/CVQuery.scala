@@ -2,9 +2,9 @@ package com.goexp.galgame.gui.db.mongo.query
 
 import com.goexp.db.mongo.{DBQuery, ObjectCreator}
 import com.goexp.galgame.common.Config
+import com.goexp.galgame.common.Config.DB_NAME
 import com.goexp.galgame.common.db.mongo.query.CVCreator
 import com.goexp.galgame.common.model.CV
-import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.typesafe.scalalogging.Logger
 import org.bson.Document
 

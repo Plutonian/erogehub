@@ -11,7 +11,6 @@
         <URL value="@/view/view.css"/>
     </stylesheets>
     <center>
-        <fx:include fx:id="innerPage" source="../inner/innerpage.fxml"/>
     </center>
     <bottom>
         <fx:include fx:id="footer" source="controll_bar.fxml"/>

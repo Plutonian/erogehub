@@ -1,18 +1,14 @@
 package com.goexp.galgame.gui
 
 import com.goexp.galgame.gui.HGameApp.app
-import com.goexp.galgame.gui.db.mongo.query.GameQuery
 import com.goexp.galgame.gui.model.{Brand, Game}
-import com.goexp.galgame.gui.task.game.search.{ByCV, ByPainter}
 import com.goexp.galgame.gui.util.res.LocalRes
 import com.goexp.galgame.gui.util.{SimpleFxmlLoader, TabManager}
 import com.goexp.galgame.gui.view.brand.InfoController
-import com.goexp.galgame.gui.view.common.control.DataTab
+import com.goexp.galgame.gui.view.game.HomeController
 import com.goexp.galgame.gui.view.game.detailview.outer.OutPageController
-import com.goexp.galgame.gui.view.game.{ExplorerData, HomeController}
 import com.goexp.galgame.gui.view.guide.SearchView
 import com.goexp.ui.javafx.FXMLLoaderProxy
-import com.mongodb.client.model.Filters
 import com.typesafe.scalalogging.Logger
 import javafx.application.Application
 import javafx.scene.paint.Color
@@ -43,41 +39,16 @@ object HGameApp extends App {
 
   }
 
-  def loadPainterTab(painter: String) = {
-
-    TabManager().open(painter, {
-      new DataTab(ExplorerData(new ByPainter(painter), Filters.eq("painter", painter))) {
-        text = (painter)
-      }
-    })
-  }
-
-  def loadCVTab(cv: String, real: Boolean) = {
-
-    TabManager().open(cv, {
-      new DataTab(ExplorerData(new ByCV(cv, real), {
-
-
-        if (real)
-          Filters.eq("gamechar.truecv", cv)
-        else
-          Filters.eq("gamechar.cv", cv)
-      })) {
-        text = (cv)
-        graphic = (new ImageView(LocalRes.CV_16_PNG))
-      }
-    })
-  }
 
   def loadDetail(game: Game) = {
 
-//    val stage = new Stage()
+    //    val stage = new Stage()
     val loader = new SimpleFxmlLoader[OutPageController]("out_page.fxml")
-//    stage.setTitle(game.name)
-//    stage.setScene(new Scene(loader.node))
-//    loader.controller.load(game)
-//
-//    stage.show()
+    //    stage.setTitle(game.name)
+    //    stage.setScene(new Scene(loader.node))
+    //    loader.controller.load(game)
+    //
+    //    stage.show()
 
     TabManager().open(game.name, {
       new Tab {
@@ -90,15 +61,6 @@ object HGameApp extends App {
       loader.controller.load(game)
     }
 
-  }
-
-  def openTag(tag: String) = {
-    TabManager().open(tag,
-      new DataTab(ExplorerData(new com.goexp.galgame.gui.task.game.search.ByTag(tag),Filters.eq("tag", tag))) {
-        text = (tag)
-        graphic = (new ImageView(LocalRes.TAG_16_PNG))
-      }
-    )
   }
 
   def loadGuide(name: String) = {

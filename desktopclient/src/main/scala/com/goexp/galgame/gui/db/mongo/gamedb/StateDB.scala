@@ -8,10 +8,6 @@ import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.{combine, set}
 
 object StateDB {
-  def update(game: Game): Unit =
-    tlp.exec(documentMongoCollection => {
-      documentMongoCollection.updateOne(Filters.eq(game.id), set("state", game.state.get.value))
-    })
 
   def blockAllGame(brandId: Int): Unit =
     tlp.exec(documentMongoCollection => {

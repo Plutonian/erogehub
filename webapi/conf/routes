@@ -4,5 +4,16 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET         /api/game/detail/:id        controllers.GameController.info(id:Int)
+GET        /api/game/detail/:id                    api.GameController.info(id:Int)
+PUT        /api/game/:id/state/:state              api.GameController.changeState(id:Int,state:Int)
+PUT        /api/game/:id/location/:location        api.GameController.changeLocation(id:Int,location:Int)
+GET        /api/game/groupByCV                     api.GameController.groupByCV(request: play.mvc.Http.Request)
+GET        /api/game/groupByTag                    api.GameController.groupByTag(request: play.mvc.Http.Request)
+GET        /api/game/groupByDate                   api.GameController.groupByDate(request: play.mvc.Http.Request)
+
+GET        /api/app                                api.AppController.dateCommand()
+GET        /api/query                              api.GameController.query(request: play.mvc.Http.Request)
+GET        /api/tags                               api.TagController.list()
+GET        /api/cv                                 api.CVController.list()
+
 

@@ -12,8 +12,6 @@
     </stylesheets>
     <ToolBar maxWidth="-Infinity" StackPane.alignment="CENTER_RIGHT" style="-fx-background-color:#ddd">
         <fx:include fx:id="starRating" source="../part/star_rating.fxml"/>
-        <fx:include fx:id="changeState" source="../../part/statechange.fxml"/>
-        <fx:include fx:id="changeLocation" source="../../part/locationchange.fxml"/>
         <Separator/>
         <fx:include fx:id="webjump" source="../../../common/jump/jumplink.fxml"/>
         <StackPane.margin>

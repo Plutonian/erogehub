@@ -1,17 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
 * {
-  font-family: "System Bold", serif;
+  font-family: serif;
+  /*padding: 0;*/
+  margin: 0;
 }
 
-.tag {
-  font-size: 10px;
-  font-weight: bolder;
-  color: #000;
-  background-color: #FFABD3;
-  border-radius: 3px;
-  padding: 4px;
-  margin-right: 5px;
-  display: inline-block;
+.title {
+  font-size:24px;
+}
+
+
+dt, dd, dl, ul, li {
+  margin-left: 0;
 }
 
 
@@ -31,6 +30,23 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.container {
+  padding: 3px
+}
+
+
+.tag {
+  /*font-family: Meiryo, serif;*/
+  /*font-weight: bolder;*/
+  color: #000;
+  background-color: #FFABD3;
+  border-radius: 3px;
+  padding: 4px;
+  /*margin-right: 5px;*/
+  display: inline-block;
+}
+
 
 .grid {
   display: grid;
@@ -60,8 +76,6 @@ a:hover {
   justify-content: start;
   align-content: start;
   gap: 10px;
-
-
 }
 
 .img_alone {
@@ -81,6 +95,10 @@ a:hover {
 
 .flex_column {
   flex-direction: column;
+}
+
+.flex_grow {
+  flex: 1;
 }
 
 .game {

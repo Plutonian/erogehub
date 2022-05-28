@@ -1,9 +1,10 @@
 <div *ngIf="g!=null" class="flex_column" style="gap:3px;">
-  <app-info [game]="g"></app-info>
+
+  <app-info [game]="g" style="position: sticky;top:0;left: 0"></app-info>
 
   <section class="flex_row">
     <img class="img_alone"
-         src="{{imgUrl()}}/game_l.jpg"/>
+         src="{{g | img}}/game_l.jpg"/>
     <textarea style="flex: 1" readonly="readonly" rows="20">{{g.intro}}{{g.story}}</textarea>
   </section>
 
@@ -12,6 +13,24 @@
   <!--imgs-->
   <section *ngIf="g.gameImgs?.length>0" class="flex_row" style="flex-wrap: wrap">
     <img *ngFor="let img of g.gameImgs" class="sample_img"
-         src="{{imgUrl()}}/simple_l_{{img.index}}.jpg"/>
+         src="{{g|img}}/simple_l_{{img.index}}.jpg"/>
+  </section>
+
+  <!-- control bar -->
+  <section style="position: sticky;bottom: 0;background-color: white;">
+    <dl class="flex_row" style="gap: 3px">
+      <dt>Star:</dt>
+      <dd></dd>
+      <dt>State:</dt>
+      <dd>
+        <app-state-change [game]="g"></app-state-change>
+      </dd>
+      <dt>
+        Location:
+      </dt>
+      <dd>
+        <app-location-change [game]="g"></app-location-change>
+      </dd>
+    </dl>
   </section>
 </div>

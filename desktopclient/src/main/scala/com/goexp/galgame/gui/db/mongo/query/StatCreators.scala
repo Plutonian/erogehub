@@ -2,7 +2,7 @@ package com.goexp.galgame.gui.db.mongo.query
 
 import com.goexp.common.util.date.DateUtil
 import com.goexp.db.mongo.ObjectCreator
-import com.goexp.galgame.common.model.{GameStatistics, LocationStatistics, StarStatistics, StateStatistics}
+import com.goexp.galgame.common.model.game.{GameStatistics, LocationStatistics, StarStatistics, StateStatistics}
 import com.typesafe.scalalogging.Logger
 import org.bson.Document
 

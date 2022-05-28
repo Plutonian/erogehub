@@ -8,5 +8,4 @@ include(':common')
 
 include(':desktopclient')
 include(':task')
-include(':server')
 include(':webapi')

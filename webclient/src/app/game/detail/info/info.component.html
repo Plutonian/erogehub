@@ -1,20 +1,14 @@
-<!--<section class="flex_column" style="gap:2px;">-->
+<main style="background-color: #fff" class="flex_column">
   <section>
-    <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="5" cy="5" r="5" [attr.fill]="this.fillState()"/>
-    </svg>
+    <app-location-show [game]="game"></app-location-show>
 
-    <span style='font-size:24px;'>
-        <a style="color:black;" href='javascript:app.openDetail({{game.id}})'>
-            {{game.titles?.mainTitle}}
-        </a>
-      </span>
+    <span class="title">{{game.titles?.mainTitle}}</span>
     <span>{{game.titles?.subTitle}}</span>
   </section>
   <section>
-    <a style="display:inline-block;" href="javascript:app.openBrand({{game.id}})">{{game.brand?.name}}</a>
-    <span style="display:inline-block;margin-left:5px;">(<a
-      href="javascript:app.openUrl('{{game.brand?.website}}')">公式サイト</a>)</span>
+    <app-jump-brand [brand]="game?.brand"></app-jump-brand>
+    <span style="display:inline-block;margin-left:5px;">(<a target="_blank"
+                                                            href="{{game.brand?.website}}">公式サイト</a>)</span>
   </section>
   <section>
     <!--    #if ($DateUtil.needFormat($g.publishDate))-->
@@ -24,16 +18,12 @@
     <!--    #end-->
   </section>
 
-  <section *ngIf="stars?.length > 0">
-    <app-star *ngFor="let start of stars"></app-star>
-  </section>
-  <section *ngIf="game.tag?.length > 0">
-    <span *ngFor="let tag of game.tag" class='tag'>{{tag}}</span>
+  <app-star-show [star]="game?.star" [hideStar]="true"></app-star-show>
+  <section *ngIf="game.tag?.length > 0" class="flex_row" style="flex-wrap: wrap;gap:5px;">
+    <app-jumptag *ngFor="let tag of game.tag" [tag]="tag" style="font-size:10px;"></app-jumptag>
   </section>
   <!--painter-->
   <section *ngIf="game.painter?.length>0" class="flex_row" style="gap:10px">
     <a *ngFor="let painter of game.painter" href="javascript:app.loadPainterTab('{{painter}}')">{{painter}}</a>
   </section>
-
-
-<!--</section>-->
+</main>

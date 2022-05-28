@@ -65,8 +65,8 @@
                     </TitledPane>
                     <TitledPane animated="false" collapsible="false" text="Other">
                         <VBox>
-                            <Hyperlink fx:id="linkCV"/>
-                            <Hyperlink fx:id="linkTags"/>
+<!--                            <Hyperlink fx:id="linkCV"/>-->
+<!--                            <Hyperlink fx:id="linkTags"/>-->
                             <Hyperlink fx:id="linkBrand" text="ブランド"/>
                         </VBox>
                     </TitledPane>

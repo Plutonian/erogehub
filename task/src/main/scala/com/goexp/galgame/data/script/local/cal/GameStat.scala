@@ -1,7 +1,6 @@
 package com.goexp.galgame.data.script.local.cal
 
-import com.goexp.galgame.common.model.game.{GameLocation, GameState}
-import com.goexp.galgame.common.model.{GameStatistics, LocationStatistics, StarStatistics, StateStatistics}
+import com.goexp.galgame.common.model.game.{GameLocation, GameState, GameStatistics, LocationStatistics, StarStatistics, StateStatistics}
 import com.goexp.galgame.data.model.Game
 
 object GameStat {

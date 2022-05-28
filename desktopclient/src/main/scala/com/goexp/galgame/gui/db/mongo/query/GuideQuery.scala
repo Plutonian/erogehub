@@ -2,9 +2,9 @@ package com.goexp.galgame.gui.db.mongo.query
 
 import com.goexp.db.mongo.DBQuery
 import com.goexp.galgame.common.Config
+import com.goexp.galgame.common.Config.DB_NAME
 import com.goexp.galgame.common.db.mongo.query.GuideCreator
 import com.goexp.galgame.common.model.game.guide.GameGuide
-import com.goexp.galgame.gui.db.mongo.DB_NAME
 import com.mongodb.client.model.Sorts.ascending
 
 object GuideQuery {

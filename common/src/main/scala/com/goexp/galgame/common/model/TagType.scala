@@ -8,7 +8,8 @@ case class TagType(
                     @BeanProperty order: Int,
                     @BeanProperty tags: List[String]
                   ) {
-  def javaTag() = {
+
+  def getJavaTags() = {
     tags.asJava
   }
 }

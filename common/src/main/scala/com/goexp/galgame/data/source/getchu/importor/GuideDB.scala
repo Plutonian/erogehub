@@ -2,8 +2,8 @@ package com.goexp.galgame.data.source.getchu.importor
 
 import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
+import com.goexp.galgame.common.Config.DB_NAME
 import com.goexp.galgame.common.model.game.guide.GameGuide
-import com.goexp.galgame.data.source.getchu.DB_NAME
 import com.mongodb.client.model.{Filters, Updates}
 import org.bson.Document
 

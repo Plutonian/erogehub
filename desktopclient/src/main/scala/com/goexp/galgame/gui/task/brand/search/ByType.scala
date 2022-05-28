@@ -1,8 +1,7 @@
 package com.goexp.galgame.gui.task.brand.search
 
+import com.goexp.galgame.common.model.brand.BrandState
 import java.util
-
-import com.goexp.galgame.common.model.game.brand.BrandState
 import com.goexp.galgame.gui.db.mongo.query.BrandQuery
 import com.goexp.galgame.gui.model.Brand
 import com.mongodb.client.model.Filters

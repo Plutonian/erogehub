@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Game} from "../../../entity";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-game-characters',
@@ -9,13 +10,22 @@ import {Game} from "../../../entity";
 export class GameCharactersComponent implements OnInit {
 
   @Input()
-  game:Game
+  game: Game
 
-  imgUrl() {
-    return `http://192.168.2.236/game/${this.game?.publishDate?.year}/${this.game?.publishDate?.monthValue}/${this.game?.id}`
+  jumpRealCv(cv: String) {
+    const filter = {"gamechar.truecv": cv}
+
+    this.router.navigateByUrl(`/game/query/${JSON.stringify(filter)}`)
   }
 
-  constructor() { }
+  jumpCv(cv: String) {
+    const filter = {"gamechar.cv": cv}
+
+    this.router.navigateByUrl(`/game/query/${JSON.stringify(filter)}`)
+  }
+
+  constructor(private router: Router) {
+  }
 
   ngOnInit(): void {
   }

@@ -18,7 +18,7 @@
                                                               href="{{game.brand?.website}}">公式サイト</a>)</span>
     </section>
 
-    <app-formatted-date *ngIf="game.publishDate!=null" [date]="game.publishDate"></app-formatted-date>
+    <app-formatted-date *ngIf="game.publishDate!=null" [game]="game"></app-formatted-date>
 
     <d-rate [ngModel]="game.star" [readonly]="true"></d-rate>
     <section *ngIf="game.tag?.length > 0" class="flex_row" style="flex-wrap: wrap;gap:5px;">

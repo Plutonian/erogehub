@@ -1,10 +1,10 @@
 package com.goexp.galgame.common.model.game
 
+import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.model.game.CommonGame.Titles
 
 import java.time.LocalDate
 import java.util
-import java.util.Date
 import java.util.regex.Pattern
 import scala.beans.BeanProperty
 
@@ -40,21 +40,31 @@ abstract class CommonGame {
   @BeanProperty var name: String = ""
   @BeanProperty var publishDate: LocalDate = _
 
-  def getDate(): Date = {
+  def getDateFormatString(): String = {
+    if (publishDate != null)
 
-    import java.time.ZoneId
-    //default time zone//default time zone
+      if (DateUtil.needFormat(publishDate)) {
+        DateUtil.formatDate(publishDate)
 
-    val defaultZoneId = ZoneId.systemDefault
-
-    //creating the instance of LocalDate using the day, month, year info
-    //    val localDate = LocalDate.of(2016, 8, 19)
-
-    //local date + atStartOfDay() + default time zone + toInstant() = Date
-    //    val date =
-
-    Option(publishDate).map { date => Date.from(date.atStartOfDay(defaultZoneId).toInstant) }.orNull
+      } else {
+        publishDate.toString
+      }
+    else
+      null
   }
+
+  def getDateString(): String = {
+
+    Option(publishDate).map {
+      _.toString
+    }.orNull
+
+  }
+
+  def isPublished() = {
+    Option(publishDate).exists(_.isBefore(LocalDate.now()))
+  }
+
 
   var smallImg: String = ""
   var website = ""

@@ -4,7 +4,9 @@ export interface Game {
   painter: String[];
   tag: String[];
   publishDate: MyDate
-  // date: Date
+  dateString: String
+  dateFormatString: String
+  published: Boolean
   brand: Brand
   story: String;
   intro: String
@@ -39,7 +41,6 @@ export interface MyDate {
   monthValue: Number
   dayOfMonth: Number
 }
-
 
 
 export interface Brand {

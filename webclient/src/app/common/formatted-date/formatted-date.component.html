@@ -1,3 +1,9 @@
-<span title="{{_date.getFullYear()}}-{{_date.getMonth()+1}}-{{_date.getDate()}}">
-  {{_date | dRelativeTime: limit | async}}
+<span *ngIf="game.publishDate==null;else notNull">
+  --
 </span>
+<ng-template #notNull>
+
+<span title="{{game.dateString}}">
+  {{game.dateFormatString}}<span *ngIf="game.published">(已发售)</span>
+</span>
+</ng-template>

@@ -17,14 +17,8 @@
             style="display:inline-block;margin-left:5px;">(<a target="_blank"
                                                               href="{{game.brand?.website}}">公式サイト</a>)</span>
     </section>
-<!--    <section>-->
-<!--      &lt;!&ndash;    #if ($DateUtil.needFormat($g.publishDate))&ndash;&gt;-->
-<!--      &lt;!&ndash;    ${g.publishDate}(${DateUtil.formatDate($g.publishDate)})&ndash;&gt;-->
-<!--      &lt;!&ndash;    #else&ndash;&gt;-->
-<!--      {{game.publishDate?.year}}-{{game.publishDate?.monthValue}}-{{game.publishDate?.dayOfMonth}}-->
-<!--      &lt;!&ndash;    #end&ndash;&gt;-->
-<!--    </section>-->
-    <app-formatted-date *ngIf="game.publishDate!=null" [date]="game.publishDate"></app-formatted-date>
+
+    <app-formatted-date *ngIf="game.publishDate!=null" [game]="game"></app-formatted-date>
 
     <d-rate [ngModel]="game.star" [readonly]="true"></d-rate>
     <section *ngIf="game.tag?.length > 0" class="flex_row" style="flex-wrap: wrap;gap:5px;">

@@ -4,15 +4,24 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET        /api/game/detail/:id                    api.GameController.info(id:Int)
+PUT        /api/game/:id/star/:star                api.GameController.changeStar(id:Int,star:Int)
 PUT        /api/game/:id/state/:state              api.GameController.changeState(id:Int,state:Int)
 PUT        /api/game/:id/location/:location        api.GameController.changeLocation(id:Int,location:Int)
+
+GET        /api/game/query                         api.GameController.query(request: play.mvc.Http.Request)
 GET        /api/game/groupByCV                     api.GameController.groupByCV(request: play.mvc.Http.Request)
 GET        /api/game/groupByTag                    api.GameController.groupByTag(request: play.mvc.Http.Request)
 GET        /api/game/groupByDate                   api.GameController.groupByDate(request: play.mvc.Http.Request)
+GET        /api/game/groupByBrand                  api.GameController.groupByBrand(request: play.mvc.Http.Request)
+GET        /api/game/detail/:id                    api.GameController.info(id:Int)
+
+GET        /api/game/guide/:searchKey              api.GuideController.search(searchKey:String)
+
+GET        /api/brand/query                        api.BrandController.query(request: play.mvc.Http.Request)
+PUT        /api/brand/:id/state/:state             api.BrandController.changeState(id:Int,state:Int)
+GET        /api/brand/:id                          api.BrandController.info(id:Int)
 
 GET        /api/app                                api.AppController.dateCommand()
-GET        /api/query                              api.GameController.query(request: play.mvc.Http.Request)
 GET        /api/tags                               api.TagController.list()
 GET        /api/cv                                 api.CVController.list()
 

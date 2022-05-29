@@ -19,7 +19,7 @@ class InsertOrUpdateGameActor extends DefaultActor {
 
       val game = new Game()
       game.id = item.id
-      game.isAdult = item.isAdult
+//      game.isAdult = item.isAdult
       game.smallImg = item.smallImg
 
       //already has

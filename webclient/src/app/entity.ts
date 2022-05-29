@@ -45,6 +45,13 @@ export interface Brand {
   "website": String
   "comp": String
   "state": String
+  javaTag: String[]
+}
+
+export interface Guide {
+  title: String,
+  href: String,
+  from: String
 }
 
 
@@ -67,18 +74,30 @@ export interface GroupItem {
   count: Number
 }
 
-export interface CVGroupItem {
-  title: String
-  count: Number
+export interface TagGroupItem extends GroupItem {
+}
+
+export interface CVGroupItem extends GroupItem {
   real: Boolean
 }
 
-export interface DateGroupItem {
-  title: String,
-  // range: DateRange,
-  count: Number,
+interface CompositeGroupItem extends GroupItem {
+  children?: CompositeGroupItem[]
+}
+
+export interface DateRange {
+  start: Date
+  end: Date
+}
+
+export interface DateGroupItem extends CompositeGroupItem {
+  range: DateRange,
   dateType: String,
-  children: DateGroupItem[]
+}
+
+export interface BrandGroupItem extends CompositeGroupItem {
+  comp?: String,
+  brand?: Brand
 }
 
 export interface State {

@@ -44,9 +44,11 @@ object CleanSameGameTask {
             .scalaList().to(LazyList)
 
           games
-            .filter { g => GameState.ignoreState().contains(g.state) }
+            //            .filter { g => !g.isAdult }
+            .filter { g => g.state eq GameState.SAME }
             .foreach {
               g =>
+                //                println(g)
                 remove(g)
 
             }

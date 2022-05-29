@@ -5,7 +5,7 @@ import com.goexp.common.util.web.url._
 object ErogameScapeURL {
 
   def byDateRange(year: Int): String = {
-    UrlBuilder("http://egs.omaera.org/~ap2/ero/toukei_kaiseki/toukei_hatubaibi.php")
+    UrlBuilder("https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/toukei_hatubaibi.php")
       .param("erogame", "t")
       .param("text", "t")
       .param("coterie", "f")
@@ -14,13 +14,13 @@ object ErogameScapeURL {
   }
 
   def byIdBasic(id: Int): String = {
-    UrlBuilder("http://egs.omaera.org/~ap2/ero/toukei_kaiseki/game.php")
+    UrlBuilder("https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/game.php")
       .param("game", id)
       .build
   }
 
   def fromTitle(title: String): String =
-    UrlBuilder("http://egs.omaera.org/~ap2/ero/toukei_kaiseki/kensaku.php")
+    UrlBuilder("https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/kensaku.php")
       .param("category", "game")
       .param("word_category", "name")
       .param("mode", "normal")

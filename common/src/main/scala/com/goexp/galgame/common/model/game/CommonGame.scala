@@ -48,8 +48,8 @@ abstract class CommonGame {
   @BeanProperty var intro: String = ""
   @BeanProperty var gameCharacters: util.List[GameCharacter] = _
   @BeanProperty var gameImgs: util.List[GameImg] = _
-  var isNew = false
-  var isAdult = true
+  @BeanProperty var isNew = false
+  //  @BeanProperty var isAdult = true
 
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[CommonGame]

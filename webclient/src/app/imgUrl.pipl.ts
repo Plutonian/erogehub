@@ -2,6 +2,7 @@ import {Pipe} from "@angular/core";
 import {Game} from "./entity";
 import {IMG_SERVER} from "./app.module";
 import {GameLocation, GameStates} from "./game/game.service";
+import {BrandStates} from "./brand/brand.service";
 
 @Pipe({name: "img"})
 export class ImgUrlPipl {
@@ -35,6 +36,15 @@ export class StatePipl {
 
   transform(state: String) {
     return GameStates[`${state}`].name
+  }
+
+}
+
+@Pipe({name: "brand_jp"})
+export class BrandStatePipl {
+
+  transform(state: String) {
+    return BrandStates[`${state}`].name
   }
 
 }

@@ -18,7 +18,7 @@ object GameDB {
 
   def insert(game: Game) = {
     val gameDoc = new Document("_id", game.id)
-      .append("isAdult", game.isAdult)
+//      .append("isAdult", game.isAdult)
       .append("smallImg", game.smallImg)
       .append("isNew", true)
 

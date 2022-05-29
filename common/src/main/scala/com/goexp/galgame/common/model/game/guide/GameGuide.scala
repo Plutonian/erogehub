@@ -1,11 +1,13 @@
 package com.goexp.galgame.common.model.game.guide
 
+import scala.beans.BeanProperty
+
 class GameGuide {
   var id: String = _
-  var title: String = _
-  var href: String = _
+  @BeanProperty var title: String = _
+  @BeanProperty var href: String = _
   var html: String = _
-  var from: DataFrom = _
+  @BeanProperty var from: DataFrom = _
 
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[GameGuide]

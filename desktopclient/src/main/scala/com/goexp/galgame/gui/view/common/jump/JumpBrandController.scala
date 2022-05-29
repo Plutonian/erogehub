@@ -15,12 +15,12 @@ class JumpBrandController extends DefaultController {
   @FXML private var brandLabel: SplitMenuButton = _
   //  @FXML private var jumpBrand: MenuItem = _
   @FXML private var linkWebsite: MenuItem = _
-  @FXML private var linkGetchu: MenuItem = _
+//  @FXML private var linkGetchu: MenuItem = _
 
   override protected def eventBinding() = {
 
     brandLabel.setOnAction(_ => HGameApp.viewBrand(brand))
-    linkGetchu.setOnAction(_ => Websites.open(GameList.byBrand(brand.id)))
+//    linkGetchu.setOnAction(_ => Websites.open(GameList.byBrand(brand.id)))
     linkWebsite.setOnAction(_ => Websites.open(brand.website))
   }
 

@@ -1,9 +1,9 @@
 package com.goexp.galgame.common.website.getchu
 
-import java.time.LocalDate
-
 import com.goexp.common.util.date._
 import com.goexp.common.util.web.url._
+
+import java.time.LocalDate
 
 object GameList {
   def byDateRange(from: LocalDate, to: LocalDate): String =
@@ -12,6 +12,7 @@ object GameList {
       .param("search", 1)
       .param("sort", "release_date")
       .param("genre", "pc_soft")
+      .param("age", "18:lady")
       .param("start_date", from.format("yyyy/MM/dd"))
       .param("end_date", to.format("yyyy/MM/dd"))
       .param("list_count", 1000)
@@ -22,6 +23,7 @@ object GameList {
       .param("search", 1)
       .param("sort", "release_date")
       .param("genre", "pc_soft")
+      .param("age", "18:lady")
       .param("search_brand_id", brandId)
       .param("list_count", 1000)
       .build
@@ -43,4 +45,5 @@ object GameList {
       .param("genre", "pc_soft")
       .param("search_keyword", title.urlEncode("shift-jis"))
       .build
+
 }

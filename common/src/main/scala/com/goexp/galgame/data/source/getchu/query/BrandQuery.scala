@@ -9,6 +9,9 @@ import com.goexp.galgame.data.model.Brand
 import com.typesafe.scalalogging.Logger
 import org.bson.Document
 
+import java.util
+import scala.jdk.CollectionConverters._
+
 object BrandQuery {
   private val tlp = DBQuery[Brand](Config.DB_STRING, DB_NAME, "brand", Creator).build
 
@@ -22,7 +25,9 @@ object BrandQuery {
 
       val parentCreator = new CommonBrandCreator(new Brand)
       val b = parentCreator.create(doc).asInstanceOf[Brand]
-
+      b.tag = Option(doc.get("tag", classOf[util.List[String]])).map {
+        _.asScala.toList
+      }.orNull
       b.state = BrandState.from(doc.getInteger("type"))
 
       b

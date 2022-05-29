@@ -14,7 +14,9 @@ smallImg
  */
 class ListPageParser {
 
-  case class ListItem(id: Int = 0, isAdult: Boolean = false, smallImg: String = "")
+  case class ListItem(id: Int = 0,
+//                      isAdult: Boolean = false,
+                      smallImg: String = "")
 
 
   def parse(item: Element): ListItem = {
@@ -29,12 +31,12 @@ class ListPageParser {
     val url = itemContentEle.select("a.blueb").attr("href")
     val id = parseId(url)
 
-    val gType = itemContentEle.select("p span.orangeb").text
-    val isAdult = gType == "[PCゲーム・アダルト]"
+//    val gType = itemContentEle.select("p span.orangeb").text
+//    val isAdult = gType == "[PCゲーム・アダルト]"
 
     ListItem(
       id,
-      isAdult,
+//      isAdult,
       smallImg
     )
 

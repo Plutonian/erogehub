@@ -7,7 +7,7 @@ import scala.beans.BeanProperty
 
 case class DateItem(
                      @BeanProperty title: String,
-                     range: DateRange,
+                     @BeanProperty range: DateRange,
                      @BeanProperty count: Int,
                      @BeanProperty dateType: DateType,
                      @BeanProperty children: Array[DateItem]

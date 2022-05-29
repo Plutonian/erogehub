@@ -56,13 +56,4 @@ export class AppComponent implements OnInit {
     this.router.navigateByUrl(`/game/query/${JSON.stringify(filter)}`)
   }
 
-
-  jumpLocation(location) {
-
-    const filter = {"location": location}
-    this.router.navigateByUrl(`/game/query/${JSON.stringify(filter)}`)
-
-  }
-
-
 }

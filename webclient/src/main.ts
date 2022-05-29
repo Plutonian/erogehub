@@ -1,8 +1,8 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import {enableProdMode} from '@angular/core';
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+import {AppModule} from './app/app.module';
+import {environment} from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
@@ -16,6 +16,16 @@ export class Arrays {
     const a = []
     // @ts-ignore
     for (let i = from; i < to; i++)
+      a.push(i)
+
+    return a
+
+  }
+
+  static rangeInclude = function (from: Number, to: Number) {
+    const a = []
+    // @ts-ignore
+    for (let i = from; i <= to; i++)
       a.push(i)
 
     return a

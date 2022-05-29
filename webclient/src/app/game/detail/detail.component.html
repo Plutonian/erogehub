@@ -1,26 +1,52 @@
-<div *ngIf="g!=null" class="flex_column" style="gap:3px;">
+<div dAnchorBox *ngIf="g!=null" class="flex_column gap-5 container test_border">
+  <ul class="step-nav" style="position: fixed;right: 100px;top:180px;background-color: white">
+    <li [dAnchorLink]="'story'">ストーリー</li>
+    <li *ngIf="g.gameCharacters.length>0" [dAnchorLink]="'char'">キャラクター</li>
+    <li *ngIf="g.gameImgs?.length>0" [dAnchorLink]="'sample'">サンプル画像</li>
+  </ul>
+  <app-info [game]="g"></app-info>
 
-  <app-info [game]="g" style="position: sticky;top:0;left: 0"></app-info>
+  <dl>
+    <dt class="group_title" [dAnchor]="'story'">ストーリー</dt>
+    <dd>
+      <section class="flex_row">
+        <img class="img_alone"
+             src="{{g | img}}/game_l.jpg"/>
+        <textarea style="flex: 1" readonly="readonly" rows="20">{{g.intro}}{{g.story}}</textarea>
+      </section>
+    </dd>
 
-  <section class="flex_row">
-    <img class="img_alone"
-         src="{{g | img}}/game_l.jpg"/>
-    <textarea style="flex: 1" readonly="readonly" rows="20">{{g.intro}}{{g.story}}</textarea>
-  </section>
+    <ng-template [ngIf]="g.gameCharacters.length>0">
+      <dt class="group_title" [dAnchor]="'char'">キャラクター</dt>
+      <dd>
+        <app-game-characters [game]="g"></app-game-characters>
+      </dd>
+    </ng-template>
 
-  <app-game-characters [game]="g"></app-game-characters>
+    <ng-template [ngIf]="g.gameImgs?.length>0">
+      <dt class="group_title" [dAnchor]="'sample'">サンプル画像</dt>
+      <dd>
+        <!--imgs-->
+        <section *ngIf="g.gameImgs?.length>0" class="flex_row gap-5" style="flex-wrap: wrap">
+          <img *ngFor="let img of g.gameImgs" class="sample_img"
+               src="{{g|img}}/simple_l_{{img.index}}.jpg"/>
+        </section>
 
-  <!--imgs-->
-  <section *ngIf="g.gameImgs?.length>0" class="flex_row" style="flex-wrap: wrap">
-    <img *ngFor="let img of g.gameImgs" class="sample_img"
-         src="{{g|img}}/simple_l_{{img.index}}.jpg"/>
-  </section>
+        <!--        <d-carousel style="max-width: 800px;align-items: center; " class="flex_row">-->
+        <!--          <d-carousel-item *ngFor="let img of g.gameImgs">-->
+        <!--            <img class="sample_img" style="width: 100%; height: 100%"-->
+        <!--                 src="{{g|img}}/simple_l_{{img.index}}.jpg"/>-->
+        <!--          </d-carousel-item>-->
+        <!--        </d-carousel>-->
+
+      </dd>
+    </ng-template>
+  </dl>
+
 
   <!-- control bar -->
-  <section style="position: sticky;bottom: 0;background-color: white;">
-    <dl class="flex_row" style="gap: 3px">
-      <dt>Star:</dt>
-      <dd></dd>
+  <section class="test_border" style="position: fixed;bottom: 100px;right:100px;background-color: white;">
+    <dl>
       <dt>State:</dt>
       <dd>
         <app-state-change [game]="g"></app-state-change>
@@ -32,5 +58,19 @@
         <app-location-change [game]="g"></app-location-change>
       </dd>
     </dl>
+
+    <ul>
+      <li><a routerLink="/game/guide/{{g.titles.mainTitle}}">攻略</a></li>
+      <li><a target="_blank" href="http://www.getchu.com/soft.phtml?id={{g.id}}&gc=gc">GetChu</a></li>
+      <li><a target="_blank" href="https://ja.wikipedia.org/w/index.php?search={{g.titles.mainTitle}}">Wiki</a>
+      </li>
+      <li><a target="_blank"
+             href="https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/kensaku.php?category=game&word_category=name&mode=normal&word={{g.titles.mainTitle}}">ErogameScape</a>
+      </li>
+      <li><a target="_blank" href="https://galge.fun/subjects/search?keyword={{g.titles.mainTitle}}">2DF</a></li>
+      <li><a target="_blank"
+             href="https://www.ggbases.com/search.so?p=0&advanced=&title={{g.titles.mainTitle}}">GGBases</a>
+      </li>
+    </ul>
   </section>
 </div>

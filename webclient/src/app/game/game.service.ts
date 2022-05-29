@@ -7,7 +7,7 @@ export const GameStates = {
   PACKAGE: {name: "ポケ版", value: -3},
   SAME: {name: "SAME", value: -2},
   BLOCK: {name: "ブロック", value: -1},
-  UNCHECKED: {name: "-", value: 0},
+  UNCHECKED: {name: "...", value: 0},
   HOPE: {name: "気になり", value: 3},
   PLAYING: {name: "進行中", value: 80},
   PLAYED: {name: "プレイ済み", value: 90}
@@ -30,12 +30,16 @@ export class GameService {
   }
 
   query(filter: String) {
-    return this.httpClient.get(`http://${APP_SERVER}/api/query?filter=${filter}`)
+    return this.httpClient.get(`http://${APP_SERVER}/api/game/query?filter=${filter}`)
   }
 
 
   groupByDate(filter: String) {
     return this.httpClient.get(`http://${APP_SERVER}/api/game/groupByDate?filter=${filter}`)
+  }
+
+  groupByBrand(filter: String) {
+    return this.httpClient.get(`http://${APP_SERVER}/api/game/groupByBrand?filter=${filter}`)
   }
 
   groupByCV(filter: String) {
@@ -49,6 +53,11 @@ export class GameService {
   changeState(id: Number, state: Number) {
     return this.httpClient.put(`http://${APP_SERVER}/api/game/${id}/state/${state}`, null)
   }
+
+  changeStar(id: Number, star: Number) {
+    return this.httpClient.put(`http://${APP_SERVER}/api/game/${id}/star/${star}`, null)
+  }
+
 
   changeLocation(id: Number, location: Number) {
     return this.httpClient.put(`http://${APP_SERVER}/api/game/${id}/location/${location}`, null)

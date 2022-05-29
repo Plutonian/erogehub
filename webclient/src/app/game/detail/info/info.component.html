@@ -1,4 +1,4 @@
-<main style="background-color: #fff" class="flex_column">
+<main *ngIf="game!=null" style="background-color: #fff" class="flex_column">
   <section>
     <app-location-show [game]="game"></app-location-show>
 
@@ -6,9 +6,10 @@
     <span>{{game.titles?.subTitle}}</span>
   </section>
   <section>
-    <app-jump-brand [brand]="game?.brand"></app-jump-brand>
-    <span style="display:inline-block;margin-left:5px;">(<a target="_blank"
-                                                            href="{{game.brand?.website}}">公式サイト</a>)</span>
+    <app-jump-brand [brand]="game.brand"></app-jump-brand>
+    <span *ngIf="game.brand.website!=null && game.brand.website.length>0" style="display:inline-block;margin-left:5px;">(<a
+      target="_blank"
+      href="{{game.brand?.website}}">公式サイト</a>)</span>
   </section>
   <section>
     <!--    #if ($DateUtil.needFormat($g.publishDate))-->
@@ -17,13 +18,12 @@
     {{game.publishDate?.year}}-{{game.publishDate?.monthValue}}-{{game.publishDate?.dayOfMonth}}
     <!--    #end-->
   </section>
-
-  <app-star-show [star]="game?.star" [hideStar]="true"></app-star-show>
-  <section *ngIf="game.tag?.length > 0" class="flex_row" style="flex-wrap: wrap;gap:5px;">
+  <d-rate [(ngModel)]="game.star" (ngModelChange)="starChange()"></d-rate>
+  <section *ngIf="game.tag?.length > 0" class="flex_row gap-5" style="flex-wrap: wrap;">
     <app-jumptag *ngFor="let tag of game.tag" [tag]="tag" style="font-size:10px;"></app-jumptag>
   </section>
   <!--painter-->
-  <section *ngIf="game.painter?.length>0" class="flex_row" style="gap:10px">
+  <section *ngIf="game.painter?.length>0" class="flex_row gap-5">
     <a *ngFor="let painter of game.painter" href="javascript:app.loadPainterTab('{{painter}}')">{{painter}}</a>
   </section>
 </main>

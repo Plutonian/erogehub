@@ -5,15 +5,16 @@ import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.Config.DB_NAME
 import com.goexp.galgame.common.model.game.{GameCharacter, GameState}
-import com.goexp.galgame.data.source.getchu.query.GameFullQuery
+import com.goexp.galgame.data.model.Brand
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.set
-import entity.group.{DateItem, DateType, SampleCVItem, SampleItem}
+import entity.group._
 import org.bson.BsonDocument
 import play.libs.Json
 import play.mvc.Controller
 import play.mvc.Http.Request
 import play.mvc.Results.{notFound, ok}
+import qurey.GameFullQuery
 
 import java.time.LocalDate
 import scala.jdk.CollectionConverters._
@@ -24,7 +25,8 @@ class GameController extends Controller {
   implicit class Pre(where: BsonDocument) {
 
     def preProcess() = {
-      Filters.and(where, Filters.gte("state", GameState.UNCHECKED.value))
+//      Filters.and(where, Filters.gte("state", GameState.UNCHECKED.value))
+      where
     }
   }
 
@@ -45,7 +47,6 @@ class GameController extends Controller {
     }
   }
 
-
   def query(request: Request) = {
     val where = request.queryString("filter").orElseThrow()
 
@@ -53,7 +54,7 @@ class GameController extends Controller {
 
     val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).list()
 
-    ok(Json.toJson(list)).as("application/json; charset=utf-8")
+    ok(Json.toJson(Option(list).getOrElse(List().asJava))).as("application/json; charset=utf-8")
   }
 
   def groupByCV(request: Request) = {
@@ -150,78 +151,38 @@ class GameController extends Controller {
     ok(Json.toJson(years)).as("application/json; charset=utf-8")
   }
 
-//  def groupByBrand(request: Request) = {
-//    val where = request.queryString("filter").orElseThrow()
-//
-//    val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
-//
-//
-//    val compsNodes = list.to(LazyList)
-//      // skip null brand
-//      .filter(_.brand != null)
-//      .groupBy { game =>
-//        val brand = game.brand
-//
-//        Option(brand.comp).getOrElse(brand)
-//      }
-//      .to(LazyList)
-//      .sortBy { case (_, v) => v.size }.reverse
-//      .map {
-//        case (comp: String, v) =>
-//
-//          val brandNodes = v.groupBy(g => g.brand).to(LazyList)
-//            .map { case (brand, games) => new TreeItem[DataItem](BrandItem(brand.name, games.size, brand)) }
-//            .asJava
-//
-//          if (brandNodes.size > 1) {
-//            val compNode = new TreeItem[DataItem](CompItem(comp, v.size, comp))
-//            compNode.getChildren.addAll(brandNodes)
-//
-//            compNode
-//          } else {
-//            brandNodes.get(0)
-//          }
-//        case (brand: Brand, v) =>
-//
-//          val compNode = new TreeItem[DataItem](BrandItem(brand.name, v.size, brand))
-//          compNode
-//      }
-//      .asJava
-//
-//    val years = list.to(LazyList)
-//      .filter(game => game.publishDate != null)
-//      .groupBy(game => Option(game.publishDate).map(_.getYear).getOrElse(0)).to(LazyList)
-//      .filter { case (year, _) => year != 0 }
-//      .sortBy { case (year, _) => year }.reverse
-//      .map { case (year, games) =>
-//
-//        val monthNode = games.groupBy(game => Option(game.publishDate).map(_.getMonthValue).getOrElse(0)).to(LazyList)
-//          .sortBy { case (month, _) => month }.reverse
-//          .map { case (month, games) =>
-//            new DateItem(
-//              s"$month",
-//              LocalDate.of(year, month, 1),
-//              LocalDate.of(year, month, 1).plusMonths(1).minusDays(1),
-//              games.size,
-//              DateType.MONTH,
-//              null
-//            )
-//
-//          }.toArray[DateItem]
-//
-//
-//        new DateItem(
-//          s"$year",
-//          LocalDate.of(year, 1, 1),
-//          LocalDate.of(year, 12, 31),
-//          games.size,
-//          DateType.YEAR,
-//          monthNode
-//        )
-//      }.asJava
-//
-//    ok(Json.toJson(years)).as("application/json; charset=utf-8")
-//  }
+  def groupByBrand(request: Request) = {
+    val where = request.queryString("filter").orElseThrow()
+
+    val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+
+    println(list)
+
+    val nodes = list.to(LazyList)
+      // skip null brand
+      .filter(_.brand != null)
+      .groupBy { game =>
+        val brand = game.brand
+
+        Option(brand.comp).getOrElse(brand)
+      }
+      .to(LazyList)
+      .sortBy { case (_, v) => v.size }.reverse
+      .map {
+        case (comp: String, v) =>
+
+          val brandNodes = v.groupBy(_.brand).to(LazyList)
+            .map { case (brand, games) => BrandItem(brand.name, games.size, null, brand, null) }
+            .toArray
+
+          BrandItem(comp, v.size, comp, null, brandNodes)
+        case (brand: Brand, v) =>
+          BrandItem(brand.name, v.size, null, brand, null)
+      }
+      .asJava
+
+    ok(Json.toJson(nodes)).as("application/json; charset=utf-8")
+  }
 
   def changeState(id: Int, state: Int) = {
 
@@ -229,6 +190,18 @@ class GameController extends Controller {
 
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(id), set("state", state))
+    })
+
+    ok(Json.toJson("OK")).as("application/json; charset=utf-8")
+
+  }
+
+  def changeStar(id: Int, star: Int) = {
+
+    println(id, star)
+
+    tlp.exec(documentMongoCollection => {
+      documentMongoCollection.updateOne(Filters.eq(id), set("star", star))
     })
 
     ok(Json.toJson("OK")).as("application/json; charset=utf-8")

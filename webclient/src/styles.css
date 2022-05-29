@@ -1,18 +1,25 @@
 * {
   font-family: serif;
   /*padding: 0;*/
-  margin: 0;
+  /*margin: 0;*/
 }
 
 .title {
-  font-size:24px;
+  font-size: 24px;
+}
+
+.group_title {
+  font-size: 18px;
 }
 
 
-dt, dd, dl, ul, li {
-  margin-left: 0;
-}
+/*dt, dd, dl, ul, li {*/
+/*  margin-left: 0;*/
+/*}*/
 
+/*ul>li{*/
+/*  list-style: none;*/
+/*}*/
 
 .anchor {
   position: absolute;
@@ -33,6 +40,14 @@ a:hover {
 
 .container {
   padding: 3px
+}
+
+.gap-3{
+  gap: 3px;
+}
+
+.gap-5{
+  gap: 5px;
 }
 
 

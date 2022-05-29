@@ -16,7 +16,7 @@
       </dt>
       <dd>
         <ul>
-          <li *ngFor="let state of states"><a href="/game/state/{{state}}">{{state | jp}}</a></li>
+          <li *ngFor="let state of states"><a routerLink="/game/state/{{state}}">{{state | jp}}</a></li>
         </ul>
       </dd>
       <dt>
@@ -24,7 +24,8 @@
       </dt>
       <dd>
         <ul>
-          <li *ngFor="let location of locations"><a href="/game/location/{{location}}">{{location | loc}}</a></li>
+          <li *ngFor="let location of locations"><a routerLink="/game/location/{{location}}">{{location | loc}}</a>
+          </li>
         </ul>
       </dd>
       <dt>
@@ -32,7 +33,7 @@
       </dt>
       <dd>
         <ul>
-          <li *ngFor="let star of stars"><a href="/game/star/{{star}}">{{star}}</a></li>
+          <li *ngFor="let star of stars"><a routerLink="/game/star/{{star}}">{{star}}</a></li>
         </ul>
       </dd>
       <dt>Other</dt>

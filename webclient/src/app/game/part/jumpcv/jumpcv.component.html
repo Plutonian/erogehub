@@ -1,4 +1,4 @@
-<a *ngIf="isReal; else cvInfo" class="trueCV" href="/game/truecv/{{cv}}">{{cv}}</a>
+<a *ngIf="isReal; else cvInfo" class="trueCV"  routerLink="/game/truecv/{{cv}}">{{cv}}</a>
 <ng-template #cvInfo>
-  <a href="/game/cv/{{cv}}">{{cv}}</a>
+  <a routerLink="/game/cv/{{cv}}">{{cv}}</a>
 </ng-template>

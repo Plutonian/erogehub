@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Game} from "../../entity";
 import {GameService} from "../game.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 
 
 @Component({
@@ -50,7 +50,6 @@ export class DetailComponent implements OnInit {
   // }
 
 
-
   constructor(private service: GameService, private route: ActivatedRoute) {
 
   }
@@ -61,7 +60,14 @@ export class DetailComponent implements OnInit {
 
       // @ts-ignore
       this.service.info(p.id)
-        .subscribe((game: Game) => this.g = game)
+        .subscribe((game: Game) => {
+          // if (game != null && game.publishDate != null) {
+          //   // @ts-ignore
+          //   game.publishDate = myDate2JSDate(game.publishDate)
+          // }
+
+          this.g = game
+        })
 
     })
 

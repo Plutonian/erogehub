@@ -13,7 +13,7 @@ object Config {
       .disable(FAIL_ON_UNKNOWN_PROPERTIES)
 //      .disable(READ_DATE_TIMESTAMPS_AS_NANOSECONDS)
 //      .disable(ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
-//      .enable(WRITE_ENUMS_USING_TO_STRING)
+      .disable(WRITE_DATES_AS_TIMESTAMPS)
 //      .enable(ACCEPT_SINGLE_VALUE_AS_ARRAY)
 //      .enable(UNWRAP_SINGLE_VALUE_ARRAYS)
 

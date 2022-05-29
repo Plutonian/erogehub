@@ -1,7 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {BrandGroupItem, CVGroupItem, DateGroupItem, Game, TagGroupItem} from "../entity";
 import {GameService} from "./game.service";
-import {Arrays} from "../../main";
 
 
 @Component({
@@ -13,6 +12,8 @@ export class ExplorerComponent implements OnChanges {
 
   @Input()
   filter
+
+  size? = "List"
 
   brandGroup: BrandGroupItem[]
 
@@ -38,6 +39,12 @@ export class ExplorerComponent implements OnChanges {
     if (filter != null) {
       this.service.query(filter)
         .subscribe((gs: Game[]) => {
+
+            // if (gs != null) {
+            //   // @ts-ignore
+            //   gs.filter(g => g.publishDate != null).forEach(g => g.publishDate = myDate2JSDate(g.publishDate))
+            // }
+
             this.gamelist = gs
 
             console.log("Gs", gs);

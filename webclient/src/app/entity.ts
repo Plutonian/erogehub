@@ -3,7 +3,8 @@ export interface Game {
   name: String;
   painter: String[];
   tag: String[];
-  publishDate: Date
+  publishDate: MyDate
+  // date: Date
   brand: Brand
   story: String;
   intro: String
@@ -33,11 +34,13 @@ export interface GameCharacter {
   "index": Number
 }
 
-export interface Date {
+export interface MyDate {
   year: Number
   monthValue: Number
   dayOfMonth: Number
 }
+
+
 
 export interface Brand {
   id: Number
@@ -86,8 +89,8 @@ interface CompositeGroupItem extends GroupItem {
 }
 
 export interface DateRange {
-  start: Date
-  end: Date
+  start: MyDate
+  end: MyDate
 }
 
 export interface DateGroupItem extends CompositeGroupItem {

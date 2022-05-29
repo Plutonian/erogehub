@@ -25,8 +25,8 @@ class GameController extends Controller {
   implicit class Pre(where: BsonDocument) {
 
     def preProcess() = {
-//      Filters.and(where, Filters.gte("state", GameState.UNCHECKED.value))
-      where
+      Filters.and(where, Filters.gt("state", GameState.BLOCK.value))
+//      where
     }
   }
 
@@ -39,9 +39,6 @@ class GameController extends Controller {
   def info(id: Int) = {
     GameFullQuery().where(Filters.eq(id)).one() match {
       case Some(g) =>
-
-        println(g)
-
         ok(Json.toJson(g)).as("application/json; charset=utf-8")
       case None => notFound()
     }
@@ -50,7 +47,7 @@ class GameController extends Controller {
   def query(request: Request) = {
     val where = request.queryString("filter").orElseThrow()
 
-    println(where)
+    println(BsonDocument.parse(where).preProcess())
 
     val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).list()
 
@@ -155,8 +152,6 @@ class GameController extends Controller {
     val where = request.queryString("filter").orElseThrow()
 
     val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
-
-    println(list)
 
     val nodes = list.to(LazyList)
       // skip null brand

@@ -38,6 +38,9 @@ import {AnchorModule, BadgeModule, CarouselModule, DevUIModule, PanelModule, Spl
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { MonthCalendarComponent } from './common/month-calendar/month-calendar.component';
 import { FilterComponent } from './game/filter/filter.component';
+import { ListCellComponent } from './game/list-cell/list-cell.component';
+import {RelativeTimeModule} from "ng-devui/relative-time";
+import { FormattedDateComponent } from './common/formatted-date/formatted-date.component';
 
 export const IMG_SERVER = "192.168.2.236"
 export const APP_SERVER = "192.168.2.214:9000"
@@ -103,7 +106,9 @@ const routes: Route[] = [
     BrandDetailComponent,
     BrandComponent,
     MonthCalendarComponent,
-    FilterComponent
+    FilterComponent,
+    ListCellComponent,
+    FormattedDateComponent
   ],
   imports: [
     BrowserModule,
@@ -116,7 +121,8 @@ const routes: Route[] = [
     AnchorModule,
     BadgeModule,
     CarouselModule,
-    SplitterModule
+    SplitterModule,
+    RelativeTimeModule
   ],
   providers: [
     GameService,

@@ -1,0 +1,8 @@
+main.grid {
+  grid-template-columns: repeat(5, auto);
+  grid-template-rows:repeat(2, auto);
+  align-items: stretch;
+  justify-items: stretch;
+  justify-content: start;
+  align-content: start;
+}

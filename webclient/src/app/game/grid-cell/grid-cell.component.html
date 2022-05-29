@@ -1,0 +1,34 @@
+<section class="flex_column game" style="min-height:600px;">
+  <img class="img_alone" src="{{game|img}}/game_s.jpg"/>
+  <main style="gap:2px;" class="flex_grow">
+    <section>
+      <app-location-show [game]="game"></app-location-show>
+
+      <span style='font-size:24px;'>
+        <a class="title" style="color:black;" routerLink="/game/{{game.id}}">
+            {{game.titles?.mainTitle}}
+        </a>
+      </span>
+      <span>{{game.titles?.subTitle}}</span>
+    </section>
+    <section>
+      <app-jump-brand [brand]="game?.brand"></app-jump-brand>
+      <span *ngIf="game.brand.website!=null && game.brand.website.length>0"
+            style="display:inline-block;margin-left:5px;">(<a target="_blank"
+                                                              href="{{game.brand?.website}}">公式サイト</a>)</span>
+    </section>
+    <section>
+      <!--    #if ($DateUtil.needFormat($g.publishDate))-->
+      <!--    ${g.publishDate}(${DateUtil.formatDate($g.publishDate)})-->
+      <!--    #else-->
+      {{game.publishDate?.year}}-{{game.publishDate?.monthValue}}-{{game.publishDate?.dayOfMonth}}
+      <!--    #end-->
+    </section>
+
+    <d-rate [ngModel]="game.star" [readonly]="true"></d-rate>
+    <section *ngIf="game.tag?.length > 0" class="flex_row" style="flex-wrap: wrap;gap:5px;">
+      <app-jumptag *ngFor="let tag of game.tag" [tag]="tag" style="font-size:10px;"></app-jumptag>
+    </section>
+  </main>
+  <app-state-change style="margin-left: auto;" [game]="game"></app-state-change>
+</section>

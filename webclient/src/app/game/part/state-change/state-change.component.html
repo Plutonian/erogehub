@@ -1,0 +1,6 @@
+<div [ngSwitch]="edit">
+  <span *ngSwitchCase="false" (click)="change()">{{game.state | jp}}</span>
+  <select *ngSwitchCase="true" [(ngModel)]="game.state" (ngModelChange)="onStateSelected()">
+    <option *ngFor="let state of states" [value]="state">{{state | jp}}</option>
+  </select>
+</div>

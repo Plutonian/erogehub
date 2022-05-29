@@ -1,0 +1,38 @@
+<ng-template [ngIf]="brands!=null">
+  <ng-template [ngIf]="brands.length>0" [ngIfElse]="noBrand">
+
+
+    <div class="parent">
+      <main class="div2 test_border container">
+
+        <table>
+          <thead style="position: sticky;top:0;background-color: white">
+          <th>Comp</th>
+          <th>Name</th>
+          <th>Tag</th>
+          <th>公式サイト</th>
+          <th>State</th>
+          </thead>
+          <tbody>
+          <tr *ngFor="let b of brands">
+            <td>{{b.comp}}</td>
+            <td><a routerLink="/brand/{{b.id}}">{{b.name}}</a></td>
+            <td class="flex_row gap-5"><span *ngFor="let tag of b.javaTag" class="tag">{{tag}}</span></td>
+            <td><a *ngIf="b.website!=null && b.website.length>0" target="_blank" [href]="b.website">{{b.website}}</a>
+            </td>
+            <td>{{b.state | brand_jp}}</td>
+          </tr>
+          </tbody>
+        </table>
+
+      </main>
+      <footer style="position: sticky;bottom: 0;background-color: white;width: 100%" class="div3 test_border container">
+        <span>{{brands.length}}</span>
+      </footer>
+    </div>
+  </ng-template>
+
+  <ng-template #noBrand>
+    <H3>Empty</H3>
+  </ng-template>
+</ng-template>

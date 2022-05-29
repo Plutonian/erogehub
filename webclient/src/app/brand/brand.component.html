@@ -1,0 +1,18 @@
+<main class="flex_column gap-5 container">
+  <header class="flex_row">
+    <form #form="ngForm" (submit)="onSubmit(form)" class="flex_row">
+      <label for="comp">Comp </label>
+      <input id="comp" name="searchType" type="radio" ngModel value="0" required checked/>
+
+      <label for="brand">Brand</label>
+      <input id="brand" name="searchType" type="radio" ngModel value="1" required/>
+
+      <input name="searchKey" ngModel required placeholder="ネイムを入れてください"/>
+      <input type="submit" value="Search" [disabled]="form.invalid"/>
+    </form>
+    <select [(ngModel)]="state" (ngModelChange)="onStateSelected()" style="margin-left: auto">
+      <option *ngFor="let state of states" [value]="state">{{state | brand_jp}}</option>
+    </select>
+  </header>
+  <app-list [filter]="filter"></app-list>
+</main>

@@ -1,0 +1,18 @@
+<form #form="ngForm" (submit)="onSubmit(form)" class="flex_row">
+  <input name="searchKey" [(ngModel)]="searchKey" class="flex_grow" required placeholder="ネイムを入れてください"/>
+  <input type="submit" value="Search" [disabled]="form.invalid"/>
+</form>
+
+<section *ngIf="guideList!=null" class="flex_column">
+  <ng-template [ngIf]="guideList.length>0" [ngIfElse]="noGuide">
+    <div *ngFor="let guide of guideList" class="flex_row">
+      <span>[{{guide.from}}]</span>
+      <a target="_blank" [href]="guide.href">{{guide.title}}</a>
+    </div>
+  </ng-template>
+
+  <ng-template #noGuide>
+    <H3>No Guide</H3>
+  </ng-template>
+</section>
+

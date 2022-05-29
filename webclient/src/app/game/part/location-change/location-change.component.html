@@ -1,0 +1,6 @@
+<div [ngSwitch]="edit">
+  <span *ngSwitchCase="false" (click)="change()">{{game.location | loc}}</span>
+  <select *ngSwitchCase="true" [(ngModel)]="game.location" (ngModelChange)="onStateSelected()">
+    <option *ngFor="let location of locations" [value]="location">{{location | loc}}</option>
+  </select>
+</div>

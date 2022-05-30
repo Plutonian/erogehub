@@ -10,7 +10,6 @@ export class ListCellComponent implements OnInit {
   @Input()
   game: Game
 
-  publishDate
 
   constructor() {
 
@@ -18,10 +17,6 @@ export class ListCellComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (this.game?.publishDate != null) {
-      // @ts-ignore
-      this.publishDate = new Date(this.game.publishDate.year, this.game.publishDate.monthValue - 1, this.game.publishDate.dayOfMonth)
-    }
   }
 
 }

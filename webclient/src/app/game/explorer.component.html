@@ -1,7 +1,8 @@
 <ng-template [ngIf]="gamelist!=null">
   <ng-template [ngIf]="gamelist.length>0" [ngIfElse]="noGames">
     <d-splitter style="height: 100%">
-      <d-splitter-pane maxSize="400px" size="300px" minSize="300px" [collapsible]="true">
+      <d-splitter-pane maxSize="400px" size="300px" minSize="300px" [collapsible]="true" class="all_height"
+                       style="overflow: scroll">
         <aside class="test_border container">
           <d-tabs>
             <d-tab id="date" title="Date">
@@ -79,8 +80,8 @@
           </d-tabs>
         </aside>
       </d-splitter-pane>
-      <d-splitter-pane>
-        <div class="flex_column" style="height:100vh;">
+      <d-splitter-pane class="all_height" style="overflow: scroll">
+        <div class="flex_column all_height">
           <header>
             <app-filter></app-filter>
           </header>
@@ -100,7 +101,6 @@
               <app-list-cell [game]="g" *ngFor="let g of gamelist"></app-list-cell>
             </main>
           </div>
-
 
           <footer style="background-color: white;"
                   class="test_border container flex_row">

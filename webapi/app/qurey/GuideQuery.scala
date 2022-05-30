@@ -1,4 +1,4 @@
-package com.goexp.galgame.gui.db.mongo.query
+package qurey
 
 import com.goexp.db.mongo.DBQuery
 import com.goexp.galgame.common.Config

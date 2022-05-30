@@ -25,8 +25,8 @@ class GameController extends Controller {
   implicit class Pre(where: BsonDocument) {
 
     def preProcess() = {
-      Filters.and(where, Filters.gt("state", GameState.BLOCK.value))
-//      where
+     Filters.and(where, Filters.gt("state", GameState.BLOCK.value))
+      // where
     }
   }
 

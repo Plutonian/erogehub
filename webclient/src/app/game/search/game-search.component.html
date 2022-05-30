@@ -1,12 +1,14 @@
-<form #form="ngForm" (submit)="onSubmit(form)" class="flex_row">
-  <label for="simple">simple </label>
-  <input id="simple" name="searchType" type="radio" ngModel value="0" required checked/>
+<div class="all_height flex_column">
+  <form #form="ngForm" (submit)="onSubmit(form)" class="flex_row">
+    <label for="simple">simple </label>
+    <input id="simple" name="searchType" type="radio" ngModel value="0" required checked/>
 
-  <label for="All">All</label>
-  <input id="All" name="searchType" type="radio" ngModel value="1" required/>
+    <label for="All">All</label>
+    <input id="All" name="searchType" type="radio" ngModel value="1" required/>
 
-  <input name="searchKey" class="flex_grow" ngModel required placeholder="好みのゲームネイムを入れてください"/>
-  <input type="submit" value="Search" [disabled]="form.invalid"/>
-</form>
+    <input name="searchKey" class="flex_grow" ngModel required placeholder="好みのゲームネイムを入れてください"/>
+    <input type="submit" value="Search" [disabled]="form.invalid"/>
+  </form>
 
-<app-explorer [filter]="filter"></app-explorer>
+  <app-explorer [filter]="filter" class="flex_grow"></app-explorer>
+</div>

@@ -3,7 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
 import {DetailComponent} from './game/detail/detail.component';
-import {BangumiPipl, BrandStatePipl, ImgUrlPipl, LocationPipl, StatePipl, WikiPipl} from "./imgUrl.pipl";
+import {BangumiPipl, BlockPipl, BrandStatePipl, ImgUrlPipl, LocationPipl, StatePipl, WikiPipl} from "./imgUrl.pipl";
 import {HttpClientModule} from "@angular/common/http";
 import {GameService} from "./game/game.service";
 import {InfoComponent} from './game/detail/info/info.component';
@@ -36,14 +36,14 @@ import {BrandComponent} from "./brand/brand.component";
 import {BrandService} from "./brand/brand.service";
 import {AnchorModule, BadgeModule, CarouselModule, DevUIModule, PanelModule, SplitterModule} from "ng-devui";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { MonthCalendarComponent } from './common/month-calendar/month-calendar.component';
-import { FilterComponent } from './game/filter/filter.component';
-import { ListCellComponent } from './game/list-cell/list-cell.component';
+import {MonthCalendarComponent} from './common/month-calendar/month-calendar.component';
+import {FilterComponent} from './game/filter/filter.component';
+import {ListCellComponent} from './game/list-cell/list-cell.component';
 import {RelativeTimeModule} from "ng-devui/relative-time";
-import { FormattedDateComponent } from './common/formatted-date/formatted-date.component';
+import {FormattedDateComponent} from './common/formatted-date/formatted-date.component';
 
 export const IMG_SERVER = "192.168.2.236"
-export const APP_SERVER = "192.168.2.214:9000"
+export const APP_SERVER = "192.168.2.236:9000"
 
 const routes: Route[] = [
   {path: 'cv', component: CvComponent},
@@ -79,6 +79,7 @@ const routes: Route[] = [
     StatePipl,
     LocationPipl,
     BrandStatePipl,
+    BlockPipl,
     AppComponent,
     DetailComponent,
     InfoComponent,

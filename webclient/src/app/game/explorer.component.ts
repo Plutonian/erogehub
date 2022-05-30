@@ -13,7 +13,7 @@ export class ExplorerComponent implements OnChanges {
   @Input()
   filter
 
-  size? = "List"
+  size? = "Grid"
 
   brandGroup: BrandGroupItem[]
 

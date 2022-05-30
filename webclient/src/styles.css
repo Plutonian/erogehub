@@ -4,12 +4,25 @@
   /*margin: 0;*/
 }
 
+.block {
+  filter: saturate(0%);
+}
+
+.same {
+  filter: blur(2px);
+}
+
+
 .title {
   font-size: 24px;
 }
 
 .group_title {
   font-size: 18px;
+}
+
+.all_height {
+  height: 100%;
 }
 
 
@@ -39,14 +52,14 @@ a:hover {
 }
 
 .container {
-  padding: 3px
+  padding: 3px;
 }
 
-.gap-3{
+.gap-3 {
   gap: 3px;
 }
 
-.gap-5{
+.gap-5 {
   gap: 5px;
 }
 

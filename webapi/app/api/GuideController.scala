@@ -1,9 +1,9 @@
 package api
 
-import com.goexp.galgame.gui.db.mongo.query.GuideQuery
 import com.mongodb.client.model.Filters.regex
 import play.libs.Json
 import play.mvc.Results.ok
+import qurey.GuideQuery
 
 class GuideController {
 

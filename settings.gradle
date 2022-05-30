@@ -4,8 +4,5 @@
 
 rootProject.name = 'galgame'
 include(':common')
-//include(':data')
-
-include(':desktopclient')
 include(':task')
 include(':webapi')

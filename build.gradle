@@ -9,24 +9,23 @@ allprojects {
 
 subprojects {
     apply plugin: 'scala'
-//    apply plugin: 'java-library'
 
     dependencies {
-        // https://mvnrepository.com/artifact/org.scala-lang/scala3-library
-//        implementation 'org.scala-lang:scala3-library_3:3.1.0'
+// https://mvnrepository.com/artifact/org.scala-lang/scala3-library
+//        implementation 'org.scala-lang:scala3-library_3:3.1.2'
 
 
         // https://mvnrepository.com/artifact/org.scala-lang/scala-library
         implementation group: 'org.scala-lang', name: 'scala-library', version: '2.13.8'
 
 
-        implementation 'ch.qos.logback:logback-classic:1.2.6'
+        implementation 'ch.qos.logback:logback-classic:1.2.11'
 
 //        // https://mvnrepository.com/artifact/com.typesafe.scala-logging/scala-logging
-        implementation group: 'com.typesafe.scala-logging', name: 'scala-logging_2.13', version: '3.9.4'
+        implementation group: 'com.typesafe.scala-logging', name: 'scala-logging_2.13', version: '3.9.5'
 
-        // https://mvnrepository.com/artifact/com.typesafe.scala-logging/scala-logging
-//        implementation 'com.typesafe.scala-logging:scala-logging_3:3.9.4'
+// https://mvnrepository.com/artifact/com.typesafe.scala-logging/scala-logging
+//        implementation 'com.typesafe.scala-logging:scala-logging_3:3.9.5'
 
 
     }
@@ -36,10 +35,10 @@ subprojects {
         maven {
             url = 'https://repo.maven.apache.org/maven2/'
         }
-//        maven {
-//            name "lightbend-maven-release"
-//            url "https://repo.lightbend.com/lightbend/maven-releases"
-//        }
+        maven {
+            name "lightbend-maven-release"
+            url "https://repo.lightbend.com/lightbend/maven-releases"
+        }
     }
 
     tasks.withType(ScalaCompile) {

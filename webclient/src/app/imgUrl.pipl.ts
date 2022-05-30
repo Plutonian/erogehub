@@ -57,3 +57,19 @@ export class LocationPipl {
   }
 
 }
+
+@Pipe({name: "block"})
+export class BlockPipl {
+
+  transform(state: String) {
+
+    // switch (state) {
+    //   case "BLOCK":"block"
+    //
+    // }
+    return state == "BLOCK" ? "block" : ""
+  }
+
+}
+
+

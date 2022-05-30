@@ -13,7 +13,6 @@ play {
 dependencies {
 
     implementation project(':common')
-    implementation project(':desktopclient')
     implementation 'com.goexp:core:1.0.5'
     implementation 'com.goexp.db:db_mongo:1.0.5'
     implementation group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.10'

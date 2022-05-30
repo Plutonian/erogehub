@@ -1,5 +1,6 @@
 package api
 
+import api.common.ExpendResult.ToJson
 import com.mongodb.client.model.Filters.regex
 import play.libs.Json
 import play.mvc.Results.ok
@@ -16,7 +17,7 @@ class GuideController {
       .where(regex("title", s"^$searchKey"))
       .list()
 
-    ok(Json.toJson(list)).as("application/json; charset=utf-8")
+    ok(Json.toJson(list)).asJson()
 
   }
 }

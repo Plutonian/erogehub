@@ -41,9 +41,14 @@ import {FilterComponent} from './game/filter/filter.component';
 import {ListCellComponent} from './game/list-cell/list-cell.component';
 import {RelativeTimeModule} from "ng-devui/relative-time";
 import {FormattedDateComponent} from './common/formatted-date/formatted-date.component';
+import {StarChangeComponent} from './game/part/star-change/star-change.component';
+import {PanelComponent} from './common/panel/panel.component';
+import {GroupsideComponent} from './game/explorer/groupside/groupside.component';
+import {GroupBrandComponent} from './game/explorer/groupside/group-brand/group-brand.component';
+import { GameListPanelComponent } from './game/explorer/groupside/game-list-panel/game-list-panel.component';
 
 export const IMG_SERVER = "192.168.2.236"
-export const APP_SERVER = "192.168.2.236:9000"
+export const APP_SERVER = "localhost:9000"
 
 const routes: Route[] = [
   {path: 'cv', component: CvComponent},
@@ -109,7 +114,12 @@ const routes: Route[] = [
     MonthCalendarComponent,
     FilterComponent,
     ListCellComponent,
-    FormattedDateComponent
+    FormattedDateComponent,
+    StarChangeComponent,
+    PanelComponent,
+    GroupsideComponent,
+    GroupBrandComponent,
+    GameListPanelComponent
   ],
   imports: [
     BrowserModule,

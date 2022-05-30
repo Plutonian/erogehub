@@ -1,14 +1,20 @@
-<section class="flex_column game" style="min-height:600px;">
-  <img class="img_alone" src="{{game|img}}/game_s.jpg"/>
-  <main style="gap:2px;" class="flex_grow flex_column">
-    <section>
-      <app-location-show [game]="game"></app-location-show>
+<section class="flex_column game">
 
-      <span style='font-size:24px;'>
+  <img *ngIf="large;else small" class="img_alone" src="{{game|img}}/game_s.jpg"/>
+  <ng-template #small>
+    <img class="img_alone" src="{{game|img}}/game_t200.jpg"/>
+  </ng-template>
+  <main style="gap:2px;" class="flex_grow flex_column">
+    <section class="flex_row flex_float">
+
+      <div>
+        <app-location-change [game]="game"></app-location-change>
+        <span style='font-size:24px;'>
         <a class="title" style="color:black;" routerLink="/game/{{game.id}}">
             {{game.titles?.mainTitle}}
         </a>
       </span>
+      </div>
       <span>{{game.titles?.subTitle}}</span>
     </section>
     <section>
@@ -20,8 +26,8 @@
 
     <app-formatted-date *ngIf="game.publishDate!=null" [game]="game"></app-formatted-date>
 
-    <d-rate [ngModel]="game.star" [readonly]="true"></d-rate>
-    <section *ngIf="game.tag?.length > 0" class="flex_row" style="flex-wrap: wrap;gap:5px;">
+    <app-star-change [game]="game"></app-star-change>
+    <section *ngIf="game.tag?.length > 0" class="flex_row flex_float gap-5">
       <app-jumptag *ngFor="let tag of game.tag" [tag]="tag" style="font-size:10px;"></app-jumptag>
     </section>
   </main>

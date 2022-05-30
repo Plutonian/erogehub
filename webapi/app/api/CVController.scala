@@ -1,5 +1,6 @@
 package api
 
+import api.common.ExpendResult.ToJson
 import com.goexp.galgame.common.model.CV
 import com.goexp.galgame.data.source.getchu.query.CVQuery
 import play.libs.Json
@@ -25,7 +26,7 @@ class CVController extends Controller {
       .map { case (k, v) => CVGroup(k, v.asJava) }
       .asJava
 
-    ok(Json.toJson(list)).as("application/json; charset=utf-8")
+    ok(Json.toJson(list)).asJson()
   }
 
 }

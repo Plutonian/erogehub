@@ -15,13 +15,7 @@ export class ExplorerComponent implements OnChanges {
 
   size? = "Grid"
 
-  brandGroup: BrandGroupItem[]
 
-  dateGroup: DateGroupItem[]
-
-  cvGroup: CVGroupItem[]
-
-  tagGroup: TagGroupItem[]
 
   gamelist: Game[]
 
@@ -50,17 +44,7 @@ export class ExplorerComponent implements OnChanges {
             console.log("Gs", gs);
 
             if (gs != null && gs.length > 0) {
-              this.service.groupByDate(filter)
-                .subscribe((data: DateGroupItem[]) => this.dateGroup = data)
 
-              this.service.groupByBrand(filter)
-                .subscribe((data: BrandGroupItem[]) => this.brandGroup = data)
-
-              this.service.groupByCV(filter)
-                .subscribe((data: CVGroupItem[]) => this.cvGroup = data)
-
-              this.service.groupByTag(filter)
-                .subscribe((data: TagGroupItem[]) => this.tagGroup = data)
             }
           }
         )

@@ -1,7 +1,7 @@
-<main class="flex_row gap-5" style="flex-wrap: wrap">
+<main class="flex_row flex_float gap-5">
   <section *ngFor="let group of tagGroup" class="flex_column taggroup">
     <span>{{group.name}}</span>
-    <main class="flex_row" style="flex-wrap: wrap;flex: 1;gap:3px;">
+    <main class="flex_row flex_float flex_grow gap-3">
       <app-jumptag *ngFor="let tag of group.javaTags" [tag]="tag" style="font-size:18px;"></app-jumptag>
     </main>
   </section>

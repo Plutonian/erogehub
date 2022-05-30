@@ -87,6 +87,7 @@ export interface CVGroupItem extends GroupItem {
 
 interface CompositeGroupItem extends GroupItem {
   children?: CompositeGroupItem[]
+  games?: Game[]
 }
 
 export interface DateRange {

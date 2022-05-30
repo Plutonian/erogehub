@@ -1,5 +1,6 @@
 package api
 
+import api.common.ExpendResult.ToJson
 import com.mongodb.client.model.Sorts.ascending
 import play.libs.Json
 import play.mvc.Controller
@@ -13,7 +14,7 @@ class TagController extends Controller {
 
     val list = TagQuery().sort(ascending("order")).list()
 
-    ok(Json.toJson(list)).as("application/json; charset=utf-8")
+    ok(Json.toJson(list)).asJson()
   }
 
 }

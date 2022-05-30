@@ -11,6 +11,9 @@ export class GridCellComponent implements OnInit {
   @Input()
   game: Game
 
+  @Input()
+  large = true
+
   constructor() {
 
   }

@@ -1,8 +1,8 @@
 <div dAnchorBox *ngIf="g!=null" class="flex_column gap-5 container test_border">
   <ul class="step-nav" style="position: fixed;right: 100px;top:180px;background-color: white">
-    <li [dAnchorLink]="'story'">ストーリー</li>
-    <li *ngIf="g.gameCharacters.length>0" [dAnchorLink]="'char'">キャラクター</li>
-    <li *ngIf="g.gameImgs?.length>0" [dAnchorLink]="'sample'">サンプル画像</li>
+    <li><a [dAnchorLink]="'story'">ストーリー</a></li>
+    <li *ngIf="g.gameCharacters.length>0"><a [dAnchorLink]="'char'">キャラクター</a></li>
+    <li *ngIf="g.gameImgs?.length>0"><a [dAnchorLink]="'sample'">サンプル画像</a></li>
   </ul>
   <app-info [game]="g"></app-info>
 
@@ -12,7 +12,8 @@
       <section class="flex_row">
         <img class="img_alone"
              src="{{g | img}}/game_l.jpg"/>
-        <textarea style="flex: 1" readonly="readonly" rows="20">{{g.intro}}{{g.story}}</textarea>
+        <textarea class="flex_grow" style="font-size: 20px;border: none"
+                  readonly="readonly">{{g.intro}}{{g.story}}</textarea>
       </section>
     </dd>
 
@@ -27,7 +28,7 @@
       <dt class="group_title" [dAnchor]="'sample'">サンプル画像</dt>
       <dd>
         <!--imgs-->
-        <section *ngIf="g.gameImgs?.length>0" class="flex_row gap-5" style="flex-wrap: wrap">
+        <section *ngIf="g.gameImgs?.length>0" class="flex_row flex_float gap-5">
           <img *ngFor="let img of g.gameImgs" class="sample_img"
                src="{{g|img}}/simple_l_{{img.index}}.jpg"/>
         </section>
@@ -46,19 +47,6 @@
 
   <!-- control bar -->
   <section class="test_border" style="position: fixed;bottom: 100px;right:100px;background-color: white;">
-    <dl>
-      <dt>State:</dt>
-      <dd>
-        <app-state-change [game]="g"></app-state-change>
-      </dd>
-      <dt>
-        Location:
-      </dt>
-      <dd>
-        <app-location-change [game]="g"></app-location-change>
-      </dd>
-    </dl>
-
     <ul>
       <li><a routerLink="/game/guide/{{g.titles.mainTitle}}">攻略</a></li>
       <li><a target="_blank" href="http://www.getchu.com/soft.phtml?id={{g.id}}&gc=gc">GetChu</a></li>

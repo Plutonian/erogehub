@@ -125,6 +125,11 @@ a:hover {
   flex-direction: column;
 }
 
+.flex_float {
+  flex-wrap: wrap;
+
+}
+
 .flex_grow {
   flex: 1;
 }

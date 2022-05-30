@@ -6,7 +6,7 @@
         <div>{{group.star}}</div>
       </ng-template>
     </header>
-    <main class="flex_row gap-5" style="flex-wrap: wrap;">
+    <main class="flex_row flex_float gap-5">
 
       <app-jumpcv *ngFor="let cv of group.list" [cv]="cv.name" [isReal]="true"></app-jumpcv>
     </main>

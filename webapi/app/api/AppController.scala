@@ -1,5 +1,6 @@
 package api
 
+import api.common.ExpendResult.ToJson
 import com.goexp.galgame.common.model.DateType
 import play.libs.Json
 import play.mvc.Controller
@@ -21,7 +22,7 @@ class AppController extends Controller {
 
     val list = DateType.values().to(LazyList).map { dateType => Item(dateType.name, dateType.start.toString, dateType.end.toString) }.asJava
 
-    ok(Json.toJson(list)).as("application/json; charset=utf-8")
+    ok(Json.toJson(list)).asJson()
   }
 
 }

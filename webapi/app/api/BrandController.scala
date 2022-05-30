@@ -1,5 +1,6 @@
 package api
 
+import api.common.ExpendResult.ToJson
 import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.Config.DB_NAME
@@ -25,7 +26,7 @@ class BrandController {
     val maybeBrand = BrandQuery()
       .where(Filters.eq(id)).one().orNull
 
-    ok(Json.toJson(maybeBrand)).as("application/json; charset=utf-8")
+    ok(Json.toJson(maybeBrand)).asJson()
 
   }
 
@@ -36,7 +37,7 @@ class BrandController {
 
     val list = BrandQuery().where(BsonDocument.parse(where)).list()
 
-    ok(Json.toJson(Option(list).getOrElse(List().asJava))).as("application/json; charset=utf-8")
+    ok(Json.toJson(Option(list).getOrElse(List().asJava))).asJson()
   }
 
   def changeState(id: Int, state: Int) = {
@@ -47,13 +48,7 @@ class BrandController {
       documentMongoCollection.updateOne(Filters.eq(id), set("type", state))
     })
 
-    ok(Json.toJson("OK")).as("application/json; charset=utf-8")
+    ok(Json.toJson("OK")).asJson()
 
   }
-
-  //  def byComp(comp: String) = {
-  //    BrandQuery().where(Filters.eq("comp", comp))
-  //      .sort(and(descending("type"), descending("name")))
-  //      .scalaList()
-  //  }
 }

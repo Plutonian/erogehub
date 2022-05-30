@@ -2,7 +2,7 @@
   <img class="img_alone" src="{{game|img}}/game_t.jpg"/>
   <main style="gap:2px;" class="flex_grow flex_column">
     <section>
-      <app-location-show [game]="game"></app-location-show>
+      <app-location-change [game]="game"></app-location-change>
 
       <span style='font-size:24px;'>
         <a class="title" style="color:black;" routerLink="/game/{{game.id}}">
@@ -21,8 +21,8 @@
 
     <app-formatted-date *ngIf="game.publishDate!=null" [game]="game"></app-formatted-date>
 
-    <d-rate [ngModel]="game.star" [readonly]="true"></d-rate>
-    <section *ngIf="game.tag?.length > 0" class="flex_row" style="flex-wrap: wrap;gap:5px;">
+    <app-star-change [game]="game"></app-star-change>
+    <section *ngIf="game.tag?.length > 0" class="flex_row flex_float gap-5">
       <app-jumptag *ngFor="let tag of game.tag" [tag]="tag" style="font-size:10px;"></app-jumptag>
     </section>
   </main>

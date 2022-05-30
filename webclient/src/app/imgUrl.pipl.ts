@@ -13,6 +13,7 @@ export class ImgUrlPipl {
 
 }
 
+
 @Pipe({name: "wiki"})
 export class WikiPipl {
 

@@ -1,5 +1,6 @@
 package api
 
+import api.common.ExpendResult.ToJson
 import com.goexp.common.util.string.Strings
 import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
@@ -25,7 +26,7 @@ class GameController extends Controller {
   implicit class Pre(where: BsonDocument) {
 
     def preProcess() = {
-     Filters.and(where, Filters.gt("state", GameState.BLOCK.value))
+      Filters.and(where, Filters.gt("state", GameState.BLOCK.value))
       // where
     }
   }
@@ -39,7 +40,7 @@ class GameController extends Controller {
   def info(id: Int) = {
     GameFullQuery().where(Filters.eq(id)).one() match {
       case Some(g) =>
-        ok(Json.toJson(g)).as("application/json; charset=utf-8")
+        ok(Json.toJson(g)).asJson()
       case None => notFound()
     }
   }
@@ -51,7 +52,7 @@ class GameController extends Controller {
 
     val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).list()
 
-    ok(Json.toJson(Option(list).getOrElse(List().asJava))).as("application/json; charset=utf-8")
+    ok(Json.toJson(Option(list).getOrElse(List().asJava))).asJson()
   }
 
   def groupByCV(request: Request) = {
@@ -84,7 +85,7 @@ class GameController extends Controller {
       }.asJava
 
 
-    ok(Json.toJson(cvlist)).as("application/json; charset=utf-8")
+    ok(Json.toJson(cvlist)).asJson()
   }
 
   def groupByTag(request: Request) = {
@@ -105,7 +106,7 @@ class GameController extends Controller {
       }.asJava
 
 
-    ok(Json.toJson(taglist)).as("application/json; charset=utf-8")
+    ok(Json.toJson(taglist)).asJson()
   }
 
   def groupByDate(request: Request) = {
@@ -145,7 +146,7 @@ class GameController extends Controller {
         )
       }.asJava
 
-    ok(Json.toJson(years)).as("application/json; charset=utf-8")
+    ok(Json.toJson(years)).asJson()
   }
 
   def groupByBrand(request: Request) = {
@@ -167,16 +168,16 @@ class GameController extends Controller {
         case (comp: String, v) =>
 
           val brandNodes = v.groupBy(_.brand).to(LazyList)
-            .map { case (brand, games) => BrandItem(brand.name, games.size, null, brand, null) }
+            .map { case (brand, games) => BrandItem(brand.name, games.size, null, brand, games.toArray, null) }
             .toArray
 
-          BrandItem(comp, v.size, comp, null, brandNodes)
+          BrandItem(comp, v.size, comp, null, null, brandNodes)
         case (brand: Brand, v) =>
-          BrandItem(brand.name, v.size, null, brand, null)
+          BrandItem(brand.name, v.size, null, brand, v.toArray, null)
       }
       .asJava
 
-    ok(Json.toJson(nodes)).as("application/json; charset=utf-8")
+    ok(Json.toJson(nodes)).asJson()
   }
 
   def changeState(id: Int, state: Int) = {
@@ -187,7 +188,7 @@ class GameController extends Controller {
       documentMongoCollection.updateOne(Filters.eq(id), set("state", state))
     })
 
-    ok(Json.toJson("OK")).as("application/json; charset=utf-8")
+    ok(Json.toJson("OK")).asJson()
 
   }
 
@@ -199,7 +200,7 @@ class GameController extends Controller {
       documentMongoCollection.updateOne(Filters.eq(id), set("star", star))
     })
 
-    ok(Json.toJson("OK")).as("application/json; charset=utf-8")
+    ok(Json.toJson("OK")).asJson()
 
   }
 
@@ -211,7 +212,7 @@ class GameController extends Controller {
       documentMongoCollection.updateOne(Filters.eq(id), set("location", location))
     })
 
-    ok(Json.toJson("OK")).as("application/json; charset=utf-8")
+    ok(Json.toJson("OK")).asJson()
 
   }
 

@@ -1,5 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Game} from "../../entity";
+import {DrawerService} from "ng-devui";
+import {GameService} from "../game.service";
 
 @Component({
   selector: 'app-grid-cell',
@@ -14,7 +16,7 @@ export class GridCellComponent implements OnInit {
   @Input()
   large = true
 
-  constructor() {
+  constructor(private drawerService: DrawerService, private gameService: GameService) {
 
   }
 
@@ -22,5 +24,34 @@ export class GridCellComponent implements OnInit {
 
 
   }
+
+  @ViewChild('drawerContent', {static: true})
+  drawerContent: TemplateRef<any>;
+
+  openDrawer() {
+    this.drawerService.open({
+      width: '1500px',
+      zIndex: 1000,
+      isCover: true,
+      fullScreen: true,
+      backdropCloseable: true,
+      escKeyCloseable: true,
+      position: 'right',
+      onClose: () => {
+        console.log('on drawer closed');
+      },
+      contentTemplate: this.drawerContent
+    });
+  }
+
+  delete() {
+    this.gameService.delete(this.game.id)
+      .subscribe((data) => console.log(data))
+
+  }
+
+  // close($event) {
+  //   this.results.drawerInstance.hide();
+  // }
 
 }

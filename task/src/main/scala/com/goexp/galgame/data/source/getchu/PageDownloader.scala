@@ -14,7 +14,7 @@ object PageDownloader {
 
   private val logger = Logger(PageDownloader.getClass)
 
-  implicit val DEFAULT_CHARSET = StandardCharsets.UTF_8
+  implicit val DEFAULT_CHARSET: Charset = StandardCharsets.UTF_8
 
   def download(request: HttpRequest)(implicit charset: Charset): String = {
     downloadAnsyn(request)(charset)

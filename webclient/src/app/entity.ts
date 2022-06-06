@@ -1,81 +1,86 @@
 export interface Game {
-  id: Number;
-  name: String;
-  painter: String[];
-  tag: String[];
+  id: number;
+  name: string;
+  painter: string[];
+  tag: string[];
   publishDate: MyDate
-  dateString: String
-  dateFormatString: String
+  dateString: string
+  dateFormatString: string
   published: Boolean
   brand: Brand
-  story: String;
-  intro: String
-  state: String
-  location: String
-  star: Number
+  story: string;
+  intro: string
+  state: string
+  location: string
+  star: number
   titles: Titles
   gameImgs: GameImg[]
   gameCharacters: GameCharacter[]
 }
 
+export interface Emotion {
+  name: string
+  value: number
+}
+
 
 export interface Titles {
-  mainTitle: String
-  subTitle: String
+  mainTitle: string
+  subTitle: string
 }
 
 export interface GameImg {
-  index: Number
+  index: number
 }
 
 export interface GameCharacter {
-  "name": String
-  "cv": String
-  "intro": String
-  "trueCV": String
-  "index": Number
+  "name": string
+  "cv": string
+  "intro": string
+  "trueCV": string
+  "index": number
 }
 
 export interface MyDate {
-  year: Number
-  monthValue: Number
-  dayOfMonth: Number
+  year: number
+  monthValue: number
+  dayOfMonth: number
 }
 
 
 export interface Brand {
-  id: Number
-  name: String
-  "website": String
-  "comp": String
-  "state": String
-  javaTag: String[]
+  id: number
+  name: string
+  "website": string
+  "comp": string
+  "state": Emotion
+  javaTag: string[]
 }
 
 export interface Guide {
-  title: String,
-  href: String,
-  from: String
+  title: string,
+  href: string,
+  from: string
 }
 
 
 export interface CV {
-  name: String
+  name: string
 }
 
 export interface TagGroup {
-  name: String
-  javaTags: String[]
+  name: string
+  javaTags: string[]
 }
 
 export interface CVGroup {
-  star: Number
+  star: number
   list: CV[]
 }
 
 export interface GroupItem {
-  title: String
-  count: Number
+  title: string
+  count: number
 }
 
 export interface TagGroupItem extends GroupItem {
@@ -97,15 +102,15 @@ export interface DateRange {
 
 export interface DateGroupItem extends CompositeGroupItem {
   range: DateRange,
-  dateType: String,
+  dateType: string,
 }
 
 export interface BrandGroupItem extends CompositeGroupItem {
-  comp?: String,
+  comp?: string,
   brand?: Brand
 }
 
 export interface State {
-  name: String
-  value: Number
+  name: string
+  value: number
 }

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {GroupItem} from "../../entity";
 
 export interface FilterItem {
-  key: String
+  key: string
   expression: GroupItem
 }
 

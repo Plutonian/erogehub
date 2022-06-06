@@ -3,12 +3,10 @@ import {HttpClient} from "@angular/common/http";
 import {APP_SERVER} from "../app.module";
 
 export const BrandStates = {
-  ALL: {name: "ALL", value: -99},
-  BLOCK: {name: "Ignore", value: -2},
+  HATE: {name: "嫌い", value: -99},
   UNCHECKED: {name: "...", value: 0},
-  HOPE: {name: "気になり", value: 80},
-  LIKE: {name: "好き", value: 99},
-  MARK: {name: "後で見る", value: 100}
+  HOPE: {name: "気になり", value: 1},
+  LIKE: {name: "好き", value: 99}
 }
 
 @Injectable()
@@ -17,7 +15,7 @@ export class BrandService {
   constructor(private httpClient: HttpClient) {
   }
 
-  query(filter: String) {
+  query(filter: string) {
     return this.httpClient.get(`http://${APP_SERVER}/api/brand/query?filter=${filter}`)
   }
 

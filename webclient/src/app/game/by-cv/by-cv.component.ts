@@ -7,7 +7,7 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./by-cv.component.css']
 })
 export class ByCVComponent implements OnInit {
-  filter: String
+  filter: string
 
   constructor(private route: ActivatedRoute) {
   }

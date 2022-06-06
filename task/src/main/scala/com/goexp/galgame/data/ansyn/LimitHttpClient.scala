@@ -8,7 +8,6 @@ import java.net.http.{HttpClient, HttpRequest, HttpResponse}
 import java.net.{ProxySelector, URI}
 import java.time.Duration
 import java.util.concurrent.{CompletableFuture, Executors, TimeUnit}
-import scala.concurrent.duration.TimeUnit
 import scala.concurrent.{ExecutionContext, Future}
 
 
@@ -67,7 +66,7 @@ class LimitHttpClient(val limits: Int, val waitTime: Int, val unit: TimeUnit) ex
 object LimitHttpClient {
 
   //default
-  val client = new LimitHttpClient(50, 20, TimeUnit.SECONDS)
+  val client = new LimitHttpClient(50, 10, TimeUnit.SECONDS)
 
   def apply(): LimitHttpClient = {
     client

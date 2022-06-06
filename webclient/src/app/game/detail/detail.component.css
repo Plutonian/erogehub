@@ -1,3 +1,13 @@
 dt, dd, dl, ul, li {
   margin-left: 0;
 }
+
+div.info{
+  transition:transform 0.2s;
+  transform: translateX(666px)
+}
+
+div.info:hover{
+  transition:transform 0.2s;
+  transform: translateX(0px)
+}

@@ -45,14 +45,14 @@ object InsertOrUpdateGameActor {
     try source.getLines().toList finally source.close()
   }
 
-  private val packagelist = {
-    val source = Source.fromInputStream(getClass.getResourceAsStream("/package.list"))(Codec.UTF8)
-    try source.getLines().toList finally source.close()
-  }
+//  private val packagelist = {
+//    val source = Source.fromInputStream(getClass.getResourceAsStream("/package.list"))(Codec.UTF8)
+//    try source.getLines().toList finally source.close()
+//  }
 
   def isSameGame = (game: Game) => samelist.exists(str => game.name.contains(str))
 
-  def isPackageGame = (game: Game) =>
-    Option(game.`type`).map(_.asScala).getOrElse(List.empty).contains("セット商品") ||
-      packagelist.exists(str => game.name.contains(str))
+//  def isPackageGame = (game: Game) =>
+//    Option(game.`type`).map(_.asScala).getOrElse(List.empty).contains("セット商品") ||
+//      packagelist.exists(str => game.name.contains(str))
 }

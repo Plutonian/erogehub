@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {BrandGroupItem} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
@@ -7,11 +7,11 @@ import {GameService} from "../../../game.service";
   templateUrl: './group-brand.component.html',
   styleUrls: ['./group-brand.component.css']
 })
-export class GroupBrandComponent implements OnInit {
+export class GroupBrandComponent implements OnChanges {
   @Input()
   filter
 
-  hidden=true
+  hidden = true
 
   brandGroup: BrandGroupItem[]
 
@@ -24,12 +24,15 @@ export class GroupBrandComponent implements OnInit {
   }
 
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
 
     const filter = this.filter
 
-    this.service.groupByBrand(filter)
-      .subscribe((data: BrandGroupItem[]) => this.brandGroup = data)
+    if (filter != null) {
+      this.service.groupByBrand(filter)
+        .subscribe((data: BrandGroupItem[]) => this.brandGroup = data)
+
+    }
 
   }
 

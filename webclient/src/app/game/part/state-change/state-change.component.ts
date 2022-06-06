@@ -21,7 +21,6 @@ export class StateChangeComponent implements OnInit {
     "HOPE",
     "UNCHECKED",
     "SAME",
-    "PACKAGE",
     "BLOCK",
   ]
 
@@ -29,13 +28,23 @@ export class StateChangeComponent implements OnInit {
     this.edit = !this.edit
   }
 
+  like() {
+    this.game.state = "HOPE"
+    this.updateState()
+  }
+
   onStateSelected() {
     this.change()
 
+    this.updateState()
+  }
+
+  updateState() {
     const gameState = GameStates[`${this.game.state}`];
     console.log(gameState);
+
     this.gameService.changeState(this.game.id, gameState.value)
-      .subscribe((data: String) =>
+      .subscribe((data: string) =>
         console.log(data)
       )
   }

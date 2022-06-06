@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {BrandGroupItem, CVGroupItem, DateGroupItem, Game, TagGroupItem} from "../entity";
+import {Game} from "../entity";
 import {GameService} from "./game.service";
 
 
@@ -16,10 +16,17 @@ export class ExplorerComponent implements OnChanges {
   size? = "Grid"
 
 
-
   gamelist: Game[]
 
   constructor(private service: GameService) {
+  }
+
+  sort() {
+    this.gamelist.sort((a, b) => a.name.localeCompare(b.name))
+  }
+
+  sortState() {
+    this.gamelist.sort((a, b) => b.state.localeCompare(a.state))
   }
 
 

@@ -14,11 +14,11 @@ object ImporterStart {
   private val funcTable =
     List(
       ("mark-same", "Mark the same game", MarkSameGameTask.main _),
-      ("clean", "Clean same game img cache", CleanSameGameTask.main _),
+//      ("clean", "Clean same game img cache", CleanSameGameTask.main _),
 
       ("upgrade-game", "Upgrade game info from one date to another", FromDateRangeTask.main _),
 
-      ("upgrade-game-doujinbrand", "Upgrade game info by brand", FromDoujinBrandTask.main _),
+//      ("upgrade-game-doujinbrand", "Upgrade game info by brand", FromDoujinBrandTask.main _),
       ("upgrade-brand", "Upgrade brand info ", UpdateBrandTask.main _),
       ("group-brand", "Group brand", GroupBrandTask.main _),
 

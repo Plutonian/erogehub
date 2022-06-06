@@ -1,53 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Game} from "../../entity";
 import {GameService} from "../game.service";
 import {ActivatedRoute} from "@angular/router";
 
 
 @Component({
-  selector: 'app-detail',
+  selector: 'app-game-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.css']
 })
 export class DetailComponent implements OnInit {
 
   // @ts-ignore
-  g: Game = null
-
-  // {
-  //   "id": 0,
-  //   "name": "",
-  //   "publishDate": {
-  //     "year": 2021,
-  //     "monthValue": 9,
-  //     "dayOfMonth": 24
-  //   },
-  //   "painter": [],
-  //   "tag": [],
-  //   "story": "",
-  //   "intro": "",
-  //   "gameCharacters": [{
-  //     "name": "",
-  //     "cv": "",
-  //     "intro": "",
-  //     "trueCV": "",
-  //     "index": 1
-  //   }],
-  //   "gameImgs": [{
-  //     "index": 1
-  //   }],
-  //   "state": "PLAYED",
-  //   "location": "LOCAL",
-  //   "star": 4,
-  //   "brand": {
-  //     "id": 27875,
-  //     "name": "",
-  //     "website": "",
-  //     "comp": "",
-  //     "state": "LIKE"
-  //   },
-  //   "titles": {"mainTitle": "", "subTitle": ""}
-  // }
+  @Input()
+  game: Game = null
 
 
   constructor(private service: GameService, private route: ActivatedRoute) {
@@ -56,20 +22,17 @@ export class DetailComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.route.params.subscribe(p => {
+    if (this.game == null)
+      this.route.params.subscribe(p => {
 
-      // @ts-ignore
-      this.service.info(p.id)
-        .subscribe((game: Game) => {
-          // if (game != null && game.publishDate != null) {
-          //   // @ts-ignore
-          //   game.publishDate = myDate2JSDate(game.publishDate)
-          // }
+        // @ts-ignore
+        this.service.info(p.id)
+          .subscribe((game: Game) => {
 
-          this.g = game
-        })
+            this.game = game
+          })
 
-    })
+      })
 
   }
 

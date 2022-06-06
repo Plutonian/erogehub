@@ -5,7 +5,7 @@ import com.goexp.common.util.string.Strings
 import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.Config.DB_NAME
-import com.goexp.galgame.common.model.game.{GameCharacter, GameState}
+import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.data.model.Brand
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.set
@@ -26,8 +26,8 @@ class GameController extends Controller {
   implicit class Pre(where: BsonDocument) {
 
     def preProcess() = {
-      Filters.and(where, Filters.gt("state", GameState.BLOCK.value))
-      // where
+      //      Filters.and(where, Filters.gt("state", GameState.BLOCK.value))
+      where
     }
   }
 
@@ -36,6 +36,16 @@ class GameController extends Controller {
 
 
   val tlp = new DBOperator(Config.DB_STRING, DB_NAME, "game")
+
+  def delete(id: Int) = {
+    println(id)
+
+    tlp.exec(documentMongoCollection => {
+      documentMongoCollection.deleteOne(Filters.eq(id))
+    })
+
+    ok(Json.toJson("OK")).asJson()
+  }
 
   def info(id: Int) = {
     GameFullQuery().where(Filters.eq(id)).one() match {

@@ -12,7 +12,7 @@ import {Guide} from "../../entity";
 export class GuideComponent implements OnInit {
 
   // @Input()
-  searchKey: String
+  searchKey: string
 
   guideList: Guide[]
 
@@ -24,7 +24,7 @@ export class GuideComponent implements OnInit {
 
     this.route.params.subscribe(p => {
       // @ts-ignore
-      const searchKey: String = p.searchKey
+      const searchKey: string = p.searchKey
 
       if (searchKey != null) {
         console.log('PARAM: ', searchKey);

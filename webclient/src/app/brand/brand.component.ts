@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {NgForm} from "@angular/forms";
-import {BrandStates} from "./brand.service";
-import {Brand} from "../entity";
+import {Emotion} from "../entity";
+import {AppService} from "../app.service";
 
 @Component({
   selector: 'app-brand',
@@ -13,31 +13,23 @@ export class BrandComponent implements OnInit {
 
   filter
 
-  state
+  state: string
 
+  states: Emotion[]
 
-  states = [
-    "LIKE",
-    "HOPE",
-    "MARK",
-    "UNCHECKED",
-    "BLOCK"
-  ]
-
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private appService: AppService) {
   }
 
   onStateSelected() {
 
-    const state = BrandStates[`${this.state}`];
-
-    console.log(state);
-    const id = state.value
-
-    this.filter = JSON.stringify({"type": parseInt(id)})
+    this.filter = JSON.stringify({"type": parseInt(this.state)})
   }
 
   ngOnInit(): void {
+    this.appService.emotions().subscribe((data: Emotion[]) => {
+      this.states = data
+      // this.states = emotions.filter(data => data.value > 0)
+    })
   }
 
   onSubmit(form: NgForm) {

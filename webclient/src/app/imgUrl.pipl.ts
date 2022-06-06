@@ -17,7 +17,7 @@ export class ImgUrlPipl {
 @Pipe({name: "wiki"})
 export class WikiPipl {
 
-  transform(name: String) {
+  transform(name: string) {
     return `https://ja.wikipedia.org/w/index.php?search=${name}`
   }
 
@@ -26,7 +26,7 @@ export class WikiPipl {
 @Pipe({name: "bangumi"})
 export class BangumiPipl {
 
-  transform(name: String) {
+  transform(name: string) {
     return `http://bgm.tv/subject_search/${name}`
   }
 
@@ -35,7 +35,7 @@ export class BangumiPipl {
 @Pipe({name: "jp"})
 export class StatePipl {
 
-  transform(state: String) {
+  transform(state: string) {
     return GameStates[`${state}`].name
   }
 
@@ -44,7 +44,7 @@ export class StatePipl {
 @Pipe({name: "brand_jp"})
 export class BrandStatePipl {
 
-  transform(state: String) {
+  transform(state: string) {
     return BrandStates[`${state}`].name
   }
 
@@ -53,7 +53,7 @@ export class BrandStatePipl {
 @Pipe({name: "loc"})
 export class LocationPipl {
 
-  transform(state: String) {
+  transform(state: string) {
     return GameLocation[`${state}`].name
   }
 
@@ -62,7 +62,7 @@ export class LocationPipl {
 @Pipe({name: "block"})
 export class BlockPipl {
 
-  transform(state: String) {
+  transform(state: string) {
 
     // switch (state) {
     //   case "BLOCK":"block"

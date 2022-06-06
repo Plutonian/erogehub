@@ -29,7 +29,7 @@ export class LocationChangeComponent implements OnInit {
     console.log(location);
 
     this.gameService.changeLocation(this.game.id, location.value)
-      .subscribe((data: String) =>
+      .subscribe((data: string) =>
         console.log(data)
       )
   }

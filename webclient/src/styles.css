@@ -4,13 +4,6 @@
   /*margin: 0;*/
 }
 
-.block {
-  filter: saturate(0%);
-}
-
-.same {
-  filter: blur(2px);
-}
 
 
 .title {
@@ -61,6 +54,10 @@ a:hover {
 
 .gap-5 {
   gap: 5px;
+}
+
+gap-10{
+  gap: 10px;
 }
 
 
@@ -133,8 +130,20 @@ a:hover {
 .flex_grow {
   flex: 1;
 }
+/*img{*/
+/*  border: #eee solid 3px;*/
+/*}*/
+
+
+
+
+
+.test_border {
+  border: #000 solid 1px;
+}
 
 .game {
+  height: 100%;
   padding: 5px;
   /* margin:20px 50px 0 0; */
   background-color: #eee;
@@ -143,6 +152,34 @@ a:hover {
 
 }
 
-.test_border {
-  border: #000 solid 1px;
+
+
+.HOPE{
+  border: #313131 solid 1px;
+  background-color: #FFABD3;
+  /*color: #eeeeee;*/
+}
+
+.PLAYED{
+  border: #313131 solid 1px;
+  background-color: #4ea6fd;
+}
+
+.PLAYING{
+  border: #313131 solid 1px;
+  background-color: #fde64e;
+}
+
+
+.BLOCK {
+  filter: saturate(0%);
+}
+
+.SAME {
+  border: #313131 solid 1px;
+  background-color: #919191;
+}
+
+bg-white{
+  background-color: #fff;
 }

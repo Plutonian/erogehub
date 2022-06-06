@@ -4,11 +4,10 @@ import {APP_SERVER} from "../app.module";
 
 
 export const GameStates = {
-  PACKAGE: {name: "ポケ版", value: -3},
   SAME: {name: "SAME", value: -2},
-  BLOCK: {name: "ブロック", value: -1},
+  BLOCK: {name: "嫌い", value: -99},
   UNCHECKED: {name: "...", value: 0},
-  HOPE: {name: "気になり", value: 3},
+  HOPE: {name: "気になり", value: 1},
   PLAYING: {name: "進行中", value: 80},
   PLAYED: {name: "プレイ済み", value: 90}
 }
@@ -29,24 +28,28 @@ export class GameService {
     return this.httpClient.get(`http://${APP_SERVER}/api/game/detail/${id}`)
   }
 
-  query(filter: String) {
+  query(filter: string) {
     return this.httpClient.get(`http://${APP_SERVER}/api/game/query?filter=${filter}`)
   }
 
+  delete(id: Number) {
+    return this.httpClient.delete(`http://${APP_SERVER}/api/game/${id}`)
+  }
 
-  groupByDate(filter: String) {
+
+  groupByDate(filter: string) {
     return this.httpClient.get(`http://${APP_SERVER}/api/game/groupByDate?filter=${filter}`)
   }
 
-  groupByBrand(filter: String) {
+  groupByBrand(filter: string) {
     return this.httpClient.get(`http://${APP_SERVER}/api/game/groupByBrand?filter=${filter}`)
   }
 
-  groupByCV(filter: String) {
+  groupByCV(filter: string) {
     return this.httpClient.get(`http://${APP_SERVER}/api/game/groupByCV?filter=${filter}`)
   }
 
-  groupByTag(filter: String) {
+  groupByTag(filter: string) {
     return this.httpClient.get(`http://${APP_SERVER}/api/game/groupByTag?filter=${filter}`)
   }
 

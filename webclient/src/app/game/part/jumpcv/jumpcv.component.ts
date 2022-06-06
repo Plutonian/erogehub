@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
 export class JumpcvComponent implements OnInit {
 
   @Input()
-  cv: String
+  cv: string
 
   @Input()
   isReal: Boolean

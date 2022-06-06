@@ -1,7 +1,7 @@
 package com.goexp.galgame.data.ansyn
 
 import java.util.concurrent.Executors
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutor}
 
 object Pool {
   val DOWN_POOL_SIZE = 30
@@ -14,6 +14,6 @@ object Pool {
 
   val DB_POOL = ExecutionContext.fromExecutor(DB_POOL_SERV)
   val DOWN_POOL = ExecutionContext.fromExecutor(DOWN_POOL_SERV)
-  implicit val CPU_POOL = ExecutionContext.fromExecutor(CPU_POOL_SERV)
+  implicit val CPU_POOL: ExecutionContextExecutor = ExecutionContext.fromExecutor(CPU_POOL_SERV)
 
 }

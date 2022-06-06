@@ -29,7 +29,6 @@ object GameStat {
           statMap.getOrElse(GameState.PLAYED, 0),
           statMap.getOrElse(GameState.PLAYING, 0),
           statMap.getOrElse(GameState.HOPE, 0),
-//          statMap.getOrElse(GameState.READYTOVIEW, 0),
           statMap.getOrElse(GameState.UNCHECKED, 0)
         ), StarStatistics(
           starMap.getOrElse(0, 0),
@@ -40,7 +39,6 @@ object GameStat {
           starMap.getOrElse(5, 0)
         ), LocationStatistics(
           locationMap.getOrElse(GameLocation.LOCAL, 0),
-          //          locationMap.getOrElse(GameLocation.NETDISK, 0),
           locationMap.getOrElse(GameLocation.REMOTE, 0)
         )
       )

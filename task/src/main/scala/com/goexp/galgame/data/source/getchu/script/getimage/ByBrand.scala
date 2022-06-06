@@ -1,7 +1,6 @@
 package com.goexp.galgame.data.source.getchu.script.getimage
 
-import com.goexp.galgame.common.model.brand.BrandState
-import com.goexp.galgame.common.model.game.GameState
+import com.goexp.galgame.common.model.Emotion
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameFullQuery}
 import com.mongodb.client.model.Filters.and
@@ -17,10 +16,11 @@ object ByBrand {
 
 
     val types = List(
-      BrandState.LIKE,
-      BrandState.HOPE,
-      BrandState.MARK,
-      BrandState.UNCHECKED
+      Emotion.LIKE,
+      Emotion.HOPE,
+      //      BrandState.MARK,
+      Emotion.UNCHECKED,
+      Emotion.HATE
     )
 
     types.foreach {
@@ -41,8 +41,8 @@ object ByBrand {
             val glist = GameFullQuery()
               .where(and(
                 Filters.eq("brandId", b.id),
-                Filters.ne("state", GameState.BLOCK.value),
-                Filters.ne("state", GameState.SAME.value)
+                //                Filters.ne("state", GameState.BLOCK.value),
+                //                Filters.ne("state", GameState.SAME.value)
               ))
               .scalaList()
 

@@ -4,9 +4,9 @@ import {HttpClient} from "@angular/common/http";
 import {APP_SERVER} from "./app.module";
 
 interface DateCommand {
-  name: String
-  start: String
-  end: String
+  name: string
+  start: string
+  end: string
 }
 
 @Component({
@@ -22,12 +22,16 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
-    this.httpClient.get(`http://${APP_SERVER}/api/app`)
+    this.httpClient.get(`http://${APP_SERVER}/api/app/nearYears`)
       .subscribe((data: DateCommand[]) => this.dates = data)
 
+    this.httpClient.get(`http://${APP_SERVER}/api/app/monthsOfThisYear`)
+      .subscribe((data: DateCommand[]) => this.mongths = data)
   }
 
   dates: DateCommand[]
+
+  mongths: DateCommand[]
 
   states = [
     "PLAYED",
@@ -40,7 +44,7 @@ export class AppComponent implements OnInit {
     // GameLocation.REMOTE
   ]
 
-  stars = [5, 4, 3]
+  stars = [5, 4, 3,2,1]
 
   jump(dateCommand: DateCommand) {
 

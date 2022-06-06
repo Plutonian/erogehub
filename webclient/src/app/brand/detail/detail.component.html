@@ -1,5 +1,6 @@
 <main class="container test_border flex_column gap-5">
-  <header *ngIf="brand!=null" class="container test_border" style="position: sticky;top: 0;right:0;background-color: white;z-index: 10">
+  <header *ngIf="brand!=null" class="container test_border"
+          style="position: sticky;top: 0;right:0;background-color: white;z-index: 10">
     <div class="flex_row">
       <!-- Comp -->
       <span *ngIf="brand.comp!=null && brand.comp.length>0">{{brand.comp}} ></span>
@@ -7,7 +8,13 @@
       <!--Brand -->
       <select *ngIf="subBrands!= null &&subBrands.length>1;else single" [(ngModel)]="subBrandId"
               (ngModelChange)="onSubBrandSelected()">
-        <option *ngFor="let brand of subBrands" [value]="brand.id">{{brand.name}} [{{brand.state | brand_jp}}]
+        <option *ngFor="let subBrand of subBrands" [value]="subBrand.id">
+          <ng-template [ngIf]="subBrand.id != brand.id" [ngIfElse]="others">
+            {{subBrand.name}}  [{{subBrand.state.name}}]
+          </ng-template>
+          <ng-template #others>
+            {{subBrand.name}}
+          </ng-template>
         </option>
       </select>
       <ng-template #single>
@@ -15,8 +22,8 @@
       </ng-template>
 
       <!-- state change -->
-      <select style="margin-left: auto" [(ngModel)]="brand.state" (ngModelChange)="onStateSelected()">
-        <option *ngFor="let state of states" [value]="state">{{state | brand_jp}}</option>
+      <select style="margin-left: auto" [(ngModel)]="brand.state.value" (ngModelChange)="onStateSelected()">
+        <option *ngFor="let state of states" [value]="state.value">{{state.name}}</option>
       </select>
     </div>
   </header>

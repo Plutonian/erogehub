@@ -5,7 +5,7 @@ import com.goexp.common.util.Logger
 import com.goexp.common.util.string.ConsoleColors.RED
 import com.goexp.common.util.string.StringOption
 import com.goexp.common.util.string.Strings.{isEmpty, isNotEmpty}
-import com.goexp.galgame.common.model.brand.BrandState
+import com.goexp.galgame.common.model.Emotion
 import com.goexp.galgame.common.model.game.{GameCharacter, GameState}
 import com.goexp.galgame.data.model.{Brand, Game}
 import com.goexp.galgame.data.source.getchu.actor.InsertOrUpdateGameActor.isSameGame
@@ -94,9 +94,9 @@ class SaveGameActor extends DefaultActor {
             // check brand state
             val brandState = Option(BrandCache.get(remoteGame.brandId)).map {
               _.state
-            }.getOrElse(BrandState.UNCHECKED)
+            }.getOrElse(Emotion.UNCHECKED)
 
-            if (brandState eq BrandState.BLOCK) {
+            if (brandState eq Emotion.HATE) {
               remoteGame.state = GameState.BLOCK
 
               logger.info(s"Brand state is block,game will ignore! ${remoteGame.simpleView}")

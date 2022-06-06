@@ -8,12 +8,12 @@
                 <span>
                     {{character.name}}
                 </span>
-      <div *ngIf="character.cv?.trim().length>0" class="flex_row" style="gap:3px;font-size:14px">
+      <span *ngIf="character.cv?.trim().length>0" class="flex_row" style="gap:3px;font-size:14px">
         <span>CV: </span>
 
         <span *ngIf="character.trueCV?.trim().length>0; else cvInfo">
           <app-jumpcv [cv]="character.trueCV" [isReal]="true"></app-jumpcv>
-            </span>
+        </span>
         <ng-template #cvInfo>
           <span>
           <app-jumpcv [cv]="character.cv" [isReal]="false"></app-jumpcv>
@@ -21,9 +21,10 @@
           <span>(<a target="_blank" href="{{character.cv | wiki}}">Wiki</a>)</span>
           <span>(<a target="_blank" href="{{character.cv | bangumi}}">Bangumi</a>)</span>
         </ng-template>
-      </div>
+      </span>
 
-      <textarea readonly="readonly" style="font-size: 18px;border: none" class="flex_grow">{{character.intro}}</textarea>
+      <textarea readonly="readonly" style="font-size: 18px;border: none"
+                class="flex_grow">{{character.intro}}</textarea>
 
     </main>
 

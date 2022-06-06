@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {CVGroupItem, DateGroupItem, TagGroupItem} from "../../../entity";
 import {GameService} from "../../game.service";
 
@@ -7,7 +7,7 @@ import {GameService} from "../../game.service";
   templateUrl: './groupside.component.html',
   styleUrls: ['./groupside.component.css']
 })
-export class GroupsideComponent implements OnInit {
+export class GroupsideComponent implements OnChanges {
 
   @Input()
   filter
@@ -22,18 +22,21 @@ export class GroupsideComponent implements OnInit {
   constructor(private service: GameService) {
   }
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
 
     const filter = this.filter
 
-    this.service.groupByDate(filter)
-      .subscribe((data: DateGroupItem[]) => this.dateGroup = data)
+    if(filter!=null)
+    {
+      this.service.groupByDate(filter)
+        .subscribe((data: DateGroupItem[]) => this.dateGroup = data)
 
-    this.service.groupByCV(filter)
-      .subscribe((data: CVGroupItem[]) => this.cvGroup = data)
+      this.service.groupByCV(filter)
+        .subscribe((data: CVGroupItem[]) => this.cvGroup = data)
 
-    this.service.groupByTag(filter)
-      .subscribe((data: TagGroupItem[]) => this.tagGroup = data)
+      this.service.groupByTag(filter)
+        .subscribe((data: TagGroupItem[]) => this.tagGroup = data)
+    }
   }
 
 }

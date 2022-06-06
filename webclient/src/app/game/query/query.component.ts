@@ -17,7 +17,7 @@ export class QueryComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(p => {
       // @ts-ignore
-      const filter:String = p.filter
+      const filter: string = p.filter
 
       if (filter != null) {
         this.filter = filter

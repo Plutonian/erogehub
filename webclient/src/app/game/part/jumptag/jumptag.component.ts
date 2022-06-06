@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
 export class JumptagComponent implements OnInit {
 
   @Input()
-  tag: String
+  tag: string
 
   constructor(private router: Router) {
   }

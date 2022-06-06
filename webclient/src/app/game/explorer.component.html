@@ -2,38 +2,47 @@
   <ng-template [ngIf]="gamelist.length>0" [ngIfElse]="noGames">
     <d-splitter style="height: 100%">
       <d-splitter-pane maxSize="400px" size="300px" minSize="300px" [collapsible]="true" class="all_height"
-                       style="overflow: scroll">
+                       style="overflow: auto">
         <app-groupside [filter]="filter"></app-groupside>
       </d-splitter-pane>
-      <d-splitter-pane class="all_height" style="overflow: scroll">
+      <d-splitter-pane>
         <div class="flex_column all_height">
           <header>
             <app-filter></app-filter>
           </header>
 
-          <div [ngSwitch]="size" class="flex_grow" style="overflow: scroll">
+          <div [ngSwitch]="size" class="flex_grow" style="overflow: auto">
             <main *ngSwitchCase="'Grid'"
-                  style="grid-template-columns: repeat(auto-fill, 280px);justify-items: center;"
-                  class="grid div2 test_border container">
+                  class="grid game-grid div2 test_border container">
 
               <app-grid-cell [game]="g" *ngFor="let g of gamelist"></app-grid-cell>
             </main>
 
-            <main *ngSwitchCase="'List'"
-                  style="justify-items: center;"
-                  class="flex_column div2 test_border container">
+            <main *ngSwitchCase="'List'" class="grid game-list  div2 test_border container">
 
               <app-list-cell [game]="g" *ngFor="let g of gamelist"></app-list-cell>
             </main>
           </div>
 
-          <footer style="background-color: white;"
+          <footer style="position:sticky;bottom:0;background-color: white;"
                   class="test_border container flex_row">
             <span>{{gamelist.length}}</span>
             <select class="flex_row gap-5" [(ngModel)]="size" style="margin-left: auto">
               <option value="Grid">Grid</option>
               <option value="List">List</option>
             </select>
+            <dl>
+              <dt> Sort:</dt>
+              <dd>
+                <ul class="flex_row gap-5">
+
+                  <li (click)="sort()">Name</li>
+                  <li (click)="sortState()">State</li>
+                </ul>
+              </dd>
+
+            </dl>
+
           </footer>
         </div>
       </d-splitter-pane>

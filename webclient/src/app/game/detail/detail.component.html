@@ -1,36 +1,33 @@
-<div dAnchorBox *ngIf="g!=null" class="flex_column gap-5 container test_border">
-  <ul class="step-nav" style="position: fixed;right: 100px;top:180px;background-color: white">
-    <li><a [dAnchorLink]="'story'">ストーリー</a></li>
-    <li *ngIf="g.gameCharacters.length>0"><a [dAnchorLink]="'char'">キャラクター</a></li>
-    <li *ngIf="g.gameImgs?.length>0"><a [dAnchorLink]="'sample'">サンプル画像</a></li>
-  </ul>
-  <app-info [game]="g"></app-info>
+<div dAnchorBox *ngIf="game!=null" class="container test_border">
+  <div class="info" style="background-color: #fff;position: fixed;top:0;right: 0;width:800px;">
+    <app-list-cell [game]="game" ></app-list-cell>
+  </div>
 
   <dl>
     <dt class="group_title" [dAnchor]="'story'">ストーリー</dt>
     <dd>
       <section class="flex_row">
-        <img class="img_alone"
-             src="{{g | img}}/game_l.jpg"/>
+        <img class="img_alone" title="{{game.intro}}"
+             src="{{game | img}}/game_l.jpg"/>
         <textarea class="flex_grow" style="font-size: 20px;border: none"
-                  readonly="readonly">{{g.intro}}{{g.story}}</textarea>
+                  readonly="readonly">{{game.story}}</textarea>
       </section>
     </dd>
 
-    <ng-template [ngIf]="g.gameCharacters.length>0">
+    <ng-template [ngIf]="game.gameCharacters.length>0">
       <dt class="group_title" [dAnchor]="'char'">キャラクター</dt>
       <dd>
-        <app-game-characters [game]="g"></app-game-characters>
+        <app-game-characters [game]="game"></app-game-characters>
       </dd>
     </ng-template>
 
-    <ng-template [ngIf]="g.gameImgs?.length>0">
+    <ng-template [ngIf]="game.gameImgs?.length>0">
       <dt class="group_title" [dAnchor]="'sample'">サンプル画像</dt>
       <dd>
         <!--imgs-->
-        <section *ngIf="g.gameImgs?.length>0" class="flex_row flex_float gap-5">
-          <img *ngFor="let img of g.gameImgs" class="sample_img"
-               src="{{g|img}}/simple_l_{{img.index}}.jpg"/>
+        <section *ngIf="game.gameImgs?.length>0" class="flex_row flex_float gap-5">
+          <img *ngFor="let img of game.gameImgs" class="sample_img"
+               src="{{game|img}}/simple_l_{{img.index}}.jpg"/>
         </section>
 
         <!--        <d-carousel style="max-width: 800px;align-items: center; " class="flex_row">-->
@@ -46,18 +43,23 @@
 
 
   <!-- control bar -->
-  <section class="test_border" style="position: fixed;bottom: 100px;right:100px;background-color: white;">
+  <section class="test_border" style="position: fixed;bottom: 100px;right:45px;background-color: white;">
+    <ul class="step-nav" style="position: fixed;right: 60px;top:200px;background-color: white">
+      <li><a [dAnchorLink]="'story'">ストーリー</a></li>
+      <li *ngIf="game.gameCharacters.length>0"><a [dAnchorLink]="'char'">キャラクター</a></li>
+      <li *ngIf="game.gameImgs?.length>0"><a [dAnchorLink]="'sample'">サンプル画像</a></li>
+    </ul>
     <ul>
-      <li><a routerLink="/game/guide/{{g.titles.mainTitle}}">攻略</a></li>
-      <li><a target="_blank" href="http://www.getchu.com/soft.phtml?id={{g.id}}&gc=gc">GetChu</a></li>
-      <li><a target="_blank" href="https://ja.wikipedia.org/w/index.php?search={{g.titles.mainTitle}}">Wiki</a>
+      <li><a routerLink="/game/guide/{{game.titles.mainTitle}}">攻略</a></li>
+      <li><a target="_blank" href="http://www.getchu.com/soft.phtml?id={{game.id}}&gc=gc">GetChu</a></li>
+      <li><a target="_blank" href="https://ja.wikipedia.org/w/index.php?search={{game.titles.mainTitle}}">Wiki</a>
       </li>
       <li><a target="_blank"
-             href="https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/kensaku.php?category=game&word_category=name&mode=normal&word={{g.titles.mainTitle}}">ErogameScape</a>
+             href="https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/kensaku.php?category=game&word_category=name&mode=normal&word={{game.titles.mainTitle}}">ErogameScape</a>
       </li>
-      <li><a target="_blank" href="https://galge.fun/subjects/search?keyword={{g.titles.mainTitle}}">2DF</a></li>
+      <li><a target="_blank" href="https://galge.fun/subjects/search?keyword={{game.titles.mainTitle}}">2DF</a></li>
       <li><a target="_blank"
-             href="https://www.ggbases.com/search.so?p=0&advanced=&title={{g.titles.mainTitle}}">GGBases</a>
+             href="https://www.ggbases.com/search.so?p=0&advanced=&title={{game.titles.mainTitle}}">GGBases</a>
       </li>
     </ul>
   </section>

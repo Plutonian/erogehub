@@ -9,7 +9,7 @@ export class GuideService {
   }
 
 
-  search(searchKey: String) {
+  search(searchKey: string) {
 
     console.log(searchKey);
     return this.httpClient.get(`http://${APP_SERVER}/api/game/guide/${searchKey}`)

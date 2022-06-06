@@ -1,16 +1,13 @@
 package com.goexp.galgame.common.model.game;
 
-
 import java.util.Set;
 import java.util.stream.Stream;
 
-public enum GameState {
-    SAME("SAME", -2),
-    BLOCK("嫌い", -99),
-    UNCHECKED("-", 0),
-    HOPE("気になり", 1),
-    PLAYING("進行中", 80),
-    PLAYED("プレイ済み", 90);
+public enum PlayState {
+
+    NOT_PLAY("-", 0),
+    PLAYING("進行中", 1),
+    PLAYED("プレイ済み", 2);
 
     public final String name;
     public final int value;
@@ -23,7 +20,7 @@ public enum GameState {
         return value;
     }
 
-    GameState(String name, int value) {
+    PlayState(String name, int value) {
         this.name = name;
         this.value = value;
     }
@@ -50,6 +47,4 @@ public enum GameState {
     public String toString() {
         return this.name;
     }
-
-
 }

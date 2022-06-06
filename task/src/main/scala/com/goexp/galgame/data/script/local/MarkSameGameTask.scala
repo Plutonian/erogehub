@@ -24,14 +24,14 @@ object MarkSameGameTask {
       games
         .groupBy { game =>
           if (isSameGame(game)) "same"
-          else if (isPackageGame(game)) "package"
+//          else if (isPackageGame(game)) "package"
           else "other"
         }
         .flatMap {
           case ("same", value: LazyList[Game]) =>
             value.filter(_.state eq GameState.UNCHECKED).map { game => game.state = GameState.SAME; game }
-          case ("package", value: LazyList[Game]) =>
-            value.filter(_.state eq GameState.UNCHECKED).map { game => game.state = GameState.PACKAGE; game }
+//          case ("package", value: LazyList[Game]) =>
+//            value.filter(_.state eq GameState.UNCHECKED).map { game => game.state = GameState.PACKAGE; game }
           case ("other", value: LazyList[Game]) =>
             value
               .groupBy {

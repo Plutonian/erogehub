@@ -8,7 +8,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ByStarComponent implements OnInit {
 
-  filter: String
+  filter: string
 
   constructor(private route: ActivatedRoute) {
   }

@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Brand} from "../../entity";
+import {Brand, Emotion} from "../../entity";
 import {BrandService, BrandStates} from "../brand.service";
+import {AppService} from "../../app.service";
 
 @Component({
-  selector: 'app-detail',
+  selector: 'app-brand-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.css']
 })
@@ -14,13 +15,7 @@ export class BrandDetailComponent implements OnInit {
   brand: Brand
 
 
-  states = [
-    "LIKE",
-    "HOPE",
-    "MARK",
-    "UNCHECKED",
-    "BLOCK"
-  ]
+  states: Emotion[]
 
   subBrands: Brand[]
   subBrandId: Number
@@ -36,21 +31,31 @@ export class BrandDetailComponent implements OnInit {
   onStateSelected() {
     console.log(this.brand.state);
 
-    if (this.subBrands != null)
-      this.subBrands.filter(brand => brand.id == this.brand.id).forEach(brand => brand.state = this.brand.state)
+    // if (this.subBrands != null)
+    //   this.subBrands.filter(brand => brand.id == this.brand.id).forEach(brand => {
+    //     brand.state=this.brand.state
+    //     brand.state.name = this.brand.state.name
+    //     brand.state.value = this.brand.state.value
+    //   })
 
-    const brandState = BrandStates[`${this.brand.state}`];
+    // const brandState = BrandStates[`${this.brand.state}`];
 
-    this.brandService.changeState(this.brand.id, brandState.value)
-      .subscribe((data: String) => console.log(data))
+    this.brandService.changeState(this.brand.id, this.brand.state.value)
+      .subscribe((data: string) => console.log(data))
 
   }
 
 
-  constructor(private brandService: BrandService, private route: ActivatedRoute, private router: Router) {
+  constructor(private brandService: BrandService, private appService: AppService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {
+    this.appService.emotions().subscribe((data: Emotion[]) => {
+      this.states = data
+      // this.states = emotions.filter(data => data.value > 0)
+    })
+
+
     this.route.params.subscribe(p => {
       // @ts-ignore
       const id = p.id

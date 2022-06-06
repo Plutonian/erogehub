@@ -6,7 +6,6 @@ import {DetailComponent} from './game/detail/detail.component';
 import {BangumiPipl, BlockPipl, BrandStatePipl, ImgUrlPipl, LocationPipl, StatePipl, WikiPipl} from "./imgUrl.pipl";
 import {HttpClientModule} from "@angular/common/http";
 import {GameService} from "./game/game.service";
-import {InfoComponent} from './game/detail/info/info.component';
 import {GameCharactersComponent} from './game/detail/game-characters/game-characters.component';
 import {Route, RouterModule} from "@angular/router";
 import {GridCellComponent} from './game/grid-cell/grid-cell.component';
@@ -34,7 +33,15 @@ import {BrandListComponent} from './brand/list/list.component';
 import {BrandDetailComponent} from "./brand/detail/detail.component";
 import {BrandComponent} from "./brand/brand.component";
 import {BrandService} from "./brand/brand.service";
-import {AnchorModule, BadgeModule, CarouselModule, DevUIModule, PanelModule, SplitterModule} from "ng-devui";
+import {
+  AnchorModule,
+  BadgeModule,
+  CarouselModule,
+  DevUIModule,
+  DrawerModule,
+  PanelModule,
+  SplitterModule
+} from "ng-devui";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MonthCalendarComponent} from './common/month-calendar/month-calendar.component';
 import {FilterComponent} from './game/filter/filter.component';
@@ -45,10 +52,12 @@ import {StarChangeComponent} from './game/part/star-change/star-change.component
 import {PanelComponent} from './common/panel/panel.component';
 import {GroupsideComponent} from './game/explorer/groupside/groupside.component';
 import {GroupBrandComponent} from './game/explorer/groupside/group-brand/group-brand.component';
-import { GameListPanelComponent } from './game/explorer/groupside/game-list-panel/game-list-panel.component';
+import {GameListPanelComponent} from './game/explorer/groupside/game-list-panel/game-list-panel.component';
+import {GameDetailMainComponent} from './game/detail/main/game-detail-main.component';
+import {AppService} from "./app.service";
 
 export const IMG_SERVER = "192.168.2.236"
-export const APP_SERVER = "localhost:9000"
+export const APP_SERVER = "192.168.2.236:9000"
 
 const routes: Route[] = [
   {path: 'cv', component: CvComponent},
@@ -87,7 +96,6 @@ const routes: Route[] = [
     BlockPipl,
     AppComponent,
     DetailComponent,
-    InfoComponent,
     GameCharactersComponent,
     GuideComponent,
     ExplorerComponent,
@@ -119,7 +127,8 @@ const routes: Route[] = [
     PanelComponent,
     GroupsideComponent,
     GroupBrandComponent,
-    GameListPanelComponent
+    GameListPanelComponent,
+    GameDetailMainComponent
   ],
   imports: [
     BrowserModule,
@@ -133,12 +142,14 @@ const routes: Route[] = [
     BadgeModule,
     CarouselModule,
     SplitterModule,
-    RelativeTimeModule
+    RelativeTimeModule,
+    DrawerModule
   ],
   providers: [
     GameService,
     GuideService,
-    BrandService
+    BrandService,
+    AppService
   ],
   bootstrap: [AppComponent]
 })

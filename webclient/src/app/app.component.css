@@ -9,6 +9,6 @@
 
 .main_container {
   height: 100vh;
-  /*overflow: scroll;*/
+  /*overflow: auto;*/
 }
 

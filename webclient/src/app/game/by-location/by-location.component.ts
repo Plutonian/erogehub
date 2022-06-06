@@ -8,7 +8,7 @@ import {GameLocation} from "../game.service";
   styleUrls: ['./by-location.component.css']
 })
 export class ByLocationComponent implements OnInit {
-  filter: String
+  filter: string
 
   constructor(private route: ActivatedRoute) {
   }

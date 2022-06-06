@@ -5,8 +5,8 @@ import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.Config.DB_NAME
 import com.goexp.galgame.data.source.getchu.query.BrandQuery
-import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.set
+import com.mongodb.client.model.{Filters, Sorts}
 import org.bson.BsonDocument
 import play.libs.Json
 import play.mvc.Http.Request
@@ -35,7 +35,7 @@ class BrandController {
 
     println(where)
 
-    val list = BrandQuery().where(BsonDocument.parse(where)).list()
+    val list = BrandQuery().where(BsonDocument.parse(where)).sort(Sorts.descending("type")).list()
 
     ok(Json.toJson(Option(list).getOrElse(List().asJava))).asJson()
   }
@@ -51,4 +51,5 @@ class BrandController {
     ok(Json.toJson("OK")).asJson()
 
   }
+
 }

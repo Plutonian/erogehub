@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {Game} from "../../entity";
 import {GameService} from "../game.service";
 import {DrawerService} from "ng-devui";
@@ -11,6 +11,9 @@ import {DrawerService} from "ng-devui";
 export class ListCellComponent implements OnInit {
   @Input()
   game: Game
+
+  @Output()
+  remove = new EventEmitter<Game>();
 
 
   constructor(private gameService: GameService, private drawerService: DrawerService) {
@@ -26,7 +29,7 @@ export class ListCellComponent implements OnInit {
 
   openDrawer() {
     this.drawerService.open({
-      width: '1500px',
+      width: '1800px',
       zIndex: 1000,
       isCover: true,
       fullScreen: true,
@@ -42,7 +45,10 @@ export class ListCellComponent implements OnInit {
 
   delete() {
     this.gameService.delete(this.game.id)
-      .subscribe((data) => console.log(data))
+      .subscribe((data) => {
+        console.log(data)
+        this.remove.emit(this.game)
+      })
 
   }
 

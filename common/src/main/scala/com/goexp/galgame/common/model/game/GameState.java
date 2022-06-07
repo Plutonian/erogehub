@@ -5,8 +5,8 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public enum GameState {
-    SAME("SAME", -2),
     BLOCK("嫌い", -99),
+    SAME("SAME", -2),
     UNCHECKED("-", 0),
     HOPE("気になり", 1),
     PLAYING("進行中", 80),

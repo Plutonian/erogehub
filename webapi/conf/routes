@@ -8,6 +8,10 @@ PUT           /api/game/:id/star/:star                api.GameController.changeS
 PUT           /api/game/:id/state/:state              api.GameController.changeState(id:Int,state:Int)
 PUT           /api/game/:id/location/:location        api.GameController.changeLocation(id:Int,location:Int)
 
+
+PUT           /api/game/block/:brandId                api.GameController.block(brandId:Int)
+PUT           /api/game/normal/:brandId               api.GameController.normal(brandId:Int)
+
 GET           /api/game/query                         api.GameController.query(request: play.mvc.Http.Request)
 GET           /api/game/groupByCV                     api.GameController.groupByCV(request: play.mvc.Http.Request)
 GET           /api/game/groupByTag                    api.GameController.groupByTag(request: play.mvc.Http.Request)

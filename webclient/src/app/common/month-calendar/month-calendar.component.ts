@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {DateGroupItem} from "../../entity";
+
 
 @Component({
   selector: 'app-month-calendar',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MonthCalendarComponent implements OnInit {
 
-  constructor() { }
+  @Input()
+  months: DateGroupItem[]
+
+  @Output()
+  select = new EventEmitter<DateGroupItem>();
+
+  constructor() {
+  }
 
   ngOnInit(): void {
+  }
+
+  jump(date: DateGroupItem) {
+    this.select.emit(date)
   }
 
 }

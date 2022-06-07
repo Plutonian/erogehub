@@ -4,18 +4,16 @@
   <ng-template #small>
     <img class="img_alone" src="{{game|img}}/game_t200.jpg" (click)="openDrawer()"/>
   </ng-template>
-  <main style="gap:2px;background-color:#fff;" class="flex_grow flex_column bg-white">
+  <main style="gap:2px;" class="flex_grow flex_column bg-white container">
     <section class="flex_row flex_float">
 
       <div>
         <app-location-change [game]="game"></app-location-change>
-        <span style='font-size:24px;'>
-        <a title="{{game.name}}" class="title" style="color:black;" routerLink="/game/{{game.id}}">
-            {{game.titles?.mainTitle}}
+        <a title="{{game.name}}" class="title" routerLink="/game/{{game.id}}">
+          {{game.titles?.mainTitle}}
         </a>
-      </span>
+        <span>{{game.titles?.subTitle}}</span>
       </div>
-      <span>{{game.titles?.subTitle}}</span>
     </section>
     <section>
       <app-jump-brand [brand]="game?.brand"></app-jump-brand>
@@ -30,10 +28,13 @@
     <section *ngIf="game.tag?.length > 0" class="flex_row flex_float gap-5">
       <app-jumptag *ngFor="let tag of game.tag" [tag]="tag" style="font-size:10px;"></app-jumptag>
     </section>
-    <app-state-change style="margin-left: auto;" [game]="game"></app-state-change>
 
-    <a *ngIf="game.state == 'SAME'" (click)="delete()">Delete</a>
+
   </main>
+  <div class="bottomBar flex_row">
+    <a *ngIf="game.state == 'SAME'" (click)="delete()">Delete</a>
+    <app-state-change style="margin-left: auto;" [game]="game"></app-state-change>
+  </div>
 </section>
 <ng-template #drawerContent>
   <app-game-detail [game]="game"></app-game-detail>

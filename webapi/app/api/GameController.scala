@@ -5,7 +5,7 @@ import com.goexp.common.util.string.Strings
 import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.Config.DB_NAME
-import com.goexp.galgame.common.model.game.GameCharacter
+import com.goexp.galgame.common.model.game.{GameCharacter, GameState}
 import com.goexp.galgame.data.model.Brand
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.set
@@ -135,9 +135,10 @@ class GameController extends Controller {
           .sortBy { case (month, _) => month }.reverse
           .map { case (month, games) =>
             new DateItem(
-              s"$month",
+              s"${month}月",
               LocalDate.of(year, month, 1),
               LocalDate.of(year, month, 1).plusMonths(1).minusDays(1),
+              month,
               games.size,
               DateType.MONTH,
               null
@@ -147,9 +148,10 @@ class GameController extends Controller {
 
 
         new DateItem(
-          s"$year",
+          s"${year}年",
           LocalDate.of(year, 1, 1),
           LocalDate.of(year, 12, 31),
+          year,
           games.size,
           DateType.YEAR,
           monthNode
@@ -224,6 +226,24 @@ class GameController extends Controller {
 
     ok(Json.toJson("OK")).asJson()
 
+  }
+
+  def block(brandId: Int) = {
+    changeStateByBrand(brandId, GameState.BLOCK.value)
+  }
+
+  def normal(brandId: Int) = {
+    changeStateByBrand(brandId, GameState.UNCHECKED.value)
+  }
+
+  private def changeStateByBrand(brandId: Int, state: Int) = {
+    println(brandId, state)
+
+    tlp.exec(documentMongoCollection => {
+      documentMongoCollection.updateMany(Filters.eq("brandId", brandId), set("state", state))
+    })
+
+    ok(Json.toJson("OK")).asJson()
   }
 
 

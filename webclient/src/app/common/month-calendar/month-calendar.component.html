@@ -1,1 +1,20 @@
-<p>month-calendar works!</p>
+<ul class="year">
+  <!-- empty month-->
+  <li class="div1 empty_month">1月</li>
+  <li class="div2 empty_month">2月</li>
+  <li class="div3 empty_month">3月</li>
+  <li class="div4 empty_month">4月</li>
+  <li class="div5 empty_month">5月</li>
+  <li class="div6 empty_month">6月</li>
+  <li class="div7 empty_month">7月</li>
+  <li class="div8 empty_month">8月</li>
+  <li class="div9 empty_month">9月</li>
+  <li class="div10 empty_month">10月</li>
+  <li class="div11 empty_month">11月</li>
+  <li class="div12 empty_month">12月</li>
+
+  <!--real month -->
+  <li *ngFor="let date of months" class="div{{date.index}} month" (click)="jump(date)">{{date.title}}
+    <span *ngIf="date.count!=null">({{date.count}})</span>
+  </li>
+</ul>

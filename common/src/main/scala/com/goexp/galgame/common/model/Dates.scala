@@ -5,6 +5,7 @@ import scala.beans.BeanProperty
 
 case class DateItem(
                      @BeanProperty name: String,
+                     @BeanProperty index: Int,
                      @BeanProperty range: DateRange,
                    )
 
@@ -28,6 +29,21 @@ object Dates {
 
   }
 
+  def yearsIn10() = {
+    val thisYear = LocalDate.now().getYear
+    ((thisYear - 9) to (thisYear + 1)).reverse.map(calc)
+  }
+
+  def yearsIn20() = {
+    val thisYear = LocalDate.now().getYear
+    ((thisYear - 19) to (thisYear + 1)).reverse.map(calc)
+  }
+
+  def yearsAfter2000() = {
+    val thisYear = LocalDate.now().getYear
+    (2000 to (thisYear + 1)).reverse.map(calc)
+  }
+
   def calc(year: Int) = {
     val start = LocalDate.of(year, 1, 1)
     val end = LocalDate.of(year, 12, 31)
@@ -36,7 +52,7 @@ object Dates {
     DateItem(
       {
         if (year == THIS_YEAR) "今年" else year.toString
-      },
+      }, year,
       DateRange(start, end)
     )
   }
@@ -48,8 +64,8 @@ object Dates {
 
     DateItem(
       {
-        if (month == THIS_MONTH) "今月" else month.toString
-      },
+        if (month == THIS_MONTH) "今月" else s"${month}月"
+      }, month,
       DateRange(start, end)
     )
   }

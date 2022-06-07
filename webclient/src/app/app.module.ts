@@ -40,7 +40,9 @@ import {
   DevUIModule,
   DrawerModule,
   PanelModule,
-  SplitterModule
+  PopoverModule,
+  SplitterModule,
+  TreeModule
 } from "ng-devui";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MonthCalendarComponent} from './common/month-calendar/month-calendar.component';
@@ -49,15 +51,15 @@ import {ListCellComponent} from './game/list-cell/list-cell.component';
 import {RelativeTimeModule} from "ng-devui/relative-time";
 import {FormattedDateComponent} from './common/formatted-date/formatted-date.component';
 import {StarChangeComponent} from './game/part/star-change/star-change.component';
-import {PanelComponent} from './common/panel/panel.component';
 import {GroupsideComponent} from './game/explorer/groupside/groupside.component';
 import {GroupBrandComponent} from './game/explorer/groupside/group-brand/group-brand.component';
 import {GameListPanelComponent} from './game/explorer/groupside/game-list-panel/game-list-panel.component';
 import {GameDetailMainComponent} from './game/detail/main/game-detail-main.component';
 import {AppService} from "./app.service";
+import {ByPainterComponent} from './game/by-painter/by-painter.component';
 
 export const IMG_SERVER = "192.168.2.236"
-export const APP_SERVER = "192.168.2.236:9000"
+export const APP_SERVER = "localhost:9000"
 
 const routes: Route[] = [
   {path: 'cv', component: CvComponent},
@@ -74,6 +76,7 @@ const routes: Route[] = [
       {path: 'guide/:searchKey', component: GuideComponent},
       {path: 'star/:star', component: ByStarComponent},
       {path: 'tag/:tag', component: ByTagComponent},
+      {path: 'painter/:painter', component: ByPainterComponent},
       {path: 'state/:state', component: ByStateComponent},
       {path: 'location/:location', component: ByLocationComponent},
       {path: 'cv/:cv', component: ByCVComponent},
@@ -124,11 +127,11 @@ const routes: Route[] = [
     ListCellComponent,
     FormattedDateComponent,
     StarChangeComponent,
-    PanelComponent,
     GroupsideComponent,
     GroupBrandComponent,
     GameListPanelComponent,
-    GameDetailMainComponent
+    GameDetailMainComponent,
+    ByPainterComponent
   ],
   imports: [
     BrowserModule,
@@ -143,7 +146,9 @@ const routes: Route[] = [
     CarouselModule,
     SplitterModule,
     RelativeTimeModule,
-    DrawerModule
+    DrawerModule,
+    TreeModule,
+    PopoverModule
   ],
   providers: [
     GameService,

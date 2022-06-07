@@ -61,4 +61,9 @@ export class ExplorerComponent implements OnChanges {
 
   }
 
+  gameDelete(game: Game) {
+    console.log(game);
+    this.gamelist = this.gamelist.filter(g => g.id != game.id)
+  }
+
 }

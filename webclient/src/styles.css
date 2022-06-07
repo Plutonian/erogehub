@@ -5,10 +5,15 @@
 }
 
 
-
 .title {
   font-size: 24px;
+  color: black;
 }
+
+.bg-white {
+  background-color: #fff;
+}
+
 
 .group_title {
   font-size: 18px;
@@ -56,7 +61,7 @@ a:hover {
   gap: 5px;
 }
 
-gap-10{
+gap-10 {
   gap: 10px;
 }
 
@@ -130,12 +135,10 @@ gap-10{
 .flex_grow {
   flex: 1;
 }
+
 /*img{*/
 /*  border: #eee solid 3px;*/
 /*}*/
-
-
-
 
 
 .test_border {
@@ -153,19 +156,18 @@ gap-10{
 }
 
 
-
-.HOPE{
+.HOPE {
   border: #313131 solid 1px;
   background-color: #FFABD3;
   /*color: #eeeeee;*/
 }
 
-.PLAYED{
+.PLAYED {
   border: #313131 solid 1px;
   background-color: #4ea6fd;
 }
 
-.PLAYING{
+.PLAYING {
   border: #313131 solid 1px;
   background-color: #fde64e;
 }
@@ -178,8 +180,4 @@ gap-10{
 .SAME {
   border: #313131 solid 1px;
   background-color: #919191;
-}
-
-bg-white{
-  background-color: #fff;
 }

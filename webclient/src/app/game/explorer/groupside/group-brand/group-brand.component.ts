@@ -11,9 +11,14 @@ export class GroupBrandComponent implements OnChanges {
   @Input()
   filter
 
-  hidden = true
+  // hidden = true
 
-  brandGroup: BrandGroupItem[]
+  // brandGroup: BrandGroupItem[]
+
+  // @ViewChild('basicTree', {static: true})
+  // basicTree: TreeComponent;
+
+  data
 
 
   constructor(private service: GameService) {
@@ -30,10 +35,23 @@ export class GroupBrandComponent implements OnChanges {
 
     if (filter != null) {
       this.service.groupByBrand(filter)
-        .subscribe((data: BrandGroupItem[]) => this.brandGroup = data)
+        .subscribe((brandGroupItems: BrandGroupItem[]) => {
+
+          this.data = brandGroupItems.map(item => this.makeTree(item))
+        })
 
     }
 
   }
+
+  makeTree(item: BrandGroupItem) {
+    let temp = {"title": `${item.title} [${item.count}]`, "open": false}
+    if (item.children != null && item.children.length > 0) {
+      temp["items"] = item.children.map(sub => this.makeTree(sub))
+    }
+
+    return temp
+  }
+
 
 }

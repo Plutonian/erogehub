@@ -29,34 +29,17 @@ export class GuideComponent implements OnInit {
       if (searchKey != null) {
         console.log('PARAM: ', searchKey);
         this.searchKey = searchKey
+
+        this.guideService.search(this.searchKey)
+          .subscribe((data: Guide[]) => this.guideList = data)
       }
     })
   }
 
   onSubmit(form: NgForm) {
-    // const searchKey = form.value.searchKey;
-
-    // console.log(searchKey)
 
     this.guideService.search(this.searchKey)
       .subscribe((data: Guide[]) => this.guideList = data)
-
-    // const v1 = {"name": {"$regex": `^${searchKey}`}}
-    // const v2 = {"name": {"$regex": `${searchKey}`}}
-    //
-    // let filter
-    //
-    // if (searchType == "0") {
-    //   filter=v1
-    // } else {
-    //   filter=v2
-    // }
-
-    // this.filter=JSON.stringify(filter)
-
-    // this.gameService.query(JSON.stringify(filter))
-    //   .subscribe((gs: Game[]) => this.gamelist = gs)
-
   }
 
 }

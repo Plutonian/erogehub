@@ -1,16 +1,13 @@
 <section class="flex_row game {{game.state}}">
   <img class="img_alone" src="{{game|img}}/game_t.jpg" (click)="openDrawer()"/>
-  <main style="gap:2px;" class="flex_grow flex_column">
+  <main style="gap:2px;" class="flex_grow flex_column bg-white">
     <section>
       <app-location-change [game]="game"></app-location-change>
 
-      <!--      <span>-->
       <a class="title" style="color:black;" routerLink="/game/{{game.id}}">
         {{game.name}}
       </a>
-      <a (click)="delete()">Delete</a>
-      <!--      </span>-->
-      <!--      <span>{{game.titles?.subTitle}}</span>-->
+<!--      <a (click)="delete()">Delete</a>-->
     </section>
     <section>
       <app-jump-brand [brand]="game?.brand"></app-jump-brand>
@@ -28,10 +25,11 @@
     </section>
     <!--painter-->
     <section *ngIf="game.painter?.length>0" class="flex_row flex_float gap-5">
-      <a *ngFor="let painter of game.painter">{{painter}}</a>
+      <a *ngFor="let painter of game.painter" routerLink="/game/painter/{{painter}}">{{painter}}</a>
     </section>
+    <a  (click)="delete()">Delete</a>
   </main>
-  <app-state-change style="margin-left: auto;" [game]="game"></app-state-change>
+  <app-state-change [row]="'column'" style="margin-left: auto;" [game]="game"></app-state-change>
 </section>
 <ng-template #drawerContent>
   <app-game-detail [game]="game"></app-game-detail>

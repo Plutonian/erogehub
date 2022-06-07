@@ -66,5 +66,13 @@ export class GameService {
     return this.httpClient.put(`http://${APP_SERVER}/api/game/${id}/location/${location}`, null)
   }
 
+  blockAll(brandId: number) {
+    return this.httpClient.put(`http://${APP_SERVER}/api/game/block/${brandId}`, null)
+  }
+
+  normalAll(brandId: number) {
+    return this.httpClient.put(`http://${APP_SERVER}/api/game/normal/${brandId}`, null)
+  }
+
 
 }

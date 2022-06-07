@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {Game} from "../../entity";
 import {DrawerService} from "ng-devui";
 import {GameService} from "../game.service";
@@ -16,6 +16,9 @@ export class GridCellComponent implements OnInit {
   @Input()
   large = true
 
+  @Output()
+  remove = new EventEmitter<Game>();
+
   constructor(private drawerService: DrawerService, private gameService: GameService) {
 
   }
@@ -30,7 +33,7 @@ export class GridCellComponent implements OnInit {
 
   openDrawer() {
     this.drawerService.open({
-      width: '1500px',
+      width: '1800px',
       zIndex: 1000,
       isCover: true,
       fullScreen: true,
@@ -46,7 +49,10 @@ export class GridCellComponent implements OnInit {
 
   delete() {
     this.gameService.delete(this.game.id)
-      .subscribe((data) => console.log(data))
+      .subscribe((data) => {
+        console.log(data)
+        this.remove.emit(this.game)
+      })
 
   }
 

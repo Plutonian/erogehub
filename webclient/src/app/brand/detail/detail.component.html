@@ -20,6 +20,10 @@
       <ng-template #single>
         <span>{{brand.name}}</span>
       </ng-template>
+      <ul>
+        <li><a (click)="blockAll()">Black All</a></li>
+        <li><a (click)="normalAll()">Normal All</a></li>
+      </ul>
 
       <!-- state change -->
       <select style="margin-left: auto" [(ngModel)]="brand.state.value" (ngModelChange)="onStateSelected()">

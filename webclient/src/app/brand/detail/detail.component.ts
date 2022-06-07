@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Brand, Emotion} from "../../entity";
-import {BrandService, BrandStates} from "../brand.service";
+import {BrandService} from "../brand.service";
 import {AppService} from "../../app.service";
+import {GameService} from "../../game/game.service";
 
 @Component({
   selector: 'app-brand-detail',
@@ -45,8 +46,18 @@ export class BrandDetailComponent implements OnInit {
 
   }
 
+  blockAll() {
+    this.gameService.blockAll(this.brand.id)
+      .subscribe((data)=> console.log(data))
 
-  constructor(private brandService: BrandService, private appService: AppService, private route: ActivatedRoute, private router: Router) {
+  }
+
+  normalAll() {
+    this.gameService.normalAll(this.brand.id)
+      .subscribe((data)=> console.log(data))
+  }
+
+  constructor(private brandService: BrandService, private gameService: GameService, private appService: AppService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {

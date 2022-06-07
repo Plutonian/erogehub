@@ -3,15 +3,15 @@
     <h2><a routerLink="/">Home</a></h2>
     <h2><a routerLink="/game/search">Search</a></h2>
     <dl>
-      <dt>
+      <dt dPopover [position]="'right'"
+          [trigger]="'hover'"
+          [controlled]="true"
+          [popoverStyle]="{ backgroundColor: 'white', color: 'black' }" [content]="month">
         Date
       </dt>
       <dd>
         <ul>
-          <li *ngFor="let date of dates"><a (click)="jump(date)">{{date.name}}</a></li>
-        </ul>
-        <ul>
-          <li *ngFor="let date of mongths"><a (click)="jump(date)">{{date.name}}</a></li>
+          <li *ngFor="let date of dates"><a (click)="jump(date)">{{date.title}}</a></li>
         </ul>
       </dd>
       <dt>
@@ -53,6 +53,9 @@
     <router-outlet></router-outlet>
   </main>
 </div>
-
+<ng-template #month>
+  <app-month-calendar [months]="months" (select)="jump($event)">
+  </app-month-calendar>
+</ng-template>
 
 

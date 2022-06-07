@@ -12,6 +12,9 @@ export class StateChangeComponent implements OnInit {
   @Input()
   game: Game
 
+  @Input()
+  row = "row"
+
   edit: Boolean = false
 
 
@@ -30,6 +33,18 @@ export class StateChangeComponent implements OnInit {
 
   like() {
     this.game.state = "HOPE"
+    this.updateState()
+  }
+
+
+  normal() {
+    this.game.state = "UNCHECKED"
+    this.updateState()
+  }
+
+
+  hate() {
+    this.game.state = "BLOCK"
     this.updateState()
   }
 

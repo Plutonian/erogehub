@@ -101,6 +101,7 @@ export interface DateRange {
 }
 
 export interface DateGroupItem extends CompositeGroupItem {
+  index: number
   range: DateRange,
   dateType: string,
 }

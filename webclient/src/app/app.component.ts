@@ -2,11 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {APP_SERVER} from "./app.module";
+import {DateGroupItem, DateRange} from "./entity";
 
-interface DateCommand {
-  name: string
-  start: string
-  end: string
+export interface DateCommand {
+  title: string
+  range: DateRange
 }
 
 @Component({
@@ -23,20 +23,21 @@ export class AppComponent implements OnInit {
   ngOnInit() {
 
     this.httpClient.get(`http://${APP_SERVER}/api/app/nearYears`)
-      .subscribe((data: DateCommand[]) => this.dates = data)
+      .subscribe((data: DateGroupItem[]) => this.dates = data)
 
     this.httpClient.get(`http://${APP_SERVER}/api/app/monthsOfThisYear`)
-      .subscribe((data: DateCommand[]) => this.mongths = data)
+      .subscribe((data: DateGroupItem[]) => this.months = data)
   }
 
-  dates: DateCommand[]
+  dates: DateGroupItem[]
 
-  mongths: DateCommand[]
+  months: DateGroupItem[]
 
   states = [
     "PLAYED",
     "PLAYING",
-    "HOPE"
+    "HOPE",
+    "SAME"
   ]
 
   locations = [
@@ -44,14 +45,14 @@ export class AppComponent implements OnInit {
     // GameLocation.REMOTE
   ]
 
-  stars = [5, 4, 3,2,1]
+  stars = [5, 4, 3, 2, 1]
 
-  jump(dateCommand: DateCommand) {
+  jump(dateCommand: DateGroupItem) {
 
     // Date.parse(`${dateCommand.start} 00:00:00`)
 
-    const start = Date.parse(`${dateCommand.start} 00:00:00`)
-    const end = Date.parse(`${dateCommand.end} 23:59:59`)
+    const start = Date.parse(`${dateCommand.range.start} 00:00:00`)
+    const end = Date.parse(`${dateCommand.range.end} 23:59:59`)
 
     console.log(start, end)
     // console.log(start.getTime(), end.getTime())

@@ -1,0 +1,73 @@
+.container {
+  padding: 3px;
+}
+
+.gap-3 {
+  gap: 3px;
+}
+
+.gap-5 {
+  gap: 5px;
+}
+
+gap-10 {
+  gap: 10px;
+}
+
+
+.grid {
+  display: grid;
+  justify-items: stretch;
+  align-items: start;
+  justify-content: center;
+  align-content: start;
+  gap: 10px;
+}
+
+
+.flex_row,
+.flex_column {
+  display: flex;
+  align-content: start;
+  align-items: stretch;
+}
+
+.flex_row {
+  flex-direction: row;
+}
+
+.flex_column {
+  flex-direction: column;
+}
+
+.flex_float {
+  flex-wrap: wrap;
+
+}
+
+.flex_grow {
+  flex: 1;
+}
+
+
+
+.bg-white {
+  background-color: #fff;
+}
+
+.all_height {
+  height: 100%;
+}
+
+.anchor {
+  position: absolute;
+}
+
+.anchor_parent {
+  position: relative;
+}
+
+.bottomBar {
+  height: 24px;
+}
+

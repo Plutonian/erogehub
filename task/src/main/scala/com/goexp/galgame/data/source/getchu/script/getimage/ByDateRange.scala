@@ -1,14 +1,12 @@
 package com.goexp.galgame.data.source.getchu.script.getimage
 
-import java.time.LocalDate
-
 import com.goexp.common.util.date.DateUtil
-import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.common.util.Network
 import com.goexp.galgame.data.source.getchu.query.GameFullQuery
-import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters._
 import com.typesafe.scalalogging.Logger
+
+import java.time.LocalDate
 
 object ByDateRange {
   private val logger = Logger(ByDateRange.getClass)
@@ -33,9 +31,7 @@ object ByDateRange {
     val games = GameFullQuery()
       .where(and(
         gte("publishDate", DateUtil.toDate(s"${start} 00:00:00")),
-        lte("publishDate", DateUtil.toDate(s"${end} 23:59:59")),
-        Filters.ne("state", GameState.BLOCK.value),
-        Filters.ne("state", GameState.SAME.value)
+        lte("publishDate", DateUtil.toDate(s"${end} 23:59:59"))
       ))
       .scalaList().to(LazyList)
 

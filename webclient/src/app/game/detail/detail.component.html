@@ -1,7 +1,7 @@
-<div dAnchorBox *ngIf="game!=null" class="container test_border">
-  <div class="info" style="background-color: #fff;position: fixed;top:0;right: 0;width:800px;">
-    <app-list-cell [game]="game" ></app-list-cell>
-  </div>
+<div dAnchorBox *ngIf="game" class="container test_border">
+  <header class="info bg-white" style="margin-left: auto;position:sticky;top:0;">
+    <app-list-cell [game]="game"></app-list-cell>
+  </header>
 
   <dl>
     <dt class="group_title" [dAnchor]="'story'">ストーリー</dt>
@@ -14,7 +14,7 @@
       </section>
     </dd>
 
-    <ng-template [ngIf]="game.gameCharacters.length>0">
+    <ng-template [ngIf]="game.gameCharacters?.length>0">
       <dt class="group_title" [dAnchor]="'char'">キャラクター</dt>
       <dd>
         <app-game-characters [game]="game"></app-game-characters>
@@ -27,7 +27,7 @@
         <!--imgs-->
         <section *ngIf="game.gameImgs?.length>0" class="flex_row flex_float gap-5">
           <img *ngFor="let img of game.gameImgs" class="sample_img"
-               src="{{game|img}}/simple_l_{{img.index}}.jpg"/>
+               src="{{game|img}}/simple_l_{{img.index}}.jpg" loading="lazy"/>
         </section>
 
         <!--        <d-carousel style="max-width: 800px;align-items: center; " class="flex_row">-->
@@ -41,15 +41,15 @@
     </ng-template>
   </dl>
 
+  <ul class="step-nav bg-white" style="position: fixed;right: 60px;top:200px;background-color: white">
+    <li><a [dAnchorLink]="'story'">ストーリー</a></li>
+    <li *ngIf="game.gameCharacters.length>0"><a [dAnchorLink]="'char'">キャラクター</a></li>
+    <li *ngIf="game.gameImgs?.length>0"><a [dAnchorLink]="'sample'">サンプル画像</a></li>
+  </ul>
 
   <!-- control bar -->
-  <section class="test_border" style="position: fixed;bottom: 100px;right:45px;background-color: white;">
-    <ul class="step-nav" style="position: fixed;right: 60px;top:200px;background-color: white">
-      <li><a [dAnchorLink]="'story'">ストーリー</a></li>
-      <li *ngIf="game.gameCharacters.length>0"><a [dAnchorLink]="'char'">キャラクター</a></li>
-      <li *ngIf="game.gameImgs?.length>0"><a [dAnchorLink]="'sample'">サンプル画像</a></li>
-    </ul>
-    <ul>
+  <footer class="test_border bg-white bottomBar flex_row" style="position: sticky;bottom: 0;">
+    <ul class="flex_row gap-5" style="margin-left: auto">
       <li><a routerLink="/game/guide/{{game.titles.mainTitle}}">攻略</a></li>
       <li><a target="_blank" href="http://www.getchu.com/soft.phtml?id={{game.id}}&gc=gc">GetChu</a></li>
       <li><a target="_blank" href="https://ja.wikipedia.org/w/index.php?search={{game.titles.mainTitle}}">Wiki</a>
@@ -62,5 +62,5 @@
              href="https://www.ggbases.com/search.so?p=0&advanced=&title={{game.titles.mainTitle}}">GGBases</a>
       </li>
     </ul>
-  </section>
+  </footer>
 </div>

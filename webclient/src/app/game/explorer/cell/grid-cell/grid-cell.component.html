@@ -1,0 +1,57 @@
+<section class="flex_column game"
+         [class.SAME]="game.isSame"
+
+         [class.HATE]="game.emotion =='HATE'"
+         [class.HOPE]="game.emotion =='HOPE'"
+         [class.LIKE]="game.emotion =='LIKE'"
+>
+
+  <main class="anchor_parent">
+
+    <img *ngIf="large;else small" class="img_alone" src="{{game|img}}/game_s.jpg" (click)="openDrawer()" loading="lazy"/>
+    <ng-template #small>
+      <img class="img_alone" src="{{game|img}}/game_t200.jpg" (click)="openDrawer()" loading="lazy"/>
+    </ng-template>
+    <app-formatted-date class="anchor bg-white" style="bottom: 0;right: 0" *ngIf="game.publishDate"
+                        [game]="game"></app-formatted-date>
+
+  </main>
+
+  <main style="gap:2px;" class="flex_grow flex_column bg-white container">
+    <section class="flex_row flex_float">
+
+      <div>
+        <app-location-change [game]="game"></app-location-change>
+        <a title="{{game.name}}" class="title" routerLink="/game/{{game.id}}">
+          {{game.titles?.mainTitle}}
+        </a>
+        <span>{{game.titles?.subTitle}}</span>
+
+        <a *ngIf="game.isSame" style="color: red" (click)="delete()">[Delete]</a>
+      </div>
+    </section>
+    <section>
+      <app-jump-brand [brand]="game?.brand"></app-jump-brand>
+      <span *ngIf="game.brand.website && game.brand.website.length>0"
+            style="display:inline-block;margin-left:5px;">(<a target="_blank"
+                                                              href="{{game.brand?.website}}">公式サイト</a>)</span>
+    </section>
+
+
+    <app-star-change [game]="game"></app-star-change>
+    <section *ngIf="game.tag?.length > 0" class="flex_row flex_float gap-5">
+      <app-jumptag *ngFor="let tag of game.tag" [tag]="tag" style="font-size:10px;"></app-jumptag>
+    </section>
+
+
+  </main>
+  <div class="bottomBar flex_row">
+    <app-game-playstate-change [game]="game"></app-game-playstate-change>
+
+    <app-game-marksame style="margin-left: auto;" [game]="game"></app-game-marksame>
+    <app-emotion-change [game]="game"></app-emotion-change>
+  </div>
+</section>
+<ng-template #drawerContent>
+  <app-game-detail [game]="game"></app-game-detail>
+</ng-template>

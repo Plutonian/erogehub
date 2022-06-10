@@ -1,6 +1,5 @@
 package com.goexp.galgame.data.script.local.cal
 
-import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.source.getchu.importor.CVDB
 import com.goexp.galgame.data.source.getchu.query.{CVQuery, GameSimpleQuery}
 import com.mongodb.client.model.Filters
@@ -20,8 +19,7 @@ object CalCVGameTask {
         val games = GameSimpleQuery()
           .where(
             Filters.and(
-              Filters.eq("gamechar.truecv", cv.name),
-              Filters.ne("state", GameState.SAME.value)
+              Filters.eq("gamechar.truecv", cv.name)
             )
           )
           .scalaList().to(LazyList)

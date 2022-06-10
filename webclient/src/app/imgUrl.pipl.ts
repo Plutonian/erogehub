@@ -1,14 +1,14 @@
 import {Pipe} from "@angular/core";
 import {Game} from "./entity";
-import {IMG_SERVER} from "./app.module";
-import {GameLocation, GameStates} from "./game/game.service";
-import {BrandStates} from "./brand/brand.service";
+import {GameLocation, GamePlayStates} from "./game/game.service";
+import {Emotions} from "./brand/brand.service";
+import {environment} from "../environments/environment";
 
 @Pipe({name: "img"})
 export class ImgUrlPipl {
 
   transform(g: Game) {
-    return `http://${IMG_SERVER}/game/${g?.publishDate?.year}/${g?.publishDate?.monthValue}/${g?.id}`
+    return `http://${environment.IMG_SERVER}/game/${g?.publishDate?.year}/${g?.publishDate?.monthValue}/${g?.id}`
   }
 
 }
@@ -32,20 +32,21 @@ export class BangumiPipl {
 
 }
 
-@Pipe({name: "jp"})
-export class StatePipl {
+
+@Pipe({name: "playStateJP"})
+export class PlayStatePipl {
 
   transform(state: string) {
-    return GameStates[`${state}`].name
+    return GamePlayStates[`${state}`].name
   }
 
 }
 
-@Pipe({name: "brand_jp"})
-export class BrandStatePipl {
+@Pipe({name: "emotionJP"})
+export class EmotionJPPipe {
 
-  transform(state: string) {
-    return BrandStates[`${state}`].name
+  transform(emotion: string) {
+    return Emotions[`${emotion}`].name
   }
 
 }

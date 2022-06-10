@@ -1,13 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
-import {APP_SERVER} from "./app.module";
-import {DateGroupItem, DateRange} from "./entity";
+import {DateGroupItem} from "./entity";
+import {environment} from "../environments/environment";
+import {Title} from "@angular/platform-browser";
 
-export interface DateCommand {
-  title: string
-  range: DateRange
-}
 
 @Component({
   selector: 'app-root',
@@ -15,29 +12,46 @@ export interface DateCommand {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'Webclient';
+  title = 'XXXXX';
 
-  constructor(private router: Router, private httpClient: HttpClient) {
+  constructor
+  (
+    private router: Router,
+    private httpClient: HttpClient,
+    private titleService: Title,
+  ) {
   }
 
   ngOnInit() {
+    this.titleService.setTitle(this.title)
 
-    this.httpClient.get(`http://${APP_SERVER}/api/app/nearYears`)
-      .subscribe((data: DateGroupItem[]) => this.dates = data)
+    this.httpClient.get(`http://${environment.APP_SERVER}/api/app/years/near`)
+      .subscribe((data: DateGroupItem[]) => this.nearDates = data)
 
-    this.httpClient.get(`http://${APP_SERVER}/api/app/monthsOfThisYear`)
+    this.httpClient.get(`http://${environment.APP_SERVER}/api/app/years/old`)
+      .subscribe((data: DateGroupItem[]) => this.oldDates = data)
+
+    this.httpClient.get(`http://${environment.APP_SERVER}/api/app/monthsOfThisYear`)
       .subscribe((data: DateGroupItem[]) => this.months = data)
   }
 
-  dates: DateGroupItem[]
+  nearDates: DateGroupItem[]
+
+  oldDates: DateGroupItem[]
 
   months: DateGroupItem[]
 
-  states = [
-    "PLAYED",
-    "PLAYING",
+
+  emotions = [
+    "LIKE",
     "HOPE",
-    "SAME"
+    // "NORMAL",
+    "HATE"
+  ]
+
+  playStates = [
+    "PLAYED",
+    "PLAYING"
   ]
 
   locations = [

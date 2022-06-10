@@ -5,27 +5,16 @@
         <ng-template ngFor [ngForOf]="dateGroup" let-yearItem>
           <dt>
             <span class="group_title">{{yearItem.title}}</span><span>({{yearItem.count}})</span>
-            <!--                    <span>From:{{yearItem.range.start.year}}-{{yearItem.range.start.monthValue}}-->
-            <!--                      -{{yearItem.range.start.dayOfMonth}}</span>-->
-            <!--                    <span>End:{{yearItem.range.end.year}}-{{yearItem.range.end.monthValue}}-->
-            <!--                      -{{yearItem.range.end.dayOfMonth}}</span>-->
           </dt>
           <dd>
             <app-month-calendar [months]="$any(yearItem.children)">
-
-<!--              &lt;!&ndash;real month &ndash;&gt;-->
-<!--              <li *ngFor="let monthitem of yearItem.children" class="div{{monthitem.title}} month">-->
-<!--                <span>{{monthitem.title}}月</span><span>({{monthitem.count}})</span>-->
-<!--              </li>-->
             </app-month-calendar>
           </dd>
         </ng-template>
       </dl>
     </d-tab>
     <d-tab id="brand" title="Brand">
-
-      <app-group-brand [filter]="filter"></app-group-brand>
-
+      <app-group-brand [filter]="filter" (onBrandSelected)="brandSelected($event)"></app-group-brand>
     </d-tab>
     <d-tab id="tag" title="Tag">
       <section class="flex_row">
@@ -33,8 +22,6 @@
  <d-badge count="{{item.count}}">
           <app-jumptag style="font-size: 14px;" [tag]="item.title"></app-jumptag>
  </d-badge>
-            <!--          <span>({{item.count}})</span>-->
-
           </span>
       </section>
     </d-tab>
@@ -48,6 +35,36 @@
 
       </section>
     </d-tab>
-    <d-tab id="state" title="State"></d-tab>
+    <d-tab id="other" title="Other">
+      <dl>
+        <dt>Star</dt>
+        <dd>
+          <ul>
+            <li *ngFor="let starItem of starGroup">
+              {{starItem.title}}({{starItem.count}})
+            </li>
+          </ul>
+        </dd>
+
+        <dt>Emotion</dt>
+        <dd>
+          <ul>
+            <li *ngFor="let emotionGroupItem of emotionGroup" (click)="emotionSelect(emotionGroupItem)">
+              {{emotionGroupItem.emotion | emotionJP}}({{emotionGroupItem.count}})
+            </li>
+          </ul>
+
+        </dd>
+
+      </dl>
+
+    </d-tab>
+    <!--    <d-tab id="emotion" title="Emotion">-->
+    <!--      <ul>-->
+    <!--        <li *ngFor="let starItem of starGroup">-->
+    <!--          {{starItem.title}}({{starItem.count}})-->
+    <!--        </li>-->
+    <!--      </ul>-->
+    <!--    </d-tab>-->
   </d-tabs>
 </aside>

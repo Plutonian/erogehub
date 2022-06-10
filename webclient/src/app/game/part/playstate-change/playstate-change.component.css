@@ -1,0 +1,15 @@
+a{
+  color: black;
+  font-weight: bolder;
+}
+
+.PLAYED {
+  border: #313131 solid 1px;
+  background-color: #4ea6fd;
+}
+
+.PLAYING {
+  border: #313131 solid 1px;
+  background-color: #fde64e;
+}
+

@@ -1,4 +1,6 @@
-<d-tree [tree]="data"></d-tree>
+<d-tree [tree]="data"
+        (nodeSelected)="nodeSelected($event)"
+></d-tree>
 <!--<d-operable-tree [tree]="data"></d-operable-tree>-->
 
 
@@ -9,12 +11,12 @@
 <!--      <span class="group_title">{{item.title}}</span><span>({{item.count}})</span>-->
 <!--    </dt>-->
 <!--    <dd>-->
-<!--      <ul *ngIf="item.children!=null && item.children.length>0">-->
+<!--      <ul *ngIf="item.children && item.children.length>0">-->
 
 <!--        &lt;!&ndash; brands&ndash;&gt;-->
 <!--        <li *ngFor="let subItem of item.children">-->
 
-<!--          <ng-template [ngIf]="subItem.games!=null && subItem.games.length>0" [ngIfElse]="nogame">-->
+<!--          <ng-template [ngIf]="subItem.games && subItem.games.length>0" [ngIfElse]="nogame">-->
 <!--            <section>-->
 <!--              <header>-->
 <!--                <span>{{subItem.title}}</span> <span>({{subItem.count}})</span>-->

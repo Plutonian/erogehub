@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {APP_SERVER} from "../app.module";
 import {TagGroup} from "../entity";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-tag',
@@ -17,7 +17,7 @@ export class TagComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.httpClient.get(`http://${APP_SERVER}/api/tags`)
+    this.httpClient.get(`http://${environment.APP_SERVER}/api/tags`)
       .subscribe((data: TagGroup[]) => this.tagGroup = data)
   }
 

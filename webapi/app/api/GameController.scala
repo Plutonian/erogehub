@@ -5,7 +5,8 @@ import com.goexp.common.util.string.Strings
 import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.Config.DB_NAME
-import com.goexp.galgame.common.model.game.{GameCharacter, GameState}
+import com.goexp.galgame.common.model.Emotion
+import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.data.model.Brand
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.set
@@ -63,6 +64,24 @@ class GameController extends Controller {
     val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).list()
 
     ok(Json.toJson(Option(list).getOrElse(List().asJava))).asJson()
+  }
+
+  def groupByEmotion(request: Request) = {
+    val where = request.queryString("filter").orElseThrow()
+
+    val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+
+    val cvlist = list.to(LazyList)
+
+      .groupBy(s => s.emotion).to(LazyList)
+      .sortBy { case (_, count) => count.size }.reverse
+      //        .take(20)
+      .map { case (emotion, games) =>
+        EmotionItem(emotion.toString, games.size, emotion, games.toArray)
+      }.asJava
+
+
+    ok(Json.toJson(cvlist)).asJson()
   }
 
   def groupByCV(request: Request) = {
@@ -175,29 +194,78 @@ class GameController extends Controller {
         Option(brand.comp).getOrElse(brand)
       }
       .to(LazyList)
-      .sortBy { case (_, v) => v.size }.reverse
+
       .map {
         case (comp: String, v) =>
 
           val brandNodes = v.groupBy(_.brand).to(LazyList)
+            .sortBy { case (brand, _) => brand.state.value }.reverse
             .map { case (brand, games) => BrandItem(brand.name, games.size, null, brand, games.toArray, null) }
             .toArray
 
-          BrandItem(comp, v.size, comp, null, null, brandNodes)
+          if (brandNodes.size == 1)
+            brandNodes(0)
+          else
+            BrandItem(comp, v.size, comp, null, null, brandNodes)
+
         case (brand: Brand, v) =>
           BrandItem(brand.name, v.size, null, brand, v.toArray, null)
+      }
+      .sortBy { item => item.count }.reverse
+      .asJava
+
+    ok(Json.toJson(nodes)).asJson()
+  }
+
+  def groupByStar(request: Request) = {
+    val where = request.queryString("filter").orElseThrow()
+
+    val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+
+    val nodes = list.to(LazyList)
+      .groupBy {
+        _.star
+      }
+      .to(LazyList)
+      .sortBy { case (star, _) => star }
+      .map {
+        case (star: Int, v) => StarItem(star.toString, v.size, star, v.toArray)
       }
       .asJava
 
     ok(Json.toJson(nodes)).asJson()
   }
 
-  def changeState(id: Int, state: Int) = {
+  def markSame(id: Int, isSame: Boolean) = {
+
+    println(id, isSame)
+
+    tlp.exec(documentMongoCollection => {
+      documentMongoCollection.updateOne(Filters.eq(id), set("isSame", isSame))
+    })
+
+    ok(Json.toJson("OK")).asJson()
+
+  }
+
+  def changeEmotion(id: Int, emotion: Int) = {
+
+    println(id, emotion)
+
+    tlp.exec(documentMongoCollection => {
+      documentMongoCollection.updateOne(Filters.eq(id), set("emotion", emotion))
+    })
+
+    ok(Json.toJson("OK")).asJson()
+
+  }
+
+  def changePlayState(id: Int, state: Int) = {
 
     println(id, state)
 
     tlp.exec(documentMongoCollection => {
-      documentMongoCollection.updateOne(Filters.eq(id), set("state", state))
+      documentMongoCollection.updateOne(Filters.eq(id), set("playState", state))
     })
 
     ok(Json.toJson("OK")).asJson()
@@ -229,18 +297,18 @@ class GameController extends Controller {
   }
 
   def block(brandId: Int) = {
-    changeStateByBrand(brandId, GameState.BLOCK.value)
+    changeEmotionByBrand(brandId, Emotion.HATE.value)
   }
 
   def normal(brandId: Int) = {
-    changeStateByBrand(brandId, GameState.UNCHECKED.value)
+    changeEmotionByBrand(brandId, Emotion.NORMAL.value)
   }
 
-  private def changeStateByBrand(brandId: Int, state: Int) = {
+  private def changeEmotionByBrand(brandId: Int, state: Int) = {
     println(brandId, state)
 
     tlp.exec(documentMongoCollection => {
-      documentMongoCollection.updateMany(Filters.eq("brandId", brandId), set("state", state))
+      documentMongoCollection.updateMany(Filters.eq("brandId", brandId), set("emotion", state))
     })
 
     ok(Json.toJson("OK")).asJson()

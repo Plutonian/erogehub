@@ -32,7 +32,14 @@ class AppController extends Controller {
 
   def nearYears() = {
 
-    val list = Dates.yearsAfter2000().to(LazyList).map { case DateItem(name, index, range) => Item(name, Range(range.start.toString, range.end.toString), index) }.asJava
+    val list = Dates.yearsAfter2010().to(LazyList).map { case DateItem(name, index, range) => Item(name, Range(range.start.toString, range.end.toString), index) }.asJava
+    ok(Json.toJson(list)).asJson()
+
+  }
+
+  def oldYears() = {
+
+    val list = Dates.oldYears().to(LazyList).map { case DateItem(name, index, range) => Item(name, Range(range.start.toString, range.end.toString), index) }.asJava
     ok(Json.toJson(list)).asJson()
 
   }
@@ -44,7 +51,7 @@ class AppController extends Controller {
   }
 
   def emotions() = {
-    val list = Emotion.EMOTIONS.to(LazyList).sortBy(_.value).reverse.asJava
+    val list = Emotion.values().to(LazyList).sortBy(_.value).reverse.asJava
     ok(Json.toJson(list)).asJson()
   }
 

@@ -27,7 +27,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
+              "src/style/styles.css",
+              "src/style/container.css",
+              "src/style/article.css",
               "node_modules/ng-devui/devui.min.css"
             ],
             "scripts": []
@@ -95,7 +97,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/style/styles.css",
+              "src/style/container.css",
+              "src/style/article.css"
             ],
             "scripts": []
           }

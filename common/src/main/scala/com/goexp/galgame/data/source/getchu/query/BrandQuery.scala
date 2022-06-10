@@ -28,7 +28,7 @@ object BrandQuery {
       b.tag = Option(doc.get("tag", classOf[util.List[String]])).map {
         _.asScala.toList
       }.orNull
-      b.state = Emotion(doc.getInteger("type"))
+      b.state = Emotion.from(doc.getInteger("type"))
 
       b
     }

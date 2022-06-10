@@ -15,6 +15,6 @@
 
   <!--real month -->
   <li *ngFor="let date of months" class="div{{date.index}} month" (click)="jump(date)">{{date.title}}
-    <span *ngIf="date.count!=null">({{date.count}})</span>
+    <span *ngIf="date.count">({{date.count}})</span>
   </li>
 </ul>

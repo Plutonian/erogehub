@@ -1,4 +1,4 @@
-<ng-template [ngIf]="brands!=null">
+<ng-template [ngIf]="brands">
   <ng-template [ngIf]="brands.length>0" [ngIfElse]="noBrand">
 
 
@@ -18,9 +18,9 @@
             <td>{{b.comp}}</td>
             <td><a routerLink="/brand/{{b.id}}">{{b.name}}</a></td>
             <td class="flex_row gap-5"><span *ngFor="let tag of b.javaTag" class="tag">{{tag}}</span></td>
-            <td><a *ngIf="b.website!=null && b.website.length>0" target="_blank" [href]="b.website">{{b.website}}</a>
+            <td><a *ngIf="b.website && b.website.length>0" target="_blank" [href]="b.website">{{b.website}}</a>
             </td>
-            <td>{{b.state.name}}</td>
+            <td>{{b.state |emotionJP}}</td>
           </tr>
           </tbody>
         </table>

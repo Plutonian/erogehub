@@ -4,6 +4,7 @@ import com.goexp.common.util.date.DateUtil
 import com.goexp.galgame.common.model.game.CommonGame.Titles
 
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util
 import java.util.regex.Pattern
 import scala.beans.BeanProperty
@@ -47,7 +48,7 @@ abstract class CommonGame {
         DateUtil.formatDate(publishDate)
 
       } else {
-        publishDate.toString
+        publishDate.format(DateTimeFormatter.ofPattern("yyyy-MM"))
       }
     else
       null

@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {APP_SERVER} from "./app.module";
+import {environment} from "../environments/environment";
 
 @Injectable()
 export class AppService {
@@ -9,7 +9,7 @@ export class AppService {
   }
 
   emotions() {
-    return this.httpClient.get(`http://${APP_SERVER}/api/app/emotions`)
+    return this.httpClient.get(`http://${environment.APP_SERVER}/api/app/emotions`)
   }
 
 

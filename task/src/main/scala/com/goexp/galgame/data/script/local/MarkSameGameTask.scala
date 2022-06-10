@@ -1,10 +1,9 @@
 package com.goexp.galgame.data.script.local
 
 import com.goexp.galgame.common.model.game.CommonGame.Titles
-import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.actor.InsertOrUpdateGameActor._
-import com.goexp.galgame.data.source.getchu.importor.GameDB.StateDB
+import com.goexp.galgame.data.source.getchu.importor.GameDB.MarkSame
 import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameFullQuery}
 import com.mongodb.client.model.Filters
 import com.typesafe.scalalogging.Logger
@@ -24,14 +23,12 @@ object MarkSameGameTask {
       games
         .groupBy { game =>
           if (isSameGame(game)) "same"
-//          else if (isPackageGame(game)) "package"
           else "other"
         }
         .flatMap {
           case ("same", value: LazyList[Game]) =>
-            value.filter(_.state eq GameState.UNCHECKED).map { game => game.state = GameState.SAME; game }
-//          case ("package", value: LazyList[Game]) =>
-//            value.filter(_.state eq GameState.UNCHECKED).map { game => game.state = GameState.PACKAGE; game }
+            value.filter(!_.isSame)
+              .map { game => game.isSame = true; game }
           case ("other", value: LazyList[Game]) =>
             value
               .groupBy {
@@ -51,17 +48,15 @@ object MarkSameGameTask {
                     _.name.length
                   }
                     .drop(1)
-                    .filter {
-                      _.state eq GameState.UNCHECKED
-                    }
-                    .map { game => game.state = GameState.SAME; game }
+                    .filter(!_.isSame)
+                    .map { game => game.isSame = true; game }
 
               }
         }
         .foreach {
           case game: Game =>
             logger.info(s"${game.simpleView}")
-            StateDB.update(game)
+            MarkSame.update(game)
           //        case _ =>
         }
     }

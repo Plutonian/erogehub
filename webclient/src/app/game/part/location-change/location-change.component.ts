@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Game} from "../../../entity";
-import {GameLocation, GameService, GameStates} from "../../game.service";
+import {GameLocation, GameService} from "../../game.service";
 
 @Component({
   selector: 'app-location-change',

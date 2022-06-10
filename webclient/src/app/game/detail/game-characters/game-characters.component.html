@@ -2,13 +2,13 @@
 <section *ngIf="game.gameCharacters.length>0" class="grid characters">
   <div *ngFor="let character of game.gameCharacters" class="flex_row">
     <aside class="imageborder">
-      <img src="{{game | img}}/char_s_{{character.index}}.jpg"/>
+      <img src="{{game | img}}/char_s_{{character.index}}.jpg" loading="lazy"/>
     </aside>
     <main class="flex_column flex_grow">
-                <span>
+                <span style="font-size:14px">
                     {{character.name}}
                 </span>
-      <span *ngIf="character.cv?.trim().length>0" class="flex_row" style="gap:3px;font-size:14px">
+      <span *ngIf="character.cv?.trim().length>0" class="flex_row gap-3">
         <span>CV: </span>
 
         <span *ngIf="character.trueCV?.trim().length>0; else cvInfo">

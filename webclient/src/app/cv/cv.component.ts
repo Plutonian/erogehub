@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {APP_SERVER} from "../app.module";
 import {CVGroup} from "../entity";
-import {Router} from "@angular/router";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-cv',
@@ -13,17 +12,11 @@ export class CvComponent implements OnInit {
 
   cvGroup: CVGroup[]
 
-  jumpCV(cv) {
-
-    const filter = {"gamechar.truecv": cv}
-    this.router.navigateByUrl(`/game/query/${JSON.stringify(filter)}`)
-  }
-
-  constructor(private httpClient: HttpClient, private router: Router) {
+  constructor(private httpClient: HttpClient) {
   }
 
   ngOnInit(): void {
-    this.httpClient.get(`http://${APP_SERVER}/api/cv`)
+    this.httpClient.get(`http://${environment.APP_SERVER}/api/cv`)
       .subscribe((data: CVGroup[]) => this.cvGroup = data)
   }
 

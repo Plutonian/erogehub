@@ -3,7 +3,7 @@
   <input type="submit" value="Search" [disabled]="form.invalid"/>
 </form>
 
-<section *ngIf="guideList!=null" class="flex_column">
+<section *ngIf="guideList" class="flex_column">
   <ng-template [ngIf]="guideList.length>0" [ngIfElse]="noGuide">
     <div *ngFor="let guide of guideList" class="flex_row">
       <span>[{{guide.from}}]</span>

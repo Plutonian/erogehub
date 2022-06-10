@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {APP_SERVER} from "../app.module";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class GuideService {
@@ -12,7 +12,7 @@ export class GuideService {
   search(searchKey: string) {
 
     console.log(searchKey);
-    return this.httpClient.get(`http://${APP_SERVER}/api/game/guide/${searchKey}`)
+    return this.httpClient.get(`http://${environment.APP_SERVER}/api/game/guide/${searchKey}`)
   }
 
 }

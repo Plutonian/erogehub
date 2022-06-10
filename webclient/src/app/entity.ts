@@ -11,8 +11,11 @@ export interface Game {
   story: string;
   intro: string
   state: string
+  emotion: string
+  playState: string
   location: string
   star: number
+  isSame: boolean
   titles: Titles
   gameImgs: GameImg[]
   gameCharacters: GameCharacter[]
@@ -53,7 +56,7 @@ export interface Brand {
   name: string
   "website": string
   "comp": string
-  "state": Emotion
+  "state": string
   javaTag: string[]
 }
 
@@ -84,6 +87,15 @@ export interface GroupItem {
 }
 
 export interface TagGroupItem extends GroupItem {
+}
+
+
+export interface EmotionGroupItem extends GroupItem {
+  emotion: string
+}
+
+export interface StarGroupItem extends GroupItem {
+  star: number
 }
 
 export interface CVGroupItem extends GroupItem {

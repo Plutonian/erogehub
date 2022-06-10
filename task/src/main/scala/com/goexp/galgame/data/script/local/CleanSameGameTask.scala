@@ -1,11 +1,8 @@
 package com.goexp.galgame.data.script.local
 
-import com.goexp.galgame.common.model.game.GameState
 import com.goexp.galgame.common.website.getchu.GetchuGameLocal
 import com.goexp.galgame.data.Config
 import com.goexp.galgame.data.model.Game
-import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameSimpleQuery}
-import com.mongodb.client.model.Filters
 import com.typesafe.scalalogging.Logger
 
 import java.nio.file.{Files, Path}
@@ -31,33 +28,5 @@ object CleanSameGameTask {
 
       Files.deleteIfExists(path)
     }
-  }
-
-
-  def main(args: Array[String]) = {
-
-
-    logger.info("Init OK")
-
-    BrandQuery()
-      .scalaList().to(LazyList)
-      .foreach {
-        b =>
-          val games = GameSimpleQuery()
-            .where(Filters.eq("brandId", b.id))
-            .scalaList().to(LazyList)
-
-          games
-            //            .filter { g => !g.isAdult }
-            .filter { g => g.state eq GameState.SAME }
-            .foreach {
-              g =>
-                //                println(g)
-                remove(g)
-
-            }
-
-
-      }
   }
 }

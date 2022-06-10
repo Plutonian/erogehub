@@ -18,8 +18,7 @@ object ByBrand {
     val types = List(
       Emotion.LIKE,
       Emotion.HOPE,
-      //      BrandState.MARK,
-      Emotion.UNCHECKED,
+      Emotion.NORMAL,
       Emotion.HATE
     )
 

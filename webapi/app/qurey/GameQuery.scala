@@ -5,7 +5,8 @@ import com.goexp.db.mongo.{DBQuery, ObjectCreator}
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.Config.DB_NAME
 import com.goexp.galgame.common.db.mongo.query.CommonGameCreator
-import com.goexp.galgame.common.model.game.{GameLocation, GameState}
+import com.goexp.galgame.common.model.Emotion
+import com.goexp.galgame.common.model.game.{GameLocation, PlayState}
 import com.goexp.galgame.data.model.{Brand, Game}
 import com.goexp.galgame.data.source.getchu.query.BrandQuery
 import com.goexp.galgame.data.source.getchu.query.GameQuery.TABLE_NAME
@@ -47,10 +48,13 @@ object GameQuery {
 
       g.brandId = brandId
       //      g.group = doc.getString("group")
-      g.state = Option(doc.getInteger("state")).map(GameState.from(_)).getOrElse(GameState.UNCHECKED)
+      //      g.state = Option(doc.getInteger("state")).map(GameState.from(_)).getOrElse(GameState.UNCHECKED)
+      g.playState = Option(doc.getInteger("playState")).map(PlayState.from(_)).getOrElse(PlayState.NOT_PLAY)
+      g.emotion = Option(doc.getInteger("emotion")).map(Emotion.from(_)).getOrElse(Emotion.NORMAL)
       g.location = GameLocation.from(doc.getInteger("location", GameLocation.REMOTE.value))
       g.brand = BrandCache.get(brandId)
       g.star = doc.getInteger("star", 0)
+      g.isSame = doc.getBoolean("isSame")
 
       logger.trace(s"<game>${g}")
 

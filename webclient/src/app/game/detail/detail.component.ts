@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Game} from "../../entity";
 import {GameService} from "../game.service";
 import {ActivatedRoute} from "@angular/router";
+import {Title} from "@angular/platform-browser";
 
 
 @Component({
@@ -16,7 +17,9 @@ export class DetailComponent implements OnInit {
   game: Game = null
 
 
-  constructor(private service: GameService, private route: ActivatedRoute) {
+  constructor(private service: GameService, private route: ActivatedRoute,
+              private titleService: Title,
+  ) {
 
   }
 
@@ -30,6 +33,8 @@ export class DetailComponent implements OnInit {
           .subscribe((game: Game) => {
 
             this.game = game
+
+            this.titleService.setTitle(game.name)
           })
 
       })

@@ -3,7 +3,8 @@ package com.goexp.galgame.data.model
 import com.goexp.common.util.Logger
 import com.goexp.common.util.string.ConsoleColors.RED
 import com.goexp.common.util.string.Strings
-import com.goexp.galgame.common.model.game.{CommonGame, GameLocation, GameState}
+import com.goexp.galgame.common.model.Emotion
+import com.goexp.galgame.common.model.game.{CommonGame, GameLocation, PlayState}
 import com.goexp.galgame.common.website.getchu.{GetchuGameLocal, GetchuGameRemote}
 import com.goexp.galgame.data.Config
 
@@ -15,64 +16,44 @@ import scala.jdk.CollectionConverters._
 
 class Game extends CommonGame with Logger {
   @BeanProperty
-  var state: GameState = _
-  @BeanProperty
   var location: GameLocation = _
   @BeanProperty
-  var star: Int = _
+  var star: Int = 0
   @BeanProperty
   var brandId = 0
 
   @BeanProperty
+  var emotion: Emotion = _
+
+  @BeanProperty
+  var playState: PlayState = _
+
+  @BeanProperty
   var brand: Brand = _
 
-  //  override def equals(o: Any): Boolean = {
-  //
-  //    o match {
-  //      case game: Game =>
-  //        id == game.id &&
-  //          (isAdult == game.isAdult) &&
-  //          (brandId == game.brandId) &&
-  //          (writer == game.writer) &&
-  //          (painter == game.painter) &&
-  //          (`type` == game.`type`) &&
-  //          (tag == game.tag) &&
-  //          (story == game.story)
-  //      case _ => false
-  //    }
-  //  }
+  @BeanProperty
+  var isSame = false
 
-  def simpleView: String = s"[${RED.s(id.toString)}] [$publishDate] [$state] ${RED.s(name)}"
+  def simpleView: String = s"[${RED.s(id.toString)}] [$publishDate] [$playState] [$emotion]   ${RED.s(name)}"
 
 
   override def toString: String = {
     new StringJoiner(", ", classOf[Game].getSimpleName + "[", "]")
       .add("id=" + id)
-//      .add("isAdult='" + isAdult + "'")
       .add("name='" + RED.s(name) + "'")
       .add("publishDate=" + publishDate)
       .add("smallImg='" + smallImg + "'")
       .add("brand=" + brand)
-      .add("state=" + state)
+      .add("playState=" + playState)
+      .add("emotion=" + emotion)
       //      .add("type=" + `type`)
       //      .add("tag=" + tag)
-//      .add("gameImgs=" + gameImgs)
-//      .add("gameCharacters=" + gameCharacters)
+      //      .add("gameImgs=" + gameImgs)
+      //      .add("gameCharacters=" + gameCharacters)
       //                .add("story='" + story + "'")
       //                .add("intro='" + intro + "'")
       .toString
   }
-
-  //  override def hashCode: Int =
-  //    Objects.hash(
-  //      id.asInstanceOf,
-  //      isAdult.asInstanceOf,
-  //      brandId.asInstanceOf,
-  //      writer,
-  //      painter,
-  //      `type`,
-  //      tag,
-  //      story)
 
 
   def allImgs = {

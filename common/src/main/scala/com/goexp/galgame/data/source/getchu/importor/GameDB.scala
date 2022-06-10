@@ -3,11 +3,9 @@ package com.goexp.galgame.data.source.getchu.importor
 import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.Config.DB_NAME
-import com.goexp.galgame.common.model.game.GameState
-import com.goexp.galgame.data.model.{Brand, Game}
+import com.goexp.galgame.data.model.Game
 import com.goexp.galgame.data.source.getchu.query.GameFullQuery
 import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Filters.and
 import com.mongodb.client.model.Updates.{combine, set}
 import org.bson.Document
 
@@ -18,7 +16,7 @@ object GameDB {
 
   def insert(game: Game) = {
     val gameDoc = new Document("_id", game.id)
-//      .append("isAdult", game.isAdult)
+      //      .append("isAdult", game.isAdult)
       .append("smallImg", game.smallImg)
       .append("isNew", true)
 
@@ -51,7 +49,7 @@ object GameDB {
           set("tag", game.tag),
           set("story", game.story),
           set("intro", game.intro),
-          set("state", game.state.value),
+          set("isSame", game.isSame),
           set("brandId", game.brandId))
       )
     })
@@ -85,33 +83,14 @@ object GameDB {
     })
   }
 
-  def blockAllGame(item: Brand) =
-    tlp.exec(documentMongoCollection => {
-      documentMongoCollection.updateMany(
-        and(
-          Filters.eq("brandId", item.id),
-          Filters.ne("state", GameState.SAME.value),
-          Filters.ne("state", GameState.BLOCK.value)
-        )
-        , set("state", GameState.BLOCK.value))
-
-    })
-
-  def resetState(item: Brand) =
-    tlp.exec(documentMongoCollection => {
-      documentMongoCollection.updateMany(
-        Filters.eq("brandId", item.id)
-        , set("state", GameState.UNCHECKED.value))
-
-    })
 
   def exist(id: Int): Boolean = GameFullQuery().where(Filters.eq(id)).exists
 
 
-  object StateDB {
+  object MarkSame {
     def update(game: Game) =
       tlp.exec(documentMongoCollection => {
-        documentMongoCollection.updateOne(Filters.eq(game.id), set("state", game.state.value))
+        documentMongoCollection.updateOne(Filters.eq(game.id), set("isSame", game.isSame))
       })
   }
 

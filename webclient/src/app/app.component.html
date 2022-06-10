@@ -6,20 +6,35 @@
       <dt dPopover [position]="'right'"
           [trigger]="'hover'"
           [controlled]="true"
-          [popoverStyle]="{ backgroundColor: 'white', color: 'black' }" [content]="month">
+          [content]="month">
         Date
       </dt>
       <dd>
         <ul>
-          <li *ngFor="let date of dates"><a (click)="jump(date)">{{date.title}}</a></li>
+          <li *ngFor="let date of nearDates"><a (click)="jump(date)">{{date.title}}</a></li>
+          <li dPopover [position]="'right'"
+              [trigger]="'hover'"
+              [controlled]="true"
+              [content]="old">Old>
+          </li>
         </ul>
       </dd>
       <dt>
-        State
+        PlayState
       </dt>
       <dd>
         <ul>
-          <li *ngFor="let state of states"><a routerLink="/game/state/{{state}}">{{state | jp}}</a></li>
+          <li *ngFor="let playState of playStates"><a
+            routerLink="/game/playState/{{playState}}">{{playState | playStateJP}}</a></li>
+        </ul>
+      </dd>
+      <dt>
+        Emotion
+      </dt>
+      <dd>
+        <ul>
+          <li *ngFor="let emotion of emotions"><a
+            routerLink="/game/emotion/{{emotion}}">{{emotion | emotionJP}}</a></li>
         </ul>
       </dd>
       <dt>
@@ -56,6 +71,11 @@
 <ng-template #month>
   <app-month-calendar [months]="months" (select)="jump($event)">
   </app-month-calendar>
+</ng-template>
+<ng-template #old>
+  <ul>
+    <li *ngFor="let date of oldDates"><a (click)="jump(date)">{{date.title}}</a></li>
+  </ul>
 </ng-template>
 
 

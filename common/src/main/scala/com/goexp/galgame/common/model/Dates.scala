@@ -44,6 +44,16 @@ object Dates {
     (2000 to (thisYear + 1)).reverse.map(calc)
   }
 
+  def yearsAfter2010() = {
+    val thisYear = LocalDate.now().getYear
+    (2010 to (thisYear + 1)).reverse.map(calc)
+  }
+
+  def oldYears() = {
+    val thisYear = LocalDate.now().getYear
+    (2000 to 2009).reverse.map(calc)
+  }
+
   def calc(year: Int) = {
     val start = LocalDate.of(year, 1, 1)
     val end = LocalDate.of(year, 12, 31)

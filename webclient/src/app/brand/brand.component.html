@@ -10,8 +10,8 @@
       <input name="searchKey" ngModel required placeholder="ネイムを入れてください"/>
       <input type="submit" value="Search" [disabled]="form.invalid"/>
     </form>
-    <select *ngIf="states!=null" [(ngModel)]="state" (ngModelChange)="onStateSelected()" style="margin-left: auto">
-      <option *ngFor="let state of states" [value]="state.value">{{state.name }}</option>
+    <select *ngIf="emotions" [(ngModel)]="state" (ngModelChange)="onStateSelected()" style="margin-left: auto">
+      <option *ngFor="let emotion of emotions" [value]="emotion">{{emotion |emotionJP }}</option>
     </select>
   </header>
   <app-list [filter]="filter"></app-list>

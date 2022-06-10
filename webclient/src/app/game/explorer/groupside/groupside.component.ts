@@ -1,5 +1,5 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {CVGroupItem, DateGroupItem, TagGroupItem} from "../../../entity";
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Brand, CVGroupItem, DateGroupItem, EmotionGroupItem, StarGroupItem, TagGroupItem} from "../../../entity";
 import {GameService} from "../../game.service";
 
 @Component({
@@ -12,12 +12,21 @@ export class GroupsideComponent implements OnChanges {
   @Input()
   filter
 
+  @Output()
+  onBrandSelected = new EventEmitter<Brand>()
+
+  @Output()
+  onEmotionSelected = new EventEmitter<string>()
 
   dateGroup: DateGroupItem[]
 
   cvGroup: CVGroupItem[]
 
   tagGroup: TagGroupItem[]
+
+  starGroup: StarGroupItem[]
+
+  emotionGroup: EmotionGroupItem[]
 
   constructor(private service: GameService) {
   }
@@ -26,8 +35,7 @@ export class GroupsideComponent implements OnChanges {
 
     const filter = this.filter
 
-    if(filter!=null)
-    {
+    if (filter) {
       this.service.groupByDate(filter)
         .subscribe((data: DateGroupItem[]) => this.dateGroup = data)
 
@@ -36,7 +44,22 @@ export class GroupsideComponent implements OnChanges {
 
       this.service.groupByTag(filter)
         .subscribe((data: TagGroupItem[]) => this.tagGroup = data)
+
+      this.service.groupByStar(filter)
+        .subscribe((data: StarGroupItem[]) => this.starGroup = data)
+
+      this.service.groupByEmotion(filter)
+        .subscribe((data: EmotionGroupItem[]) => this.emotionGroup = data)
     }
+  }
+
+  brandSelected(brand: Brand) {
+    this.onBrandSelected.emit(brand)
+  }
+
+
+  emotionSelect(item: EmotionGroupItem) {
+    this.onEmotionSelected.emit(item.emotion)
   }
 
 }

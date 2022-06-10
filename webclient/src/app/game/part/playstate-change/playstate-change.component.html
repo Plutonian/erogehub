@@ -1,0 +1,11 @@
+<ul class="flex_{{row}} flex_float gap-5"
+    [class.PLAYING]="game.playState == 'PLAYING'"
+    [class.PLAYED]="game.playState == 'PLAYED'"
+>
+  <li [ngSwitch]="edit">
+    <span *ngSwitchCase="false" (click)="change()">{{game.playState | playStateJP}}</span>
+    <select *ngSwitchCase="true" [(ngModel)]="game.playState" (ngModelChange)="onStateSelected()">
+      <option *ngFor="let playState of playStates" [value]="playState">{{playState | playStateJP}}</option>
+    </select>
+  </li>
+</ul>

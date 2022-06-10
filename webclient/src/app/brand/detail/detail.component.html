@@ -1,33 +1,28 @@
 <main class="container test_border flex_column gap-5">
-  <header *ngIf="brand!=null" class="container test_border"
+  <header *ngIf="brand" class="container test_border"
           style="position: sticky;top: 0;right:0;background-color: white;z-index: 10">
-    <div class="flex_row">
+    <div class="flex_row gap-5">
       <!-- Comp -->
-      <span *ngIf="brand.comp!=null && brand.comp.length>0">{{brand.comp}} ></span>
+      <span *ngIf="brand.comp && brand.comp.length>0" class="title">{{brand.comp}} ></span>
 
       <!--Brand -->
       <select *ngIf="subBrands!= null &&subBrands.length>1;else single" [(ngModel)]="subBrandId"
               (ngModelChange)="onSubBrandSelected()">
         <option *ngFor="let subBrand of subBrands" [value]="subBrand.id">
-          <ng-template [ngIf]="subBrand.id != brand.id" [ngIfElse]="others">
-            {{subBrand.name}}  [{{subBrand.state.name}}]
-          </ng-template>
-          <ng-template #others>
-            {{subBrand.name}}
-          </ng-template>
+            {{subBrand.name}}  [{{subBrand.state |emotionJP}}]
         </option>
       </select>
       <ng-template #single>
-        <span>{{brand.name}}</span>
+        <span class="title">{{brand.name}}</span>
       </ng-template>
       <ul>
-        <li><a (click)="blockAll()">Black All</a></li>
-        <li><a (click)="normalAll()">Normal All</a></li>
+        <li><a (click)="blockAll()">HATE All</a></li>
+        <li><a (click)="normalAll()">NORMAL All</a></li>
       </ul>
 
       <!-- state change -->
-      <select style="margin-left: auto" [(ngModel)]="brand.state.value" (ngModelChange)="onStateSelected()">
-        <option *ngFor="let state of states" [value]="state.value">{{state.name}}</option>
+      <select style="margin-left: auto" [(ngModel)]="brand.state" (ngModelChange)="onStateSelected()">
+        <option *ngFor="let emotion of emotions" [value]="emotion">{{emotion | emotionJP}}</option>
       </select>
     </div>
   </header>

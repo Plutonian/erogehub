@@ -5,7 +5,8 @@ import com.goexp.common.util.Logger
 import com.goexp.common.util.string.ConsoleColors.RED
 import com.goexp.common.util.string.StringOption
 import com.goexp.common.util.string.Strings.{isEmpty, isNotEmpty}
-import com.goexp.galgame.common.model.game.{GameCharacter, GameState}
+import com.goexp.galgame.common.model.Emotion
+import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.data.model.{Brand, Game}
 import com.goexp.galgame.data.source.getchu.actor.InsertOrUpdateGameActor.isSameGame
 import com.goexp.galgame.data.source.getchu.importor.GameDB
@@ -73,12 +74,12 @@ class SaveGameActor extends DefaultActor {
       GameFullQuery().where(Filters.eq(remoteGame.id)).one() match {
         case Some(localGame) =>
 
-          remoteGame.state = localGame.state
+          //          remoteGame.state = localGame.state
 
           //Mark game is spec
-          if (!(localGame.state eq GameState.SAME)) {
+          if (!localGame.isSame) {
             if (isSameGame(remoteGame)) {
-              remoteGame.state = GameState.SAME
+              remoteGame.isSame = true
 
               logger.info(s"Mark SAME!!! ${remoteGame.simpleView}")
 
@@ -92,7 +93,7 @@ class SaveGameActor extends DefaultActor {
            * upgrade base content
            */
           GameDB.updateAll(remoteGame)
-          if (!GameState.ignoreState().contains(remoteGame.state))
+          if (!Emotion.ignore().contains(remoteGame.emotion))
             logger.info(s"Update Basic ${localGame.simpleView} ")
 
           import SaveGameActor.merge
@@ -121,7 +122,7 @@ class SaveGameActor extends DefaultActor {
 
           if (remoteImgSize > localImgSize) {
 
-            logger.info(s"Update SampleImage [${RED.s(localGame.id.toString)}] ${RED.s(localGame.name)} ${RED.s(localGame.state.toString)} ($localImgSize --> $remoteImgSize)")
+            logger.info(s"Update SampleImage [${RED.s(localGame.id.toString)}] ${RED.s(localGame.name)} ($localImgSize --> $remoteImgSize)")
             GameDB.updateImg(remoteGame)
           }
 
@@ -130,7 +131,7 @@ class SaveGameActor extends DefaultActor {
           // check game state
 
           //State not skip
-          if (!GameState.ignoreState().contains(remoteGame.state)) {
+          if (!Emotion.ignore().contains(remoteGame.emotion)) {
             sendTo[PrepareDownloadImageActor](remoteGame)
           } else {
             logger.debug(s"Skip download image ${remoteGame.simpleView}")

@@ -2,7 +2,7 @@ package qurey
 
 import com.goexp.common.util.date.DateUtil
 import com.goexp.db.mongo.ObjectCreator
-import com.goexp.galgame.common.model.game.{GameStatistics, LocationStatistics, StarStatistics, StateStatistics}
+import com.goexp.galgame.common.model.game.{EmotionStatistics, GameStatistics, LocationStatistics, StarStatistics}
 import com.typesafe.scalalogging.Logger
 import org.bson.Document
 
@@ -18,7 +18,7 @@ object StatCreators {
       Option(doc.getDate("end")).map(DateUtil.toLocalDate).orNull,
       doc.getInteger("count", 0),
       doc.getInteger("realCount", 0),
-      Option(doc.get("state").asInstanceOf[Document]).map(stateCreator.create).orNull,
+      Option(doc.get("emotion").asInstanceOf[Document]).map(emotionCreator.create).orNull,
       Option(doc.get("star").asInstanceOf[Document]).map(starCreator.create).orNull,
       Option(doc.get("location").asInstanceOf[Document]).map(locCreator.create).orNull
     )
@@ -28,15 +28,14 @@ object StatCreators {
     statistics
 
   }
-  private val stateCreator: ObjectCreator[StateStatistics] = (doc: Document) => {
+  private val emotionCreator: ObjectCreator[EmotionStatistics] = (doc: Document) => {
     logger.trace(s"<Doc> $doc")
 
-    val statistics = StateStatistics(
-      doc.getInteger("played"),
-      doc.getInteger("playing"),
-      doc.getInteger("hope"),
-//      doc.getInteger("viewLater"),
-      doc.getInteger("uncheck")
+    val statistics = EmotionStatistics(
+      doc.getInteger("LIKE"),
+      doc.getInteger("HOPE"),
+      doc.getInteger("NORMAL"),
+      doc.getInteger("HATE")
     )
 
     logger.trace(s"<statistics> ${statistics}")
@@ -65,9 +64,8 @@ object StatCreators {
     logger.trace(s"<Doc> $doc")
 
     val statistics = LocationStatistics(
-      doc.getInteger("local"),
-      //      doc.getInteger("netdisk"),
-      doc.getInteger("remote")
+      doc.getInteger("LOCAL"),
+      doc.getInteger("REMOTE")
     )
 
     logger.trace(s"<statistics> ${statistics}")

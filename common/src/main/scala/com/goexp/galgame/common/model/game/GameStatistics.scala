@@ -8,28 +8,32 @@ case class GameStatistics(
                            @BeanProperty end: LocalDate,
                            @BeanProperty count: Int,
                            @BeanProperty realCount: Int,
-                           @BeanProperty state: StateStatistics,
+                           @BeanProperty emotion: EmotionStatistics,
                            @BeanProperty star: StarStatistics,
                            @BeanProperty location: LocationStatistics
                          )
 
 
-case class StateStatistics(played: Int,
-                           playing: Int,
-                           hope: Int,
-                           //                           viewLater: Int,
-                           uncheck: Int)
+case class EmotionStatistics(
+                            @BeanProperty like: Int,
+                            @BeanProperty hope: Int,
+                            @BeanProperty normal: Int,
+                            @BeanProperty hate: Int
+                          )
 
 
-case class StarStatistics(zero: Int,
-                          one: Int,
-                          two: Int,
-                          three: Int,
-                          four: Int,
-                          five: Int)
+case class StarStatistics(
+                           @BeanProperty zero: Int,
+                           @BeanProperty one: Int,
+                           @BeanProperty two: Int,
+                           @BeanProperty three: Int,
+                           @BeanProperty four: Int,
+                           @BeanProperty five: Int
+                         )
 
 
-case class LocationStatistics(local: Int,
-                              //                              netdisk: Int,
-                              remote: Int)
+case class LocationStatistics(
+                               @BeanProperty local: Int,
+                               @BeanProperty remote: Int
+                             )
 

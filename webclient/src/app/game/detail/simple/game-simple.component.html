@@ -18,25 +18,32 @@
           <aside class="imageborder">
             <img src="{{game | img}}/char_s_{{character.index}}.jpg" loading="lazy"/>
           </aside>
+
+
           <main class="flex_column flex_grow">
                 <span style="font-size:14px">
                     {{character.name}}
                 </span>
-            <span *ngIf="character.cv?.trim().length>0" class="flex_row gap-3">
-        <span>CV: </span>
+            <div *ngIf="character.cv?.trim().length>0" class="flex_row gap-3">
+              <span>CV: </span>
 
-        <span *ngIf="character.trueCV?.trim().length>0; else cvInfo">
-          <app-jumpcv [cv]="character.trueCV" [isReal]="true"></app-jumpcv>
-        </span>
-        <ng-template #cvInfo>
-          <span>
-          <app-jumpcv [cv]="character.cv" [isReal]="false"></app-jumpcv>
-            </span>
-          <span>(<a target="_blank" href="{{character.cv | wiki}}">Wiki</a>)</span>
-          <span>(<a target="_blank" href="{{character.cv | bangumi}}">Bangumi</a>)</span>
-        </ng-template>
-      </span>
+              <div *ngIf="character.trueCV?.trim().length>0; else cvInfo" class="flex_row gap-3">
+                <app-jumpcv [cv]="character.trueCV" [isReal]="true"></app-jumpcv>
+                <d-rate [ngModel]="character.cvObj.star" [readonly]="true"></d-rate>
+              </div>
+              <ng-template #cvInfo>
+                <div class="flex_row gap-3">
+                  <app-jumpcv [cv]="character.cv" [isReal]="false"></app-jumpcv>
+
+                  <span>(<a target="_blank" href="{{character.cv | wiki}}">Wiki</a>)</span>
+                  <span>(<a target="_blank" href="{{character.cv | bangumi}}">Bangumi</a>)</span>
+                </div>
+              </ng-template>
+            </div>
+
           </main>
+
+
         </section>
       </div>
 

@@ -10,20 +10,22 @@
                 <span style="font-size:14px">
                     {{character.name}}
                 </span>
-      <span *ngIf="character.cv?.trim().length>0" class="flex_row gap-3">
+      <div *ngIf="character.cv?.trim().length>0" class="flex_row gap-3">
         <span>CV: </span>
 
-        <span *ngIf="character.trueCV?.trim().length>0; else cvInfo">
+        <div *ngIf="character.trueCV?.trim().length>0; else cvInfo" class="flex_row gap-3">
           <app-jumpcv [cv]="character.trueCV" [isReal]="true"></app-jumpcv>
-        </span>
+          <d-rate [ngModel]="character.cvObj.star" [readonly]="true"></d-rate>
+        </div>
         <ng-template #cvInfo>
-          <span>
-          <app-jumpcv [cv]="character.cv" [isReal]="false"></app-jumpcv>
-            </span>
-          <span>(<a target="_blank" href="{{character.cv | wiki}}">Wiki</a>)</span>
-          <span>(<a target="_blank" href="{{character.cv | bangumi}}">Bangumi</a>)</span>
+          <div class="flex_row gap-3">
+            <app-jumpcv [cv]="character.cv" [isReal]="false"></app-jumpcv>
+
+            <span>(<a target="_blank" href="{{character.cv | wiki}}">Wiki</a>)</span>
+            <span>(<a target="_blank" href="{{character.cv | bangumi}}">Bangumi</a>)</span>
+          </div>
         </ng-template>
-      </span>
+      </div>
       <ng-template #desc>
         <textarea readonly="readonly" rows="10" style="font-size: 18px;border: none"
                   class="flex_grow">{{character.intro}}</textarea>

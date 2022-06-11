@@ -40,7 +40,7 @@ export class BrandDetailComponent implements OnInit {
 
     if (this.subBrands != null)
       this.subBrands.filter(brand => brand.id == this.brand.id).forEach(brand => {
-        brand.state=this.brand.state
+        brand.state = this.brand.state
       })
 
     const brandState = Emotions[`${this.brand.state}`];
@@ -89,7 +89,7 @@ export class BrandDetailComponent implements OnInit {
           .subscribe((data: Brand) => {
             this.brand = data
 
-            this.titleService.setTitle(`Brand: ${data.name}`)
+            this.titleService.setTitle(`${data.name}`)
 
             if (this.brand?.comp != null) {
 

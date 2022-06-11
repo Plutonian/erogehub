@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-by-cv',
@@ -9,18 +10,19 @@ import {ActivatedRoute} from "@angular/router";
 export class ByCVComponent implements OnInit {
   filter: string
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private titleService: Title) {
   }
 
   ngOnInit(): void {
 
     this.route.params.subscribe(p => {
-
       // @ts-ignore
-      if (p.cv != null) {
-        // @ts-ignore
-        const filter = {'gamechar.cv': p.cv}
+      const cv = p.cv
 
+      if (cv) {
+        this.titleService.setTitle(`${cv}`)
+
+        const filter = {'gamechar.cv': cv}
         this.filter = JSON.stringify(filter)
       }
 

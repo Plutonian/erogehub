@@ -74,7 +74,7 @@ class GameController extends Controller {
     val cvlist = list.to(LazyList)
 
       .groupBy(s => s.emotion).to(LazyList)
-      .sortBy { case (_, count) => count.size }.reverse
+      .sortBy { case (emotion, _) => emotion.value }.reverse
       //        .take(20)
       .map { case (emotion, games) =>
         EmotionItem(emotion.toString, games.size, emotion, games.toArray)

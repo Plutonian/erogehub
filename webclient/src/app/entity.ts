@@ -41,7 +41,8 @@ export interface GameCharacter {
   "cv": string
   "intro": string
   "trueCV": string
-  "index": number
+  "index": number,
+  "cvObj"?: CV
 }
 
 export interface MyDate {
@@ -68,7 +69,44 @@ export interface Guide {
 
 
 export interface CV {
-  name: string
+  name: string,
+  trueName: string,
+  star: number,
+  tag: string[],
+  statistics: GameStatistics
+}
+
+export interface GameStatistics {
+
+  start: MyDate,
+  end: MyDate,
+  count: number,
+  realCount: number,
+  emotion: EmotionStatistics,
+  star: StarStatistics,
+  location: LocationStatistics
+
+}
+
+export interface EmotionStatistics {
+  like: number,
+  hope: number,
+  normal: number,
+  hate: number
+}
+
+export interface StarStatistics {
+  zero: number,
+  one: number,
+  two: number,
+  three: number,
+  four: number,
+  five: number
+}
+
+export interface LocationStatistics {
+  local: number,
+  remote: number
 }
 
 export interface TagGroup {

@@ -2,10 +2,10 @@ package api
 
 import api.common.ExpendResult.ToJson
 import com.goexp.galgame.common.model.CV
-import com.goexp.galgame.data.source.getchu.query.CVQuery
 import play.libs.Json
 import play.mvc.Controller
 import play.mvc.Results.ok
+import qurey.CVQuery
 
 import scala.beans.BeanProperty
 import scala.jdk.CollectionConverters._
@@ -14,6 +14,8 @@ case class CVGroup(
                     @BeanProperty star: Int,
                     @BeanProperty list: java.util.List[CV]
                   )
+
+
 
 class CVController extends Controller {
   Config.init()
@@ -28,5 +30,6 @@ class CVController extends Controller {
 
     ok(Json.toJson(list)).asJson()
   }
+
 
 }

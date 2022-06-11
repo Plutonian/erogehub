@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-by-truecv',
@@ -10,7 +11,7 @@ export class ByTruecvComponent implements OnInit {
 
   filter: string
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private titleService: Title) {
   }
 
   ngOnInit(): void {
@@ -18,9 +19,13 @@ export class ByTruecvComponent implements OnInit {
     this.route.params.subscribe(p => {
 
       // @ts-ignore
-      if (p.truecv != null) {
-        // @ts-ignore
-        const filter = {'gamechar.truecv': p.truecv}
+      const truecv = p.truecv
+
+
+      if (truecv) {
+        this.titleService.setTitle(`${truecv}`)
+
+        const filter = {'gamechar.truecv': truecv}
 
         this.filter = JSON.stringify(filter)
       }

@@ -26,7 +26,7 @@ object GameStat {
         end.orNull,
         count,
         realCount,
-        StateStatistics(
+        EmotionStatistics(
           statMap.getOrElse(Emotion.LIKE, 0),
           statMap.getOrElse(Emotion.HOPE, 0),
           statMap.getOrElse(Emotion.NORMAL, 0),

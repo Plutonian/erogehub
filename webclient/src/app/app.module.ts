@@ -3,7 +3,16 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
 import {DetailComponent} from './game/detail/detail.component';
-import {BangumiPipl, BlockPipl, EmotionJPPipe, ImgUrlPipl, LocationPipl, PlayStatePipl, WikiPipl} from "./imgUrl.pipl";
+import {
+  BangumiPipl,
+  BlockPipl,
+  EmotionJPPipe,
+  ImgUrlPipl,
+  LocationPipl,
+  MyDatePipl,
+  PlayStatePipl,
+  WikiPipl
+} from "./imgUrl.pipl";
 import {HttpClientModule} from "@angular/common/http";
 import {GameService} from "./game/game.service";
 import {GameCharactersComponent} from './game/detail/game-characters/game-characters.component';
@@ -31,6 +40,7 @@ import {
   CarouselModule,
   DevUIModule,
   DrawerModule,
+  DropDownModule,
   PanelModule,
   PopoverModule,
   SplitterModule,
@@ -62,7 +72,8 @@ import {GridCellComponent} from "./game/explorer/cell/grid-cell/grid-cell.compon
 import {FilterComponent} from "./game/explorer/filter/filter.component";
 import {ListCellComponent} from "./game/explorer/cell/list-cell/list-cell.component";
 import {ByDateComponent} from './game/query/by-date/by-date.component';
-import { GameSimpleComponent } from './game/detail/simple/game-simple.component';
+import {GameSimpleComponent} from './game/detail/simple/game-simple.component';
+import {IconModule} from "ng-devui/icon";
 
 
 const routes: Route[] = [
@@ -103,6 +114,7 @@ const routes: Route[] = [
     LocationPipl,
     EmotionJPPipe,
     BlockPipl,
+    MyDatePipl,
     AppComponent,
     DetailComponent,
     GameCharactersComponent,
@@ -160,7 +172,9 @@ const routes: Route[] = [
     DrawerModule,
     TreeModule,
     PopoverModule,
-    ToggleModule
+    ToggleModule,
+    DropDownModule,
+    IconModule
   ],
   providers: [
     GameService,

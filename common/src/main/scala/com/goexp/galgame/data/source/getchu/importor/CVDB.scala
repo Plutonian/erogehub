@@ -4,9 +4,9 @@ import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.Config.DB_NAME
 import com.goexp.galgame.common.model._
-import com.goexp.galgame.common.model.game.{GameStatistics, LocationStatistics, StarStatistics, StateStatistics}
+import com.goexp.galgame.common.model.game.{EmotionStatistics, GameStatistics, LocationStatistics, StarStatistics}
 import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Updates.{combine, set}
+import com.mongodb.client.model.Updates.{combine, set, unset}
 
 object CVDB {
   val tlp = new DBOperator(Config.DB_STRING, DB_NAME, "cv")
@@ -14,7 +14,7 @@ object CVDB {
   def updateStatistics(cv: CV, statistics: GameStatistics) = {
 
     val GameStatistics(start, end, count, realCount,
-    StateStatistics(played, playing, hope, uncheck),
+    EmotionStatistics(like, hope, normal, hate),
     StarStatistics(zero, one, two, three, four, five),
     LocationStatistics(local, remote)) = statistics
 
@@ -25,10 +25,12 @@ object CVDB {
         set("statistics.count", count),
         set("statistics.realCount", realCount),
 
-        set("statistics.state.played", played),
-        set("statistics.state.playing", playing),
-        set("statistics.state.hope", hope),
-        set("statistics.state.uncheck", uncheck),
+        unset("statistics.state"),
+
+        set("statistics.emotion.LIKE", like),
+        set("statistics.emotion.HOPE", hope),
+        set("statistics.emotion.NORMAL", normal),
+        set("statistics.emotion.HATE", hate),
 
         set("statistics.star.zero", zero),
         set("statistics.star.one", one),
@@ -37,8 +39,9 @@ object CVDB {
         set("statistics.star.four", four),
         set("statistics.star.five", five),
 
-        set("statistics.location.local", local),
-        set("statistics.location.remote", remote)
+        unset("statistics.location"),
+        set("statistics.location.LOCAL", local),
+        set("statistics.location.REMOTE", remote)
       ))
     })
   }

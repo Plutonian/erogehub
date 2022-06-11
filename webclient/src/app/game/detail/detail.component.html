@@ -33,12 +33,6 @@
                src="{{game|img}}/simple_l_{{img.index}}.jpg" loading="lazy"/>
 
         </ng-container>
-<!--                <d-carousel style="max-width: 800px;align-items: center; " class="flex_row">-->
-<!--                  <d-carousel-item *ngFor="let img of game.gameImgs">-->
-<!--                    <img class="sample_img" style="width: 100%; height: 100%"-->
-<!--                         src="{{game|img}}/simple_l_{{img.index}}.jpg"/>-->
-<!--                  </d-carousel-item>-->
-<!--                </d-carousel>-->
       </div>
     </section>
 
@@ -53,18 +47,41 @@
 
   <!-- control bar -->
   <footer class="test_border bg-white bottomBar flex_row" style="position: sticky;bottom: 0;">
-    <ul class="flex_row gap-5" style="margin-left: auto">
-      <li><a routerLink="/game/guide/{{game.titles.mainTitle}}">攻略</a></li>
-      <li><a target="_blank" href="http://www.getchu.com/soft.phtml?id={{game.id}}&gc=gc">GetChu</a></li>
-      <li><a target="_blank" href="https://ja.wikipedia.org/w/index.php?search={{game.titles.mainTitle}}">Wiki</a>
-      </li>
-      <li><a target="_blank"
-             href="https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/kensaku.php?category=game&word_category=name&mode=normal&word={{game.titles.mainTitle}}">ErogameScape</a>
-      </li>
-      <li><a target="_blank" href="https://galge.fun/subjects/search?keyword={{game.titles.mainTitle}}">2DF</a></li>
-      <li><a target="_blank"
-             href="https://www.ggbases.com/search.so?p=0&advanced=&title={{game.titles.mainTitle}}">GGBases</a>
-      </li>
-    </ul>
+
+    <a routerLink="/game/guide/{{game.titles.mainTitle}}">攻略</a>
+    <section style="margin-left: auto">
+      <div class="btn-group" dDropDown [trigger]="'hover'" appendToBody>
+        <d-icon dDropDownToggle [icon]="'icon-select-arrow'" [operable]="true">
+          <span iconPrefix>Search</span>
+        </d-icon>
+        <ul dDropDownMenu class="devui-dropdown-menu" role="menu">
+          <li role="menuitem">
+            <a target="_blank" href="https://www.google.com/search?q={{game.titles.mainTitle}}">Google</a>
+          </li>
+          <li role="menuitem">
+            <a target="_blank"
+               href="https://ja.wikipedia.org/w/index.php?search={{game.titles.mainTitle}}">Wiki</a>
+          </li>
+          <li role="menuitem">
+            <a target="_blank" href="http://www.getchu.com/soft.phtml?id={{game.id}}&gc=gc">GetChu</a>
+          </li>
+          <li role="menuitem">
+            <a target="_blank"
+               href="https://www.dlsite.com/pro/fsr/=/language/jp/sex_category[0]/male/keyword/{{game.titles.mainTitle}}">DLsite</a>
+          </li>
+          <li role="menuitem">
+            <a target="_blank"
+               href="https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/kensaku.php?category=game&word_category=name&mode=normal&word={{game.titles.mainTitle}}">ErogameScape</a>
+          </li>
+          <li role="menuitem">
+            <a target="_blank" href="https://galge.fun/subjects/search?keyword={{game.titles.mainTitle}}">2DF</a>
+          </li>
+          <li role="menuitem">
+            <a target="_blank"
+               href="https://www.ggbases.com/search.so?p=0&advanced=&title={{game.titles.mainTitle}}">GGBases</a>
+          </li>
+        </ul>
+      </div>
+    </section>
   </footer>
 </div>

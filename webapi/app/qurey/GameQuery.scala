@@ -1,6 +1,7 @@
 package qurey
 
 import com.goexp.common.cache.SimpleCache
+import com.goexp.common.util.string.Strings
 import com.goexp.db.mongo.{DBQuery, ObjectCreator}
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.Config.DB_NAME
@@ -16,6 +17,20 @@ import com.mongodb.client.model.Sorts.descending
 import com.typesafe.scalalogging.Logger
 import org.bson.Document
 import qurey.GameQuery.SimpleGameCreator
+
+import scala.jdk.CollectionConverters._
+
+object CVMap {
+  def init() = {
+    CVQuery().scalaList().map(cv => (cv.name, cv)).toMap
+  }
+
+  lazy private val cvMap = init()
+
+  def apply() = cvMap
+
+
+}
 
 object GameQuery {
 
@@ -55,6 +70,12 @@ object GameQuery {
       g.brand = BrandCache.get(brandId)
       g.star = doc.getInteger("star", 0)
       g.isSame = doc.getBoolean("isSame")
+
+      if (g.gameCharacters != null) {
+        g.gameCharacters.asScala.filter(gc => Strings.isNotEmpty(gc.trueCV)).foreach(gc => {
+          gc.cvObj = CVMap().get(gc.trueCV).orNull
+        })
+      }
 
       logger.trace(s"<game>${g}")
 

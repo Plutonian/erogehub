@@ -8,7 +8,14 @@
     </header>
     <main class="flex_row flex_float gap-5">
 
-      <app-jumpcv *ngFor="let cv of group.list" [cv]="cv.name" [isReal]="true"></app-jumpcv>
+      <div *ngFor="let cv of group.list" class="container test_border">
+        <app-jumpcv [cv]="cv.name" [isReal]="true" title="{{cv | json}}"></app-jumpcv>
+        <div>
+          <span>{{cv.statistics.start.year}}</span>
+          <span>-</span>
+          <span>{{cv.statistics.end.year}}</span>
+        </div>
+      </div>
     </main>
   </section>
 </main>

@@ -2,68 +2,60 @@
   <nav class="sidebar container">
     <h2><a routerLink="/">Home</a></h2>
     <h2><a routerLink="/game/search">Search</a></h2>
-    <dl>
-      <dt dPopover [position]="'right'"
+
+
+    <section>
+      <h2 dPopover [position]="'right'"
           [trigger]="'hover'"
           [controlled]="true"
-          [content]="month">
-        Date
-      </dt>
-      <dd>
-        <ul>
-          <li *ngFor="let date of nearDates"><a routerLink="/game/date/{{date.range.start}}/{{date.range.end}}"
-                                                >{{date.title}}</a></li>
-          <li dPopover [position]="'right'"
-              [trigger]="'hover'"
-              [controlled]="true"
-              [content]="old">Old>
-          </li>
-        </ul>
-      </dd>
-      <dt>
-        PlayState
-      </dt>
-      <dd>
-        <ul>
-          <li *ngFor="let playState of playStates"><a
-            routerLink="/game/playState/{{playState}}">{{playState | playStateJP}}</a></li>
-        </ul>
-      </dd>
-      <dt>
-        Emotion
-      </dt>
-      <dd>
-        <ul>
-          <li *ngFor="let emotion of emotions"><a
-            routerLink="/game/emotion/{{emotion}}">{{emotion | emotionJP}}</a></li>
-        </ul>
-      </dd>
-      <dt>
-        Location
-      </dt>
-      <dd>
-        <ul>
-          <li *ngFor="let location of locations"><a routerLink="/game/location/{{location}}">{{location | loc}}</a>
-          </li>
-        </ul>
-      </dd>
-      <dt>
-        Star
-      </dt>
-      <dd>
-        <ul>
-          <li *ngFor="let star of stars"><a routerLink="/game/star/{{star}}">{{star}}</a></li>
-        </ul>
-      </dd>
-      <dt>Other</dt>
-      <dd>
-        <ul>
-          <li><a routerLink="/cv">CV</a></li>
-          <li><a routerLink="/tag">Tag</a></li>
-          <li><a routerLink="/brand">BRAND</a></li>
-        </ul>
-      </dd>
-    </dl>
+          [popoverStyle]="{color:'black'}"
+          [content]="month">Date</h2>
+      <ul>
+        <li *ngFor="let date of nearDates"><a routerLink="/game/date/{{date.range.start}}/{{date.range.end}}"
+        >{{date.title}}</a></li>
+        <li dPopover [position]="'right'"
+            [trigger]="'hover'"
+            [controlled]="true"
+            [content]="old">Old>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>PlayState</h2>
+      <ul>
+        <li *ngFor="let playState of playStates"><a
+          routerLink="/game/playState/{{playState}}">{{playState | playStateJP}}</a></li>
+      </ul>
+    </section>
+    <section>
+      <h2>Emotion</h2>
+      <ul>
+        <li *ngFor="let emotion of emotions"><a
+          routerLink="/game/emotion/{{emotion}}">{{emotion | emotionJP}}</a></li>
+      </ul>
+    </section>
+    <section>
+      <h2>Location</h2>
+      <ul>
+        <li *ngFor="let location of locations"><a routerLink="/game/location/{{location}}">{{location | loc}}</a>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>Star</h2>
+      <ul>
+        <li *ngFor="let star of stars"><a routerLink="/game/star/{{star}}">{{star}}</a></li>
+      </ul>
+    </section>
+    <section>
+      <h2>Other</h2>
+      <ul>
+        <li><a routerLink="/cv">CV</a></li>
+        <li><a routerLink="/tag">Tag</a></li>
+        <li><a routerLink="/brand">BRAND</a></li>
+      </ul>
+    </section>
+
   </nav>
   <main class="flex_grow main_container">
     <router-outlet></router-outlet>

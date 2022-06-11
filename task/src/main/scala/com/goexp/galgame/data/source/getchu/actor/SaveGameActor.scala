@@ -5,7 +5,6 @@ import com.goexp.common.util.Logger
 import com.goexp.common.util.string.ConsoleColors.RED
 import com.goexp.common.util.string.StringOption
 import com.goexp.common.util.string.Strings.{isEmpty, isNotEmpty}
-import com.goexp.galgame.common.model.Emotion
 import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.data.model.{Brand, Game}
 import com.goexp.galgame.data.source.getchu.actor.InsertOrUpdateGameActor.isSameGame
@@ -74,8 +73,6 @@ class SaveGameActor extends DefaultActor {
       GameFullQuery().where(Filters.eq(remoteGame.id)).one() match {
         case Some(localGame) =>
 
-          //          remoteGame.state = localGame.state
-
           //Mark game is spec
           if (!localGame.isSame) {
             if (isSameGame(remoteGame)) {
@@ -93,8 +90,8 @@ class SaveGameActor extends DefaultActor {
            * upgrade base content
            */
           GameDB.updateAll(remoteGame)
-          if (!Emotion.ignore().contains(remoteGame.emotion))
-            logger.info(s"Update Basic ${localGame.simpleView} ")
+
+          logger.info(s"Update Basic ${localGame.simpleView} ")
 
           import SaveGameActor.merge
 
@@ -128,14 +125,9 @@ class SaveGameActor extends DefaultActor {
 
           remoteGame.smallImg = localGame.smallImg
 
-          // check game state
 
-          //State not skip
-          if (!Emotion.ignore().contains(remoteGame.emotion)) {
-            sendTo[PrepareDownloadImageActor](remoteGame)
-          } else {
-            logger.debug(s"Skip download image ${remoteGame.simpleView}")
-          }
+          sendTo[PrepareDownloadImageActor](remoteGame)
+
 
         case _ =>
       }

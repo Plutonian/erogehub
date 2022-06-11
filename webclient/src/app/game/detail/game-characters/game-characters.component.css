@@ -1,5 +1,6 @@
 .characters {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fill,260px);
+  justify-content: start;
   gap: 20px
 }
 

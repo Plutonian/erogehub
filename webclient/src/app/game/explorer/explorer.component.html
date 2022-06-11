@@ -3,7 +3,8 @@
     <d-splitter style="height: 100%">
       <d-splitter-pane maxSize="400px" size="300px" minSize="300px" [collapsible]="true" class="all_height"
                        style="overflow: auto">
-        <app-groupside [filter]="filter" (onBrandSelected)="onBrandSelected($event)" (onEmotionSelected)="onEmotionSelected($event)"></app-groupside>
+        <app-groupside [filter]="filter" (onBrandSelected)="onBrandSelected($event)"
+                       (onEmotionSelected)="onEmotionSelected($event)"></app-groupside>
       </d-splitter-pane>
       <d-splitter-pane>
         <div class="flex_column all_height">
@@ -14,7 +15,6 @@
           <div [ngSwitch]="size" class="flex_grow" style="overflow: auto" *ngIf="gamelist&&gamelist.length>0">
             <main *ngSwitchCase="'Grid'"
                   class="grid game-grid div2 test_border container">
-
               <app-grid-cell (remove)="gameDelete($event)" [game]="g" *ngFor="let g of gamelist"></app-grid-cell>
             </main>
 
@@ -36,7 +36,8 @@
       <span dPopover [position]="'top'"
             [trigger]="'hover'"
             [controlled]="true"
-            [popoverStyle]="{ backgroundColor: 'white', color: 'black',border:'1px solid black' }" [content]="sortPanel">Sort</span>
+            [popoverStyle]="{ backgroundColor: 'white', color: 'black',border:'1px solid black' }"
+            [content]="sortPanel">Sort</span>
               <select class="flex_row gap-5" [(ngModel)]="size">
                 <option value="Grid">Grid</option>
                 <option value="List">List</option>

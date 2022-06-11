@@ -69,4 +69,8 @@ object GetchuGameLocal {
     s"${gamePathString(game)}/char_s_$index"
   }
 
+  def gameCharB(game: CommonGame, index: Int) = {
+    s"${gamePathString(game)}/char_s_$index"
+  }
+
 }

@@ -63,16 +63,7 @@ export class AppComponent implements OnInit {
 
   jump(dateCommand: DateGroupItem) {
 
-    // Date.parse(`${dateCommand.start} 00:00:00`)
-
-    const start = Date.parse(`${dateCommand.range.start} 00:00:00`)
-    const end = Date.parse(`${dateCommand.range.end} 23:59:59`)
-
-    console.log(start, end)
-    // console.log(start.getTime(), end.getTime())
-
-    const filter = {"publishDate": {"$gte": {"$date": start}, "$lte": {"$date": end}}}
-    this.router.navigateByUrl(`/game/query/${JSON.stringify(filter)}`)
+    this.router.navigateByUrl(`/game/date/${dateCommand.range.start}/${dateCommand.range.end}`)
   }
 
 }

@@ -1,45 +1,49 @@
 <div dAnchorBox *ngIf="game" class="container test_border">
-  <header class="info bg-white" style="margin-left: auto;position:sticky;top:0;">
+  <header class="info bg-white">
     <app-list-cell [game]="game"></app-list-cell>
   </header>
+  <main class="flex_column">
 
-  <dl>
-    <dt class="group_title" [dAnchor]="'story'">ストーリー</dt>
-    <dd>
-      <section class="flex_row">
-        <img class="img_alone" title="{{game.intro}}"
-             src="{{game | img}}/game_l.jpg"/>
-        <textarea class="flex_grow" style="font-size: 20px;border: none"
-                  readonly="readonly">{{game.story}}</textarea>
-      </section>
-    </dd>
 
-    <ng-template [ngIf]="game.gameCharacters?.length>0">
-      <dt class="group_title" [dAnchor]="'char'">キャラクター</dt>
-      <dd>
-        <app-game-characters [game]="game"></app-game-characters>
-      </dd>
-    </ng-template>
-
-    <ng-template [ngIf]="game.gameImgs?.length>0">
-      <dt class="group_title" [dAnchor]="'sample'">サンプル画像</dt>
-      <dd>
-        <!--imgs-->
-        <section *ngIf="game.gameImgs?.length>0" class="flex_row flex_float gap-5">
-          <img *ngFor="let img of game.gameImgs" class="sample_img"
-               src="{{game|img}}/simple_l_{{img.index}}.jpg" loading="lazy"/>
+    <section>
+      <h2 class="group_title" [dAnchor]="'story'">ストーリー</h2>
+      <main class="flex_row">
+        <section class="flex_row">
+          <img class="img_alone" title="{{game.intro}}"
+               src="{{game | img}}/game_l.jpg"/>
         </section>
+        <textarea class="flex_grow" rows="10" style="font-size: 20px;border: none;"
+                  readonly="readonly">{{game.story}}</textarea>
+      </main>
+    </section>
 
-        <!--        <d-carousel style="max-width: 800px;align-items: center; " class="flex_row">-->
-        <!--          <d-carousel-item *ngFor="let img of g.gameImgs">-->
-        <!--            <img class="sample_img" style="width: 100%; height: 100%"-->
-        <!--                 src="{{g|img}}/simple_l_{{img.index}}.jpg"/>-->
-        <!--          </d-carousel-item>-->
-        <!--        </d-carousel>-->
+    <section *ngIf="game.gameCharacters?.length>0">
+      <h2 class="group_title" [dAnchor]="'char'">キャラクター</h2>
+      <app-game-characters [game]="game"></app-game-characters>
+    </section>
 
-      </dd>
-    </ng-template>
-  </dl>
+    <section *ngIf="game.gameImgs?.length>0">
+      <h2 class="group_title" [dAnchor]="'sample'">サンプル画像</h2>
+
+
+      <!--imgs-->
+      <div *ngIf="game.gameImgs?.length>0" class="flex_row flex_float gap-5">
+        <ng-container *ngFor="let img of game.gameImgs">
+          <img class="sample_img"
+               src="{{game|img}}/simple_l_{{img.index}}.jpg" loading="lazy"/>
+
+        </ng-container>
+<!--                <d-carousel style="max-width: 800px;align-items: center; " class="flex_row">-->
+<!--                  <d-carousel-item *ngFor="let img of game.gameImgs">-->
+<!--                    <img class="sample_img" style="width: 100%; height: 100%"-->
+<!--                         src="{{game|img}}/simple_l_{{img.index}}.jpg"/>-->
+<!--                  </d-carousel-item>-->
+<!--                </d-carousel>-->
+      </div>
+    </section>
+
+  </main>
+
 
   <ul class="step-nav bg-white" style="position: fixed;right: 60px;top:200px;background-color: white">
     <li><a [dAnchorLink]="'story'">ストーリー</a></li>

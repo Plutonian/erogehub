@@ -8,9 +8,22 @@
 
   <main class="anchor_parent">
 
-    <img *ngIf="large;else small" class="img_alone" src="{{game|img}}/game_s.jpg" (click)="openDrawer()" loading="lazy"/>
+    <img dPopover
+         [trigger]="'click'"
+         [controlled]="true"
+         [popoverStyle]="{  backgroundColor: 'white',
+  color: 'black',
+  border: '1px solid black'}"
+         [content]="drawerContent" *ngIf="large;else small" class="img_alone" src="{{game|img}}/game_s.jpg"
+         loading="lazy"/>
     <ng-template #small>
-      <img class="img_alone" src="{{game|img}}/game_t200.jpg" (click)="openDrawer()" loading="lazy"/>
+      <img dPopover
+           [trigger]="'click'"
+           [controlled]="true"
+           [popoverStyle]="{  backgroundColor: 'white',
+  color: 'black',
+  border: '1px solid black'}"
+           [content]="drawerContent" class="img_alone" src="{{game|img}}/game_t200.jpg" loading="lazy"/>
     </ng-template>
     <app-formatted-date class="anchor bg-white" style="bottom: 0;right: 0" *ngIf="game.publishDate"
                         [game]="game"></app-formatted-date>
@@ -45,7 +58,7 @@
 
 
   </main>
-  <div class="bottomBar flex_row">
+  <div class="bottomBar flex_row gap-5">
     <app-game-playstate-change [game]="game"></app-game-playstate-change>
 
     <app-game-marksame style="margin-left: auto;" [game]="game"></app-game-marksame>
@@ -53,5 +66,5 @@
   </div>
 </section>
 <ng-template #drawerContent>
-  <app-game-detail [game]="game"></app-game-detail>
+  <app-game-simple [game]="game"></app-game-simple>
 </ng-template>

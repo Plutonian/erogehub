@@ -1,0 +1,54 @@
+<div dAnchorBox *ngIf="game" class="container">
+  <d-tabs>
+    <d-tab id="story" title="ストーリー">
+      <main class="flex_row">
+        <section class="flex_row">
+          <img class="img_alone" title="{{game.intro}}"
+               src="{{game | img}}/game_s.jpg"/>
+        </section>
+        <textarea class="flex_grow" rows="10" style="font-size: 20px;border: none;"
+                  readonly="readonly">{{game.story}}</textarea>
+      </main>
+    </d-tab>
+    <d-tab id="char" title="キャラクター" *ngIf="game.gameCharacters?.length>0">
+
+      <!--characters-->
+      <div class="flex_row container" style="max-width: 800px;overflow-x: auto">
+        <section *ngFor="let character of game.gameCharacters" class="flex_column">
+          <aside class="imageborder">
+            <img src="{{game | img}}/char_s_{{character.index}}.jpg" loading="lazy"/>
+          </aside>
+          <main class="flex_column flex_grow">
+                <span style="font-size:14px">
+                    {{character.name}}
+                </span>
+            <span *ngIf="character.cv?.trim().length>0" class="flex_row gap-3">
+        <span>CV: </span>
+
+        <span *ngIf="character.trueCV?.trim().length>0; else cvInfo">
+          <app-jumpcv [cv]="character.trueCV" [isReal]="true"></app-jumpcv>
+        </span>
+        <ng-template #cvInfo>
+          <span>
+          <app-jumpcv [cv]="character.cv" [isReal]="false"></app-jumpcv>
+            </span>
+          <span>(<a target="_blank" href="{{character.cv | wiki}}">Wiki</a>)</span>
+          <span>(<a target="_blank" href="{{character.cv | bangumi}}">Bangumi</a>)</span>
+        </ng-template>
+      </span>
+          </main>
+        </section>
+      </div>
+
+    </d-tab>
+    <d-tab id="sample" title="サンプル画像" *ngIf="game.gameImgs?.length>0">
+      <d-carousel style="max-width: 800px;align-items: center; " class="flex_row">
+        <d-carousel-item *ngFor="let img of game.gameImgs">
+          <img class="sample_img" style="width: 100%; height: 100%"
+               src="{{game|img}}/simple_l_{{img.index}}.jpg"/>
+        </d-carousel-item>
+      </d-carousel>
+    </d-tab>
+  </d-tabs>
+</div>
+

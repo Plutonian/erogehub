@@ -16,14 +16,22 @@ class ParsePageActor extends DefaultActor {
     case (gameId: Int, html: String) =>
       Objects.requireNonNull(html)
 
-      val game = new DetailPageParser().parse(gameId, html)
+      try {
+        val game = new DetailPageParser().parse(gameId, html)
 
-      if (game.brandId == 0) {
-        logger.error(s"Get brandid error Game[${game.id}] ${game.name}")
-      } else {
-
-        sendTo[SaveGameActor](game)
+        if (game.brandId == 0) {
+          logger.error(s"Get brandid error Game[${game.id}] ${game.name}")
+        } else {
+          sendTo[SaveGameActor](game)
+        }
       }
+      catch {
+        case _: NullPointerException =>
+          logger.error(s"Get Game Null [Id]:$gameId\n HTML \n\n$html")
+      }
+
+
+
 
 
     // parse game list

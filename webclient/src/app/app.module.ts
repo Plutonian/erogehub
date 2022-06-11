@@ -61,6 +61,8 @@ import {ByTruecvComponent} from "./game/query/by-truecv/by-truecv.component";
 import {GridCellComponent} from "./game/explorer/cell/grid-cell/grid-cell.component";
 import {FilterComponent} from "./game/explorer/filter/filter.component";
 import {ListCellComponent} from "./game/explorer/cell/list-cell/list-cell.component";
+import {ByDateComponent} from './game/query/by-date/by-date.component';
+import { GameSimpleComponent } from './game/detail/simple/game-simple.component';
 
 
 const routes: Route[] = [
@@ -77,6 +79,7 @@ const routes: Route[] = [
       {path: 'search', component: GameSearchComponent},
       {path: 'guide/:searchKey', component: GuideComponent},
       {path: 'star/:star', component: ByStarComponent},
+      {path: 'date/:start/:end', component: ByDateComponent},
       {path: 'tag/:tag', component: ByTagComponent},
       {path: 'painter/:painter', component: ByPainterComponent},
       {path: 'emotion/:emotion', component: ByEmotionComponent},
@@ -137,7 +140,9 @@ const routes: Route[] = [
     PlaystateChangeComponent,
     ByPlaystateComponent,
     ByEmotionComponent,
-    EmotionChangeComponent
+    EmotionChangeComponent,
+    ByDateComponent,
+    GameSimpleComponent
   ],
   imports: [
     BrowserModule,

@@ -11,7 +11,8 @@
       </dt>
       <dd>
         <ul>
-          <li *ngFor="let date of nearDates"><a (click)="jump(date)">{{date.title}}</a></li>
+          <li *ngFor="let date of nearDates"><a routerLink="/game/date/{{date.range.start}}/{{date.range.end}}"
+                                                >{{date.title}}</a></li>
           <li dPopover [position]="'right'"
               [trigger]="'hover'"
               [controlled]="true"

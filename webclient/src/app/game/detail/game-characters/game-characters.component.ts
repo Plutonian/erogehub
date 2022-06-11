@@ -12,21 +12,6 @@ export class GameCharactersComponent implements OnInit {
   @Input()
   game: Game
 
-  jumpRealCv(cv: string) {
-    const filter = {"gamechar.truecv": cv}
-
-    this.router.navigateByUrl(`/game/query/${JSON.stringify(filter)}`)
-  }
-
-  jumpCv(cv: string) {
-    const filter = {"gamechar.cv": cv}
-
-    this.router.navigateByUrl(`/game/query/${JSON.stringify(filter)}`)
-  }
-
-  constructor(private router: Router) {
-  }
-
   ngOnInit(): void {
   }
 

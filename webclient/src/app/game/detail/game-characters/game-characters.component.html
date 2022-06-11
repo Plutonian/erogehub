@@ -1,8 +1,10 @@
 <!--characters-->
 <section *ngIf="game.gameCharacters.length>0" class="grid characters">
-  <div *ngFor="let character of game.gameCharacters" class="flex_row">
+  <div *ngFor="let character of game.gameCharacters" class="flex_column">
     <aside class="imageborder">
-      <img src="{{game | img}}/char_s_{{character.index}}.jpg" loading="lazy"/>
+      <img src="{{game | img}}/char_s_{{character.index}}.jpg" loading="lazy" dPopover [trigger]="'hover'"
+           [controlled]="true"
+           [content]="desc"/>
     </aside>
     <main class="flex_column flex_grow">
                 <span style="font-size:14px">
@@ -22,11 +24,13 @@
           <span>(<a target="_blank" href="{{character.cv | bangumi}}">Bangumi</a>)</span>
         </ng-template>
       </span>
-
-      <textarea readonly="readonly" style="font-size: 18px;border: none"
-                class="flex_grow">{{character.intro}}</textarea>
+      <ng-template #desc>
+        <textarea readonly="readonly" rows="10" style="font-size: 18px;border: none"
+                  class="flex_grow">{{character.intro}}</textarea>
+      </ng-template>
 
     </main>
 
   </div>
 </section>
+

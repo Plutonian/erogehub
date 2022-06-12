@@ -1,4 +1,4 @@
-<main *ngIf="cvGroup" class="grid">
+<div *ngIf="cvGroup" class="grid container">
   <section *ngFor="let group of cvGroup" class="flex_column container">
     <header>
       <d-rate *ngIf="group.star>=0;else number" [ngModel]="group.star" [readonly]="true"></d-rate>
@@ -18,4 +18,4 @@
       </div>
     </main>
   </section>
-</main>
+</div>

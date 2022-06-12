@@ -74,10 +74,11 @@ import {ListCellComponent} from "./game/explorer/cell/list-cell/list-cell.compon
 import {ByDateComponent} from './game/query/by-date/by-date.component';
 import {GameSimpleComponent} from './game/detail/simple/game-simple.component';
 import {IconModule} from "ng-devui/icon";
+import {GameListViewComponent} from './game/explorer/gamelist/game-list-view.component';
 
 
-const routes: Route[] = [
-  {path: 'cv', component: CvComponent},
+export const routes: Route[] = [
+  {path: 'cv', component: CvComponent,title:'OKOKOK'},
   {path: 'tag', component: TagComponent},
   {
     path: 'brand', children: [
@@ -154,7 +155,8 @@ const routes: Route[] = [
     ByEmotionComponent,
     EmotionChangeComponent,
     ByDateComponent,
-    GameSimpleComponent
+    GameSimpleComponent,
+    GameListViewComponent
   ],
   imports: [
     BrowserModule,

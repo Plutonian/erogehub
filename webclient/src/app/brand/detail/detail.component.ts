@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Brand} from "../../entity";
+import {Brand, Game} from "../../entity";
 import {BrandService, Emotions} from "../brand.service";
 import {AppService} from "../../app.service";
 import {GameService} from "../../game/game.service";
 import {Title} from "@angular/platform-browser";
+import {SourceConfig} from "ng-devui";
 
 @Component({
   selector: 'app-brand-detail',
@@ -12,7 +13,25 @@ import {Title} from "@angular/platform-browser";
   styleUrls: ['./detail.component.css']
 })
 export class BrandDetailComponent implements OnInit {
+  source: SourceConfig[] = [
+    {title: 'HOME', showMenu: false, link: '/'},
+    {
+      title: 'Brand', showMenu: false, noNavigation: true,
+      // menuList: [
+
+      // ]
+    },
+    {title: 'LAST', showMenu: false, link: '/brand/playState', noNavigation: true},
+    // {title: 'LOCAL', showMenu: false, link: '/game/location/LOCAL', linkType: 'routerLink'}
+
+  ];
+
+
+  rowGameList: Game[]
+
   filter
+
+  gamelist: Game[]
 
   brand: Brand
 
@@ -61,6 +80,10 @@ export class BrandDetailComponent implements OnInit {
       .subscribe((data) => console.log(data))
   }
 
+  onEmotionSelected(emotion: string) {
+    this.gamelist = this.rowGameList.filter(g => g.emotion == emotion)
+  }
+
   constructor(private brandService: BrandService,
               private gameService: GameService,
               private appService: AppService,
@@ -69,6 +92,7 @@ export class BrandDetailComponent implements OnInit {
               private titleService: Title,
   ) {
   }
+
 
   ngOnInit(): void {
     // this.appService.emotions().subscribe((data: Emotion[]) => {
@@ -89,6 +113,8 @@ export class BrandDetailComponent implements OnInit {
           .subscribe((data: Brand) => {
             this.brand = data
 
+            this.source[this.source.length-1].title=`${data.name}`
+
             this.titleService.setTitle(`${data.name}`)
 
             if (this.brand?.comp != null) {
@@ -102,6 +128,18 @@ export class BrandDetailComponent implements OnInit {
             }
 
           })
+
+
+        this.gameService.query(this.filter)
+          .subscribe((gs: Game[]) => {
+
+              this.gamelist = gs
+              this.rowGameList = gs
+
+              console.log("Gs", gs);
+
+            }
+          )
       }
     })
   }

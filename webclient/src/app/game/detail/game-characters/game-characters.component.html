@@ -15,7 +15,7 @@
 
         <div *ngIf="character.trueCV?.trim().length>0; else cvInfo" class="flex_row gap-3">
           <app-jumpcv [cv]="character.trueCV" [isReal]="true"></app-jumpcv>
-          <d-rate [ngModel]="character.cvObj.star" [readonly]="true"></d-rate>
+          <d-rate *ngIf="character.cvObj" [ngModel]="character.cvObj.star" [readonly]="true"></d-rate>
         </div>
         <ng-template #cvInfo>
           <div class="flex_row gap-3">

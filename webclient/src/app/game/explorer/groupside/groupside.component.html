@@ -13,9 +13,6 @@
         </ng-template>
       </dl>
     </d-tab>
-    <d-tab id="brand" title="Brand">
-      <app-group-brand [filter]="filter" (onBrandSelected)="brandSelected($event)"></app-group-brand>
-    </d-tab>
     <d-tab id="tag" title="Tag">
       <section class="flex_row">
           <span *ngFor="let item of tagGroup">
@@ -35,36 +32,20 @@
 
       </section>
     </d-tab>
-    <d-tab id="other" title="Other">
-      <dl>
-        <dt>Star</dt>
-        <dd>
-          <ul>
-            <li *ngFor="let starItem of starGroup">
-              {{starItem.title}}({{starItem.count}})
-            </li>
-          </ul>
-        </dd>
 
-        <dt>Emotion</dt>
-        <dd>
-          <ul>
-            <li *ngFor="let emotionGroupItem of emotionGroup" (click)="emotionSelect(emotionGroupItem)">
-              {{emotionGroupItem.emotion | emotionJP}}({{emotionGroupItem.count}})
-            </li>
-          </ul>
-
-        </dd>
-
-      </dl>
-
+    <d-tab id="emotion" title="Emotion">
+      <ul>
+        <li *ngFor="let emotionGroupItem of emotionGroup" (click)="emotionSelect(emotionGroupItem)">
+          {{emotionGroupItem.emotion | emotionJP}}({{emotionGroupItem.count}})
+        </li>
+      </ul>
     </d-tab>
-    <!--    <d-tab id="emotion" title="Emotion">-->
-    <!--      <ul>-->
-    <!--        <li *ngFor="let starItem of starGroup">-->
-    <!--          {{starItem.title}}({{starItem.count}})-->
-    <!--        </li>-->
-    <!--      </ul>-->
-    <!--    </d-tab>-->
+    <d-tab id="star" title="Star">
+      <ul>
+        <li *ngFor="let starItem of starGroup">
+          {{starItem.title}}({{starItem.count}})
+        </li>
+      </ul>
+    </d-tab>
   </d-tabs>
 </aside>

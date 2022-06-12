@@ -1,3 +1,4 @@
+<d-breadcrumb [source]="source"></d-breadcrumb>
 <main class="container test_border flex_column gap-5">
   <header *ngIf="brand" class="container test_border"
           style="position: sticky;top: 0;right:0;background-color: white;z-index: 10">
@@ -9,7 +10,7 @@
       <select *ngIf="subBrands!= null &&subBrands.length>1;else single" [(ngModel)]="subBrandId"
               (ngModelChange)="onSubBrandSelected()">
         <option *ngFor="let subBrand of subBrands" [value]="subBrand.id">
-            {{subBrand.name}}  [{{subBrand.state |emotionJP}}]
+          {{subBrand.name}}  [{{subBrand.state |emotionJP}}]
         </option>
       </select>
       <ng-template #single>
@@ -26,5 +27,23 @@
       </select>
     </div>
   </header>
-  <app-explorer [filter]="filter"></app-explorer>
+  <ng-template [ngIf]="rowGameList">
+    <ng-template [ngIf]="rowGameList.length>0" [ngIfElse]="noGames">
+      <d-splitter style="height: 100%">
+        <d-splitter-pane>
+          <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"></app-game-listview>
+        </d-splitter-pane>
+
+        <d-splitter-pane maxSize="400px" size="300px" minSize="300px" [collapsible]="true" class="all_height"
+                         style="overflow: auto">
+          <app-groupside [filter]="filter" (onEmotionSelected)="onEmotionSelected($event)"></app-groupside>
+        </d-splitter-pane>
+      </d-splitter>
+    </ng-template>
+
+    <ng-template #noGames>
+      <H3>Empty</H3>
+    </ng-template>
+  </ng-template>
+
 </main>

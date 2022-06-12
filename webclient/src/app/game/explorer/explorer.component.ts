@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Brand, Game} from "../../entity";
 import {GameService} from "../game.service";
+import {Emotions} from "../../brand/brand.service";
 
 
 @Component({
@@ -15,21 +16,11 @@ export class ExplorerComponent implements OnChanges {
   @Input()
   filter
 
-  size? = "Grid"
-
-
   gamelist: Game[]
 
   constructor(private service: GameService) {
   }
 
-  sort() {
-    this.gamelist.sort((a, b) => a.name.localeCompare(b.name))
-  }
-
-  sortState() {
-    this.gamelist.sort((a, b) => b.state.localeCompare(a.state))
-  }
 
   onBrandSelected(brand: Brand) {
 
@@ -39,10 +30,6 @@ export class ExplorerComponent implements OnChanges {
 
   onEmotionSelected(emotion: string) {
     this.gamelist = this.rowGameList.filter(g => g.emotion == emotion)
-  }
-
-  clearFilter() {
-    this.gamelist = this.rowGameList
   }
 
 
@@ -70,10 +57,6 @@ export class ExplorerComponent implements OnChanges {
 
   }
 
-  gameDelete(game: Game) {
-    console.log(game);
-    this.gamelist = this.gamelist.filter(g => g.id != game.id)
-    this.rowGameList = this.rowGameList.filter(g => g.id != game.id)
-  }
+
 
 }

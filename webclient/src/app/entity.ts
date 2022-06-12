@@ -1,16 +1,15 @@
 export interface Game {
-  id: number;
-  name: string;
-  painter: string[];
-  tag: string[];
+  id: number
+  name: string
+  painter: string[]
+  tag: string[]
   publishDate: MyDate
   dateString: string
   dateFormatString: string
   published: Boolean
   brand: Brand
-  story: string;
+  story: string
   intro: string
-  state: string
   emotion: string
   playState: string
   location: string

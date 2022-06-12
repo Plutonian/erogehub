@@ -1,4 +1,4 @@
-<div dAnchorBox *ngIf="game" class="container test_border">
+<div *ngIf="game" class="container test_border">
   <header class="info bg-white">
     <app-list-cell [game]="game"></app-list-cell>
   </header>
@@ -6,7 +6,7 @@
 
 
     <section>
-      <h2 class="group_title" [dAnchor]="'story'">ストーリー</h2>
+      <h2 id="story" class="group_title">ストーリー</h2>
       <main class="flex_row">
         <section class="flex_row">
           <img class="img_alone" title="{{game.intro}}"
@@ -18,13 +18,12 @@
     </section>
 
     <section *ngIf="game.gameCharacters?.length>0">
-      <h2 class="group_title" [dAnchor]="'char'">キャラクター</h2>
+      <h2 id="char" class="group_title">キャラクター</h2>
       <app-game-characters [game]="game"></app-game-characters>
     </section>
 
     <section *ngIf="game.gameImgs?.length>0">
-      <h2 class="group_title" [dAnchor]="'sample'">サンプル画像</h2>
-
+      <h2 id="sample" class="group_title">サンプル画像</h2>
 
       <!--imgs-->
       <div *ngIf="game.gameImgs?.length>0" class="flex_row flex_float gap-5">
@@ -37,50 +36,52 @@
     </section>
 
   </main>
-
-
-  <ul class="step-nav bg-white" style="position: fixed;right: 60px;top:200px;background-color: white">
-    <li><a [dAnchorLink]="'story'">ストーリー</a></li>
-    <li *ngIf="game.gameCharacters.length>0"><a [dAnchorLink]="'char'">キャラクター</a></li>
-    <li *ngIf="game.gameImgs?.length>0"><a [dAnchorLink]="'sample'">サンプル画像</a></li>
-  </ul>
+  <nz-anchor class="step-nav bg-white" style="position: fixed;right: 60px;top:200px;background-color: white">
+    <nz-link nzHref="#story" nzTitle="ストーリー"></nz-link>
+    <nz-link *ngIf="game.gameCharacters.length>0" nzHref="#char" nzTitle="キャラクター"></nz-link>
+    <nz-link *ngIf="game.gameImgs?.length>0" nzHref="#sample" nzTitle="サンプル画像"></nz-link>
+  </nz-anchor>
 
   <!-- control bar -->
   <footer class="test_border bg-white bottomBar flex_row" style="position: sticky;bottom: 0;">
 
     <a routerLink="/game/guide/{{game.titles.mainTitle}}">攻略</a>
     <section style="margin-left: auto">
-      <div class="btn-group" dDropDown [trigger]="'hover'" appendToBody>
-        <d-icon dDropDownToggle [icon]="'icon-select-arrow'" [operable]="true">
-          <span iconPrefix>Search</span>
-        </d-icon>
-        <ul dDropDownMenu class="devui-dropdown-menu" role="menu">
-          <li role="menuitem">
-            <a target="_blank" href="https://www.google.com/search?q={{game.titles.mainTitle}}">Google</a>
-          </li>
-          <li role="menuitem">
-            <a target="_blank"
-               href="https://ja.wikipedia.org/w/index.php?search={{game.titles.mainTitle}}">Wiki</a>
-          </li>
-          <li role="menuitem">
-            <a target="_blank" href="http://www.getchu.com/soft.phtml?id={{game.id}}&gc=gc">GetChu</a>
-          </li>
-          <li role="menuitem">
-            <a target="_blank"
-               href="https://www.dlsite.com/pro/fsr/=/language/jp/sex_category[0]/male/keyword/{{game.titles.mainTitle}}">DLsite</a>
-          </li>
-          <li role="menuitem">
-            <a target="_blank"
-               href="https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/kensaku.php?category=game&word_category=name&mode=normal&word={{game.titles.mainTitle}}">ErogameScape</a>
-          </li>
-          <li role="menuitem">
-            <a target="_blank" href="https://galge.fun/subjects/search?keyword={{game.titles.mainTitle}}">2DF</a>
-          </li>
-          <li role="menuitem">
-            <a target="_blank"
-               href="https://www.ggbases.com/search.so?p=0&advanced=&title={{game.titles.mainTitle}}">GGBases</a>
-          </li>
-        </ul>
+      <div class="btn-group">
+        <span nz-dropdown [nzDropdownMenu]="menu">Search</span>
+
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <li nz-menu-item>
+              <a target="_blank" href="https://www.google.com/search?q={{game.titles.mainTitle}}">Google</a>
+            </li>
+            <li nz-menu-item>
+              <a target="_blank"
+                 href="https://ja.wikipedia.org/w/index.php?search={{game.titles.mainTitle}}">Wiki</a>
+            </li>
+            <li nz-menu-item>
+              <a target="_blank" href="http://www.getchu.com/soft.phtml?id={{game.id}}&gc=gc">GetChu</a>
+            </li>
+            <li nz-menu-item>
+              <a target="_blank"
+                 href="https://www.dlsite.com/pro/fsr/=/language/jp/sex_category[0]/male/keyword/{{game.titles.mainTitle}}">DLsite</a>
+            </li>
+            <li nz-menu-item>
+              <a target="_blank"
+                 href="https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/kensaku.php?category=game&word_category=name&mode=normal&word={{game.titles.mainTitle}}">ErogameScape</a>
+            </li>
+            <li nz-menu-item>
+              <a target="_blank" href="https://galge.fun/subjects/search?keyword={{game.titles.mainTitle}}">2DF</a>
+            </li>
+            <li nz-menu-divider></li>
+            <li nz-menu-item>
+              <a target="_blank"
+                 href="https://www.ggbases.com/search.so?p=0&advanced=&title={{game.titles.mainTitle}}">GGBases</a>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+
+
       </div>
     </section>
   </footer>

@@ -35,19 +35,7 @@ import {BrandDetailComponent} from "./brand/detail/detail.component";
 import {BrandComponent} from "./brand/brand.component";
 import {BrandService} from "./brand/brand.service";
 import {NzMenuModule} from 'ng-zorro-antd/menu';
-import {
-  AnchorModule,
-  BadgeModule,
-  CarouselModule,
-  DevUIModule,
-  DrawerModule,
-  DropDownModule,
-  PanelModule,
-  PopoverModule,
-  SplitterModule,
-  ToggleModule,
-  TreeModule
-} from "ng-devui";
+import {CarouselModule, TreeModule} from "ng-devui";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MonthCalendarComponent} from './common/month-calendar/month-calendar.component';
 import {RelativeTimeModule} from "ng-devui/relative-time";
@@ -74,17 +62,28 @@ import {FilterComponent} from "./game/explorer/filter/filter.component";
 import {ListCellComponent} from "./game/explorer/cell/list-cell/list-cell.component";
 import {ByDateComponent} from './game/query/by-date/by-date.component';
 import {GameSimpleComponent} from './game/detail/simple/game-simple.component';
-import {IconModule} from "ng-devui/icon";
 import {GameListViewComponent} from './game/explorer/gamelist/game-list-view.component';
-import {ja_JP, NZ_I18N} from 'ng-zorro-antd/i18n';
-import {registerLocaleData} from '@angular/common';
-import ja from '@angular/common/locales/ja';
+import {NzSwitchModule} from 'ng-zorro-antd/switch';
+import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
+import {NzAnchorModule} from 'ng-zorro-antd/anchor';
+// import {ja_JP, NZ_I18N} from 'ng-zorro-antd/i18n';
+// import {registerLocaleData} from '@angular/common';
+// import ja from '@angular/common/locales/ja';
 import {NzCollapseModule} from "ng-zorro-antd/collapse";
 import {NzBreadCrumbModule} from "ng-zorro-antd/breadcrumb";
 import {NzRadioModule} from "ng-zorro-antd/radio";
 import {NzFormModule} from "ng-zorro-antd/form";
+import {NzPopoverModule} from 'ng-zorro-antd/popover';
+import {NzRateModule} from "ng-zorro-antd/rate";
+import {NzDropDownModule} from "ng-zorro-antd/dropdown";
+import {NzTabsModule} from "ng-zorro-antd/tabs";
+import {NzCarouselModule} from "ng-zorro-antd/carousel";
+import {NzImageModule} from "ng-zorro-antd/image";
+import {NzBadgeModule} from "ng-zorro-antd/badge";
+import {NzTagModule} from "ng-zorro-antd/tag";
+import {NzLayoutModule} from "ng-zorro-antd/layout";
 
-registerLocaleData(ja);
+// registerLocaleData(ja);
 
 
 export const routes: Route[] = [
@@ -191,31 +190,33 @@ export const routes: Route[] = [
     HttpClientModule,
     RouterModule.forRoot(routes),
     FormsModule,
-    DevUIModule,
-    PanelModule,
-    AnchorModule,
-    BadgeModule,
     CarouselModule,
-    SplitterModule,
     RelativeTimeModule,
-    DrawerModule,
     TreeModule,
-    PopoverModule,
-    ToggleModule,
-    DropDownModule,
-    IconModule,
     NzMenuModule,
     NzCollapseModule,
     NzBreadCrumbModule,
     NzRadioModule,
-    NzFormModule
+    NzFormModule,
+    NzSwitchModule,
+    NzToolTipModule,
+    NzAnchorModule,
+    NzPopoverModule,
+    NzRateModule,
+    NzDropDownModule,
+    NzTabsModule,
+    NzCarouselModule,
+    NzImageModule,
+    NzBadgeModule,
+    NzTagModule,
+    NzLayoutModule
   ],
   providers: [
     GameService,
     GuideService,
     BrandService,
-    AppService,
-    {provide: NZ_I18N, useValue: ja_JP}
+    AppService
+    // {provide: NZ_I18N, useValue: ja_JP}
   ],
   bootstrap: [AppComponent]
 })

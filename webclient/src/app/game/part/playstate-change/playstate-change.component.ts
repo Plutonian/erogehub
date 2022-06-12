@@ -14,8 +14,6 @@ export class PlaystateChangeComponent implements OnInit {
   @Input()
   row = "row"
 
-  edit: Boolean = false
-
 
   playStates = [
     "PLAYED",
@@ -23,17 +21,8 @@ export class PlaystateChangeComponent implements OnInit {
     "NOT_PLAY"
   ]
 
-  change() {
-    this.edit = !this.edit
-  }
 
-  onStateSelected() {
-    this.change()
-
-    this.updateState()
-  }
-
-  updateState() {
+  updatePlaystate() {
     const playState = GamePlayStates[`${this.game.playState}`];
 
     console.log(playState);
@@ -44,11 +33,16 @@ export class PlaystateChangeComponent implements OnInit {
       )
   }
 
+  changePlaystate(playstate: string) {
+    this.game.playState = playstate
+    this.updatePlaystate()
+    // this.change()
+  }
+
   constructor(private gameService: GameService) {
   }
 
   ngOnInit(): void {
-    // this.selectState = this.game.state
   }
 
 

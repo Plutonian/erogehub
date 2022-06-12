@@ -1,51 +1,53 @@
-<aside>
-  <nz-collapse nzAccordion>
-    <nz-collapse-panel [nzHeader]="'Date'" [nzActive]="true">
-      <dl>
-        <ng-template ngFor [ngForOf]="dateGroup" let-yearItem>
-          <dt>
-            <span class="group_title">{{yearItem.title}}</span><span>({{yearItem.count}})</span>
-          </dt>
-          <dd>
-            <app-month-calendar [months]="$any(yearItem.children)">
-            </app-month-calendar>
-          </dd>
-        </ng-template>
-      </dl>
-    </nz-collapse-panel>
+<nz-collapse nzAccordion>
+  <nz-collapse-panel [nzHeader]="'Date'" [nzActive]="true" *ngIf="dateGroup?.length>0">
+    <dl>
+      <ng-template ngFor [ngForOf]="dateGroup" let-yearItem>
+        <dt>
+          <span class="group_title">{{yearItem.title}}</span><span>({{yearItem.count}})</span>
+        </dt>
+        <dd>
+          <app-month-calendar [months]="$any(yearItem.children)">
+          </app-month-calendar>
+        </dd>
+      </ng-template>
+    </dl>
+  </nz-collapse-panel>
 
-    <nz-collapse-panel [nzHeader]="'Tag'">
-      <section class="flex_row">
+  <nz-collapse-panel [nzHeader]="'Tag'" *ngIf="tagGroup?.length>0">
+    <section class="flex_row flex_float gap-5">
           <span *ngFor="let item of tagGroup">
- <d-badge count="{{item.count}}">
+
+    <nz-badge [nzCount]="item.count">
           <app-jumptag style="font-size: 14px;" [tag]="item.title"></app-jumptag>
- </d-badge>
+    </nz-badge>
+
           </span>
-      </section>
-    </nz-collapse-panel>
-    <nz-collapse-panel [nzHeader]="'CV'">
-      <section class="flex_row">
+    </section>
+  </nz-collapse-panel>
+  <nz-collapse-panel [nzHeader]="'CV'" *ngIf="cvGroup?.length>0">
+    <section class="flex_row flex_float gap-5">
           <span *ngFor="let item of cvGroup">
-            <d-badge count="{{item.count}}">
-          <app-jumpcv style="font-size: 14px;" [cv]="item.title" [isReal]="item.real"></app-jumpcv>
-            </d-badge>
+            <nz-badge [nzCount]="item.count">
+
+                       <app-jumpcv style="font-size: 14px;" [cv]="item.title" [isReal]="item.real"></app-jumpcv>
+            </nz-badge>
+
           </span>
 
-      </section>
-    </nz-collapse-panel>
-    <nz-collapse-panel [nzHeader]="'Emotion'">
-      <ul>
-        <li *ngFor="let emotionGroupItem of emotionGroup" (click)="emotionSelect(emotionGroupItem)">
-          {{emotionGroupItem.emotion | emotionJP}}({{emotionGroupItem.count}})
-        </li>
-      </ul>
-    </nz-collapse-panel>
-    <nz-collapse-panel [nzHeader]="'Star'">
-      <ul>
-        <li *ngFor="let starItem of starGroup">
-          {{starItem.title}}({{starItem.count}})
-        </li>
-      </ul>
-    </nz-collapse-panel>
-  </nz-collapse>
-</aside>
+    </section>
+  </nz-collapse-panel>
+  <nz-collapse-panel [nzHeader]="'Emotion'" *ngIf="emotionGroup?.length>0">
+    <ul>
+      <li *ngFor="let emotionGroupItem of emotionGroup" (click)="emotionSelect(emotionGroupItem)">
+        {{emotionGroupItem.emotion | emotionJP}}({{emotionGroupItem.count}})
+      </li>
+    </ul>
+  </nz-collapse-panel>
+  <nz-collapse-panel [nzHeader]="'Star'" *ngIf="starGroup?.length>0">
+    <ul>
+      <li *ngFor="let starItem of starGroup">
+        {{starItem.title}}({{starItem.count}})
+      </li>
+    </ul>
+  </nz-collapse-panel>
+</nz-collapse>

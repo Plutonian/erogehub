@@ -13,19 +13,6 @@ import {SourceConfig} from "ng-devui";
   styleUrls: ['./detail.component.css']
 })
 export class BrandDetailComponent implements OnInit {
-  source: SourceConfig[] = [
-    {title: 'HOME', showMenu: false, link: '/'},
-    {
-      title: 'Brand', showMenu: false, noNavigation: true,
-      // menuList: [
-
-      // ]
-    },
-    {title: 'LAST', showMenu: false, link: '/brand/playState', noNavigation: true},
-    // {title: 'LOCAL', showMenu: false, link: '/game/location/LOCAL', linkType: 'routerLink'}
-
-  ];
-
 
   rowGameList: Game[]
 
@@ -67,6 +54,13 @@ export class BrandDetailComponent implements OnInit {
     this.brandService.changeState(this.brand.id, brandState.value)
       .subscribe((data: string) => console.log(data))
 
+  }
+
+  onGameDelete(game: Game) {
+
+    console.log(game);
+    this.gamelist = this.gamelist.filter(g => g.id != game.id)
+    this.rowGameList = this.rowGameList.filter(g => g.id != game.id)
   }
 
   blockAll() {
@@ -112,8 +106,6 @@ export class BrandDetailComponent implements OnInit {
         this.brandService.info(parseInt(id))
           .subscribe((data: Brand) => {
             this.brand = data
-
-            this.source[this.source.length-1].title=`${data.name}`
 
             this.titleService.setTitle(`${data.name}`)
 

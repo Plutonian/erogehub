@@ -15,9 +15,6 @@ export class EmotionChangeComponent implements OnInit {
   @Input()
   row = "row"
 
-  edit: Boolean = false
-
-
   emotions = [
     "LIKE",
     "HOPE",
@@ -25,15 +22,10 @@ export class EmotionChangeComponent implements OnInit {
     "HATE",
   ]
 
-  change() {
-    this.edit = !this.edit
-  }
-
 
   changeEmotion(emotion: string) {
     this.game.emotion = emotion
     this.updateEmotion()
-    this.change()
   }
 
   updateEmotion() {
@@ -50,6 +42,5 @@ export class EmotionChangeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.selectState = this.game.state
   }
 }

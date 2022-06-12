@@ -9,13 +9,7 @@
 
   <main class="anchor_parent">
 
-    <img class="img_alone" src="{{game|img}}/game_t.jpg" dPopover
-         [trigger]="'click'"
-         [controlled]="true"
-         [popoverStyle]="{  backgroundColor: 'white',
-  color: 'black',
-  border: '1px solid black'}"
-         [content]="drawerContent" loading="lazy"/>
+    <img class="img_alone" src="{{game|img}}/game_t.jpg" loading="lazy"/>
     <app-formatted-date class="anchor bg-white" style="bottom: 0;right: 0" *ngIf="game.publishDate"
                         [game]="game"></app-formatted-date>
 
@@ -56,9 +50,5 @@
       <app-emotion-change [game]="game"></app-emotion-change>
     </div>
   </main>
-
-
 </section>
-<ng-template #drawerContent>
-  <app-game-simple [game]="game"></app-game-simple>
-</ng-template>
+

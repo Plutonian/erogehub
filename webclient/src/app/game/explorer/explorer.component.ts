@@ -1,7 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Brand, Game} from "../../entity";
 import {GameService} from "../game.service";
-import {Emotions} from "../../brand/brand.service";
 
 
 @Component({
@@ -32,6 +31,13 @@ export class ExplorerComponent implements OnChanges {
     this.gamelist = this.rowGameList.filter(g => g.emotion == emotion)
   }
 
+  onGameDelete(game: Game) {
+
+    console.log(game);
+    this.gamelist = this.gamelist.filter(g => g.id != game.id)
+    this.rowGameList = this.rowGameList.filter(g => g.id != game.id)
+  }
+
 
   ngOnChanges(changes: SimpleChanges): void {
 
@@ -56,7 +62,6 @@ export class ExplorerComponent implements OnChanges {
     }
 
   }
-
 
 
 }

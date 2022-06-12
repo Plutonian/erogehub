@@ -2,21 +2,23 @@
 <section *ngIf="game.gameCharacters.length>0" class="grid characters">
   <div *ngFor="let character of game.gameCharacters" class="flex_column">
     <aside class="imageborder">
-      <img src="{{game | img}}/char_s_{{character.index}}.jpg" loading="lazy" dPopover [trigger]="'hover'"
-           [controlled]="true"
-           [content]="desc"/>
+      <img src="{{game | img}}/char_s_{{character.index}}.jpg" loading="lazy"
+           nz-popover
+           [nzPopoverContent]="desc"
+      />
     </aside>
     <main class="flex_column flex_grow">
                 <span style="font-size:14px">
                     {{character.name}}
                 </span>
-      <div *ngIf="character.cv?.trim().length>0" class="flex_row gap-3">
+      <div *ngIf="character.cv?.trim().length>0" class="flex_row gap-3" style="align-items: center">
         <span>CV: </span>
 
-        <div *ngIf="character.trueCV?.trim().length>0; else cvInfo" class="flex_row gap-3">
+        <ng-template [ngIf]="character.trueCV?.trim().length>0" [ngIfElse]="cvInfo" class="flex_row gap-3">
           <app-jumpcv [cv]="character.trueCV" [isReal]="true"></app-jumpcv>
-          <d-rate *ngIf="character.cvObj" [ngModel]="character.cvObj.star" [readonly]="true"></d-rate>
-        </div>
+          <nz-rate *ngIf="character.cvObj" [ngModel]="character.cvObj.star" [disabled]="true"></nz-rate>
+        </ng-template>
+
         <ng-template #cvInfo>
           <div class="flex_row gap-3">
             <app-jumpcv [cv]="character.cv" [isReal]="false"></app-jumpcv>

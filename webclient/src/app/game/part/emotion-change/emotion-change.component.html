@@ -1,16 +1,7 @@
-<!--  <li *ngIf="edit ==false;else commands">-->
-<span dPopover [position]="'top'"
-      [trigger]="'hover'"
-      [controlled]="true"
-      [popoverStyle]="{  backgroundColor: 'white',
-  color: 'black',
-  border: '1px solid black'}"
-      [content]="commands">{{game.emotion |emotionJP}}</span>
-<!--  </li>-->
-
+<span nz-popover [nzPopoverContent]="commands">{{game.emotion |emotionJP}}</span>
 <ng-template #commands>
   <ul class="flex_{{row}} flex_float gap-5">
-    <li  *ngFor="let emotion of emotions">
+    <li *ngFor="let emotion of emotions">
       <a *ngIf="emotion !=game.emotion" (click)="changeEmotion(emotion)">{{emotion |emotionJP}}</a>
     </li>
   </ul>

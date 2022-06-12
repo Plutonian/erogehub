@@ -1,7 +1,7 @@
 <div *ngIf="cvGroup" class="grid container">
   <section *ngFor="let group of cvGroup" class="flex_column container">
     <header>
-      <d-rate *ngIf="group.star>=0;else number" [ngModel]="group.star" [readonly]="true"></d-rate>
+      <nz-rate *ngIf="group.star>0;else number" [ngModel]="group.star" [disabled]="true"></nz-rate>
       <ng-template #number>
         <div>{{group.star}}</div>
       </ng-template>
@@ -11,9 +11,9 @@
       <div *ngFor="let cv of group.list" class="container test_border">
         <app-jumpcv [cv]="cv.name" [isReal]="true" title="{{cv | json}}"></app-jumpcv>
         <div>
-          <span>{{cv.statistics.start.year}}</span>
+          <span>{{cv.statistics?.start?.year}}</span>
           <span>-</span>
-          <span>{{cv.statistics.end.year}}</span>
+          <span>{{cv.statistics?.end?.year}}</span>
         </div>
       </div>
     </main>

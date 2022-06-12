@@ -1,2 +1,2 @@
-<d-toggle [(ngModel)]="game.isSame" (ngModelChange)="onStateSelected()"
-          [checkedContent]="'SAME'"></d-toggle>
+<nz-switch [(ngModel)]="game.isSame" (ngModelChange)="onStateSelected()" nzCheckedChildren="SAME"
+           nzUnCheckedChildren="OK"></nz-switch>

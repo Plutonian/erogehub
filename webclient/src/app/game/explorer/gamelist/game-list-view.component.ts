@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Game} from "../../../entity";
 import {Emotions} from "../../../brand/brand.service";
 
@@ -8,6 +8,9 @@ import {Emotions} from "../../../brand/brand.service";
   styleUrls: ['game-list-view.component.css']
 })
 export class GameListViewComponent implements OnInit {
+
+  @Output()
+  onGameDelete = new EventEmitter<Game>()
 
   @Input()
   rowGameList: Game[]
@@ -32,16 +35,11 @@ export class GameListViewComponent implements OnInit {
   }
 
   gameDelete(game: Game) {
-    console.log(game);
-    this.gamelist = this.gamelist.filter(g => g.id != game.id)
-    this.rowGameList = this.rowGameList.filter(g => g.id != game.id)
+    this.onGameDelete.emit(game)
   }
 
   ngOnInit(): void {
     this.rowGameList = this.gamelist
   }
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  // }
 
 }

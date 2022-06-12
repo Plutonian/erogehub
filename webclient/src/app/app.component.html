@@ -1,22 +1,85 @@
-<div class="flex_row">
-  <aside class="sidebar container">
-<!--    <h2></h2>-->
-<!--    <h2></h2>-->
+<!--<div class="flex_row">-->
+<!--  <aside class="sidebar container">-->
+<!--    &lt;!&ndash;    <h2></h2>&ndash;&gt;-->
+<!--    &lt;!&ndash;    <h2></h2>&ndash;&gt;-->
 
-    <ul nz-menu nzMode="inline">
+<!--    <ul nz-menu nzMode="inline" [nzTheme]="'dark'">-->
+<!--      <li nz-menu-item><a routerLink="/">Home</a></li>-->
+<!--      <li nz-menu-item><a routerLink="/game/search">Search</a></li>-->
+<!--      <li nz-submenu nzTitle="Date" nzIcon="mail">-->
+<!--        <ul>-->
+<!--          <li nz-menu-item-->
+<!--              nz-popover-->
+<!--              [nzPopoverContent]="month">今年-->
+<!--          </li>-->
+<!--          <li nz-submenu nzTitle="Years">-->
+<!--            <ul>-->
+<!--              <li nzMatchRouter nz-menu-item *ngFor="let date of nearDates"><a-->
+<!--                routerLink="/game/date/{{date.range.start}}/{{date.range.end}}"-->
+<!--              >{{date.title}}</a></li>-->
+<!--              <li nz-submenu nzTitle="Old">-->
+<!--                <ul>-->
+<!--                  <li nz-menu-item *ngFor="let date of oldDates"><a (click)="jump(date)">{{date.title}}</a></li>-->
+<!--                </ul>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </li>-->
+<!--      <li nz-submenu nzTitle="PlayState" nzIcon="setting">-->
+<!--        <ul>-->
+<!--          <li nzMatchRouter nz-menu-item *ngFor="let playState of playStates"><a-->
+<!--            routerLink="/game/playState/{{playState}}">{{playState | playStateJP}}</a></li>-->
+<!--        </ul>-->
+<!--      </li>-->
+<!--      <li nz-submenu nzTitle="Emotion" nzIcon="setting">-->
+<!--        <ul>-->
+<!--          <li nzMatchRouter nz-menu-item *ngFor="let emotion of emotions"><a-->
+<!--            routerLink="/game/emotion/{{emotion}}">{{emotion | emotionJP}}</a></li>-->
+<!--        </ul>-->
+<!--      </li>-->
+<!--      <li nz-submenu nzTitle="Location" nzIcon="setting">-->
+<!--        <ul>-->
+<!--          <li nzMatchRouter nz-menu-item *ngFor="let location of locations"><a-->
+<!--            routerLink="/game/location/{{location}}">{{location | loc}}</a>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </li>-->
+<!--      <li nz-submenu nzTitle="Star" nzIcon="setting">-->
+<!--        <ul>-->
+<!--          <li nzMatchRouter nz-menu-item *ngFor="let star of stars"><a routerLink="/game/star/{{star}}">{{star}}</a>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </li>-->
+<!--&lt;!&ndash;      <li nz-submenu nzTitle="Other" nzIcon="setting">&ndash;&gt;-->
+<!--&lt;!&ndash;        <ul>&ndash;&gt;-->
+<!--          <li nzMatchRouter nz-menu-item><a routerLink="/cv">CV</a></li>-->
+<!--          <li nzMatchRouter nz-menu-item><a routerLink="/tag">Tag</a></li>-->
+<!--          <li nzMatchRouter nz-menu-item><a routerLink="/brand">BRAND</a></li>-->
+<!--&lt;!&ndash;        </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;      </li>&ndash;&gt;-->
+<!--    </ul>-->
+
+<!--  </aside>-->
+<!--  <main class="flex_grow main_container">-->
+<!--    <router-outlet></router-outlet>-->
+<!--  </main>-->
+<!--</div>-->
+
+<nz-layout>
+  <nz-sider>
+    <ul nz-menu nzMode="inline" [nzTheme]="'dark'">
       <li nz-menu-item><a routerLink="/">Home</a></li>
       <li nz-menu-item><a routerLink="/game/search">Search</a></li>
-      <li nz-submenu nzTitle="Date" nzIcon="mail" nzOpen>
+      <li nz-submenu nzTitle="Date" nzIcon="mail">
         <ul>
-          <li nz-menu-item nzSelected dPopover [position]="'right'"
-              [trigger]="'hover'"
-              [controlled]="true"
-              [popoverStyle]="{color:'black'}"
-              [content]="month">今年
+          <li nz-menu-item
+              nz-popover
+              [nzPopoverContent]="month">今年
           </li>
           <li nz-submenu nzTitle="Years">
             <ul>
-              <li nz-menu-item *ngFor="let date of nearDates"><a
+              <li nzMatchRouter nz-menu-item *ngFor="let date of nearDates"><a
                 routerLink="/game/date/{{date.range.start}}/{{date.range.end}}"
               >{{date.title}}</a></li>
               <li nz-submenu nzTitle="Old">
@@ -30,54 +93,49 @@
       </li>
       <li nz-submenu nzTitle="PlayState" nzIcon="setting">
         <ul>
-          <li nz-menu-item *ngFor="let playState of playStates"><a
+          <li nzMatchRouter nz-menu-item *ngFor="let playState of playStates"><a
             routerLink="/game/playState/{{playState}}">{{playState | playStateJP}}</a></li>
         </ul>
       </li>
       <li nz-submenu nzTitle="Emotion" nzIcon="setting">
         <ul>
-          <li nz-menu-item *ngFor="let emotion of emotions"><a
+          <li nzMatchRouter nz-menu-item *ngFor="let emotion of emotions"><a
             routerLink="/game/emotion/{{emotion}}">{{emotion | emotionJP}}</a></li>
         </ul>
       </li>
       <li nz-submenu nzTitle="Location" nzIcon="setting">
         <ul>
-          <li nz-menu-item *ngFor="let location of locations"><a
+          <li nzMatchRouter nz-menu-item *ngFor="let location of locations"><a
             routerLink="/game/location/{{location}}">{{location | loc}}</a>
           </li>
         </ul>
       </li>
       <li nz-submenu nzTitle="Star" nzIcon="setting">
         <ul>
-          <li nz-menu-item *ngFor="let star of stars"><a routerLink="/game/star/{{star}}">{{star}}</a></li>
+          <li nzMatchRouter nz-menu-item *ngFor="let star of stars"><a routerLink="/game/star/{{star}}">{{star}}</a>
+          </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Other" nzIcon="setting">
-        <ul>
-          <li nz-menu-item><a routerLink="/cv">CV</a></li>
-          <li nz-menu-item><a routerLink="/tag">Tag</a></li>
-          <li nz-menu-item><a routerLink="/brand">BRAND</a></li>
-        </ul>
-      </li>
+      <!--      <li nz-submenu nzTitle="Other" nzIcon="setting">-->
+      <!--        <ul>-->
+      <li nzMatchRouter nz-menu-item><a routerLink="/cv">CV</a></li>
+      <li nzMatchRouter nz-menu-item><a routerLink="/tag">Tag</a></li>
+      <li nzMatchRouter nz-menu-item><a routerLink="/brand">BRAND</a></li>
+      <!--        </ul>-->
+      <!--      </li>-->
     </ul>
-
-  </aside>
-  <main class="flex_grow main_container">
-    <nz-breadcrumb [nzAutoGenerate]="true">
-<!--      Please refer to StackBlitz demo at https://stackblitz.com/edit/ng-zorro-breadcrumb-auto-->
-    </nz-breadcrumb>
-    <router-outlet></router-outlet>
-  </main>
-</div>
+  </nz-sider>
+  <nz-layout>
+<!--    <nz-header>Header</nz-header>-->
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+<!--    <nz-footer>Footer</nz-footer>-->
+  </nz-layout>
+</nz-layout>
 
 <ng-template #month>
   <app-month-calendar [months]="months" (select)="jump($event)">
   </app-month-calendar>
 </ng-template>
-<ng-template #old>
-  <ul>
-    <li *ngFor="let date of oldDates"><a (click)="jump(date)">{{date.title}}</a></li>
-  </ul>
-</ng-template>
-
 

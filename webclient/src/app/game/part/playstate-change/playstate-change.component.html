@@ -1,11 +1,9 @@
-<ul class="flex_{{row}} flex_float gap-5"
-    [class.PLAYING]="game.playState == 'PLAYING'"
-    [class.PLAYED]="game.playState == 'PLAYED'"
->
-  <li [ngSwitch]="edit">
-    <span *ngSwitchCase="false" (click)="change()">{{game.playState | playStateJP}}</span>
-    <select *ngSwitchCase="true" [(ngModel)]="game.playState" (ngModelChange)="onStateSelected()">
-      <option *ngFor="let playState of playStates" [value]="playState">{{playState | playStateJP}}</option>
-    </select>
-  </li>
-</ul>
+<span [class.PLAYING]="game.playState == 'PLAYING'"
+      [class.PLAYED]="game.playState == 'PLAYED'"  nz-popover [nzPopoverContent]="commands">{{game.playState | playStateJP}}</span>
+<ng-template #commands>
+  <ul class="flex_{{row}} flex_float gap-5">
+    <li *ngFor="let playState of playStates">
+      <a *ngIf="playState !=game.playState" (click)="changePlaystate(playState)">{{playState |playStateJP}}</a>
+    </li>
+  </ul>
+</ng-template>

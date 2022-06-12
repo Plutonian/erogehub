@@ -12,8 +12,8 @@ export class GroupsideComponent implements OnChanges {
   @Input()
   filter
 
-  // @Output()
-  // onBrandSelected = new EventEmitter<Brand>()
+  @Output()
+  onBrandSelected = new EventEmitter<Brand>()
 
   @Output()
   onEmotionSelected = new EventEmitter<string>()

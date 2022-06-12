@@ -8,6 +8,8 @@ import {GameService} from "../../game.service";
   styleUrls: ['./star-change.component.css']
 })
 export class StarChangeComponent implements OnInit {
+  tooltips = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
+
   @Input()
   game: Game
 

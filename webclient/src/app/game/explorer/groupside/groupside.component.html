@@ -1,6 +1,6 @@
-<aside class="test_border container">
-  <d-tabs>
-    <d-tab id="date" title="Date">
+<aside>
+  <nz-collapse nzAccordion>
+    <nz-collapse-panel [nzHeader]="'Date'" [nzActive]="true">
       <dl>
         <ng-template ngFor [ngForOf]="dateGroup" let-yearItem>
           <dt>
@@ -12,8 +12,9 @@
           </dd>
         </ng-template>
       </dl>
-    </d-tab>
-    <d-tab id="tag" title="Tag">
+    </nz-collapse-panel>
+
+    <nz-collapse-panel [nzHeader]="'Tag'">
       <section class="flex_row">
           <span *ngFor="let item of tagGroup">
  <d-badge count="{{item.count}}">
@@ -21,8 +22,8 @@
  </d-badge>
           </span>
       </section>
-    </d-tab>
-    <d-tab id="cv" title="CV">
+    </nz-collapse-panel>
+    <nz-collapse-panel [nzHeader]="'CV'">
       <section class="flex_row">
           <span *ngFor="let item of cvGroup">
             <d-badge count="{{item.count}}">
@@ -31,21 +32,20 @@
           </span>
 
       </section>
-    </d-tab>
-
-    <d-tab id="emotion" title="Emotion">
+    </nz-collapse-panel>
+    <nz-collapse-panel [nzHeader]="'Emotion'">
       <ul>
         <li *ngFor="let emotionGroupItem of emotionGroup" (click)="emotionSelect(emotionGroupItem)">
           {{emotionGroupItem.emotion | emotionJP}}({{emotionGroupItem.count}})
         </li>
       </ul>
-    </d-tab>
-    <d-tab id="star" title="Star">
+    </nz-collapse-panel>
+    <nz-collapse-panel [nzHeader]="'Star'">
       <ul>
         <li *ngFor="let starItem of starGroup">
           {{starItem.title}}({{starItem.count}})
         </li>
       </ul>
-    </d-tab>
-  </d-tabs>
+    </nz-collapse-panel>
+  </nz-collapse>
 </aside>

@@ -34,6 +34,7 @@ import {BrandListComponent} from './brand/list/list.component';
 import {BrandDetailComponent} from "./brand/detail/detail.component";
 import {BrandComponent} from "./brand/brand.component";
 import {BrandService} from "./brand/brand.service";
+import {NzMenuModule} from 'ng-zorro-antd/menu';
 import {
   AnchorModule,
   BadgeModule,
@@ -75,20 +76,47 @@ import {ByDateComponent} from './game/query/by-date/by-date.component';
 import {GameSimpleComponent} from './game/detail/simple/game-simple.component';
 import {IconModule} from "ng-devui/icon";
 import {GameListViewComponent} from './game/explorer/gamelist/game-list-view.component';
+import {ja_JP, NZ_I18N} from 'ng-zorro-antd/i18n';
+import {registerLocaleData} from '@angular/common';
+import ja from '@angular/common/locales/ja';
+import {NzCollapseModule} from "ng-zorro-antd/collapse";
+import {NzBreadCrumbModule} from "ng-zorro-antd/breadcrumb";
+import {NzRadioModule} from "ng-zorro-antd/radio";
+import {NzFormModule} from "ng-zorro-antd/form";
+
+registerLocaleData(ja);
 
 
 export const routes: Route[] = [
-  {path: 'cv', component: CvComponent,title:'OKOKOK'},
-  {path: 'tag', component: TagComponent},
   {
-    path: 'brand', children: [
-      {path: ':id', component: BrandDetailComponent},
-      {path: '', component: BrandComponent}
+    path: 'cv', component: CvComponent, data: {
+      breadcrumb: 'CV'
+    }
+  },
+  {
+    path: 'tag', component: TagComponent, data: {
+      breadcrumb: 'Tag'
+    }
+  },
+  {
+    path: 'brand', data: {
+      breadcrumb: 'Brand'
+    }, children: [
+      {
+        path: ':id', component: BrandDetailComponent, data: {
+          breadcrumb: ':id'
+        }
+      },
+      {
+        path: '', component: BrandComponent, data: {
+          breadcrumb: 'List'
+        }
+      }
     ]
   },
   {
     path: 'game', children: [
-      {path: 'search', component: GameSearchComponent},
+      {path: 'search', component: GameSearchComponent,},
       {path: 'guide/:searchKey', component: GuideComponent},
       {path: 'star/:star', component: ByStarComponent},
       {path: 'date/:start/:end', component: ByDateComponent},
@@ -102,8 +130,7 @@ export const routes: Route[] = [
       {path: 'query/:filter', component: QueryComponent},
       {path: ':id', component: DetailComponent}
     ]
-  },
-
+  }
 ]
 
 @NgModule({
@@ -176,13 +203,19 @@ export const routes: Route[] = [
     PopoverModule,
     ToggleModule,
     DropDownModule,
-    IconModule
+    IconModule,
+    NzMenuModule,
+    NzCollapseModule,
+    NzBreadCrumbModule,
+    NzRadioModule,
+    NzFormModule
   ],
   providers: [
     GameService,
     GuideService,
     BrandService,
-    AppService
+    AppService,
+    {provide: NZ_I18N, useValue: ja_JP}
   ],
   bootstrap: [AppComponent]
 })

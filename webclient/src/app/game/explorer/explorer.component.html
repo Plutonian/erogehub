@@ -2,22 +2,20 @@
   <ng-template [ngIf]="rowGameList.length>0" [ngIfElse]="noGames">
     <d-splitter style="height: 100%">
       <!-- LEFT-->
-      <d-splitter-pane maxSize="400px" size="300px" minSize="300px" [collapsible]="true" class="all_height"
+      <d-splitter-pane maxSize="400px" size="250px" minSize="250px" [collapsible]="true" class="all_height"
                        style="overflow: auto">
         <aside class="test_border container">
-          <d-tabs>
-            <d-tab id="brand" title="Brand">
+          <nz-collapse>
+            <nz-collapse-panel [nzHeader]="'Brand'" [nzShowArrow]="false" [nzActive]="true">
               <app-group-brand [filter]="filter" (onBrandSelected)="onBrandSelected($event)"></app-group-brand>
-            </d-tab>
-          </d-tabs>
+            </nz-collapse-panel>
+          </nz-collapse>
         </aside>
       </d-splitter-pane>
 
       <!--      MIDDLE-->
       <d-splitter-pane>
-<!--        <header class="flex_row bg-white">-->
-<!--          <app-filter></app-filter>-->
-<!--        </header>-->
+
         <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"></app-game-listview>
       </d-splitter-pane>
 

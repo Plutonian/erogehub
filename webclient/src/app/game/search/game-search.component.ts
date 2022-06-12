@@ -10,6 +10,8 @@ export class GameSearchComponent implements OnInit {
 
   filter
 
+  searchType = 'Simple'
+
 
   constructor() {
   }
@@ -18,16 +20,16 @@ export class GameSearchComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    const {searchKey, searchType} = form.value;
+    const {searchKey} = form.value;
 
-    console.log(searchKey, searchType)
+    console.log(searchKey)
 
     const v1 = {"name": {"$regex": `^${searchKey}`}}
     const v2 = {"name": {"$regex": `${searchKey}`}}
 
     let filter
 
-    if (searchType == "0") {
+    if (this.searchType == "Simple") {
       filter = v1
     } else {
       filter = v2

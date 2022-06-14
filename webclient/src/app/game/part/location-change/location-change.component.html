@@ -1,6 +1,9 @@
-<div [ngSwitch]="edit" style="display: inline-block">
-  <app-location-show *ngSwitchCase="false" [game]="game" (click)="change()"></app-location-show>
-  <select *ngSwitchCase="true" [(ngModel)]="game.location" (ngModelChange)="onStateSelected()">
-    <option *ngFor="let location of locations" [value]="location">{{location | loc}}</option>
-  </select>
-</div>
+<!--<app-location-show nz-popover [nzPopoverContent]="commands" [game]="game"></app-location-show>-->
+
+<span nz-popover [nzPopoverContent]="commands">{{game.location |loc}}</span>
+<ng-template #commands>
+  <nz-radio-group [(ngModel)]="game.location" nzButtonStyle="solid" (ngModelChange)="onLocationSelected()">
+    <label *ngFor="let location of locations" nz-radio-button nzValue="{{location}}">{{location | loc}}</label>
+  </nz-radio-group>
+</ng-template>
+

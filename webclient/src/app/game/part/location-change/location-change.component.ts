@@ -18,12 +18,7 @@ export class LocationChangeComponent implements OnInit {
     "REMOTE"
   ]
 
-  change() {
-    this.edit = !this.edit
-  }
-
-  onStateSelected() {
-    this.change()
+  onLocationSelected() {
 
     const location = GameLocation[`${this.game.location}`];
     console.log(location);

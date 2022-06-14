@@ -1,30 +1,45 @@
 <main class="container flex_column gap-5">
   <nz-affix [nzOffsetTop]="0">
 
-    <header *ngIf="brand" class="container bg-white test_border">
+    <header *ngIf="brand" class="container bg-white">
       <div class="flex_row gap-5">
         <!-- Comp -->
         <span *ngIf="brand.comp && brand.comp.length>0" class="title">{{brand.comp}} ></span>
 
         <!--Brand -->
-        <select *ngIf="subBrands!= null &&subBrands.length>1;else single" [(ngModel)]="subBrandId"
-                (ngModelChange)="onSubBrandSelected()">
-          <option *ngFor="let subBrand of subBrands" [value]="subBrand.id">
-            {{subBrand.name}}  [{{subBrand.state |emotionJP}}]
-          </option>
-        </select>
+        <!--        <select *ngIf="subBrands!= null &&subBrands.length>1;else single" [(ngModel)]="subBrandId"-->
+        <!--                (ngModelChange)="onSubBrandSelected()">-->
+        <!--          <option *ngFor="let subBrand of subBrands" [value]="subBrand.id">-->
+        <!--            {{subBrand.name}}  [{{subBrand.state |emotionJP}}]-->
+        <!--          </option>-->
+        <!--        </select>-->
+
+
+        <nz-select *ngIf="subBrands?.length>1;else single" [(ngModel)]="subBrandId" style="width: 180px"
+                   (ngModelChange)="onSubBrandSelected()">
+          <nz-option *ngFor="let subBrand of subBrands" [nzValue]="subBrand.id" [nzLabel]="subBrand.name"
+                     [nzCustomContent]="true">
+            {{subBrand.name}}
+            [{{subBrand.state |emotionJP}}]
+          </nz-option>
+        </nz-select>
         <ng-template #single>
           <span class="title">{{brand.name}}</span>
         </ng-template>
         <ul>
-          <li><a (click)="blockAll()">HATE All</a></li>
-          <li><a (click)="normalAll()">NORMAL All</a></li>
+          <li>
+            <button (click)="blockAll()">HATE All</button>
+          </li>
+          <li>
+            <button (click)="normalAll()">NORMAL All</button>
+          </li>
         </ul>
 
-        <!-- state change -->
-        <select style="margin-left: auto" [(ngModel)]="brand.state" (ngModelChange)="onStateSelected()">
-          <option *ngFor="let emotion of emotions" [value]="emotion">{{emotion | emotionJP}}</option>
-        </select>
+
+        <nz-radio-group style="margin-left: auto" [(ngModel)]="brand.state" nzButtonStyle="solid"
+                        (ngModelChange)="onStateSelected()">
+          <label *ngFor="let emotion of emotions" nz-radio-button nzValue="{{emotion}}">{{emotion | emotionJP}}</label>
+        </nz-radio-group>
       </div>
     </header>
 

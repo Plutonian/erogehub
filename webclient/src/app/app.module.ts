@@ -93,6 +93,7 @@ import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {NzIconModule} from "ng-zorro-antd/icon";
+import {NzSliderModule} from "ng-zorro-antd/slider";
 
 // registerLocaleData(ja);
 
@@ -230,7 +231,8 @@ export const routes: Route[] = [
     NzSelectModule,
     NzButtonModule,
     ScrollingModule,
-    NzIconModule
+    NzIconModule,
+    NzSliderModule
   ],
   providers: [
     GameService,

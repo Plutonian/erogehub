@@ -17,7 +17,7 @@
 
   <nz-page-header class="bg-white">
     <nz-page-header-title>
-      <app-location-change [game]="game"></app-location-change>
+      <app-game-playstate-change [game]="game"></app-game-playstate-change>
       <a class="title" style="color:black;" routerLink="/game/{{game.id}}"> {{game.titles.mainTitle}}</a>
     </nz-page-header-title>
     <nz-page-header-subtitle>
@@ -31,7 +31,8 @@
     </nz-page-header-tags>
     <nz-page-header-extra>
       <app-star-change [game]="game"></app-star-change>
-      <app-game-playstate-change [game]="game"></app-game-playstate-change>
+      <app-location-change [game]="game"></app-location-change>
+
       <app-emotion-change [game]="game"></app-emotion-change>
       <app-game-marksame style="margin-top: auto;" [game]="game"></app-game-marksame>
     </nz-page-header-extra>

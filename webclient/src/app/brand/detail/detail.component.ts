@@ -37,6 +37,7 @@ export class BrandDetailComponent implements OnInit {
   onSubBrandSelected() {
 
     console.log(this.subBrandId);
+    // console.log(this.brand);
 
     this.router.navigateByUrl(`/brand/${this.subBrandId}`)
   }

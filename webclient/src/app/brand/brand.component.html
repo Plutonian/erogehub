@@ -19,9 +19,9 @@
         </nz-radio-group>
       </ng-template>
 
-      <select *ngIf="emotions" [(ngModel)]="state" (ngModelChange)="onStateSelected()" style="margin-left: auto">
-        <option *ngFor="let emotion of emotions" [value]="emotion">{{emotion |emotionJP }}</option>
-      </select>
+      <nz-select *ngIf="emotions" [(ngModel)]="state" (ngModelChange)="onStateSelected()" style="width: 100px">
+        <nz-option *ngFor="let emotion of emotions" nzValue="{{emotion}}" nzLabel="{{emotion |emotionJP }}"></nz-option>
+      </nz-select>
     </header>
   </nz-header>
   <nz-content>

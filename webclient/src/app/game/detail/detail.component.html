@@ -9,7 +9,7 @@
 
     >
       <nz-page-header-title>
-        <app-location-change [game]="game"></app-location-change>
+        <app-game-playstate-change [game]="game"></app-game-playstate-change>
         {{game.titles.mainTitle}}
       </nz-page-header-title>
       <nz-page-header-subtitle>
@@ -23,7 +23,7 @@
       </nz-page-header-tags>
       <nz-page-header-extra>
         <app-star-change [game]="game"></app-star-change>
-        <app-game-playstate-change [game]="game"></app-game-playstate-change>
+        <app-location-change [game]="game"></app-location-change>
         <app-emotion-change [game]="game">
         </app-emotion-change>
         <app-game-marksame style="margin-top: auto;" [game]="game"></app-game-marksame>
@@ -104,7 +104,8 @@
   <!-- control bar -->
   <nz-affix [nzOffsetBottom]="0">
     <footer class="bg-white bottomBar flex_row">
-      <a routerLink="/game/guide/{{game.titles.mainTitle}}">攻略</a>
+      <a       nz-popover
+               [nzPopoverContent]="guide">攻略</a>
       <section style="margin-left: auto">
         <div class="btn-group">
           <span nz-dropdown [nzDropdownMenu]="menu">Search</span>
@@ -155,3 +156,8 @@
 
 
 </div>
+<ng-template #guide>
+  <app-guide [searchKey]="game.titles.mainTitle">
+
+  </app-guide>
+</ng-template>

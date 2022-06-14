@@ -33,6 +33,8 @@ export class BrandComponent implements OnInit {
 
   onStateSelected() {
 
+    // console.log(this.state);
+
 
     const brandState = Emotions[`${this.state}`];
 

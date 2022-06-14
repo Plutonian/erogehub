@@ -1,9 +1,9 @@
-<span [class.PLAYING]="game.playState == 'PLAYING'"
-      [class.PLAYED]="game.playState == 'PLAYED'"  nz-popover [nzPopoverContent]="commands">{{game.playState | playStateJP}}</span>
+<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" nz-popover [nzPopoverContent]="commands">
+  <circle cx="10" cy="10" r="8" [attr.fill]="fillLocation()"/>
+</svg>
+
 <ng-template #commands>
-  <ul class="flex_{{row}} flex_float gap-5">
-    <li *ngFor="let playState of playStates">
-      <a *ngIf="playState !=game.playState" (click)="changePlaystate(playState)">{{playState |playStateJP}}</a>
-    </li>
-  </ul>
+  <nz-radio-group [(ngModel)]="game.playState" nzButtonStyle="solid" (ngModelChange)="updatePlaystate()">
+    <label *ngFor="let playState of playStates" nz-radio-button nzValue="{{playState}}">{{playState |playStateJP}}</label>
+  </nz-radio-group>
 </ng-template>

@@ -2,6 +2,12 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Game} from "../../../entity";
 import {GamePlayStates, GameService} from "../../game.service";
 
+const ColorMap = {
+  "PLAYED": "rgba(0,157,255,0.56)",
+  "PLAYING": "green",
+  "NOT_PLAY": "red"
+}
+
 @Component({
   selector: 'app-game-playstate-change',
   templateUrl: './playstate-change.component.html',
@@ -22,6 +28,11 @@ export class PlaystateChangeComponent implements OnInit {
   ]
 
 
+  fillLocation() {
+    return ColorMap[this.game?.playState]
+  }
+
+
   updatePlaystate() {
     const playState = GamePlayStates[`${this.game.playState}`];
 
@@ -33,11 +44,11 @@ export class PlaystateChangeComponent implements OnInit {
       )
   }
 
-  changePlaystate(playstate: string) {
-    this.game.playState = playstate
-    this.updatePlaystate()
-    // this.change()
-  }
+  // changePlaystate(playstate: string) {
+  //   this.game.playState = playstate
+  //   this.updatePlaystate()
+  //   // this.change()
+  // }
 
   constructor(private gameService: GameService) {
   }

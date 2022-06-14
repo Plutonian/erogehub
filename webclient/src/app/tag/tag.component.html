@@ -1,9 +1,16 @@
 <div class="flex_row flex_float gap-5 container">
-  <section *ngFor="let group of tagGroup" class="flex_column taggroup">
-    <span>{{group.name}}</span>
-    <main class="flex_row flex_float flex_grow gap-3">
+
+  <nz-card *ngFor="let group of tagGroup" [nzTitle]="group.name" class="taggroup">
+
+    <main class="flex_row flex_float  gap-3">
       <app-jumptag *ngFor="let tag of group.javaTags" [tag]="tag" style="font-size:18px;"></app-jumptag>
     </main>
-  </section>
+  </nz-card>
+  <!--  <section *ngFor="let group of tagGroup" class="flex_column taggroup">-->
+  <!--    <span>{{group.name}}</span>-->
+  <!--    <main class="flex_row flex_float flex_grow gap-3">-->
+  <!--      <app-jumptag *ngFor="let tag of group.javaTags" [tag]="tag" style="font-size:18px;"></app-jumptag>-->
+  <!--    </main>-->
+  <!--  </section>-->
 
 </div>

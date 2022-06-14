@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {GuideService} from "../guide.service";
@@ -11,7 +11,7 @@ import {Guide} from "../../entity";
 })
 export class GuideComponent implements OnInit {
 
-  // @Input()
+  @Input()
   searchKey: string
 
   guideList: Guide[]
@@ -22,18 +22,18 @@ export class GuideComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.route.params.subscribe(p => {
-      // @ts-ignore
-      const searchKey: string = p.searchKey
+    // this.route.params.subscribe(p => {
+    // @ts-ignore
+    const searchKey: string = this.searchKey
 
-      if (searchKey != null) {
-        console.log('PARAM: ', searchKey);
-        this.searchKey = searchKey
+    if (searchKey != null) {
+      console.log('PARAM: ', searchKey);
+      this.searchKey = searchKey
 
-        this.guideService.search(this.searchKey)
-          .subscribe((data: Guide[]) => this.guideList = data)
-      }
-    })
+      this.guideService.search(this.searchKey)
+        .subscribe((data: Guide[]) => this.guideList = data)
+    }
+    // })
   }
 
   onSubmit(form: NgForm) {

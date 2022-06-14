@@ -31,9 +31,9 @@
         <div *ngIf="gamelist.length>1" style="margin-left: auto" class="flex_row gap-5">
           <span nz-popover [nzPopoverContent]="sortPanel">Sort</span>
 
-          <nz-radio-group [(ngModel)]="size">
-            <label nz-radio-button nzValue="Grid">Grid</label>
-            <label nz-radio-button nzValue="List">List</label>
+          <nz-radio-group [(ngModel)]="size" nzButtonStyle="solid">
+            <label nz-radio-button nzValue="Grid"><i nz-icon nzType="appstore" nzTheme="outline"></i></label>
+            <label nz-radio-button nzValue="List"><i nz-icon nzType="bars" nzTheme="outline"></i></label>
           </nz-radio-group>
         </div>
       </div>

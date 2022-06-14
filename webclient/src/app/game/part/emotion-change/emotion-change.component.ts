@@ -23,11 +23,6 @@ export class EmotionChangeComponent implements OnInit {
   ]
 
 
-  changeEmotion(emotion: string) {
-    this.game.emotion = emotion
-    this.updateEmotion()
-  }
-
   updateEmotion() {
     const emotion = Emotions[`${this.game.emotion}`];
     console.log(emotion);

@@ -1,88 +1,157 @@
-<div *ngIf="game" class="container test_border">
-  <header class="info bg-white">
-    <app-list-cell [game]="game"></app-list-cell>
-  </header>
-  <main class="flex_column">
+<div *ngIf="game">
 
+  <nz-affix id="top" [nzOffsetTop]="0">
+    <nz-page-header class="bg-white" nzBackIcon
+                    [class.SAME]="game.isSame"
+                    [class.HATE]="game.emotion =='HATE'"
+                    [class.HOPE]="game.emotion =='HOPE'"
+                    [class.LIKE]="game.emotion =='LIKE'"
 
-    <section>
-      <h2 id="story" class="group_title">ストーリー</h2>
-      <main class="flex_row">
-        <section class="flex_row">
-          <img class="img_alone" title="{{game.intro}}"
-               src="{{game | img}}/game_l.jpg"/>
+    >
+      <nz-page-header-title>
+        <app-location-change [game]="game"></app-location-change>
+        {{game.titles.mainTitle}}
+      </nz-page-header-title>
+      <nz-page-header-subtitle>
+        {{game.titles.subTitle}}
+      </nz-page-header-subtitle>
+      <nz-page-header-tags>
+        <section *ngIf="game.tag?.length > 0" class="flex_row flex_float gap-5">
+          <app-jumptag *ngFor="let tag of game.tag" [tag]="tag" style="font-size:10px;"></app-jumptag>
         </section>
-        <textarea class="flex_grow" rows="10" style="font-size: 20px;border: none;"
-                  readonly="readonly">{{game.story}}</textarea>
-      </main>
-    </section>
 
-    <section *ngIf="game.gameCharacters?.length>0">
-      <h2 id="char" class="group_title">キャラクター</h2>
-      <app-game-characters [game]="game"></app-game-characters>
-    </section>
+      </nz-page-header-tags>
+      <nz-page-header-extra>
+        <app-star-change [game]="game"></app-star-change>
+        <app-game-playstate-change [game]="game"></app-game-playstate-change>
+        <app-emotion-change [game]="game">
+        </app-emotion-change>
+        <app-game-marksame style="margin-top: auto;" [game]="game"></app-game-marksame>
+      </nz-page-header-extra>
+      <nz-page-header-content>
 
-    <section *ngIf="game.gameImgs?.length>0">
-      <h2 id="sample" class="group_title">サンプル画像</h2>
 
-      <!--imgs-->
-      <div *ngIf="game.gameImgs?.length>0" class="flex_row flex_float gap-5">
-        <ng-container *ngFor="let img of game.gameImgs">
-          <img class="sample_img"
-               src="{{game|img}}/simple_l_{{img.index}}.jpg" loading="lazy"/>
+        <!--      <section class="flex_row game"-->
+        <!--               [class.SAME]="game.isSame"-->
 
-        </ng-container>
-      </div>
-    </section>
+        <!--               [class.HATE]="game.emotion =='HATE'"-->
+        <!--               [class.HOPE]="game.emotion =='HOPE'"-->
+        <!--               [class.LIKE]="game.emotion =='LIKE'"-->
+        <!--      >-->
 
-  </main>
-  <nz-anchor class="step-nav bg-white" style="position: fixed;right: 60px;top:200px;background-color: white">
+
+        <!--        <main class="anchor_parent">-->
+        <!--          <img class="img_alone" src="{{game|img}}/game_t.jpg" loading="lazy"/>-->
+        <!--          <app-formatted-date class="anchor bg-white" style="bottom: 0;right: 0" *ngIf="game.publishDate"-->
+        <!--                              [game]="game"></app-formatted-date>-->
+
+        <!--        </main>-->
+
+        <!--        <main style="gap:2px;" class="flex_grow flex_column bg-white">-->
+
+        <nz-descriptions>
+          <nz-descriptions-item [nzSpan]="3" *ngIf="game.brand" nzTitle="ブランド">
+            <app-jump-brand [brand]="game.brand"></app-jump-brand>
+            <span *ngIf="game.brand.website && game.brand.website.length>0"
+                  style="display:inline-block;margin-left:5px;">
+        (<a target="_blank" href="{{game.brand?.website}}">公式サイト</a>)
+      </span>
+          </nz-descriptions-item>
+          <nz-descriptions-item *ngIf="game.publishDate" nzTitle="発売日">
+            <app-formatted-date [game]="game"></app-formatted-date>
+          </nz-descriptions-item>
+          <nz-descriptions-item *ngIf="game.painter?.length>0" nzTitle="原画">
+            <section class="flex_row flex_float gap-5">
+              <a *ngFor="let painter of game.painter" routerLink="/game/painter/{{painter}}">{{painter}}</a>
+            </section>
+          </nz-descriptions-item>
+          <nz-descriptions-item *ngIf="game.painter?.length>0" nzTitle="シナリオ">
+            <section class="flex_row flex_float gap-5">
+              <a *ngFor="let painter of game.painter" routerLink="/game/painter/{{painter}}">{{painter}}</a>
+            </section>
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </nz-page-header-content>
+    </nz-page-header>
+  </nz-affix>
+
+  <nz-card id="story" nzTitle="ストーリー">
+    <main class="flex_row">
+      <section class="flex_row">
+        <img class="img_alone" title="{{game.intro}}"
+             src="{{game | img}}/game_l.jpg"/>
+      </section>
+      <textarea class="flex_grow" rows="10" style="font-size: 20px;border: none;"
+                readonly="readonly">{{game.story}}</textarea>
+    </main>
+  </nz-card>
+  <nz-card id="char" *ngIf="game.gameCharacters?.length>0" nzTitle="キャラクター">
+    <app-game-characters [game]="game"></app-game-characters>
+
+  </nz-card>
+  <nz-card id="sample" *ngIf="game.gameImgs?.length>0" nzTitle="サンプル画像">
+    <!--imgs-->
+    <div *ngIf="game.gameImgs?.length>0" class="flex_row flex_float gap-5">
+      <ng-container *ngFor="let img of game.gameImgs">
+        <img class="sample_img"
+             src="{{game|img}}/simple_l_{{img.index}}.jpg" loading="lazy"/>
+
+      </ng-container>
+    </div>
+  </nz-card>
+
+
+  <!-- control bar -->
+  <nz-affix [nzOffsetBottom]="0">
+    <footer class="bg-white bottomBar flex_row">
+      <a routerLink="/game/guide/{{game.titles.mainTitle}}">攻略</a>
+      <section style="margin-left: auto">
+        <div class="btn-group">
+          <span nz-dropdown [nzDropdownMenu]="menu">Search</span>
+
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu nzSelectable>
+              <li nz-menu-item>
+                <a target="_blank" href="https://www.google.com/search?q={{game.titles.mainTitle}}">Google</a>
+              </li>
+              <li nz-menu-item>
+                <a target="_blank"
+                   href="https://ja.wikipedia.org/w/index.php?search={{game.titles.mainTitle}}">Wiki</a>
+              </li>
+              <li nz-menu-item>
+                <a target="_blank" href="http://www.getchu.com/soft.phtml?id={{game.id}}&gc=gc">GetChu</a>
+              </li>
+              <li nz-menu-item>
+                <a target="_blank"
+                   href="https://www.dlsite.com/pro/fsr/=/language/jp/sex_category[0]/male/keyword/{{game.titles.mainTitle}}">DLsite</a>
+              </li>
+              <li nz-menu-item>
+                <a target="_blank"
+                   href="https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/kensaku.php?category=game&word_category=name&mode=normal&word={{game.titles.mainTitle}}">ErogameScape</a>
+              </li>
+              <li nz-menu-item>
+                <a target="_blank" href="https://galge.fun/subjects/search?keyword={{game.titles.mainTitle}}">2DF</a>
+              </li>
+              <li nz-menu-divider></li>
+              <li nz-menu-item>
+                <a target="_blank"
+                   href="https://www.ggbases.com/search.so?p=0&advanced=&title={{game.titles.mainTitle}}">GGBases</a>
+              </li>
+            </ul>
+          </nz-dropdown-menu>
+
+
+        </div>
+      </section>
+    </footer>
+  </nz-affix>
+
+  <nz-anchor class="step-nav bg-white" style="position: fixed;right: 60px;top:700px;">
+    <nz-link nzHref="#top" nzTitle="Top"></nz-link>
     <nz-link nzHref="#story" nzTitle="ストーリー"></nz-link>
     <nz-link *ngIf="game.gameCharacters.length>0" nzHref="#char" nzTitle="キャラクター"></nz-link>
     <nz-link *ngIf="game.gameImgs?.length>0" nzHref="#sample" nzTitle="サンプル画像"></nz-link>
   </nz-anchor>
 
-  <!-- control bar -->
-  <footer class="test_border bg-white bottomBar flex_row" style="position: sticky;bottom: 0;">
 
-    <a routerLink="/game/guide/{{game.titles.mainTitle}}">攻略</a>
-    <section style="margin-left: auto">
-      <div class="btn-group">
-        <span nz-dropdown [nzDropdownMenu]="menu">Search</span>
-
-        <nz-dropdown-menu #menu="nzDropdownMenu">
-          <ul nz-menu nzSelectable>
-            <li nz-menu-item>
-              <a target="_blank" href="https://www.google.com/search?q={{game.titles.mainTitle}}">Google</a>
-            </li>
-            <li nz-menu-item>
-              <a target="_blank"
-                 href="https://ja.wikipedia.org/w/index.php?search={{game.titles.mainTitle}}">Wiki</a>
-            </li>
-            <li nz-menu-item>
-              <a target="_blank" href="http://www.getchu.com/soft.phtml?id={{game.id}}&gc=gc">GetChu</a>
-            </li>
-            <li nz-menu-item>
-              <a target="_blank"
-                 href="https://www.dlsite.com/pro/fsr/=/language/jp/sex_category[0]/male/keyword/{{game.titles.mainTitle}}">DLsite</a>
-            </li>
-            <li nz-menu-item>
-              <a target="_blank"
-                 href="https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/kensaku.php?category=game&word_category=name&mode=normal&word={{game.titles.mainTitle}}">ErogameScape</a>
-            </li>
-            <li nz-menu-item>
-              <a target="_blank" href="https://galge.fun/subjects/search?keyword={{game.titles.mainTitle}}">2DF</a>
-            </li>
-            <li nz-menu-divider></li>
-            <li nz-menu-item>
-              <a target="_blank"
-                 href="https://www.ggbases.com/search.so?p=0&advanced=&title={{game.titles.mainTitle}}">GGBases</a>
-            </li>
-          </ul>
-        </nz-dropdown-menu>
-
-
-      </div>
-    </section>
-  </footer>
 </div>

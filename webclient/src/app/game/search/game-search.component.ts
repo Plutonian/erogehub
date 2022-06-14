@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-gamesearch',
@@ -12,6 +11,8 @@ export class GameSearchComponent implements OnInit {
 
   searchType = 'Simple'
 
+  searchKey: string
+
 
   constructor() {
   }
@@ -19,13 +20,15 @@ export class GameSearchComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(form: NgForm) {
-    const {searchKey} = form.value;
+  search() {
 
-    console.log(searchKey)
+    // console.log(form);
+    // const {searchKey} = form.value;
+    //
+    // console.log(searchKey)
 
-    const v1 = {"name": {"$regex": `^${searchKey}`}}
-    const v2 = {"name": {"$regex": `${searchKey}`}}
+    const v1 = {"name": {"$regex": `^${this.searchKey}`}}
+    const v2 = {"name": {"$regex": `${this.searchKey}`}}
 
     let filter
 

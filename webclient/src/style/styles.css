@@ -1,18 +1,3 @@
-/*dt, dd, dl, ul, li {*/
-/*  margin-left: 0;*/
-/*}*/
-
-/*ul>li{*/
-/*  list-style: none;*/
-/*}*/
-
-.popPanel {
-  background-color: white;
-  color: black;
-  border: 1px solid black;
-
-}
-
 
 .tag {
   /*font-family: Meiryo, serif;*/
@@ -62,20 +47,22 @@
 
 .game {
   height: 100%;
-  padding: 5px;
-  background-color: #eee;
-  border: #e0e0e0 solid 2px;
-  gap: 5px 10px;
+  /*padding: 5px;*/
+  /*background-color: #eee;*/
+  border: #e0e0e0 solid 3px;
+  /*gap: 5px 10px;*/
 }
 
 
 .LIKE {
-  background-color: #ff1151;
+  /*background-color: #ff1151;*/
+  border: #ff1151 solid 3px;
   /*color: #eeeeee;*/
 }
 
 .HOPE {
-  background-color: #FFABD3;
+  /*background-color: #FFABD3;*/
+  border: #FFABD3 solid 3px;
   /*color: #eeeeee;*/
 }
 
@@ -85,7 +72,8 @@
 }
 
 .SAME {
-  background-color: #919191;
+  /*background-color: #919191;*/
+  border: #919191 solid 3px;
 }
 
 h1,h2,h3,h4,h5{

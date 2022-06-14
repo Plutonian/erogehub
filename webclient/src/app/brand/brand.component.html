@@ -1,18 +1,30 @@
-<main class="flex_column gap-5 container">
-  <header class="flex_row">
-    <form #form="ngForm" (submit)="onSubmit(form)" class="flex_row">
-      <label for="comp">Comp </label>
-      <input id="comp" name="searchType" type="radio" ngModel value="0" required checked/>
+<nz-layout>
+  <nz-header>
 
-      <label for="brand">Brand</label>
-      <input id="brand" name="searchType" type="radio" ngModel value="1" required/>
+    <header class="flex_row">
 
-      <input name="searchKey" ngModel required placeholder="ネイムを入れてください"/>
-      <input type="submit" value="Search" [disabled]="form.invalid"/>
-    </form>
-    <select *ngIf="emotions" [(ngModel)]="state" (ngModelChange)="onStateSelected()" style="margin-left: auto">
-      <option *ngFor="let emotion of emotions" [value]="emotion">{{emotion |emotionJP }}</option>
-    </select>
-  </header>
-  <app-list [filter]="filter"></app-list>
-</main>
+      <nz-input-group nzSize="large" [nzAddOnBefore]="addOnBeforeTemplate" [nzAddOnAfter]="suffixButton">
+        <input name="searchKey" type="text" [(ngModel)]="searchKey" nz-input
+               placeholder="ネイムを入れてください"/>
+      </nz-input-group>
+
+      <ng-template #suffixButton>
+        <button nz-button nzType="primary" [disabled]="!searchKey" (click)="search()">Search</button>
+      </ng-template>
+
+      <ng-template #addOnBeforeTemplate>
+        <nz-radio-group [(ngModel)]="searchType" nzButtonStyle="solid">
+          <label nz-radio-button nzValue="comp">comp</label>
+          <label nz-radio-button nzValue="brand">brand</label>
+        </nz-radio-group>
+      </ng-template>
+
+      <select *ngIf="emotions" [(ngModel)]="state" (ngModelChange)="onStateSelected()" style="margin-left: auto">
+        <option *ngFor="let emotion of emotions" [value]="emotion">{{emotion |emotionJP }}</option>
+      </select>
+    </header>
+  </nz-header>
+  <nz-content>
+    <app-list [filter]="filter"></app-list>
+  </nz-content>
+</nz-layout>

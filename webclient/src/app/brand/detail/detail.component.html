@@ -1,97 +1,36 @@
-<!--<nz-layout>-->
+<main class="container flex_column gap-5">
+  <nz-affix [nzOffsetTop]="0">
 
-<!--  <nz-header>-->
-<!--    <div class="flex_row gap-5">-->
-<!--      &lt;!&ndash; Comp &ndash;&gt;-->
-<!--      <span *ngIf="brand.comp && brand.comp.length>0" class="title">{{brand.comp}} ></span>-->
+    <header *ngIf="brand" class="container bg-white test_border">
+      <div class="flex_row gap-5">
+        <!-- Comp -->
+        <span *ngIf="brand.comp && brand.comp.length>0" class="title">{{brand.comp}} ></span>
 
-<!--      &lt;!&ndash;Brand &ndash;&gt;-->
-<!--      <select *ngIf="subBrands!= null &&subBrands.length>1;else single" [(ngModel)]="subBrandId"-->
-<!--              (ngModelChange)="onSubBrandSelected()">-->
-<!--        <option *ngFor="let subBrand of subBrands" [value]="subBrand.id">-->
-<!--          {{subBrand.name}}  [{{subBrand.state |emotionJP}}]-->
-<!--        </option>-->
-<!--      </select>-->
-<!--      <ng-template #single>-->
-<!--        <span class="title">{{brand.name}}</span>-->
-<!--      </ng-template>-->
-<!--      <ul>-->
-<!--        <li><a (click)="blockAll()">HATE All</a></li>-->
-<!--        <li><a (click)="normalAll()">NORMAL All</a></li>-->
-<!--      </ul>-->
+        <!--Brand -->
+        <select *ngIf="subBrands!= null &&subBrands.length>1;else single" [(ngModel)]="subBrandId"
+                (ngModelChange)="onSubBrandSelected()">
+          <option *ngFor="let subBrand of subBrands" [value]="subBrand.id">
+            {{subBrand.name}}  [{{subBrand.state |emotionJP}}]
+          </option>
+        </select>
+        <ng-template #single>
+          <span class="title">{{brand.name}}</span>
+        </ng-template>
+        <ul>
+          <li><a (click)="blockAll()">HATE All</a></li>
+          <li><a (click)="normalAll()">NORMAL All</a></li>
+        </ul>
 
-<!--      &lt;!&ndash; state change &ndash;&gt;-->
-<!--      <select  [(ngModel)]="brand.state" (ngModelChange)="onStateSelected()">-->
-<!--        <option *ngFor="let emotion of emotions" [value]="emotion">{{emotion | emotionJP}}</option>-->
-<!--      </select>-->
-<!--    </div>-->
-<!--  </nz-header>-->
-<!--  <nz-content>-->
-<!--    <ng-template [ngIf]="rowGameList?.length>0" [ngIfElse]="noGames">-->
-<!--      <d-splitter style="height: 100%">-->
-<!--        <d-splitter-pane>-->
-<!--          <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"-->
-<!--                             (onGameDelete)="onGameDelete($event)"></app-game-listview>-->
-<!--        </d-splitter-pane>-->
+        <!-- state change -->
+        <select style="margin-left: auto" [(ngModel)]="brand.state" (ngModelChange)="onStateSelected()">
+          <option *ngFor="let emotion of emotions" [value]="emotion">{{emotion | emotionJP}}</option>
+        </select>
+      </div>
+    </header>
 
-<!--        <d-splitter-pane maxSize="400px" size="300px" minSize="300px" [collapsible]="true" class="all_height"-->
-<!--                         style="overflow: auto">-->
-<!--          <app-groupside [filter]="filter" (onEmotionSelected)="onEmotionSelected($event)"></app-groupside>-->
-<!--        </d-splitter-pane>-->
-<!--      </d-splitter>-->
-<!--    </ng-template>-->
-
-<!--    <ng-template #noGames>-->
-<!--      <H3>Empty</H3>-->
-<!--    </ng-template>-->
-<!--  </nz-content>-->
-<!--</nz-layout>-->
-
-
-<main class="container test_border flex_column gap-5">
-  <header *ngIf="brand" class="container test_border"
-          style="position: sticky;top: 0;right:0;background-color: white;z-index: 10">
-    <div class="flex_row gap-5">
-      <!-- Comp -->
-      <span *ngIf="brand.comp && brand.comp.length>0" class="title">{{brand.comp}} ></span>
-
-      <!--Brand -->
-      <select *ngIf="subBrands!= null &&subBrands.length>1;else single" [(ngModel)]="subBrandId"
-              (ngModelChange)="onSubBrandSelected()">
-        <option *ngFor="let subBrand of subBrands" [value]="subBrand.id">
-          {{subBrand.name}}  [{{subBrand.state |emotionJP}}]
-        </option>
-      </select>
-      <ng-template #single>
-        <span class="title">{{brand.name}}</span>
-      </ng-template>
-      <ul>
-        <li><a (click)="blockAll()">HATE All</a></li>
-        <li><a (click)="normalAll()">NORMAL All</a></li>
-      </ul>
-
-      <!-- state change -->
-      <select style="margin-left: auto" [(ngModel)]="brand.state" (ngModelChange)="onStateSelected()">
-        <option *ngFor="let emotion of emotions" [value]="emotion">{{emotion | emotionJP}}</option>
-      </select>
-    </div>
-  </header>
-<!--  <ng-template [ngIf]="rowGameList?.length>0" [ngIfElse]="noGames">-->
-<!--    <d-splitter style="height: 100%">-->
-<!--      <d-splitter-pane>-->
-<!--        <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"-->
-<!--                           (onGameDelete)="onGameDelete($event)"></app-game-listview>-->
-<!--      </d-splitter-pane>-->
-
-<!--      <d-splitter-pane maxSize="400px" size="300px" minSize="300px" [collapsible]="true" class="all_height"-->
-<!--                       style="overflow: auto">-->
-<!--        <app-groupside [filter]="filter" (onEmotionSelected)="onEmotionSelected($event)"></app-groupside>-->
-<!--      </d-splitter-pane>-->
-<!--    </d-splitter>-->
-<!--  </ng-template>-->
+  </nz-affix>
 
   <nz-layout *ngIf="rowGameList?.length>0;else noGames">
-
     <nz-content>
       <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"
                          (onGameDelete)="onGameDelete($event)"></app-game-listview>
@@ -106,3 +45,5 @@
   </ng-template>
 
 </main>
+
+

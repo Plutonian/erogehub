@@ -9,46 +9,117 @@
 
   <main class="anchor_parent">
 
-    <img class="img_alone" src="{{game|img}}/game_t.jpg" loading="lazy"/>
+    <img class="img_alone" src="{{game|img}}/game_t.jpg"/>
     <app-formatted-date class="anchor bg-white" style="bottom: 0;right: 0" *ngIf="game.publishDate"
                         [game]="game"></app-formatted-date>
 
   </main>
 
-  <main style="gap:2px;" class="flex_grow flex_column bg-white">
-    <section>
+  <nz-page-header class="bg-white">
+    <nz-page-header-title>
       <app-location-change [game]="game"></app-location-change>
+      <a class="title" style="color:black;" routerLink="/game/{{game.id}}"> {{game.titles.mainTitle}}</a>
+    </nz-page-header-title>
+    <nz-page-header-subtitle>
+      {{game.titles.subTitle}}
 
-      <a class="title" style="color:black;" routerLink="/game/{{game.id}}">
-        {{game.name}}
-      </a>
-      <a style="color: red" (click)="delete()">[Delete]</a>
-    </section>
-    <section>
-      <app-jump-brand [brand]="game?.brand"></app-jump-brand>
-      <span *ngIf="game.brand.website && game.brand.website.length>0"
-            style="display:inline-block;margin-left:5px;">
+    </nz-page-header-subtitle>
+    <nz-page-header-tags>
+      <section *ngIf="game.tag?.length > 0" class="flex_row flex_float gap-5">
+        <app-jumptag *ngFor="let tag of game.tag" [tag]="tag" style="font-size:10px;"></app-jumptag>
+      </section>
+    </nz-page-header-tags>
+    <nz-page-header-extra>
+      <app-star-change [game]="game"></app-star-change>
+      <app-game-playstate-change [game]="game"></app-game-playstate-change>
+      <app-emotion-change [game]="game"></app-emotion-change>
+      <app-game-marksame style="margin-top: auto;" [game]="game"></app-game-marksame>
+    </nz-page-header-extra>
+    <nz-page-header-content>
+
+
+      <!--      <section class="flex_row game"-->
+      <!--      >-->
+
+
+      <!--        <main class="anchor_parent">-->
+      <!--          <img class="img_alone" src="{{game|img}}/game_t.jpg" loading="lazy"/>-->
+      <!--          <app-formatted-date class="anchor bg-white" style="bottom: 0;right: 0" *ngIf="game.publishDate"-->
+      <!--                              [game]="game"></app-formatted-date>-->
+
+      <!--        </main>-->
+
+      <!--        <main style="gap:2px;" class="flex_grow flex_column bg-white">-->
+
+      <nz-descriptions>
+        <nz-descriptions-item [nzSpan]="3" nzTitle="ブランド">
+          <app-jump-brand [brand]="game?.brand"></app-jump-brand>
+          <span *ngIf="game.brand.website && game.brand.website.length>0"
+                style="display:inline-block;margin-left:5px;">
         (<a target="_blank" href="{{game.brand?.website}}">公式サイト</a>)
       </span>
-    </section>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="原画">
+          <!--painter-->
+          <section *ngIf="game.painter?.length>0" class="flex_row flex_float gap-5">
+            <a *ngFor="let painter of game.painter" routerLink="/game/painter/{{painter}}">{{painter}}</a>
+          </section>
 
-    <!--    <app-formatted-date *ngIf="game.publishDate" [game]="game"></app-formatted-date>-->
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="シナリオ">
+          <section *ngIf="game.painter?.length>0" class="flex_row flex_float gap-5">
+            <a *ngFor="let painter of game.painter" routerLink="/game/painter/{{painter}}">{{painter}}</a>
+          </section>
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </nz-page-header-content>
+  </nz-page-header>
 
-    <app-star-change [game]="game"></app-star-change>
-    <section *ngIf="game.tag?.length > 0" class="flex_row flex_float gap-5">
-      <app-jumptag *ngFor="let tag of game.tag" [tag]="tag" style="font-size:10px;"></app-jumptag>
-    </section>
-    <!--painter-->
-    <section *ngIf="game.painter?.length>0" class="flex_row flex_float gap-5">
-      <a *ngFor="let painter of game.painter" routerLink="/game/painter/{{painter}}">{{painter}}</a>
-    </section>
+  <!--  <main style="gap:2px;" class="flex_grow flex_column bg-white">-->
+  <!--    <section>-->
+  <!--      <app-location-change [game]="game"></app-location-change>-->
 
-    <div style="margin-left: auto;margin-top: auto" class="bottomBar flex_row gap-5">
-      <app-game-playstate-change [game]="game"></app-game-playstate-change>
+  <!--      <a class="title" style="color:black;" routerLink="/game/{{game.id}}">-->
+  <!--        {{game.name}}-->
+  <!--      </a>-->
 
-      <app-game-marksame style="margin-top: auto;" [game]="game"></app-game-marksame>
-      <app-emotion-change [game]="game"></app-emotion-change>
-    </div>
-  </main>
+  <!--    </section>-->
+  <!--    <section>-->
+  <!--      <app-jump-brand [brand]="game?.brand"></app-jump-brand>-->
+  <!--      <span *ngIf="game.brand.website && game.brand.website.length>0"-->
+  <!--            style="display:inline-block;margin-left:5px;">-->
+  <!--        (<a target="_blank" href="{{game.brand?.website}}">公式サイト</a>)-->
+  <!--      </span>-->
+  <!--    </section>-->
+  <!--    <nz-descriptions>-->
+  <!--      <nz-descriptions-item nzTitle="painter">-->
+  <!--        &lt;!&ndash;painter&ndash;&gt;-->
+  <!--        <section *ngIf="game.painter?.length>0" class="flex_row flex_float gap-5">-->
+  <!--          <a *ngFor="let painter of game.painter" routerLink="/game/painter/{{painter}}">{{painter}}</a>-->
+  <!--        </section>-->
+
+  <!--      </nz-descriptions-item>-->
+  <!--      <nz-descriptions-item nzTitle="Writer">-->
+  <!--        &lt;!&ndash;painter&ndash;&gt;-->
+  <!--        <section *ngIf="game.painter?.length>0" class="flex_row flex_float gap-5">-->
+  <!--          <a *ngFor="let painter of game.painter" routerLink="/game/painter/{{painter}}">{{painter}}</a>-->
+  <!--        </section>-->
+  <!--      </nz-descriptions-item>-->
+  <!--    </nz-descriptions>-->
+
+  <!--    <app-star-change [game]="game"></app-star-change>-->
+  <!--    <section *ngIf="game.tag?.length > 0" class="flex_row flex_float gap-5">-->
+  <!--      <app-jumptag *ngFor="let tag of game.tag" [tag]="tag" style="font-size:10px;"></app-jumptag>-->
+  <!--    </section>-->
+
+
+  <!--    <div style="margin-left: auto;margin-top: auto" class="bottomBar flex_row gap-5">-->
+  <!--      <app-game-playstate-change [game]="game"></app-game-playstate-change>-->
+
+  <!--      <app-emotion-change [game]="game"></app-emotion-change>-->
+  <!--      <app-game-marksame style="margin-top: auto;" [game]="game"></app-game-marksame>-->
+  <!--      <a style="color: red" (click)="delete()">[Delete]</a>-->
+  <!--    </div>-->
+  <!--  </main>-->
 </section>
 

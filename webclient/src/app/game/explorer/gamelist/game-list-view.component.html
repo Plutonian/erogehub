@@ -1,34 +1,3 @@
-<div class="flex_column all_height">
-  <main [ngSwitch]="size" class="flex_grow" style="overflow: auto" *ngIf="gamelist?.length>0">
-    <div *ngSwitchCase="'Grid'"
-         class="grid game-grid div2 test_border container">
-      <app-grid-cell (remove)="gameDelete($event)" [game]="g" *ngFor="let g of gamelist"></app-grid-cell>
-    </div>
-
-    <div *ngSwitchCase="'List'" class="grid game-list  div2 test_border container">
-      <app-list-cell (remove)="gameDelete($event)" [game]="g" *ngFor="let g of gamelist"></app-list-cell>
-    </div>
-  </main>
-
-  <footer style="position:sticky;bottom:0;right: 0"
-          class="test_border container flex_row bg-white">
-    <span *ngIf="rowGameList?.length == gamelist?.length;else filterCount">{{rowGameList?.length}}</span>
-
-    <ng-template #filterCount>
-      <span>{{rowGameList?.length}} / <a (click)="clearFilter()">{{gamelist?.length}}</a></span>
-    </ng-template>
-
-    <div *ngIf="gamelist?.length>1" style="margin-left: auto" class="flex_row gap-5">
-      <span nz-popover [nzPopoverContent]="sortPanel">Sort</span>
-
-      <nz-radio-group [(ngModel)]="size">
-        <label nz-radio-button nzValue="Grid">Grid</label>
-        <label nz-radio-button nzValue="List">List</label>
-      </nz-radio-group>
-    </div>
-
-  </footer>
-</div>
 <ng-template #sortPanel>
   <ul class="flex_row gap-5 " style="margin-left: auto">
     <li (click)="sort()">Name</li>
@@ -36,38 +5,38 @@
   </ul>
 </ng-template>
 
-<!--<nz-layout class="all_height flex_column">-->
+<nz-layout>
+  <nz-content>
+    <div *ngIf="size=='Grid'"
+         class="grid game-grid  container">
+      <app-grid-cell (remove)="gameDelete($event)" [game]="g" *ngFor="let g of gamelist"></app-grid-cell>
+    </div>
 
-<!--  <nz-content class="flex_grow" style="overflow: auto">-->
-<!--      <div *ngIf="size=='Grid'"-->
-<!--           class="grid game-grid div2 test_border container">-->
-<!--        <app-grid-cell (remove)="gameDelete($event)" [game]="g" *ngFor="let g of gamelist"></app-grid-cell>-->
-<!--      </div>-->
+    <cdk-virtual-scroll-viewport *ngIf="size=='List'" itemSize="200" style="height:100vh">
+      <div class="grid game-list  container">
+        <app-list-cell (remove)="gameDelete($event)" [game]="g" *cdkVirtualFor="let g of gamelist"></app-list-cell>
+      </div>
+    </cdk-virtual-scroll-viewport>
 
-<!--      <div *ngIf="size=='List'" class="grid game-list  div2 test_border container">-->
-<!--        <app-list-cell (remove)="gameDelete($event)" [game]="g" *ngFor="let g of gamelist"></app-list-cell>-->
-<!--      </div>-->
-<!--  </nz-content>-->
-<!--  <nz-footer>-->
-<!--    <footer style="position:sticky;bottom:0;right: 0"-->
-<!--            class="test_border container bg-white">-->
-<!--      <div class="flex_row ">-->
-<!--        <span *ngIf="rowGameList?.length == gamelist?.length;else filterCount">{{rowGameList.length}}</span>-->
+  </nz-content>
+  <nz-footer>
+    <nz-affix [nzOffsetBottom]="0">
+      <div class="flex_row bg-white">
+        <span *ngIf="rowGameList?.length == gamelist?.length;else filterCount">{{rowGameList.length}}</span>
 
-<!--        <ng-template #filterCount>-->
-<!--          <span>{{rowGameList.length}} / <a (click)="clearFilter()">{{gamelist.length}}</a></span>-->
-<!--        </ng-template>-->
+        <ng-template #filterCount>
+          <span>{{rowGameList.length}} / <a (click)="clearFilter()">{{gamelist.length}}</a></span>
+        </ng-template>
 
-<!--        <div *ngIf="gamelist.length>1" style="margin-left: auto" class="flex_row gap-5">-->
-<!--          <span nz-popover [nzPopoverContent]="sortPanel">Sort</span>-->
+        <div *ngIf="gamelist.length>1" style="margin-left: auto" class="flex_row gap-5">
+          <span nz-popover [nzPopoverContent]="sortPanel">Sort</span>
 
-<!--          <nz-radio-group [(ngModel)]="size">-->
-<!--            <label nz-radio-button nzValue="Grid">Grid</label>-->
-<!--            <label nz-radio-button nzValue="List">List</label>-->
-<!--          </nz-radio-group>-->
-<!--        </div>-->
-<!--      </div>-->
-
-<!--    </footer>-->
-<!--  </nz-footer>-->
-<!--</nz-layout>-->
+          <nz-radio-group [(ngModel)]="size">
+            <label nz-radio-button nzValue="Grid">Grid</label>
+            <label nz-radio-button nzValue="List">List</label>
+          </nz-radio-group>
+        </div>
+      </div>
+    </nz-affix>
+  </nz-footer>
+</nz-layout>

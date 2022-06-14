@@ -35,7 +35,7 @@ import {BrandDetailComponent} from "./brand/detail/detail.component";
 import {BrandComponent} from "./brand/brand.component";
 import {BrandService} from "./brand/brand.service";
 import {NzMenuModule} from 'ng-zorro-antd/menu';
-import {CarouselModule, TreeModule} from "ng-devui";
+import {CarouselModule} from "ng-devui";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MonthCalendarComponent} from './common/month-calendar/month-calendar.component';
 import {RelativeTimeModule} from "ng-devui/relative-time";
@@ -84,6 +84,15 @@ import {NzTagModule} from "ng-zorro-antd/tag";
 import {NzLayoutModule} from "ng-zorro-antd/layout";
 import {NzCardModule} from "ng-zorro-antd/card";
 import {NzListModule} from "ng-zorro-antd/list";
+import {NzDescriptionsModule} from "ng-zorro-antd/descriptions";
+import {NzTreeModule} from "ng-zorro-antd/tree";
+import {NzAffixModule} from "ng-zorro-antd/affix";
+import {NzPageHeaderModule} from "ng-zorro-antd/page-header";
+import {NzInputModule} from "ng-zorro-antd/input";
+import {NzSelectModule} from "ng-zorro-antd/select";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {ScrollingModule} from "@angular/cdk/scrolling";
+import {NzIconModule} from "ng-zorro-antd/icon";
 
 // registerLocaleData(ja);
 
@@ -194,7 +203,6 @@ export const routes: Route[] = [
     FormsModule,
     CarouselModule,
     RelativeTimeModule,
-    TreeModule,
     NzMenuModule,
     NzCollapseModule,
     NzBreadCrumbModule,
@@ -213,7 +221,16 @@ export const routes: Route[] = [
     NzTagModule,
     NzLayoutModule,
     NzCardModule,
-    NzListModule
+    NzListModule,
+    NzDescriptionsModule,
+    NzTreeModule,
+    NzAffixModule,
+    NzPageHeaderModule,
+    NzInputModule,
+    NzSelectModule,
+    NzButtonModule,
+    ScrollingModule,
+    NzIconModule
   ],
   providers: [
     GameService,

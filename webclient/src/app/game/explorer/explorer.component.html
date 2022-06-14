@@ -1,19 +1,20 @@
-<nz-layout *ngIf="rowGameList &&rowGameList.length>0;else noGames">
-  <nz-sider>
-    <nz-collapse>
-      <nz-collapse-panel [nzHeader]="'Brand'" [nzShowArrow]="false" [nzActive]="true">
-        <app-group-brand [filter]="filter" (onBrandSelected)="onBrandSelected($event)"></app-group-brand>
-      </nz-collapse-panel>
-    </nz-collapse>
-
+<nz-layout *ngIf="rowGameList?.length>0;else noGames">
+  <nz-sider [nzWidth]="240">
+    <nz-affix [nzOffsetTop]="0">
+      <nz-collapse>
+        <nz-collapse-panel [nzHeader]="'Brand'" [nzShowArrow]="false" [nzActive]="true">
+          <app-group-brand [filter]="filter" (onBrandSelected)="onBrandSelected($event)"></app-group-brand>
+        </nz-collapse-panel>
+      </nz-collapse>
+    </nz-affix>
   </nz-sider>
   <nz-content>
     <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"
                        (onGameDelete)="onGameDelete($event)"></app-game-listview>
   </nz-content>
 
-  <nz-sider>
-    <app-groupside [filter]="filter" (onEmotionSelected)="onEmotionSelected($event)"></app-groupside>
+  <nz-sider [nzWidth]="240">
+      <app-groupside [filter]="filter" (onEmotionSelected)="onEmotionSelected($event)"></app-groupside>
   </nz-sider>
 </nz-layout>
 

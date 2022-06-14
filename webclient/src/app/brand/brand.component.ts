@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {NgForm} from "@angular/forms";
 import {AppService} from "../app.service";
 import {Emotions} from "./brand.service";
 
@@ -13,6 +12,12 @@ export class BrandComponent implements OnInit {
 
   filter
 
+
+  searchType = 'brand'
+
+  searchKey: string
+
+
   state: string
 
   emotions = [
@@ -24,6 +29,7 @@ export class BrandComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private appService: AppService) {
   }
+
 
   onStateSelected() {
 
@@ -40,17 +46,15 @@ export class BrandComponent implements OnInit {
     // })
   }
 
-  onSubmit(form: NgForm) {
-    const {searchKey, searchType} = form.value;
+  search() {
 
-    console.log(searchKey, searchType)
 
-    const v1 = {"comp": {"$regex": `^${searchKey}`}}
-    const v2 = {"name": {"$regex": `${searchKey}`}}
+    const v1 = {"comp": {"$regex": `^${this.searchKey}`}}
+    const v2 = {"name": {"$regex": `${this.searchKey}`}}
 
     let filter
 
-    if (searchType == "0") {
+    if (this.searchType == "comp") {
       filter = v1
     } else {
       filter = v2

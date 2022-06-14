@@ -1,31 +1,22 @@
-<!--<div class="all_height flex_column">-->
-
-<!--  <div class="flex_row">-->
-<!--    <nz-radio-group [(ngModel)]="searchType">-->
-<!--      <label nz-radio-button nzValue="Simple">Simple</label>-->
-<!--      <label nz-radio-button nzValue="Full">Full</label>-->
-<!--    </nz-radio-group>-->
-<!--    <form #form="ngForm" (submit)="onSubmit(form)" class="flex_row flex_grow">-->
-<!--      <input name="searchKey" class="flex_grow" ngModel required placeholder="好みのゲームネイムを入れてください"/>-->
-<!--      <input type="submit" value="Search" [disabled]="form.invalid"/>-->
-<!--    </form>-->
-<!--  </div>-->
-
-<!--  <app-explorer  [filter]="filter" class="flex_grow"></app-explorer>-->
-<!--</div>-->
-
 <nz-layout>
   <nz-header>
-    <div class="flex_row">
-      <nz-radio-group [(ngModel)]="searchType">
-        <label nz-radio-button nzValue="Simple">Simple</label>
-        <label nz-radio-button nzValue="Full">Full</label>
-      </nz-radio-group>
-      <form #form="ngForm" (submit)="onSubmit(form)" class="flex_row flex_grow">
-        <input name="searchKey" class="flex_grow" ngModel required placeholder="好みのゲームネイムを入れてください"/>
-        <input type="submit" value="Search" [disabled]="form.invalid"/>
-      </form>
-    </div>
+    <nz-affix [nzOffsetTop]="0">
+      <nz-input-group nzSize="large" [nzAddOnBefore]="addOnBeforeTemplate" [nzAddOnAfter]="suffixButton">
+        <input name="searchKey" type="text" [(ngModel)]="searchKey" nz-input
+               placeholder="好みのゲームネイムを入れてください"/>
+      </nz-input-group>
+
+      <ng-template #suffixButton>
+        <button nz-button nzType="primary" [disabled]="!searchKey" (click)="search()">Search</button>
+      </ng-template>
+
+      <ng-template #addOnBeforeTemplate>
+        <nz-radio-group [(ngModel)]="searchType" nzButtonStyle="solid">
+          <label nz-radio-button nzValue="Simple">Simple</label>
+          <label nz-radio-button nzValue="Full">Full</label>
+        </nz-radio-group>
+      </ng-template>
+    </nz-affix>
   </nz-header>
   <nz-content>
     <app-explorer [filter]="filter" class="flex_grow"></app-explorer>

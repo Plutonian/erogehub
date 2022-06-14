@@ -14,26 +14,17 @@
   </nz-collapse-panel>
 
   <nz-collapse-panel [nzHeader]="'Tag'" *ngIf="tagGroup?.length>0">
-    <section class="flex_row flex_float gap-5">
-          <span *ngFor="let item of tagGroup">
-
-    <nz-badge [nzCount]="item.count">
-          <app-jumptag style="font-size: 14px;" [tag]="item.title"></app-jumptag>
-    </nz-badge>
-
-          </span>
+    <section class="flex_row flex_float gap-20">
+      <nz-badge *ngFor="let item of tagGroup" [nzCount]="item.count">
+        <app-jumptag style="font-size: 14px;" [tag]="item.title"></app-jumptag>
+      </nz-badge>
     </section>
   </nz-collapse-panel>
   <nz-collapse-panel [nzHeader]="'CV'" *ngIf="cvGroup?.length>0">
-    <section class="flex_row flex_float gap-5">
-          <span *ngFor="let item of cvGroup">
-            <nz-badge [nzCount]="item.count">
-
-                       <app-jumpcv style="font-size: 14px;" [cv]="item.title" [isReal]="item.real"></app-jumpcv>
-            </nz-badge>
-
-          </span>
-
+    <section class="flex_row flex_float gap-20">
+      <nz-badge *ngFor="let item of cvGroup" [nzCount]="item.count">
+        <app-jumpcv style="font-size: 14px;" [cv]="item.title" [isReal]="item.real"></app-jumpcv>
+      </nz-badge>
     </section>
   </nz-collapse-panel>
   <nz-collapse-panel [nzHeader]="'Emotion'" *ngIf="emotionGroup?.length>0">

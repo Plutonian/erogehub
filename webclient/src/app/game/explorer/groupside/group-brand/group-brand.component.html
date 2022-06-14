@@ -1,39 +1,22 @@
-<d-tree [tree]="data"
-        (nodeSelected)="nodeSelected($event)"
-></d-tree>
-<!--<d-operable-tree [tree]="data"></d-operable-tree>-->
+<nz-tree #nzTreeComponent
+         nzVirtualHeight="100vh"
+         [nzData]="data"
+         (nzClick)="nodeSelected($event)"
+         [nzBlockNode]="true"
+         [nzExpandAll]="true"
+         [nzTreeTemplate]="nzTreeTemplate"
+></nz-tree>
 
-
-
-<!--<dl>-->
-<!--  <ng-template ngFor [ngForOf]="brandGroup" let-item>-->
-<!--    <dt>-->
-<!--      <span class="group_title">{{item.title}}</span><span>({{item.count}})</span>-->
-<!--    </dt>-->
-<!--    <dd>-->
-<!--      <ul *ngIf="item.children && item.children.length>0">-->
-
-<!--        &lt;!&ndash; brands&ndash;&gt;-->
-<!--        <li *ngFor="let subItem of item.children">-->
-
-<!--          <ng-template [ngIf]="subItem.games && subItem.games.length>0" [ngIfElse]="nogame">-->
-<!--            <section>-->
-<!--              <header>-->
-<!--                <span>{{subItem.title}}</span> <span>({{subItem.count}})</span>-->
-<!--              </header>-->
-<!--&lt;!&ndash;              <main #brandgame [hidden]="true">&ndash;&gt;-->
-<!--&lt;!&ndash;                <app-game-list-panel [games]="subItem.games"></app-game-list-panel>&ndash;&gt;-->
-<!--&lt;!&ndash;              </main>&ndash;&gt;-->
-<!--            </section>-->
-<!--          </ng-template>-->
-<!--          <ng-template #nogame>-->
-<!--            <span>{{subItem.title}}</span> <span>({{subItem.count}})</span>-->
-<!--          </ng-template>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--&lt;!&ndash;      <ng-template #games>&ndash;&gt;-->
-<!--&lt;!&ndash;        <app-game-list-panel [hidden]="true" [games]="item.games"></app-game-list-panel>&ndash;&gt;-->
-<!--&lt;!&ndash;      </ng-template>&ndash;&gt;-->
-<!--    </dd>-->
-<!--  </ng-template>-->
-<!--</dl>-->
+<ng-template #nzTreeTemplate let-node let-origin="origin">
+  <div *ngIf="!node.isLeaf">
+    <nz-badge [nzCount]="origin.item.count">
+      <span class="folder-name">{{ origin.item.title }}</span>
+    </nz-badge>
+  </div>
+  <div *ngIf="node.isLeaf">
+    <nz-badge [nzCount]="origin.item.count">
+      <div class="file-name">{{ origin.item.title }}</div>
+    </nz-badge>
+    <!--    <span class="file-name">({{ origin.item.count }})</span>-->
+  </div>
+</ng-template>

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {Brand, BrandGroupItem} from "../../../../entity";
 import {GameService} from "../../../game.service";
-import {ITreeItem} from "ng-devui";
+import {NzFormatEmitEvent} from "ng-zorro-antd/tree";
 
 @Component({
   selector: 'app-group-brand',
@@ -20,14 +20,10 @@ export class GroupBrandComponent implements OnChanges {
   constructor(private service: GameService) {
   }
 
-  change(child: HTMLElement) {
-    child.hidden = !child.hidden
-  }
 
-  nodeSelected(item: ITreeItem) {
-    // console.dir(item);
-    if (!item.data.isParent) {
-      this.onBrandSelected.emit(item.data?.originItem?.brand)
+  nodeSelected(item: NzFormatEmitEvent) {
+    if (item.node.isLeaf) {
+      this.onBrandSelected.emit(item.node?.origin["item"]?.brand)
     }
 
   }
@@ -50,18 +46,13 @@ export class GroupBrandComponent implements OnChanges {
 
   makeTree(item: BrandGroupItem) {
     let temp = {
-      // id: item.brand.id,
-      // "title": `${item.title} (${item.count})`,
-      "open": false,
-      brand: item.brand
-      // disabled: true
+      item: item,
+      isLeaf: false
     }
     if (item.children && item.children.length > 0) {
-      temp["items"] = item.children.map(sub => this.makeTree(sub))
-      temp["title"] = `${item.title} (${item.count})`
+      temp["children"] = item.children.map(sub => this.makeTree(sub))
     } else {
-      temp["brandId"] = item.brand.id
-      temp["title"] = `[${item.brand.state}] ${item.title} (${item.count})`
+      temp.isLeaf = true
     }
 
     return temp

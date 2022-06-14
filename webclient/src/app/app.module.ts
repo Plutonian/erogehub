@@ -82,6 +82,8 @@ import {NzImageModule} from "ng-zorro-antd/image";
 import {NzBadgeModule} from "ng-zorro-antd/badge";
 import {NzTagModule} from "ng-zorro-antd/tag";
 import {NzLayoutModule} from "ng-zorro-antd/layout";
+import {NzCardModule} from "ng-zorro-antd/card";
+import {NzListModule} from "ng-zorro-antd/list";
 
 // registerLocaleData(ja);
 
@@ -209,7 +211,9 @@ export const routes: Route[] = [
     NzImageModule,
     NzBadgeModule,
     NzTagModule,
-    NzLayoutModule
+    NzLayoutModule,
+    NzCardModule,
+    NzListModule
   ],
   providers: [
     GameService,

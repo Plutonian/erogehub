@@ -1,34 +1,3 @@
-<!--<ng-template [ngIf]="rowGameList">-->
-<!--  <ng-template [ngIf]="rowGameList.length>0" [ngIfElse]="noGames">-->
-<!--    <d-splitter style="height: 100%">-->
-<!--      &lt;!&ndash; LEFT&ndash;&gt;-->
-<!--      <d-splitter-pane maxSize="400px" size="250px" minSize="250px" [collapsible]="true" class="all_height"-->
-<!--                       style="overflow: auto">-->
-<!--        <aside class="test_border container">-->
-<!--          <nz-collapse>-->
-<!--            <nz-collapse-panel [nzHeader]="'Brand'" [nzShowArrow]="false" [nzActive]="true">-->
-<!--              <app-group-brand [filter]="filter" (onBrandSelected)="onBrandSelected($event)"></app-group-brand>-->
-<!--            </nz-collapse-panel>-->
-<!--          </nz-collapse>-->
-<!--        </aside>-->
-<!--      </d-splitter-pane>-->
-
-<!--      &lt;!&ndash;      MIDDLE&ndash;&gt;-->
-<!--      <d-splitter-pane>-->
-
-<!--        <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList" (onGameDelete)="onGameDelete($event)"></app-game-listview>-->
-<!--      </d-splitter-pane>-->
-
-<!--      &lt;!&ndash;      RIGHT&ndash;&gt;-->
-<!--      <d-splitter-pane maxSize="400px" size="300px" minSize="300px" [collapsible]="true" class="all_height"-->
-<!--                       style="overflow: auto">-->
-<!--        <app-groupside [filter]="filter" (onEmotionSelected)="onEmotionSelected($event)"></app-groupside>-->
-<!--      </d-splitter-pane>-->
-<!--    </d-splitter>-->
-<!--  </ng-template>-->
-<!--</ng-template>-->
-
-
 <nz-layout *ngIf="rowGameList &&rowGameList.length>0;else noGames">
   <nz-sider>
     <nz-collapse>

@@ -68,7 +68,7 @@
 
 <nz-layout>
   <nz-sider>
-    <ul nz-menu nzMode="inline" [nzTheme]="'dark'">
+    <ul nz-menu nzMode="inline">
       <li nz-menu-item><a routerLink="/">Home</a></li>
       <li nz-menu-item><a routerLink="/game/search">Search</a></li>
       <li nz-submenu nzTitle="Date" nzIcon="mail">
@@ -116,22 +116,14 @@
           </li>
         </ul>
       </li>
-      <!--      <li nz-submenu nzTitle="Other" nzIcon="setting">-->
-      <!--        <ul>-->
       <li nzMatchRouter nz-menu-item><a routerLink="/cv">CV</a></li>
       <li nzMatchRouter nz-menu-item><a routerLink="/tag">Tag</a></li>
       <li nzMatchRouter nz-menu-item><a routerLink="/brand">BRAND</a></li>
-      <!--        </ul>-->
-      <!--      </li>-->
     </ul>
   </nz-sider>
-  <nz-layout>
-<!--    <nz-header>Header</nz-header>-->
-    <nz-content>
-      <router-outlet></router-outlet>
-    </nz-content>
-<!--    <nz-footer>Footer</nz-footer>-->
-  </nz-layout>
+  <nz-content>
+    <router-outlet></router-outlet>
+  </nz-content>
 </nz-layout>
 
 <ng-template #month>

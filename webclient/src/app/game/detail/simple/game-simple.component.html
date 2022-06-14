@@ -1,65 +1,67 @@
-<!--<div *ngIf="game" class="container">-->
-<nz-tabset *ngIf="game" [nzTabBarExtraContent]="extraTemplate">
-  <nz-tab [nzTitle]="'ストーリー'">
-    <main class="flex_row">
-      <section class="flex_row">
-        <img class="img_alone" title="{{game.intro}}"
-             src="{{game | img}}/game_s.jpg"/>
-      </section>
-      <textarea class="flex_grow" rows="10" style="font-size: 20px;border: none;"
-                readonly="readonly">{{game.story}}</textarea>
-    </main>
-  </nz-tab>
-  <nz-tab [nzTitle]="'キャラクター'" *ngIf="game.gameCharacters?.length>0">
-    <!--characters-->
-    <div class="flex_row gap-10" style="max-width: 800px;overflow-x: auto">
-      <section *ngFor="let character of game.gameCharacters" class="flex_column">
-        <aside class="imageborder">
-          <img src="{{game | img}}/char_s_{{character.index}}.jpg"/>
-        </aside>
-        <main class="flex_column flex_grow">
+<nz-card style="width: 100%;" nzTitle="{{game.name}}" [nzExtra]="extraTemplate">
+  <nz-card-tab>
+    <nz-tabset *ngIf="game">
+      <nz-tab [nzTitle]="'ストーリー'">
+        <main class="flex_row">
+          <section class="flex_row">
+            <img class="img_alone" title="{{game.intro}}"
+                 src="{{game | img}}/game_s.jpg"/>
+          </section>
+          <textarea class="flex_grow" rows="10" style="font-size: 20px;border: none;"
+                    readonly="readonly">{{game.story}}</textarea>
+        </main>
+      </nz-tab>
+      <nz-tab [nzTitle]="'キャラクター'" *ngIf="game.gameCharacters?.length>0">
+        <!--characters-->
+        <div class="flex_row gap-10" style="max-width: 800px;overflow-x: auto">
+          <section *ngFor="let character of game.gameCharacters" class="flex_column">
+            <aside class="imageborder">
+              <img src="{{game | img}}/char_s_{{character.index}}.jpg"/>
+            </aside>
+            <main class="flex_column flex_grow">
                 <span style="font-size:14px">
                     {{character.name}}
                 </span>
-          <div *ngIf="character.cv?.trim().length>0" class="flex_row gap-3">
-            <span>CV: </span>
+              <div *ngIf="character.cv?.trim().length>0" class="flex_row gap-3">
+                <span>CV: </span>
 
-            <div *ngIf="character.trueCV?.trim().length>0; else cvInfo" class="flex_row gap-3">
-              <app-jumpcv [cv]="character.trueCV" [isReal]="true"></app-jumpcv>
-              <nz-rate *ngIf="character.cvObj" [ngModel]="character.cvObj.star" [disabled]="true"></nz-rate>
-            </div>
-            <ng-template #cvInfo>
-              <div class="flex_row gap-3">
-                <app-jumpcv [cv]="character.cv" [isReal]="false"></app-jumpcv>
+                <div *ngIf="character.trueCV?.trim().length>0; else cvInfo" class="flex_row gap-3">
+                  <app-jumpcv [cv]="character.trueCV" [isReal]="true"></app-jumpcv>
+                  <nz-rate *ngIf="character.cvObj" [ngModel]="character.cvObj.star" [disabled]="true"></nz-rate>
+                </div>
+                <ng-template #cvInfo>
+                  <div class="flex_row gap-3">
+                    <app-jumpcv [cv]="character.cv" [isReal]="false"></app-jumpcv>
 
-                <span>(<a target="_blank" href="{{character.cv | wiki}}">Wiki</a>)</span>
-                <span>(<a target="_blank" href="{{character.cv | bangumi}}">Bangumi</a>)</span>
+                    <span>(<a target="_blank" href="{{character.cv | wiki}}">Wiki</a>)</span>
+                    <span>(<a target="_blank" href="{{character.cv | bangumi}}">Bangumi</a>)</span>
+                  </div>
+                </ng-template>
               </div>
-            </ng-template>
-          </div>
 
-        </main>
-      </section>
-    </div>
-  </nz-tab>
-  <nz-tab [nzTitle]="'サンプル画像'" *ngIf="game.gameImgs?.length>0">
-<!--    <div class="all_height flex_row gap-5" style="max-width:800px;overflow-x: auto">-->
-<!--      <img *ngFor="let img of game.gameImgs"-->
-<!--           src="{{game|img}}/simple_l_{{img.index}}.jpg"/>-->
-<!--    </div>-->
+            </main>
+          </section>
+        </div>
+      </nz-tab>
+      <nz-tab [nzTitle]="'サンプル画像'" *ngIf="game.gameImgs?.length>0">
+        <!--    <div class="all_height flex_row gap-5" style="max-width:800px;overflow-x: auto">-->
+        <!--      <img *ngFor="let img of game.gameImgs"-->
+        <!--           src="{{game|img}}/simple_l_{{img.index}}.jpg"/>-->
+        <!--    </div>-->
 
-            <d-carousel style="max-width: 800px;align-items: center; " class="flex_row">
-              <d-carousel-item *ngFor="let img of game.gameImgs">
-                <img class="sample_img" style="width: 100%; height: 100%"
-                     src="{{game|img}}/simple_l_{{img.index}}.jpg"/>
-              </d-carousel-item>
-            </d-carousel>
+        <d-carousel style="max-width: 800px;align-items: center; " class="flex_row">
+          <d-carousel-item *ngFor="let img of game.gameImgs">
+            <img class="sample_img" style="width: 100%; height: 100%"
+                 src="{{game|img}}/simple_l_{{img.index}}.jpg"/>
+          </d-carousel-item>
+        </d-carousel>
 
 
-  </nz-tab>
-</nz-tabset>
+      </nz-tab>
+    </nz-tabset>
+  </nz-card-tab>
+</nz-card>
 <ng-template #extraTemplate>
   <a routerLink="/game/{{game.id}}">&DoubleRightArrow;</a>
 </ng-template>
-<!--</div>-->
 

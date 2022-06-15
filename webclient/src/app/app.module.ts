@@ -114,7 +114,7 @@ export const routes: Route[] = [
     }, children: [
       {
         path: ':id', component: BrandDetailComponent, data: {
-          breadcrumb: ':id'
+          breadcrumb: 'detail'
         }
       },
       {
@@ -125,20 +125,69 @@ export const routes: Route[] = [
     ]
   },
   {
-    path: 'game', children: [
-      {path: 'search', component: GameSearchComponent,},
-      {path: 'guide/:searchKey', component: GuideComponent},
-      {path: 'star/:star', component: ByStarComponent},
-      {path: 'date/:start/:end', component: ByDateComponent},
-      {path: 'tag/:tag', component: ByTagComponent},
-      {path: 'painter/:painter', component: ByPainterComponent},
-      {path: 'emotion/:emotion', component: ByEmotionComponent},
-      {path: 'playState/:playState', component: ByPlaystateComponent},
-      {path: 'location/:location', component: ByLocationComponent},
-      {path: 'cv/:cv', component: ByCVComponent},
-      {path: 'truecv/:truecv', component: ByTruecvComponent},
-      {path: 'query/:filter', component: QueryComponent},
-      {path: ':id', component: DetailComponent}
+    path: 'game', data: {
+      breadcrumb: 'game'
+    }, children: [
+      {
+        path: 'search', component: GameSearchComponent, data: {
+          breadcrumb: 'search'
+        }
+      },
+      {
+        path: 'star/:star', component: ByStarComponent, data: {
+          breadcrumb: 'star'
+        }
+      },
+      {
+        path: 'date/:start/:end', component: ByDateComponent, data: {
+          breadcrumb: 'date'
+        }
+      },
+      {
+        path: 'tag/:tag', component: ByTagComponent, data: {
+          breadcrumb: 'tag'
+        }
+      },
+      {
+        path: 'painter/:painter', component: ByPainterComponent, data: {
+          breadcrumb: 'painter'
+        }
+      },
+      {
+        path: 'emotion/:emotion', component: ByEmotionComponent, data: {
+          breadcrumb: 'emotion'
+        }
+      },
+      {
+        path: 'playState/:playState', component: ByPlaystateComponent, data: {
+          breadcrumb: 'playState'
+        }
+      },
+      {
+        path: 'location/:location', component: ByLocationComponent, data: {
+          breadcrumb: 'location'
+        }
+      },
+      {
+        path: 'cv/:cv', component: ByCVComponent, data: {
+          breadcrumb: 'cv'
+        }
+      },
+      {
+        path: 'truecv/:truecv', component: ByTruecvComponent, data: {
+          breadcrumb: 'truecv'
+        }
+      },
+      {
+        path: 'query/:filter', component: QueryComponent, data: {
+          breadcrumb: 'filter'
+        }
+      },
+      {
+        path: ':id', component: DetailComponent, data: {
+          breadcrumb: 'detail'
+        }
+      }
     ]
   }
 ]

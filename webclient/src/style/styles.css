@@ -48,10 +48,8 @@
 .game {
   height: 100%;
   width: 100%;
-  /*padding: 5px;*/
-  /*background-color: #eee;*/
-  border: #e0e0e0 solid 3px;
-  /*gap: 5px 10px;*/
+  /*border: black solid 4px;*/
+  border: rgba(0,0,0,.5) solid 4px;
 }
 
 

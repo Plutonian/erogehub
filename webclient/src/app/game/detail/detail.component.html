@@ -1,13 +1,8 @@
 <div *ngIf="game">
 
-  <nz-affix id="top" [nzOffsetTop]="0">
-    <nz-page-header class="bg-white" nzBackIcon
-                    [class.SAME]="game.isSame"
-                    [class.HATE]="game.emotion =='HATE'"
-                    [class.HOPE]="game.emotion =='HOPE'"
-                    [class.LIKE]="game.emotion =='LIKE'"
-
-    >
+<!--  <nz-affix  [nzOffsetTop]="0">-->
+    <nz-page-header id="top" nzBackIcon
+                    [class.HATE]="game.emotion =='HATE'">
       <nz-page-header-title>
         <app-game-playstate-change [game]="game"></app-game-playstate-change>
         {{game.titles.mainTitle}}
@@ -29,25 +24,6 @@
         <app-game-marksame style="margin-top: auto;" [game]="game"></app-game-marksame>
       </nz-page-header-extra>
       <nz-page-header-content>
-
-
-        <!--      <section class="flex_row game"-->
-        <!--               [class.SAME]="game.isSame"-->
-
-        <!--               [class.HATE]="game.emotion =='HATE'"-->
-        <!--               [class.HOPE]="game.emotion =='HOPE'"-->
-        <!--               [class.LIKE]="game.emotion =='LIKE'"-->
-        <!--      >-->
-
-
-        <!--        <main class="anchor_parent">-->
-        <!--          <img class="img_alone" src="{{game|img}}/game_t.jpg" loading="lazy"/>-->
-        <!--          <app-formatted-date class="anchor bg-white" style="bottom: 0;right: 0" *ngIf="game.publishDate"-->
-        <!--                              [game]="game"></app-formatted-date>-->
-
-        <!--        </main>-->
-
-        <!--        <main style="gap:2px;" class="flex_grow flex_column bg-white">-->
 
         <nz-descriptions>
           <nz-descriptions-item [nzSpan]="3" *ngIf="game.brand" nzTitle="ブランド">
@@ -73,7 +49,7 @@
         </nz-descriptions>
       </nz-page-header-content>
     </nz-page-header>
-  </nz-affix>
+<!--  </nz-affix>-->
 
   <nz-card id="story" nzTitle="ストーリー">
     <main class="flex_row">
@@ -81,7 +57,7 @@
         <img class="img_alone" title="{{game.intro}}"
              src="{{game | img}}/game_l.jpg"/>
       </section>
-      <textarea class="flex_grow" rows="10" style="font-size: 20px;border: none;"
+      <textarea  class="flex_grow" rows="10" style="font-size: 20px;border: none;"
                 readonly="readonly">{{game.story}}</textarea>
     </main>
   </nz-card>
@@ -103,7 +79,7 @@
 
   <!-- control bar -->
   <nz-affix [nzOffsetBottom]="0">
-    <footer class="bg-white bottomBar flex_row">
+    <footer class="bottomBar flex_row">
       <a       nz-popover
                [nzPopoverContent]="guide">攻略</a>
       <section style="margin-left: auto">
@@ -147,7 +123,7 @@
     </footer>
   </nz-affix>
 
-  <nz-anchor class="step-nav bg-white" style="position: fixed;right: 60px;top:700px;">
+  <nz-anchor class="step-nav" style="position: fixed;right: 60px;top:700px;">
     <nz-link nzHref="#top" nzTitle="Top"></nz-link>
     <nz-link nzHref="#story" nzTitle="ストーリー"></nz-link>
     <nz-link *ngIf="game.gameCharacters.length>0" nzHref="#char" nzTitle="キャラクター"></nz-link>

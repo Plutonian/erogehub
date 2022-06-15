@@ -14,10 +14,12 @@ a:hover {
 }
 
 
-
 .title {
   font-size: 24px;
-  color: black;
+}
+
+.sub_title {
+  color: rgba(0, 0, 0, .45)
 }
 
 .group_title {

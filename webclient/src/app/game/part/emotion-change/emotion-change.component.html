@@ -1,4 +1,20 @@
-<span nz-popover [nzPopoverContent]="commands">{{game.emotion |emotionJP}}</span>
+<span [class.hope]="game.emotion =='HOPE'"
+      [class.like]="game.emotion =='LIKE'"
+      nz-popover [nzPopoverContent]="commands">
+<i nz-icon nzType="heart" nzTheme="fill"></i>
+  <!--  <div [ngSwitch]="game.emotion">-->
+  <!--    <ng-template [ngSwitchCase]="'LIKE'">-->
+  <!--<i nz-icon nzType="heart" nzTheme="outline"></i>-->
+  <!--    </ng-template>-->
+  <!--        <ng-template [ngSwitchCase]="'HOPE'">-->
+  <!--<i nz-icon nzType="heart" nzTheme="outline"></i>-->
+  <!--    </ng-template>-->
+  <!--            <ng-template [ngSwitchCase]="'HOPE'">-->
+  <!--<i nz-icon nzType="heart" nzTheme="outline"></i>-->
+  <!--    </ng-template>-->
+  <!--  </div>-->
+  <!--  {{game.emotion |emotionJP}}-->
+</span>
 <ng-template #commands>
   <nz-radio-group [(ngModel)]="game.emotion" nzButtonStyle="solid" (ngModelChange)="updateEmotion()">
     <label *ngFor="let emotion of emotions" nz-radio-button nzValue="{{emotion}}">{{emotion |emotionJP}}</label>

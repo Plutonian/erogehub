@@ -23,7 +23,7 @@ export class ByPlaystateComponent implements OnInit {
       // @ts-ignore
       if (p.playState != null) {
 
-        this.titleService.setTitle(`Query By playState:${p['playState']}`)
+        // this.titleService.setTitle(`Query By playState:${p['playState']}`)
         // @ts-ignore
         const filter = {'playState': GamePlayStates[p.playState].value}
 

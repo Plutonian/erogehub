@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {DateGroupItem} from "./entity";
 import {environment} from "../environments/environment";
 import {Title} from "@angular/platform-browser";
+import {filter} from "rxjs";
 
 
 @Component({
@@ -18,12 +19,14 @@ export class AppComponent implements OnInit {
   (
     private router: Router,
     private httpClient: HttpClient,
+    private activatedRoute: ActivatedRoute,
     private titleService: Title,
   ) {
   }
 
+
   ngOnInit() {
-    this.titleService.setTitle(this.title)
+    // this.titleService.setTitle(this.title)
 
     this.httpClient.get(`http://${environment.APP_SERVER}/api/app/years/near`)
       .subscribe((data: DateGroupItem[]) => this.nearDates = data)
@@ -33,6 +36,30 @@ export class AppComponent implements OnInit {
 
     this.httpClient.get(`http://${environment.APP_SERVER}/api/app/monthsOfThisYear`)
       .subscribe((data: DateGroupItem[]) => this.months = data)
+
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+    )
+      .subscribe(() => {
+
+        const rt = this.getChild(this.activatedRoute)
+
+        rt.data.subscribe(data => {
+          console.log(data);
+          data.breadcrumb= this.titleService.getTitle()
+
+        })
+      })
+  }
+
+  getChild(activatedRoute: ActivatedRoute) {
+    if (activatedRoute.firstChild) {
+      return this.getChild(activatedRoute.firstChild);
+    } else {
+      return activatedRoute;
+    }
+
   }
 
   nearDates: DateGroupItem[]

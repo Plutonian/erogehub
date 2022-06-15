@@ -29,26 +29,26 @@
           </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="PlayState" nzIcon="setting">
+      <li nz-submenu nzTitle="Play" nzIcon="play-circle">
         <ul>
           <li nzMatchRouter nz-menu-item *ngFor="let playState of playStates"><a
             routerLink="/game/playState/{{playState}}">{{playState | playStateJP}}</a></li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Emotion" nzIcon="setting">
+      <li nz-submenu nzTitle="Like" nzIcon="heart">
         <ul>
           <li nzMatchRouter nz-menu-item *ngFor="let emotion of emotions"><a
             routerLink="/game/emotion/{{emotion}}">{{emotion | emotionJP}}</a></li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Location" nzIcon="setting">
+      <li nz-submenu nzTitle="Location" nzIcon="cloud">
         <ul>
           <li nzMatchRouter nz-menu-item *ngFor="let location of locations"><a
             routerLink="/game/location/{{location}}">{{location | loc}}</a>
           </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Star" nzIcon="setting">
+      <li nz-submenu nzTitle="Star" nzIcon="star">
         <ul>
           <li nzMatchRouter nz-menu-item *ngFor="let star of stars"><a routerLink="/game/star/{{star}}">{{star}}</a>
           </li>
@@ -60,6 +60,9 @@
     </ul>
   </nz-sider>
   <nz-content>
+
+        <nz-breadcrumb [nzAutoGenerate]="true"></nz-breadcrumb>
+
     <router-outlet></router-outlet>
   </nz-content>
 </nz-layout>

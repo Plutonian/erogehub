@@ -34,6 +34,7 @@ export class DetailComponent implements OnInit {
 
             this.game = game
 
+            // console.log(this.route.data["breadcrumb"]);
             this.titleService.setTitle(game.name)
           })
 

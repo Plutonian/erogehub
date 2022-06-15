@@ -1,4 +1,18 @@
-a{
+a {
   color: black;
   font-weight: bolder;
 }
+
+.like {
+  /*background-color: #ff1151;*/
+  color: #ff1151;
+  /*color: #eeeeee;*/
+}
+
+.hope {
+  /*background-color: #FFABD3;*/
+  color: #FFABD3;
+  /*color: #eeeeee;*/
+}
+
+

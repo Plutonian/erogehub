@@ -1,12 +1,12 @@
 <nz-layout *ngIf="rowGameList?.length>0;else noGames">
   <nz-sider [nzWidth]="240">
-    <nz-affix [nzOffsetTop]="0">
+<!--    <nz-affix [nzOffsetTop]="0">-->
       <nz-collapse>
         <nz-collapse-panel [nzHeader]="'Brand'" [nzShowArrow]="false" [nzActive]="true">
           <app-group-brand [filter]="filter" (onBrandSelected)="onBrandSelected($event)"></app-group-brand>
         </nz-collapse-panel>
       </nz-collapse>
-    </nz-affix>
+<!--    </nz-affix>-->
   </nz-sider>
   <nz-content>
     <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"

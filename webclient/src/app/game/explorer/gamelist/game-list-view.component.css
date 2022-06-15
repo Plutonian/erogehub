@@ -4,9 +4,20 @@
   align-items: stretch !important;
 }
 
+.small-grid {
+  grid-template-columns: repeat(auto-fill, 400px);
+  justify-items: center;
+  align-items: stretch !important;
+}
+
 .game-list {
   grid-template-columns: repeat(1, auto);
   /*justify-items: center;*/
   justify-content: stretch !important;
   /*align-items: stretch !important;*/
+}
+
+.cell {
+  height: 100%;
+  width: 100%;
 }

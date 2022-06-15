@@ -35,10 +35,8 @@ import {BrandDetailComponent} from "./brand/detail/detail.component";
 import {BrandComponent} from "./brand/brand.component";
 import {BrandService} from "./brand/brand.service";
 import {NzMenuModule} from 'ng-zorro-antd/menu';
-import {CarouselModule} from "ng-devui";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MonthCalendarComponent} from './common/month-calendar/month-calendar.component';
-import {RelativeTimeModule} from "ng-devui/relative-time";
 import {FormattedDateComponent} from './common/formatted-date/formatted-date.component';
 import {StarChangeComponent} from './game/part/star-change/star-change.component';
 import {GroupsideComponent} from './game/explorer/groupside/groupside.component';
@@ -94,6 +92,7 @@ import {NzButtonModule} from "ng-zorro-antd/button";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzSliderModule} from "ng-zorro-antd/slider";
+import {ImgCellComponent} from './game/explorer/cell/img-cell/img-cell.component';
 
 // registerLocaleData(ja);
 
@@ -194,7 +193,8 @@ export const routes: Route[] = [
     EmotionChangeComponent,
     ByDateComponent,
     GameSimpleComponent,
-    GameListViewComponent
+    GameListViewComponent,
+    ImgCellComponent
   ],
   imports: [
     BrowserModule,
@@ -202,8 +202,6 @@ export const routes: Route[] = [
     HttpClientModule,
     RouterModule.forRoot(routes),
     FormsModule,
-    CarouselModule,
-    RelativeTimeModule,
     NzMenuModule,
     NzCollapseModule,
     NzBreadCrumbModule,

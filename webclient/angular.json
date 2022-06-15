@@ -35,8 +35,7 @@
               "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "src/style/styles.css",
               "src/style/container.css",
-              "src/style/article.css",
-              "node_modules/ng-devui/devui.min.css"
+              "src/style/article.css"
             ],
             "scripts": []
           },

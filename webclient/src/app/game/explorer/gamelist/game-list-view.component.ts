@@ -15,7 +15,7 @@ export class GameListViewComponent implements OnInit {
   @Input()
   rowGameList: Game[]
 
-  size = "Grid"
+  size = "Small"
 
   @Input()
   gamelist: Game[]

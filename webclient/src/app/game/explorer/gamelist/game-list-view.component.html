@@ -9,12 +9,18 @@
   <nz-content>
     <div *ngIf="size=='Grid'"
          class="grid game-grid  container">
-      <app-grid-cell (remove)="gameDelete($event)" [game]="g" *ngFor="let g of gamelist"></app-grid-cell>
+      <app-grid-cell class="cell" (remove)="gameDelete($event)" [game]="g" *ngFor="let g of gamelist"></app-grid-cell>
+    </div>
+    <div *ngIf="size=='Small'"
+         class="grid small-grid  container">
+      <app-img-cell class="cell" (remove)="gameDelete($event)" [large]="false" [game]="g"
+                    *ngFor="let g of gamelist"></app-img-cell>
     </div>
 
     <cdk-virtual-scroll-viewport *ngIf="size=='List'" itemSize="200" style="height:100vh">
       <div class="grid game-list  container">
-        <app-list-cell (remove)="gameDelete($event)" [game]="g" *cdkVirtualFor="let g of gamelist"></app-list-cell>
+        <app-list-cell class="cell" (remove)="gameDelete($event)" [game]="g"
+                       *cdkVirtualFor="let g of gamelist"></app-list-cell>
       </div>
     </cdk-virtual-scroll-viewport>
 
@@ -34,6 +40,7 @@
           <nz-radio-group [(ngModel)]="size" nzButtonStyle="solid">
             <label nz-radio-button nzValue="Grid"><i nz-icon nzType="appstore" nzTheme="outline"></i></label>
             <label nz-radio-button nzValue="List"><i nz-icon nzType="bars" nzTheme="outline"></i></label>
+            <label nz-radio-button nzValue="Small">Small</label>
           </nz-radio-group>
         </div>
       </div>

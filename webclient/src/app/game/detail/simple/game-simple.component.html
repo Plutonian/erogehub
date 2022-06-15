@@ -43,19 +43,17 @@
           </section>
         </div>
       </nz-tab>
-      <nz-tab [nzTitle]="'サンプル画像'" *ngIf="game.gameImgs?.length>0">
+      <nz-tab [nzTitle]="'サンプル画像'" *ngIf="game.gameImgs?.length>0" style="width: 100%;height:100%">
         <!--    <div class="all_height flex_row gap-5" style="max-width:800px;overflow-x: auto">-->
         <!--      <img *ngFor="let img of game.gameImgs"-->
         <!--           src="{{game|img}}/simple_l_{{img.index}}.jpg"/>-->
         <!--    </div>-->
+        <nz-tabset nzTabPosition="bottom">
+          <nz-tab *ngFor="let img of game.gameImgs" nzTitle="{{img.index}}">
+            <img src="{{game|img}}/simple_l_{{img.index}}.jpg"/>
+          </nz-tab>
 
-        <d-carousel style="max-width: 800px;align-items: center; " class="flex_row">
-          <d-carousel-item *ngFor="let img of game.gameImgs">
-            <img class="sample_img" style="width: 100%; height: 100%"
-                 src="{{game|img}}/simple_l_{{img.index}}.jpg"/>
-          </d-carousel-item>
-        </d-carousel>
-
+        </nz-tabset>
 
       </nz-tab>
     </nz-tabset>

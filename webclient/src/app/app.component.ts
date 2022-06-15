@@ -4,7 +4,6 @@ import {HttpClient} from "@angular/common/http";
 import {DateGroupItem} from "./entity";
 import {environment} from "../environments/environment";
 import {Title} from "@angular/platform-browser";
-import {SourceConfig} from "ng-devui";
 
 
 @Component({

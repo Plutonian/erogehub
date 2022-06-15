@@ -5,7 +5,6 @@ import {BrandService, Emotions} from "../brand.service";
 import {AppService} from "../../app.service";
 import {GameService} from "../../game/game.service";
 import {Title} from "@angular/platform-browser";
-import {SourceConfig} from "ng-devui";
 
 @Component({
   selector: 'app-brand-detail',

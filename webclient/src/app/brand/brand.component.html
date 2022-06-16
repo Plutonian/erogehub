@@ -1,12 +1,26 @@
 <nz-layout>
-  <nz-header>
+  <nz-content>
+    <div class="flex_row gap-5 bg-white">
+      <nz-breadcrumb nz-page-header-breadcrumb>
+        <nz-breadcrumb-item>Index</nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+          Brand
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+          List
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+          <nz-select *ngIf="emotions" [(ngModel)]="state"
+                     (ngModelChange)="onStateSelected()">
+            <nz-option *ngFor="let emotion of emotions" [nzValue]="emotion" [nzLabel]="emotion |emotionJP"></nz-option>
+          </nz-select>
+        </nz-breadcrumb-item>
+      </nz-breadcrumb>
+    </div>
+    <nz-input-group nzSize="large" [nzAddOnBefore]="addOnBeforeTemplate" [nzAddOnAfter]="suffixButton">
+      <input name="searchKey" type="text" [(ngModel)]="searchKey" nz-input
+             placeholder="ネイムを入れてください"/>
 
-    <header class="flex_row">
-
-      <nz-input-group nzSize="large" [nzAddOnBefore]="addOnBeforeTemplate" [nzAddOnAfter]="suffixButton">
-        <input name="searchKey" type="text" [(ngModel)]="searchKey" nz-input
-               placeholder="ネイムを入れてください"/>
-      </nz-input-group>
 
       <ng-template #suffixButton>
         <button nz-button nzType="primary" [disabled]="!searchKey" (click)="search()">Search</button>
@@ -18,13 +32,9 @@
           <label nz-radio-button nzValue="brand">brand</label>
         </nz-radio-group>
       </ng-template>
+    </nz-input-group>
 
-      <nz-select *ngIf="emotions" [(ngModel)]="state" (ngModelChange)="onStateSelected()" style="width: 100px">
-        <nz-option *ngFor="let emotion of emotions" nzValue="{{emotion}}" nzLabel="{{emotion |emotionJP }}"></nz-option>
-      </nz-select>
-    </header>
-  </nz-header>
-  <nz-content>
+
     <app-list [filter]="filter"></app-list>
   </nz-content>
 </nz-layout>

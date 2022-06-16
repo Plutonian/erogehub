@@ -4,6 +4,7 @@ import {Emotions} from "../../../brand/brand.service";
 import {Game} from "../../../entity";
 import {GameService} from "../../game.service";
 import {DataQuery} from "../DataQuery";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-by-emotion',
@@ -12,10 +13,12 @@ import {DataQuery} from "../DataQuery";
 })
 export class ByEmotionComponent extends DataQuery implements OnInit {
 
+  emotion
 
   constructor(
     private route: ActivatedRoute,
-    private service: GameService
+    private service: GameService,
+    private titleService: Title,
   ) {
     super()
   }
@@ -26,11 +29,14 @@ export class ByEmotionComponent extends DataQuery implements OnInit {
     this.route.params.subscribe(p => {
 
       // @ts-ignore
-      if (p.emotion != null) {
+      this.emotion = p.emotion
+      this.titleService.setTitle(this.emotion)
+
+      if (this.emotion != null) {
 
 
         // @ts-ignore
-        const filter = {'emotion': Emotions[p.emotion].value}
+        const filter = {'emotion': Emotions[this.emotion].value}
 
         this.filter = JSON.stringify(filter)
 

@@ -45,20 +45,20 @@ export class AppComponent implements OnInit {
       .subscribe((data: DateGroupItem) => this.thisMonth = data)
 
 
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-    )
-      .subscribe(() => {
-
-        const rt = this.getChild(this.activatedRoute)
-
-        rt.data.subscribe(data => {
-          console.log(data);
-          // data.breadcrumb= this.titleService.getTitle()
-          this.titleService.setTitle(data.breadcrumb)
-
-        })
-      })
+    // this.router.events.pipe(
+    //   filter(event => event instanceof NavigationEnd),
+    // )
+    //   .subscribe(() => {
+    //
+    //     const rt = this.getChild(this.activatedRoute)
+    //
+    //     rt.data.subscribe(data => {
+    //       console.log(data);
+    //       // data.breadcrumb= this.titleService.getTitle()
+    //       this.titleService.setTitle(data.breadcrumb)
+    //
+    //     })
+    //   })
   }
 
   getChild(activatedRoute: ActivatedRoute) {

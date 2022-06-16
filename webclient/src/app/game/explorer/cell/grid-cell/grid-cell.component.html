@@ -27,7 +27,7 @@
 </nz-card>
 
 <ng-template #coverTemplate>
-<!--  <main class="anchor_parent">-->
+  <div class="anchor_parent">
     <img nz-popover [nzPopoverTrigger]="'click'"
          [nzPopoverContent]="drawerContent" *ngIf="large;else small" class="img_alone" src="{{game|img}}/game_s.jpg"
          loading="lazy"/>
@@ -35,9 +35,9 @@
       <img nz-popover [nzPopoverTrigger]="'click'"
            [nzPopoverContent]="drawerContent" class="img_alone" src="{{game|img}}/game_t200.jpg" loading="lazy"/>
     </ng-template>
-<!--    <app-formatted-date class="anchor" style="bottom: 0;right: 0" *ngIf="game.publishDate"-->
-<!--                        [game]="game"></app-formatted-date>-->
-<!--  </main>-->
+    <!--    <app-formatted-date class="anchor" style="bottom: 0;right: 0" *ngIf="game.publishDate"-->
+    <!--                        [game]="game"></app-formatted-date>-->
+  </div>
 </ng-template>
 
 <ng-template #playState>

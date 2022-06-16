@@ -12,6 +12,7 @@ import {DataQuery} from "../DataQuery";
 })
 export class ByStarComponent extends DataQuery implements OnInit {
 
+  star: number
 
   constructor(private route: ActivatedRoute,
               private service: GameService,
@@ -25,13 +26,14 @@ export class ByStarComponent extends DataQuery implements OnInit {
 
     this.route.params.subscribe(p => {
 
-      // @ts-ignore
-      if (p.star != null) {
 
-        this.titleService.setTitle(`Star: ${p['star']}`)
+      if (p['star'] != null) {
 
-        // @ts-ignore
-        const filter = {'star': parseInt(p.star)}
+        this.star = parseInt(p['star'])
+
+        this.titleService.setTitle(`Star: ${this.star}`)
+
+        const filter = {'star': this.star}
 
         this.filter = JSON.stringify(filter)
 

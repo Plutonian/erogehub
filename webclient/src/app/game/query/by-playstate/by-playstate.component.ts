@@ -12,6 +12,7 @@ import {DataQuery} from "../DataQuery";
 })
 export class ByPlaystateComponent extends DataQuery implements OnInit {
 
+  playState
 
   constructor(private route: ActivatedRoute,
               private service: GameService,
@@ -25,11 +26,13 @@ export class ByPlaystateComponent extends DataQuery implements OnInit {
     this.route.params.subscribe(p => {
 
       // @ts-ignore
-      if (p.playState != null) {
+      this.playState = p.playState
 
-        // this.titleService.setTitle(`Query By playState:${p['playState']}`)
+      if (this.playState != null) {
+
+        this.titleService.setTitle(`${this.playState}`)
         // @ts-ignore
-        const filter = {'playState': GamePlayStates[p.playState].value}
+        const filter = {'playState': GamePlayStates[this.playState].value}
 
         this.filter = JSON.stringify(filter)
 

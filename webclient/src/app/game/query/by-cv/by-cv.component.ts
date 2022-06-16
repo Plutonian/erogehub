@@ -12,6 +12,8 @@ import {GameService} from "../../game.service";
 })
 export class ByCVComponent extends DataQuery implements OnInit {
 
+  cv: string
+
   constructor(private route: ActivatedRoute,
               private service: GameService,
               private titleService: Title,
@@ -31,7 +33,7 @@ export class ByCVComponent extends DataQuery implements OnInit {
 
       if (cv && real) {
 
-
+        this.cv = cv
         this.titleService.setTitle(`${cv}`)
 
 

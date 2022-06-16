@@ -99,6 +99,7 @@ import {GroupTagComponent} from './game/explorer/groupside/group-tag/group-tag.c
 import {GroupDateComponent} from './game/explorer/groupside/group-date/group-date.component';
 import {GroupStarComponent} from './game/explorer/groupside/group-star/group-star.component';
 import {ByWriterComponent} from './game/query/by-writer/by-writer.component';
+import {NzTableModule} from "ng-zorro-antd/table";
 
 
 export const routes: Route[] = [
@@ -288,7 +289,8 @@ export const routes: Route[] = [
     NzIconModule,
     NzSliderModule,
     DragDropModule,
-    NzModalModule
+    NzModalModule,
+    NzTableModule
   ],
   providers: [
     GameService,

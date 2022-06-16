@@ -1,3 +1,15 @@
+<nz-breadcrumb nz-page-header-breadcrumb>
+  <nz-breadcrumb-item>Index</nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    Game
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    <a routerLink="/tag">Tag</a>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    {{tag}}
+  </nz-breadcrumb-item>
+</nz-breadcrumb>
 <nz-layout *ngIf="rowGameList?.length>0;else noGames">
 
   <nz-sider>
@@ -12,14 +24,14 @@
   <nz-content>
     <nz-collapse nzAccordion>
       <nz-collapse-panel [nzHeader]="'Tag'" nzActive>
-        <app-group-tag [filter]="filter"></app-group-tag>
+        <app-group-tag [filter]="filter" (onTagSelect)="onTagSelect($event)"></app-group-tag>
       </nz-collapse-panel>
     </nz-collapse>
     <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"
                        (onGameDelete)="onGameDelete($event)"></app-game-listview>
   </nz-content>
   <nz-sider>
-    <nz-collapse nzAccordion>
+    <nz-collapse nzAccordion >
       <nz-collapse-panel [nzHeader]="'Date'" [nzActive]="true">
         <app-group-date [filter]="filter"></app-group-date>
       </nz-collapse-panel>
@@ -31,7 +43,7 @@
         <app-group-cv [filter]="filter"></app-group-cv>
       </nz-collapse-panel>
       <nz-collapse-panel [nzHeader]="'Star'">
-        <app-group-star [filter]="filter"></app-group-star>
+        <app-group-star [filter]="filter" (onStarSelect)="onStarSelect($event)"></app-group-star>
       </nz-collapse-panel>
     </nz-collapse>
   </nz-sider>

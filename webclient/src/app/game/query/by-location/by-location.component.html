@@ -1,4 +1,17 @@
-<!--<app-explorer [filter]="filter"></app-explorer>-->
+<nz-breadcrumb nz-page-header-breadcrumb>
+  <nz-breadcrumb-item>Index</nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    Game
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    Location
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    {{location |loc}}
+  </nz-breadcrumb-item>
+</nz-breadcrumb>
+
+
 <nz-layout *ngIf="rowGameList?.length>0;else noGames">
 
   <nz-sider>
@@ -8,10 +21,12 @@
       </nz-collapse-panel>
     </nz-collapse>
   </nz-sider>
+
   <nz-content>
+
     <nz-collapse nzAccordion>
       <nz-collapse-panel [nzHeader]="'Tag'" nzActive>
-        <app-group-tag [filter]="filter"></app-group-tag>
+        <app-group-tag [filter]="filter" (onTagSelect)="onTagSelect($event)"></app-group-tag>
       </nz-collapse-panel>
     </nz-collapse>
     <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"
@@ -26,7 +41,7 @@
         <app-group-cv [filter]="filter"></app-group-cv>
       </nz-collapse-panel>
       <nz-collapse-panel [nzHeader]="'Star'">
-        <app-group-star [filter]="filter"></app-group-star>
+        <app-group-star [filter]="filter" (onStarSelect)="onStarSelect($event)"></app-group-star>
       </nz-collapse-panel>
 
       <nz-collapse-panel [nzHeader]="'Emotion'" [nzActive]="true">
@@ -37,7 +52,7 @@
   </nz-sider>
 </nz-layout>
 
+
 <ng-template #noGames>
   <H3>Empty</H3>
 </ng-template>
-

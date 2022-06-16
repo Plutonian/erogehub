@@ -1,5 +1,5 @@
 .game-grid {
-  grid-template-columns: repeat(auto-fill, 290px);
+  grid-template-columns: repeat(auto-fill, 282px);
   justify-items: center;
   align-items: stretch !important;
 }

@@ -5,19 +5,15 @@ import {BrandService, Emotions} from "../brand.service";
 import {AppService} from "../../app.service";
 import {GameService} from "../../game/game.service";
 import {Title} from "@angular/platform-browser";
+import {DataQuery} from "../../game/query/DataQuery";
 
 @Component({
   selector: 'app-brand-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.css']
 })
-export class BrandDetailComponent implements OnInit {
+export class BrandDetailComponent extends DataQuery implements OnInit {
 
-  rowGameList: Game[]
-
-  filter
-
-  gamelist: Game[]
 
   brand: Brand
 
@@ -32,8 +28,8 @@ export class BrandDetailComponent implements OnInit {
   subBrands: Brand[]
   subBrandId: Number
 
-  showModal(){
-    this.isVisible=true
+  showModal() {
+    this.isVisible = true
   }
 
   isVisible = false;
@@ -61,12 +57,6 @@ export class BrandDetailComponent implements OnInit {
 
   }
 
-  onGameDelete(game: Game) {
-
-    console.log(game);
-    this.gamelist = this.gamelist.filter(g => g.id != game.id)
-    this.rowGameList = this.rowGameList.filter(g => g.id != game.id)
-  }
 
   blockAll() {
     this.gameService.blockAll(this.brand.id)
@@ -79,10 +69,6 @@ export class BrandDetailComponent implements OnInit {
       .subscribe((data) => console.log(data))
   }
 
-  onEmotionSelected(emotion: string) {
-    this.gamelist = this.rowGameList.filter(g => g.emotion == emotion)
-  }
-
   constructor(private brandService: BrandService,
               private gameService: GameService,
               private appService: AppService,
@@ -90,6 +76,7 @@ export class BrandDetailComponent implements OnInit {
               private router: Router,
               private titleService: Title,
   ) {
+    super()
   }
 
 

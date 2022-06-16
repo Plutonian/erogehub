@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {GameLocation, GameService} from "../../game.service";
 import {Game} from "../../../entity";
 import {DataQuery} from "../DataQuery";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-by-location',
@@ -11,10 +12,13 @@ import {DataQuery} from "../DataQuery";
 })
 export class ByLocationComponent extends DataQuery implements OnInit {
 
+  location
+
 
   constructor(
     private route: ActivatedRoute,
-    private service: GameService
+    private service: GameService,
+    private titleService: Title,
   ) {
     super()
   }
@@ -24,10 +28,12 @@ export class ByLocationComponent extends DataQuery implements OnInit {
     this.route.params.subscribe(p => {
 
       // @ts-ignore
-      if (p.location != null) {
+      this.location = p.location
+      this.titleService.setTitle(this.location)
 
-        // @ts-ignore
-        const filter = {'location': GameLocation[p.location].value}
+      if (this.location != null) {
+
+        const filter = {'location': GameLocation[this.location].value}
 
         this.filter = JSON.stringify(filter)
 

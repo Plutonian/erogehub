@@ -5,25 +5,29 @@
     <div class="parent">
       <main class="div2 test_border container">
 
-        <table>
-          <thead style="position: sticky;top:0;background-color: white">
-          <th>Comp</th>
-          <th>Name</th>
-          <th>Tag</th>
-          <th>公式サイト</th>
-          <th>State</th>
+        <nz-table>
+          <thead>
+          <tr>
+            <th>Comp</th>
+            <th>Name</th>
+            <th>Tag</th>
+            <th>公式サイト</th>
+            <th>State</th>
+          </tr>
           </thead>
           <tbody>
           <tr *ngFor="let b of brands">
             <td>{{b.comp}}</td>
             <td><a routerLink="/brand/{{b.id}}">{{b.name}}</a></td>
-            <td class="flex_row gap-5"><span *ngFor="let tag of b.javaTag" class="tag">{{tag}}</span></td>
-            <td><a *ngIf="b.website && b.website.length>0" target="_blank" [href]="b.website">{{b.website}}</a>
+            <td class="flex_row gap-5">
+              <nz-tag *ngFor="let tag of b.javaTag" [nzColor]="'#FFABD3'" style="color: black">{{tag}}</nz-tag>
+            </td>
+            <td><a *ngIf="b.website?.length>0" target="_blank" [href]="b.website">{{b.website}}</a>
             </td>
             <td>{{b.emotion |emotionJP}}</td>
           </tr>
           </tbody>
-        </table>
+        </nz-table>
 
       </main>
       <footer style="position: sticky;bottom: 0;background-color: white;width: 100%" class="div3 test_border container">

@@ -12,6 +12,7 @@ import {DataQuery} from "../DataQuery";
 })
 export class ByTagComponent extends DataQuery implements OnInit {
 
+  tag: string
 
   constructor(private route: ActivatedRoute,
               private service: GameService,
@@ -23,11 +24,14 @@ export class ByTagComponent extends DataQuery implements OnInit {
   ngOnInit(): void {
 
     this.route.params.subscribe(p => {
-
       // @ts-ignore
-      if (p.tag != null) {
-        // @ts-ignore
-        const filter = {'tag': p.tag}
+      this.tag = p.tag
+
+
+      if (this.tag != null) {
+        const filter = {'tag': this.tag}
+
+        this.titleService.setTitle(this.tag)
 
         this.filter = JSON.stringify(filter)
 

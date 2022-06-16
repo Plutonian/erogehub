@@ -1,67 +1,81 @@
-<main *ngIf="brand" class="container flex_column gap-5">
+<main *ngIf="brand">
+
   <nz-affix [nzOffsetTop]="0">
-    <header class="container bg-white">
-      <div class="flex_row gap-5">
-        <!-- Comp -->
-        <span *ngIf="brand.comp && brand.comp.length>0" class="title">{{brand.comp}} ></span>
-
-        <nz-select *ngIf="subBrands?.length>1;else single" [(ngModel)]="subBrandId" style="width: 300px"
-                   (ngModelChange)="onSubBrandSelected()">
-          <nz-option *ngFor="let subBrand of subBrands" [nzValue]="subBrand.id" [nzLabel]="subBrand.name"
-                     [nzCustomContent]="true">
-            {{subBrand.name}}
-            [{{subBrand.emotion |emotionJP}}]
-          </nz-option>
-        </nz-select>
-        <ng-template #single>
-          <span class="title">{{brand.name}}</span>
-        </ng-template>
-        <ul>
-          <li>
-            <button (click)="blockAll()">HATE All</button>
-          </li>
-          <li>
-            <button (click)="normalAll()">NORMAL All</button>
-          </li>
-        </ul>
+    <div class="flex_row gap-5 bg-white">
+      <nz-breadcrumb nz-page-header-breadcrumb>
+        <nz-breadcrumb-item>Index</nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+          Brand
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item *ngIf="brand.comp?.length>0">
+          <!--            Comp-->
+          {{brand.comp}}
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>
 
 
-        <nz-radio-group style="margin-left: auto" [(ngModel)]="brand.emotion" nzButtonStyle="solid"
-                        (ngModelChange)="onStateSelected()">
-          <label *ngFor="let emotion of emotions" nz-radio-button nzValue="{{emotion}}">{{emotion | emotionJP}}</label>
-        </nz-radio-group>
-      </div>
-    </header>
+          <nz-select *ngIf="subBrands?.length>1;else single" [(ngModel)]="subBrandId" style="width: 300px"
+                     (ngModelChange)="onSubBrandSelected()">
+            <nz-option *ngFor="let subBrand of subBrands" [nzValue]="subBrand.id" [nzLabel]="subBrand.name"
+                       [nzCustomContent]="true">
+              {{subBrand.name}}
+              [{{subBrand.emotion |emotionJP}}]
+            </nz-option>
+          </nz-select>
+
+        </nz-breadcrumb-item>
+
+      </nz-breadcrumb>
+
+      <ng-template #single>
+        <span class="title">{{brand.name}}</span>
+      </ng-template>
+      <button (click)="blockAll()">HATE All</button>
+
+      <button (click)="normalAll()">NORMAL All</button>
+
+      <nz-radio-group style="margin-left: auto" [(ngModel)]="brand.emotion" nzButtonStyle="solid"
+                      (ngModelChange)="onStateSelected()">
+        <label *ngFor="let emotion of emotions" nz-radio-button nzValue="{{emotion}}">{{emotion | emotionJP}}</label>
+      </nz-radio-group>
+    </div>
   </nz-affix>
 
 
-  <nz-tabset>
+  <nz-tabset *ngIf="rowGameList?.length>0;else noGames">
     <nz-tab [nzTitle]="'All Games'">
-      <nz-layout *ngIf="rowGameList?.length>0;else noGames">
-        <nz-content>
-          <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"
-                             (onGameDelete)="onGameDelete($event)"></app-game-listview>
-        </nz-content>
+
+      <nz-layout>
         <nz-sider>
           <nz-collapse nzAccordion>
             <nz-collapse-panel [nzHeader]="'Date'" [nzActive]="true">
               <app-group-date [filter]="filter"></app-group-date>
             </nz-collapse-panel>
-
+          </nz-collapse>
+        </nz-sider>
+        <nz-content>
+          <nz-collapse nzAccordion>
             <nz-collapse-panel [nzHeader]="'Tag'">
-              <app-group-tag [filter]="filter"></app-group-tag>
+              <app-group-tag [filter]="filter" (onTagSelect)="onTagSelect($event)"></app-group-tag>
             </nz-collapse-panel>
-            <nz-collapse-panel [nzHeader]="'CV'">
-              <app-group-cv [filter]="filter"></app-group-cv>
-            </nz-collapse-panel>
-            <nz-collapse-panel [nzHeader]="'Star'">
-              <app-group-star [filter]="filter"></app-group-star>
-            </nz-collapse-panel>
-
+          </nz-collapse>
+          <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"
+                             (onGameDelete)="onGameDelete($event)"></app-game-listview>
+        </nz-content>
+        <nz-sider>
+          <nz-collapse nzAccordion>
             <nz-collapse-panel [nzHeader]="'Emotion'" [nzActive]="true">
               <app-group-emotion [filter]="filter"
                                  (onEmotionSelected)="onEmotionSelected($event)"></app-group-emotion>
             </nz-collapse-panel>
+
+            <nz-collapse-panel [nzHeader]="'Star'" [nzActive]="true">
+              <app-group-star [filter]="filter" (onStarSelect)="onStarSelect($event)"></app-group-star>
+            </nz-collapse-panel>
+            <nz-collapse-panel [nzHeader]="'CV'">
+              <app-group-cv [filter]="filter"></app-group-cv>
+            </nz-collapse-panel>
+
           </nz-collapse>
 
         </nz-sider>

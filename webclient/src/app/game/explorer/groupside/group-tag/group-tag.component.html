@@ -1,5 +1,7 @@
 <section class="flex_row flex_float gap-20" *ngIf="tagGroup?.length>0">
   <nz-badge *ngFor="let item of tagGroup" [nzCount]="item.count">
-    <app-jumptag style="font-size: 14px;" [tag]="item.title"></app-jumptag>
+    <nz-tag [nzColor]="'#FFABD3'" style="color:#000;" (click)="select(item.title)">
+      {{item.title}}
+    </nz-tag>
   </nz-badge>
 </section>

@@ -28,10 +28,10 @@
   <nz-footer>
     <nz-affix [nzOffsetBottom]="0">
       <div class="flex_row">
-        <span *ngIf="rowGameList?.length == gamelist?.length;else filterCount">{{rowGameList.length}}</span>
+        <span class="bg-white" *ngIf="rowGameList?.length == gamelist?.length;else filterCount">{{rowGameList.length}}</span>
 
         <ng-template #filterCount>
-          <span>{{rowGameList.length}} / <a (click)="clearFilter()">{{gamelist.length}}</a></span>
+          <span class="bg-white">{{rowGameList.length}} / <a (click)="clearFilter()">{{gamelist.length}}</a></span>
         </ng-template>
 
         <div *ngIf="gamelist.length>1" style="margin-left: auto" class="flex_row gap-5">

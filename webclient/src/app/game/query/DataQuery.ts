@@ -27,4 +27,8 @@ export class DataQuery {
   onStarSelect(star: number) {
     this.gamelist = this.rowGameList.filter(g => g.star == star)
   }
+
+  onTagSelect(tag: string) {
+    this.gamelist = this.rowGameList.filter(g => g.tag.includes(tag))
+  }
 }

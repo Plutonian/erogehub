@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {TagGroupItem} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
@@ -11,6 +11,9 @@ export class GroupTagComponent implements OnChanges {
 
   @Input()
   filter
+
+  @Output()
+  onTagSelect = new EventEmitter<string>()
 
 
   tagGroup: TagGroupItem[]
@@ -28,6 +31,10 @@ export class GroupTagComponent implements OnChanges {
       this.service.groupByTag(filter)
         .subscribe((data: TagGroupItem[]) => this.tagGroup = data)
     }
+  }
+
+  select(tag: string) {
+    this.onTagSelect.emit(tag)
   }
 
 }

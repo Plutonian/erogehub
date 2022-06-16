@@ -1,15 +1,17 @@
-<div *ngIf="dateGroup?.length>0" class="flex_row flex_float" >
-  <ng-template ngFor [ngForOf]="dateGroup" let-yearItem>
-    <nz-card [nzTitle]="yearItem.title" style="width: 200px">
-      <app-month-calendar [months]="$any(yearItem.children)">
-      </app-month-calendar>
-    </nz-card>
-<!--    <dt>-->
-<!--      <span class="group_title">{{yearItem.title}}</span><span>({{yearItem.count}})</span>-->
-<!--    </dt>-->
-<!--    <dd style="width: 200px">-->
-<!--      <app-month-calendar [months]="$any(yearItem.children)">-->
-<!--      </app-month-calendar>-->
-<!--    </dd>-->
-  </ng-template>
+<div style="height: 700px;overflow-y: auto">
+  <div *ngIf="dateGroup?.length>0" class="flex_row flex_float">
+    <ng-template ngFor [ngForOf]="dateGroup" let-yearItem>
+      <!--    <nz-card [nzTitle]="yearItem.title" style="width: 200px">-->
+      <!--      <app-month-calendar [months]="$any(yearItem.children)">-->
+      <!--      </app-month-calendar>-->
+      <!--    </nz-card>-->
+      <dt>
+        <span class="group_title">{{yearItem.title}}</span><span>({{yearItem.count}})</span>
+      </dt>
+      <dd style="width: 200px">
+        <app-month-calendar [months]="$any(yearItem.children)">
+        </app-month-calendar>
+      </dd>
+    </ng-template>
+  </div>
 </div>

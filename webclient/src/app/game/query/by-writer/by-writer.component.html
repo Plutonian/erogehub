@@ -12,7 +12,7 @@
   <nz-content>
     <nz-collapse nzAccordion>
       <nz-collapse-panel [nzHeader]="'Tag'">
-        <app-group-tag [filter]="filter"></app-group-tag>
+        <app-group-tag [filter]="filter" (onTagSelect)="onTagSelect($event)"></app-group-tag>
       </nz-collapse-panel>
     </nz-collapse>
     <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList" [size]="'List'"
@@ -32,7 +32,7 @@
         <app-group-cv [filter]="filter"></app-group-cv>
       </nz-collapse-panel>
       <nz-collapse-panel [nzHeader]="'Star'">
-        <app-group-star [filter]="filter"></app-group-star>
+        <app-group-star [filter]="filter" (onStarSelect)="onStarSelect($event)"></app-group-star>
       </nz-collapse-panel>
     </nz-collapse>
   </nz-sider>

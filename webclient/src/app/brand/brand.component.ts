@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {AppService} from "../app.service";
 import {Emotions} from "./brand.service";
 
 @Component({
@@ -17,7 +15,6 @@ export class BrandComponent implements OnInit {
 
   searchKey: string
 
-
   state: string
 
   emotions = [
@@ -26,9 +23,6 @@ export class BrandComponent implements OnInit {
     "NORMAL",
     "HATE"
   ]
-
-  constructor(private route: ActivatedRoute, private appService: AppService) {
-  }
 
 
   onStateSelected() {
@@ -43,7 +37,9 @@ export class BrandComponent implements OnInit {
 
   ngOnInit(): void {
     // this.appService.emotions().subscribe((data: Emotion[]) => {
-    //   this.states = data
+    this.state = "LIKE"
+
+    this.onStateSelected()
     //   // this.states = emotions.filter(data => data.value > 0)
     // })
   }

@@ -14,7 +14,13 @@
   </nz-content>
 
   <nz-sider [nzWidth]="240">
-      <app-groupside [filter]="filter" (onEmotionSelected)="onEmotionSelected($event)"></app-groupside>
+    <nz-collapse nzAccordion>
+      <app-groupside [filter]="filter"></app-groupside>
+
+<!--      <nz-collapse-panel [nzHeader]="'Emotion'" [nzActive]="true">-->
+<!--        <app-group-emotion [filter]="filter" (onEmotionSelected)="onEmotionSelected($event)"></app-group-emotion>-->
+<!--      </nz-collapse-panel>-->
+    </nz-collapse>
   </nz-sider>
 </nz-layout>
 

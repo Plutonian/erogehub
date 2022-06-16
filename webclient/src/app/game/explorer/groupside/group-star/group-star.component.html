@@ -1,0 +1,5 @@
+<ul *ngIf="starGroup?.length>0">
+  <li *ngFor="let starItem of starGroup">
+    {{starItem.title}}({{starItem.count}})
+  </li>
+</ul>

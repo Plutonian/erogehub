@@ -32,6 +32,11 @@ export class BrandDetailComponent implements OnInit {
   subBrands: Brand[]
   subBrandId: Number
 
+  showModal(){
+    this.isVisible=true
+  }
+
+  isVisible = false;
 
   onSubBrandSelected() {
 
@@ -42,14 +47,14 @@ export class BrandDetailComponent implements OnInit {
   }
 
   onStateSelected() {
-    console.log(this.brand.state);
+    console.log(this.brand.emotion);
 
     if (this.subBrands != null)
       this.subBrands.filter(brand => brand.id == this.brand.id).forEach(brand => {
-        brand.state = this.brand.state
+        brand.emotion = this.brand.emotion
       })
 
-    const brandState = Emotions[`${this.brand.state}`];
+    const brandState = Emotions[`${this.brand.emotion}`];
 
     this.brandService.changeState(this.brand.id, brandState.value)
       .subscribe((data: string) => console.log(data))

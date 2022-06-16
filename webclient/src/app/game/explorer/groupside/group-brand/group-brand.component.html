@@ -9,14 +9,14 @@
 
 <ng-template #nzTreeTemplate let-node let-origin="origin">
   <div *ngIf="!node.isLeaf">
-    <nz-badge [nzCount]="origin.item.count">
-      <span class="folder-name">{{ origin.item.title }}</span>
-    </nz-badge>
+<!--    <nz-badge [nzCount]="origin.item.count">-->
+      <span class="folder-name" [title]="origin.item.count">{{ origin.item.title }}</span>
+<!--    </nz-badge>-->
   </div>
   <div *ngIf="node.isLeaf">
-    <nz-badge [nzCount]="origin.item.count">
-      <div class="file-name">{{ origin.item.title }}</div>
-    </nz-badge>
+<!--    <nz-badge [nzCount]="origin.item.count">-->
+      <div class="file-name" [title]="origin.item.count">{{ origin.item.title }}</div>
+<!--    </nz-badge>-->
     <!--    <span class="file-name">({{ origin.item.count }})</span>-->
   </div>
 </ng-template>

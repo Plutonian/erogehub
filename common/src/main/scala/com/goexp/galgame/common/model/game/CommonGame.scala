@@ -69,8 +69,10 @@ abstract class CommonGame {
 
   var smallImg: String = ""
   var website = ""
+  @BeanProperty
   var writer: util.List[String] = _ //シナリオ
-  @BeanProperty var painter: util.List[String] = _ //原画
+  @BeanProperty
+  var painter: util.List[String] = _ //原画
   var `type`: util.List[String] = _ //サブジャンル
   @BeanProperty var tag: util.List[String] = _
   @BeanProperty var story: String = "" // ストーリー(HTML)

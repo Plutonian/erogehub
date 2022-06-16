@@ -1,1 +1,43 @@
-<app-explorer [filter]="filter"></app-explorer>
+<!--<app-explorer [filter]="filter"></app-explorer>-->
+<nz-layout *ngIf="rowGameList?.length>0;else noGames">
+
+  <nz-sider>
+    <nz-collapse>
+      <nz-collapse-panel [nzHeader]="'Brand'" [nzShowArrow]="false" [nzActive]="true">
+        <app-group-brand [filter]="filter" (onBrandSelected)="onBrandSelected($event)"></app-group-brand>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-sider>
+  <nz-content>
+    <nz-collapse nzAccordion>
+      <nz-collapse-panel [nzHeader]="'Tag'" nzActive>
+        <app-group-tag [filter]="filter"></app-group-tag>
+      </nz-collapse-panel>
+    </nz-collapse>
+    <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"
+                       (onGameDelete)="onGameDelete($event)"></app-game-listview>
+  </nz-content>
+  <nz-sider>
+    <nz-collapse nzAccordion>
+      <nz-collapse-panel [nzHeader]="'Date'" [nzActive]="true">
+        <app-group-date [filter]="filter"></app-group-date>
+      </nz-collapse-panel>
+      <nz-collapse-panel [nzHeader]="'CV'">
+        <app-group-cv [filter]="filter"></app-group-cv>
+      </nz-collapse-panel>
+      <nz-collapse-panel [nzHeader]="'Star'">
+        <app-group-star [filter]="filter"></app-group-star>
+      </nz-collapse-panel>
+
+      <nz-collapse-panel [nzHeader]="'Emotion'" [nzActive]="true">
+        <app-group-emotion [filter]="filter"
+                           (onEmotionSelected)="onEmotionSelected($event)"></app-group-emotion>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-sider>
+</nz-layout>
+
+<ng-template #noGames>
+  <H3>Empty</H3>
+</ng-template>
+

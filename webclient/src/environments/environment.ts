@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  APP_SERVER: "192.168.2.236:9000",
+  APP_SERVER: "localhost:9000",
   IMG_SERVER: "192.168.2.236"
 
 };

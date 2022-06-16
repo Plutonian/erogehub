@@ -1,26 +1,16 @@
-<main class="container flex_column gap-5">
+<main *ngIf="brand" class="container flex_column gap-5">
   <nz-affix [nzOffsetTop]="0">
-
-    <header *ngIf="brand" class="container bg-white">
+    <header class="container bg-white">
       <div class="flex_row gap-5">
         <!-- Comp -->
         <span *ngIf="brand.comp && brand.comp.length>0" class="title">{{brand.comp}} ></span>
 
-        <!--Brand -->
-        <!--        <select *ngIf="subBrands!= null &&subBrands.length>1;else single" [(ngModel)]="subBrandId"-->
-        <!--                (ngModelChange)="onSubBrandSelected()">-->
-        <!--          <option *ngFor="let subBrand of subBrands" [value]="subBrand.id">-->
-        <!--            {{subBrand.name}}  [{{subBrand.state |emotionJP}}]-->
-        <!--          </option>-->
-        <!--        </select>-->
-
-
-        <nz-select *ngIf="subBrands?.length>1;else single" [(ngModel)]="subBrandId" style="width: 180px"
+        <nz-select *ngIf="subBrands?.length>1;else single" [(ngModel)]="subBrandId" style="width: 300px"
                    (ngModelChange)="onSubBrandSelected()">
           <nz-option *ngFor="let subBrand of subBrands" [nzValue]="subBrand.id" [nzLabel]="subBrand.name"
                      [nzCustomContent]="true">
             {{subBrand.name}}
-            [{{subBrand.state |emotionJP}}]
+            [{{subBrand.emotion |emotionJP}}]
           </nz-option>
         </nz-select>
         <ng-template #single>
@@ -36,24 +26,67 @@
         </ul>
 
 
-        <nz-radio-group style="margin-left: auto" [(ngModel)]="brand.state" nzButtonStyle="solid"
+        <nz-radio-group style="margin-left: auto" [(ngModel)]="brand.emotion" nzButtonStyle="solid"
                         (ngModelChange)="onStateSelected()">
           <label *ngFor="let emotion of emotions" nz-radio-button nzValue="{{emotion}}">{{emotion | emotionJP}}</label>
         </nz-radio-group>
       </div>
     </header>
-
   </nz-affix>
 
-  <nz-layout *ngIf="rowGameList?.length>0;else noGames">
-    <nz-content>
-      <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"
-                         (onGameDelete)="onGameDelete($event)"></app-game-listview>
-    </nz-content>
-    <nz-sider>
-      <app-groupside [filter]="filter" (onEmotionSelected)="onEmotionSelected($event)"></app-groupside>
-    </nz-sider>
-  </nz-layout>
+
+  <nz-tabset>
+    <nz-tab [nzTitle]="'All Games'">
+      <nz-layout *ngIf="rowGameList?.length>0;else noGames">
+        <nz-content>
+          <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"
+                             (onGameDelete)="onGameDelete($event)"></app-game-listview>
+        </nz-content>
+        <nz-sider>
+          <nz-collapse nzAccordion>
+            <nz-collapse-panel [nzHeader]="'Date'" [nzActive]="true">
+              <app-group-date [filter]="filter"></app-group-date>
+            </nz-collapse-panel>
+
+            <nz-collapse-panel [nzHeader]="'Tag'">
+              <app-group-tag [filter]="filter"></app-group-tag>
+            </nz-collapse-panel>
+            <nz-collapse-panel [nzHeader]="'CV'">
+              <app-group-cv [filter]="filter"></app-group-cv>
+            </nz-collapse-panel>
+            <nz-collapse-panel [nzHeader]="'Star'">
+              <app-group-star [filter]="filter"></app-group-star>
+            </nz-collapse-panel>
+
+            <nz-collapse-panel [nzHeader]="'Emotion'" [nzActive]="true">
+              <app-group-emotion [filter]="filter"
+                                 (onEmotionSelected)="onEmotionSelected($event)"></app-group-emotion>
+            </nz-collapse-panel>
+          </nz-collapse>
+
+        </nz-sider>
+      </nz-layout>
+    </nz-tab>
+    <nz-tab [nzTitle]="'Series'">
+      <button nz-button [nzType]="'primary'" (click)="showModal()"><span>Add Series</span></button>
+      <nz-modal [nzVisible]="isVisible" (nzOnCancel)="isVisible=false" nzTitle="Add Series">
+        <ng-container *nzModalContent>
+          <p>Content one</p>
+          <p>Content two</p>
+          <p>Content three</p>
+        </ng-container>
+      </nz-modal>
+      <nz-collapse>
+        <nz-collapse-panel *ngFor="let series of brand.series" [nzHeader]="series?.name" [nzShowArrow]="false"
+                           [nzActive]="true">
+          <app-game-listview [gamelist]="series.games" [rowGameList]="series.games"
+                             (onGameDelete)="onGameDelete($event)"></app-game-listview>
+        </nz-collapse-panel>
+      </nz-collapse>
+
+    </nz-tab>
+  </nz-tabset>
+
 
   <ng-template #noGames>
     <H3>Empty</H3>

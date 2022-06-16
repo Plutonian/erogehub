@@ -41,9 +41,9 @@
               <a *ngFor="let painter of game.painter" routerLink="/game/painter/{{painter}}">{{painter}}</a>
             </section>
           </nz-descriptions-item>
-          <nz-descriptions-item *ngIf="game.painter?.length>0" nzTitle="シナリオ">
+          <nz-descriptions-item *ngIf="game.writer?.length>0" nzTitle="シナリオ">
             <section class="flex_row flex_float gap-5">
-              <a *ngFor="let painter of game.painter" routerLink="/game/painter/{{painter}}">{{painter}}</a>
+              <a *ngFor="let writer of game.writer" routerLink="/game/writer/{{writer}}">{{writer}}</a>
             </section>
           </nz-descriptions-item>
         </nz-descriptions>

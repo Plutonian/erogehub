@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+import {Brand, Game} from "../../../entity";
+import {GameService} from "../../game.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-by-tag',
@@ -8,9 +11,34 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ByTagComponent implements OnInit {
 
-  filter: string
+  rowGameList: Game[]
 
-  constructor(private route: ActivatedRoute) {
+  filter
+
+  gamelist: Game[]
+
+
+  onGameDelete(game: Game) {
+
+    console.log(game);
+    this.gamelist = this.gamelist.filter(g => g.id != game.id)
+    this.rowGameList = this.rowGameList.filter(g => g.id != game.id)
+  }
+
+  onBrandSelected(brand: Brand) {
+
+    this.gamelist = this.rowGameList.filter(g => g.brand.id == brand.id)
+
+  }
+
+  onEmotionSelected(emotion: string) {
+    this.gamelist = this.rowGameList.filter(g => g.emotion == emotion)
+  }
+
+  constructor(private route: ActivatedRoute,
+              private service: GameService,
+              private titleService: Title,
+  ) {
   }
 
   ngOnInit(): void {
@@ -23,6 +51,18 @@ export class ByTagComponent implements OnInit {
         const filter = {'tag': p.tag}
 
         this.filter = JSON.stringify(filter)
+
+
+        this.service.query(this.filter)
+          .subscribe((gs: Game[]) => {
+
+              this.gamelist = gs
+              this.rowGameList = gs
+
+              console.log("Gs", gs);
+
+            }
+          )
       }
 
     })

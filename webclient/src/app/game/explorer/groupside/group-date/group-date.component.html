@@ -1,0 +1,11 @@
+<dl *ngIf="dateGroup?.length>0">
+  <ng-template ngFor [ngForOf]="dateGroup" let-yearItem>
+    <dt>
+      <span class="group_title">{{yearItem.title}}</span><span>({{yearItem.count}})</span>
+    </dt>
+    <dd>
+      <app-month-calendar [months]="$any(yearItem.children)">
+      </app-month-calendar>
+    </dd>
+  </ng-template>
+</dl>

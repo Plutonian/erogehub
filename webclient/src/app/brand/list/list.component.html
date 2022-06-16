@@ -20,7 +20,7 @@
             <td class="flex_row gap-5"><span *ngFor="let tag of b.javaTag" class="tag">{{tag}}</span></td>
             <td><a *ngIf="b.website && b.website.length>0" target="_blank" [href]="b.website">{{b.website}}</a>
             </td>
-            <td>{{b.state |emotionJP}}</td>
+            <td>{{b.emotion |emotionJP}}</td>
           </tr>
           </tbody>
         </table>

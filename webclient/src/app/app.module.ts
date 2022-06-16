@@ -41,7 +41,7 @@ import {FormattedDateComponent} from './common/formatted-date/formatted-date.com
 import {StarChangeComponent} from './game/part/star-change/star-change.component';
 import {GroupsideComponent} from './game/explorer/groupside/groupside.component';
 import {GroupBrandComponent} from './game/explorer/groupside/group-brand/group-brand.component';
-import {GameListPanelComponent} from './game/explorer/groupside/game-list-panel/game-list-panel.component';
+// import {GameListPanelComponent} from './game/explorer/groupside/game-list-panel/game-list-panel.component';
 import {GameDetailMainComponent} from './game/detail/main/game-detail-main.component';
 import {AppService} from "./app.service";
 import {PlaystateChangeComponent} from './game/part/playstate-change/playstate-change.component';
@@ -93,6 +93,13 @@ import {ScrollingModule} from "@angular/cdk/scrolling";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzSliderModule} from "ng-zorro-antd/slider";
 import {ImgCellComponent} from './game/explorer/cell/img-cell/img-cell.component';
+import {DragDropModule} from "@angular/cdk/drag-drop";
+import {NzModalModule} from "ng-zorro-antd/modal";
+import { GroupEmotionComponent } from './game/explorer/groupside/group-emotion/group-emotion.component';
+import { GroupCvComponent } from './game/explorer/groupside/group-cv/group-cv.component';
+import { GroupTagComponent } from './game/explorer/groupside/group-tag/group-tag.component';
+import { GroupDateComponent } from './game/explorer/groupside/group-date/group-date.component';
+import { GroupStarComponent } from './game/explorer/groupside/group-star/group-star.component';
 
 // registerLocaleData(ja);
 
@@ -233,7 +240,7 @@ export const routes: Route[] = [
     StarChangeComponent,
     GroupsideComponent,
     GroupBrandComponent,
-    GameListPanelComponent,
+    // GameListPanelComponent,
     GameDetailMainComponent,
     ByPainterComponent,
     PlaystateChangeComponent,
@@ -243,7 +250,12 @@ export const routes: Route[] = [
     ByDateComponent,
     GameSimpleComponent,
     GameListViewComponent,
-    ImgCellComponent
+    ImgCellComponent,
+    GroupEmotionComponent,
+    GroupCvComponent,
+    GroupTagComponent,
+    GroupDateComponent,
+    GroupStarComponent
   ],
   imports: [
     BrowserModule,
@@ -279,7 +291,9 @@ export const routes: Route[] = [
     NzButtonModule,
     ScrollingModule,
     NzIconModule,
-    NzSliderModule
+    NzSliderModule,
+    DragDropModule,
+    NzModalModule
   ],
   providers: [
     GameService,

@@ -1,44 +1,15 @@
 <nz-collapse nzAccordion>
-  <nz-collapse-panel [nzHeader]="'Date'" [nzActive]="true" *ngIf="dateGroup?.length>0">
-    <dl>
-      <ng-template ngFor [ngForOf]="dateGroup" let-yearItem>
-        <dt>
-          <span class="group_title">{{yearItem.title}}</span><span>({{yearItem.count}})</span>
-        </dt>
-        <dd>
-          <app-month-calendar [months]="$any(yearItem.children)">
-          </app-month-calendar>
-        </dd>
-      </ng-template>
-    </dl>
+  <nz-collapse-panel [nzHeader]="'Date'" [nzActive]="true">
+    <app-group-date [filter]="filter"></app-group-date>
   </nz-collapse-panel>
 
-  <nz-collapse-panel [nzHeader]="'Tag'" *ngIf="tagGroup?.length>0">
-    <section class="flex_row flex_float gap-20">
-      <nz-badge *ngFor="let item of tagGroup" [nzCount]="item.count">
-        <app-jumptag style="font-size: 14px;" [tag]="item.title"></app-jumptag>
-      </nz-badge>
-    </section>
+  <nz-collapse-panel [nzHeader]="'Tag'">
+    <app-group-tag [filter]="filter"></app-group-tag>
   </nz-collapse-panel>
-  <nz-collapse-panel [nzHeader]="'CV'" *ngIf="cvGroup?.length>0">
-    <section class="flex_row flex_float gap-20">
-      <nz-badge *ngFor="let item of cvGroup" [nzCount]="item.count">
-        <app-jumpcv style="font-size: 14px;" [cv]="item.title" [isReal]="item.real"></app-jumpcv>
-      </nz-badge>
-    </section>
+  <nz-collapse-panel [nzHeader]="'CV'">
+    <app-group-cv [filter]="filter"></app-group-cv>
   </nz-collapse-panel>
-  <nz-collapse-panel [nzHeader]="'Emotion'" *ngIf="emotionGroup?.length>0">
-    <ul>
-      <li *ngFor="let emotionGroupItem of emotionGroup" (click)="emotionSelect(emotionGroupItem)">
-        {{emotionGroupItem.emotion | emotionJP}}({{emotionGroupItem.count}})
-      </li>
-    </ul>
-  </nz-collapse-panel>
-  <nz-collapse-panel [nzHeader]="'Star'" *ngIf="starGroup?.length>0">
-    <ul>
-      <li *ngFor="let starItem of starGroup">
-        {{starItem.title}}({{starItem.count}})
-      </li>
-    </ul>
+  <nz-collapse-panel [nzHeader]="'Star'">
+    <app-group-star [filter]="filter"></app-group-star>
   </nz-collapse-panel>
 </nz-collapse>

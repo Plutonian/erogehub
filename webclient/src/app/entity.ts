@@ -2,6 +2,7 @@ export interface Game {
   id: number
   name: string
   painter: string[]
+  writer: string[]
   tag: string[]
   publishDate: MyDate
   dateString: string
@@ -56,8 +57,14 @@ export interface Brand {
   name: string
   "website": string
   "comp": string
-  "state": string
-  javaTag: string[]
+  "emotion": string
+  javaTag: string[],
+  series?: Series[]
+}
+
+export interface Series {
+  name: string,
+  games: Game[]
 }
 
 export interface Guide {

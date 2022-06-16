@@ -4,7 +4,6 @@ import api.common.ExpendResult.ToJson
 import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.Config.DB_NAME
-import com.goexp.galgame.data.source.getchu.query.BrandQuery
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Sorts.descending
 import com.mongodb.client.model.Updates.set
@@ -12,6 +11,7 @@ import org.bson.BsonDocument
 import play.libs.Json
 import play.mvc.Http.Request
 import play.mvc.Results.ok
+import qurey.BrandQuery
 
 import scala.jdk.CollectionConverters._
 
@@ -28,7 +28,6 @@ class BrandController {
       .where(Filters.eq(id)).one().orNull
 
     ok(Json.toJson(maybeBrand)).asJson()
-
   }
 
   def query(request: Request) = {

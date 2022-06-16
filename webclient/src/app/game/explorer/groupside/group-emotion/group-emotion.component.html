@@ -1,0 +1,5 @@
+<ul *ngIf="emotionGroup?.length>0">
+  <li *ngFor="let emotionGroupItem of emotionGroup" (click)="emotionSelect(emotionGroupItem)">
+    {{emotionGroupItem.emotion | emotionJP}}({{emotionGroupItem.count}})
+  </li>
+</ul>

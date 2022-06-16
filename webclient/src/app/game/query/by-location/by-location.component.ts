@@ -1,24 +1,22 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {GameLocation, GameService} from "../../game.service";
-import {Brand, Game} from "../../../entity";
+import {Game} from "../../../entity";
+import {DataQuery} from "../DataQuery";
 
 @Component({
   selector: 'app-by-location',
   templateUrl: './by-location.component.html',
   styleUrls: ['./by-location.component.css']
 })
-export class ByLocationComponent implements OnInit {
-  rowGameList: Game[]
+export class ByLocationComponent extends DataQuery implements OnInit {
 
-  filter
-
-  gamelist: Game[]
 
   constructor(
     private route: ActivatedRoute,
     private service: GameService
   ) {
+    super()
   }
 
   ngOnInit(): void {
@@ -50,20 +48,4 @@ export class ByLocationComponent implements OnInit {
     })
   }
 
-  onGameDelete(game: Game) {
-
-    console.log(game);
-    this.gamelist = this.gamelist.filter(g => g.id != game.id)
-    this.rowGameList = this.rowGameList.filter(g => g.id != game.id)
-  }
-
-  onBrandSelected(brand: Brand) {
-
-    this.gamelist = this.rowGameList.filter(g => g.brand.id == brand.id)
-
-  }
-
-  onEmotionSelected(emotion: string) {
-    this.gamelist = this.rowGameList.filter(g => g.emotion == emotion)
-  }
 }

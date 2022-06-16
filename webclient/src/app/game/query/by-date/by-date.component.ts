@@ -1,27 +1,22 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Title} from "@angular/platform-browser";
-import {Brand, Game} from "../../../entity";
+import {Game} from "../../../entity";
 import {GameService} from "../../game.service";
+import {DataQuery} from "../DataQuery";
 
 @Component({
   selector: 'app-by-date',
   templateUrl: './by-date.component.html',
   styleUrls: ['./by-date.component.css']
 })
-export class ByDateComponent implements OnInit {
-
-  rowGameList: Game[]
-
-  filter
-
-  gamelist: Game[]
-
+export class ByDateComponent extends DataQuery implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private service: GameService,
               private titleService: Title
   ) {
+    super()
   }
 
   ngOnInit(): void {
@@ -43,9 +38,18 @@ export class ByDateComponent implements OnInit {
 
         const filter = {"publishDate": {"$gte": {"$date": start}, "$lte": {"$date": end}}}
 
-        // @ts-ignore
-        console.log(p.start, p.end)
-        this.titleService.setTitle(`From: ${startStr} to ${endStr}`)
+
+        const startDate = new Date(start)
+        const endDate = new Date(end)
+
+        console.log(startDate, endDate)
+
+
+        // if (startDate.getFullYear() == endDate.getFullYear()) {
+        this.titleService.setTitle(`${startDate.getFullYear()}-${startDate.getMonth()} to ${endDate.getFullYear()}-${endDate.getMonth()}`)
+        // } else {
+        //   this.titleService.setTitle(`Year: ${startDate.getFullYear()} Month: ${startDate.getMonth()}`)
+        // }
 
         this.filter = JSON.stringify(filter)
 
@@ -63,22 +67,4 @@ export class ByDateComponent implements OnInit {
 
     })
   }
-
-  onGameDelete(game: Game) {
-
-    console.log(game);
-    this.gamelist = this.gamelist.filter(g => g.id != game.id)
-    this.rowGameList = this.rowGameList.filter(g => g.id != game.id)
-  }
-
-  onBrandSelected(brand: Brand) {
-
-    this.gamelist = this.rowGameList.filter(g => g.brand.id == brand.id)
-
-  }
-
-  onEmotionSelected(emotion: string) {
-    this.gamelist = this.rowGameList.filter(g => g.emotion == emotion)
-  }
-
 }

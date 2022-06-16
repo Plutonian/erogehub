@@ -3,7 +3,10 @@
 
   <nz-sider>
     <nz-collapse>
-      <nz-collapse-panel [nzHeader]="'Brand'" [nzShowArrow]="false" [nzActive]="true">
+      <nz-collapse-panel [nzHeader]="'Date'" [nzActive]="true">
+        <app-group-date [filter]="filter"></app-group-date>
+      </nz-collapse-panel>
+      <nz-collapse-panel [nzHeader]="'Brand'">
         <app-group-brand [filter]="filter" (onBrandSelected)="onBrandSelected($event)"></app-group-brand>
       </nz-collapse-panel>
     </nz-collapse>
@@ -17,11 +20,9 @@
     <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"
                        (onGameDelete)="onGameDelete($event)"></app-game-listview>
   </nz-content>
-  <nz-sider>
+  <nz-sider [nzWidth]="200">
     <nz-collapse nzAccordion>
-      <nz-collapse-panel [nzHeader]="'Date'" [nzActive]="true">
-        <app-group-date [filter]="filter"></app-group-date>
-      </nz-collapse-panel>
+
       <nz-collapse-panel [nzHeader]="'Emotion'" [nzActive]="true">
         <app-group-emotion [filter]="filter"
                            (onEmotionSelected)="onEmotionSelected($event)"></app-group-emotion>

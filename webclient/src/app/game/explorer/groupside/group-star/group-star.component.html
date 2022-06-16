@@ -1,5 +1,6 @@
 <ul *ngIf="starGroup?.length>0">
-  <li *ngFor="let starItem of starGroup">
-    {{starItem.title}}({{starItem.count}})
+  <li *ngFor="let starItem of starGroup" (click)="selectStar(starItem.star)">
+    <nz-rate [ngModel]="starItem.star" [nzAllowHalf]="false" [nzDisabled]="true"></nz-rate>
+    ({{starItem.count}})
   </li>
 </ul>

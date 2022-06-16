@@ -41,7 +41,6 @@ import {FormattedDateComponent} from './common/formatted-date/formatted-date.com
 import {StarChangeComponent} from './game/part/star-change/star-change.component';
 import {GroupsideComponent} from './game/explorer/groupside/groupside.component';
 import {GroupBrandComponent} from './game/explorer/groupside/group-brand/group-brand.component';
-// import {GameListPanelComponent} from './game/explorer/groupside/game-list-panel/game-list-panel.component';
 import {GameDetailMainComponent} from './game/detail/main/game-detail-main.component';
 import {AppService} from "./app.service";
 import {PlaystateChangeComponent} from './game/part/playstate-change/playstate-change.component';
@@ -54,7 +53,6 @@ import {ByEmotionComponent} from "./game/query/by-emotion/by-emotion.component";
 import {ByPlaystateComponent} from "./game/query/by-playstate/by-playstate.component";
 import {ByLocationComponent} from "./game/query/by-location/by-location.component";
 import {ByCVComponent} from "./game/query/by-cv/by-cv.component";
-import {ByTruecvComponent} from "./game/query/by-truecv/by-truecv.component";
 import {GridCellComponent} from "./game/explorer/cell/grid-cell/grid-cell.component";
 import {FilterComponent} from "./game/explorer/filter/filter.component";
 import {ListCellComponent} from "./game/explorer/cell/list-cell/list-cell.component";
@@ -95,13 +93,12 @@ import {NzSliderModule} from "ng-zorro-antd/slider";
 import {ImgCellComponent} from './game/explorer/cell/img-cell/img-cell.component';
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {NzModalModule} from "ng-zorro-antd/modal";
-import { GroupEmotionComponent } from './game/explorer/groupside/group-emotion/group-emotion.component';
-import { GroupCvComponent } from './game/explorer/groupside/group-cv/group-cv.component';
-import { GroupTagComponent } from './game/explorer/groupside/group-tag/group-tag.component';
-import { GroupDateComponent } from './game/explorer/groupside/group-date/group-date.component';
-import { GroupStarComponent } from './game/explorer/groupside/group-star/group-star.component';
-
-// registerLocaleData(ja);
+import {GroupEmotionComponent} from './game/explorer/groupside/group-emotion/group-emotion.component';
+import {GroupCvComponent} from './game/explorer/groupside/group-cv/group-cv.component';
+import {GroupTagComponent} from './game/explorer/groupside/group-tag/group-tag.component';
+import {GroupDateComponent} from './game/explorer/groupside/group-date/group-date.component';
+import {GroupStarComponent} from './game/explorer/groupside/group-star/group-star.component';
+import {ByWriterComponent} from './game/query/by-writer/by-writer.component';
 
 
 export const routes: Route[] = [
@@ -159,6 +156,10 @@ export const routes: Route[] = [
         path: 'painter/:painter', component: ByPainterComponent, data: {
           breadcrumb: 'painter'
         }
+      }, {
+        path: 'writer/:writer', component: ByWriterComponent, data: {
+          breadcrumb: 'writer'
+        }
       },
       {
         path: 'emotion/:emotion', component: ByEmotionComponent, data: {
@@ -176,13 +177,8 @@ export const routes: Route[] = [
         }
       },
       {
-        path: 'cv/:cv', component: ByCVComponent, data: {
+        path: 'cv/:cv/:real', component: ByCVComponent, data: {
           breadcrumb: 'cv'
-        }
-      },
-      {
-        path: 'truecv/:truecv', component: ByTruecvComponent, data: {
-          breadcrumb: 'truecv'
         }
       },
       {
@@ -228,7 +224,6 @@ export const routes: Route[] = [
     ByStarComponent,
     ByTagComponent,
     ByCVComponent,
-    ByTruecvComponent,
     ByLocationComponent,
     BrandListComponent,
     BrandDetailComponent,
@@ -240,7 +235,6 @@ export const routes: Route[] = [
     StarChangeComponent,
     GroupsideComponent,
     GroupBrandComponent,
-    // GameListPanelComponent,
     GameDetailMainComponent,
     ByPainterComponent,
     PlaystateChangeComponent,
@@ -255,7 +249,8 @@ export const routes: Route[] = [
     GroupCvComponent,
     GroupTagComponent,
     GroupDateComponent,
-    GroupStarComponent
+    GroupStarComponent,
+    ByWriterComponent
   ],
   imports: [
     BrowserModule,

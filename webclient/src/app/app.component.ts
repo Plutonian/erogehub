@@ -38,6 +38,13 @@ export class AppComponent implements OnInit {
       .subscribe((data: DateGroupItem[]) => this.months = data)
 
 
+    this.httpClient.get(`http://${environment.APP_SERVER}/api/app/years/this`)
+      .subscribe((data: DateGroupItem) => this.thisYear = data)
+
+    this.httpClient.get(`http://${environment.APP_SERVER}/api/app/years/this/month/this`)
+      .subscribe((data: DateGroupItem) => this.thisMonth = data)
+
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
     )
@@ -47,7 +54,8 @@ export class AppComponent implements OnInit {
 
         rt.data.subscribe(data => {
           console.log(data);
-          data.breadcrumb= this.titleService.getTitle()
+          // data.breadcrumb= this.titleService.getTitle()
+          this.titleService.setTitle(data.breadcrumb)
 
         })
       })
@@ -68,6 +76,10 @@ export class AppComponent implements OnInit {
 
   months: DateGroupItem[]
 
+  thisYear: DateGroupItem
+
+  thisMonth: DateGroupItem
+
 
   emotions = [
     "LIKE",
@@ -83,7 +95,7 @@ export class AppComponent implements OnInit {
 
   locations = [
     "LOCAL"
-    // GameLocation.REMOTE
+    // "REMOTE"
   ]
 
   stars = [5, 4, 3, 2, 1]

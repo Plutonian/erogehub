@@ -14,9 +14,6 @@ object Dates {
   val THIS_YEAR = LocalDate.now().getYear
   val THIS_MONTH = LocalDate.now().getMonthValue
 
-  def months(year: Int) = {
-    (1 to 12).reverse.map { m => calc(year, m) }
-  }
 
   def monthOfThisYear() = {
     months(LocalDate.now().getYear)
@@ -27,6 +24,18 @@ object Dates {
 
     ((thisYear - 4) to (thisYear + 1)).reverse.map(calc)
 
+  }
+
+  def thisYear() = {
+    val now = LocalDate.now()
+
+    calc(now.getYear)
+  }
+
+  def thisMonth() = {
+    val now = LocalDate.now()
+
+    calc(now.getYear, now.getMonthValue)
   }
 
   def yearsIn10() = {
@@ -54,7 +63,12 @@ object Dates {
     (2000 to 2009).reverse.map(calc)
   }
 
-  def calc(year: Int) = {
+  private def months(year: Int) = {
+    (1 to 12).reverse.map { m => calc(year, m) }
+  }
+
+
+  private def calc(year: Int) = {
     val start = LocalDate.of(year, 1, 1)
     val end = LocalDate.of(year, 12, 31)
 
@@ -67,7 +81,7 @@ object Dates {
     )
   }
 
-  def calc(year: Int, month: Int) = {
+  private def calc(year: Int, month: Int) = {
     val start = LocalDate.of(year, month, 1)
     val end = start.plusMonths(1).minusDays(1)
 

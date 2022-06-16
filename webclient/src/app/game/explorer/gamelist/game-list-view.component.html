@@ -17,12 +17,12 @@
                     *ngFor="let g of gamelist"></app-img-cell>
     </div>
 
-    <cdk-virtual-scroll-viewport *ngIf="size=='List'" itemSize="200" style="height:100vh;">
-      <div class="grid game-list  container">
+<!--    <cdk-virtual-scroll-viewport  itemSize="200" >-->
+      <div class="grid game-list  container" *ngIf="size=='List'" style="height:100vh;">
         <app-list-cell class="cell" (remove)="gameDelete($event)" [game]="g"
-                       *cdkVirtualFor="let g of gamelist"></app-list-cell>
+                       *ngFor="let g of gamelist"></app-list-cell>
       </div>
-    </cdk-virtual-scroll-viewport>
+<!--    </cdk-virtual-scroll-viewport>-->
 
   </nz-content>
   <nz-footer>

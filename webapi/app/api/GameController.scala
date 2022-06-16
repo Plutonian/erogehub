@@ -129,7 +129,9 @@ class GameController extends Controller {
 
       .groupBy(s => s).to(LazyList)
       .sortBy { case (_, v) => v.size }.reverse
-      //        .take(20)
+
+      //Top 10
+      .take(10)
       .map { case (tag, games) =>
         SampleItem(tag, games.size)
       }.asJava

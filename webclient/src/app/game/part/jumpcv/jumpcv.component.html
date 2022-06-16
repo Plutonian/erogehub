@@ -1,8 +1,8 @@
 <!--<nz-tag [nzColor]="'red'" >-->
-<a *ngIf="isReal; else cvInfo" class="trueCV" routerLink="/game/truecv/{{cv}}">{{cv}}</a>
+<a *ngIf="isReal; else cvInfo" class="trueCV" routerLink="/game/cv/{{cv}}/true">{{cv}}</a>
 <!--</nz-tag>-->
 <ng-template #cvInfo>
   <!--  <nz-tag [nzColor]="'#2db7f5'">-->
-  <a class="cv" routerLink="/game/cv/{{cv}}">{{cv}}</a>
+  <a class="cv" routerLink="/game/cv/{{cv}}/false">{{cv}}</a>
   <!--  </nz-tag>-->
 </ng-template>

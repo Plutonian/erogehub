@@ -50,6 +50,20 @@ class AppController extends Controller {
     ok(Json.toJson(list)).asJson()
   }
 
+  def thisYear() = {
+    val DateItem(name, index, range) = Dates.thisYear()
+
+    val list = Item(name, Range(range.start.toString, range.end.toString), index)
+    ok(Json.toJson(list)).asJson()
+  }
+
+  def thisMonth() = {
+    val DateItem(name, index, range) = Dates.thisMonth()
+
+    val list = Item(name, Range(range.start.toString, range.end.toString), index)
+    ok(Json.toJson(list)).asJson()
+  }
+
   def emotions() = {
     val list = Emotion.values().to(LazyList).sortBy(_.value).reverse.asJava
     ok(Json.toJson(list)).asJson()

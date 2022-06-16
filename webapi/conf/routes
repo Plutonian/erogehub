@@ -32,6 +32,8 @@ GET           /api/brand/:id                          api.BrandController.info(i
 
 GET           /api/app/years/near                     api.AppController.nearYears()
 GET           /api/app/years/old                      api.AppController.oldYears()
+GET           /api/app/years/this/month/this          api.AppController.thisMonth()
+GET           /api/app/years/this                     api.AppController.thisYear()
 GET           /api/app/emotions                       api.AppController.emotions()
 GET           /api/app/monthsOfThisYear               api.AppController.monthsOfThisYear()
 GET           /api/tags                               api.TagController.list()

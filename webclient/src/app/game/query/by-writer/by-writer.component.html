@@ -11,11 +11,11 @@
 
   <nz-content>
     <nz-collapse nzAccordion>
-      <nz-collapse-panel [nzHeader]="'Tag'" nzActive>
+      <nz-collapse-panel [nzHeader]="'Tag'">
         <app-group-tag [filter]="filter"></app-group-tag>
       </nz-collapse-panel>
     </nz-collapse>
-    <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"
+    <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList" [size]="'List'"
                        (onGameDelete)="onGameDelete($event)"></app-game-listview>
   </nz-content>
   <nz-sider>
@@ -27,8 +27,12 @@
         <app-group-emotion [filter]="filter"
                            (onEmotionSelected)="onEmotionSelected($event)"></app-group-emotion>
       </nz-collapse-panel>
+
       <nz-collapse-panel [nzHeader]="'CV'">
         <app-group-cv [filter]="filter"></app-group-cv>
+      </nz-collapse-panel>
+      <nz-collapse-panel [nzHeader]="'Star'">
+        <app-group-star [filter]="filter"></app-group-star>
       </nz-collapse-panel>
     </nz-collapse>
   </nz-sider>

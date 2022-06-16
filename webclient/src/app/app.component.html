@@ -14,9 +14,13 @@
 
           <li nz-menu-group nzTitle="Date" nzIcon="calendar">
             <ul>
-              <li nz-menu-item
+              <li nz-menu-item *ngIf="thisYear"
                   nz-popover
-                  [nzPopoverContent]="month">今年
+                  [nzPopoverContent]="month">
+                <a routerLink="/game/date/{{thisYear.range.start}}/{{thisYear.range.end}}">今年</a>
+              </li>
+              <li nz-menu-item *ngIf="thisMonth">
+                <a routerLink="/game/date/{{thisMonth.range.start}}/{{thisMonth.range.end}}">今月</a>
               </li>
               <li nz-submenu nzTitle="Years">
                 <ul>
@@ -67,9 +71,19 @@
   </nz-sider>
   <nz-content>
 
-    <nz-breadcrumb [nzAutoGenerate]="true"></nz-breadcrumb>
+    <nz-page-header class="site-page-header">
+      <nz-breadcrumb [nzAutoGenerate]="true" nz-page-header-breadcrumb></nz-breadcrumb>
+<!--      <nz-breadcrumb nz-page-header-breadcrumb>-->
+<!--        <nz-breadcrumb-item>First-level Menu</nz-breadcrumb-item>-->
+<!--        <nz-breadcrumb-item>-->
+<!--          <a>Second-level Menu</a>-->
+<!--        </nz-breadcrumb-item>-->
+<!--        <nz-breadcrumb-item>Third-level Menu</nz-breadcrumb-item>-->
+<!--      </nz-breadcrumb>-->
 
+    </nz-page-header>
     <router-outlet></router-outlet>
+
   </nz-content>
 </nz-layout>
 

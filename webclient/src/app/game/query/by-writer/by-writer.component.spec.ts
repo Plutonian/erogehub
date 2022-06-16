@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GameListPanelComponent } from './game-list-panel.component';
+import { ByWriterComponent } from './by-writer.component';
 
-describe('GameListPanelComponent', () => {
-  let component: GameListPanelComponent;
-  let fixture: ComponentFixture<GameListPanelComponent>;
+describe('ByWriterComponent', () => {
+  let component: ByWriterComponent;
+  let fixture: ComponentFixture<ByWriterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GameListPanelComponent ]
+      declarations: [ ByWriterComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GameListPanelComponent);
+    fixture = TestBed.createComponent(ByWriterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

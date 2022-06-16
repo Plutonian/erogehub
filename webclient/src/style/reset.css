@@ -3,5 +3,6 @@ li{
 }
 
 dt, dd, dl, ul, li {
-  margin-left: 0;
+  margin: 0;
+  padding: 0;
 }

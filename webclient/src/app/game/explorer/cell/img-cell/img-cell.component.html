@@ -14,7 +14,7 @@
 
         <div>
           <app-game-playstate-change [game]="game"></app-game-playstate-change>
-          <a title="{{game.titles.mainTitle}}" class="title" routerLink="/game/{{game.id}}">
+          <a title="{{game.name}}" class="title" routerLink="/game/{{game.id}}">
             {{game.titles?.mainTitle}}
           </a>
           <span class="sub_title">{{game.titles?.subTitle}}</span>

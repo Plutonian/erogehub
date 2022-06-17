@@ -4,39 +4,43 @@
 # ~~~~
 
 # An example controller showing a sample home page
-PUT           /api/game/:id/star/:star                api.GameController.changeStar(id:Int,star:Int)
-PUT           /api/game/:id/mark/:isSame              api.GameController.markSame(id:Int,isSame:Boolean)
-PUT           /api/game/:id/emotion/:emotion          api.GameController.changeEmotion(id:Int,emotion:Int)
-PUT           /api/game/:id/playstate/:state          api.GameController.changePlayState(id:Int,state:Int)
-PUT           /api/game/:id/location/:location        api.GameController.changeLocation(id:Int,location:Int)
+PUT           /api/game/:id/star/:star                    api.GameController.changeStar(id:Int,star:Int)
+PUT           /api/game/:id/mark/:isSame                  api.GameController.markSame(id:Int,isSame:Boolean)
+PUT           /api/game/:id/emotion/:emotion              api.GameController.changeEmotion(id:Int,emotion:Int)
+PUT           /api/game/:id/playstate/:state              api.GameController.changePlayState(id:Int,state:Int)
+PUT           /api/game/:id/location/:location            api.GameController.changeLocation(id:Int,location:Int)
+PUT           /api/game/:id/gamechar/:index/cv/:cv        api.GameController.setCharCV(id: Int, index: Int, cv: String)
+PUT           /api/game/:id/gamechar/:index/setMan        api.GameController.setCharMan(id: Int, index: Int)
+
+DELETE        /api/game/:id/gamechar/:index/cv            api.GameController.clearCharCV(id: Int, index: Int)
+
+PUT           /api/game/block/:brandId                    api.GameController.block(brandId:Int)
+PUT           /api/game/normal/:brandId                   api.GameController.normal(brandId:Int)
 
 
-PUT           /api/game/block/:brandId                api.GameController.block(brandId:Int)
-PUT           /api/game/normal/:brandId               api.GameController.normal(brandId:Int)
+GET           /api/game/query                             api.GameController.query(request: play.mvc.Http.Request)
+GET           /api/game/groupByCV                         api.GameController.groupByCV(request: play.mvc.Http.Request)
+GET           /api/game/groupByEmotion                    api.GameController.groupByEmotion(request: play.mvc.Http.Request)
+GET           /api/game/groupByTag                        api.GameController.groupByTag(request: play.mvc.Http.Request)
+GET           /api/game/groupByStar                       api.GameController.groupByStar(request: play.mvc.Http.Request)
+GET           /api/game/groupByDate                       api.GameController.groupByDate(request: play.mvc.Http.Request)
+GET           /api/game/groupByBrand                      api.GameController.groupByBrand(request: play.mvc.Http.Request)
+GET           /api/game/detail/:id                        api.GameController.info(id:Int)
+DELETE        /api/game/:id                               api.GameController.delete(id:Int)
 
-GET           /api/game/query                         api.GameController.query(request: play.mvc.Http.Request)
-GET           /api/game/groupByCV                     api.GameController.groupByCV(request: play.mvc.Http.Request)
-GET           /api/game/groupByEmotion                api.GameController.groupByEmotion(request: play.mvc.Http.Request)
-GET           /api/game/groupByTag                    api.GameController.groupByTag(request: play.mvc.Http.Request)
-GET           /api/game/groupByStar                   api.GameController.groupByStar(request: play.mvc.Http.Request)
-GET           /api/game/groupByDate                   api.GameController.groupByDate(request: play.mvc.Http.Request)
-GET           /api/game/groupByBrand                  api.GameController.groupByBrand(request: play.mvc.Http.Request)
-GET           /api/game/detail/:id                    api.GameController.info(id:Int)
-DELETE        /api/game/:id                           api.GameController.delete(id:Int)
+GET           /api/game/guide/:searchKey                  api.GuideController.search(searchKey:String)
 
-GET           /api/game/guide/:searchKey              api.GuideController.search(searchKey:String)
+GET           /api/brand/query                            api.BrandController.query(request: play.mvc.Http.Request)
+PUT           /api/brand/:id/state/:state                 api.BrandController.changeState(id:Int,state:Int)
+GET           /api/brand/:id                              api.BrandController.info(id:Int)
 
-GET           /api/brand/query                        api.BrandController.query(request: play.mvc.Http.Request)
-PUT           /api/brand/:id/state/:state             api.BrandController.changeState(id:Int,state:Int)
-GET           /api/brand/:id                          api.BrandController.info(id:Int)
-
-GET           /api/app/years/near                     api.AppController.nearYears()
-GET           /api/app/years/old                      api.AppController.oldYears()
-GET           /api/app/years/this/month/this          api.AppController.thisMonth()
-GET           /api/app/years/this                     api.AppController.thisYear()
-GET           /api/app/emotions                       api.AppController.emotions()
-GET           /api/app/monthsOfThisYear               api.AppController.monthsOfThisYear()
-GET           /api/tags                               api.TagController.list()
-GET           /api/cv                                 api.CVController.list()
+GET           /api/app/years/near                         api.AppController.nearYears()
+GET           /api/app/years/old                          api.AppController.oldYears()
+GET           /api/app/years/this/month/this              api.AppController.thisMonth()
+GET           /api/app/years/this                         api.AppController.thisYear()
+GET           /api/app/emotions                           api.AppController.emotions()
+GET           /api/app/monthsOfThisYear                   api.AppController.monthsOfThisYear()
+GET           /api/tags                                   api.TagController.list()
+GET           /api/cv                                     api.CVController.list()
 
 

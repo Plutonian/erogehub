@@ -1,40 +1,21 @@
 <!--characters-->
-<section *ngIf="game.gameCharacters.length>0" class="grid characters">
-  <div *ngFor="let character of game.gameCharacters" class="flex_column">
-    <aside class="imageborder">
-      <img src="{{game | img}}/char_s_{{character.index}}.jpg" loading="lazy"
-           nz-popover
-           [nzPopoverContent]="desc"
-      />
-    </aside>
-    <main class="flex_column flex_grow">
-                <span style="font-size:14px">
-                    {{character.name}}
-                </span>
-      <div *ngIf="character.cv?.trim().length>0" class="flex_row gap-3" style="align-items: center">
-        <span>CV: </span>
+<section *ngIf="game.gameCharacters?.length>0">
 
-        <ng-template [ngIf]="character.trueCV?.trim().length>0" [ngIfElse]="cvInfo" class="flex_row gap-3">
-          <app-jumpcv [cv]="character.trueCV" [isReal]="true"></app-jumpcv>
-          <nz-rate *ngIf="character.cvObj" [ngModel]="character.cvObj.star" [disabled]="true"></nz-rate>
-        </ng-template>
+  <nz-card *ngIf="womenCharacters?.length>0" nzTitle="ヒロイン">
+    <div class="grid characters">
+      <app-game-char-cell *ngFor="let character of womenCharacters" [game]="game"
+                          [character]="character"></app-game-char-cell>
 
-        <ng-template #cvInfo>
-          <div class="flex_row gap-3">
-            <app-jumpcv [cv]="character.cv" [isReal]="false"></app-jumpcv>
+    </div>
 
-            <span>(<a target="_blank" href="{{character.cv | wiki}}">Wiki</a>)</span>
-            <span>(<a target="_blank" href="{{character.cv | bangumi}}">Bangumi</a>)</span>
-          </div>
-        </ng-template>
-      </div>
-      <ng-template #desc>
-        <textarea readonly="readonly" rows="10" style="font-size: 18px;border: none"
-                  class="flex_grow">{{character.intro}}</textarea>
-      </ng-template>
+  </nz-card>
 
-    </main>
+  <nz-card *ngIf="menCharacters?.length>0" nzTitle="主人公">
+    <div class="grid characters">
+      <app-game-char-cell *ngFor="let character of menCharacters" [game]="game"
+                          [character]="character"></app-game-char-cell>
+    </div>
 
-  </div>
+  </nz-card>
 </section>
 

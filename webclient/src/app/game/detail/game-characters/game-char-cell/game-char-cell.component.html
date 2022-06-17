@@ -1,0 +1,77 @@
+<nz-card [nzActions]="[markMen]" [nzCover]="coverTemplate" [nzTitle]="character.name" [title]="character.name">
+  <div *ngIf="character.cv?.trim().length>0" class="flex_row flex_float gap-3" style="align-items: center">
+
+    <span>CV: </span>
+    <ng-template [ngIf]="character.trueCV?.trim().length>0" [ngIfElse]="cvInfo" class="flex_row gap-3">
+      <app-jumpcv [cv]="character.trueCV" [isReal]="true"></app-jumpcv>
+      <nz-rate *ngIf="character.cvObj" [ngModel]="character.cvObj.star" [disabled]="true"></nz-rate>
+    </ng-template>
+
+    <ng-template #cvInfo>
+      <div class="flex_row gap-5">
+
+
+        <span nz-dropdown [nzDropdownMenu]="menu">
+          <app-jumpcv [cv]="character.cv" [isReal]="false"></app-jumpcv>
+        <i nz-icon nzType="down"></i>
+        </span>
+
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <li nz-menu-item>
+              <a target="_blank" href="{{character.cv | wiki}}">Wiki</a>
+            </li>
+            <li nz-menu-item>
+              <a target="_blank" href="{{character.cv | bangumi}}">Bangumi</a>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+
+      </div>
+    </ng-template>
+  </div>
+
+</nz-card>
+
+<ng-template #markMen>
+  <i nz-icon nzType="setting" (click)="showModal()"></i>
+</ng-template>
+
+<ng-template #coverTemplate>
+  <div class="flex_column" style="align-items: center">
+    <img src="{{game | img}}/char_s_{{character.index}}.jpg" loading="lazy" nz-popover [nzPopoverContent]="desc"/>
+  </div>
+</ng-template>
+
+<ng-template #desc>
+        <textarea readonly="readonly" rows="10" style="font-size: 18px;border: none"
+                  class="flex_grow">{{character.intro}}</textarea>
+</ng-template>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="character.name" (nzOnCancel)="handleCancel()"
+          [nzFooter]="foot">
+  <ng-container *nzModalContent>
+    <nz-card [nzCover]="coverTemplate">
+
+      <nz-input-group nzSize="large" [nzAddOnBefore]="addOnBeforeTemplate" [nzAddOnAfter]="suffixButton">
+        <input name="cv" type="text" [(ngModel)]="character.cv" nz-input/>
+      </nz-input-group>
+
+      <ng-template #suffixButton>
+        <button nz-button nzType="primary" (click)="updateCV()">Update</button>
+        <button nz-button (click)="clearCV()">Clear</button>
+
+      </ng-template>
+
+      <ng-template #addOnBeforeTemplate>
+        CV:
+      </ng-template>
+
+
+    </nz-card>
+
+  </ng-container>
+</nz-modal>
+<ng-template #foot>
+  <button nz-button (click)="setMan()">SetMan</button>
+</ng-template>

@@ -68,8 +68,6 @@ export class GameService {
   }
 
 
-
-
   // changeState(id: Number, state: Number) {
   //   return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/state/${state}`, null)
   // }
@@ -102,6 +100,20 @@ export class GameService {
 
   normalAll(brandId: number) {
     return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/normal/${brandId}`, null)
+  }
+
+
+  setCharCV(id: number, index: number, cv: string) {
+    return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/gamechar/${index}/cv/${cv}`, null)
+  }
+
+  clearCharCV(id: number, index: number) {
+    return this.httpClient.delete(`http://${environment.APP_SERVER}/api/game/${id}/gamechar/${index}/cv`)
+  }
+
+
+  setMan(id: number, index: number) {
+    return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/gamechar/${index}/setMan`, null)
   }
 
 

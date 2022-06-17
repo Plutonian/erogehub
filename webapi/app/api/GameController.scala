@@ -9,7 +9,7 @@ import com.goexp.galgame.common.model.Emotion
 import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.data.model.Brand
 import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Updates.set
+import com.mongodb.client.model.Updates.{combine, set, unset}
 import entity.group._
 import org.bson.BsonDocument
 import play.libs.Json
@@ -36,12 +36,12 @@ class GameController extends Controller {
   api.Config.init()
 
 
-  val tlp = new DBOperator(Config.DB_STRING, DB_NAME, "game")
+  val tpl = new DBOperator(Config.DB_STRING, DB_NAME, "game")
 
   def delete(id: Int) = {
     println(id)
 
-    tlp.exec(documentMongoCollection => {
+    tpl.exec(documentMongoCollection => {
       documentMongoCollection.deleteOne(Filters.eq(id))
     })
 
@@ -242,7 +242,7 @@ class GameController extends Controller {
 
     println(id, isSame)
 
-    tlp.exec(documentMongoCollection => {
+    tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(id), set("isSame", isSame))
     })
 
@@ -254,7 +254,7 @@ class GameController extends Controller {
 
     println(id, emotion)
 
-    tlp.exec(documentMongoCollection => {
+    tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(id), set("emotion", emotion))
     })
 
@@ -266,7 +266,7 @@ class GameController extends Controller {
 
     println(id, state)
 
-    tlp.exec(documentMongoCollection => {
+    tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(id), set("playState", state))
     })
 
@@ -278,7 +278,7 @@ class GameController extends Controller {
 
     println(id, star)
 
-    tlp.exec(documentMongoCollection => {
+    tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(id), set("star", star))
     })
 
@@ -290,7 +290,7 @@ class GameController extends Controller {
 
     println(id, location)
 
-    tlp.exec(documentMongoCollection => {
+    tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(id), set("location", location))
     })
 
@@ -306,10 +306,42 @@ class GameController extends Controller {
     changeEmotionByBrand(brandId, Emotion.NORMAL.value)
   }
 
+  def setCharMan(id: Int, index: Int) = {
+
+    tpl.exec(documentMongoCollection => {
+      documentMongoCollection.updateOne(Filters.and(Filters.eq(id), Filters.eq("gamechar.index", index)), set("gamechar.$.man", true))
+    })
+
+    ok(Json.toJson("OK")).asJson()
+  }
+
+  def setCharCV(id: Int, index: Int, cv: String) = {
+
+    tpl.exec(documentMongoCollection => {
+      documentMongoCollection.updateOne(Filters.and(Filters.eq(id), Filters.eq("gamechar.index", index)), set("gamechar.$.cv", cv))
+    })
+
+    ok(Json.toJson("OK")).asJson()
+
+  }
+
+  def clearCharCV(id: Int, index: Int) = {
+
+    tpl.exec(documentMongoCollection => {
+      documentMongoCollection.updateOne(Filters.and(Filters.eq(id), Filters.eq("gamechar.index", index)), combine(
+        unset("gamechar.$.cv"),
+        unset("gamechar.$.truecv"),
+      ))
+    })
+
+    ok(Json.toJson("OK")).asJson()
+
+  }
+
   private def changeEmotionByBrand(brandId: Int, state: Int) = {
     println(brandId, state)
 
-    tlp.exec(documentMongoCollection => {
+    tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateMany(Filters.eq("brandId", brandId), set("emotion", state))
     })
 

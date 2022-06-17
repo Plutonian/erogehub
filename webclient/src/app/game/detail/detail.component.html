@@ -1,55 +1,55 @@
 <div *ngIf="game">
 
-<!--  <nz-affix  [nzOffsetTop]="0">-->
-    <nz-page-header id="top" nzBackIcon
-                    [class.HATE]="game.emotion =='HATE'">
-      <nz-page-header-title>
-        <app-game-playstate-change [game]="game"></app-game-playstate-change>
-        {{game.titles.mainTitle}}
-      </nz-page-header-title>
-      <nz-page-header-subtitle>
-        {{game.titles.subTitle}}
-      </nz-page-header-subtitle>
-      <nz-page-header-tags>
-        <section *ngIf="game.tag?.length > 0" class="flex_row flex_float gap-5">
-          <app-jumptag *ngFor="let tag of game.tag" [tag]="tag" style="font-size:10px;"></app-jumptag>
-        </section>
+  <!--  <nz-affix  [nzOffsetTop]="0">-->
+  <nz-page-header id="top" nzBackIcon
+                  [class.HATE]="game.emotion =='HATE'">
+    <nz-page-header-title>
+      <app-game-playstate-change [game]="game"></app-game-playstate-change>
+      {{game.titles.mainTitle}}
+    </nz-page-header-title>
+    <nz-page-header-subtitle>
+      {{game.titles.subTitle}}
+    </nz-page-header-subtitle>
+    <nz-page-header-tags>
+      <section *ngIf="game.tag?.length > 0" class="flex_row flex_float gap-5">
+        <app-jumptag *ngFor="let tag of game.tag" [tag]="tag" style="font-size:10px;"></app-jumptag>
+      </section>
 
-      </nz-page-header-tags>
-      <nz-page-header-extra>
-        <app-star-change [game]="game"></app-star-change>
-        <app-location-change [game]="game"></app-location-change>
-        <app-emotion-change [game]="game">
-        </app-emotion-change>
-<!--        <app-game-marksame style="margin-top: auto;" [game]="game"></app-game-marksame>-->
-      </nz-page-header-extra>
-      <nz-page-header-content>
+    </nz-page-header-tags>
+    <nz-page-header-extra>
+      <app-star-change [game]="game"></app-star-change>
+      <app-location-change [game]="game"></app-location-change>
+      <app-emotion-change [game]="game">
+      </app-emotion-change>
+      <!--        <app-game-marksame style="margin-top: auto;" [game]="game"></app-game-marksame>-->
+    </nz-page-header-extra>
+    <nz-page-header-content>
 
-        <nz-descriptions>
-          <nz-descriptions-item [nzSpan]="3" *ngIf="game.brand" nzTitle="ブランド">
-            <app-jump-brand [brand]="game.brand"></app-jump-brand>
-            <span *ngIf="game.brand.website && game.brand.website.length>0"
-                  style="display:inline-block;margin-left:5px;">
+      <nz-descriptions>
+        <nz-descriptions-item [nzSpan]="3" *ngIf="game.brand" nzTitle="ブランド">
+          <app-jump-brand [brand]="game.brand"></app-jump-brand>
+          <span *ngIf="game.brand.website && game.brand.website.length>0"
+                style="display:inline-block;margin-left:5px;">
         (<a target="_blank" href="{{game.brand?.website}}">公式サイト</a>)
       </span>
-          </nz-descriptions-item>
-          <nz-descriptions-item *ngIf="game.publishDate" nzTitle="発売日">
-            <app-formatted-date [game]="game"></app-formatted-date>
-          </nz-descriptions-item>
-          <nz-descriptions-item *ngIf="game.painter?.length>0" nzTitle="原画">
-            <section class="flex_row flex_float gap-5">
-              <a *ngFor="let painter of game.painter" routerLink="/game/painter/{{painter}}">{{painter}}</a>
-            </section>
-          </nz-descriptions-item>
-          <nz-descriptions-item *ngIf="game.writer?.length>0" nzTitle="シナリオ">
-            <section class="flex_row flex_float gap-5">
-              <a *ngFor="let writer of game.writer" routerLink="/game/writer/{{writer}}">{{writer}}</a>
-            </section>
-          </nz-descriptions-item>
-        </nz-descriptions>
-      </nz-page-header-content>
-    </nz-page-header>
-<!--  </nz-affix>-->
+        </nz-descriptions-item>
+        <nz-descriptions-item *ngIf="game.publishDate" nzTitle="発売日">
+          <app-formatted-date [game]="game"></app-formatted-date>
+        </nz-descriptions-item>
+        <nz-descriptions-item *ngIf="game.painter?.length>0" nzTitle="原画">
+          <section class="flex_row flex_float gap-5">
+            <a *ngFor="let painter of game.painter" routerLink="/game/painter/{{painter}}">{{painter}}</a>
+          </section>
+        </nz-descriptions-item>
+        <nz-descriptions-item *ngIf="game.writer?.length>0" nzTitle="シナリオ">
+          <section class="flex_row flex_float gap-5">
+            <a *ngFor="let writer of game.writer" routerLink="/game/writer/{{writer}}">{{writer}}</a>
+          </section>
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </nz-page-header-content>
+  </nz-page-header>
+  <!--  </nz-affix>-->
 
   <nz-card id="story" nzTitle="ストーリー">
     <main class="flex_row">
@@ -57,13 +57,12 @@
         <img class="img_alone" title="{{game.intro}}"
              src="{{game | img}}/game_l.jpg"/>
       </section>
-      <textarea  class="flex_grow" rows="10" style="font-size: 20px;border: none;"
+      <textarea class="flex_grow" rows="10" style="font-size: 20px;border: none;"
                 readonly="readonly">{{game.story}}</textarea>
     </main>
   </nz-card>
   <nz-card id="char" *ngIf="game.gameCharacters?.length>0" nzTitle="キャラクター">
     <app-game-characters [game]="game"></app-game-characters>
-
   </nz-card>
   <nz-card id="sample" *ngIf="game.gameImgs?.length>0" nzTitle="サンプル画像">
     <!--imgs-->
@@ -80,8 +79,8 @@
   <!-- control bar -->
   <nz-affix [nzOffsetBottom]="0">
     <footer class="bottomBar flex_row">
-      <a       nz-popover
-               [nzPopoverContent]="guide">攻略</a>
+      <a nz-popover
+         [nzPopoverContent]="guide">攻略</a>
       <section style="margin-left: auto">
         <div class="btn-group">
           <span nz-dropdown [nzDropdownMenu]="menu">Search</span>

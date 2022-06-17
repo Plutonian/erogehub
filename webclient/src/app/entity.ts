@@ -41,7 +41,9 @@ export interface GameCharacter {
   "cv": string
   "intro": string
   "trueCV": string
-  "index": number,
+  "index": number
+  "img": string
+  "heroine": boolean
   "cvObj"?: CV
 }
 

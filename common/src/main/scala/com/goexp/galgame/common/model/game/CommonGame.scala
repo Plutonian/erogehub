@@ -1,6 +1,7 @@
 package com.goexp.galgame.common.model.game
 
 import com.goexp.common.util.date.DateUtil
+import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.CommonGame.Titles
 
 import java.time.LocalDate
@@ -21,25 +22,34 @@ object CommonGame {
 
 abstract class CommonGame {
   def getTitles = {
-    val tName = name.replaceAll("(?:マウスパッド付|”Re-order”〜?|BLUE Edition|WHITE Edition|プレミアムエディション|EDITION|祝！TVアニメ化記念|“男の子用”付|“女の子用”付|期間限定感謝ぱっく|感謝ぱっく|Liar-soft Selection \\d{2})", "").trim
-      .replaceAll("(?:\\[[^]]+\\]$)|(?:＜[^＞]+＞)|(?:（[^）]+）$)", "")
-      .replaceAll("[\\s　〜][^\\s〜　]+[版]", "")
-      .replaceAll("(?:CD|DVD)(?:-ROM版)?", "").trim
-      .replaceAll("(?:\\[[^]]+\\]$)|(?:＜[^＞]+＞)|(?:（[^）]+）$)", "").trim
 
-    val matcher = CommonGame.NAME_SPLITER_REX.matcher(tName)
-    val find = matcher.find
+    if (Strings.isNotEmpty(this.mainTitle)) {
+      Titles(this.mainTitle, this.subTitle)
+    } else {
+      val tName = name.replaceAll("(?:マウスパッド付|”Re-order”〜?|BLUE Edition|WHITE Edition|プレミアムエディション|EDITION|祝！TVアニメ化記念|“男の子用”付|“女の子用”付|期間限定感謝ぱっく|感謝ぱっく|Liar-soft Selection \\d{2})", "").trim
+        .replaceAll("(?:\\[[^]]+\\]$)|(?:＜[^＞]+＞)|(?:（[^）]+）$)", "")
+        .replaceAll("[\\s　〜][^\\s〜　]+[版]", "")
+        .replaceAll("(?:CD|DVD)(?:-ROM版)?", "").trim
+        .replaceAll("(?:\\[[^]]+\\]$)|(?:＜[^＞]+＞)|(?:（[^）]+）$)", "").trim
 
-    val mainTitle = if (find) tName.substring(0, matcher.start) else tName
-    val subTitle = if (find) tName.substring(matcher.start) else ""
+      val matcher = CommonGame.NAME_SPLITER_REX.matcher(tName)
+      val find = matcher.find
 
-    Titles(mainTitle.trim, subTitle.trim)
+      val mainTitle = if (find) tName.substring(0, matcher.start) else tName
+      val subTitle = if (find) tName.substring(matcher.start) else ""
+
+      Titles(mainTitle.trim, subTitle.trim)
+    }
+
   }
 
 
   @BeanProperty var id: Int = 0
   @BeanProperty var name: String = ""
   @BeanProperty var publishDate: LocalDate = _
+
+  var mainTitle: String = _
+  var subTitle: String = _
 
   def getDateFormatString(): String = {
     if (publishDate != null)

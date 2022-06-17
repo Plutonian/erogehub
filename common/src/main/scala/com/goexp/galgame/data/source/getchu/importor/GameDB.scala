@@ -12,7 +12,7 @@ import org.bson.Document
 import scala.jdk.CollectionConverters._
 
 object GameDB {
-  val tlp = new DBOperator(Config.DB_STRING, DB_NAME, "game")
+  val tpl = new DBOperator(Config.DB_STRING, DB_NAME, "game")
 
   def insert(game: Game) = {
     val gameDoc = new Document("_id", game.id)
@@ -20,13 +20,13 @@ object GameDB {
       .append("smallImg", game.smallImg)
       .append("isNew", true)
 
-    tlp.exec(documentMongoCollection => {
+    tpl.exec(documentMongoCollection => {
       documentMongoCollection.insertOne(gameDoc)
     })
   }
 
   def updateSmallImg(game: Game): Unit =
-    tlp.exec(documentMongoCollection => {
+    tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(
         Filters.eq(game.id),
         combine(
@@ -37,7 +37,7 @@ object GameDB {
 
 
   def updateAll(game: Game) =
-    tlp.exec(documentMongoCollection => {
+    tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(
         Filters.eq(game.id),
         combine(
@@ -66,7 +66,7 @@ object GameDB {
           .append("index", person.index)
       }).asJava
 
-    tlp.exec(documentMongoCollection => {
+    tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(game.id), set("gamechar", gameCharDocs))
     })
   }
@@ -78,7 +78,7 @@ object GameDB {
         new Document("src", img.src)
           .append("index", img.index)
       }).asJava
-    tlp.exec(documentMongoCollection => {
+    tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(game.id), set("simpleImg", imgdocs))
     })
   }
@@ -89,7 +89,7 @@ object GameDB {
 
   object MarkSame {
     def update(game: Game) =
-      tlp.exec(documentMongoCollection => {
+      tpl.exec(documentMongoCollection => {
         documentMongoCollection.updateOne(Filters.eq(game.id), set("isSame", game.isSame))
       })
   }

@@ -100,6 +100,8 @@ import {GroupDateComponent} from './game/explorer/groupside/group-date/group-dat
 import {GroupStarComponent} from './game/explorer/groupside/group-star/group-star.component';
 import {ByWriterComponent} from './game/query/by-writer/by-writer.component';
 import {NzTableModule} from "ng-zorro-antd/table";
+import { GameCharCellComponent } from './game/detail/game-characters/game-char-cell/game-char-cell.component';
+import {NzMessageService} from "ng-zorro-antd/message";
 
 
 export const routes: Route[] = [
@@ -251,7 +253,8 @@ export const routes: Route[] = [
     GroupTagComponent,
     GroupDateComponent,
     GroupStarComponent,
-    ByWriterComponent
+    ByWriterComponent,
+    GameCharCellComponent
   ],
   imports: [
     BrowserModule,
@@ -296,7 +299,8 @@ export const routes: Route[] = [
     GameService,
     GuideService,
     BrandService,
-    AppService
+    AppService,
+    NzMessageService
     // {provide: NZ_I18N, useValue: ja_JP}
   ],
   bootstrap: [AppComponent]

@@ -21,6 +21,8 @@ class CommonGameCreator(
 
     game.id = doc.getInteger("_id")
     game.name = doc.getString("name")
+    game.mainTitle = doc.getString("mainTitle")
+    game.subTitle = doc.getString("subTitle")
     game.publishDate = Option(doc.getDate("publishDate")).map(DateUtil.toLocalDate).orNull
     game.intro = doc.getString("intro")
     game.story = doc.getString("story")
@@ -78,6 +80,8 @@ class CommonGameCreator(
         img = doc.getString("img"),
         index = doc.getInteger("index")
       )
+
+      person.man = doc.getBoolean("man")
 
       logger.trace(s"${person}")
 

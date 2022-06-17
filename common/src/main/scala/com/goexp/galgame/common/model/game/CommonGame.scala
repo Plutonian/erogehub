@@ -11,7 +11,7 @@ import java.util.regex.Pattern
 import scala.beans.BeanProperty
 
 object CommonGame {
-  private val NAME_SPLITER_REX = Pattern.compile("""[〜\-「]""")
+  private val NAME_SPLITER_REX = Pattern.compile("""[〜\-。\s「]""")
 
   case class Titles(
                      @BeanProperty mainTitle: String,
@@ -24,9 +24,9 @@ abstract class CommonGame {
   def getTitles = {
 
     if (Strings.isNotEmpty(this.mainTitle)) {
-      Titles(this.mainTitle, this.subTitle)
+      Titles(this.mainTitle.trim, this.subTitle.trim)
     } else {
-      val tName = name.replaceAll("(?:マウスパッド付|”Re-order”〜?|BLUE Edition|WHITE Edition|プレミアムエディション|EDITION|祝！TVアニメ化記念|“男の子用”付|“女の子用”付|期間限定感謝ぱっく|感謝ぱっく|Liar-soft Selection \\d{2})", "").trim
+      val tName = name.replaceAll("(?:マウスパッド付|The アニメ|”Re-order”〜?|BLUE Edition|WHITE Edition|プレミアムエディション|EDITION|祝！TVアニメ化記念|“男の子用”付|“女の子用”付|期間限定感謝ぱっく|感謝ぱっく|Liar-soft Selection \\d{2})", "").trim
         .replaceAll("(?:\\[[^]]+\\]$)|(?:＜[^＞]+＞)|(?:（[^）]+）$)", "")
         .replaceAll("[\\s　〜][^\\s〜　]+[版]", "")
         .replaceAll("(?:CD|DVD)(?:-ROM版)?", "").trim

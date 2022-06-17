@@ -1,4 +1,28 @@
 <div *ngIf="game">
+  <ng-template #foot>
+      <button nz-button nzType="primary" (click)="updateTitle()">Update</button>
+  </ng-template>
+
+  <nz-modal [(nzVisible)]="modelVisible" nzTitle="Edit" (nzOnCancel)="handleCancel()"
+            [nzFooter]="foot">
+    <ng-container *nzModalContent>
+      <nz-card>
+
+        <ng-template #MainTitleAddOnAfter>
+          <button nz-button (click)="splitTitle()">Split</button>
+        </ng-template>
+
+        <nz-input-group nzSize="large" [nzAddOnBefore]="'MainTitle'" [nzAddOnAfter]="MainTitleAddOnAfter">
+          <input name="mainTitle" type="text" [(ngModel)]="game.titles.mainTitle" nz-input/>
+        </nz-input-group>
+
+        <nz-input-group nzSize="large" [nzAddOnBefore]="'SubTitle'">
+          <input name="subTitle" type="text" [(ngModel)]="game.titles.subTitle" nz-input/>
+        </nz-input-group>
+
+      </nz-card>
+    </ng-container>
+  </nz-modal>
 
   <!--  <nz-affix  [nzOffsetTop]="0">-->
   <nz-page-header id="top" nzBackIcon
@@ -17,7 +41,9 @@
 
     </nz-page-header-tags>
     <nz-page-header-extra>
+
       <app-star-change [game]="game"></app-star-change>
+      <i nz-icon nzType="setting" (click)="showModal()"></i>
       <app-location-change [game]="game"></app-location-change>
       <app-emotion-change [game]="game">
       </app-emotion-change>

@@ -250,6 +250,27 @@ class GameController extends Controller {
 
   }
 
+  def setTitle(id: Int, request: Request) = {
+
+    val node = request.body().asJson()
+
+
+    val mainTitle = node.get("mainTitle").textValue()
+    val subTitle = node.get("subTitle").textValue()
+
+    println(id, mainTitle, subTitle)
+
+    tpl.exec(documentMongoCollection => {
+      documentMongoCollection.updateOne(Filters.eq(id), combine(
+        set("mainTitle", Option(mainTitle).map(_.trim).orNull),
+        set("subTitle", Option(subTitle).map(_.trim).orNull)
+      ))
+    })
+
+    ok(Json.toJson("OK")).asJson()
+
+  }
+
   def changeEmotion(id: Int, emotion: Int) = {
 
     println(id, emotion)

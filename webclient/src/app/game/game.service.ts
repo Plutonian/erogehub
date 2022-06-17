@@ -116,5 +116,14 @@ export class GameService {
     return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/gamechar/${index}/setMan`, null)
   }
 
+  setTitle(id: number, mainTitle: string, subTitle: string) {
+    return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/title`,
+      {
+        "mainTitle": mainTitle,
+        "subTitle": subTitle
+      }
+    )
+  }
+
 
 }

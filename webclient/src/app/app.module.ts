@@ -102,6 +102,7 @@ import {ByWriterComponent} from './game/query/by-writer/by-writer.component';
 import {NzTableModule} from "ng-zorro-antd/table";
 import { GameCharCellComponent } from './game/detail/game-characters/game-char-cell/game-char-cell.component';
 import {NzMessageService} from "ng-zorro-antd/message";
+import { GroupLocationComponent } from './game/explorer/groupside/group-location/group-location.component';
 
 
 export const routes: Route[] = [
@@ -254,7 +255,8 @@ export const routes: Route[] = [
     GroupDateComponent,
     GroupStarComponent,
     ByWriterComponent,
-    GameCharCellComponent
+    GameCharCellComponent,
+    GroupLocationComponent
   ],
   imports: [
     BrowserModule,

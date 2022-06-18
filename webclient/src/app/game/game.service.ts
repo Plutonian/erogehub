@@ -67,6 +67,10 @@ export class GameService {
     return this.httpClient.get(`http://${environment.APP_SERVER}/api/game/groupByEmotion?filter=${filter}`)
   }
 
+  groupByLocation(filter: string) {
+    return this.httpClient.get(`http://${environment.APP_SERVER}/api/game/groupByLocation?filter=${filter}`)
+  }
+
 
   // changeState(id: Number, state: Number) {
   //   return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/state/${state}`, null)
@@ -104,11 +108,7 @@ export class GameService {
 
 
   setCharCV(id: number, index: number, cv: string) {
-    return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/gamechar/${index}/cv/${cv}`, null)
-  }
-
-  clearCharCV(id: number, index: number) {
-    return this.httpClient.delete(`http://${environment.APP_SERVER}/api/game/${id}/gamechar/${index}/cv`)
+    return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/gamechar/${index}/cv`, {"cv": cv})
   }
 
 

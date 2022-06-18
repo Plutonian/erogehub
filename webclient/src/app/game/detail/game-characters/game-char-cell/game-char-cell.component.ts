@@ -42,14 +42,6 @@ export class GameCharCellComponent implements OnInit {
     })
   }
 
-  clearCV() {
-    this.gameService.clearCharCV(this.game.id, this.character.index).subscribe((data: string) => {
-      this.character.cv = null
-      this.character.trueCV = null
-      this.message.create("success", data)
-    })
-  }
-
   setMan() {
     this.gameService.setMan(this.game.id, this.character.index).subscribe((data: string) => {
       this.isVisible = false

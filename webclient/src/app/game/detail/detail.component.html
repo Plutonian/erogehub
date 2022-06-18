@@ -1,6 +1,6 @@
 <div *ngIf="game">
   <ng-template #foot>
-      <button nz-button nzType="primary" (click)="updateTitle()">Update</button>
+    <button nz-button nzType="primary" (click)="updateTitle()">Update</button>
   </ng-template>
 
   <nz-modal [(nzVisible)]="modelVisible" nzTitle="Edit" (nzOnCancel)="handleCancel()"
@@ -8,17 +8,32 @@
     <ng-container *nzModalContent>
       <nz-card>
 
-        <ng-template #MainTitleAddOnAfter>
-          <button nz-button (click)="splitTitle()">Split</button>
-        </ng-template>
+        <form nz-form>
 
-        <nz-input-group nzSize="large" [nzAddOnBefore]="'MainTitle'" [nzAddOnAfter]="MainTitleAddOnAfter">
-          <input name="mainTitle" type="text" [(ngModel)]="game.titles.mainTitle" nz-input/>
-        </nz-input-group>
+          <nz-form-item>
+            <nz-form-control>
+              {{game.name}}<button nz-button (click)="splitTitle()">Split</button>
+            </nz-form-control>
+          </nz-form-item>
 
-        <nz-input-group nzSize="large" [nzAddOnBefore]="'SubTitle'">
-          <input name="subTitle" type="text" [(ngModel)]="game.titles.subTitle" nz-input/>
-        </nz-input-group>
+          <nz-form-item>
+            <nz-form-label nzFor="mainTitle">Main</nz-form-label>
+            <nz-form-control>
+              <nz-input-group nzSize="large">
+                <input name="mainTitle" type="text" [(ngModel)]="game.titles.mainTitle" nz-input/>
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label nzFor="subTitle">Sub</nz-form-label>
+            <nz-form-control>
+              <nz-input-group nzSize="large">
+                <input name="subTitle" type="text" [(ngModel)]="game.titles.subTitle" nz-input/>
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
 
       </nz-card>
     </ng-container>

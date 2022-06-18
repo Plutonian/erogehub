@@ -9,7 +9,7 @@ import com.goexp.galgame.common.model.Emotion
 import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.data.model.Brand
 import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Updates.{combine, set, unset}
+import com.mongodb.client.model.Updates.{combine, set}
 import entity.group._
 import org.bson.BsonDocument
 import play.libs.Json
@@ -82,6 +82,24 @@ class GameController extends Controller {
 
 
     ok(Json.toJson(cvlist)).asJson()
+  }
+
+  def groupByLocation(request: Request) = {
+    val where = request.queryString("filter").orElseThrow()
+
+    val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+
+    val items = list.to(LazyList)
+
+      .groupBy(s => s.location).to(LazyList)
+      .sortBy { case (location, _) => location.value }.reverse
+      //        .take(20)
+      .map { case (location, games) =>
+        LocationItem(location.toString, games.size, location, games.toArray)
+      }.asJava
+
+
+    ok(Json.toJson(items)).asJson()
   }
 
   def groupByCV(request: Request) = {
@@ -336,7 +354,9 @@ class GameController extends Controller {
     ok(Json.toJson("OK")).asJson()
   }
 
-  def setCharCV(id: Int, index: Int, cv: String) = {
+  def setCharCV(id: Int, index: Int, request: Request) = {
+    val node = request.body().asJson()
+    val cv = node.get("cv").textValue()
 
     tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.and(Filters.eq(id), Filters.eq("gamechar.index", index)), set("gamechar.$.cv", cv))
@@ -346,18 +366,18 @@ class GameController extends Controller {
 
   }
 
-  def clearCharCV(id: Int, index: Int) = {
-
-    tpl.exec(documentMongoCollection => {
-      documentMongoCollection.updateOne(Filters.and(Filters.eq(id), Filters.eq("gamechar.index", index)), combine(
-        unset("gamechar.$.cv"),
-        unset("gamechar.$.truecv"),
-      ))
-    })
-
-    ok(Json.toJson("OK")).asJson()
-
-  }
+  //  def clearCharCV(id: Int, index: Int) = {
+  //
+  //    tpl.exec(documentMongoCollection => {
+  //      documentMongoCollection.updateOne(Filters.and(Filters.eq(id), Filters.eq("gamechar.index", index)), combine(
+  //        unset("gamechar.$.cv"),
+  //        unset("gamechar.$.truecv"),
+  //      ))
+  //    })
+  //
+  //    ok(Json.toJson("OK")).asJson()
+  //
+  //  }
 
   private def changeEmotionByBrand(brandId: Int, state: Int) = {
     println(brandId, state)

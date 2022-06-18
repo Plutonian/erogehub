@@ -140,6 +140,10 @@ export interface EmotionGroupItem extends GroupItem {
   emotion: string
 }
 
+export interface LocationGroupItem extends GroupItem {
+  location: string
+}
+
 export interface StarGroupItem extends GroupItem {
   star: number
 }

@@ -38,6 +38,10 @@ export class ExplorerComponent implements OnChanges {
     this.rowGameList = this.rowGameList.filter(g => g.id != game.id)
   }
 
+  onLocationSelected(location: string) {
+    this.gamelist = this.rowGameList.filter(g => g.location == location)
+  }
+
 
   ngOnChanges(changes: SimpleChanges): void {
 

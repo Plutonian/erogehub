@@ -24,6 +24,10 @@ export class DataQuery {
     this.gamelist = this.rowGameList.filter(g => g.emotion == emotion)
   }
 
+  onLocationSelected(location: string) {
+    this.gamelist = this.rowGameList.filter(g => g.location == location)
+  }
+
   onStarSelect(star: number) {
     this.gamelist = this.rowGameList.filter(g => g.star == star)
   }

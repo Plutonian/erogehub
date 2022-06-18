@@ -34,6 +34,9 @@
       <nz-collapse-panel [nzHeader]="'Date'" [nzActive]="true">
         <app-group-date [filter]="filter"></app-group-date>
       </nz-collapse-panel>
+      <nz-collapse-panel nzHeader="Location">
+        <app-group-location [filter]="filter" (onLocationSelected)="onLocationSelected($event)"></app-group-location>
+      </nz-collapse-panel>
       <nz-collapse-panel [nzHeader]="'CV'">
         <app-group-cv [filter]="filter"></app-group-cv>
       </nz-collapse-panel>

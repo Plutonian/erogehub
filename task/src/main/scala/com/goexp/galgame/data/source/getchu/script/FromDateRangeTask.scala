@@ -12,7 +12,7 @@ object FromDateRangeTask {
 
     args.length match {
       case 0 =>
-        val start = LocalDate.now.minusMonths(1).withDayOfMonth(1)
+        val start = LocalDate.now.withDayOfMonth(1)
 
         val end = start.plusMonths(6)
 

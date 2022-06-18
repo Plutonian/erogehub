@@ -15,6 +15,7 @@ object ActorConfig {
     HandlerConfig(new ParsePageActor, Pool.CPU_POOL_SERV),
     new HandlerConfig(new SaveGameActor, DB_POOL_SIZE),
     HandlerConfig(new PrepareDownloadImageActor, Pool.CPU_POOL_SERV),
-    new HandlerConfig(new DownloadImageActor, DOWN_POOL_SIZE)
+    new HandlerConfig(new DownloadImageActor, DOWN_POOL_SIZE),
+    new HandlerConfig(new SaveHTMLActor, DOWN_POOL_SIZE)
   )
 }

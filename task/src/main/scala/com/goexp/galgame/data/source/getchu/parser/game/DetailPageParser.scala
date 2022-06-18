@@ -13,7 +13,7 @@ import scala.jdk.CollectionConverters._
 private object DetailPageParser {
 
   private object DetailParser {
-    private val BRAND_ID_REX = """search_brand_id=(?<brandid>\d+)$""".r
+    private val BRAND_ID_REGEX = """search_brand_id=(?<brandid>\d+)$""".r
   }
 
   private class DetailParser {
@@ -40,13 +40,13 @@ private object DetailPageParser {
       g.story = root.select("#wrapper div.tabletitle:contains(ストーリー)").next.html.replaceAll("<[^>]*>", "").replace("<br>", "").trim
       g.intro = root.select("#wrapper div.tabletitle:contains(商品紹介)").next.html.replaceAll("<[^>]*>", "").replace("<br>", "").trim
       val brandUrl = ele.select("a:contains(このブランドの作品一覧)").attr("href")
-      g.brandId = BRAND_ID_REX.findFirstMatchIn(brandUrl).map(m => m.group("brandid").toInt).getOrElse(0)
+      g.brandId = BRAND_ID_REGEX.findFirstMatchIn(brandUrl).map(m => m.group("brandid").toInt).getOrElse(0)
       g
     }
   }
 
   private object GameCharParser {
-    private val cvPattern = """（?[Cc][vV]\s*[：:.／/]?\s*(?<cv>[^）]+)）?$""".r
+    private val CV_REGEX = """（?[Cc][vV]\s*[：:.／/]?\s*(?<cv>[^）]+)）?$""".r
   }
 
   private class GameCharParser {
@@ -57,7 +57,7 @@ private object DetailPageParser {
     private def parseCV(str: String) = {
       import GameCharParser._
 
-      cvPattern.findFirstMatchIn(str).map(m => m.group("cv").replaceAll("""[\s　]""", "")).getOrElse("")
+      CV_REGEX.findFirstMatchIn(str).map(m => m.group("cv").replaceAll("""[\s　]""", "")).getOrElse("")
     }
 
     def parse(root: Document) =

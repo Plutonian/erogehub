@@ -73,6 +73,8 @@ class SaveGameActor extends DefaultActor {
       GameFullQuery().where(Filters.eq(remoteGame.id)).one() match {
         case Some(localGame) =>
 
+          remoteGame.isSame = localGame.isSame
+
           //Mark game is spec
           if (!localGame.isSame) {
             if (isSameGame(remoteGame)) {

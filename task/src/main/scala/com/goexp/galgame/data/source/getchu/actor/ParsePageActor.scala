@@ -22,6 +22,8 @@ class ParsePageActor extends DefaultActor {
         if (game.brandId == 0) {
           logger.error(s"Get brandid error Game[${game.id}] ${game.name}")
         } else {
+
+          sendTo[SaveHTMLActor]((game, html))
           sendTo[SaveGameActor](game)
         }
       }

@@ -52,7 +52,7 @@ object GetTrueCVTask {
 
             def isTarget(p: Person) = Strings.isNotEmpty(p.cv) && Strings.isEmpty(p.trueCV)
 
-            val cv = tempP.cv.trim.toLowerCase
+            val cv = Option(tempP.cv).map(_.trim.toLowerCase).getOrElse("")
             if (isTarget(tempP) && localCV.contains(cv)) {
               val trueCV = localCV(cv)
               tempP = tempP.copy(trueCV = trueCV.name)

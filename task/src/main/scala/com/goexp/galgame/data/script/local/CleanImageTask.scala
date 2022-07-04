@@ -9,7 +9,7 @@ object CleanImageTask {
 
   def main(args: Array[String]): Unit = {
 
-    Files.list(Path.of("/home/benbear/nas/eroge_data/img/game/")).forEach(parentP => {
+    Files.list(Path.of("/home/benbear/nas/eroge_data/img/")).forEach(parentP => {
 
       Files.list(parentP).forEach(p => {
         Files.list(p).forEach(p => {

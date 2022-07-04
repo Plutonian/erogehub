@@ -8,7 +8,7 @@ import {environment} from "../environments/environment";
 export class ImgUrlPipl {
 
   transform(g: Game) {
-    return `http://${environment.IMG_SERVER}/game/${g?.publishDate?.year}/${g?.publishDate?.monthValue}/${g?.id}`
+    return `http://${environment.IMG_SERVER}/img/${g?.publishDate?.year}/${g?.publishDate?.monthValue}/${g?.id}`
   }
 
 }

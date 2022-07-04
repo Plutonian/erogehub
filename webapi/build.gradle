@@ -11,6 +11,14 @@ play {
     injectedRoutesGenerator = true
 
 }
+
+createMainStartScripts {
+    defaultJvmOpts += [
+            "-Dhttp.port=9000",
+            "-Dpidfile.path=/dev/null"
+    ]
+}
+
 dependencies {
 
     implementation project(':common')

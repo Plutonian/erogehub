@@ -12,7 +12,7 @@ import scala.beans.BeanProperty
 object CommonGame {
 
   object Titles {
-    private val titleMatcher = """^(?<mainTitle>.+)(?<subTitle>〜.+〜|[-‐−].+[-‐−])(?<other>.*)$""".r
+    private val titleMatcher = """^(?<mainTitle>.+)(?<subTitle>〜.+〜|[-‐−].+[-‐−]|「.+」)(?<other>.*)$""".r
 
     def apply(name: String): Titles = {
       name match {

@@ -1,0 +1,105 @@
+ruby {
+  font-size: 30px;
+  /*padding: 1px;*/
+  /*margin: 1px;*/
+  font-weight: bolder !important;
+}
+
+ruby rt{
+  font-size: 15px;
+}
+
+.名詞,
+.連体化,
+.連体詞,
+.接頭詞,
+.代名詞,
+.名詞的,
+.接頭辞 {
+  /*color: white;*/
+  color: rgb(0, 119, 255);
+  margin: 0 !important;
+}
+
+.連体詞 {
+  color: aqua;
+}
+
+.動詞 {
+  /*color: white;*/
+  color: rgb(255, 81, 81);
+}
+
+
+.形容詞,.形状詞 {
+  /*color: white;*/
+  color: orange;
+}
+
+.副詞 {
+  /*color: white;*/
+  color: yellowgreen
+}
+
+.格助詞 {
+  /*font-size: 40px;*/
+}
+
+.係助詞 {
+  /*font-size: 20px;*/
+}
+
+.接続助詞 {
+  color: white;
+  background: gray;
+
+  /* font-size:small; */
+  /* font-weight:bolder !important; */
+}
+
+/* .助動詞{
+    background: yellow;
+} */
+
+.副助詞 {
+  color: rgb(119, 24, 24);
+  /* font-size: larger; */
+
+}
+
+.終助詞 {
+  font-size: small;
+}
+
+
+/*
+
+
+
+
+
+/*    */
+
+.助詞,
+.助動詞 {
+  text-decoration: underline;
+}
+
+/* .接続詞 {
+    text-decoration: dotted;
+} */
+
+
+.指示詞,
+.接尾辞,
+.接続詞,
+.助動詞,
+.判定詞 {
+  /* text-decoration: underline; */
+  /* background: rgb(255, 228, 255); */
+}
+
+
+/*p {*/
+/*  line-height: 50px;*/
+/*}*/

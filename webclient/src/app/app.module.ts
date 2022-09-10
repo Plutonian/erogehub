@@ -103,9 +103,16 @@ import {NzTableModule} from "ng-zorro-antd/table";
 import { GameCharCellComponent } from './game/detail/game-characters/game-char-cell/game-char-cell.component';
 import {NzMessageService} from "ng-zorro-antd/message";
 import { GroupLocationComponent } from './game/explorer/groupside/group-location/group-location.component';
+import {WordComponent} from "./word/word.component";
+import {NzDividerModule} from "ng-zorro-antd/divider";
 
 
 export const routes: Route[] = [
+  {
+    path: 'word', component: WordComponent, data: {
+      breadcrumb: 'Word'
+    }
+  },
   {
     path: 'cv', component: CvComponent, data: {
       breadcrumb: 'CV'
@@ -256,7 +263,8 @@ export const routes: Route[] = [
     GroupStarComponent,
     ByWriterComponent,
     GameCharCellComponent,
-    GroupLocationComponent
+    GroupLocationComponent,
+    WordComponent
   ],
   imports: [
     BrowserModule,
@@ -295,7 +303,8 @@ export const routes: Route[] = [
     NzSliderModule,
     DragDropModule,
     NzModalModule,
-    NzTableModule
+    NzTableModule,
+    NzDividerModule
   ],
   providers: [
     GameService,

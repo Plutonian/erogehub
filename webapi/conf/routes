@@ -49,4 +49,6 @@ GET           /api/app/monthsOfThisYear                   api.AppController.mont
 GET           /api/tags                                   api.TagController.list()
 GET           /api/cv                                     api.CVController.list()
 
+POST          /api/word                                   api.WordController.process(request: play.mvc.Http.Request)
+
 

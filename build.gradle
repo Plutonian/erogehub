@@ -21,8 +21,14 @@ subprojects {
 
         implementation 'ch.qos.logback:logback-classic:1.2.11'
 
+        implementation group: 'com.atilika.kuromoji', name: 'kuromoji-unidic', version: '0.9.0'
+
 //        // https://mvnrepository.com/artifact/com.typesafe.scala-logging/scala-logging
         implementation group: 'com.typesafe.scala-logging', name: 'scala-logging_2.13', version: '3.9.5'
+
+        // https://mvnrepository.com/artifact/com.ibm.icu/icu4j
+        implementation group: 'com.ibm.icu', name: 'icu4j', version: '71.1'
+
 
 // https://mvnrepository.com/artifact/com.typesafe.scala-logging/scala-logging
 //        implementation 'com.typesafe.scala-logging:scala-logging_3:3.9.5'

@@ -20,18 +20,23 @@ object CVDB {
 
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(cv.id), combine(
+        unset("statistics")
+      ))
+
+      documentMongoCollection.updateOne(Filters.eq(cv.id), combine(
         set("statistics.start", start),
         set("statistics.end", end),
         set("statistics.count", count),
         set("statistics.realCount", realCount),
 
-        unset("statistics.state"),
+//        unset("statistics.emotion"),
 
         set("statistics.emotion.LIKE", like),
         set("statistics.emotion.HOPE", hope),
         set("statistics.emotion.NORMAL", normal),
         set("statistics.emotion.HATE", hate),
 
+//        unset("statistics.star"),
         set("statistics.star.zero", zero),
         set("statistics.star.one", one),
         set("statistics.star.two", two),
@@ -39,7 +44,7 @@ object CVDB {
         set("statistics.star.four", four),
         set("statistics.star.five", five),
 
-        unset("statistics.location"),
+//        unset("statistics.location"),
         set("statistics.location.LOCAL", local),
         set("statistics.location.REMOTE", remote)
       ))

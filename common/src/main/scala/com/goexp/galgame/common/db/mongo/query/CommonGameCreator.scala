@@ -24,8 +24,8 @@ class CommonGameCreator(
     game.mainTitle = doc.getString("mainTitle")
     game.subTitle = doc.getString("subTitle")
     game.publishDate = Option(doc.getDate("publishDate")).map(DateUtil.toLocalDate).orNull
-    game.intro = doc.getString("intro")
-    game.story = doc.getString("story")
+    game.intro = doc.getString("intro").replace(" ", "")
+    game.story = doc.getString("story").replace(" ", "")
     game.smallImg = doc.getString("smallImg")
     game.painter = doc.get("painter", classOf[util.List[String]])
     game.writer = doc.get("writer", classOf[util.List[String]])

@@ -100,19 +100,13 @@ import {GroupDateComponent} from './game/explorer/groupside/group-date/group-dat
 import {GroupStarComponent} from './game/explorer/groupside/group-star/group-star.component';
 import {ByWriterComponent} from './game/query/by-writer/by-writer.component';
 import {NzTableModule} from "ng-zorro-antd/table";
-import { GameCharCellComponent } from './game/detail/game-characters/game-char-cell/game-char-cell.component';
+import {GameCharCellComponent} from './game/detail/game-characters/game-char-cell/game-char-cell.component';
 import {NzMessageService} from "ng-zorro-antd/message";
-import { GroupLocationComponent } from './game/explorer/groupside/group-location/group-location.component';
-import {WordComponent} from "./word/word.component";
+import {GroupLocationComponent} from './game/explorer/groupside/group-location/group-location.component';
 import {NzDividerModule} from "ng-zorro-antd/divider";
 
 
 export const routes: Route[] = [
-  {
-    path: 'word', component: WordComponent, data: {
-      breadcrumb: 'Word'
-    }
-  },
   {
     path: 'cv', component: CvComponent, data: {
       breadcrumb: 'CV'
@@ -263,8 +257,7 @@ export const routes: Route[] = [
     GroupStarComponent,
     ByWriterComponent,
     GameCharCellComponent,
-    GroupLocationComponent,
-    WordComponent
+    GroupLocationComponent
   ],
   imports: [
     BrowserModule,

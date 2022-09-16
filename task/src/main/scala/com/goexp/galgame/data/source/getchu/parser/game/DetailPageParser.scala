@@ -37,8 +37,8 @@ private object DetailPageParser {
       g.writer = ele.select("td:contains(シナリオ)").next.text.split("、").to(LazyList).map(s => s.trim).asJava
       g.`type` = ele.select("td:contains(サブジャンル)").next.text.replace("[一覧]", "").split("、").to(LazyList).map(s => s.trim).asJava
       g.tag = ele.select("td:contains(カテゴリ)").next.text.replace("[一覧]", "").split("、").to(LazyList).map(s => s.trim).asJava
-      g.story = root.select("#wrapper div.tabletitle:contains(ストーリー)").next.html.replaceAll("<[^>]*>", "").replace("<br>", "").trim
-      g.intro = root.select("#wrapper div.tabletitle:contains(商品紹介)").next.html.replaceAll("<[^>]*>", "").replace("<br>", "").trim
+      g.story = root.select("#wrapper div.tabletitle:contains(ストーリー)").next.html.replaceAll("<[^>]*>", "").replace("<br>", "").replace(" ", "")
+      g.intro = root.select("#wrapper div.tabletitle:contains(商品紹介)").next.html.replaceAll("<[^>]*>", "").replace("<br>", "").replace(" ", "")
       val brandUrl = ele.select("a:contains(このブランドの作品一覧)").attr("href")
       g.brandId = BRAND_ID_REGEX.findFirstMatchIn(brandUrl).map(m => m.group("brandid").toInt).getOrElse(0)
       g

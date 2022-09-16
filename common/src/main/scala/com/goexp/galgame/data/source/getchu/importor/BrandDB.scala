@@ -46,6 +46,10 @@ object BrandDB {
 
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(item.id), combine(
+        unset("statistics")
+      ))
+
+      documentMongoCollection.updateOne(Filters.eq(item.id), combine(
         set("tag", tag),
         set("statistics.start", start),
         set("statistics.end", end),
@@ -53,13 +57,13 @@ object BrandDB {
         set("statistics.realCount", realCount),
 
 
-        unset("statistics.state"),
-
+        //        unset("statistics.emotion"),
         set("statistics.emotion.LIKE", like),
         set("statistics.emotion.HOPE", hope),
         set("statistics.emotion.NORMAL", normal),
         set("statistics.emotion.HATE", hate),
 
+        //        unset("statistics.star"),
         set("statistics.star.zero", zero),
         set("statistics.star.one", one),
         set("statistics.star.two", two),
@@ -67,6 +71,7 @@ object BrandDB {
         set("statistics.star.four", four),
         set("statistics.star.five", five),
 
+        //        unset("statistics.location"),
         set("statistics.location.local", local),
         set("statistics.location.remote", remote)
       ))

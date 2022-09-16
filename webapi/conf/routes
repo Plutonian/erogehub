@@ -48,7 +48,3 @@ GET           /api/app/emotions                           api.AppController.emot
 GET           /api/app/monthsOfThisYear                   api.AppController.monthsOfThisYear()
 GET           /api/tags                                   api.TagController.list()
 GET           /api/cv                                     api.CVController.list()
-
-POST          /api/word                                   api.WordController.process(request: play.mvc.Http.Request)
-
-

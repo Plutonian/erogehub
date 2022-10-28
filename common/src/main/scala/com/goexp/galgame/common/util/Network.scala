@@ -1,7 +1,5 @@
 package com.goexp.galgame.common.util
 
-import java.util.ResourceBundle
-
 import com.goexp.galgame.common.Config
 import com.typesafe.scalalogging.Logger
 
@@ -11,23 +9,17 @@ object Network {
 
   private var isInit = false
 
-  def initProxy(): Unit =
-    if (Config.proxy && !isInit) {
-
-      logger.info("init Network")
-
-      val prop = ResourceBundle.getBundle("proxy")
+  def initProxy(): Unit = {
+    Config.initProxy()
 
 
-      prop.keySet.forEach(k => {
-        val v = prop.getString(k)
+    logger.debug(System.getProperty("http.proxyHost"))
+    logger.debug(System.getProperty("http.proxyPort"))
 
-        logger.debug(s"$k->$v")
+    logger.debug(System.getProperty("https.proxyHost"))
+    logger.debug(System.getProperty("https.proxyPort"))
 
-        System.setProperty(k, v)
-      })
-
-
-      isInit = true
-    }
+    logger.debug(System.getProperty("socksProxyHost"))
+    logger.debug(System.getProperty("socksProxyPort"))
+  }
 }

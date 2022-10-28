@@ -1,0 +1,2 @@
+# Custom segmentation for long entries
+美少女,美少女,ビショウジョ,カスタム名詞

@@ -3,23 +3,26 @@ package com.goexp.galgame.common.util
 import com.goexp.galgame.common.Config
 import com.typesafe.scalalogging.Logger
 
+import scala.jdk.CollectionConverters._
+
 object Network {
 
   protected val logger: Logger = Logger(Network.getClass)
-
-  private var isInit = false
 
   def initProxy(): Unit = {
     Config.initProxy()
 
 
-    logger.debug(System.getProperty("http.proxyHost"))
-    logger.debug(System.getProperty("http.proxyPort"))
+    System.getProperties.asScala
+      .to(LazyList)
+      .filter { case (k, _) => k.contains("proxy") }
+      .foreach { case (k, v) =>
 
-    logger.debug(System.getProperty("https.proxyHost"))
-    logger.debug(System.getProperty("https.proxyPort"))
+        logger.info(s"$k:$v")
+      }
+  }
 
-    logger.debug(System.getProperty("socksProxyHost"))
-    logger.debug(System.getProperty("socksProxyPort"))
+  def main(args: Array[String]): Unit = {
+    initProxy()
   }
 }

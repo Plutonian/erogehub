@@ -1,5 +1,6 @@
 package com.goexp.galgame.common
 
+import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.db.mongo.query.ConfigQuery
 import com.typesafe.scalalogging.Logger
 
@@ -26,15 +27,20 @@ object Config {
 
       ConfigQuery().one().foreach(c => {
 
-        Option(c.proxy.http).map(_.split(":")).foreach { pear =>
-          val host = pear(0)
-          val port = pear(1)
+        Option(c.proxy.http)
+          .filter(s => Strings.isNotEmpty(s))
+          .map(_.split(":"))
+          .foreach { pear =>
+            val host = pear(0)
+            val port = pear(1)
 
-          System.setProperty("http.proxyHost", host)
-          System.setProperty("http.proxyPort", port)
-        }
+            System.setProperty("http.proxyHost", host)
+            System.setProperty("http.proxyPort", port)
+          }
 
-        Option(c.proxy.https).map(_.split(":")).foreach { pear =>
+        Option(c.proxy.https)
+          .filter(s => Strings.isNotEmpty(s))
+          .map(_.split(":")).foreach { pear =>
           val host = pear(0)
           val port = pear(1)
 
@@ -42,13 +48,16 @@ object Config {
           System.setProperty("https.proxyPort", port)
         }
 
-        Option(c.proxy.sock5).map(_.split(":")).foreach { pear =>
-          val host = pear(0)
-          val port = pear(1)
+        Option(c.proxy.sock5)
+          .filter(s => Strings.isNotEmpty(s))
+          .map(_.split(":"))
+          .foreach { pear =>
+            val host = pear(0)
+            val port = pear(1)
 
-          System.setProperty("socksProxyHost", host)
-          System.setProperty("socksProxyPort", port)
-        }
+            System.setProperty("socksProxyHost", host)
+            System.setProperty("socksProxyPort", port)
+          }
 
       })
 

@@ -3,7 +3,7 @@ package com.goexp.galgame.data.source.getchu.actor
 import com.goexp.galgame.common.website.getchu.{GameList, GetchuGameRemote, RequestBuilder}
 import com.goexp.galgame.data.source.getchu.DEFAULT_CHARSET
 import com.goexp.galgame.data.source.getchu.PageDownloader._
-import com.goexp.pipeline.handler.OnErrorReTryActor
+import com.goexp.pipeline.handler.{OnErrorReTryActor, ShutdownActor}
 
 import java.time.LocalDate
 import java.util.concurrent.TimeUnit
@@ -27,7 +27,7 @@ class DownloadPageActor extends OnErrorReTryActor(20, 5, TimeUnit.SECONDS) {
       logger.debug(s"GET GameDetail:${gid} OK")
 
       sendTo[ParsePageActor]((gid, html))
-      sendTo[ShutdownActor]("reset")
+      sendTo[ShutdownActor]("RESET")
 
     // download page from date range
     case (start: LocalDate, end: LocalDate) =>
@@ -39,7 +39,7 @@ class DownloadPageActor extends OnErrorReTryActor(20, 5, TimeUnit.SECONDS) {
       val html = download(request)(DEFAULT_CHARSET)
 
       sendTo[ParsePageActor]((html, "ListPageParser"))
-      sendTo[ShutdownActor]("reset")
+      sendTo[ShutdownActor]("RESET")
 
 
     // download page by brand(Doujin)
@@ -51,7 +51,7 @@ class DownloadPageActor extends OnErrorReTryActor(20, 5, TimeUnit.SECONDS) {
       val html = download(request)(DEFAULT_CHARSET)
 
       sendTo[ParsePageActor]((html, "ListPageParser"))
-      sendTo[ShutdownActor]("reset")
+      sendTo[ShutdownActor]("RESET")
 
 
     // download page by brand(normal)
@@ -63,7 +63,7 @@ class DownloadPageActor extends OnErrorReTryActor(20, 5, TimeUnit.SECONDS) {
       val html = download(request)(DEFAULT_CHARSET)
 
       sendTo[ParsePageActor]((html, "ListPageParser"))
-      sendTo[ShutdownActor]("reset")
+      sendTo[ShutdownActor]("RESET")
 
   }
 }

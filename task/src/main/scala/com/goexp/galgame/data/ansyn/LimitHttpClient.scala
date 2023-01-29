@@ -37,6 +37,8 @@ class LimitHttpClient(val limits: Int, val waitTime: Int, val unit: TimeUnit) ex
   private def delay() = {
     downTaskCount += 1
 
+    TimeUnit.SECONDS.sleep(1)
+
     if (downTaskCount % limits == 0) {
       logger.debug("sleep")
       try
@@ -66,7 +68,7 @@ class LimitHttpClient(val limits: Int, val waitTime: Int, val unit: TimeUnit) ex
 object LimitHttpClient {
 
   //default
-  val client = new LimitHttpClient(50, 10, TimeUnit.SECONDS)
+  val client = new LimitHttpClient(10, 20, TimeUnit.SECONDS)
 
   def apply(): LimitHttpClient = {
     client

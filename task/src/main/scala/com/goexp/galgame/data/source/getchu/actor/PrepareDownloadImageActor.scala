@@ -12,7 +12,7 @@ class PrepareDownloadImageActor extends DefaultActor {
       val imgs = game.allImgs
 
       if (imgs.nonEmpty) {
-        logger.info(s"Prepare ${game.simpleView} (${imgs.size})")
+        logger.info(s"PrepareDownloadImage: ${game.simpleView} (${imgs.size})")
 
         allCount.getAndAdd(imgs.size)
 

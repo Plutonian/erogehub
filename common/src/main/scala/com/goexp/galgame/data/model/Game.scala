@@ -75,17 +75,17 @@ class Game extends CommonGame with Logger {
 
       list.addOne((localNormal, remoteNormal))
 
-      val localTiny = Config.IMG_LOCAL_ROOT.resolve(s"${GetchuGameLocal.tiny120Img(g)}.jpg")
-      val remoteTiny = GetchuGameRemote.getUrlFromSrc(g.smallImg)
-      logger.debug(s"[Tiny] [${g.id}] [${g.name}] [${g.publishDate}] Local:$localTiny(${Files.exists(localTiny)}) --> Remote:$remoteTiny")
-
-      list.addOne((localTiny, remoteTiny))
-
-      val local200Tiny = Config.IMG_LOCAL_ROOT.resolve(s"${GetchuGameLocal.tiny200Img(g)}.jpg")
-      val remote200Tiny = GetchuGameRemote.tiny200Img(g.id)
-      logger.debug(s"[200Tiny] [${g.id}] [${g.name}] [${g.publishDate}] Local:$local200Tiny(${Files.exists(local200Tiny)}) --> Remote:$remote200Tiny")
-
-      list.addOne((local200Tiny, remote200Tiny))
+//      val localTiny = Config.IMG_LOCAL_ROOT.resolve(s"${GetchuGameLocal.tiny120Img(g)}.jpg")
+//      val remoteTiny = GetchuGameRemote.getUrlFromSrc(g.smallImg)
+//      logger.debug(s"[Tiny] [${g.id}] [${g.name}] [${g.publishDate}] Local:$localTiny(${Files.exists(localTiny)}) --> Remote:$remoteTiny")
+//
+//      list.addOne((localTiny, remoteTiny))
+//
+//      val local200Tiny = Config.IMG_LOCAL_ROOT.resolve(s"${GetchuGameLocal.tiny200Img(g)}.jpg")
+//      val remote200Tiny = GetchuGameRemote.tiny200Img(g.id)
+//      logger.debug(s"[200Tiny] [${g.id}] [${g.name}] [${g.publishDate}] Local:$local200Tiny(${Files.exists(local200Tiny)}) --> Remote:$remote200Tiny")
+//
+//      list.addOne((local200Tiny, remote200Tiny))
 
       val localLarge = Config.IMG_LOCAL_ROOT.resolve(s"${GetchuGameLocal.largeImg(g)}.jpg")
       val remoteLarge = GetchuGameRemote.largeImg(g.id)

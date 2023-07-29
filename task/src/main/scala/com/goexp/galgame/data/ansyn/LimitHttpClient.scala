@@ -61,14 +61,12 @@ class LimitHttpClient(val limits: Int, val waitTime: Int, val unit: TimeUnit) ex
 
     HttpUtil.httpClient.sendAsync(request, responseBodyHandler)
   }
-
-
 }
 
 object LimitHttpClient {
 
   //default
-  val client = new LimitHttpClient(10, 60, TimeUnit.SECONDS)
+  val client = new LimitHttpClient(20, 60, TimeUnit.SECONDS)
 
   def apply(): LimitHttpClient = {
     client

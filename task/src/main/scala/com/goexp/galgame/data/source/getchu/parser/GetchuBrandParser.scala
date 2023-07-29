@@ -15,10 +15,9 @@ class GetchuBrandParser {
 
   def parse(html: String): LazyList[Brand] = {
     Jsoup.parse(html)
-      .select("#wrapper > table > tbody > tr > td:nth-child(2) > table > tbody > tr > td table[cellpadding=1]")
+      .select("table.brand_half_table")
       .asScala
       .to(LazyList)
-      .drop(1)
       .flatMap(parse)
   }
 
@@ -27,11 +26,11 @@ class GetchuBrandParser {
 
   private def parse(item: Element) =
 
-    item.nextElementSibling
+    item
       .select("tr:nth-of-type(2) tr")
       .asScala
       .to(LazyList)
-      .filter(_.html.length > 0)
+      .filter(_.html.nonEmpty)
       .map { ele =>
         val brand = new Brand
         val titleEle = ele.select("td:nth-of-type(1)>a")

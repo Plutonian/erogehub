@@ -1,16 +1,14 @@
 <nz-layout>
   <nz-sider nzCollapsible>
-    <ul nz-menu [nzMode]="'inline'" [nzTheme]="'dark'">
-      <li nz-submenu nzTitle="ゲーム"  nzOpen>
-        <ul>
+        <ul nz-menu nzMode="inline">
 
           <li nz-menu-item>
-            <i nz-icon nzType="home"></i>
-            <a routerLink="/">Home</a>
+            <span nz-icon nzType="home" nzTheme="outline"></span>
+            <span><a routerLink="/">Home</a></span>
           </li>
           <li nz-menu-item>
-            <i nz-icon nzType="search"></i>
-            <a routerLink="/game/search">Search</a>
+            <span nz-icon nzType="search" nzTheme="outline"></span>
+            <span><a routerLink="/game/search">Search</a></span>
           </li>
 
           <li nz-submenu nzTitle="Date" nzIcon="calendar" nzOpen>
@@ -37,41 +35,56 @@
               </li>
             </ul>
           </li>
-          <li nz-submenu nzTitle="Play" nzIcon="play-circle" nzOpen>
-            <ul>
-              <li nzMatchRouter nz-menu-item *ngFor="let playState of playStates"><a
-                routerLink="/game/playState/{{playState}}">{{playState | playStateJP}}</a></li>
-            </ul>
+          <li nz-menu-item>
+            <span nz-icon nzType="play-circle" nzTheme="outline"></span>
+            <span>
+              <a routerLink="/game/playState/PLAYING">{{"PLAYING" | playStateJP}}</a>
+            </span>
           </li>
-          <li nz-submenu nzTitle="Star" nzIcon="star">
+          <li nz-submenu nzTitle="Played" nzIcon="star">
             <ul>
-              <li nzMatchRouter nz-menu-item *ngFor="let star of stars"><a routerLink="/game/star/{{star}}">{{star}}</a>
+              <li nzMatchRouter nz-menu-item>
+                <a routerLink="/game/playState/PLAYED">{{"PLAYED" | playStateJP}}</a>
+              </li>
+              <li nzMatchRouter nz-menu-item *ngFor="let star of stars">
+                <a routerLink="/game/star/{{star}}">{{star}}</a>
               </li>
             </ul>
           </li>
-          <li nz-submenu nzTitle="Like" nzIcon="heart">
+          <li nz-submenu nzTitle="Wishlist" nzIcon="heart">
             <ul>
               <li nzMatchRouter nz-menu-item *ngFor="let emotion of emotions"><a
                 routerLink="/game/emotion/{{emotion}}">{{emotion | emotionJP}}</a></li>
             </ul>
           </li>
-          <li nz-submenu nzTitle="Location" nzIcon="cloud">
+          <li nz-submenu nzTitle="Local" nzIcon="cloud">
             <ul>
               <li nzMatchRouter nz-menu-item *ngFor="let location of locations"><a
                 routerLink="/game/location/{{location}}">{{location | loc}}</a>
               </li>
             </ul>
           </li>
+          <li nz-submenu nzTitle="Other" nzIcon="cloud">
+            <ul>
+              <li nzMatchRouter nz-menu-item>
+                <span nz-icon nzType="search" nzTheme="outline"></span>
+                <span><a routerLink="/cv">CV</a></span>
+              </li>
+              <li nzMatchRouter nz-menu-item>
+                <span nz-icon nzType="search" nzTheme="outline"></span>
+                <span><a routerLink="/tag">Tag</a></span>
+              </li>
+              <li nzMatchRouter nz-menu-item>
+                <span nz-icon nzType="search" nzTheme="outline"></span>
+                <span><a routerLink="/brand">BRAND</a></span>
+              </li>
+            </ul>
+
+          </li>
 
 
-          <li nzMatchRouter nz-menu-item><a routerLink="/cv">CV</a></li>
-          <li nzMatchRouter nz-menu-item><a routerLink="/tag">Tag</a></li>
-          <li nzMatchRouter nz-menu-item><a routerLink="/brand">BRAND</a></li>
         </ul>
 
-      </li>
-
-    </ul>
   </nz-sider>
   <nz-content>
     <router-outlet></router-outlet>

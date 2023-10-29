@@ -1,9 +1,9 @@
 <nz-tree #nzTreeComponent
-         nzVirtualHeight="100vh"
          [nzData]="data"
          (nzClick)="nodeSelected($event)"
          [nzBlockNode]="true"
          [nzExpandAll]="true"
+         [nzShowLine]="true"
          [nzTreeTemplate]="nzTreeTemplate"
 ></nz-tree>
 

@@ -1,9 +1,8 @@
-<!--<app-explorer [filter]="filter"></app-explorer>-->
-<div *ngIf="rowGameList">
   <nz-layout *ngIf="rowGameList?.length>0;else noGames">
     <nz-sider>
       <nz-collapse>
-        <nz-collapse-panel [nzHeader]="'Brand'" [nzShowArrow]="false" [nzActive]="true">
+        <nz-collapse-panel [nzHeader]="'Brand'" [nzShowArrow]="false" [nzActive]="true"
+                           style="height: 800px;overflow-y: auto">
           <app-group-brand [filter]="filter" (onBrandSelected)="onBrandSelected($event)"></app-group-brand>
         </nz-collapse-panel>
       </nz-collapse>
@@ -42,7 +41,6 @@
       </nz-collapse>
     </nz-sider>
   </nz-layout>
-</div>
 
 <ng-template #noGames>
   <H3>Empty</H3>

@@ -104,6 +104,8 @@ import {GameCharCellComponent} from './game/detail/game-characters/game-char-cel
 import {NzMessageService} from "ng-zorro-antd/message";
 import {GroupLocationComponent} from './game/explorer/groupside/group-location/group-location.component';
 import {NzDividerModule} from "ng-zorro-antd/divider";
+import {NzTypographyModule} from "ng-zorro-antd/typography";
+import {NgOptimizedImage} from "@angular/common";
 
 
 export const routes: Route[] = [
@@ -297,7 +299,9 @@ export const routes: Route[] = [
     DragDropModule,
     NzModalModule,
     NzTableModule,
-    NzDividerModule
+    NzDividerModule,
+    NzTypographyModule,
+    NgOptimizedImage
   ],
   providers: [
     GameService,

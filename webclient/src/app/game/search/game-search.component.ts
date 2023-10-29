@@ -9,7 +9,7 @@ export class GameSearchComponent implements OnInit {
 
   filter
 
-  searchType = 'Simple'
+  searchType = "Simple"
 
   searchKey: string
 

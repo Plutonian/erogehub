@@ -9,6 +9,8 @@ import {GameService} from "../../../game.service";
 })
 export class GridCellComponent implements OnInit {
 
+  private readonly today = new Date()
+
   @Input()
   game: Game
 
@@ -36,4 +38,14 @@ export class GridCellComponent implements OnInit {
 
   }
 
+
+  published() {
+
+    let date = this.game.publishDate;
+
+    let d=new Date()
+    d.setFullYear(date.year, date.monthValue - 1, date.dayOfMonth)
+
+    return this.today.getTime() - d.getTime() > 0
+  }
 }

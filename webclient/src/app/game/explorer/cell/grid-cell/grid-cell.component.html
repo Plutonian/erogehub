@@ -19,7 +19,7 @@
             style="display:inline-block;margin-left:5px;">(<a target="_blank"
                                                               href="{{game.brand?.website}}">公式サイト</a>)</span>
     </section>
-    <app-star-change [game]="game"></app-star-change>
+    <app-star-change *ngIf="published() && (game.playState=='PLAYED'|| game.star >0 )" [game]="game"></app-star-change>
     <section *ngIf="game.tag?.length > 0" class="flex_row flex_float gap-5">
       <app-jumptag *ngFor="let tag of game.tag" [tag]="tag" style="font-size:10px;"></app-jumptag>
     </section>
@@ -41,7 +41,7 @@
 </ng-template>
 
 <ng-template #playState>
-  <app-location-change [game]="game"></app-location-change>
+  <app-location-change *ngIf="published()" [game]="game"></app-location-change>
 </ng-template>
 
 <ng-template #markSame>
@@ -49,7 +49,9 @@
 </ng-template>
 
 <ng-template #emotion>
+  <ng-container *ngIf="game.playState != 'PLAYED' && game.playState != 'PLAYING'">
   <app-emotion-change [game]="game"></app-emotion-change>
+  </ng-container>
 </ng-template>
 
 <ng-template #date>

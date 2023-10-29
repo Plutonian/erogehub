@@ -6,7 +6,7 @@
 </ng-template>
 
 <nz-layout>
-  <nz-content>
+  <nz-content style="height: 700px;overflow-y: auto">
     <div *ngIf="size=='Grid'"
          class="grid game-grid  container">
       <app-grid-cell class="cell" (remove)="gameDelete($event)" [game]="g" *ngFor="let g of gamelist"></app-grid-cell>
@@ -29,7 +29,7 @@
   <nz-footer>
     <nz-affix [nzOffsetBottom]="0">
       <div class="flex_row">
-      <span class="bg-white"
+      <span
             *ngIf="rowGameList?.length == gamelist?.length;else filterCount">{{rowGameList.length}}</span>
 
         <ng-template #filterCount>

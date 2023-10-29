@@ -89,7 +89,7 @@ export class AppComponent implements OnInit {
   ]
 
   playStates = [
-    "PLAYED",
+    // "PLAYED",
     "PLAYING"
   ]
 

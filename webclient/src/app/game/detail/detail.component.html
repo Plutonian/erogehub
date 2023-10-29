@@ -95,8 +95,8 @@
   <nz-card id="story" nzTitle="ストーリー">
     <main class="flex_row">
       <section class="flex_row">
-        <img class="img_alone" title="{{game.intro}}"
-             src="{{game | img}}/game_l.jpg"/>
+        <img nz-image class="img_alone" title="{{game.intro}}"
+             nzSrc="{{game | img}}/game_l.jpg"/>
       </section>
       <textarea class="flex_grow" rows="10" style="font-size: 20px;border: none;"
                 readonly="readonly">{{game.story}}</textarea>

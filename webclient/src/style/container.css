@@ -58,9 +58,6 @@
   /*background-color: #fff;*/
 }
 
-.all_height {
-  height: 100%;
-}
 
 .anchor {
   position: absolute;
@@ -72,5 +69,26 @@
 
 .bottomBar {
   height: 24px;
+}
+
+.all_height {
+  height: 100%;
+}
+
+.all_width {
+  width: 100%;
+}
+
+.all_ViewHeight {
+  height: 100vh;
+}
+
+
+.scrollableY {
+  overflow-y: auto;
+}
+
+.scrollableX {
+  overflow-x: auto;
 }
 

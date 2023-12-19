@@ -1,4 +1,4 @@
-li{
+li {
   list-style: none;
 }
 
@@ -6,3 +6,30 @@ dt, dd, dl, ul, li {
   margin: 0;
   padding: 0;
 }
+
+.ant-tabs-content, .ant-collapse, .ant-tabs, nz-layout, nz-tree {
+  height: 100%;
+  width: 100%;
+}
+
+.ant-layout-header, .ant-layout-footer {
+  padding: 0;
+  height: auto;
+  line-height: normal;
+}
+
+.ant-collapse-content > .ant-collapse-content-box {
+  padding: 5px;
+  height: 100%;
+  width: 100%;
+}
+
+.ant-card-body,
+.ant-drawer-body {
+  padding: 0;
+  margin: 0;
+  /*height: 100%;*/
+  /*width: 100%;*/
+  /*overflow-y: auto;*/
+}
+

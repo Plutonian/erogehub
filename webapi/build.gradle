@@ -1,12 +1,11 @@
 plugins {
-    id 'org.gradle.playframework' version '0.12'
+    id 'org.gradle.playframework' version '0.14'
 }
 play {
     platform {
-        playVersion = '2.8.15'
-        scalaVersion = "2.13.8"
-//        scalaVersion = "3.1.2"
-        javaVersion = JavaVersion.VERSION_11
+        playVersion = '2.8.21'
+        scalaVersion = "2.13.12"
+        javaVersion = JavaVersion.VERSION_HIGHER
     }
     injectedRoutesGenerator = true
 
@@ -28,14 +27,14 @@ dependencies {
 
 
     // https://mvnrepository.com/artifact/com.typesafe.play/play-guice
-    implementation group: 'com.typesafe.play', name: 'play-guice_2.13', version: '2.8.15'
+    implementation group: 'com.typesafe.play', name: 'play-guice_2.13', version: '2.8.21'
 
     // https://mvnrepository.com/artifact/com.typesafe.play/play-logback
-    implementation 'com.typesafe.play:play-logback_2.13:2.8.15'
+    implementation 'com.typesafe.play:play-logback_2.13:2.8.21'
 
 
     // https://mvnrepository.com/artifact/com.typesafe.play/filters-helpers
-    implementation group: 'com.typesafe.play', name: 'filters-helpers_2.13', version: '2.8.15'
+    implementation group: 'com.typesafe.play', name: 'filters-helpers_2.13', version: '2.8.21'
 
 }
 

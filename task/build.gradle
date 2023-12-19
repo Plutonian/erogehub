@@ -11,12 +11,7 @@ dependencies {
     implementation group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.10'
 
     implementation 'com.goexp:pipeline:1.0.5'
-    implementation 'org.jsoup:jsoup:1.14.3'
-
-    implementation group: 'com.atilika.kuromoji', name: 'kuromoji-unidic', version: '0.9.0'
-
-    // https://mvnrepository.com/artifact/com.ibm.icu/icu4j
-    implementation group: 'com.ibm.icu', name: 'icu4j', version: '71.1'
+    implementation 'org.jsoup:jsoup:1.15.3'
 }
 
 application {

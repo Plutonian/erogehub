@@ -2,6 +2,7 @@ package com.goexp.galgame.data.ansyn
 
 import com.goexp.common.util.Logger
 import com.goexp.common.util.web.HttpUtil
+import com.goexp.galgame.common.util.SpClient
 
 import java.net.http.HttpResponse.BodyHandlers
 import java.net.http.{HttpClient, HttpRequest, HttpResponse}
@@ -11,15 +12,6 @@ import java.util.concurrent.{CompletableFuture, Executors, TimeUnit}
 import scala.concurrent.{ExecutionContext, Future}
 
 
-private[ansyn]
-object SpClient {
-  val httpClient: HttpClient = HttpClient.newBuilder
-    .followRedirects(HttpClient.Redirect.ALWAYS)
-    //    .executor(Pool.DOWN_POOL_SERV)
-    .proxy(ProxySelector.getDefault)
-    .connectTimeout(Duration.ofMinutes(2))
-    .build
-}
 
 /**
  * HttpRequest send limit client
@@ -57,16 +49,15 @@ class LimitHttpClient(val limits: Int, val waitTime: Int, val unit: TimeUnit) ex
       logger.debug(s"Sending[${downTaskCount}] ${request.uri()}")
     }
 
-    //    import SpClient.httpClient
 
-    HttpUtil.httpClient.sendAsync(request, responseBodyHandler)
+    SpClient.httpClient.sendAsync(request, responseBodyHandler)
   }
 }
 
 object LimitHttpClient {
 
   //default
-  val client = new LimitHttpClient(20, 60, TimeUnit.SECONDS)
+  val client = new LimitHttpClient(30, 20, TimeUnit.SECONDS)
 
   def apply(): LimitHttpClient = {
     client

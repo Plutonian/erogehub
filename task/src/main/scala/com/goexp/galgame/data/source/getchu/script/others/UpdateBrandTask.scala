@@ -12,7 +12,7 @@ object UpdateBrandTask {
 
   def main(args: Array[String]): Unit = {
 
-    Network.initProxy()
+//    Network.initProxy()
 
     val localMap = BrandQuery()
       .scalaList().to(LazyList)

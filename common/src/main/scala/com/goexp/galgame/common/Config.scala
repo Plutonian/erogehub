@@ -34,6 +34,8 @@ object Config {
             val host = pear(0)
             val port = pear(1)
 
+            logger.debug(s"[PROXY] http://$host:$port")
+
             System.setProperty("http.proxyHost", host)
             System.setProperty("http.proxyPort", port)
           }
@@ -44,7 +46,10 @@ object Config {
           val host = pear(0)
           val port = pear(1)
 
-          System.setProperty("https.proxyHost", host)
+            logger.debug(s"[PROXY] https://$host:$port")
+
+
+            System.setProperty("https.proxyHost", host)
           System.setProperty("https.proxyPort", port)
         }
 

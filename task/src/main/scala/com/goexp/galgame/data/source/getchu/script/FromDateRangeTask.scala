@@ -8,7 +8,7 @@ import java.time.LocalDate
 
 object FromDateRangeTask {
   def main(args: Array[String]) = {
-    Network.initProxy()
+//    Network.initProxy()
 
     args.length match {
       case 0 =>

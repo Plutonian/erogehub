@@ -5,7 +5,7 @@ play {
     platform {
         playVersion = '2.8.21'
         scalaVersion = "2.13.12"
-        javaVersion = JavaVersion.VERSION_HIGHER
+        javaVersion = JavaVersion.VERSION_11
     }
     injectedRoutesGenerator = true
 

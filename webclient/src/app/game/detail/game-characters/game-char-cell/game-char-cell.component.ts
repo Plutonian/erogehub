@@ -4,9 +4,10 @@ import {GameService} from "../../../game.service";
 import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
-  selector: 'app-game-char-cell',
-  templateUrl: './game-char-cell.component.html',
-  styleUrls: ['./game-char-cell.component.css']
+    selector: 'app-game-char-cell',
+    templateUrl: './game-char-cell.component.html',
+    styleUrls: ['./game-char-cell.component.css'],
+    standalone: false
 })
 export class GameCharCellComponent implements OnInit {
   @Input()

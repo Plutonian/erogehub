@@ -4,9 +4,10 @@ import {GameService} from "../../game.service";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
-  selector: 'app-game-simple',
-  templateUrl: 'game-simple.component.html',
-  styleUrls: ['game-simple.component.css']
+    selector: 'app-game-simple',
+    templateUrl: 'game-simple.component.html',
+    styleUrls: ['game-simple.component.css'],
+    standalone: false
 })
 export class GameSimpleComponent implements OnInit {
   // @ts-ignore

@@ -3,9 +3,10 @@ import {CVGroupItem} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
 @Component({
-  selector: 'app-group-cv',
-  templateUrl: './group-cv.component.html',
-  styleUrls: ['./group-cv.component.css']
+    selector: 'app-group-cv',
+    templateUrl: './group-cv.component.html',
+    styleUrls: ['./group-cv.component.css'],
+    standalone: false
 })
 export class GroupCvComponent implements OnChanges {
 

@@ -2,9 +2,10 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Game, MyDate} from "../../entity";
 
 @Component({
-  selector: 'app-formatted-date',
-  templateUrl: './formatted-date.component.html',
-  styleUrls: ['./formatted-date.component.css']
+    selector: 'app-formatted-date',
+    templateUrl: './formatted-date.component.html',
+    styleUrls: ['./formatted-date.component.css'],
+    standalone: false
 })
 export class FormattedDateComponent implements OnInit {
 

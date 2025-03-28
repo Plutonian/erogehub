@@ -4,9 +4,10 @@ import {ActivatedRoute} from "@angular/router";
 import {Title} from "@angular/platform-browser";
 
 @Component({
-  selector: 'app-query',
-  templateUrl: './query.component.html',
-  styleUrls: ['./query.component.css']
+    selector: 'app-query',
+    templateUrl: './query.component.html',
+    styleUrls: ['./query.component.css'],
+    standalone: false
 })
 export class QueryComponent implements OnInit {
 

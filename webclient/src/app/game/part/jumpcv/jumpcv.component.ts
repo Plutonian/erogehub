@@ -2,9 +2,10 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-jumpcv',
-  templateUrl: './jumpcv.component.html',
-  styleUrls: ['./jumpcv.component.css']
+    selector: 'app-jumpcv',
+    templateUrl: './jumpcv.component.html',
+    styleUrls: ['./jumpcv.component.css'],
+    standalone: false
 })
 export class JumpcvComponent implements OnInit {
 

@@ -6,9 +6,10 @@ import {Game} from "../../../entity";
 import {GameService} from "../../game.service";
 
 @Component({
-  selector: 'app-by-cv',
-  templateUrl: './by-cv.component.html',
-  styleUrls: ['./by-cv.component.css']
+    selector: 'app-by-cv',
+    templateUrl: './by-cv.component.html',
+    styleUrls: ['./by-cv.component.css'],
+    standalone: false
 })
 export class ByCVComponent extends DataQuery implements OnInit {
 

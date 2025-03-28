@@ -4,7 +4,10 @@ import {GameLocation, GamePlayStates} from "./game/game.service";
 import {Emotions} from "./brand/brand.service";
 import {environment} from "../environments/environment";
 
-@Pipe({name: "img"})
+@Pipe({
+    name: "img",
+    standalone: false
+})
 export class ImgUrlPipl {
 
   transform(g: Game) {
@@ -13,7 +16,10 @@ export class ImgUrlPipl {
 
 }
 
-@Pipe({name: "dateStr"})
+@Pipe({
+    name: "dateStr",
+    standalone: false
+})
 export class MyDatePipl {
 
   transform(date: MyDate) {
@@ -23,7 +29,10 @@ export class MyDatePipl {
 }
 
 
-@Pipe({name: "wiki"})
+@Pipe({
+    name: "wiki",
+    standalone: false
+})
 export class WikiPipl {
 
   transform(name: string) {
@@ -32,7 +41,10 @@ export class WikiPipl {
 
 }
 
-@Pipe({name: "bangumi"})
+@Pipe({
+    name: "bangumi",
+    standalone: false
+})
 export class BangumiPipl {
 
   transform(name: string) {
@@ -42,7 +54,10 @@ export class BangumiPipl {
 }
 
 
-@Pipe({name: "playStateJP"})
+@Pipe({
+    name: "playStateJP",
+    standalone: false
+})
 export class PlayStatePipl {
 
   transform(state: string) {
@@ -51,7 +66,10 @@ export class PlayStatePipl {
 
 }
 
-@Pipe({name: "emotionJP"})
+@Pipe({
+    name: "emotionJP",
+    standalone: false
+})
 export class EmotionJPPipe {
 
   transform(emotion: string) {
@@ -60,7 +78,10 @@ export class EmotionJPPipe {
 
 }
 
-@Pipe({name: "loc"})
+@Pipe({
+    name: "loc",
+    standalone: false
+})
 export class LocationPipl {
 
   transform(state: string) {
@@ -69,7 +90,10 @@ export class LocationPipl {
 
 }
 
-@Pipe({name: "block"})
+@Pipe({
+    name: "block",
+    standalone: false
+})
 export class BlockPipl {
 
   transform(state: string) {

@@ -5,9 +5,10 @@ import {environment} from "../../environments/environment";
 import {Title} from "@angular/platform-browser";
 
 @Component({
-  selector: 'app-cv',
-  templateUrl: './cv.component.html',
-  styleUrls: ['./cv.component.css']
+    selector: 'app-cv',
+    templateUrl: './cv.component.html',
+    styleUrls: ['./cv.component.css'],
+    standalone: false
 })
 export class CvComponent implements OnInit {
 

@@ -8,9 +8,10 @@ import {Title} from "@angular/platform-browser";
 import {DataQuery} from "../../game/query/DataQuery";
 
 @Component({
-  selector: 'app-brand-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.css']
+    selector: 'app-brand-detail',
+    templateUrl: './detail.component.html',
+    styleUrls: ['./detail.component.css'],
+    standalone: false
 })
 export class BrandDetailComponent extends DataQuery implements OnInit {
 

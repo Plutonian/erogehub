@@ -5,9 +5,10 @@ import {Router} from "@angular/router";
 import {environment} from "../../environments/environment";
 
 @Component({
-  selector: 'app-tag',
-  templateUrl: './tag.component.html',
-  styleUrls: ['./tag.component.css']
+    selector: 'app-tag',
+    templateUrl: './tag.component.html',
+    styleUrls: ['./tag.component.css'],
+    standalone: false
 })
 export class TagComponent implements OnInit {
 

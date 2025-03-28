@@ -6,9 +6,10 @@ import {Title} from "@angular/platform-browser";
 import {DataQuery} from "../DataQuery";
 
 @Component({
-  selector: 'app-by-writer',
-  templateUrl: './by-writer.component.html',
-  styleUrls: ['./by-writer.component.css']
+    selector: 'app-by-writer',
+    templateUrl: './by-writer.component.html',
+    styleUrls: ['./by-writer.component.css'],
+    standalone: false
 })
 export class ByWriterComponent extends DataQuery implements OnInit {
 

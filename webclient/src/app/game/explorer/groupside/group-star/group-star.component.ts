@@ -3,9 +3,10 @@ import {StarGroupItem} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
 @Component({
-  selector: 'app-group-star',
-  templateUrl: './group-star.component.html',
-  styleUrls: ['./group-star.component.css']
+    selector: 'app-group-star',
+    templateUrl: './group-star.component.html',
+    styleUrls: ['./group-star.component.css'],
+    standalone: false
 })
 export class GroupStarComponent implements OnChanges {
 

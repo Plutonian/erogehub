@@ -6,9 +6,10 @@ import {GameService} from "../../game.service";
 import {DataQuery} from "../DataQuery";
 
 @Component({
-  selector: 'app-by-star',
-  templateUrl: './by-star.component.html',
-  styleUrls: ['./by-star.component.css']
+    selector: 'app-by-star',
+    templateUrl: './by-star.component.html',
+    styleUrls: ['./by-star.component.css'],
+    standalone: false
 })
 export class ByStarComponent extends DataQuery implements OnInit {
 

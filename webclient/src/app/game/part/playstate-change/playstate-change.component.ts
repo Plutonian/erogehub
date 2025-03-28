@@ -9,9 +9,10 @@ const ColorMap = {
 }
 
 @Component({
-  selector: 'app-game-playstate-change',
-  templateUrl: './playstate-change.component.html',
-  styleUrls: ['./playstate-change.component.css']
+    selector: 'app-game-playstate-change',
+    templateUrl: './playstate-change.component.html',
+    styleUrls: ['./playstate-change.component.css'],
+    standalone: false
 })
 export class PlaystateChangeComponent implements OnInit {
   @Input()

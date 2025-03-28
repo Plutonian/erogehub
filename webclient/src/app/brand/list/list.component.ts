@@ -3,9 +3,10 @@ import {Brand} from "../../entity";
 import {BrandService} from "../brand.service";
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+    selector: 'app-list',
+    templateUrl: './list.component.html',
+    styleUrls: ['./list.component.css'],
+    standalone: false
 })
 export class BrandListComponent implements OnChanges {
   @Input()

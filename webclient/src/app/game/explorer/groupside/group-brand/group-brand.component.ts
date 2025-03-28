@@ -4,9 +4,10 @@ import {GameService} from "../../../game.service";
 import {NzFormatEmitEvent} from "ng-zorro-antd/tree";
 
 @Component({
-  selector: 'app-group-brand',
-  templateUrl: './group-brand.component.html',
-  styleUrls: ['./group-brand.component.css']
+    selector: 'app-group-brand',
+    templateUrl: './group-brand.component.html',
+    styleUrls: ['./group-brand.component.css'],
+    standalone: false
 })
 export class GroupBrandComponent implements OnChanges {
   @Input()

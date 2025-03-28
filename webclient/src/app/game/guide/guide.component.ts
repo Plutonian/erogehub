@@ -5,9 +5,10 @@ import {GuideService} from "../guide.service";
 import {Guide} from "../../entity";
 
 @Component({
-  selector: 'app-guide',
-  templateUrl: './guide.component.html',
-  styleUrls: ['./guide.component.css']
+    selector: 'app-guide',
+    templateUrl: './guide.component.html',
+    styleUrls: ['./guide.component.css'],
+    standalone: false
 })
 export class GuideComponent implements OnInit {
 

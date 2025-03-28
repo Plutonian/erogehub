@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {Emotions} from "./brand.service";
 
 @Component({
-  selector: 'app-brand',
-  templateUrl: './brand.component.html',
-  styleUrls: ['./brand.component.css']
+    selector: 'app-brand',
+    templateUrl: './brand.component.html',
+    styleUrls: ['./brand.component.css'],
+    standalone: false
 })
 export class BrandComponent implements OnInit {
 

@@ -3,9 +3,10 @@ import {Game} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
 @Component({
-  selector: 'app-list-cell',
-  templateUrl: './list-cell.component.html',
-  styleUrls: ['./list-cell.component.css']
+    selector: 'app-list-cell',
+    templateUrl: './list-cell.component.html',
+    styleUrls: ['./list-cell.component.css'],
+    standalone: false
 })
 export class ListCellComponent implements OnInit {
   @Input()

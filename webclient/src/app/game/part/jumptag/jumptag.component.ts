@@ -2,9 +2,10 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-jumptag',
-  templateUrl: './jumptag.component.html',
-  styleUrls: ['./jumptag.component.css']
+    selector: 'app-jumptag',
+    templateUrl: './jumptag.component.html',
+    styleUrls: ['./jumptag.component.css'],
+    standalone: false
 })
 export class JumptagComponent implements OnInit {
 

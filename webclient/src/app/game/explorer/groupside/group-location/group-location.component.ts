@@ -3,9 +3,10 @@ import {EmotionGroupItem, LocationGroupItem} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
 @Component({
-  selector: 'app-group-location',
-  templateUrl: './group-location.component.html',
-  styleUrls: ['./group-location.component.css']
+    selector: 'app-group-location',
+    templateUrl: './group-location.component.html',
+    styleUrls: ['./group-location.component.css'],
+    standalone: false
 })
 export class GroupLocationComponent implements OnChanges {
 

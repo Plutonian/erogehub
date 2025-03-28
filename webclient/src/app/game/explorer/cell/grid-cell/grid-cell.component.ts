@@ -3,9 +3,10 @@ import {Game} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
 @Component({
-  selector: 'app-grid-cell',
-  templateUrl: './grid-cell.component.html',
-  styleUrls: ['./grid-cell.component.css']
+    selector: 'app-grid-cell',
+    templateUrl: './grid-cell.component.html',
+    styleUrls: ['./grid-cell.component.css'],
+    standalone: false
 })
 export class GridCellComponent implements OnInit {
 

@@ -8,9 +8,10 @@ export interface FilterItem {
 
 
 @Component({
-  selector: 'app-filter',
-  templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.css']
+    selector: 'app-filter',
+    templateUrl: './filter.component.html',
+    styleUrls: ['./filter.component.css'],
+    standalone: false
 })
 export class FilterComponent implements OnInit {
 

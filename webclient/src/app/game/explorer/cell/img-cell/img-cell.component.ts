@@ -3,9 +3,10 @@ import {Game} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
 @Component({
-  selector: 'app-img-cell',
-  templateUrl: './img-cell.component.html',
-  styleUrls: ['./img-cell.component.css']
+    selector: 'app-img-cell',
+    templateUrl: './img-cell.component.html',
+    styleUrls: ['./img-cell.component.css'],
+    standalone: false
 })
 export class ImgCellComponent implements OnInit {
 

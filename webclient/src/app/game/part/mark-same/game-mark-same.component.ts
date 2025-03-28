@@ -3,9 +3,10 @@ import {Game} from "../../../entity";
 import {GameService} from "../../game.service";
 
 @Component({
-  selector: 'app-game-marksame',
-  templateUrl: 'game-mark-same.component.html',
-  styleUrls: ['game-mark-same.component.css']
+    selector: 'app-game-marksame',
+    templateUrl: 'game-mark-same.component.html',
+    styleUrls: ['game-mark-same.component.css'],
+    standalone: false
 })
 export class GameMarkSameComponent implements OnInit {
 

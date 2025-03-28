@@ -3,9 +3,10 @@ import {Game} from "../../../entity";
 import {GameService} from "../../game.service";
 
 @Component({
-  selector: 'app-star-change',
-  templateUrl: './star-change.component.html',
-  styleUrls: ['./star-change.component.css']
+    selector: 'app-star-change',
+    templateUrl: './star-change.component.html',
+    styleUrls: ['./star-change.component.css'],
+    standalone: false
 })
 export class StarChangeComponent implements OnInit {
   tooltips = ['terrible', 'bad', 'normal', 'good', 'wonderful'];

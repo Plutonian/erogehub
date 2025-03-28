@@ -4,9 +4,10 @@ import {GameService} from "../../game.service";
 import {Emotions} from "../../../brand/brand.service";
 
 @Component({
-  selector: 'app-emotion-change',
-  templateUrl: './emotion-change.component.html',
-  styleUrls: ['./emotion-change.component.css']
+    selector: 'app-emotion-change',
+    templateUrl: './emotion-change.component.html',
+    styleUrls: ['./emotion-change.component.css'],
+    standalone: false
 })
 export class EmotionChangeComponent implements OnInit {
   @Input()

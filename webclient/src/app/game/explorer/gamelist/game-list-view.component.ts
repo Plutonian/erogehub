@@ -3,9 +3,10 @@ import {Game} from "../../../entity";
 import {Emotions} from "../../../brand/brand.service";
 
 @Component({
-  selector: 'app-game-listview',
-  templateUrl: 'game-list-view.component.html',
-  styleUrls: ['game-list-view.component.css']
+    selector: 'app-game-listview',
+    templateUrl: 'game-list-view.component.html',
+    styleUrls: ['game-list-view.component.css'],
+    standalone: false
 })
 export class GameListViewComponent implements OnInit {
 

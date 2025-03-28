@@ -3,9 +3,10 @@ import {TagGroupItem} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
 @Component({
-  selector: 'app-group-tag',
-  templateUrl: './group-tag.component.html',
-  styleUrls: ['./group-tag.component.css']
+    selector: 'app-group-tag',
+    templateUrl: './group-tag.component.html',
+    styleUrls: ['./group-tag.component.css'],
+    standalone: false
 })
 export class GroupTagComponent implements OnChanges {
 

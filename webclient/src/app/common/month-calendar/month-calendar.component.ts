@@ -3,9 +3,10 @@ import {DateGroupItem} from "../../entity";
 
 
 @Component({
-  selector: 'app-month-calendar',
-  templateUrl: './month-calendar.component.html',
-  styleUrls: ['./month-calendar.component.css']
+    selector: 'app-month-calendar',
+    templateUrl: './month-calendar.component.html',
+    styleUrls: ['./month-calendar.component.css'],
+    standalone: false
 })
 export class MonthCalendarComponent implements OnInit {
 

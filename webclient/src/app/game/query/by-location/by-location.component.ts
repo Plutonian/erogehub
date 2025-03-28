@@ -6,9 +6,10 @@ import {DataQuery} from "../DataQuery";
 import {Title} from "@angular/platform-browser";
 
 @Component({
-  selector: 'app-by-location',
-  templateUrl: './by-location.component.html',
-  styleUrls: ['./by-location.component.css']
+    selector: 'app-by-location',
+    templateUrl: './by-location.component.html',
+    styleUrls: ['./by-location.component.css'],
+    standalone: false
 })
 export class ByLocationComponent extends DataQuery implements OnInit {
 

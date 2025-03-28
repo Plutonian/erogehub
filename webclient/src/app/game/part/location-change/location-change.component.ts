@@ -3,9 +3,10 @@ import {Game} from "../../../entity";
 import {GameLocation, GameService} from "../../game.service";
 
 @Component({
-  selector: 'app-location-change',
-  templateUrl: './location-change.component.html',
-  styleUrls: ['./location-change.component.css']
+    selector: 'app-location-change',
+    templateUrl: './location-change.component.html',
+    styleUrls: ['./location-change.component.css'],
+    standalone: false
 })
 export class LocationChangeComponent implements OnInit {
   @Input()

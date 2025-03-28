@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-gamesearch',
-  templateUrl: './game-search.component.html',
-  styleUrls: ['./game-search.component.css']
+    selector: 'app-gamesearch',
+    templateUrl: './game-search.component.html',
+    styleUrls: ['./game-search.component.css'],
+    standalone: false
 })
 export class GameSearchComponent implements OnInit {
 

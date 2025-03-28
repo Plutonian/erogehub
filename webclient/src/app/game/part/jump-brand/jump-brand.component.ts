@@ -3,9 +3,10 @@ import {Brand} from "../../../entity";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-jump-brand',
-  templateUrl: './jump-brand.component.html',
-  styleUrls: ['./jump-brand.component.css']
+    selector: 'app-jump-brand',
+    templateUrl: './jump-brand.component.html',
+    styleUrls: ['./jump-brand.component.css'],
+    standalone: false
 })
 export class JumpBrandComponent implements OnInit {
   @Input()

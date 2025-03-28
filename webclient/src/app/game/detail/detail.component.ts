@@ -7,9 +7,10 @@ import {NzMessageService} from "ng-zorro-antd/message";
 
 
 @Component({
-  selector: 'app-game-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.css']
+    selector: 'app-game-detail',
+    templateUrl: './detail.component.html',
+    styleUrls: ['./detail.component.css'],
+    standalone: false
 })
 export class DetailComponent implements OnInit {
 

@@ -2,9 +2,10 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {Game, GameCharacter} from "../../../entity";
 
 @Component({
-  selector: 'app-game-characters',
-  templateUrl: './game-characters.component.html',
-  styleUrls: ['./game-characters.component.css']
+    selector: 'app-game-characters',
+    templateUrl: './game-characters.component.html',
+    styleUrls: ['./game-characters.component.css'],
+    standalone: false
 })
 export class GameCharactersComponent implements OnInit, OnChanges {
 

@@ -2,9 +2,10 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Game} from "../../../entity";
 
 @Component({
-  selector: 'app-location-show',
-  templateUrl: './location-show.component.html',
-  styleUrls: ['./location-show.component.css']
+    selector: 'app-location-show',
+    templateUrl: './location-show.component.html',
+    styleUrls: ['./location-show.component.css'],
+    standalone: false
 })
 export class LocationShowComponent implements OnInit {
 

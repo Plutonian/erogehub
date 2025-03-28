@@ -7,9 +7,10 @@ import {DataQuery} from "../DataQuery";
 import {Title} from "@angular/platform-browser";
 
 @Component({
-  selector: 'app-by-emotion',
-  templateUrl: './by-emotion.component.html',
-  styleUrls: ['./by-emotion.component.css']
+    selector: 'app-by-emotion',
+    templateUrl: './by-emotion.component.html',
+    styleUrls: ['./by-emotion.component.css'],
+    standalone: false
 })
 export class ByEmotionComponent extends DataQuery implements OnInit {
 

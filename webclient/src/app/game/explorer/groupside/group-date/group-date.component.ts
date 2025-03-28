@@ -3,9 +3,10 @@ import {DateGroupItem} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
 @Component({
-  selector: 'app-group-date',
-  templateUrl: './group-date.component.html',
-  styleUrls: ['./group-date.component.css']
+    selector: 'app-group-date',
+    templateUrl: './group-date.component.html',
+    styleUrls: ['./group-date.component.css'],
+    standalone: false
 })
 export class GroupDateComponent implements OnChanges {
 

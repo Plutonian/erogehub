@@ -6,9 +6,10 @@ import {GameService} from "../../game.service";
 import {DataQuery} from "../DataQuery";
 
 @Component({
-  selector: 'app-by-date',
-  templateUrl: './by-date.component.html',
-  styleUrls: ['./by-date.component.css']
+    selector: 'app-by-date',
+    templateUrl: './by-date.component.html',
+    styleUrls: ['./by-date.component.css'],
+    standalone: false
 })
 export class ByDateComponent extends DataQuery implements OnInit {
 

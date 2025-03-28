@@ -4,9 +4,10 @@ import {GameService} from "../game.service";
 
 
 @Component({
-  selector: 'app-explorer',
-  templateUrl: './explorer.component.html',
-  styleUrls: ['explorer.component.css']
+    selector: 'app-explorer',
+    templateUrl: './explorer.component.html',
+    styleUrls: ['explorer.component.css'],
+    standalone: false
 })
 export class ExplorerComponent implements OnChanges {
 

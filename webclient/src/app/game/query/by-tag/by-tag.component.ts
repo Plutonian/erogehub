@@ -6,9 +6,10 @@ import {Title} from "@angular/platform-browser";
 import {DataQuery} from "../DataQuery";
 
 @Component({
-  selector: 'app-by-tag',
-  templateUrl: './by-tag.component.html',
-  styleUrls: ['./by-tag.component.css']
+    selector: 'app-by-tag',
+    templateUrl: './by-tag.component.html',
+    styleUrls: ['./by-tag.component.css'],
+    standalone: false
 })
 export class ByTagComponent extends DataQuery implements OnInit {
 

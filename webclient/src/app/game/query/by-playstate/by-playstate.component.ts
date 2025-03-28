@@ -6,9 +6,10 @@ import {Game} from "../../../entity";
 import {DataQuery} from "../DataQuery";
 
 @Component({
-  selector: 'app-by-playstate',
-  templateUrl: './by-playstate.component.html',
-  styleUrls: ['./by-playstate.component.css']
+    selector: 'app-by-playstate',
+    templateUrl: './by-playstate.component.html',
+    styleUrls: ['./by-playstate.component.css'],
+    standalone: false
 })
 export class ByPlaystateComponent extends DataQuery implements OnInit {
 

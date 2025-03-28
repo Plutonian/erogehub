@@ -3,9 +3,10 @@ import {EmotionGroupItem} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
 @Component({
-  selector: 'app-group-emotion',
-  templateUrl: './group-emotion.component.html',
-  styleUrls: ['./group-emotion.component.css']
+    selector: 'app-group-emotion',
+    templateUrl: './group-emotion.component.html',
+    styleUrls: ['./group-emotion.component.css'],
+    standalone: false
 })
 export class GroupEmotionComponent implements OnChanges {
 

@@ -2,9 +2,10 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Game} from "../../../entity";
 
 @Component({
-  selector: 'app-game-detail-main',
-  templateUrl: './game-detail-main.component.html',
-  styleUrls: ['./game-detail-main.component.css']
+    selector: 'app-game-detail-main',
+    templateUrl: './game-detail-main.component.html',
+    styleUrls: ['./game-detail-main.component.css'],
+    standalone: false
 })
 export class GameDetailMainComponent implements OnInit {
 

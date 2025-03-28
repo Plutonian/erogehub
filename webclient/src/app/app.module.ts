@@ -4,16 +4,16 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 import {DetailComponent} from './game/detail/detail.component';
 import {
-  BangumiPipl,
-  BlockPipl,
-  EmotionJPPipe,
-  ImgUrlPipl,
-  LocationPipl,
-  MyDatePipl,
-  PlayStatePipl,
-  WikiPipl
+    BangumiPipl,
+    BlockPipl,
+    EmotionJPPipe,
+    ImgUrlPipl,
+    LocationPipl,
+    MyDatePipl,
+    PlayStatePipl,
+    WikiPipl
 } from "./imgUrl.pipl";
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import {provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import {GameService} from "./game/game.service";
 import {GameCharactersComponent} from './game/detail/game-characters/game-characters.component';
 import {Route, RouterModule} from "@angular/router";
@@ -85,7 +85,6 @@ import {NzTreeModule} from "ng-zorro-antd/tree";
 import {NzAffixModule} from "ng-zorro-antd/affix";
 import {NzPageHeaderModule} from "ng-zorro-antd/page-header";
 import {NzInputModule} from "ng-zorro-antd/input";
-import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {NzIconModule} from "ng-zorro-antd/icon";
@@ -109,100 +108,101 @@ import {NgOptimizedImage} from "@angular/common";
 
 
 export const routes: Route[] = [
-  {
-    path: 'cv', component: CvComponent, data: {
-      breadcrumb: 'CV'
+    {
+        path: 'cv', component: CvComponent, data: {
+            breadcrumb: 'CV'
+        }
+    },
+    {
+        path: 'tag', component: TagComponent, data: {
+            breadcrumb: 'Tag'
+        }
+    },
+    {
+        path: 'brand', data: {
+            breadcrumb: 'Brand'
+        }, children: [
+            {
+                path: ':id', component: BrandDetailComponent, data: {
+                    breadcrumb: 'detail'
+                }
+            },
+            {
+                path: '', component: BrandComponent, data: {
+                    breadcrumb: 'List'
+                }
+            }
+        ]
+    },
+    {
+        path: 'game', data: {
+            breadcrumb: 'game'
+        }, children: [
+            {
+                path: 'search', component: GameSearchComponent, data: {
+                    breadcrumb: 'search'
+                }
+            },
+            {
+                path: 'star/:star', component: ByStarComponent, data: {
+                    breadcrumb: 'star'
+                }
+            },
+            {
+                path: 'date/:start/:end', component: ByDateComponent, data: {
+                    breadcrumb: 'date'
+                }
+            },
+            {
+                path: 'tag/:tag', component: ByTagComponent, data: {
+                    breadcrumb: 'tag'
+                }
+            },
+            {
+                path: 'painter/:painter', component: ByPainterComponent, data: {
+                    breadcrumb: 'painter'
+                }
+            }, {
+                path: 'writer/:writer', component: ByWriterComponent, data: {
+                    breadcrumb: 'writer'
+                }
+            },
+            {
+                path: 'emotion/:emotion', component: ByEmotionComponent, data: {
+                    breadcrumb: 'emotion'
+                }
+            },
+            {
+                path: 'playState/:playState', component: ByPlaystateComponent, data: {
+                    breadcrumb: 'playState'
+                }
+            },
+            {
+                path: 'location/:location', component: ByLocationComponent, data: {
+                    breadcrumb: 'location'
+                }
+            },
+            {
+                path: 'cv/:cv/:real', component: ByCVComponent, data: {
+                    breadcrumb: 'cv'
+                }
+            },
+            {
+                path: 'query/:filter', component: QueryComponent, data: {
+                    breadcrumb: 'filter'
+                }
+            },
+            {
+                path: ':id', component: DetailComponent, data: {
+                    breadcrumb: 'detail'
+                }
+            }
+        ]
     }
-  },
-  {
-    path: 'tag', component: TagComponent, data: {
-      breadcrumb: 'Tag'
-    }
-  },
-  {
-    path: 'brand', data: {
-      breadcrumb: 'Brand'
-    }, children: [
-      {
-        path: ':id', component: BrandDetailComponent, data: {
-          breadcrumb: 'detail'
-        }
-      },
-      {
-        path: '', component: BrandComponent, data: {
-          breadcrumb: 'List'
-        }
-      }
-    ]
-  },
-  {
-    path: 'game', data: {
-      breadcrumb: 'game'
-    }, children: [
-      {
-        path: 'search', component: GameSearchComponent, data: {
-          breadcrumb: 'search'
-        }
-      },
-      {
-        path: 'star/:star', component: ByStarComponent, data: {
-          breadcrumb: 'star'
-        }
-      },
-      {
-        path: 'date/:start/:end', component: ByDateComponent, data: {
-          breadcrumb: 'date'
-        }
-      },
-      {
-        path: 'tag/:tag', component: ByTagComponent, data: {
-          breadcrumb: 'tag'
-        }
-      },
-      {
-        path: 'painter/:painter', component: ByPainterComponent, data: {
-          breadcrumb: 'painter'
-        }
-      }, {
-        path: 'writer/:writer', component: ByWriterComponent, data: {
-          breadcrumb: 'writer'
-        }
-      },
-      {
-        path: 'emotion/:emotion', component: ByEmotionComponent, data: {
-          breadcrumb: 'emotion'
-        }
-      },
-      {
-        path: 'playState/:playState', component: ByPlaystateComponent, data: {
-          breadcrumb: 'playState'
-        }
-      },
-      {
-        path: 'location/:location', component: ByLocationComponent, data: {
-          breadcrumb: 'location'
-        }
-      },
-      {
-        path: 'cv/:cv/:real', component: ByCVComponent, data: {
-          breadcrumb: 'cv'
-        }
-      },
-      {
-        path: 'query/:filter', component: QueryComponent, data: {
-          breadcrumb: 'filter'
-        }
-      },
-      {
-        path: ':id', component: DetailComponent, data: {
-          breadcrumb: 'detail'
-        }
-      }
-    ]
-  }
 ]
 
-@NgModule({ declarations: [
+@NgModule({
+    declarations: [
         ImgUrlPipl,
         WikiPipl,
         BangumiPipl,
@@ -288,7 +288,6 @@ export const routes: Route[] = [
         NzAffixModule,
         NzPageHeaderModule,
         NzInputModule,
-        NzSelectModule,
         NzButtonModule,
         ScrollingModule,
         NzIconModule,
@@ -307,6 +306,7 @@ export const routes: Route[] = [
         // {provide: NZ_I18N, useValue: ja_JP}
         ,
         provideHttpClient(withInterceptorsFromDi())
-    ] })
+    ]
+})
 export class AppModule {
 }

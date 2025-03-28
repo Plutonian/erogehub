@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TagGroup} from "../entity";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {Router} from "@angular/router";
 import {environment} from "../../environments/environment";
 

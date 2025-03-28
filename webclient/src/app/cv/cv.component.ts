@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {CVGroup} from "../entity";
 import {environment} from "../../environments/environment";
 import {Title} from "@angular/platform-browser";

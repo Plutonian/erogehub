@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {DateGroupItem} from "./entity";
 import {environment} from "../environments/environment";
 import {Title} from "@angular/platform-browser";

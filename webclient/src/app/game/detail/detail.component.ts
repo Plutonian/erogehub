@@ -54,6 +54,18 @@ export class DetailComponent implements OnInit {
 
   }
 
+  private readonly today = new Date()
+
+  published() {
+
+    let date = this.game.publishDate;
+
+    let d=new Date()
+    d.setFullYear(date.year, date.monthValue - 1, date.dayOfMonth)
+
+    return this.today.getTime() - d.getTime() > 0
+  }
+
   ngOnInit(): void {
 
     if (this.game == null)

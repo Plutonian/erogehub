@@ -1,6 +1,6 @@
 <form #form="ngForm" (submit)="onSubmit(form)" class="flex_row">
-  <input name="searchKey" [(ngModel)]="searchKey" class="flex_grow" required placeholder="ネイムを入れてください"/>
-  <input type="submit" value="Search" [disabled]="form.invalid"/>
+  <input nz-input name="searchKey" [(ngModel)]="searchKey" class="flex_grow" required placeholder="ネイムを入れてください"/>
+    <button nz-button nzType="primary" type="submit" value="Search" [disabled]="form.invalid">Search</button>
 </form>
 
 <section *ngIf="guideList" class="flex_column">

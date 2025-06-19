@@ -105,6 +105,7 @@ import {GroupLocationComponent} from './game/explorer/groupside/group-location/g
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import {NzTypographyModule} from "ng-zorro-antd/typography";
 import {NgOptimizedImage} from "@angular/common";
+import {NzDrawerComponent, NzDrawerContentDirective} from "ng-zorro-antd/drawer";
 
 
 export const routes: Route[] = [
@@ -297,7 +298,7 @@ export const routes: Route[] = [
         NzTableModule,
         NzDividerModule,
         NzTypographyModule,
-        NgOptimizedImage], providers: [
+        NgOptimizedImage, NzDrawerComponent, NzDrawerContentDirective], providers: [
         GameService,
         GuideService,
         BrandService,

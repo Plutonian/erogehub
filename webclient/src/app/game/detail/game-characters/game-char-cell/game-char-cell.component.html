@@ -1,5 +1,8 @@
 <nz-card [nzActions]="[markMen]" [nzCover]="coverTemplate" [nzTitle]="character.name" [title]="character.name">
-  <div *ngIf="character.cv?.trim().length>0" class="flex_row flex_float gap-3" style="align-items: center">
+
+       <textarea nz-input readonly="readonly" rows="10" style="font-size: 18px;border: none"
+                 class="flex_grow">{{character.intro}}</textarea>
+    <div *ngIf="character.cv?.trim().length>0" class="flex_row flex_float gap-3" style="align-items: center">
 
     <span>CV: </span>
     <ng-template [ngIf]="character.trueCV?.trim().length>0" [ngIfElse]="cvInfo" class="flex_row gap-3">
@@ -39,7 +42,7 @@
 
 <ng-template #coverTemplate>
   <div class="flex_column" style="align-items: center">
-    <img src="{{game | img}}/char_s_{{character.index}}.jpg" loading="lazy" nz-popover [nzPopoverContent]="desc"/>
+    <img src="{{game | img}}/char_s_{{character.index}}.jpg" loading="lazy"/>
   </div>
 </ng-template>
 

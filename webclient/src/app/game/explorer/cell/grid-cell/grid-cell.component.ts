@@ -2,6 +2,12 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Game} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
+const ColorMap = {
+    "PLAYED": "rgba(0,157,255,0.56)",
+    "PLAYING": "green",
+    "NOT_PLAY": "red"
+}
+
 @Component({
     selector: 'app-grid-cell',
     templateUrl: './grid-cell.component.html',
@@ -20,6 +26,7 @@ export class GridCellComponent implements OnInit {
 
   @Output()
   remove = new EventEmitter<Game>();
+    showGameDetail=false;
 
   constructor(private gameService: GameService) {
 
@@ -49,4 +56,11 @@ export class GridCellComponent implements OnInit {
 
     return this.today.getTime() - d.getTime() > 0
   }
+
+
+
+
+    fillLocation() {
+        return ColorMap[this.game?.playState]
+    }
 }

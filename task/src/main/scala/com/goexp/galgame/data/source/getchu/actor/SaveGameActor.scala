@@ -1,6 +1,5 @@
 package com.goexp.galgame.data.source.getchu.actor
 
-import com.goexp.common.cache.SimpleCache
 import com.goexp.common.util.Logger
 import com.goexp.common.util.string.ConsoleColors.RED
 import com.goexp.common.util.string.StringOption
@@ -135,18 +134,4 @@ class SaveGameActor extends DefaultActor {
       }
   }
 
-}
-
-private object BrandCache {
-  private val brandCache = new SimpleCache[Int, Brand]
-
-  def apply() = brandCache
-
-  def get(brandId: Int) = {
-    brandCache.get(brandId).getOrElse {
-      val brand = BrandQuery().where(Filters.eq(brandId)).one().orNull
-      BrandCache().put(brandId, brand)
-      brand
-    }
-  }
 }

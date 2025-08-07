@@ -1,8 +1,8 @@
 package com.goexp.galgame.common.model.game
 
-import com.goexp.common.util.date.DateUtil
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.game.CommonGame.Titles
+import com.goexp.galgame.common.util.DateUtil
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

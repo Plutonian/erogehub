@@ -4,7 +4,7 @@ plugins {
 play {
     platform {
         playVersion = '2.8.21'
-        scalaVersion = "2.13.12"
+        scalaVersion = "2.13.16"
         javaVersion = JavaVersion.VERSION_11
     }
     injectedRoutesGenerator = true
@@ -23,7 +23,7 @@ dependencies {
     implementation project(':common')
     implementation 'com.goexp:core:1.0.5'
     implementation 'com.goexp.db:db_mongo:1.0.5'
-    implementation group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.10'
+    implementation group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.14'
 
 
     // https://mvnrepository.com/artifact/com.typesafe.play/play-guice
@@ -36,18 +36,4 @@ dependencies {
     // https://mvnrepository.com/artifact/com.typesafe.play/filters-helpers
     implementation group: 'com.typesafe.play', name: 'filters-helpers_2.13', version: '2.8.21'
 
-}
-
-
-repositories {
-    mavenCentral()
-    maven {
-        name "lightbend-maven-release"
-        url "https://repo.lightbend.com/lightbend/maven-releases"
-    }
-    ivy {
-        name "lightbend-ivy-release"
-        url "https://repo.lightbend.com/lightbend/ivy-releases"
-        layout "ivy"
-    }
 }

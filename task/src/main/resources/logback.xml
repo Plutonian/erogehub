@@ -31,7 +31,7 @@
     <logger name="com.goexp.galgame.data.source.getchu.actor.ShutdownActor" level="info"/>
 
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="detail"/>
     </root>
 </configuration>

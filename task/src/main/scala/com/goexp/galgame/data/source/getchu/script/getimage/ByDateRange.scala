@@ -1,7 +1,6 @@
 package com.goexp.galgame.data.source.getchu.script.getimage
 
-import com.goexp.common.util.date.DateUtil
-import com.goexp.galgame.common.util.Network
+import com.goexp.galgame.common.util.{DateUtil, Network}
 import com.goexp.galgame.data.source.getchu.query.GameFullQuery
 import com.mongodb.client.model.Filters._
 import com.typesafe.scalalogging.Logger

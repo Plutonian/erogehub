@@ -74,7 +74,7 @@ object GetRemove extends App {
   BrandQuery().scalaList().to(LazyList)
     .filter(b => Strings.isNotEmpty(b.website))
     .flatMap(b => getHost(b.website).split("""\.""").to(LazyList).drop(1))
-    .filter(!_.isEmpty)
+    .filter(_.nonEmpty)
     .distinct
     .sortBy(_.length)
     .foreach(k => println(s"'$k',"))

@@ -11,9 +11,36 @@
             {{ game.titles.subTitle }}<i (click)="showModal()" nz-icon nzType="setting"></i>
         </nz-page-header-subtitle>
         <nz-page-header-tags>
-            <section *ngIf="game.tag?.length > 0" class="flex_row flex_float gap-5">
-                <app-jumptag *ngFor="let tag of game.tag" [tag]="tag" style="font-size:10px;"></app-jumptag>
-            </section>
+
+
+                <section  class="flex_row flex_float gap-5">
+                    @if (game.tag?.length > 0) {
+<!--                    <app-jumptag  [tag]="tag" ></app-jumptag>-->
+                        <nz-tag *ngFor="let tag of game.tag" [nzColor]="'#FFABD3'" nzMode="closeable" (nzOnClose)="handleClose(tag)">
+                            <a routerLink="/game/tag/{{tag}}" style="color:#000;">{{tag}}</a>
+                        </nz-tag>
+                    }
+                    @if (!inputVisible) {
+                        <nz-tag class="editable-tag" nzNoAnimation (click)="showInput()">
+                            <span nz-icon nzType="plus" ></span>
+                            新标签
+                        </nz-tag>
+                    } @else {
+                    <input
+                        #inputElement
+                        nz-input
+                        nzSize="small"
+                        type="text"
+                        [(ngModel)]="inputValue"
+                        style="width: 78px;"
+                        (blur)="handleInputConfirm()"
+                        (keydown.enter)="handleInputConfirm()"
+                    />
+                }
+                </section>
+
+
+
 
         </nz-page-header-tags>
 

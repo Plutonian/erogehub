@@ -18,14 +18,14 @@ import com.typesafe.scalalogging.Logger
 import org.bson.Document
 import qurey.GameQuery.SimpleGameCreator
 
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 object CVMap {
+  lazy private val cvMap = init()
+
   def init() = {
     CVQuery().scalaList().map(cv => (cv.name, cv)).toMap
   }
-
-  lazy private val cvMap = init()
 
   def apply() = cvMap
 
@@ -35,20 +35,6 @@ object CVMap {
 object GameQuery {
 
   val TABLE_NAME = "game"
-
-  private object BrandCache {
-    private val brandCache = new SimpleCache[Int, Brand]
-
-    def apply() = brandCache
-
-    def get(brandId: Int) = {
-      brandCache.get(brandId).getOrElse {
-        val brand = BrandQuery().where(Filters.eq(brandId)).one().orNull
-        BrandCache().put(brandId, brand)
-        brand
-      }
-    }
-  }
 
   object SimpleGameCreator extends ObjectCreator[Game] {
     private val logger = Logger(SimpleGameCreator.getClass)
@@ -83,12 +69,27 @@ object GameQuery {
     }
   }
 
+  private object BrandCache {
+    private val brandCache = new SimpleCache[Int, Brand]
+
+    def get(brandId: Int) = {
+      brandCache.get(brandId).getOrElse {
+        val brand = BrandQuery().where(Filters.eq(brandId)).one().orNull
+        BrandCache().put(brandId, brand)
+        brand
+      }
+    }
+
+    def apply() = brandCache
+  }
+
 }
 
 object GameFullQuery {
   val fullTlp = DBQuery[Game](Config.DB_STRING, DB_NAME, TABLE_NAME, SimpleGameCreator)
     .defaultSort(descending("publishDate", "name"))
     .build
+  
 
   def apply() = fullTlp
 }

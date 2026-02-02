@@ -1,20 +1,22 @@
-crossScalaVersions := Seq("2.13.16", "3.3.6")
+//crossScalaVersions := Seq("2.13.16", "3.8.1")
 
-scalaVersion := crossScalaVersions.value.head
+//scalaVersion := crossScalaVersions.value.head
 
 //    javacOptions ++= Seq("-source", "11", "-target", "11"),
 // Play 版本相关依赖
 libraryDependencies ++= Seq(
   guice,
-  "com.goexp" %% "core" % "1.0.5",
-  "com.goexp.db" %% "db_mongo" % "1.0.5",
-  "org.mongodb" % "mongo-java-driver" % "3.12.14"
+  "com.goexp" %% "core" % "1.0.7-SNAPSHOT",
+  "com.goexp.db" %% "db_mongo" % "1.0.7-SNAPSHOT",
+  "org.mongodb" % "mongo-java-driver" % "3.12.14",
+  "com.h2database" % "h2" % "2.4.240",
+  "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.2" % Test,
 )
 
 
 scalacOptions ++= Seq(
   "-feature",
-  "-Werror"
+//  "-Werror"
 )
 
 

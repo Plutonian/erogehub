@@ -42,6 +42,12 @@ export class GameService {
     return this.httpClient.delete(`http://${environment.APP_SERVER}/api/game/${id}`)
   }
 
+  updateTags(id: Number, tags: string[]) {
+    return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/updateTags`, {
+      "tags": tags
+    })
+  }
+
 
   groupByDate(filter: string) {
     return this.httpClient.get(`http://${environment.APP_SERVER}/api/game/groupByDate?filter=${filter}`)

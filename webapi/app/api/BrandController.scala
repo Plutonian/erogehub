@@ -42,8 +42,6 @@ class BrandController {
 
   def changeState(id: Int, state: Int) = {
 
-    println(id, state)
-
     tlp.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(id), set("type", state))
     })

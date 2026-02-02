@@ -60,7 +60,7 @@ import {ByDateComponent} from './game/query/by-date/by-date.component';
 import {GameSimpleComponent} from './game/detail/simple/game-simple.component';
 import {GameListViewComponent} from './game/explorer/gamelist/game-list-view.component';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
-import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
+import {NzTooltipModule} from 'ng-zorro-antd/tooltip';
 import {NzAnchorModule} from 'ng-zorro-antd/anchor';
 // import {ja_JP, NZ_I18N} from 'ng-zorro-antd/i18n';
 // import {registerLocaleData} from '@angular/common';
@@ -106,6 +106,8 @@ import {NzDividerModule} from "ng-zorro-antd/divider";
 import {NzTypographyModule} from "ng-zorro-antd/typography";
 import {NgOptimizedImage} from "@angular/common";
 import {NzDrawerComponent, NzDrawerContentDirective} from "ng-zorro-antd/drawer";
+import {NzNoAnimationDirective} from "ng-zorro-antd/core/no-animation";
+import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
 
 
 export const routes: Route[] = [
@@ -271,7 +273,7 @@ export const routes: Route[] = [
         NzRadioModule,
         NzFormModule,
         NzSwitchModule,
-        NzToolTipModule,
+        NzTooltipModule,
         NzAnchorModule,
         NzPopoverModule,
         NzRateModule,
@@ -298,7 +300,7 @@ export const routes: Route[] = [
         NzTableModule,
         NzDividerModule,
         NzTypographyModule,
-        NgOptimizedImage, NzDrawerComponent, NzDrawerContentDirective], providers: [
+        NgOptimizedImage, NzDrawerComponent, NzDrawerContentDirective, NzNoAnimationDirective, NzSelectComponent, NzOptionComponent], providers: [
         GameService,
         GuideService,
         BrandService,

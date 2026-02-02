@@ -17,7 +17,6 @@ object CleanImageTask {
           val exists = GameSimpleQuery().where(Filters.eq(p.getFileName.toString.toInt)).exists
 
           if (!exists) {
-            println(p, p.getFileName.toString.toInt, exists)
             CleanSameGameTask.removeR(p)
           }
         })

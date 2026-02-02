@@ -258,8 +258,6 @@ class GameController extends Controller {
 
   def markSame(id: Int, isSame: Boolean) = {
 
-    println(id, isSame)
-
     tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(id), set("isSame", isSame))
     })
@@ -276,7 +274,6 @@ class GameController extends Controller {
     val mainTitle = node.get("mainTitle").textValue()
     val subTitle = node.get("subTitle").textValue()
 
-    println(id, mainTitle, subTitle)
 
     tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(id), combine(
@@ -291,7 +288,6 @@ class GameController extends Controller {
 
   def changeEmotion(id: Int, emotion: Int) = {
 
-    println(id, emotion)
 
     tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(id), set("emotion", emotion))
@@ -303,8 +299,6 @@ class GameController extends Controller {
 
   def changePlayState(id: Int, state: Int) = {
 
-    println(id, state)
-
     tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(id), set("playState", state))
     })
@@ -314,8 +308,6 @@ class GameController extends Controller {
   }
 
   def changeStar(id: Int, star: Int) = {
-
-    println(id, star)
 
     tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(id), set("star", star))
@@ -327,7 +319,6 @@ class GameController extends Controller {
 
   def changeLocation(id: Int, location: Int) = {
 
-    println(id, location)
 
     tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(Filters.eq(id), set("location", location))
@@ -366,6 +357,20 @@ class GameController extends Controller {
 
   }
 
+  def updateTags(id: Int, request: Request) = {
+    val body = request.body.asJson
+    val tags = body.get("tags").elements().asScala.to(LazyList).map(_.asText()).asJava
+
+
+    tpl.exec(documentMongoCollection => {
+      documentMongoCollection.updateOne(Filters.eq(id), combine(
+        set("tag", tags),
+      ))
+    })
+
+    ok(Json.toJson("OK")).asJson()
+  }
+
   //  def clearCharCV(id: Int, index: Int) = {
   //
   //    tpl.exec(documentMongoCollection => {
@@ -380,7 +385,6 @@ class GameController extends Controller {
   //  }
 
   private def changeEmotionByBrand(brandId: Int, state: Int) = {
-    println(brandId, state)
 
     tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateMany(Filters.eq("brandId", brandId), set("emotion", state))

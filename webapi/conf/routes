@@ -16,6 +16,7 @@ PUT           /api/game/:id/playstate/:state              api.GameController.cha
 PUT           /api/game/:id/location/:location            api.GameController.changeLocation(id:Int,location:Int)
 PUT           /api/game/:id/gamechar/:index/cv            api.GameController.setCharCV(id: Int, index: Int,request: play.mvc.Http.Request)
 PUT           /api/game/:id/gamechar/:index/setMan        api.GameController.setCharMan(id: Int, index: Int)
+PUT           /api/game/:id/updateTags                    api.GameController.updateTags(id:Int,request: play.mvc.Http.Request)
 
 #DELETE        /api/game/:id/gamechar/:index/cv            api.GameController.clearCharCV(id: Int, index: Int)
 

@@ -13,14 +13,14 @@
         <nz-breadcrumb-item>
 
 
-<!--          <nz-select *ngIf="subBrands?.length>1;else single" [(ngModel)]="subBrandId" style="width: 300px"-->
-<!--                     (ngModelChange)="onSubBrandSelected()">-->
-<!--            <nz-option *ngFor="let subBrand of subBrands" [nzValue]="subBrand.id" [nzLabel]="subBrand.name"-->
-<!--                       [nzCustomContent]="true">-->
-<!--              {{ subBrand.name }}-->
-<!--              [{{ subBrand.emotion |emotionJP }}]-->
-<!--            </nz-option>-->
-<!--          </nz-select>-->
+          <nz-select *ngIf="subBrands?.length>1;else single" [(ngModel)]="subBrandId" style="width: 300px"
+                     (ngModelChange)="onSubBrandSelected()">
+            <nz-option *ngFor="let subBrand of subBrands" [nzValue]="subBrand.id" [nzLabel]="subBrand.name"
+                       [nzCustomContent]="true">
+              {{ subBrand.name }}
+              [{{ subBrand.emotion |emotionJP }}]
+            </nz-option>
+          </nz-select>
 
         </nz-breadcrumb-item>
 
@@ -90,7 +90,7 @@
     </nz-layout>
   </nz-content>
 
-  <!--  <nz-tabset >-->
+  <!--  <nz-tabs >-->
   <!--    <nz-tab [nzTitle]="'All Games'">-->
 
 
@@ -113,7 +113,7 @@
   <!--      </nz-collapse>-->
 
   <!--    </nz-tab>-->
-  <!--  </nz-tabset>-->
+  <!--  </nz-tabs>-->
 
 
   <ng-template #noGames>

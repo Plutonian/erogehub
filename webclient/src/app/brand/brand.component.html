@@ -10,10 +10,10 @@
           List
         </nz-breadcrumb-item>
         <nz-breadcrumb-item>
-<!--          <nz-select *ngIf="emotions" [(ngModel)]="state"-->
-<!--                     (ngModelChange)="onStateSelected()">-->
-<!--            <nz-option *ngFor="let emotion of emotions" [nzValue]="emotion" [nzLabel]="emotion |emotionJP"></nz-option>-->
-<!--          </nz-select>-->
+          <nz-select *ngIf="emotions" [(ngModel)]="state"
+                     (ngModelChange)="onStateSelected()">
+            <nz-option *ngFor="let emotion of emotions" [nzValue]="emotion" [nzLabel]="emotion |emotionJP"></nz-option>
+          </nz-select>
         </nz-breadcrumb-item>
       </nz-breadcrumb>
     </div>

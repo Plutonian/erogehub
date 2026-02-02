@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Game} from "../../entity";
 import {GameService} from "../game.service";
 import {ActivatedRoute} from "@angular/router";
@@ -19,10 +19,49 @@ export class DetailComponent implements OnInit {
   game: Game = null
 
 
+  inputVisible = false;
+  inputValue = '';
+  @ViewChild('inputElement', {static: false})
+  inputElement?: ElementRef;
+
+
   modelVisible: boolean
 
   showModal(): void {
     this.modelVisible = true;
+  }
+
+
+  showInput(): void {
+    this.inputVisible = true;
+    setTimeout(() => {
+      this.inputElement?.nativeElement.focus();
+    }, 10);
+  }
+
+  handleClose(removedTag: string): void {
+    this.game.tag = this.game.tag.filter(tag => tag !== removedTag);
+    this.service.updateTags(this.game.id, this.game.tag)
+        .subscribe((ret: string) => {
+          this.message.create("success", ret)
+        })
+
+  }
+
+  handleInputConfirm(): void {
+    if (this.inputValue?.length > 0) {
+      this.game.tag.push(this.inputValue)
+
+
+      this.service.updateTags(this.game.id, this.game.tag)
+          .subscribe((ret: string) => {
+            this.message.create("success", ret)
+          })
+
+    }
+
+    this.inputValue = '';
+    this.inputVisible = false;
   }
 
   handleCancel() {

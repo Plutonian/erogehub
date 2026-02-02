@@ -1,6 +1,6 @@
 <nz-card style="width: 100%;" nzTitle="{{game.name}}" [nzExtra]="extraTemplate">
   <nz-card-tab>
-    <nz-tabset *ngIf="game">
+    <nz-tabs *ngIf="game">
       <nz-tab [nzTitle]="'ストーリー'">
         <main class="flex_row">
           <section class="flex_row">
@@ -48,15 +48,15 @@
         <!--      <img *ngFor="let img of game.gameImgs"-->
         <!--           src="{{game|img}}/simple_l_{{img.index}}.jpg"/>-->
         <!--    </div>-->
-        <nz-tabset nzTabPosition="bottom">
+        <nz-tabs nzTabPosition="bottom">
           <nz-tab *ngFor="let img of game.gameImgs" nzTitle="{{img.index}}">
             <img src="{{game|img}}/simple_l_{{img.index}}.jpg"/>
           </nz-tab>
 
-        </nz-tabset>
+        </nz-tabs>
 
       </nz-tab>
-    </nz-tabset>
+    </nz-tabs>
   </nz-card-tab>
 </nz-card>
 <ng-template #extraTemplate>

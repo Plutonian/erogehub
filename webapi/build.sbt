@@ -9,8 +9,12 @@ libraryDependencies ++= Seq(
   "com.goexp" %% "core" % "1.0.7-SNAPSHOT",
   "com.goexp.db" %% "db_mongo" % "1.0.7-SNAPSHOT",
   "org.mongodb" % "mongo-java-driver" % "3.12.14",
+  "com.alibaba.fastjson2" % "fastjson2" % "2.0.60",
+  "tools.jackson.datatype" % "jackson-datatype-jsr310" % "3.0.0-rc2",
   "com.h2database" % "h2" % "2.4.240",
   "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.2" % Test,
+
+
 )
 
 

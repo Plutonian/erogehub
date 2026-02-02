@@ -223,7 +223,7 @@ class GameController extends Controller {
             .map { case (brand, games) => BrandItem(brand.name, games.size, null, brand, games.toArray, null) }
             .toArray
 
-          if (brandNodes.size == 1)
+          if (brandNodes.length == 1)
             brandNodes(0)
           else
             BrandItem(comp, v.size, comp, null, null, brandNodes)

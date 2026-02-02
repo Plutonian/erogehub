@@ -3,13 +3,13 @@ package com.goexp.galgame.data.source.getchu.importor
 import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.Config.DB_NAME
-import com.goexp.galgame.data.model.Game
+import com.goexp.galgame.data.model.{Brand, Game}
 import com.goexp.galgame.data.source.getchu.query.GameFullQuery
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates.{combine, set}
 import org.bson.Document
 
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 object GameDB {
   val tpl = new DBOperator(Config.DB_STRING, DB_NAME, "game")
@@ -25,7 +25,7 @@ object GameDB {
     })
   }
 
-  def updateSmallImg(game: Game): Unit =
+  def updateSmallImg(game: Game): Unit = {
     tpl.exec(documentMongoCollection => {
       documentMongoCollection.updateOne(
         Filters.eq(game.id),
@@ -34,6 +34,21 @@ object GameDB {
         )
       )
     })
+  }
+
+  def updateBrand(g: Game, b: Brand) = {
+
+    val doc = new Document("name", b.name)
+      .append("website", b.website)
+
+    tpl.exec(documentMongoCollection => {
+      documentMongoCollection.updateOne(
+        Filters.eq(g.id),
+        set("brand", doc)
+
+      )
+    })
+  }
 
 
   def updateAll(game: Game) =

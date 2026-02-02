@@ -18,7 +18,7 @@ import com.typesafe.scalalogging.Logger
 import org.bson.Document
 import qurey.GameQuery.SimpleGameCreator
 
-import scala.jdk.CollectionConverters.*
+import scala.jdk.CollectionConverters._
 
 object CVMap {
   lazy private val cvMap = init()

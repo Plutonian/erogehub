@@ -4,14 +4,15 @@ import api.common.ExpendResult.ToJson
 import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.Config.DB_NAME
+import com.goexp.galgame.common.db.mongo.query.BrandQuery
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Sorts.descending
 import com.mongodb.client.model.Updates.set
 import org.bson.BsonDocument
 import play.libs.Json
 import play.mvc.Http.Request
-import play.mvc.Results.ok
-import qurey.BrandQuery
+import play.mvc.Results.{notFound, ok}
+import qurey.BrandWebQuery
 
 import scala.jdk.CollectionConverters._
 
@@ -24,10 +25,21 @@ class BrandController {
 
   def info(id: Int) = {
 
-    val maybeBrand = BrandQuery()
-      .where(Filters.eq(id)).one().orNull
+    Option(BrandQuery()
+      .find().filter(Filters.eq(id))
+      .map(doc => {
+        doc.append("id", doc.getInteger("_id"))
+        doc
+      })
+      .first())
 
-    ok(Json.toJson(maybeBrand)).asJson()
+    match {
+      case Some(maybeBrand) =>
+        ok(Json.toJson(maybeBrand)).asJson()
+      case None => notFound()
+    }
+
+    //    ok(Json.toJson(maybeBrand)).asJson()
   }
 
   def query(request: Request) = {
@@ -35,7 +47,7 @@ class BrandController {
 
     println(where)
 
-    val list = BrandQuery().where(BsonDocument.parse(where)).sort(descending("type", "comp", "title")).list()
+    val list = BrandWebQuery().where(BsonDocument.parse(where)).sort(descending("type", "comp", "title")).list()
 
     ok(Json.toJson(Option(list).getOrElse(List().asJava))).asJson()
   }

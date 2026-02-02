@@ -13,35 +13,11 @@ import org.bson.Document
 import java.util
 import scala.jdk.CollectionConverters._
 
-object BrandQuery {
+object BrandWebQuery {
   private val tlp = DBQuery[Brand](Config.DB_STRING, DB_NAME, "brand", Creator).build
 
   def apply() = tlp
 
-
-  private object SeriesCreator extends ObjectCreator[Series] {
-    private val logger = Logger(SeriesCreator.getClass)
-
-    override def create(doc: Document): Series = {
-      logger.trace(s"<create> doc=${doc}")
-
-      Series(
-        name = doc.get("name", classOf[String]),
-        games = {
-          Option(doc.get("games", classOf[util.List[Int]])).map { ids =>
-            GameFullQuery().where(Filters.in("_id", ids)).list()
-          }.orNull
-        }
-      )
-
-      //      b.tag = Option(doc.get("tag", classOf[util.List[String]])).map {
-      //        _.asScala.toList
-      //      }.orNull
-      //      b.state = Emotion.from(doc.getInteger("type"))
-      //
-      //      b
-    }
-  }
 
   private object Creator extends ObjectCreator[Brand] {
     private val logger = Logger(Creator.getClass)
@@ -56,12 +32,12 @@ object BrandQuery {
       }.orNull
       b.emotion = Emotion.from(doc.getInteger("type"))
 
-      b.series =
-        Option(doc.get("series").asInstanceOf[util.List[Document]])
-          .map {
-            _.asScala.to(LazyList).map(SeriesCreator.create).asJava
-          }
-          .getOrElse(util.List.of[Series]())
+//      b.series =
+//        Option(doc.get("series").asInstanceOf[util.List[Document]])
+//          .map {
+//            _.asScala.to(LazyList).map(SeriesCreator.create).asJava
+//          }
+//          .getOrElse(util.List.of[Series]())
 
       b
     }

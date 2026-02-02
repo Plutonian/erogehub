@@ -44,6 +44,7 @@ class Game extends CommonGame with Logger {
       .add("publishDate=" + publishDate)
       .add("smallImg='" + smallImg + "'")
       .add("brand=" + brand)
+      .add("brandid=" + brandId)
       .add("playState=" + playState)
       .add("emotion=" + emotion)
       //      .add("type=" + `type`)

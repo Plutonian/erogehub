@@ -30,6 +30,24 @@ export class GameSearchComponent implements OnInit {
 
   // 日期范围相关
   dateRangePresets = DateRangePresets
+  dateRangePresetGroups = [
+    { label: '全部', options: [{ label: '全部', key: 'ALL' }] },
+    { label: '年', options: [
+      { label: '今年', key: 'THIS_YEAR' },
+      { label: '去年', key: 'LAST_YEAR' },
+      { label: '前年', key: 'YEAR_BEFORE_LAST' },
+      { label: '近3年', key: 'RECENT_3_YEARS' },
+      { label: '近5年', key: 'RECENT_5_YEARS' },
+      { label: '近10年', key: 'RECENT_10_YEARS' }
+    ]},
+    { label: '月', options: [
+      { label: '今月', key: 'THIS_MONTH' },
+      { label: '上一个月', key: 'LAST_MONTH' },
+      { label: '最近3个月', key: 'RECENT_3_MONTHS' },
+      { label: '最近半年', key: 'RECENT_HALF_YEAR' }
+    ]},
+    { label: '自定义', options: [{ label: '自定义', key: 'CUSTOM' }] }
+  ]
   selectedDatePreset = 'ALL'
   customDateRange: DateRangeValue = { startDate: '', endDate: '' }
   currentDateRange: DateRangeValue = { startDate: '', endDate: '' }

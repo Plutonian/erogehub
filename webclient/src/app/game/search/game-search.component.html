@@ -8,7 +8,9 @@
                 <div class="date-range-header">
                     <span class="date-range-label">发布日期</span>
                     <nz-select nzSize="small" [(ngModel)]="selectedDatePreset" (ngModelChange)="onDatePresetChange()" class="date-range-preset-select" [disabled]="!dateRangeEnabled">
-                        <nz-option *ngFor="let preset of dateRangePresets" [nzValue]="preset.key" [nzLabel]="preset.label"></nz-option>
+                        <nz-option-group *ngFor="let group of dateRangePresetGroups" [nzLabel]="group.label">
+                            <nz-option *ngFor="let preset of group.options" [nzValue]="preset.key" [nzLabel]="preset.label"></nz-option>
+                        </nz-option-group>
                     </nz-select>
                     <nz-switch [(ngModel)]="dateRangeEnabled" nzCheckedChildren="E" nzUnCheckedChildren="D"></nz-switch>
                 </div>

@@ -1,6 +1,6 @@
 <nz-layout>
     <nz-content>
-        @if (rowGameList?.length > 0) {
+        @if (gamelist?.length > 0) {
             <app-game-listview [gamelist]="gamelist" (onGameDelete)="onGameDelete($event)"></app-game-listview>
 
         } @else {

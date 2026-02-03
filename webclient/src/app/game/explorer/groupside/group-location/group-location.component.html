@@ -1,5 +1,5 @@
-<ul *ngIf="locationGroupItems?.length>0">
-  <li *ngFor="let locationGroupItem of locationGroupItems" (click)="locationSelect(locationGroupItem)">
-    {{locationGroupItem.location | loc}}({{locationGroupItem.count}})
+<ul *ngIf="locationGroup?.length>0">
+  <li *ngFor="let item of locationGroup" (click)="locationSelect(item)">
+    {{item.location | loc}}({{item.count}})
   </li>
 </ul>

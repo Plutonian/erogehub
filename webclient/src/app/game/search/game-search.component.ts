@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FILTER, Game, SearchOpt, SEARCHTYPE, Emotion, GamePlayStates, GameLocation, DateRangePreset, DateRangeValue, DateRangePresets, getDateRange, Brand} from "../../entity";
+import {FILTER, Game, SearchOpt, SEARCHTYPE, Emotion, GamePlayStates, GameLocation, DateRangePreset, DateRangeValue, DateRangePresets, getDateRange, Brand, EmotionGroupItem, TagGroupItem, BrandGroupItem, CVGroupItem, StarGroupItem, LocationGroupItem, DateGroupItem} from "../../entity";
 import {GameService} from "../game.service";
 import {Router} from "@angular/router";
 
@@ -22,13 +22,6 @@ export class GameSearchComponent implements OnInit {
   pageChange = new EventEmitter<number>
 
 
-  filter
-
-  searchType = "Simple"
-
-  searchKey: string
-
-
   readonly FILTER = FILTER
 
 
@@ -40,6 +33,15 @@ export class GameSearchComponent implements OnInit {
   selectedDatePreset = 'ALL'
   customDateRange: DateRangeValue = { startDate: '', endDate: '' }
   currentDateRange: DateRangeValue = { startDate: '', endDate: '' }
+
+  // 聚合数据
+  emotionGroup: EmotionGroupItem[]
+  tagGroup: TagGroupItem[]
+  brandGroup: BrandGroupItem[]
+  cvGroup: CVGroupItem[]
+  starGroup: StarGroupItem[]
+  locationGroup: LocationGroupItem[]
+  dateGroup: DateGroupItem[]
 
   constructor(private service: GameService, private router: Router) {
   }
@@ -55,7 +57,6 @@ export class GameSearchComponent implements OnInit {
       enabled: true,
       filter: FILTER.Include
     })
-    this.load()
   }
 
   onTagSelect(tag: string) {
@@ -66,7 +67,6 @@ export class GameSearchComponent implements OnInit {
       enabled: true,
       filter: FILTER.Include
     })
-    this.load()
   }
 
   onEmotionSelected(emotion: string | Emotion) {
@@ -76,7 +76,6 @@ export class GameSearchComponent implements OnInit {
       enabled: true,
       filter: FILTER.Include
     })
-    this.load()
   }
 
   onLocationSelected(location: string) {
@@ -86,7 +85,6 @@ export class GameSearchComponent implements OnInit {
       enabled: true,
       filter: FILTER.Include
     })
-    this.load()
   }
 
   onCVSelect(cv: string) {
@@ -96,7 +94,6 @@ export class GameSearchComponent implements OnInit {
       enabled: true,
       filter: FILTER.Include
     })
-    this.load()
   }
 
   onStarSelect(star: number) {
@@ -106,30 +103,8 @@ export class GameSearchComponent implements OnInit {
       enabled: true,
       filter: FILTER.Include
     })
-    this.load()
   }
 
-  search() {
-
-    // console.log(form);
-    // const {searchKey} = form.value;
-    //
-    // console.log(searchKey)
-
-    const v1 = {"name": {"$regex": `^${this.searchKey}`}}
-    const v2 = {"name": {"$regex": `${this.searchKey}`}}
-
-    let filter
-
-    if (this.searchType == "Simple") {
-      filter = v1
-    } else {
-      filter = v2
-    }
-
-    this.filter = JSON.stringify(filter)
-
-  }
 
   swapSearchOpt(searchOpt: SearchOpt, filter: FILTER) {
 
@@ -165,19 +140,42 @@ export class GameSearchComponent implements OnInit {
   }
 
   handleSearchClick() {
-    // this.page = 1
+    this.page = 1
     this.advSearch()
   }
 
   advSearch() {
 
-    // this.page = 1
+    this.page = 1
 
     this.load()
-    // this.aggregate()
+    this.loadAggregateData()
   }
 
-  rowGameList: Game[]
+  loadAggregateData() {
+    const json = this.getAdvSearchJson()
+
+    this.service.groupByEmotion(json)
+      .subscribe((data: EmotionGroupItem[]) => this.emotionGroup = data)
+
+    this.service.groupByTag(json)
+      .subscribe((data: TagGroupItem[]) => this.tagGroup = data)
+
+    this.service.groupByBrand(json)
+      .subscribe((data: BrandGroupItem[]) => this.brandGroup = data)
+
+    this.service.groupByCV(json)
+      .subscribe((data: CVGroupItem[]) => this.cvGroup = data)
+
+    this.service.groupByStar(json)
+      .subscribe((data: StarGroupItem[]) => this.starGroup = data)
+
+    this.service.groupByLocation(json)
+      .subscribe((data: LocationGroupItem[]) => this.locationGroup = data)
+
+    this.service.groupByDate(json)
+      .subscribe((data: DateGroupItem[]) => this.dateGroup = data)
+  }
 
   gamelist: Game[]
 
@@ -188,18 +186,6 @@ export class GameSearchComponent implements OnInit {
 
     let json = this.getAdvSearchJson();
 
-    this.filter=json
-
-    // this.service.query(json)
-    //     .subscribe((gs: Game[]) => {
-    //
-    //           this.gamelist = gs
-    //           this.rowGameList = gs
-    //
-    //           console.log("Gs", gs);
-    //
-    //         }
-    //     )
 
     this.service.count(json).subscribe((total: number) => {
       this.total = total
@@ -209,7 +195,6 @@ export class GameSearchComponent implements OnInit {
         .subscribe((gs: Game[]) => {
 
           this.gamelist = gs
-          this.rowGameList = gs
 
           console.log("Gs", gs);
 

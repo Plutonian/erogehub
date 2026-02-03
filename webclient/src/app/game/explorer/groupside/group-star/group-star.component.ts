@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {StarGroupItem} from "../../../../entity";
-import {GameService} from "../../../game.service";
 
 @Component({
     selector: 'app-group-star',
@@ -8,29 +7,13 @@ import {GameService} from "../../../game.service";
     styleUrls: ['./group-star.component.css'],
     standalone: false
 })
-export class GroupStarComponent implements OnChanges {
+export class GroupStarComponent {
 
   @Input()
-  filter
+  starGroup: StarGroupItem[]
 
   @Output()
   onStarSelect = new EventEmitter<number>()
-
-  starGroup: StarGroupItem[]
-
-  constructor(private service: GameService) {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-
-    const filter = this.filter
-
-    if (filter) {
-      this.service.groupByStar(filter)
-        .subscribe((data: StarGroupItem[]) => this.starGroup = data.reverse())
-
-    }
-  }
 
   selectStar(star: number) {
     console.log(star);

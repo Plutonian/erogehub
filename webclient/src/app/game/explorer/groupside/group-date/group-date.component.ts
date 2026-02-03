@@ -1,6 +1,5 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {DateGroupItem} from "../../../../entity";
-import {GameService} from "../../../game.service";
 
 @Component({
     selector: 'app-group-date',
@@ -8,28 +7,12 @@ import {GameService} from "../../../game.service";
     styleUrls: ['./group-date.component.css'],
     standalone: false
 })
-export class GroupDateComponent implements OnChanges {
+export class GroupDateComponent {
 
   @Input()
-  filter
-
   dateGroup: DateGroupItem[]
 
-  constructor(private service: GameService) {
-  }
-
-  ngOnInit(): void {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-
-    const filter = this.filter
-
-    if (filter) {
-      this.service.groupByDate(filter)
-        .subscribe((data: DateGroupItem[]) => this.dateGroup = data)
-
-    }
-  }
+  @Output()
+  onDateSelect = new EventEmitter<{start: string, end: string}>()
 
 }

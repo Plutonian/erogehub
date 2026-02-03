@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {EmotionGroupItem, Emotion} from "../../../../entity";
-import {GameService} from "../../../game.service";
 
 @Component({
     selector: 'app-group-emotion',
@@ -8,31 +7,13 @@ import {GameService} from "../../../game.service";
     styleUrls: ['./group-emotion.component.css'],
     standalone: false
 })
-export class GroupEmotionComponent implements OnChanges {
+export class GroupEmotionComponent {
 
   @Input()
-  filter: string
+  emotionGroup: EmotionGroupItem[]
 
   @Output()
   onEmotionSelected = new EventEmitter<Emotion>()
-
-
-  emotionGroup: EmotionGroupItem[]
-
-  constructor(private service: GameService) {
-  }
-
-
-  ngOnChanges(changes: SimpleChanges): void {
-
-    const filter = this.filter
-
-    if (filter) {
-
-      this.service.groupByEmotion(filter)
-        .subscribe((data: EmotionGroupItem[]) => this.emotionGroup = data)
-    }
-  }
 
   emotionSelect(item: EmotionGroupItem) {
     this.onEmotionSelected.emit(item.emotion)

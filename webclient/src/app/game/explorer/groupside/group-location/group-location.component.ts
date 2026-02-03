@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {EmotionGroupItem, LocationGroupItem} from "../../../../entity";
-import {GameService} from "../../../game.service";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {LocationGroupItem} from "../../../../entity";
 
 @Component({
     selector: 'app-group-location',
@@ -8,31 +7,13 @@ import {GameService} from "../../../game.service";
     styleUrls: ['./group-location.component.css'],
     standalone: false
 })
-export class GroupLocationComponent implements OnChanges {
+export class GroupLocationComponent {
 
   @Input()
-  filter: string
+  locationGroup: LocationGroupItem[]
 
   @Output()
   onLocationSelected = new EventEmitter<string>()
-
-
-  locationGroupItems: LocationGroupItem[]
-
-  constructor(private service: GameService) {
-  }
-
-
-  ngOnChanges(changes: SimpleChanges): void {
-
-    const filter = this.filter
-
-    if (filter) {
-
-      this.service.groupByLocation(filter)
-        .subscribe((data: LocationGroupItem[]) => this.locationGroupItems = data)
-    }
-  }
 
   locationSelect(item: LocationGroupItem) {
     this.onLocationSelected.emit(item.location)

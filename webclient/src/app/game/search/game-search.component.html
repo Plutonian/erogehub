@@ -43,12 +43,18 @@
 
     <!-- 中间内容区 -->
     <nz-content>
-        <app-explorer [gamelist]="gamelist" [rowGameList]="rowGameList" [page]="page" [total]="total" [pageItemSize]="pageItemSize" [filter]="filter" (pageChange)="onPageIndexChange($event)" class="flex_grow"></app-explorer>
+        <app-explorer [gamelist]="gamelist" [page]="page" [total]="total" [pageItemSize]="pageItemSize" (pageChange)="onPageIndexChange($event)" class="flex_grow"></app-explorer>
     </nz-content>
 
     <!-- 右侧聚合面板 -->
     <nz-sider>
-        <app-aggregate-game [filter]="filter"
+        <app-aggregate-game [emotionGroup]="emotionGroup"
+                           [tagGroup]="tagGroup"
+                           [brandGroup]="brandGroup"
+                           [cvGroup]="cvGroup"
+                           [starGroup]="starGroup"
+                           [locationGroup]="locationGroup"
+                           [dateGroup]="dateGroup"
                            (onBrandSelected)="onBrandSelected($event)"
                            (onTagSelect)="onTagSelect($event)"
                            (onEmotionSelected)="onEmotionSelected($event)"

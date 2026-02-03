@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, Output, OnChanges, SimpleChanges} from '@angular/core';
 import {Brand, BrandGroupItem} from "../../../../entity";
-import {GameService} from "../../../game.service";
 import {NzFormatEmitEvent} from "ng-zorro-antd/tree";
 
 @Component({
@@ -11,38 +10,23 @@ import {NzFormatEmitEvent} from "ng-zorro-antd/tree";
 })
 export class GroupBrandComponent implements OnChanges {
   @Input()
-  filter
+  brandGroup: BrandGroupItem[]
 
   @Output()
   onBrandSelected = new EventEmitter<Brand>()
 
   data
 
-  constructor(private service: GameService) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.brandGroup) {
+      this.data = this.brandGroup.map(item => this.makeTree(item))
+    }
   }
-
 
   nodeSelected(item: NzFormatEmitEvent) {
     if (item.node.isLeaf) {
       this.onBrandSelected.emit(item.node?.origin["item"]?.brand)
     }
-
-  }
-
-
-  ngOnChanges(changes: SimpleChanges): void {
-
-    const filter = this.filter
-
-    if (filter != null) {
-      this.service.groupByBrand(filter)
-        .subscribe((brandGroupItems: BrandGroupItem[]) => {
-
-          this.data = brandGroupItems.map(item => this.makeTree(item))
-        })
-
-    }
-
   }
 
   makeTree(item: BrandGroupItem) {
@@ -58,6 +42,4 @@ export class GroupBrandComponent implements OnChanges {
 
     return temp
   }
-
-
 }

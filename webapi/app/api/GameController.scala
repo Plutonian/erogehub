@@ -325,20 +325,24 @@ class GameController extends Controller {
   def groupByStar(request: Request) = {
     val where = request.queryString("filter").orElseThrow()
 
-    val list = GameFullWebQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+    val pipeline = List(
+      Aggregates.`match`(BsonDocument.parse(where)),
+      Aggregates.group("$star", Accumulators.sum("count", 1)),
+      Aggregates.sort(Sorts.ascending("_id")),
+      Aggregates.project(Projections.fields(
+        Projections.computed("star", "$_id"),
+        Projections.include("count"),
+        Projections.excludeId()
+      ))
+    ).asJava
 
-    val nodes = list.to(LazyList)
-      .groupBy {
-        _.star
-      }
+    val results = GameQuery()
+      .aggregate(pipeline)
+      .asScala
       .to(LazyList)
-      .sortBy { case (star, _) => star }
-      .map {
-        case (star: Int, v) => StarItem(star.toString, v.size, star, v.toArray)
-      }
       .asJava
 
-    ok(Json.toJson(nodes)).asJson()
+    ok(Json.toJson(results)).asJson()
   }
 
   def markSame(id: Int, isSame: Boolean) = {

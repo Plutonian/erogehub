@@ -5,12 +5,13 @@ import com.goexp.common.util.string.Strings
 import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.Config.DB_NAME
+import com.goexp.galgame.common.db.mongo.query.GameQuery
 import com.goexp.galgame.common.model.Emotion
 import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.data.model.Brand
-import com.mongodb.client.model.Filters
+import com.mongodb.client.model.{Filters, Sorts}
 import com.mongodb.client.model.Updates.{combine, set}
-import entity.group._
+import entity.group.*
 import org.bson.BsonDocument
 import play.libs.Json
 import play.mvc.Controller
@@ -19,10 +20,12 @@ import play.mvc.Results.{notFound, ok}
 import qurey.GameFullWebQuery
 
 import java.time.LocalDate
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 
 class GameController extends Controller {
+
+  val pageItemSize = 40
 
   implicit class Pre(where: BsonDocument) {
 
@@ -64,6 +67,48 @@ class GameController extends Controller {
     val list = GameFullWebQuery().where(BsonDocument.parse(where).preProcess()).list()
 
     ok(Json.toJson(Option(list).getOrElse(List().asJava))).asJson()
+  }
+
+  def count(request: Request) = {
+    val body = request.body.asJson
+    val where = body.get("filter").asText()
+
+    val count = GameQuery().countDocuments(BsonDocument.parse(where))
+
+    ok(Json.toJson(count)).asJson()
+  }
+
+  def queryData(request: Request) = {
+    val body = request.body.asJson
+    val where = body.get("filter").asText()
+    val page = Option(body.get("page")).map(_.asInt()).getOrElse(1)
+    val pageSize = Option(body.get("pageItemSize")).map(_.asInt()).getOrElse(pageItemSize)
+
+
+    val findIterable =
+      if (where != null && where != "undefined") {
+        GameQuery()
+          .find()
+          .filter(BsonDocument.parse(where))
+          .sort(Sorts.orderBy(Sorts.ascending("name")))
+      }
+      else {
+        GameQuery()
+          .find()
+          .sort(Sorts.orderBy(Sorts.ascending("name")))
+      }
+
+    val list = findIterable
+      .skip((page - 1) * pageSize)
+      .limit(pageSize)
+      .asScala.to(LazyList)
+      .map(doc => {
+        doc.append("id", doc.getInteger("_id"))
+        doc
+      })
+      .toList
+
+    ok(Json.toJson(list.asJava)).asJson()
   }
 
   def groupByEmotion(request: Request) = {

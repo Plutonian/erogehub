@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {Brand, Game} from "../../entity";
 import {GameService} from "../game.service";
 import {DataQuery} from "../query/DataQuery";
@@ -11,5 +11,23 @@ import {DataQuery} from "../query/DataQuery";
     standalone: false
 })
 export class ExplorerComponent extends DataQuery {
+
+    @Input()
+    page: number = 1
+
+    @Input()
+    total: number = 0
+
+
+    @Input()
+    pageItemSize: number = 40
+
+
+    @Output()
+    pageChange = new EventEmitter<number>
+
+    pageIndexChange(event: number) {
+        this.pageChange.emit(event)
+    }
 
 }

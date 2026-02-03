@@ -17,6 +17,24 @@ export class GameService {
     return this.httpClient.get(`http://${environment.APP_SERVER}/api/game/query?filter=${filter}`)
   }
 
+  count(filter: string) {
+    return this.httpClient.post(`http://${environment.APP_SERVER}/api/game/count`,
+        {
+          "filter": filter,
+        }
+    )
+  }
+
+  queryData(filter: string, page: number, pageItemSize: number) {
+    return this.httpClient.post(`http://${environment.APP_SERVER}/api/game/queryData`,
+        {
+          "filter": filter,
+          "page": page,
+          "pageItemSize": pageItemSize,
+        }
+    )
+  }
+
   delete(id: Number) {
     return this.httpClient.delete(`http://${environment.APP_SERVER}/api/game/${id}`)
   }

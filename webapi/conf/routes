@@ -7,7 +7,8 @@
 PUT           /api/game/:id/star/:star                    api.GameController.changeStar(id:Int,star:Int)
 PUT           /api/game/:id/mark/:isSame                  api.GameController.markSame(id:Int,isSame:Boolean)
 PUT           /api/game/:id/emotion/:emotion              api.GameController.changeEmotion(id:Int,emotion:Int)
-
+POST          /api/game/count                             api.GameController.count(request: play.mvc.Http.Request)
+POST          /api/game/queryData                         api.GameController.queryData(request: play.mvc.Http.Request)
 
 
 

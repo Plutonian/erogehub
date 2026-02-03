@@ -40,8 +40,9 @@
         </nz-card>
     </nz-sider>
   <nz-content>
-    <app-explorer [gamelist]="gamelist" [rowGameList]="rowGameList" [filter]="filter" class="flex_grow"></app-explorer>
+      <app-explorer [gamelist]="gamelist" [rowGameList]="rowGameList" [page]="page" [total]="total" [pageItemSize]="pageItemSize" [filter]="filter" (pageChange)="onPageIndexChange($event)"  class="flex_grow"></app-explorer>
   </nz-content>
+
 </nz-layout>
 
 <ng-template #selectMark>

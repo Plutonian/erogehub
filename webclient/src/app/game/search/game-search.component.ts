@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FILTER, Game, SearchOpt, SEARCHTYPE, Emotions, GamePlayStates, GameLocation, DateRangePreset, DateRangeValue, DateRangePresets, getDateRange} from "../../entity";
 import {GameService} from "../game.service";
 
@@ -9,6 +9,17 @@ import {GameService} from "../game.service";
     standalone: false
 })
 export class GameSearchComponent implements OnInit {
+
+
+  page: number = 1
+
+  total: number = 0
+
+  pageItemSize: number = 40
+
+  @Output()
+  pageChange = new EventEmitter<number>
+
 
   filter
 
@@ -109,20 +120,46 @@ export class GameSearchComponent implements OnInit {
 
   load(){
 
+    this.pageItemSize=40
+
+
     let json = this.getAdvSearchJson();
 
     this.filter=json
 
-    this.service.query(json)
+    // this.service.query(json)
+    //     .subscribe((gs: Game[]) => {
+    //
+    //           this.gamelist = gs
+    //           this.rowGameList = gs
+    //
+    //           console.log("Gs", gs);
+    //
+    //         }
+    //     )
+
+    this.service.count(json).subscribe((total: number) => {
+      this.total = total
+    })
+
+    this.service.queryData(json, this.page, this.pageItemSize)
         .subscribe((gs: Game[]) => {
 
-              this.gamelist = gs
-              this.rowGameList = gs
+          this.gamelist = gs
+          this.rowGameList = gs
 
-              console.log("Gs", gs);
+          console.log("Gs", gs);
 
-            }
-        )
+        })
+  }
+
+  onPageIndexChange(page: number) {
+
+    this.page = page
+
+    this.load()
+
+
   }
 
   getAdvSearchJson() {

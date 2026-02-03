@@ -36,18 +36,26 @@
 </div>
 <ng-template #searchOptType>
     <nz-select [(ngModel)]="searchOpt.key" style="min-width: 80px" [disabled]="!searchOpt.enabled">
-        <nz-option [nzValue]="SEARCHTYPE.TAG" nzLabel="Tag"></nz-option>
-        <nz-option [nzValue]="SEARCHTYPE.TEXT" nzLabel="全文检索"></nz-option>
-        <nz-option [nzValue]="SEARCHTYPE.REGEX" nzLabel="Regex"></nz-option>
-        <nz-option [nzValue]="SEARCHTYPE.STAR" nzLabel="星级"></nz-option>
-        <nz-option [nzValue]="SEARCHTYPE.EMOTION" nzLabel="情感"></nz-option>
-        <nz-option [nzValue]="SEARCHTYPE.LOCATION" nzLabel="位置"></nz-option>
-        <nz-option [nzValue]="SEARCHTYPE.PLAYSTATE" nzLabel="游玩状态"></nz-option>
-        <nz-option [nzValue]="SEARCHTYPE.PAINTER" nzLabel="画师"></nz-option>
-        <nz-option [nzValue]="SEARCHTYPE.WRITER" nzLabel="剧本作家"></nz-option>
-        <nz-option [nzValue]="SEARCHTYPE.CV" nzLabel="声优"></nz-option>
-        <nz-option [nzValue]="SEARCHTYPE.TRUECV" nzLabel="去马甲CV"></nz-option>
-        <nz-option [nzValue]="SEARCHTYPE.BRAND" nzLabel="品牌"></nz-option>
+        <nz-option-group nzLabel="文本搜索">
+            <nz-option [nzValue]="SEARCHTYPE.TEXT" nzLabel="全文检索"></nz-option>
+            <nz-option [nzValue]="SEARCHTYPE.REGEX" nzLabel="Regex"></nz-option>
+            <nz-option [nzValue]="SEARCHTYPE.TAG" nzLabel="Tag"></nz-option>
+        </nz-option-group>
+        <nz-option-group nzLabel="游戏属性">
+            <nz-option [nzValue]="SEARCHTYPE.STAR" nzLabel="星级"></nz-option>
+            <nz-option [nzValue]="SEARCHTYPE.EMOTION" nzLabel="情感"></nz-option>
+            <nz-option [nzValue]="SEARCHTYPE.LOCATION" nzLabel="位置"></nz-option>
+            <nz-option [nzValue]="SEARCHTYPE.PLAYSTATE" nzLabel="游玩状态"></nz-option>
+        </nz-option-group>
+        <nz-option-group nzLabel="人员">
+            <nz-option [nzValue]="SEARCHTYPE.PAINTER" nzLabel="画师"></nz-option>
+            <nz-option [nzValue]="SEARCHTYPE.WRITER" nzLabel="剧本作家"></nz-option>
+            <nz-option [nzValue]="SEARCHTYPE.CV" nzLabel="声优"></nz-option>
+            <nz-option [nzValue]="SEARCHTYPE.TRUECV" nzLabel="去马甲CV"></nz-option>
+        </nz-option-group>
+        <nz-option-group nzLabel="品牌">
+            <nz-option [nzValue]="SEARCHTYPE.BRAND" nzLabel="品牌"></nz-option>
+        </nz-option-group>
     </nz-select>
 </ng-template>
 

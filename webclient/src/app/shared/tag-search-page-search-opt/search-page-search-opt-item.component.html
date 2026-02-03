@@ -3,22 +3,98 @@
     <nz-input-group [nzAddOnAfter]="searchOptFilter" [nzAddOnBefore]="searchOptType" nzSize="large">
         @switch (searchOpt.filter){
             @case (FILTER.Include){
-                <input [(ngModel)]="searchOpt.value" class="include" [disabled]="!searchOpt.enabled"  nz-input/>
-
+                <!-- 星级输入 -->
+                @if (isStarInput(searchOpt.key)){
+                    <div style="padding: 8px 12px;">
+                        <nz-rate [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" [nzAllowClear]="true"></nz-rate>
+                    </div>
+                }
+                <!-- 下拉选择（情感/位置/状态） -->
+                @else if (isSelectInput(searchOpt.key)){
+                    @switch (searchOpt.key){
+                        @case (SEARCHTYPE.EMOTION){
+                            <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 140px">
+                                <nz-option [nzValue]="'LIKE'" nzLabel="好き"></nz-option>
+                                <nz-option [nzValue]="'HOPE'" nzLabel="気になり"></nz-option>
+                                <nz-option [nzValue]="'NORMAL'" nzLabel="..."></nz-option>
+                                <nz-option [nzValue]="'HATE'" nzLabel="嫌い"></nz-option>
+                            </nz-select>
+                        }
+                        @case (SEARCHTYPE.LOCATION){
+                            <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 120px">
+                                <nz-option [nzValue]="'LOCAL'" nzLabel="Local"></nz-option>
+                                <nz-option [nzValue]="'REMOTE'" nzLabel="Remote"></nz-option>
+                            </nz-select>
+                        }
+                        @case (SEARCHTYPE.PLAYSTATE){
+                            <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 120px">
+                                <nz-option [nzValue]="'NOT_PLAY'" nzLabel="..."></nz-option>
+                                <nz-option [nzValue]="'PLAYING'" nzLabel="進行中"></nz-option>
+                                <nz-option [nzValue]="'PLAYED'" nzLabel="プレイ済み"></nz-option>
+                            </nz-select>
+                        }
+                    }
+                }
+                <!-- 文本输入 -->
+                @else {
+                    <input [(ngModel)]="searchOpt.value" class="include" [disabled]="!searchOpt.enabled" nz-input/>
+                }
             }
             @default {
-                <input [(ngModel)]="searchOpt.value" class="exclude" [disabled]="!searchOpt.enabled"  nz-input/>
-
+                <!-- 星级输入 -->
+                @if (isStarInput(searchOpt.key)){
+                    <div style="padding: 8px 12px;">
+                        <nz-rate [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" [nzAllowClear]="true"></nz-rate>
+                    </div>
+                }
+                <!-- 下拉选择（情感/位置/状态） -->
+                @else if (isSelectInput(searchOpt.key)){
+                    @switch (searchOpt.key){
+                        @case (SEARCHTYPE.EMOTION){
+                            <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 140px">
+                                <nz-option [nzValue]="'LIKE'" nzLabel="好き"></nz-option>
+                                <nz-option [nzValue]="'HOPE'" nzLabel="気になり"></nz-option>
+                                <nz-option [nzValue]="'NORMAL'" nzLabel="..."></nz-option>
+                                <nz-option [nzValue]="'HATE'" nzLabel="嫌い"></nz-option>
+                            </nz-select>
+                        }
+                        @case (SEARCHTYPE.LOCATION){
+                            <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 120px">
+                                <nz-option [nzValue]="'LOCAL'" nzLabel="Local"></nz-option>
+                                <nz-option [nzValue]="'REMOTE'" nzLabel="Remote"></nz-option>
+                            </nz-select>
+                        }
+                        @case (SEARCHTYPE.PLAYSTATE){
+                            <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 120px">
+                                <nz-option [nzValue]="'NOT_PLAY'" nzLabel="..."></nz-option>
+                                <nz-option [nzValue]="'PLAYING'" nzLabel="進行中"></nz-option>
+                                <nz-option [nzValue]="'PLAYED'" nzLabel="プレイ済み"></nz-option>
+                            </nz-select>
+                        }
+                    }
+                }
+                <!-- 文本输入 -->
+                @else {
+                    <input [(ngModel)]="searchOpt.value" class="exclude" [disabled]="!searchOpt.enabled" nz-input/>
+                }
             }
         }
 
     </nz-input-group>
 </div>
 <ng-template #searchOptType>
-    <nz-select [(ngModel)]="searchOpt.key"  style="min-width: 80px" [disabled]="!searchOpt.enabled">
+    <nz-select [(ngModel)]="searchOpt.key" style="min-width: 80px" [disabled]="!searchOpt.enabled">
         <nz-option [nzValue]="SEARCHTYPE.TAG" nzLabel="Tag"></nz-option>
         <nz-option [nzValue]="SEARCHTYPE.TEXT" nzLabel="全文检索"></nz-option>
         <nz-option [nzValue]="SEARCHTYPE.REGEX" nzLabel="Regex"></nz-option>
+        <nz-option [nzValue]="SEARCHTYPE.STAR" nzLabel="星级"></nz-option>
+        <nz-option [nzValue]="SEARCHTYPE.EMOTION" nzLabel="情感"></nz-option>
+        <nz-option [nzValue]="SEARCHTYPE.LOCATION" nzLabel="位置"></nz-option>
+        <nz-option [nzValue]="SEARCHTYPE.PLAYSTATE" nzLabel="游玩状态"></nz-option>
+        <nz-option [nzValue]="SEARCHTYPE.PAINTER" nzLabel="画师"></nz-option>
+        <nz-option [nzValue]="SEARCHTYPE.WRITER" nzLabel="剧本作家"></nz-option>
+        <nz-option [nzValue]="SEARCHTYPE.CV" nzLabel="声优"></nz-option>
+        <nz-option [nzValue]="SEARCHTYPE.BRAND" nzLabel="品牌"></nz-option>
     </nz-select>
 </ng-template>
 

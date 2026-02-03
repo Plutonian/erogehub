@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {SearchOpt,SEARCHTYPE,FILTER} from "../../entity";
+import {SearchOpt,SEARCHTYPE,FILTER,Emotions,GamePlayStates,GameLocation} from "../../entity";
 
 @Component({
     selector: 'app-search-page-search-opt-item',
@@ -19,6 +19,9 @@ export class SearchPageSearchOptItemComponent {
     onSwap = new EventEmitter<SearchOpt>()
 
     readonly SEARCHTYPE = SEARCHTYPE
+    readonly Emotions = Emotions
+    readonly GamePlayStates = GamePlayStates
+    readonly GameLocation = GameLocation
 
     swap(){
         this.onSwap.emit(this.searchOpt)
@@ -26,6 +29,18 @@ export class SearchPageSearchOptItemComponent {
 
     remove() {
         this.onRemove.emit(this.searchOpt)
+    }
+
+    isStarInput(key: SEARCHTYPE): boolean {
+        return key === SEARCHTYPE.STAR
+    }
+
+    isSelectInput(key: SEARCHTYPE): boolean {
+        return key === SEARCHTYPE.EMOTION || key === SEARCHTYPE.LOCATION || key === SEARCHTYPE.PLAYSTATE
+    }
+
+    isTextInput(key: SEARCHTYPE): boolean {
+        return !this.isStarInput(key) && !this.isSelectInput(key)
     }
 
     protected readonly FILTER = FILTER;

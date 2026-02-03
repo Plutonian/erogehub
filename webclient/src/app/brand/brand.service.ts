@@ -2,13 +2,6 @@ import {Injectable} from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import {environment} from "../../environments/environment";
 
-export const Emotions = {
-  HATE: {name: "嫌い", value: -99},
-  NORMAL: {name: "...", value: 0},
-  HOPE: {name: "気になり", value: 1},
-  LIKE: {name: "好き", value: 99}
-}
-
 @Injectable()
 export class BrandService {
 

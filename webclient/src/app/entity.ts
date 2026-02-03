@@ -181,7 +181,15 @@ export interface State {
 export enum SEARCHTYPE {
   TEXT,
   REGEX,
-  TAG
+  TAG,
+  STAR,
+  EMOTION,
+  LOCATION,
+  PLAYSTATE,
+  PAINTER,
+  WRITER,
+  CV,
+  BRAND
 }
 
 export enum FILTER {
@@ -194,4 +202,22 @@ export interface SearchOpt {
   value: string,
   enabled: boolean,
   filter: FILTER
+}
+
+export const Emotions = {
+  HATE: {name: "嫌い", value: -99},
+  NORMAL: {name: "...", value: 0},
+  HOPE: {name: "気になり", value: 1},
+  LIKE: {name: "好き", value: 99}
+}
+
+export const GamePlayStates = {
+  NOT_PLAY: {name: "...", value: 0},
+  PLAYING: {name: "進行中", value: 1},
+  PLAYED: {name: "プレイ済み", value: 2}
+}
+
+export const GameLocation = {
+  REMOTE: {name: "Remote", value: 0},
+  LOCAL: {name: "Local", value: 1}
 }

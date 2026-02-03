@@ -3,27 +3,6 @@ import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
 
 
-export const GameStates = {
-  SAME: {name: "SAME", value: -2},
-  BLOCK: {name: "嫌い", value: -99},
-  UNCHECKED: {name: "...", value: 0},
-  HOPE: {name: "気になり", value: 1},
-  PLAYING: {name: "進行中", value: 80},
-  PLAYED: {name: "プレイ済み", value: 90}
-}
-
-export const GamePlayStates = {
-  NOT_PLAY: {name: "...", value: 0},
-  PLAYING: {name: "進行中", value: 1},
-  PLAYED: {name: "プレイ済み", value: 2}
-}
-
-export const GameLocation = {
-  REMOTE: {name: "Remote", value: 0},
-  LOCAL: {name: "Local", value: 1}
-}
-
-
 @Injectable()
 export class GameService {
   constructor(private httpClient: HttpClient) {

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Emotions} from "./brand.service";
+import {Emotions} from "../entity";
 
 @Component({
     selector: 'app-brand',

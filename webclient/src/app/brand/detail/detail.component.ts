@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Brand, Game} from "../../entity";
-import {BrandService, Emotions} from "../brand.service";
+import {Brand, Game, Emotions} from "../../entity";
+import {BrandService} from "../brand.service";
 import {AppService} from "../../app.service";
 import {GameService} from "../../game/game.service";
 import {Title} from "@angular/platform-browser";

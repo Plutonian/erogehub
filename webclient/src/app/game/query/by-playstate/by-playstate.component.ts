@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Title} from "@angular/platform-browser";
-import {GamePlayStates, GameService} from "../../game.service";
-import {Game} from "../../../entity";
+import {GamePlayStates, Game} from "../../../entity";
+import {GameService} from "../../game.service";
 import {DataQuery} from "../DataQuery";
 
 @Component({

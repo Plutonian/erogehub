@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Game} from "../../../entity";
-import {GamePlayStates, GameService} from "../../game.service";
+import {Game, GamePlayStates} from "../../../entity";
+import {GameService} from "../../game.service";
 
 const ColorMap = {
   "PLAYED": "rgba(0,157,255,0.56)",

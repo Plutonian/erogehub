@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FILTER, Game, SearchOpt, SEARCHTYPE} from "../../entity";
+import {FILTER, Game, SearchOpt, SEARCHTYPE, Emotions, GamePlayStates, GameLocation} from "../../entity";
 import {GameService} from "../game.service";
 
 @Component({
@@ -126,45 +126,84 @@ export class GameSearchComponent implements OnInit {
     let ret: any = {}
 
     searchOpts.filter(opt => opt.enabled)
-        .filter(opt => opt.value?.trim().length > 0)
+        .filter(opt => opt.value != null && String(opt.value).trim().length > 0)
         .forEach(searchOpt => {
 
           if (ret.$and == undefined) {
             ret.$and = []
           }
 
+          const not = (val) => searchOpt.filter == FILTER.Exclude ? {"$not": val} : val
+
           switch (searchOpt.key) {
             case SEARCHTYPE.REGEX: {
               let raw = {"$regex": searchOpt.value}
-              let not = {"$not": raw}
               if (searchOpt.filter == FILTER.Exclude) {
-                ret.$and.push({"name": not})
+                ret.$and.push({"name": not(raw)})
               } else {
                 ret.$and.push({"name": raw})
               }
-
               break
             }
             case SEARCHTYPE.TEXT: {
               let raw = {"$search": searchOpt.value}
-              let not = {"$not": raw}
               if (searchOpt.filter == FILTER.Exclude) {
-                ret.$and.push({"$text": not})
+                ret.$and.push({"$text": not(raw)})
               } else {
                 ret.$and.push({"$text": raw})
               }
               break
             }
             case SEARCHTYPE.TAG: {
-              let raw = {"$regex": searchOpt.value.trim()}
-
-              let not = {"$not": raw}
-              if (searchOpt.filter == FILTER.Exclude) {
-                ret.$and.push({"tags": not})
-              } else {
-                ret.$and.push({"tags": raw})
+              let raw = {"$regex": String(searchOpt.value).trim()}
+              ret.$and.push({"tag": not(raw)})
+              break
+            }
+            case SEARCHTYPE.STAR: {
+              let starValue = parseInt(String(searchOpt.value))
+              if (!isNaN(starValue)) {
+                ret.$and.push({"star": not(starValue)})
               }
-
+              break
+            }
+            case SEARCHTYPE.EMOTION: {
+              const emotionKey = String(searchOpt.value)
+              const emotionVal = Emotions[emotionKey]?.value
+              if (emotionVal !== undefined) {
+                ret.$and.push({"emotion": not(emotionVal)})
+              }
+              break
+            }
+            case SEARCHTYPE.LOCATION: {
+              const locationKey = String(searchOpt.value)
+              const locationVal = GameLocation[locationKey]?.value
+              if (locationVal !== undefined) {
+                ret.$and.push({"location": not(locationVal)})
+              }
+              break
+            }
+            case SEARCHTYPE.PLAYSTATE: {
+              const playStateKey = String(searchOpt.value)
+              const playStateVal = GamePlayStates[playStateKey]?.value
+              if (playStateVal !== undefined) {
+                ret.$and.push({"playState": not(playStateVal)})
+              }
+              break
+            }
+            case SEARCHTYPE.PAINTER: {
+              ret.$and.push({"painter": not(String(searchOpt.value))})
+              break
+            }
+            case SEARCHTYPE.WRITER: {
+              ret.$and.push({"writer": not(String(searchOpt.value))})
+              break
+            }
+            case SEARCHTYPE.CV: {
+              ret.$and.push({"gamechar.cv": not({"$regex": String(searchOpt.value)})})
+              break
+            }
+            case SEARCHTYPE.BRAND: {
+              ret.$and.push({"brand.name": not({"$regex": String(searchOpt.value)})})
               break
             }
           }

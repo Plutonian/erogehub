@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Game} from "../../../entity";
+import {Game, Emotions} from "../../../entity";
 import {GameService} from "../../game.service";
-import {Emotions} from "../../../brand/brand.service";
 
 @Component({
     selector: 'app-emotion-change',

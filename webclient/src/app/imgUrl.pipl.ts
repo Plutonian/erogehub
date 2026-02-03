@@ -1,7 +1,5 @@
 import {Pipe} from "@angular/core";
-import {Game, MyDate} from "./entity";
-import {GameLocation, GamePlayStates} from "./game/game.service";
-import {Emotions} from "./brand/brand.service";
+import {Game, MyDate, GameLocation, GamePlayStates, Emotions} from "./entity";
 import {environment} from "../environments/environment";
 
 @Pipe({

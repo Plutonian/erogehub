@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Game, MyDate} from "../../entity";
+import {Game} from "../../entity";
 
 @Component({
     selector: 'app-formatted-date',

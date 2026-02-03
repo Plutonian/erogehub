@@ -22,9 +22,9 @@ export class GameCharactersComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.game?.gameCharacters?.length > 0) {
-      this.menCharacters = this.game.gameCharacters.filter(c => !c.heroine)
-      this.womenCharacters = this.game.gameCharacters.filter(c => c.heroine)
+    if (this.game?.gamechar?.length > 0) {
+      this.menCharacters = this.game.gamechar.filter(c => !c.heroine)
+      this.womenCharacters = this.game.gamechar.filter(c => c.heroine)
     }
   }
 

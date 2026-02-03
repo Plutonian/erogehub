@@ -4,10 +4,8 @@ export interface Game {
   painter: string[]
   writer: string[]
   tag: string[]
-  publishDate: MyDate
-  dateString: string
-  dateFormatString: string
-  published: Boolean
+  _publishDate: Date
+  publishDate: number
   brand: Brand
   story: string
   intro: string
@@ -16,9 +14,10 @@ export interface Game {
   location: string
   star: number
   isSame: boolean
-  titles: Titles
-  gameImgs: GameImg[]
-  gameCharacters: GameCharacter[]
+  mainTitle: string
+  subTitle: string
+  simpleImg: GameImg[]
+  gamechar: GameCharacter[]
 }
 
 export interface Titles {
@@ -39,12 +38,6 @@ export interface GameCharacter {
   "img": string
   "heroine": boolean
   "cvObj"?: CV
-}
-
-export interface MyDate {
-  year: number
-  monthValue: number
-  dayOfMonth: number
 }
 
 
@@ -80,8 +73,8 @@ export interface CV {
 
 export interface GameStatistics {
 
-  start: MyDate,
-  end: MyDate,
+  start: string,
+  end: string,
   count: number,
   realCount: number,
   emotion: EmotionStatistics,
@@ -152,8 +145,8 @@ interface CompositeGroupItem extends GroupItem {
 }
 
 export interface DateRange {
-  start: MyDate
-  end: MyDate
+  start: string
+  end: string
 }
 
 export interface DateGroupItem extends CompositeGroupItem {

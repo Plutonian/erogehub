@@ -11,10 +11,10 @@
                     readonly="readonly">{{game.story}}</textarea>
         </main>
       </nz-tab>
-      <nz-tab [nzTitle]="'キャラクター'" *ngIf="game.gameCharacters?.length>0">
+      <nz-tab [nzTitle]="'キャラクター'" *ngIf="game.gamechar?.length>0">
         <!--characters-->
         <div class="flex_row gap-10" style="max-width: 800px;overflow-x: auto">
-          <section *ngFor="let character of game.gameCharacters" class="flex_column">
+          <section *ngFor="let character of game.gamechar" class="flex_column">
             <aside class="imageborder">
               <img src="{{game | img}}/char_s_{{character.index}}.jpg"/>
             </aside>
@@ -43,13 +43,13 @@
           </section>
         </div>
       </nz-tab>
-      <nz-tab [nzTitle]="'サンプル画像'" *ngIf="game.gameImgs?.length>0" style="width: 100%;height:100%">
+      <nz-tab [nzTitle]="'サンプル画像'" *ngIf="game.simpleImg?.length>0" style="width: 100%;height:100%">
         <!--    <div class="all_height flex_row gap-5" style="max-width:800px;overflow-x: auto">-->
         <!--      <img *ngFor="let img of game.gameImgs"-->
         <!--           src="{{game|img}}/simple_l_{{img.index}}.jpg"/>-->
         <!--    </div>-->
         <nz-tabs nzTabPosition="bottom">
-          <nz-tab *ngFor="let img of game.gameImgs" nzTitle="{{img.index}}">
+          <nz-tab *ngFor="let img of game.simpleImg" nzTitle="{{img.index}}">
             <img src="{{game|img}}/simple_l_{{img.index}}.jpg"/>
           </nz-tab>
 

@@ -69,7 +69,7 @@ export class DetailComponent implements OnInit {
   }
 
   updateTitle() {
-    this.service.setTitle(this.game.id, this.game.titles.mainTitle, this.game.titles.subTitle)
+    this.service.setTitle(this.game.id, this.game.mainTitle, this.game.subTitle)
       .subscribe((data: string) => {
         this.message.create("success", data)
       })
@@ -79,8 +79,8 @@ export class DetailComponent implements OnInit {
     const spIndex = this.game.name.indexOf(" ")
 
     if (spIndex != -1) {
-      this.game.titles.mainTitle = this.game.name.substring(0, spIndex)
-      this.game.titles.subTitle = this.game.name.substring(spIndex + 1, this.game.name.length)
+      this.game.mainTitle = this.game.name.substring(0, spIndex)
+      this.game.subTitle = this.game.name.substring(spIndex + 1, this.game.name.length)
     }
 
   }
@@ -97,12 +97,9 @@ export class DetailComponent implements OnInit {
 
   published() {
 
-    let date = this.game.publishDate;
+    let date= this.game._publishDate
 
-    let d=new Date()
-    d.setFullYear(date.year, date.monthValue - 1, date.dayOfMonth)
-
-    return this.today.getTime() - d.getTime() > 0
+    return this.today.getTime() - date.getTime() > 0
   }
 
   ngOnInit(): void {

@@ -5,10 +5,10 @@
                     >
         <nz-page-header-title>
             <app-game-playstate-change [game]="game"></app-game-playstate-change>
-            {{ game.titles.mainTitle }}
+            {{ game.mainTitle }}
         </nz-page-header-title>
         <nz-page-header-subtitle>
-            {{ game.titles.subTitle }}<i (click)="showModal()" nz-icon nzType="setting"></i>
+            {{ game.subTitle }}<i (click)="showModal()" nz-icon nzType="setting"></i>
         </nz-page-header-subtitle>
         <nz-page-header-tags>
 
@@ -59,7 +59,7 @@
 
             <nz-descriptions>
 
-                <nz-descriptions-item *ngIf="game.publishDate" nzTitle="発売日">
+                <nz-descriptions-item *ngIf="game._publishDate" nzTitle="発売日">
                     <app-formatted-date [game]="game"></app-formatted-date>
                 </nz-descriptions-item>
                 <nz-descriptions-item *ngIf="game.painter?.length>0" nzTitle="原画">
@@ -92,13 +92,13 @@
                       style="font-size: 20px;border: none;">{{ game.story }}</textarea>
         </main>
     </nz-card>
-    <nz-card *ngIf="game.gameCharacters?.length>0" id="char" nzTitle="キャラクター">
+    <nz-card *ngIf="game.gamechar?.length>0" id="char" nzTitle="キャラクター">
         <app-game-characters [game]="game"></app-game-characters>
     </nz-card>
-    <nz-card *ngIf="game.gameImgs?.length>0" id="sample" nzTitle="サンプル画像">
+    <nz-card *ngIf="game.simpleImg?.length>0" id="sample" nzTitle="サンプル画像">
         <!--imgs-->
-        <div *ngIf="game.gameImgs?.length>0" class="flex_row flex_float gap-5">
-            <ng-container *ngFor="let img of game.gameImgs">
+        <div *ngIf="game.simpleImg?.length>0" class="flex_row flex_float gap-5">
+            <ng-container *ngFor="let img of game.simpleImg">
                 <img class="sample_img"
                      loading="lazy" src="{{game|img}}/simple_l_{{img.index}}.jpg"/>
 
@@ -124,7 +124,7 @@
 
 </div>
 <ng-template #guide>
-    <app-guide [searchKey]="game.titles.mainTitle">
+    <app-guide [searchKey]="game.mainTitle">
 
     </app-guide>
 </ng-template>
@@ -147,7 +147,7 @@
                     <nz-form-label nzFor="mainTitle">Main</nz-form-label>
                     <nz-form-control>
                         <nz-input-group nzSize="large">
-                            <input [(ngModel)]="game.titles.mainTitle" name="mainTitle" nz-input type="text"/>
+                            <input [(ngModel)]="game.mainTitle" name="mainTitle" nz-input type="text"/>
                         </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
@@ -156,7 +156,7 @@
                     <nz-form-label nzFor="subTitle">Sub</nz-form-label>
                     <nz-form-control>
                         <nz-input-group nzSize="large">
-                            <input [(ngModel)]="game.titles.subTitle" name="subTitle" nz-input type="text"/>
+                            <input [(ngModel)]="game.subTitle" name="subTitle" nz-input type="text"/>
                         </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
@@ -181,10 +181,10 @@
     <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu nzSelectable>
             <li nz-menu-item>
-                <a href="https://www.google.com/search?q={{game.titles.mainTitle}}" target="_blank">Google</a>
+                <a href="https://www.google.com/search?q={{game.mainTitle}}" target="_blank">Google</a>
             </li>
             <li nz-menu-item>
-                <a href="https://ja.wikipedia.org/w/index.php?search={{game.titles.mainTitle}}"
+                <a href="https://ja.wikipedia.org/w/index.php?search={{game.mainTitle}}"
                    target="_blank">Wiki</a>
             </li>
             <li nz-menu-item>
@@ -192,20 +192,20 @@
                    target="_blank">GetChu</a>
             </li>
             <li nz-menu-item>
-                <a href="https://www.dlsite.com/pro/fsr/=/language/jp/sex_category[0]/male/keyword/{{game.titles.mainTitle}}"
+                <a href="https://www.dlsite.com/pro/fsr/=/language/jp/sex_category[0]/male/keyword/{{game.mainTitle}}"
                    target="_blank">DLsite</a>
             </li>
             <li nz-menu-item>
-                <a href="https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/kensaku.php?category=game&word_category=name&mode=normal&word={{game.titles.mainTitle}}"
+                <a href="https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/kensaku.php?category=game&word_category=name&mode=normal&word={{game.mainTitle}}"
                    target="_blank">ErogameScape</a>
             </li>
             <li nz-menu-item>
-                <a href="https://galge.fun/subjects/search?keyword={{game.titles.mainTitle}}"
+                <a href="https://galge.fun/subjects/search?keyword={{game.mainTitle}}"
                    target="_blank">2DF</a>
             </li>
             <li nz-menu-divider></li>
             <li nz-menu-item>
-                <a href="https://www.ggbases.com/search.so?p=0&advanced=&title={{game.titles.mainTitle}}"
+                <a href="https://www.ggbases.com/search.so?p=0&advanced=&title={{game.mainTitle}}"
                    target="_blank">GGBases</a>
             </li>
         </ul>

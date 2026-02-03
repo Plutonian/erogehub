@@ -194,6 +194,7 @@ export class GameSearchComponent implements OnInit {
     this.service.queryData(json, this.page, this.pageItemSize)
         .subscribe((gs: Game[]) => {
 
+          gs.forEach(g=>g._publishDate=new Date(g.publishDate))
           this.gamelist = gs
 
           console.log("Gs", gs);

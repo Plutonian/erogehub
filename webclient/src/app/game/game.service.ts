@@ -13,10 +13,6 @@ export class GameService {
     return this.httpClient.get(`http://${environment.APP_SERVER}/api/game/detail/${id}`)
   }
 
-  query(filter: string) {
-    return this.httpClient.get(`http://${environment.APP_SERVER}/api/game/query?filter=${filter}`)
-  }
-
   count(filter: string) {
     return this.httpClient.post(`http://${environment.APP_SERVER}/api/game/count`,
         {

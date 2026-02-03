@@ -49,12 +49,9 @@ export class GridCellComponent implements OnInit {
 
   published() {
 
-    let date = this.game.publishDate;
+      let date= this.game._publishDate
 
-    let d=new Date()
-    d.setFullYear(date.year, date.monthValue - 1, date.dayOfMonth)
-
-    return this.today.getTime() - d.getTime() > 0
+    return this.today.getTime() - date.getTime() > 0
   }
 
 

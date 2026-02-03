@@ -18,9 +18,9 @@
       <div *ngFor="let cv of group.list" class="container test_border">
         <app-jumpcv [cv]="cv.name" [isReal]="true" title="{{cv | json}}"></app-jumpcv>
         <div>
-          <span>{{cv.statistics?.start?.year}}</span>
+          <span>{{cv.statistics?.start}}</span>
           <span>-</span>
-          <span>{{cv.statistics?.end?.year}}</span>
+          <span>{{cv.statistics?.end}}</span>
         </div>
       </div>
     </main>

@@ -7,9 +7,9 @@
       <div>
         <app-game-playstate-change [game]="game"></app-game-playstate-change>
         <span title="{{game.name}}" class="title">
-          {{game.titles?.mainTitle}}
+          {{game.mainTitle}}
         </span>
-        <span>{{game.titles?.subTitle}}</span>
+        <span>{{game.subTitle}}</span>
         <a *ngIf="game.isSame" style="color: red" (click)="delete()">[Delete]</a>
       </div>
     </section>
@@ -54,7 +54,7 @@
 </ng-template>
 
 <ng-template #date>
-  <app-formatted-date *ngIf="game.publishDate"
+  <app-formatted-date *ngIf="game._publishDate"
                       [game]="game"></app-formatted-date>
 </ng-template>
 

@@ -33,7 +33,7 @@ object MarkSameGameTask {
             value
               .groupBy {
                 g =>
-                  val Titles(mainTitle, subTitle) = g.getTitles
+                  val Titles(mainTitle, subTitle) = g.titles
                   s"${mainTitle}${subTitle}"
               }.to(LazyList)
               .filter {

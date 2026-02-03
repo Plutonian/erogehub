@@ -11,6 +11,14 @@ import scala.beans.BeanProperty
 
 object CommonGame {
 
+  case class Titles(
+                     mainTitle: String,
+                     subTitle: String
+
+                   ) {
+    var other: String = _
+  }
+
   object Titles {
     private val titleMatcher = """^(?<mainTitle>.+)(?<subTitle>〜.+〜|[-‐−].+[-‐−]|「.+」)(?<other>.*)$""".r
 
@@ -26,19 +34,29 @@ object CommonGame {
 
   }
 
-  case class Titles(
-                     @BeanProperty mainTitle: String,
-                     @BeanProperty subTitle: String
-
-                   ) {
-    @BeanProperty
-    var other: String = _
-  }
-
 }
 
 abstract class CommonGame {
-  def getTitles = {
+  @BeanProperty var id: Int = 0
+  @BeanProperty var name: String = ""
+  @BeanProperty var publishDate: LocalDate = _
+  var mainTitle: String = _
+  var subTitle: String = _
+  var smallImg: String = ""
+  var website = ""
+  @BeanProperty
+  var writer: util.List[String] = _ //シナリオ
+  @BeanProperty
+  var painter: util.List[String] = _ //原画
+  var `type`: util.List[String] = _ //サブジャンル
+  @BeanProperty var tag: util.List[String] = _
+  @BeanProperty var story: String = "" // ストーリー(HTML)
+  @BeanProperty var intro: String = ""
+  @BeanProperty var gameCharacters: util.List[GameCharacter] = _
+  @BeanProperty var gameImgs: util.List[GameImg] = _
+  @BeanProperty var isNew = false
+
+  def titles = {
 
     if (Strings.isNotEmpty(this.mainTitle)) {
       Titles(this.mainTitle.trim, this.subTitle.trim)
@@ -55,64 +73,14 @@ abstract class CommonGame {
 
   }
 
-
-  @BeanProperty var id: Int = 0
-  @BeanProperty var name: String = ""
-  @BeanProperty var publishDate: LocalDate = _
-
-  var mainTitle: String = _
-  var subTitle: String = _
-
-  def getDateFormatString(): String = {
-    if (publishDate != null)
-
-      if (DateUtil.needFormat(publishDate)) {
-        DateUtil.formatDate(publishDate)
-
-      } else {
-        publishDate.format(DateTimeFormatter.ofPattern("yyyy-MM"))
-      }
-    else
-      null
-  }
-
-  def getDateString(): String = {
-
-    Option(publishDate).map {
-      _.toString
-    }.orNull
-
-  }
-
-  def isPublished() = {
-    Option(publishDate).exists(_.isBefore(LocalDate.now()))
-  }
-
-
-  var smallImg: String = ""
-  var website = ""
-  @BeanProperty
-  var writer: util.List[String] = _ //シナリオ
-  @BeanProperty
-  var painter: util.List[String] = _ //原画
-  var `type`: util.List[String] = _ //サブジャンル
-  @BeanProperty var tag: util.List[String] = _
-  @BeanProperty var story: String = "" // ストーリー(HTML)
-  @BeanProperty var intro: String = ""
-  @BeanProperty var gameCharacters: util.List[GameCharacter] = _
-  @BeanProperty var gameImgs: util.List[GameImg] = _
-  @BeanProperty var isNew = false
-  //  @BeanProperty var isAdult = true
-
-
-  def canEqual(other: Any): Boolean = other.isInstanceOf[CommonGame]
-
   override def equals(other: Any): Boolean = other match {
     case that: CommonGame =>
       (that canEqual this) &&
         id == that.id
     case _ => false
   }
+
+  def canEqual(other: Any): Boolean = other.isInstanceOf[CommonGame]
 
   override def hashCode(): Int = {
     id

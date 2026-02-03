@@ -1,5 +1,5 @@
 import {Pipe} from "@angular/core";
-import {Game, MyDate, GameLocation, GamePlayStates, Emotion} from "./entity";
+import {Game, GameLocation, GamePlayStates, Emotion} from "./entity";
 import {environment} from "../environments/environment";
 
 @Pipe({
@@ -9,19 +9,9 @@ import {environment} from "../environments/environment";
 export class ImgUrlPipl {
 
   transform(g: Game) {
-    return `http://${environment.IMG_SERVER}/img/${g?.publishDate?.year}/${g?.publishDate?.monthValue}/${g?.id}`
-  }
+     let date= g._publishDate
 
-}
-
-@Pipe({
-    name: "dateStr",
-    standalone: false
-})
-export class MyDatePipl {
-
-  transform(date: MyDate) {
-    return `${date.year}-${date.monthValue}-${date.dayOfMonth}`
+    return `http://${environment.IMG_SERVER}/img/${date.getFullYear()}/${date.getMonth()+1}/${g?.id}`
   }
 
 }

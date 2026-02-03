@@ -103,13 +103,17 @@ class GameController extends Controller {
       .skip((page - 1) * pageSize)
       .limit(pageSize)
       .asScala.to(LazyList)
-      .map(SimpleGameCreator.create)
+      .map(doc => {
+        doc.append("id", doc.getInteger("_id"))
+        doc
+      })
+//      .map(SimpleGameCreator.create)
       .toList
-      .asJava
+//      .asJava
 
-    ok(Json.toJson(Option(list).getOrElse(List().asJava))).asJson()
+//    ok(Json.toJson(Option(list).getOrElse(List().asJava))).asJson()
 
-//    ok(Json.toJson(list.asJava)).asJson()
+    ok(Json.toJson(list.asJava)).asJson()
   }
 
   def groupByEmotion(request: Request) = {

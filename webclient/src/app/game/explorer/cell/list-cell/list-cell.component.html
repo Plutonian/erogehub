@@ -9,10 +9,10 @@
   <nz-page-header>
     <nz-page-header-title>
       <app-game-playstate-change [game]="game"></app-game-playstate-change>
-      <a class="title" routerLink="/game/{{game.id}}"> {{game.titles.mainTitle}}</a>
+      <a class="title" routerLink="/game/{{game.id}}"> {{game.mainTitle}}</a>
     </nz-page-header-title>
     <nz-page-header-subtitle>
-      {{game.titles.subTitle}}
+      {{game.subTitle}}
 
     </nz-page-header-subtitle>
     <nz-page-header-tags>
@@ -26,7 +26,7 @@
 
       <app-emotion-change [game]="game"></app-emotion-change>
       <app-game-marksame style="margin-top: auto;" [game]="game"></app-game-marksame>
-      <app-formatted-date *ngIf="game.publishDate"
+      <app-formatted-date *ngIf="game._publishDate"
                           [game]="game"></app-formatted-date>
     </nz-page-header-extra>
     <nz-page-header-content>

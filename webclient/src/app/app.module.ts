@@ -9,7 +9,6 @@ import {
     EmotionJPPipe,
     ImgUrlPipl,
     LocationPipl,
-    MyDatePipl,
     PlayStatePipl,
     WikiPipl
 } from "./imgUrl.pipl";
@@ -101,6 +100,7 @@ import {
     SearchPageSearchOptItemComponent
 } from "./shared/tag-search-page-search-opt/search-page-search-opt-item.component";
 import {NzPaginationComponent} from "ng-zorro-antd/pagination";
+import {DateFormatPipe} from "./date-format.pipe";
 
 
 export const routes: Route[] = [
@@ -152,7 +152,6 @@ export const routes: Route[] = [
         LocationPipl,
         EmotionJPPipe,
         BlockPipl,
-        MyDatePipl,
         AppComponent,
         DetailComponent,
         GameCharactersComponent,
@@ -229,7 +228,7 @@ export const routes: Route[] = [
         NzTableModule,
         NzDividerModule,
         NzTypographyModule,
-        NgOptimizedImage, NzDrawerComponent, NzDrawerContentDirective, NzNoAnimationDirective, NzSelectModule, NzPaginationComponent], providers: [
+        NgOptimizedImage, NzDrawerComponent, NzDrawerContentDirective, NzNoAnimationDirective, NzSelectModule, NzPaginationComponent, DateFormatPipe], providers: [
         GameService,
         GuideService,
         BrandService,

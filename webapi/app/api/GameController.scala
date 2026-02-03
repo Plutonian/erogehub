@@ -18,6 +18,7 @@ import play.mvc.Controller
 import play.mvc.Http.Request
 import play.mvc.Results.{notFound, ok}
 import qurey.GameFullWebQuery
+import qurey.GameWebQuery.SimpleGameCreator
 
 import java.time.LocalDate
 import scala.jdk.CollectionConverters.*
@@ -102,13 +103,13 @@ class GameController extends Controller {
       .skip((page - 1) * pageSize)
       .limit(pageSize)
       .asScala.to(LazyList)
-      .map(doc => {
-        doc.append("id", doc.getInteger("_id"))
-        doc
-      })
+      .map(SimpleGameCreator.create)
       .toList
+      .asJava
 
-    ok(Json.toJson(list.asJava)).asJson()
+    ok(Json.toJson(Option(list).getOrElse(List().asJava))).asJson()
+
+//    ok(Json.toJson(list.asJava)).asJson()
   }
 
   def groupByEmotion(request: Request) = {

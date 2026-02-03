@@ -101,6 +101,7 @@ import {NzTableModule} from "ng-zorro-antd/table";
 import {GameCharCellComponent} from './game/detail/game-characters/game-char-cell/game-char-cell.component';
 import {NzMessageService} from "ng-zorro-antd/message";
 import {GroupLocationComponent} from './game/explorer/groupside/group-location/group-location.component';
+import {AggregateGameComponent} from './game/aggregate-game/aggregate-game.component';
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import {NzTypographyModule} from "ng-zorro-antd/typography";
 import {NgOptimizedImage} from "@angular/common";
@@ -264,7 +265,8 @@ export const routes: Route[] = [
         ByWriterComponent,
         GameCharCellComponent,
         GroupLocationComponent,
-        SearchPageSearchOptItemComponent
+        SearchPageSearchOptItemComponent,
+        AggregateGameComponent
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
         BrowserAnimationsModule,

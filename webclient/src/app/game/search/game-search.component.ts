@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FILTER, Game, SearchOpt, SEARCHTYPE, Emotions, GamePlayStates, GameLocation, DateRangePreset, DateRangeValue, DateRangePresets, getDateRange} from "../../entity";
+import {FILTER, Game, SearchOpt, SEARCHTYPE, Emotions, GamePlayStates, GameLocation, DateRangePreset, DateRangeValue, DateRangePresets, getDateRange, Brand} from "../../entity";
 import {GameService} from "../game.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-gamesearch',
@@ -40,7 +41,72 @@ export class GameSearchComponent implements OnInit {
   customDateRange: DateRangeValue = { startDate: '', endDate: '' }
   currentDateRange: DateRangeValue = { startDate: '', endDate: '' }
 
+  constructor(private service: GameService, private router: Router) {
+  }
+
   ngOnInit(): void {
+  }
+
+  // 聚合面板事件处理
+  onBrandSelected(brand: Brand) {
+    this.includedAdvSearchOpts.push({
+      key: SEARCHTYPE.BRAND,
+      value: brand.name,
+      enabled: true,
+      filter: FILTER.Include
+    })
+    this.load()
+  }
+
+  onTagSelect(tag: string) {
+    // 添加标签搜索条件
+    this.includedAdvSearchOpts.push({
+      key: SEARCHTYPE.TAG,
+      value: tag,
+      enabled: true,
+      filter: FILTER.Include
+    })
+    this.load()
+  }
+
+  onEmotionSelected(emotion: string) {
+    this.includedAdvSearchOpts.push({
+      key: SEARCHTYPE.EMOTION,
+      value: emotion,
+      enabled: true,
+      filter: FILTER.Include
+    })
+    this.load()
+  }
+
+  onLocationSelected(location: string) {
+    this.includedAdvSearchOpts.push({
+      key: SEARCHTYPE.LOCATION,
+      value: location,
+      enabled: true,
+      filter: FILTER.Include
+    })
+    this.load()
+  }
+
+  onCVSelect(cv: string) {
+    this.includedAdvSearchOpts.push({
+      key: SEARCHTYPE.CV,
+      value: cv,
+      enabled: true,
+      filter: FILTER.Include
+    })
+    this.load()
+  }
+
+  onStarSelect(star: number) {
+    this.includedAdvSearchOpts.push({
+      key: SEARCHTYPE.STAR,
+      value: String(star),
+      enabled: true,
+      filter: FILTER.Include
+    })
+    this.load()
   }
 
   search() {
@@ -101,9 +167,6 @@ export class GameSearchComponent implements OnInit {
   handleSearchClick() {
     // this.page = 1
     this.advSearch()
-  }
-
-  constructor(private service: GameService) {
   }
 
   advSearch() {

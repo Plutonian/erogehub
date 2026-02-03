@@ -1,4 +1,5 @@
 <nz-layout>
+    <!-- 左侧搜索条件 -->
     <nz-sider [nzWidth]="350">
         <nz-card nzTitle="Search" [nzExtra]="selectMark">
 
@@ -39,10 +40,23 @@
             </nz-collapse>
         </nz-card>
     </nz-sider>
-  <nz-content>
-      <app-explorer [gamelist]="gamelist" [rowGameList]="rowGameList" [page]="page" [total]="total" [pageItemSize]="pageItemSize" [filter]="filter" (pageChange)="onPageIndexChange($event)"  class="flex_grow"></app-explorer>
-  </nz-content>
 
+    <!-- 中间内容区 -->
+    <nz-content>
+        <app-explorer [gamelist]="gamelist" [rowGameList]="rowGameList" [page]="page" [total]="total" [pageItemSize]="pageItemSize" [filter]="filter" (pageChange)="onPageIndexChange($event)" class="flex_grow"></app-explorer>
+    </nz-content>
+
+    <!-- 右侧聚合面板 -->
+    <nz-sider>
+        <app-aggregate-game [filter]="filter"
+                           (onBrandSelected)="onBrandSelected($event)"
+                           (onTagSelect)="onTagSelect($event)"
+                           (onEmotionSelected)="onEmotionSelected($event)"
+                           (onLocationSelected)="onLocationSelected($event)"
+                           (onCVSelect)="onCVSelect($event)"
+                           (onStarSelect)="onStarSelect($event)">
+        </app-aggregate-game>
+    </nz-sider>
 </nz-layout>
 
 <ng-template #selectMark>

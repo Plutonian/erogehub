@@ -5,6 +5,6 @@
 </span>
 <ng-template #commands>
     <nz-radio-group [(ngModel)]="game._emotion" nzButtonStyle="solid" (ngModelChange)="updateEmotion()">
-        <label *ngFor="let emotion of emotions" nz-radio-button nzValue="{{emotion}}">{{ emotion |emotionJP }}</label>
+        <label *ngFor="let emotion of emotions" nz-radio-button [nzValue]="emotion">{{ emotion |emotionJP }}</label>
     </nz-radio-group>
 </ng-template>

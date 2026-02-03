@@ -196,7 +196,7 @@ export class GameSearchComponent implements OnInit {
 
           gs.forEach(g=> {
             g._publishDate = new Date(g.publishDate)
-            // g._emotion=
+            g._emotion = g.emotion !== undefined ? g.emotion as Emotion : Emotion.NORMAL
           })
           this.gamelist = gs
 

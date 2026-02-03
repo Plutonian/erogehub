@@ -22,15 +22,15 @@
                         }
                         @case (SEARCHTYPE.LOCATION){
                             <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 120px">
-                                <nz-option [nzValue]="'LOCAL'" nzLabel="Local"></nz-option>
-                                <nz-option [nzValue]="'REMOTE'" nzLabel="Remote"></nz-option>
+                                <nz-option [nzValue]="Location.LOCAL" nzLabel="Local"></nz-option>
+                                <nz-option [nzValue]="Location.REMOTE" nzLabel="Remote"></nz-option>
                             </nz-select>
                         }
                         @case (SEARCHTYPE.PLAYSTATE){
                             <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 120px">
-                                <nz-option [nzValue]="'NOT_PLAY'" nzLabel="..."></nz-option>
-                                <nz-option [nzValue]="'PLAYING'" nzLabel="進行中"></nz-option>
-                                <nz-option [nzValue]="'PLAYED'" nzLabel="プレイ済み"></nz-option>
+                                <nz-option [nzValue]="PlayState.NOT_PLAY" nzLabel="..."></nz-option>
+                                <nz-option [nzValue]="PlayState.PLAYING" nzLabel="進行中"></nz-option>
+                                <nz-option [nzValue]="PlayState.PLAYED" nzLabel="プレイ済み"></nz-option>
                             </nz-select>
                         }
                     }
@@ -60,15 +60,15 @@
                         }
                         @case (SEARCHTYPE.LOCATION){
                             <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 120px">
-                                <nz-option [nzValue]="'LOCAL'" nzLabel="Local"></nz-option>
-                                <nz-option [nzValue]="'REMOTE'" nzLabel="Remote"></nz-option>
+                                <nz-option [nzValue]="Location.LOCAL" nzLabel="Local"></nz-option>
+                                <nz-option [nzValue]="Location.REMOTE" nzLabel="Remote"></nz-option>
                             </nz-select>
                         }
                         @case (SEARCHTYPE.PLAYSTATE){
                             <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 120px">
-                                <nz-option [nzValue]="'NOT_PLAY'" nzLabel="..."></nz-option>
-                                <nz-option [nzValue]="'PLAYING'" nzLabel="進行中"></nz-option>
-                                <nz-option [nzValue]="'PLAYED'" nzLabel="プレイ済み"></nz-option>
+                                <nz-option [nzValue]="PlayState.NOT_PLAY" nzLabel="..."></nz-option>
+                                <nz-option [nzValue]="PlayState.PLAYING" nzLabel="進行中"></nz-option>
+                                <nz-option [nzValue]="PlayState.PLAYED" nzLabel="プレイ済み"></nz-option>
                             </nz-select>
                         }
                     }

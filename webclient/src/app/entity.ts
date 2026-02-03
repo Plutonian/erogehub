@@ -11,8 +11,10 @@ export interface Game {
   intro: string
   emotion: number
   _emotion: Emotion
-  _playState: string
-  _location: string
+  playState:number
+  _playState: PlayState
+  location: number
+  _location: Location
   star: number
   isSame: boolean
   mainTitle: string
@@ -129,11 +131,15 @@ export interface EmotionGroupItem extends GroupItem {
 }
 
 export interface LocationGroupItem extends GroupItem {
-  location: string
+  location: number
 }
 
 export interface StarGroupItem extends GroupItem {
   star: number
+}
+
+export interface PlayStateGroupItem extends GroupItem {
+  playState: number
 }
 
 export interface CVGroupItem extends GroupItem {
@@ -187,7 +193,7 @@ export enum FILTER {
 
 export interface SearchOpt {
   key: SEARCHTYPE,
-  value: string,
+  value: string|number|Emotion|Location|PlayState,
   enabled: boolean,
   filter: FILTER
 }
@@ -199,15 +205,21 @@ export enum Emotion {
   LIKE = 99
 }
 
+export enum Location {
+  REMOTE = 0,
+  LOCAL = 1
+}
+
+export enum PlayState {
+  NOT_PLAY = 0,
+  PLAYING = 1,
+  PLAYED = 2
+}
+
 export const GamePlayStates = {
   NOT_PLAY: {name: "...", value: 0},
   PLAYING: {name: "進行中", value: 1},
   PLAYED: {name: "プレイ済み", value: 2}
-}
-
-export const GameLocation = {
-  REMOTE: {name: "Remote", value: 0},
-  LOCAL: {name: "Local", value: 1}
 }
 
 export interface DateRangeValue {

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Game, GameLocation} from "../../../entity";
+import {Game, Location} from "../../../entity";
 import {GameService} from "../../game.service";
 
 @Component({
@@ -15,16 +15,18 @@ export class LocationChangeComponent implements OnInit {
   edit: Boolean = false
 
   locations = [
-    "LOCAL",
-    "REMOTE"
+    Location.LOCAL,
+    Location.REMOTE
   ]
+
+  protected readonly Location = Location
 
   onLocationSelected() {
 
-    const location = GameLocation[`${this.game._location}`];
+    const location = this.game._location as Location;
     console.log(location);
 
-    this.gameService.changeLocation(this.game.id, location.value)
+    this.gameService.changeLocation(this.game.id, location as number)
       .subscribe((data: string) =>
         console.log(data)
       )

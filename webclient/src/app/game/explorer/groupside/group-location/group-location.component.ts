@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {LocationGroupItem} from "../../../../entity";
+import {Location, LocationGroupItem} from "../../../../entity";
 
 @Component({
     selector: 'app-group-location',
@@ -13,9 +13,10 @@ export class GroupLocationComponent {
   locationGroup: LocationGroupItem[]
 
   @Output()
-  onLocationSelected = new EventEmitter<string>()
+  onLocationSelected = new EventEmitter<Location>()
 
   locationSelect(item: LocationGroupItem) {
-    this.onLocationSelected.emit(item.location)
+    // 处理空值，默认使用 Location.REMOTE
+    this.onLocationSelected.emit(item.location  as Location);
   }
 }

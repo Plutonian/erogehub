@@ -70,6 +70,10 @@ export class GameService {
     return this.httpClient.get(`http://${environment.APP_SERVER}/api/game/groupByLocation?filter=${filter}`)
   }
 
+  groupByPlayState(filter: string) {
+    return this.httpClient.get(`http://${environment.APP_SERVER}/api/game/groupByPlayState?filter=${filter}`)
+  }
+
 
   // changeState(id: Number, state: Number) {
   //   return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/state/${state}`, null)

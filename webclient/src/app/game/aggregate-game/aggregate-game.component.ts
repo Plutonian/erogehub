@@ -1,5 +1,18 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Brand, Emotion, EmotionGroupItem, TagGroupItem, BrandGroupItem, CVGroupItem, StarGroupItem, LocationGroupItem, DateGroupItem} from "../../entity";
+import {
+    Brand,
+    Emotion,
+    EmotionGroupItem,
+    TagGroupItem,
+    BrandGroupItem,
+    CVGroupItem,
+    StarGroupItem,
+    LocationGroupItem,
+    DateGroupItem,
+    Location,
+    PlayState,
+    PlayStateGroupItem
+} from "../../entity";
 
 @Component({
     selector: 'app-aggregate-game',
@@ -30,6 +43,9 @@ export class AggregateGameComponent {
     @Input()
     dateGroup: DateGroupItem[]
 
+    @Input()
+    playStateGroup: PlayStateGroupItem[]
+
     @Output()
     onBrandSelected = new EventEmitter<Brand>()
 
@@ -40,7 +56,7 @@ export class AggregateGameComponent {
     onEmotionSelected = new EventEmitter<Emotion>()
 
     @Output()
-    onLocationSelected = new EventEmitter<string>()
+    onLocationSelected = new EventEmitter<Location>()
 
     @Output()
     onCVSelect = new EventEmitter<string>()
@@ -50,5 +66,8 @@ export class AggregateGameComponent {
 
     @Output()
     onDateSelect = new EventEmitter<{start: string, end: string}>()
+
+    @Output()
+    onPlayStateSelected = new EventEmitter<PlayState>()
 
 }

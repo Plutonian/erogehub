@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FILTER, Game, SearchOpt, SEARCHTYPE, Emotion, GamePlayStates, GameLocation, DateRangePreset, DateRangeValue, DateRangePresets, getDateRange, Brand, EmotionGroupItem, TagGroupItem, BrandGroupItem, CVGroupItem, StarGroupItem, LocationGroupItem, DateGroupItem} from "../../entity";
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {FILTER, Game, SearchOpt, SEARCHTYPE, Emotion, Location, DateRangeValue, DateRangePresets, getDateRange, Brand, EmotionGroupItem, TagGroupItem, BrandGroupItem, CVGroupItem, StarGroupItem, LocationGroupItem, DateGroupItem, PlayState, PlayStateGroupItem} from "../../entity";
 import {GameService} from "../game.service";
 import {Router} from "@angular/router";
 
@@ -41,6 +41,7 @@ export class GameSearchComponent implements OnInit {
   cvGroup: CVGroupItem[]
   starGroup: StarGroupItem[]
   locationGroup: LocationGroupItem[]
+  playStateGroup: PlayStateGroupItem[]
   dateGroup: DateGroupItem[]
 
   constructor(private service: GameService, private router: Router) {
@@ -72,16 +73,25 @@ export class GameSearchComponent implements OnInit {
   onEmotionSelected(emotion: string | Emotion) {
     this.includedAdvSearchOpts.push({
       key: SEARCHTYPE.EMOTION,
-      value: String(emotion),
+      value: emotion,
       enabled: true,
       filter: FILTER.Include
     })
   }
 
-  onLocationSelected(location: string) {
+  onLocationSelected(location: Location) {
     this.includedAdvSearchOpts.push({
       key: SEARCHTYPE.LOCATION,
       value: location,
+      enabled: true,
+      filter: FILTER.Include
+    })
+  }
+
+  onPlayStateSelected(playState: PlayState) {
+    this.includedAdvSearchOpts.push({
+      key: SEARCHTYPE.PLAYSTATE,
+      value: playState,
       enabled: true,
       filter: FILTER.Include
     })
@@ -173,6 +183,9 @@ export class GameSearchComponent implements OnInit {
     this.service.groupByLocation(json)
       .subscribe((data: LocationGroupItem[]) => this.locationGroup = data)
 
+    this.service.groupByPlayState(json)
+      .subscribe((data: PlayStateGroupItem[]) => this.playStateGroup = data)
+
     this.service.groupByDate(json)
       .subscribe((data: DateGroupItem[]) => this.dateGroup = data)
   }
@@ -197,6 +210,8 @@ export class GameSearchComponent implements OnInit {
           gs.forEach(g=> {
             g._publishDate = new Date(g.publishDate)
             g._emotion = g.emotion !== undefined ? g.emotion as Emotion : Emotion.NORMAL
+            g._location = g.location !== undefined ? g.location as Location : Location.REMOTE
+            g._playState = g.playState !== undefined ? g.playState as PlayState : PlayState.NOT_PLAY
           })
           this.gamelist = gs
 
@@ -269,17 +284,17 @@ export class GameSearchComponent implements OnInit {
               break
             }
             case SEARCHTYPE.LOCATION: {
-              const locationKey = String(searchOpt.value)
-              const locationVal = GameLocation[locationKey]?.value
-              if (locationVal !== undefined) {
+              const locationVal = Number(searchOpt.value)
+
+              console.log(locationVal);
+              if (!isNaN(locationVal)) {
                 ret.$and.push({"location": not(locationVal)})
               }
               break
             }
             case SEARCHTYPE.PLAYSTATE: {
-              const playStateKey = String(searchOpt.value)
-              const playStateVal = GamePlayStates[playStateKey]?.value
-              if (playStateVal !== undefined) {
+              const playStateVal = Number(searchOpt.value)
+              if (!isNaN(playStateVal)) {
                 ret.$and.push({"playState": not(playStateVal)})
               }
               break

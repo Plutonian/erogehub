@@ -1,8 +1,8 @@
 <span [ngSwitch]="game._location"
-      [class.local]="game._location == 'LOCAL'"
+      [class.local]="game._location == Location.LOCAL"
       nz-popover [nzPopoverContent]="commands">
 
-    <ng-template [ngSwitchCase]="'REMOTE'">
+    <ng-template [ngSwitchCase]="Location.REMOTE">
     <i nz-icon nzType="cloud" nzTheme="fill"></i>
     </ng-template>
   <ng-template ngSwitchDefault>
@@ -13,7 +13,7 @@
 </span>
 <ng-template #commands>
   <nz-radio-group [(ngModel)]="game._location" nzButtonStyle="solid" (ngModelChange)="onLocationSelected()">
-    <label *ngFor="let location of locations" nz-radio-button nzValue="{{location}}">{{location | loc}}</label>
+    <label *ngFor="let location of locations" nz-radio-button [nzValue]="location">{{location | loc}}</label>
   </nz-radio-group>
 </ng-template>
 

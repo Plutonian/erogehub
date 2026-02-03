@@ -16,7 +16,7 @@ export class GroupEmotionComponent {
   onEmotionSelected = new EventEmitter<Emotion>()
 
   emotionSelect(item: EmotionGroupItem) {
-    this.onEmotionSelected.emit(item.emotion)
+    this.onEmotionSelected.emit(item.emotion as Emotion)
   }
 
 }

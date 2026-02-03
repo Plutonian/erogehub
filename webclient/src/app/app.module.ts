@@ -9,6 +9,7 @@ import {
     EmotionJPPipe,
     ImgUrlPipl,
     LocationPipl,
+    PlayStatePipe,
     PlayStatePipl,
     WikiPipl
 } from "./imgUrl.pipl";
@@ -89,6 +90,7 @@ import {NzTableModule} from "ng-zorro-antd/table";
 import {GameCharCellComponent} from './game/detail/game-characters/game-char-cell/game-char-cell.component';
 import {NzMessageService} from "ng-zorro-antd/message";
 import {GroupLocationComponent} from './game/explorer/groupside/group-location/group-location.component';
+import {GroupPlaystateComponent} from './game/explorer/groupside/group-playstate/group-playstate.component';
 import {AggregateGameComponent} from './game/aggregate-game/aggregate-game.component';
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import {NzTypographyModule} from "ng-zorro-antd/typography";
@@ -149,6 +151,7 @@ export const routes: Route[] = [
         WikiPipl,
         BangumiPipl,
         PlayStatePipl,
+        PlayStatePipe,
         LocationPipl,
         EmotionJPPipe,
         BlockPipl,
@@ -188,6 +191,7 @@ export const routes: Route[] = [
         GroupStarComponent,
         GameCharCellComponent,
         GroupLocationComponent,
+        GroupPlaystateComponent,
         SearchPageSearchOptItemComponent,
         AggregateGameComponent
     ],

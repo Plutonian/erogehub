@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Game, GamePlayStates} from "../../../entity";
+import {Game, PlayState} from "../../../entity";
 import {GameService} from "../../game.service";
 
-const ColorMap = {
-  "PLAYED": "rgba(0,157,255,0.56)",
-  "PLAYING": "green",
-  "NOT_PLAY": "red"
+const ColorMap: Record<PlayState, string> = {
+  [PlayState.PLAYED]: "rgba(0,157,255,0.56)",
+  [PlayState.PLAYING]: "green",
+  [PlayState.NOT_PLAY]: "red"
 }
 
 @Component({
@@ -23,9 +23,9 @@ export class PlaystateChangeComponent implements OnInit {
 
 
   playStates = [
-    "PLAYED",
-    "PLAYING",
-    "NOT_PLAY"
+    PlayState.PLAYED,
+    PlayState.PLAYING,
+    PlayState.NOT_PLAY
   ]
 
 
@@ -35,11 +35,10 @@ export class PlaystateChangeComponent implements OnInit {
 
 
   updatePlaystate() {
-    const playState = GamePlayStates[`${this.game._playState}`];
-
+    const playState = this.game._playState;
     console.log(playState);
 
-    this.gameService.changePlayState(this.game.id, playState.value)
+    this.gameService.changePlayState(this.game.id, playState as number)
       .subscribe((data: string) =>
         console.log(data)
       )

@@ -6,7 +6,7 @@ import java.time.{LocalDate, ZoneId}
 import java.util.Date
 
 object DateUtil {
-  
+
   def toDate(dateToConvert: String): Date = {
     val format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
     try return format.parse(dateToConvert)

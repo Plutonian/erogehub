@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Game} from "../../../entity";
+import {Game, Location} from "../../../entity";
 
 @Component({
     selector: 'app-location-show',
@@ -15,7 +15,7 @@ export class LocationShowComponent implements OnInit {
   constructor() { }
 
   fillLocation() {
-    return this.game?._location === "LOCAL" ? "green" : "red"
+    return this.game?._location === Location.LOCAL ? "green" : "red"
   }
 
   ngOnInit(): void {

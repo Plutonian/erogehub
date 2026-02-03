@@ -142,19 +142,47 @@ class GameController extends Controller {
   def groupByLocation(request: Request) = {
     val where = request.queryString("filter").orElseThrow()
 
-    val list = GameFullWebQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+    val pipeline = List(
+      Aggregates.`match`(BsonDocument.parse(where)),
+      Aggregates.group("$location", Accumulators.sum("count", 1)),
+      Aggregates.sort(Sorts.descending("_id")),
+      Aggregates.project(Projections.fields(
+        Projections.computed("location", "$_id"),
+        Projections.include("count"),
+        Projections.excludeId()
+      ))
+    ).asJava
 
-    val items = list.to(LazyList)
+    val results = GameQuery()
+      .aggregate(pipeline)
+      .asScala
+      .to(LazyList)
+      .asJava
 
-      .groupBy(s => s.location).to(LazyList)
-      .sortBy { case (location, _) => location.value }.reverse
-      //        .take(20)
-      .map { case (location, games) =>
-        LocationItem(location.toString, games.size, location, games.toArray)
-      }.asJava
+    ok(Json.toJson(results)).asJson()
+  }
 
+  def groupByPlayState(request: Request) = {
+    val where = request.queryString("filter").orElseThrow()
 
-    ok(Json.toJson(items)).asJson()
+    val pipeline = List(
+      Aggregates.`match`(BsonDocument.parse(where)),
+      Aggregates.group("$playState", Accumulators.sum("count", 1)),
+      Aggregates.sort(Sorts.descending("_id")),
+      Aggregates.project(Projections.fields(
+        Projections.computed("playState", "$_id"),
+        Projections.include("count"),
+        Projections.excludeId()
+      ))
+    ).asJava
+
+    val results = GameQuery()
+      .aggregate(pipeline)
+      .asScala
+      .to(LazyList)
+      .asJava
+
+    ok(Json.toJson(results)).asJson()
   }
 
   def groupByCV(request: Request) = {

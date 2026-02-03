@@ -29,6 +29,7 @@ GET           /api/game/query                             api.GameController.que
 GET           /api/game/groupByCV                         api.GameController.groupByCV(request: play.mvc.Http.Request)
 GET           /api/game/groupByEmotion                    api.GameController.groupByEmotion(request: play.mvc.Http.Request)
 GET           /api/game/groupByLocation                   api.GameController.groupByLocation(request: play.mvc.Http.Request)
+GET           /api/game/groupByPlayState                  api.GameController.groupByPlayState(request: play.mvc.Http.Request)
 GET           /api/game/groupByTag                        api.GameController.groupByTag(request: play.mvc.Http.Request)
 GET           /api/game/groupByStar                       api.GameController.groupByStar(request: play.mvc.Http.Request)
 GET           /api/game/groupByDate                       api.GameController.groupByDate(request: play.mvc.Http.Request)

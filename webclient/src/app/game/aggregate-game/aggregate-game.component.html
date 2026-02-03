@@ -19,6 +19,11 @@
                             (onLocationSelected)="onLocationSelected.emit($event)"></app-group-location>
     </nz-collapse-panel>
 
+    <nz-collapse-panel [nzHeader]="'PlayState'">
+        <app-group-playstate [playStateGroup]="playStateGroup"
+                            (onPlayStateSelected)="onPlayStateSelected.emit($event)"></app-group-playstate>
+    </nz-collapse-panel>
+
     <nz-collapse-panel [nzHeader]="'CV'">
         <app-group-cv [cvGroup]="cvGroup" (onCVSelected)="onCVSelect.emit($event)"></app-group-cv>
     </nz-collapse-panel>

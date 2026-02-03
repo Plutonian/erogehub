@@ -4,6 +4,6 @@
 
 <ng-template #commands>
   <nz-radio-group [(ngModel)]="game._playState" nzButtonStyle="solid" (ngModelChange)="updatePlaystate()">
-    <label *ngFor="let playState of playStates" nz-radio-button nzValue="{{playState}}">{{playState |playStateJP}}</label>
+    <label *ngFor="let playState of playStates" nz-radio-button [nzValue]="playState">{{playState | playState}}</label>
   </nz-radio-group>
 </ng-template>

@@ -1,5 +1,5 @@
 import {Pipe} from "@angular/core";
-import {Game, GameLocation, GamePlayStates, Emotion} from "./entity";
+import {Game, Location, GamePlayStates, Emotion, PlayState} from "./entity";
 import {environment} from "../environments/environment";
 
 @Pipe({
@@ -74,14 +74,39 @@ export class EmotionJPPipe {
 
 }
 
+const LocationNames: Record<number, string> = {
+  [Location.REMOTE]: "Remote",
+  [Location.LOCAL]: "Local"
+}
+
 @Pipe({
     name: "loc",
     standalone: false
 })
 export class LocationPipl {
 
-  transform(state: string) {
-    return GameLocation[`${state}`].name
+  transform(location: Location | number | string): string {
+    const value = Number(location)
+    return LocationNames[value] || String(location)
+  }
+
+}
+
+const PlayStateNames: Record<number, string> = {
+  [PlayState.NOT_PLAY]: "...",
+  [PlayState.PLAYING]: "進行中",
+  [PlayState.PLAYED]: "プレイ済み"
+}
+
+@Pipe({
+    name: "playState",
+    standalone: false
+})
+export class PlayStatePipe {
+
+  transform(state: PlayState | number | string): string {
+    const value = Number(state)
+    return PlayStateNames[value] || String(state)
   }
 
 }

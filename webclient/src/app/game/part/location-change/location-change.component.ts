@@ -21,7 +21,7 @@ export class LocationChangeComponent implements OnInit {
 
   onLocationSelected() {
 
-    const location = GameLocation[`${this.game.location}`];
+    const location = GameLocation[`${this.game._location}`];
     console.log(location);
 
     this.gameService.changeLocation(this.game.id, location.value)

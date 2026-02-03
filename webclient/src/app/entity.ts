@@ -11,8 +11,8 @@ export interface Game {
   intro: string
   emotion: number
   _emotion: Emotion
-  playState: string
-  location: string
+  _playState: string
+  _location: string
   star: number
   isSame: boolean
   mainTitle: string

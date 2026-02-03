@@ -58,7 +58,7 @@ export class GridCellComponent implements OnInit {
 
 
     fillLocation() {
-        return ColorMap[this.game?.playState]
+        return ColorMap[this.game?._playState]
     }
 
     protected readonly Emotion = Emotion;

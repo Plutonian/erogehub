@@ -15,7 +15,7 @@ export class LocationShowComponent implements OnInit {
   constructor() { }
 
   fillLocation() {
-    return this.game?.location === "LOCAL" ? "green" : "red"
+    return this.game?._location === "LOCAL" ? "green" : "red"
   }
 
   ngOnInit(): void {

@@ -214,7 +214,7 @@
 </ng-template>
 
 <ng-template #emotion>
-    <ng-container *ngIf="game.playState != 'PLAYED' && game.playState != 'PLAYING'">
+    <ng-container *ngIf="game._playState != 'PLAYED' && game._playState != 'PLAYING'">
         <app-emotion-change [game]="game"></app-emotion-change>
     </ng-container>
 </ng-template>

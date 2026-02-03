@@ -30,12 +30,12 @@ export class PlaystateChangeComponent implements OnInit {
 
 
   fillLocation() {
-    return ColorMap[this.game?.playState]
+    return ColorMap[this.game?._playState]
   }
 
 
   updatePlaystate() {
-    const playState = GamePlayStates[`${this.game.playState}`];
+    const playState = GamePlayStates[`${this.game._playState}`];
 
     console.log(playState);
 

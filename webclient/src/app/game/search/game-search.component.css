@@ -1,0 +1,68 @@
+:host {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+nz-layout {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+nz-sider {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+nz-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+:host ::ng-deep nz-sider nz-card .ant-card-body {
+    flex: 1;
+    overflow: hidden;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+nz-collapse {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+nz-collapse-panel {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+:host ::ng-deep nz-collapse .ant-collapse-content {
+    flex: 1;
+    overflow: hidden;
+}
+
+:host ::ng-deep nz-collapse .ant-collapse-content-box {
+    flex: 1;
+    overflow: auto;
+}
+
+nz-content {
+    display: flex;
+    overflow: hidden;
+}
+
+:host ::ng-deep nz-sider:last-child .tag-list-wrapper {
+    height: 100%;
+}
+
+.all_width {
+    width: 100%;
+}

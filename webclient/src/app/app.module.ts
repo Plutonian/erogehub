@@ -108,6 +108,9 @@ import {NgOptimizedImage} from "@angular/common";
 import {NzDrawerComponent, NzDrawerContentDirective} from "ng-zorro-antd/drawer";
 import {NzNoAnimationDirective} from "ng-zorro-antd/core/no-animation";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
+import {
+    SearchPageSearchOptItemComponent
+} from "./shared/tag-search-page-search-opt/search-page-search-opt-item.component";
 
 
 export const routes: Route[] = [
@@ -261,7 +264,8 @@ export const routes: Route[] = [
         GroupStarComponent,
         ByWriterComponent,
         GameCharCellComponent,
-        GroupLocationComponent
+        GroupLocationComponent,
+        SearchPageSearchOptItemComponent
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
         BrowserAnimationsModule,

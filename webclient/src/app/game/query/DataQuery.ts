@@ -8,11 +8,13 @@ import {Component, Input} from "@angular/core";
   // styleUrl: './tag-search.component.css'
 })
 export abstract class DataQuery {
+  @Input()
   rowGameList: Game[]
 
   @Input()
   filter
 
+  @Input()
   gamelist: Game[]
 
   onGameDelete(game: Game) {
@@ -23,9 +25,7 @@ export abstract class DataQuery {
   }
 
   onBrandSelected(brand: Brand) {
-
     this.gamelist = this.rowGameList.filter(g => g.brand.id == brand.id)
-
   }
 
   onEmotionSelected(emotion: string) {
@@ -45,6 +45,6 @@ export abstract class DataQuery {
   }
 
   onCVSelect(cv: string) {
-    this.gamelist = this.rowGameList.filter(g => g.gameCharacters?.map(c=>c.trueCV).includes(cv))
+    this.gamelist = this.rowGameList.filter(g => g.gameCharacters?.map(c=>c.cv).includes(cv))
   }
 }

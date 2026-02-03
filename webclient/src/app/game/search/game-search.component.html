@@ -8,24 +8,59 @@
 <!--  </nz-breadcrumb-item>-->
 <!--</nz-breadcrumb>-->
 <nz-layout>
+    <nz-sider [nzWidth]="350">
+        <nz-card nzTitle="Search" [nzExtra]="selectMark">
+
+            <nz-collapse>
+                <nz-collapse-panel [nzActive]="true" nzHeader="包含" class="all_width" [nzExtra]="addIncludeSearchOpt">
+                    <div class="scrollableY">
+                        <div *ngFor="let searchOpt of includedAdvSearchOpts">
+                            <app-search-page-search-opt-item [searchOpt]="searchOpt" (onSwap)="swapSearchOpt(searchOpt,FILTER.Include)" (onRemove)="removeSearchOpt(searchOpt,FILTER.Include)"></app-search-page-search-opt-item>
+                        </div>
+                    </div>
+                </nz-collapse-panel>
+
+                <nz-collapse-panel [nzActive]="true" nzHeader="排除" class="all_width" [nzExtra]="addExcludeSearchOpt">
+                    <div class="scrollableY">
+                        <div *ngFor="let searchOpt of excludedAdvSearchOpts">
+                            <app-search-page-search-opt-item [searchOpt]="searchOpt" (onSwap)="swapSearchOpt(searchOpt,FILTER.Exclude)" (onRemove)="removeSearchOpt(searchOpt,FILTER.Exclude)"></app-search-page-search-opt-item>
+                        </div>
+                    </div>
+                </nz-collapse-panel>
+            </nz-collapse>
+        </nz-card>
+    </nz-sider>
   <nz-content>
-    <nz-affix [nzOffsetTop]="0">
-      <nz-input-group nzSize="large" [nzAddOnBefore]="addOnBeforeTemplate" [nzAddOnAfter]="suffixButton">
-        <input name="searchKey" type="text" [(ngModel)]="searchKey" nz-input
-               placeholder="好みのゲームネイムを入れてください"/>
-      </nz-input-group>
+<!--    <nz-affix [nzOffsetTop]="0">-->
+<!--      <nz-input-group nzSize="large" [nzAddOnBefore]="addOnBeforeTemplate" [nzAddOnAfter]="suffixButton">-->
+<!--        <input name="searchKey" type="text" [(ngModel)]="searchKey" nz-input-->
+<!--               placeholder="好みのゲームネイムを入れてください"/>-->
+<!--      </nz-input-group>-->
 
-      <ng-template #suffixButton>
-        <button nz-button nzType="primary" [disabled]="!searchKey" (click)="search()">Search</button>
-      </ng-template>
+<!--      <ng-template #suffixButton>-->
+<!--        <button nz-button nzType="primary" [disabled]="!searchKey" (click)="search()">Search</button>-->
+<!--      </ng-template>-->
 
-      <ng-template #addOnBeforeTemplate>
-        <nz-radio-group [(ngModel)]="searchType" nzButtonStyle="solid">
-          <label nz-radio-button  nzValue="Simple">Simple</label>
-          <label nz-radio-button nzValue="REGEX">REGEX</label>
-        </nz-radio-group>
-      </ng-template>
-    </nz-affix>
-    <app-explorer [filter]="filter" class="flex_grow"></app-explorer>
+<!--      <ng-template #addOnBeforeTemplate>-->
+<!--        <nz-radio-group [(ngModel)]="searchType" nzButtonStyle="solid">-->
+<!--          <label nz-radio-button  nzValue="Simple">Simple</label>-->
+<!--          <label nz-radio-button nzValue="REGEX">REGEX</label>-->
+<!--        </nz-radio-group>-->
+<!--      </ng-template>-->
+<!--    </nz-affix>-->
+    <app-explorer [gamelist]="gamelist" [rowGameList]="rowGameList" [filter]="filter" class="flex_grow"></app-explorer>
   </nz-content>
 </nz-layout>
+
+<ng-template #selectMark>
+    <button (click)="handleSearchClick()" nz-button nzType="primary">Search</button>
+</ng-template>
+
+<ng-template #addIncludeSearchOpt>
+    <button (click)="addDefaultSearchOpt(FILTER.Include);$event.stopPropagation()" nz-button nzType="primary"> + </button>
+</ng-template>
+
+
+<ng-template #addExcludeSearchOpt>
+    <button (click)="addDefaultSearchOpt(FILTER.Exclude);$event.stopPropagation()" nz-button nzType="primary"> + </button>
+</ng-template>

@@ -177,3 +177,24 @@ export interface State {
   name: string
   value: number
 }
+
+export enum SEARCHTYPE {
+  TEXT,
+  REGEX,
+  TAG,
+  TAROT_TAG
+}
+
+export enum FILTER {
+  Include,
+  Exclude
+}
+
+export interface SearchOpt {
+  name: string,
+  key: SEARCHTYPE,
+  value: string,
+  isArray: boolean,
+  enabled: boolean,
+  filter: FILTER
+}

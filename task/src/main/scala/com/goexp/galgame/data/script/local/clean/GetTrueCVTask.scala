@@ -1,14 +1,14 @@
-package com.goexp.galgame.data.script.local
+package com.goexp.galgame.data.script.local.clean
 
 import com.goexp.common.util.string.Strings
 import com.goexp.galgame.common.model.CV
 import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.data.source.getchu.importor.GameDB
 import com.goexp.galgame.data.source.getchu.query.{CVQuery, GameFullWithCharQuery}
-import com.mongodb.client.model.Filters.{not, eq => same}
+import com.mongodb.client.model.Filters.{not, eq as same}
 import com.typesafe.scalalogging.Logger
 
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 
 object GetTrueCVTask {

@@ -1,4 +1,4 @@
-package com.goexp.galgame.data.script.local
+package com.goexp.galgame.data.script.local.clean
 
 import com.goexp.galgame.common.website.getchu.GetchuGameLocal
 import com.goexp.galgame.data.Config
@@ -6,7 +6,7 @@ import com.goexp.galgame.data.model.Game
 import com.typesafe.scalalogging.Logger
 
 import java.nio.file.{Files, Path}
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 
 object CleanSameGameTask {

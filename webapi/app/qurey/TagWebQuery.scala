@@ -11,8 +11,8 @@ import java.util
 import scala.jdk.CollectionConverters._
 
 
-object TagQuery {
-  private val logger = Logger(TagQuery.getClass)
+object TagWebQuery {
+  private val logger = Logger(TagWebQuery.getClass)
   private val creator: ObjectCreator[TagType] = (doc: Document) => {
     logger.trace(s"<Doc> $doc")
 

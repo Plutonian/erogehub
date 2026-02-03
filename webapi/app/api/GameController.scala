@@ -16,7 +16,7 @@ import play.libs.Json
 import play.mvc.Controller
 import play.mvc.Http.Request
 import play.mvc.Results.{notFound, ok}
-import qurey.GameFullQuery
+import qurey.GameFullWebQuery
 
 import java.time.LocalDate
 import scala.jdk.CollectionConverters._
@@ -49,7 +49,7 @@ class GameController extends Controller {
   }
 
   def info(id: Int) = {
-    GameFullQuery().where(Filters.eq(id)).one() match {
+    GameFullWebQuery().where(Filters.eq(id)).one() match {
       case Some(g) =>
         ok(Json.toJson(g)).asJson()
       case None => notFound()
@@ -61,7 +61,7 @@ class GameController extends Controller {
 
     println(BsonDocument.parse(where).preProcess())
 
-    val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).list()
+    val list = GameFullWebQuery().where(BsonDocument.parse(where).preProcess()).list()
 
     ok(Json.toJson(Option(list).getOrElse(List().asJava))).asJson()
   }
@@ -69,7 +69,7 @@ class GameController extends Controller {
   def groupByEmotion(request: Request) = {
     val where = request.queryString("filter").orElseThrow()
 
-    val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+    val list = GameFullWebQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
 
     val cvlist = list.to(LazyList)
 
@@ -87,7 +87,7 @@ class GameController extends Controller {
   def groupByLocation(request: Request) = {
     val where = request.queryString("filter").orElseThrow()
 
-    val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+    val list = GameFullWebQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
 
     val items = list.to(LazyList)
 
@@ -105,7 +105,7 @@ class GameController extends Controller {
   def groupByCV(request: Request) = {
     val where = request.queryString("filter").orElseThrow()
 
-    val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+    val list = GameFullWebQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
 
     val cvlist = list.to(LazyList)
 
@@ -138,7 +138,7 @@ class GameController extends Controller {
   def groupByTag(request: Request) = {
     val where = request.queryString("filter").orElseThrow()
 
-    val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+    val list = GameFullWebQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
 
     val taglist = list.to(LazyList)
       //skip all empty tags
@@ -161,7 +161,7 @@ class GameController extends Controller {
   def groupByDate(request: Request) = {
     val where = request.queryString("filter").orElseThrow()
 
-    val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+    val list = GameFullWebQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
 
     val years = list.to(LazyList)
       .filter(game => game.publishDate != null)
@@ -203,7 +203,7 @@ class GameController extends Controller {
   def groupByBrand(request: Request) = {
     val where = request.queryString("filter").orElseThrow()
 
-    val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+    val list = GameFullWebQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
 
     val nodes = list.to(LazyList)
       // skip null brand
@@ -240,7 +240,7 @@ class GameController extends Controller {
   def groupByStar(request: Request) = {
     val where = request.queryString("filter").orElseThrow()
 
-    val list = GameFullQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+    val list = GameFullWebQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
 
     val nodes = list.to(LazyList)
       .groupBy {

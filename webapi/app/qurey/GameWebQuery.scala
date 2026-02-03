@@ -16,7 +16,7 @@ import com.mongodb.client.model.Projections.exclude
 import com.mongodb.client.model.Sorts.descending
 import com.typesafe.scalalogging.Logger
 import org.bson.Document
-import qurey.GameQuery.SimpleGameCreator
+import qurey.GameWebQuery.SimpleGameCreator
 
 import scala.jdk.CollectionConverters._
 
@@ -32,7 +32,7 @@ object CVMap {
 
 }
 
-object GameQuery {
+object GameWebQuery {
 
   val TABLE_NAME = "game"
 
@@ -85,7 +85,7 @@ object GameQuery {
 
 }
 
-object GameFullQuery {
+object GameFullWebQuery {
   val fullTlp = DBQuery[Game](Config.DB_STRING, DB_NAME, TABLE_NAME, SimpleGameCreator)
     .defaultSort(descending("publishDate", "name"))
     .build
@@ -94,7 +94,7 @@ object GameFullQuery {
   def apply() = fullTlp
 }
 
-object GameFullWithCharQuery {
+object GameFullWebWithCharQuery {
   val fullTlpWithChar = DBQuery[Game](Config.DB_STRING, DB_NAME, TABLE_NAME, SimpleGameCreator)
     .defaultSelect(exclude("simpleImg"))
     .defaultSort(descending("publishDate", "name"))
@@ -103,7 +103,7 @@ object GameFullWithCharQuery {
   def apply() = fullTlpWithChar
 }
 
-object GameSimpleQuery {
+object GameWebSimpleQuery {
   val simpleTlp = DBQuery[Game](Config.DB_STRING, DB_NAME, TABLE_NAME, SimpleGameCreator)
     .defaultSelect(exclude("gamechar"))
     .defaultSelect(exclude("simpleImg"))

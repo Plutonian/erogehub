@@ -1,8 +1,8 @@
-package com.goexp.galgame.data.script.local
+package com.goexp.galgame.data.script.local.clean
 
 import com.goexp.galgame.common.model.game.CommonGame.Titles
 import com.goexp.galgame.data.model.Game
-import com.goexp.galgame.data.source.getchu.actor.InsertOrUpdateGameActor._
+import com.goexp.galgame.data.source.getchu.actor.InsertOrUpdateGameActor.*
 import com.goexp.galgame.data.source.getchu.importor.GameDB.MarkSame
 import com.goexp.galgame.data.source.getchu.query.{BrandQuery, GameFullQuery}
 import com.mongodb.client.model.Filters

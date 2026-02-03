@@ -1,5 +1,6 @@
-package com.goexp.galgame.data.script.local
+package com.goexp.galgame.data.script.local.clean
 
+import com.goexp.galgame.data.script.local.clean.CleanSameGameTask
 import com.goexp.galgame.data.source.getchu.query.GameSimpleQuery
 import com.mongodb.client.model.Filters
 

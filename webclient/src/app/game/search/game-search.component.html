@@ -1,12 +1,3 @@
-<!--<nz-breadcrumb nz-page-header-breadcrumb>-->
-<!--  <nz-breadcrumb-item>Index</nz-breadcrumb-item>-->
-<!--  <nz-breadcrumb-item>-->
-<!--    Game-->
-<!--  </nz-breadcrumb-item>-->
-<!--  <nz-breadcrumb-item>-->
-<!--    Search-->
-<!--  </nz-breadcrumb-item>-->
-<!--</nz-breadcrumb>-->
 <nz-layout>
     <nz-sider [nzWidth]="350">
         <nz-card nzTitle="Search" [nzExtra]="selectMark">
@@ -31,23 +22,6 @@
         </nz-card>
     </nz-sider>
   <nz-content>
-<!--    <nz-affix [nzOffsetTop]="0">-->
-<!--      <nz-input-group nzSize="large" [nzAddOnBefore]="addOnBeforeTemplate" [nzAddOnAfter]="suffixButton">-->
-<!--        <input name="searchKey" type="text" [(ngModel)]="searchKey" nz-input-->
-<!--               placeholder="好みのゲームネイムを入れてください"/>-->
-<!--      </nz-input-group>-->
-
-<!--      <ng-template #suffixButton>-->
-<!--        <button nz-button nzType="primary" [disabled]="!searchKey" (click)="search()">Search</button>-->
-<!--      </ng-template>-->
-
-<!--      <ng-template #addOnBeforeTemplate>-->
-<!--        <nz-radio-group [(ngModel)]="searchType" nzButtonStyle="solid">-->
-<!--          <label nz-radio-button  nzValue="Simple">Simple</label>-->
-<!--          <label nz-radio-button nzValue="REGEX">REGEX</label>-->
-<!--        </nz-radio-group>-->
-<!--      </ng-template>-->
-<!--    </nz-affix>-->
     <app-explorer [gamelist]="gamelist" [rowGameList]="rowGameList" [filter]="filter" class="flex_grow"></app-explorer>
   </nz-content>
 </nz-layout>

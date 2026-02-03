@@ -73,9 +73,7 @@ export class GameSearchComponent implements OnInit {
 
     let searchOpt: SearchOpt = {
       filter: filter,
-      isArray: false,
       key: SEARCHTYPE.TAG,
-      name: "名称(正则)",
       value: "",
       enabled: true
     }
@@ -127,9 +125,6 @@ export class GameSearchComponent implements OnInit {
 
     let ret: any = {}
 
-
-
-
     searchOpts.filter(opt => opt.enabled)
         .filter(opt => opt.value?.trim().length > 0)
         .forEach(searchOpt => {
@@ -150,7 +145,7 @@ export class GameSearchComponent implements OnInit {
 
               break
             }
-            case SEARCHTYPE.TEXT: {               // ret.$and.push({"$text": })
+            case SEARCHTYPE.TEXT: {
               let raw = {"$search": searchOpt.value}
               let not = {"$not": raw}
               if (searchOpt.filter == FILTER.Exclude) {
@@ -161,10 +156,6 @@ export class GameSearchComponent implements OnInit {
               break
             }
             case SEARCHTYPE.TAG: {
-              // let arr = searchOpt.value.split(",").map(e => {
-              //     let text=e.trim()
-              //     return new RegExp(text, "i")
-              // })
               let raw = {"$regex": searchOpt.value.trim()}
 
               let not = {"$not": raw}
@@ -174,24 +165,6 @@ export class GameSearchComponent implements OnInit {
                 ret.$and.push({"tags": raw})
               }
 
-              break
-            }
-            case SEARCHTYPE.TAROT_TAG: {
-              let arr = searchOpt.value.split(",").map(e => e.trim())
-
-              let raw = {"$all": arr}
-
-              let not = {"$nin": arr}
-              if (searchOpt.filter == FILTER.Exclude) {
-                ret.$and.push({"tarotTags": not})
-              } else {
-                ret.$and.push({"tarotTags": raw})
-              }
-
-
-              // ret.$and.push({
-              //     "tarotTags": {"$all": arr}
-              // })
               break
             }
           }

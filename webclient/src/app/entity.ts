@@ -181,8 +181,7 @@ export interface State {
 export enum SEARCHTYPE {
   TEXT,
   REGEX,
-  TAG,
-  TAROT_TAG
+  TAG
 }
 
 export enum FILTER {
@@ -191,10 +190,8 @@ export enum FILTER {
 }
 
 export interface SearchOpt {
-  name: string,
   key: SEARCHTYPE,
   value: string,
-  isArray: boolean,
   enabled: boolean,
   filter: FILTER
 }

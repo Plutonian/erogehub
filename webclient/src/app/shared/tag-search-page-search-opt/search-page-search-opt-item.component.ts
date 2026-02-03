@@ -4,14 +4,6 @@ import {SearchOpt,SEARCHTYPE,FILTER} from "../../entity";
 @Component({
     selector: 'app-search-page-search-opt-item',
     templateUrl: './search-page-search-opt-item.component.html',
-    // imports: [
-    //     NzSelectComponent,
-    //     NzOptionComponent,
-    //     NzSwitchComponent,
-    //     NzInputGroupComponent,
-    //     FormsModule,
-    //     NzButtonComponent
-    // ],
     standalone:false,
     styleUrl: './search-page-search-opt-item.component.css'
 })

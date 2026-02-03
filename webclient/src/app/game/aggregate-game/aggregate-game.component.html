@@ -1,0 +1,28 @@
+<nz-collapse nzAccordion>
+    <nz-collapse-panel [nzHeader]="'Brand'">
+        <app-group-brand [filter]="filter" (onBrandSelected)="onBrandSelected.emit($event)"></app-group-brand>
+    </nz-collapse-panel>
+    <nz-collapse-panel [nzHeader]="'Tag'">
+        <app-group-tag [filter]="filter" (onTagSelect)="onTagSelect.emit($event)"></app-group-tag>
+    </nz-collapse-panel>
+    <nz-collapse-panel [nzHeader]="'Date'">
+        <app-group-date [filter]="filter"></app-group-date>
+    </nz-collapse-panel>
+
+    <nz-collapse-panel [nzHeader]="'Emotion'">
+        <app-group-emotion [filter]="filter"
+                           (onEmotionSelected)="onEmotionSelected.emit($event)"></app-group-emotion>
+    </nz-collapse-panel>
+
+    <nz-collapse-panel nzHeader="Location">
+        <app-group-location [filter]="filter"
+                            (onLocationSelected)="onLocationSelected.emit($event)"></app-group-location>
+    </nz-collapse-panel>
+
+    <nz-collapse-panel [nzHeader]="'CV'">
+        <app-group-cv [filter]="filter" (onCVSelected)="onCVSelect.emit($event)"></app-group-cv>
+    </nz-collapse-panel>
+    <nz-collapse-panel [nzHeader]="'Star'">
+        <app-group-star [filter]="filter" (onStarSelect)="onStarSelect.emit($event)"></app-group-star>
+    </nz-collapse-panel>
+</nz-collapse>

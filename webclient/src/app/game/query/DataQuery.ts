@@ -1,4 +1,4 @@
-import {Brand, Game} from "../../entity";
+import {Brand, Emotion, Game} from "../../entity";
 import {Component, Input} from "@angular/core";
 
 @Component({
@@ -28,9 +28,9 @@ export abstract class DataQuery {
     this.gamelist = this.rowGameList.filter(g => g.brand.id == brand.id)
   }
 
-  onEmotionSelected(emotion: string) {
-    this.gamelist = this.rowGameList.filter(g => g.emotion == emotion)
-  }
+  // onEmotionSelected(emotion: Emotion | number) {
+  //   this.gamelist = this.rowGameList.filter(g => g.emotion == emotion)
+  // }
 
   onLocationSelected(location: string) {
     this.gamelist = this.rowGameList.filter(g => g.location == location)

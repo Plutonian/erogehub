@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Brand} from "../../entity";
+import {Brand, Emotion} from "../../entity";
 
 @Component({
     selector: 'app-aggregate-game',
@@ -19,7 +19,7 @@ export class AggregateGameComponent {
     onTagSelect = new EventEmitter<string>()
 
     @Output()
-    onEmotionSelected = new EventEmitter<string>()
+    onEmotionSelected = new EventEmitter<Emotion>()
 
     @Output()
     onLocationSelected = new EventEmitter<string>()

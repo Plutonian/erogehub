@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Game, Emotions} from "../../../entity";
+import {Game, Emotion} from "../../../entity";
 import {GameService} from "../../game.service";
 
 @Component({
@@ -15,19 +15,14 @@ export class EmotionChangeComponent implements OnInit {
   @Input()
   row = "row"
 
-  emotions = [
-    "LIKE",
-    "HOPE",
-    "NORMAL",
-    "HATE",
-  ]
+  emotions = Object.values(Emotion).filter(v => typeof v === 'number')
 
 
   updateEmotion() {
-    const emotion = Emotions[`${this.game.emotion}`];
-    console.log(emotion);
+    const emotionValue = Number(this.game.emotion);
+    console.log(emotionValue);
 
-    this.gameService.changeEmotion(this.game.id, emotion.value)
+    this.gameService.changeEmotion(this.game.id, emotionValue)
       .subscribe((data: string) =>
         console.log(data)
       )

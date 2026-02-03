@@ -1,5 +1,5 @@
 import {Pipe} from "@angular/core";
-import {Game, MyDate, GameLocation, GamePlayStates, Emotions} from "./entity";
+import {Game, MyDate, GameLocation, GamePlayStates, Emotion} from "./entity";
 import {environment} from "../environments/environment";
 
 @Pipe({
@@ -64,16 +64,22 @@ export class PlayStatePipl {
 
 }
 
+const EmotionNames: Record<number, string> = {
+  [Emotion.HATE]: "嫌い",
+  [Emotion.NORMAL]: "...",
+  [Emotion.HOPE]: "気になり",
+  [Emotion.LIKE]: "好き"
+}
+
 @Pipe({
     name: "emotionJP",
     standalone: false
 })
 export class EmotionJPPipe {
 
-  transform(emotion: number | string) {
-    const emotionValue = Number(emotion)
-    const key = Object.keys(Emotions).find(k => Emotions[k].value === emotionValue)
-    return key ? Emotions[key].name : String(emotion)
+  transform(emotion: Emotion | number | string): string {
+    const value = Number(emotion)
+    return EmotionNames[value] || String(emotion)
   }
 
 }

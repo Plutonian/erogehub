@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Emotions} from "../entity";
+import {Emotion} from "../entity";
 
 @Component({
     selector: 'app-brand',
@@ -18,12 +18,7 @@ export class BrandComponent implements OnInit {
 
   state: string
 
-  emotions = [
-    "LIKE",
-    "HOPE",
-    "NORMAL",
-    "HATE"
-  ]
+  emotions = Object.values(Emotion).filter(v => typeof v === 'number')
 
 
   onStateSelected() {
@@ -31,9 +26,9 @@ export class BrandComponent implements OnInit {
     // console.log(this.state);
 
 
-    const brandState = Emotions[`${this.state}`];
-
-    this.filter = JSON.stringify({"type": brandState.value})
+    // const brandState = Emotions[`${this.state}`];
+    //
+    // this.filter = JSON.stringify({"type": brandState.value})
   }
 
   ngOnInit(): void {

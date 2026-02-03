@@ -30,7 +30,6 @@ import {LocationChangeComponent} from './game/part/location-change/location-chan
 import {GuideComponent} from "./game/guide/guide.component";
 import {GuideService} from "./game/guide.service";
 import {BrandListComponent} from './brand/list/list.component';
-import {BrandDetailComponent} from "./brand/detail/detail.component";
 import {BrandComponent} from "./brand/brand.component";
 import {BrandService} from "./brand/brand.service";
 import {NzMenuModule} from 'ng-zorro-antd/menu';
@@ -120,11 +119,6 @@ export const routes: Route[] = [
             breadcrumb: 'Brand'
         }, children: [
             {
-                path: ':id', component: BrandDetailComponent, data: {
-                    breadcrumb: 'detail'
-                }
-            },
-            {
                 path: '', component: BrandComponent, data: {
                     breadcrumb: 'List'
                 }
@@ -175,7 +169,6 @@ export const routes: Route[] = [
         LocationShowComponent,
         LocationChangeComponent,
         BrandListComponent,
-        BrandDetailComponent,
         BrandComponent,
         MonthCalendarComponent,
         FilterComponent,

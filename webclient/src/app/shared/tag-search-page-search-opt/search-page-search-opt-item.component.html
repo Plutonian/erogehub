@@ -14,10 +14,10 @@
                     @switch (searchOpt.key){
                         @case (SEARCHTYPE.EMOTION){
                             <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 140px">
-                                <nz-option [nzValue]="'LIKE'" nzLabel="好き"></nz-option>
-                                <nz-option [nzValue]="'HOPE'" nzLabel="気になり"></nz-option>
-                                <nz-option [nzValue]="'NORMAL'" nzLabel="..."></nz-option>
-                                <nz-option [nzValue]="'HATE'" nzLabel="嫌い"></nz-option>
+                                <nz-option [nzValue]="Emotion.LIKE" nzLabel="好き"></nz-option>
+                                <nz-option [nzValue]="Emotion.HOPE" nzLabel="気になり"></nz-option>
+                                <nz-option [nzValue]="Emotion.NORMAL" nzLabel="..."></nz-option>
+                                <nz-option [nzValue]="Emotion.HATE" nzLabel="嫌い"></nz-option>
                             </nz-select>
                         }
                         @case (SEARCHTYPE.LOCATION){
@@ -52,10 +52,10 @@
                     @switch (searchOpt.key){
                         @case (SEARCHTYPE.EMOTION){
                             <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 140px">
-                                <nz-option [nzValue]="'LIKE'" nzLabel="好き"></nz-option>
-                                <nz-option [nzValue]="'HOPE'" nzLabel="気になり"></nz-option>
-                                <nz-option [nzValue]="'NORMAL'" nzLabel="..."></nz-option>
-                                <nz-option [nzValue]="'HATE'" nzLabel="嫌い"></nz-option>
+                                <nz-option [nzValue]="Emotion.LIKE" nzLabel="好き"></nz-option>
+                                <nz-option [nzValue]="Emotion.HOPE" nzLabel="気になり"></nz-option>
+                                <nz-option [nzValue]="Emotion.NORMAL" nzLabel="..."></nz-option>
+                                <nz-option [nzValue]="Emotion.HATE" nzLabel="嫌い"></nz-option>
                             </nz-select>
                         }
                         @case (SEARCHTYPE.LOCATION){

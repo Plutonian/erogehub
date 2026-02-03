@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FILTER, Game, SearchOpt, SEARCHTYPE, Emotions, GamePlayStates, GameLocation, DateRangePreset, DateRangeValue, DateRangePresets, getDateRange, Brand} from "../../entity";
+import {FILTER, Game, SearchOpt, SEARCHTYPE, Emotion, GamePlayStates, GameLocation, DateRangePreset, DateRangeValue, DateRangePresets, getDateRange, Brand} from "../../entity";
 import {GameService} from "../game.service";
 import {Router} from "@angular/router";
 
@@ -69,10 +69,10 @@ export class GameSearchComponent implements OnInit {
     this.load()
   }
 
-  onEmotionSelected(emotion: string) {
+  onEmotionSelected(emotion: string | Emotion) {
     this.includedAdvSearchOpts.push({
       key: SEARCHTYPE.EMOTION,
-      value: emotion,
+      value: String(emotion),
       enabled: true,
       filter: FILTER.Include
     })
@@ -273,9 +273,8 @@ export class GameSearchComponent implements OnInit {
               break
             }
             case SEARCHTYPE.EMOTION: {
-              const emotionKey = String(searchOpt.value)
-              const emotionVal = Emotions[emotionKey]?.value
-              if (emotionVal !== undefined) {
+              const emotionVal = Number(searchOpt.value)
+              if (!isNaN(emotionVal)) {
                 ret.$and.push({"emotion": not(emotionVal)})
               }
               break

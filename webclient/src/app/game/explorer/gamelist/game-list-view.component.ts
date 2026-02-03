@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Game, Emotions} from "../../../entity";
+import {Game} from "../../../entity";
 
 @Component({
     selector: 'app-game-listview',

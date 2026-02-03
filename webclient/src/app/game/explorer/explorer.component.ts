@@ -10,7 +10,7 @@ import {DataQuery} from "../query/DataQuery";
     styleUrls: ['explorer.component.css'],
     standalone: false
 })
-export class ExplorerComponent extends DataQuery {
+export class ExplorerComponent extends DataQuery{
 
     @Input()
     page: number = 1

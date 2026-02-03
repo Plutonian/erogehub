@@ -21,12 +21,6 @@ export interface Game {
   gameCharacters: GameCharacter[]
 }
 
-export interface Emotion {
-  name: string
-  value: number
-}
-
-
 export interface Titles {
   mainTitle: string
   subTitle: string
@@ -204,11 +198,11 @@ export interface SearchOpt {
   filter: FILTER
 }
 
-export const Emotions = {
-  HATE: {name: "嫌い", value: -99},
-  NORMAL: {name: "...", value: 0},
-  HOPE: {name: "気になり", value: 1},
-  LIKE: {name: "好き", value: 99}
+export enum Emotion {
+  HATE = -99,
+  NORMAL = 0,
+  HOPE = 1,
+  LIKE = 99
 }
 
 export const GamePlayStates = {

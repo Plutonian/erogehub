@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {SearchOpt,SEARCHTYPE,FILTER,Emotions,GamePlayStates,GameLocation} from "../../entity";
+import {SearchOpt,SEARCHTYPE,FILTER,Emotion as EmotionEnum,GamePlayStates,GameLocation} from "../../entity";
 
 @Component({
     selector: 'app-search-page-search-opt-item',
@@ -19,7 +19,7 @@ export class SearchPageSearchOptItemComponent {
     onSwap = new EventEmitter<SearchOpt>()
 
     readonly SEARCHTYPE = SEARCHTYPE
-    readonly Emotions = Emotions
+    readonly Emotion = EmotionEnum
     readonly GamePlayStates = GamePlayStates
     readonly GameLocation = GameLocation
 

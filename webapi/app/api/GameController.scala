@@ -91,12 +91,12 @@ class GameController extends Controller {
         GameQuery()
           .find()
           .filter(BsonDocument.parse(where))
-          .sort(Sorts.orderBy(Sorts.ascending("name")))
+          .sort(Sorts.orderBy(Sorts.descending("publishDate")))
       }
       else {
         GameQuery()
           .find()
-          .sort(Sorts.orderBy(Sorts.ascending("name")))
+          .sort(Sorts.orderBy(Sorts.descending("publishDate")))
       }
 
     val list = findIterable

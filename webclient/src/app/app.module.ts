@@ -19,7 +19,6 @@ import {GameCharactersComponent} from './game/detail/game-characters/game-charac
 import {Route, RouterModule} from "@angular/router";
 import {JumpBrandComponent} from './game/part/jump-brand/jump-brand.component';
 import {GameSearchComponent} from './game/search/game-search.component';
-import {QueryComponent} from './game/query/query.component';
 import {FormsModule} from "@angular/forms";
 import {CvComponent} from './cv/cv.component';
 import {TagComponent} from './tag/tag.component';
@@ -45,17 +44,9 @@ import {AppService} from "./app.service";
 import {PlaystateChangeComponent} from './game/part/playstate-change/playstate-change.component';
 import {EmotionChangeComponent} from './game/part/emotion-change/emotion-change.component';
 import {ExplorerComponent} from "./game/explorer/explorer.component";
-import {ByStarComponent} from "./game/query/by-star/by-star.component";
-import {ByTagComponent} from "./game/query/by-tag/by-tag.component";
-import {ByPainterComponent} from "./game/query/by-painter/by-painter.component";
-import {ByEmotionComponent} from "./game/query/by-emotion/by-emotion.component";
-import {ByPlaystateComponent} from "./game/query/by-playstate/by-playstate.component";
-import {ByLocationComponent} from "./game/query/by-location/by-location.component";
-import {ByCVComponent} from "./game/query/by-cv/by-cv.component";
 import {GridCellComponent} from "./game/explorer/cell/grid-cell/grid-cell.component";
 import {FilterComponent} from "./game/explorer/filter/filter.component";
 import {ListCellComponent} from "./game/explorer/cell/list-cell/list-cell.component";
-import {ByDateComponent} from './game/query/by-date/by-date.component';
 import {GameSimpleComponent} from './game/detail/simple/game-simple.component';
 import {GameListViewComponent} from './game/explorer/gamelist/game-list-view.component';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
@@ -96,7 +87,6 @@ import {GroupCvComponent} from './game/explorer/groupside/group-cv/group-cv.comp
 import {GroupTagComponent} from './game/explorer/groupside/group-tag/group-tag.component';
 import {GroupDateComponent} from './game/explorer/groupside/group-date/group-date.component';
 import {GroupStarComponent} from './game/explorer/groupside/group-star/group-star.component';
-import {ByWriterComponent} from './game/query/by-writer/by-writer.component';
 import {NzTableModule} from "ng-zorro-antd/table";
 import {GameCharCellComponent} from './game/detail/game-characters/game-char-cell/game-char-cell.component';
 import {NzMessageService} from "ng-zorro-antd/message";
@@ -150,55 +140,6 @@ export const routes: Route[] = [
                     breadcrumb: 'search'
                 }
             },
-            // {
-            //     path: 'star/:star', component: ByStarComponent, data: {
-            //         breadcrumb: 'star'
-            //     }
-            // },
-            // {
-            //     path: 'date/:start/:end', component: ByDateComponent, data: {
-            //         breadcrumb: 'date'
-            //     }
-            // },
-            // {
-            //     path: 'tag/:tag', component: ByTagComponent, data: {
-            //         breadcrumb: 'tag'
-            //     }
-            // },
-            // {
-            //     path: 'painter/:painter', component: ByPainterComponent, data: {
-            //         breadcrumb: 'painter'
-            //     }
-            // }, {
-            //     path: 'writer/:writer', component: ByWriterComponent, data: {
-            //         breadcrumb: 'writer'
-            //     }
-            // },
-            // {
-            //     path: 'emotion/:emotion', component: ByEmotionComponent, data: {
-            //         breadcrumb: 'emotion'
-            //     }
-            // },
-            // {
-            //     path: 'playState/:playState', component: ByPlaystateComponent, data: {
-            //         breadcrumb: 'playState'
-            //     }
-            // },
-            // {
-            //     path: 'location/:location', component: ByLocationComponent, data: {
-            //         breadcrumb: 'location'
-            //     }
-            // },
-            // {
-            //     path: 'cv/:cv/:real', component: ByCVComponent, data: {
-            //         breadcrumb: 'cv'
-            //     }
-            // },
-            {
-                path: 'query/:filter', component: QueryComponent, data: {
-                    breadcrumb: 'filter'
-                }
-            },
             {
                 path: ':id', component: DetailComponent, data: {
                     breadcrumb: 'detail'
@@ -226,7 +167,6 @@ export const routes: Route[] = [
         GridCellComponent,
         JumpBrandComponent,
         GameSearchComponent,
-        QueryComponent,
         CvComponent,
         TagComponent,
         JumpcvComponent,
@@ -234,10 +174,6 @@ export const routes: Route[] = [
         GameMarkSameComponent,
         LocationShowComponent,
         LocationChangeComponent,
-        ByStarComponent,
-        ByTagComponent,
-        ByCVComponent,
-        ByLocationComponent,
         BrandListComponent,
         BrandDetailComponent,
         BrandComponent,
@@ -248,12 +184,8 @@ export const routes: Route[] = [
         StarChangeComponent,
         GroupBrandComponent,
         GameDetailMainComponent,
-        ByPainterComponent,
         PlaystateChangeComponent,
-        ByPlaystateComponent,
-        ByEmotionComponent,
         EmotionChangeComponent,
-        ByDateComponent,
         GameSimpleComponent,
         GameListViewComponent,
         ImgCellComponent,
@@ -262,7 +194,6 @@ export const routes: Route[] = [
         GroupTagComponent,
         GroupDateComponent,
         GroupStarComponent,
-        ByWriterComponent,
         GameCharCellComponent,
         GroupLocationComponent,
         SearchPageSearchOptItemComponent,

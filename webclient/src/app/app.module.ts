@@ -39,7 +39,6 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MonthCalendarComponent} from './common/month-calendar/month-calendar.component';
 import {FormattedDateComponent} from './common/formatted-date/formatted-date.component';
 import {StarChangeComponent} from './game/part/star-change/star-change.component';
-import {GroupsideComponent} from './game/explorer/groupside/groupside.component';
 import {GroupBrandComponent} from './game/explorer/groupside/group-brand/group-brand.component';
 import {GameDetailMainComponent} from './game/detail/main/game-detail-main.component';
 import {AppService} from "./app.service";
@@ -245,7 +244,6 @@ export const routes: Route[] = [
         ListCellComponent,
         FormattedDateComponent,
         StarChangeComponent,
-        GroupsideComponent,
         GroupBrandComponent,
         GameDetailMainComponent,
         ByPainterComponent,

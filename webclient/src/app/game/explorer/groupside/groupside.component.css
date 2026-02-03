@@ -1,8 +1,0 @@
-/*aside {*/
-/*  border: black 3px solid;*/
-/*}*/
-
-aside section.flex_row {
-  flex-wrap: wrap;
-  gap: 10px;
-}

@@ -221,24 +221,26 @@ class GameController extends Controller {
   def groupByTag(request: Request) = {
     val where = request.queryString("filter").orElseThrow()
 
-    val list = GameFullWebQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+    val pipeline = List(
+      Aggregates.`match`(BsonDocument.parse(where)),
+      Aggregates.unwind("$tag"),
+      Aggregates.`match`(Filters.ne("tag", "")),
+      Aggregates.group("$tag", Accumulators.sum("count", 1)),
+      Aggregates.sort(Sorts.descending("count")),
+      Aggregates.project(Projections.fields(
+        Projections.computed("title", "$_id"),
+        Projections.include("count"),
+        Projections.excludeId()
+      ))
+    ).asJava
 
-    val taglist = list.to(LazyList)
-      //skip all empty tags
-      .filter(g => Option(g.tag).map(_.size()).getOrElse(0) > 0)
-      .flatMap(g => g.tag.asScala.to(LazyList).filter(t => Strings.isNotEmpty(t)))
+    val results = GameQuery()
+      .aggregate(pipeline)
+      .asScala
+      .to(LazyList)
+      .asJava
 
-      .groupBy(s => s).to(LazyList)
-      .sortBy { case (_, v) => v.size }.reverse
-
-      //Top 20
-//      .take(20)
-      .map { case (tag, games) =>
-        SampleItem(tag, games.size)
-      }.asJava
-
-
-    ok(Json.toJson(taglist)).asJson()
+    ok(Json.toJson(results)).asJson()
   }
 
   def groupByDate(request: Request) = {

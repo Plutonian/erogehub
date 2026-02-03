@@ -1,33 +1,33 @@
 <nz-collapse nzAccordion>
-    <nz-collapse-panel [nzHeader]="'Brand'">
+    <nz-collapse-panel [nzHeader]="'品牌'">
         <app-group-brand [brandGroup]="brandGroup" (onBrandSelected)="onBrandSelected.emit($event)"></app-group-brand>
     </nz-collapse-panel>
     <nz-collapse-panel [nzHeader]="'Tag'">
         <app-group-tag [tagGroup]="tagGroup" (onTagSelect)="onTagSelect.emit($event)"></app-group-tag>
     </nz-collapse-panel>
-    <nz-collapse-panel [nzHeader]="'Date'">
+    <nz-collapse-panel [nzHeader]="'日期'">
         <app-group-date [dateGroup]="dateGroup" (onDateSelect)="onDateSelect.emit($event)"></app-group-date>
     </nz-collapse-panel>
 
-    <nz-collapse-panel [nzHeader]="'Emotion'">
+    <nz-collapse-panel [nzHeader]="'情感'">
         <app-group-emotion [emotionGroup]="emotionGroup"
                            (onEmotionSelected)="onEmotionSelected.emit($event)"></app-group-emotion>
     </nz-collapse-panel>
 
-    <nz-collapse-panel nzHeader="Location">
+    <nz-collapse-panel nzHeader="位置">
         <app-group-location [locationGroup]="locationGroup"
                             (onLocationSelected)="onLocationSelected.emit($event)"></app-group-location>
     </nz-collapse-panel>
 
-    <nz-collapse-panel [nzHeader]="'PlayState'">
+    <nz-collapse-panel [nzHeader]="'游玩状态'">
         <app-group-playstate [playStateGroup]="playStateGroup"
                             (onPlayStateSelected)="onPlayStateSelected.emit($event)"></app-group-playstate>
     </nz-collapse-panel>
 
-    <nz-collapse-panel [nzHeader]="'CV'">
+    <nz-collapse-panel [nzHeader]="'声优'">
         <app-group-cv [cvGroup]="cvGroup" (onCVSelected)="onCVSelect.emit($event)"></app-group-cv>
     </nz-collapse-panel>
-    <nz-collapse-panel [nzHeader]="'Star'">
+    <nz-collapse-panel [nzHeader]="'星级'">
         <app-group-star [starGroup]="starGroup" (onStarSelect)="onStarSelect.emit($event)"></app-group-star>
     </nz-collapse-panel>
 </nz-collapse>

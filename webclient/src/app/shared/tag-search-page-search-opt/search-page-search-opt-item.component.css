@@ -13,21 +13,36 @@
     position: relative;
 }
 
-.action-buttons {
-    display: flex;
-    gap: 4px;
+.more-actions-btn {
     margin-left: 4px;
-    opacity: 0;
-    width: 0;
-    overflow: hidden;
-    pointer-events: none;
-    transition: opacity 0.2s ease, width 0.2s ease;
+    color: #8c8c8c;
+    transition: color 0.2s;
 }
 
-/* 悬停时显示按钮 */
-:host:hover .action-buttons {
-    opacity: 1;
-    width: auto;
-    overflow: visible;
-    pointer-events: auto;
+.more-actions-btn:hover {
+    color: #1890ff;
+}
+
+.action-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 100px;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.delete-btn {
+    color: #ff4d4f;
+}
+
+.delete-btn:hover {
+    color: #ff7875;
+    background-color: rgba(255, 77, 79, 0.1);
 }

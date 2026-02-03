@@ -1,15 +1,13 @@
 package api
 
 import api.common.ExpendResult.ToJson
-import com.goexp.common.util.string.Strings
 import com.goexp.db.mongo.DBOperator
 import com.goexp.galgame.common.Config
 import com.goexp.galgame.common.Config.DB_NAME
 import com.goexp.galgame.common.db.mongo.query.GameQuery
 import com.goexp.galgame.common.model.Emotion
-import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.data.model.Brand
-import com.mongodb.client.model.{Accumulators, Aggregates, Filters, Projections, Sorts}
+import com.mongodb.client.model.*
 import com.mongodb.client.model.Updates.{combine, set}
 import entity.group.*
 import org.bson.BsonDocument
@@ -18,7 +16,6 @@ import play.mvc.Controller
 import play.mvc.Http.Request
 import play.mvc.Results.{notFound, ok}
 import qurey.GameFullWebQuery
-import qurey.GameWebQuery.SimpleGameCreator
 
 import java.time.LocalDate
 import scala.jdk.CollectionConverters.*
@@ -107,11 +104,11 @@ class GameController extends Controller {
         doc.append("id", doc.getInteger("_id"))
         doc
       })
-//      .map(SimpleGameCreator.create)
+      //      .map(SimpleGameCreator.create)
       .toList
-//      .asJava
+    //      .asJava
 
-//    ok(Json.toJson(Option(list).getOrElse(List().asJava))).asJson()
+    //    ok(Json.toJson(Option(list).getOrElse(List().asJava))).asJson()
 
     ok(Json.toJson(list.asJava)).asJson()
   }
@@ -208,7 +205,7 @@ class GameController extends Controller {
       .aggregate(pipeline)
       .asScala
       .to(LazyList)
-//      .map(doc => SampleCVItem(doc.getString("title"), doc.getInteger("count"), false))
+      //      .map(doc => SampleCVItem(doc.getString("title"), doc.getInteger("count"), false))
       .asJava
 
     ok(Json.toJson(results)).asJson()
@@ -237,7 +234,7 @@ class GameController extends Controller {
       .aggregate(pipeline)
       .asScala
       .to(LazyList)
-//      .map(doc => SampleCVItem(doc.getString("title"), doc.getInteger("count"), true))
+      //      .map(doc => SampleCVItem(doc.getString("title"), doc.getInteger("count"), true))
       .asJava
 
     ok(Json.toJson(results)).asJson()
@@ -446,6 +443,15 @@ class GameController extends Controller {
     changeEmotionByBrand(brandId, Emotion.HATE.value)
   }
 
+  private def changeEmotionByBrand(brandId: Int, state: Int) = {
+
+    tpl.exec(documentMongoCollection => {
+      documentMongoCollection.updateMany(Filters.eq("brandId", brandId), set("emotion", state))
+    })
+
+    ok(Json.toJson("OK")).asJson()
+  }
+
   def normal(brandId: Int) = {
     changeEmotionByBrand(brandId, Emotion.NORMAL.value)
   }
@@ -471,20 +477,6 @@ class GameController extends Controller {
 
   }
 
-  def updateTags(id: Int, request: Request) = {
-    val body = request.body.asJson
-    val tags = body.get("tags").elements().asScala.to(LazyList).map(_.asText()).asJava
-
-
-    tpl.exec(documentMongoCollection => {
-      documentMongoCollection.updateOne(Filters.eq(id), combine(
-        set("tag", tags),
-      ))
-    })
-
-    ok(Json.toJson("OK")).asJson()
-  }
-
   //  def clearCharCV(id: Int, index: Int) = {
   //
   //    tpl.exec(documentMongoCollection => {
@@ -498,10 +490,15 @@ class GameController extends Controller {
   //
   //  }
 
-  private def changeEmotionByBrand(brandId: Int, state: Int) = {
+  def updateTags(id: Int, request: Request) = {
+    val body = request.body.asJson
+    val tags = body.get("tags").elements().asScala.to(LazyList).map(_.asText()).asJava
+
 
     tpl.exec(documentMongoCollection => {
-      documentMongoCollection.updateMany(Filters.eq("brandId", brandId), set("emotion", state))
+      documentMongoCollection.updateOne(Filters.eq(id), combine(
+        set("tag", tags),
+      ))
     })
 
     ok(Json.toJson("OK")).asJson()

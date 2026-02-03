@@ -35,7 +35,7 @@
     </nz-input-group>
 </div>
 <ng-template #searchOptType>
-    <nz-select [(ngModel)]="searchOpt.key" style="min-width: 80px" [disabled]="!searchOpt.enabled">
+    <nz-select [(ngModel)]="searchOpt.key" style="min-width: 120px" [disabled]="!searchOpt.enabled">
         <nz-option-group nzLabel="文本搜索">
             <nz-option [nzValue]="SEARCHTYPE.TEXT" nzLabel="全文检索"></nz-option>
             <nz-option [nzValue]="SEARCHTYPE.REGEX" nzLabel="Regex"></nz-option>
@@ -60,11 +60,11 @@
 </ng-template>
 
 <ng-template #searchOptFilter>
-    <nz-switch [(ngModel)]="searchOpt.enabled" nzCheckedChildren="E" nzUnCheckedChildren="D"></nz-switch>
-    <button (click)="swap()" nz-button><span nz-icon nzType="swap" nzTheme="outline" ></span></button>
-    <button (click)="remove()" nz-button><span nz-icon
-                                               nzTheme="outline"
-                                               nzType="delete"
-                                               style="color: red"></span>
-    </button>
+    <div class="filter-controls">
+        <nz-switch [(ngModel)]="searchOpt.enabled" nzCheckedChildren="E" nzUnCheckedChildren="D"></nz-switch>
+        <div class="action-buttons">
+            <button (click)="swap()" nz-button><span nz-icon nzType="swap" nzTheme="outline"></span></button>
+            <button (click)="remove()" nz-button><span nz-icon nzTheme="outline" nzType="delete" style="color: red"></span></button>
+        </div>
+    </div>
 </ng-template>

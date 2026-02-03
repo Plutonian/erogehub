@@ -5,3 +5,29 @@
 .exclude{
     color:red;
 }
+
+/* 搜索条件项容器悬停时显示操作按钮 */
+.filter-controls {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 4px;
+    margin-left: 4px;
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, width 0.2s ease;
+}
+
+/* 悬停时显示按钮 */
+:host:hover .action-buttons {
+    opacity: 1;
+    width: auto;
+    overflow: visible;
+    pointer-events: auto;
+}

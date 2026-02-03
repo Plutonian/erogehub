@@ -1,10 +1,3 @@
-<ng-template #sortPanel>
-  <ul class="flex_row gap-5 " style="margin-left: auto">
-    <li (click)="sort()">Name</li>
-    <li (click)="sortEmotion()">Emotion</li>
-  </ul>
-</ng-template>
-
 <nz-layout>
   <nz-content class="scrollableY">
     <div *ngIf="size=='Grid'"
@@ -26,27 +19,6 @@
 
 
   </nz-content>
-  <nz-footer>
-    <div class="flex_row">
-      <span
-        *ngIf="rowGameList?.length == gamelist?.length;else filterCount">{{ rowGameList.length }}</span>
-
-      <ng-template #filterCount>
-        <span class="bg-white">{{ rowGameList.length }} / <a (click)="clearFilter()">{{ gamelist.length }}</a></span>
-      </ng-template>
-
-      <div *ngIf="gamelist.length>1" style="margin-left: auto" class="flex_row gap-5">
-        <span nz-popover [nzPopoverContent]="sortPanel">Sort</span>
-
-<!--        <nz-radio-group [(ngModel)]="size" nzButtonStyle="solid">-->
-<!--          <label nz-radio-button nzValue="Grid"><i nz-icon nzType="appstore" nzTheme="outline"></i></label>-->
-<!--          <label nz-radio-button nzValue="List"><i nz-icon nzType="bars" nzTheme="outline"></i></label>-->
-<!--          <label nz-radio-button nzValue="Small">Small</label>-->
-<!--        </nz-radio-group>-->
-      </div>
-    </div>
-
-  </nz-footer>
 </nz-layout>
 
 

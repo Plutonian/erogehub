@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import {EmotionGroupItem} from "../../../../entity";
+import {EmotionGroupItem, Emotions} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
 @Component({
@@ -35,7 +35,9 @@ export class GroupEmotionComponent implements OnChanges {
   }
 
   emotionSelect(item: EmotionGroupItem) {
-    this.onEmotionSelected.emit(item.emotion)
+    // 通过 emotion value 查找对应的 key
+    const key = Object.keys(Emotions).find(k => Emotions[k].value === item.emotion)
+    this.onEmotionSelected.emit(key || String(item.emotion))
   }
 
 }

@@ -58,8 +58,7 @@
             </nz-collapse>
           </nz-header>
           <nz-content class="scrollableY">
-            <app-game-listview [gamelist]="gamelist" [rowGameList]="rowGameList"
-                               (onGameDelete)="onGameDelete($event)"></app-game-listview>
+            <app-game-listview [gamelist]="gamelist" (onGameDelete)="onGameDelete($event)"></app-game-listview>
           </nz-content>
 
         </nz-layout>

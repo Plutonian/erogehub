@@ -9,7 +9,7 @@ import com.goexp.galgame.common.db.mongo.query.GameQuery
 import com.goexp.galgame.common.model.Emotion
 import com.goexp.galgame.common.model.game.GameCharacter
 import com.goexp.galgame.data.model.Brand
-import com.mongodb.client.model.{Filters, Sorts}
+import com.mongodb.client.model.{Accumulators, Aggregates, Filters, Projections, Sorts}
 import com.mongodb.client.model.Updates.{combine, set}
 import entity.group.*
 import org.bson.BsonDocument
@@ -115,19 +115,24 @@ class GameController extends Controller {
   def groupByEmotion(request: Request) = {
     val where = request.queryString("filter").orElseThrow()
 
-    val list = GameFullWebQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+    val pipeline = List(
+      Aggregates.`match`(BsonDocument.parse(where)),
+      Aggregates.group("$emotion", Accumulators.sum("count", 1)),
+      Aggregates.sort(Sorts.descending("_id")),
+      Aggregates.project(Projections.fields(
+        Projections.computed("emotion", "$_id"),
+        Projections.include("count"),
+        Projections.excludeId()
+      ))
+    ).asJava
 
-    val cvlist = list.to(LazyList)
+    val results = GameQuery()
+      .aggregate(pipeline)
+      .asScala
+      .to(LazyList)
+      .asJava
 
-      .groupBy(s => s.emotion).to(LazyList)
-      .sortBy { case (emotion, _) => emotion.value }.reverse
-      //        .take(20)
-      .map { case (emotion, games) =>
-        EmotionItem(emotion.toString, games.size, emotion, games.toArray)
-      }.asJava
-
-
-    ok(Json.toJson(cvlist)).asJson()
+    ok(Json.toJson(results)).asJson()
   }
 
   def groupByLocation(request: Request) = {

@@ -7,13 +7,10 @@ import {Game, Emotions} from "../../../entity";
     styleUrls: ['game-list-view.component.css'],
     standalone: false
 })
-export class GameListViewComponent implements OnInit {
+export class GameListViewComponent  {
 
   @Output()
   onGameDelete = new EventEmitter<Game>()
-
-  @Input()
-  rowGameList: Game[]
 
   @Input()
   size = "Grid"
@@ -21,26 +18,8 @@ export class GameListViewComponent implements OnInit {
   @Input()
   gamelist: Game[]
 
-
-  sort() {
-    this.gamelist.sort((a, b) => a.name.localeCompare(b.name))
-  }
-
-  sortEmotion() {
-    this.gamelist.sort((a, b) => Emotions[b.emotion].value - Emotions[a.emotion].value)
-  }
-
-
-  clearFilter() {
-    this.gamelist = this.rowGameList
-  }
-
   gameDelete(game: Game) {
     this.onGameDelete.emit(game)
-  }
-
-  ngOnInit(): void {
-    this.rowGameList = this.gamelist
   }
 
 }

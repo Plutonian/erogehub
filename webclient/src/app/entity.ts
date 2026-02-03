@@ -137,7 +137,7 @@ export interface TagGroupItem extends GroupItem {
 
 
 export interface EmotionGroupItem extends GroupItem {
-  emotion: string
+  emotion: number
 }
 
 export interface LocationGroupItem extends GroupItem {

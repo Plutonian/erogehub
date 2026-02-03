@@ -70,8 +70,10 @@ export class PlayStatePipl {
 })
 export class EmotionJPPipe {
 
-  transform(emotion: string) {
-    return Emotions[`${emotion}`].name
+  transform(emotion: number | string) {
+    const emotionValue = Number(emotion)
+    const key = Object.keys(Emotions).find(k => Emotions[k].value === emotionValue)
+    return key ? Emotions[key].name : String(emotion)
   }
 
 }

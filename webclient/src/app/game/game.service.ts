@@ -54,6 +54,10 @@ export class GameService {
     return this.httpClient.get(`http://${environment.APP_SERVER}/api/game/groupByCV?filter=${filter}`)
   }
 
+  groupByTrueCV(filter: string) {
+    return this.httpClient.get(`http://${environment.APP_SERVER}/api/game/groupByTrueCV?filter=${filter}`)
+  }
+
   groupByTag(filter: string) {
     return this.httpClient.get(`http://${environment.APP_SERVER}/api/game/groupByTag?filter=${filter}`)
   }

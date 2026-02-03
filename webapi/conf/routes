@@ -27,6 +27,7 @@ PUT           /api/game/normal/:brandId                   api.GameController.nor
 
 GET           /api/game/query                             api.GameController.query(request: play.mvc.Http.Request)
 GET           /api/game/groupByCV                         api.GameController.groupByCV(request: play.mvc.Http.Request)
+GET           /api/game/groupByTrueCV                     api.GameController.groupByTrueCV(request: play.mvc.Http.Request)
 GET           /api/game/groupByEmotion                    api.GameController.groupByEmotion(request: play.mvc.Http.Request)
 GET           /api/game/groupByLocation                   api.GameController.groupByLocation(request: play.mvc.Http.Request)
 GET           /api/game/groupByPlayState                  api.GameController.groupByPlayState(request: play.mvc.Http.Request)

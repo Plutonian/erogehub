@@ -33,12 +33,14 @@ export class GameSearchComponent implements OnInit {
   selectedDatePreset = 'ALL'
   customDateRange: DateRangeValue = { startDate: '', endDate: '' }
   currentDateRange: DateRangeValue = { startDate: '', endDate: '' }
+  dateRangeEnabled: boolean = true
 
   // 聚合数据
   emotionGroup: EmotionGroupItem[]
   tagGroup: TagGroupItem[]
   brandGroup: BrandGroupItem[]
   cvGroup: CVGroupItem[]
+  trueCVGroup: CVGroupItem[]
   starGroup: StarGroupItem[]
   locationGroup: LocationGroupItem[]
   playStateGroup: PlayStateGroupItem[]
@@ -100,6 +102,15 @@ export class GameSearchComponent implements OnInit {
   onCVSelect(cv: string) {
     this.includedAdvSearchOpts.push({
       key: SEARCHTYPE.CV,
+      value: cv,
+      enabled: true,
+      filter: FILTER.Include
+    })
+  }
+
+  onTrueCVSelect(cv: string) {
+    this.includedAdvSearchOpts.push({
+      key: SEARCHTYPE.TRUECV,
       value: cv,
       enabled: true,
       filter: FILTER.Include
@@ -176,6 +187,9 @@ export class GameSearchComponent implements OnInit {
 
     this.service.groupByCV(json)
       .subscribe((data: CVGroupItem[]) => this.cvGroup = data)
+
+    this.service.groupByTrueCV(json)
+      .subscribe((data: CVGroupItem[]) => this.trueCVGroup = data)
 
     this.service.groupByStar(json)
       .subscribe((data: StarGroupItem[]) => this.starGroup = data)
@@ -306,6 +320,11 @@ export class GameSearchComponent implements OnInit {
               ret.$and.push({"gamechar.cv": isExclude ? {"$not": cvVal} : cvVal})
               break
             }
+            case SEARCHTYPE.TRUECV: {
+              const truecvVal = {"$regex": String(searchOpt.value)}
+              ret.$and.push({"gamechar.truecv": isExclude ? {"$not": truecvVal} : truecvVal})
+              break
+            }
             case SEARCHTYPE.BRAND: {
               const brandVal = {"$regex": String(searchOpt.value)}
               ret.$and.push({"brand.name": isExclude ? {"$not": brandVal} : brandVal})
@@ -315,7 +334,7 @@ export class GameSearchComponent implements OnInit {
         })
 
     // 添加日期范围查询
-    if (this.selectedDatePreset !== 'ALL' && (this.currentDateRange.startDate || this.currentDateRange.endDate)) {
+    if (this.dateRangeEnabled && this.selectedDatePreset !== 'ALL' && (this.currentDateRange.startDate || this.currentDateRange.endDate)) {
       if (ret.$and == undefined) {
         ret.$and = []
       }

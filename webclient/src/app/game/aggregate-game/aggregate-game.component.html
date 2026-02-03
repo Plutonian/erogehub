@@ -1,8 +1,8 @@
 <nz-collapse nzAccordion>
-    <nz-collapse-panel [nzHeader]="'品牌'">
+    <nz-collapse-panel [nzHeader]="'品牌'" class="scrollable-panel">
         <app-group-brand [brandGroup]="brandGroup" (onBrandSelected)="onBrandSelected.emit($event)"></app-group-brand>
     </nz-collapse-panel>
-    <nz-collapse-panel [nzHeader]="'Tag'">
+    <nz-collapse-panel [nzHeader]="'Tag'" class="scrollable-panel">
         <app-group-tag [tagGroup]="tagGroup" (onTagSelect)="onTagSelect.emit($event)"></app-group-tag>
     </nz-collapse-panel>
     <nz-collapse-panel [nzHeader]="'日期'">
@@ -24,8 +24,11 @@
                             (onPlayStateSelected)="onPlayStateSelected.emit($event)"></app-group-playstate>
     </nz-collapse-panel>
 
-    <nz-collapse-panel [nzHeader]="'声优'">
+    <nz-collapse-panel [nzHeader]="'声优'" class="scrollable-panel">
         <app-group-cv [cvGroup]="cvGroup" (onCVSelected)="onCVSelect.emit($event)"></app-group-cv>
+    </nz-collapse-panel>
+    <nz-collapse-panel [nzHeader]="'去马甲CV'" class="scrollable-panel">
+        <app-group-cv [cvGroup]="trueCVGroup" (onCVSelected)="onTrueCVSelect.emit($event)"></app-group-cv>
     </nz-collapse-panel>
     <nz-collapse-panel [nzHeader]="'星级'">
         <app-group-star [starGroup]="starGroup" (onStarSelect)="onStarSelect.emit($event)"></app-group-star>

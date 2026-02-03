@@ -183,6 +183,7 @@ export enum SEARCHTYPE {
   PAINTER,
   WRITER,
   CV,
+  TRUECV,
   BRAND
 }
 

@@ -218,6 +218,35 @@ class GameController extends Controller {
     ok(Json.toJson(cvlist)).asJson()
   }
 
+  def groupByTrueCV(request: Request) = {
+    val where = request.queryString("filter").orElseThrow()
+
+    val pipeline = List(
+      Aggregates.`match`(BsonDocument.parse(where)),
+      Aggregates.unwind("$gamechar"),
+      Aggregates.`match`(Filters.and(
+        Filters.ne("gamechar.truecv", null),
+        Filters.ne("gamechar.truecv", "")
+      )),
+      Aggregates.group("$gamechar.truecv", Accumulators.sum("count", 1)),
+      Aggregates.sort(Sorts.descending("count")),
+      Aggregates.project(Projections.fields(
+        Projections.computed("title", "$_id"),
+        Projections.include("count"),
+        Projections.excludeId()
+      ))
+    ).asJava
+
+    val results = GameQuery()
+      .aggregate(pipeline)
+      .asScala
+      .to(LazyList)
+      .map(doc => SampleCVItem(doc.getString("title"), doc.getInteger("count"), true))
+      .asJava
+
+    ok(Json.toJson(results)).asJson()
+  }
+
   def groupByTag(request: Request) = {
     val where = request.queryString("filter").orElseThrow()
 

@@ -7,14 +7,15 @@
             <div class="date-range-section">
                 <div class="date-range-header">
                     <span class="date-range-label">发布日期</span>
-                    <nz-select nzSize="small" [(ngModel)]="selectedDatePreset" (ngModelChange)="onDatePresetChange()" class="date-range-preset-select">
+                    <nz-select nzSize="small" [(ngModel)]="selectedDatePreset" (ngModelChange)="onDatePresetChange()" class="date-range-preset-select" [disabled]="!dateRangeEnabled">
                         <nz-option *ngFor="let preset of dateRangePresets" [nzValue]="preset.key" [nzLabel]="preset.label"></nz-option>
                     </nz-select>
+                    <nz-switch [(ngModel)]="dateRangeEnabled" nzCheckedChildren="E" nzUnCheckedChildren="D"></nz-switch>
                 </div>
                 <div *ngIf="selectedDatePreset === 'CUSTOM'" class="date-range-inputs">
-                    <input type="date" [(ngModel)]="customDateRange.startDate" (ngModelChange)="onCustomDateChange()" nz-input nzSize="small" class="date-input"/>
+                    <input type="date" [(ngModel)]="customDateRange.startDate" (ngModelChange)="onCustomDateChange()" nz-input nzSize="small" class="date-input" [disabled]="!dateRangeEnabled"/>
                     <span class="date-separator">~</span>
-                    <input type="date" [(ngModel)]="customDateRange.endDate" (ngModelChange)="onCustomDateChange()" nz-input nzSize="small" class="date-input"/>
+                    <input type="date" [(ngModel)]="customDateRange.endDate" (ngModelChange)="onCustomDateChange()" nz-input nzSize="small" class="date-input" [disabled]="!dateRangeEnabled"/>
                 </div>
                 <div *ngIf="selectedDatePreset !== 'ALL' && selectedDatePreset !== 'CUSTOM'" class="date-range-info">
                     <small>当前范围: {{currentDateRange.startDate}} ~ {{currentDateRange.endDate}}</small>
@@ -52,6 +53,7 @@
                            [tagGroup]="tagGroup"
                            [brandGroup]="brandGroup"
                            [cvGroup]="cvGroup"
+                           [trueCVGroup]="trueCVGroup"
                            [starGroup]="starGroup"
                            [locationGroup]="locationGroup"
                            [playStateGroup]="playStateGroup"
@@ -62,6 +64,7 @@
                            (onLocationSelected)="onLocationSelected($event)"
                            (onPlayStateSelected)="onPlayStateSelected($event)"
                            (onCVSelect)="onCVSelect($event)"
+                           (onTrueCVSelect)="onTrueCVSelect($event)"
                            (onStarSelect)="onStarSelect($event)">
         </app-aggregate-game>
     </nz-sider>

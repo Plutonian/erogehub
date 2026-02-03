@@ -35,6 +35,9 @@ export class AggregateGameComponent {
     cvGroup: CVGroupItem[]
 
     @Input()
+    trueCVGroup: CVGroupItem[]
+
+    @Input()
     starGroup: StarGroupItem[]
 
     @Input()
@@ -60,6 +63,9 @@ export class AggregateGameComponent {
 
     @Output()
     onCVSelect = new EventEmitter<string>()
+
+    @Output()
+    onTrueCVSelect = new EventEmitter<string>()
 
     @Output()
     onStarSelect = new EventEmitter<number>()

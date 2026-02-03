@@ -146,50 +146,50 @@ export const routes: Route[] = [
                     breadcrumb: 'search'
                 }
             },
-            {
-                path: 'star/:star', component: ByStarComponent, data: {
-                    breadcrumb: 'star'
-                }
-            },
-            {
-                path: 'date/:start/:end', component: ByDateComponent, data: {
-                    breadcrumb: 'date'
-                }
-            },
-            {
-                path: 'tag/:tag', component: ByTagComponent, data: {
-                    breadcrumb: 'tag'
-                }
-            },
-            {
-                path: 'painter/:painter', component: ByPainterComponent, data: {
-                    breadcrumb: 'painter'
-                }
-            }, {
-                path: 'writer/:writer', component: ByWriterComponent, data: {
-                    breadcrumb: 'writer'
-                }
-            },
-            {
-                path: 'emotion/:emotion', component: ByEmotionComponent, data: {
-                    breadcrumb: 'emotion'
-                }
-            },
-            {
-                path: 'playState/:playState', component: ByPlaystateComponent, data: {
-                    breadcrumb: 'playState'
-                }
-            },
-            {
-                path: 'location/:location', component: ByLocationComponent, data: {
-                    breadcrumb: 'location'
-                }
-            },
-            {
-                path: 'cv/:cv/:real', component: ByCVComponent, data: {
-                    breadcrumb: 'cv'
-                }
-            },
+            // {
+            //     path: 'star/:star', component: ByStarComponent, data: {
+            //         breadcrumb: 'star'
+            //     }
+            // },
+            // {
+            //     path: 'date/:start/:end', component: ByDateComponent, data: {
+            //         breadcrumb: 'date'
+            //     }
+            // },
+            // {
+            //     path: 'tag/:tag', component: ByTagComponent, data: {
+            //         breadcrumb: 'tag'
+            //     }
+            // },
+            // {
+            //     path: 'painter/:painter', component: ByPainterComponent, data: {
+            //         breadcrumb: 'painter'
+            //     }
+            // }, {
+            //     path: 'writer/:writer', component: ByWriterComponent, data: {
+            //         breadcrumb: 'writer'
+            //     }
+            // },
+            // {
+            //     path: 'emotion/:emotion', component: ByEmotionComponent, data: {
+            //         breadcrumb: 'emotion'
+            //     }
+            // },
+            // {
+            //     path: 'playState/:playState', component: ByPlaystateComponent, data: {
+            //         breadcrumb: 'playState'
+            //     }
+            // },
+            // {
+            //     path: 'location/:location', component: ByLocationComponent, data: {
+            //         breadcrumb: 'location'
+            //     }
+            // },
+            // {
+            //     path: 'cv/:cv/:real', component: ByCVComponent, data: {
+            //         breadcrumb: 'cv'
+            //     }
+            // },
             {
                 path: 'query/:filter', component: QueryComponent, data: {
                     breadcrumb: 'filter'

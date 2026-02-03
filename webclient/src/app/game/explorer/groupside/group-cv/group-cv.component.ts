@@ -1,5 +1,5 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {CVGroupItem} from "../../../../entity";
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {CVGroupItem, EmotionGroupItem} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
 @Component({
@@ -11,25 +11,32 @@ import {GameService} from "../../../game.service";
 export class GroupCvComponent implements OnChanges {
 
 
-  @Input()
-  filter
+    @Input()
+    filter
 
-  cvGroup: CVGroupItem[]
+    cvGroup: CVGroupItem[]
+
+    @Output()
+    onCVSelected = new EventEmitter<string>()
 
 
-  constructor(private service: GameService) {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-
-    const filter = this.filter
-
-    if (filter) {
-
-      this.service.groupByCV(filter)
-        .subscribe((data: CVGroupItem[]) => this.cvGroup = data)
-
+    constructor(private service: GameService) {
     }
-  }
+
+    ngOnChanges(changes: SimpleChanges): void {
+
+        const filter = this.filter
+
+        if (filter) {
+
+            this.service.groupByCV(filter)
+                .subscribe((data: CVGroupItem[]) => this.cvGroup = data)
+
+        }
+    }
+
+    cvSelect(item: CVGroupItem) {
+        this.onCVSelected.emit(item.title)
+    }
 
 }

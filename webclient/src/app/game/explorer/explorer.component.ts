@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Brand, Game} from "../../entity";
 import {GameService} from "../game.service";
+import {DataQuery} from "../query/DataQuery";
 
 
 @Component({
@@ -9,39 +10,40 @@ import {GameService} from "../game.service";
     styleUrls: ['explorer.component.css'],
     standalone: false
 })
-export class ExplorerComponent implements OnChanges {
+export class ExplorerComponent extends DataQuery implements OnChanges {
 
-  rowGameList: Game[]
+  // rowGameList: Game[]
 
-  @Input()
-  filter
+  // @Input()
+  // filter
 
-  gamelist: Game[]
+  // gamelist: Game[]
 
   constructor(private service: GameService) {
+      super();
   }
 
-
-  onBrandSelected(brand: Brand) {
-
-    this.gamelist = this.rowGameList.filter(g => g.brand.id == brand.id)
-
-  }
-
-  onEmotionSelected(emotion: string) {
-    this.gamelist = this.rowGameList.filter(g => g.emotion == emotion)
-  }
-
-  onGameDelete(game: Game) {
-
-    console.log(game);
-    this.gamelist = this.gamelist.filter(g => g.id != game.id)
-    this.rowGameList = this.rowGameList.filter(g => g.id != game.id)
-  }
-
-  onLocationSelected(location: string) {
-    this.gamelist = this.rowGameList.filter(g => g.location == location)
-  }
+  //
+  // onBrandSelected(brand: Brand) {
+  //
+  //   this.gamelist = this.rowGameList.filter(g => g.brand.id == brand.id)
+  //
+  // }
+  //
+  // onEmotionSelected(emotion: string) {
+  //   this.gamelist = this.rowGameList.filter(g => g.emotion == emotion)
+  // }
+  //
+  // onGameDelete(game: Game) {
+  //
+  //   console.log(game);
+  //   this.gamelist = this.gamelist.filter(g => g.id != game.id)
+  //   this.rowGameList = this.rowGameList.filter(g => g.id != game.id)
+  // }
+  //
+  // onLocationSelected(location: string) {
+  //   this.gamelist = this.rowGameList.filter(g => g.location == location)
+  // }
 
 
   ngOnChanges(changes: SimpleChanges): void {

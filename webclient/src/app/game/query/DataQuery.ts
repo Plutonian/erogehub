@@ -1,8 +1,16 @@
 import {Brand, Game} from "../../entity";
+import {Component, Input} from "@angular/core";
 
-export class DataQuery {
+@Component({
+  // selector: '',
+  standalone: true,
+  template: '',
+  // styleUrl: './tag-search.component.css'
+})
+export abstract class DataQuery {
   rowGameList: Game[]
 
+  @Input()
   filter
 
   gamelist: Game[]
@@ -34,5 +42,9 @@ export class DataQuery {
 
   onTagSelect(tag: string) {
     this.gamelist = this.rowGameList.filter(g => g.tag.includes(tag))
+  }
+
+  onCVSelect(cv: string) {
+    this.gamelist = this.rowGameList.filter(g => g.gameCharacters?.map(c=>c.trueCV).includes(cv))
   }
 }

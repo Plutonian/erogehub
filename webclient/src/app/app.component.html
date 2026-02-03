@@ -7,81 +7,76 @@
             <span><a routerLink="/">Home</a></span>
           </li>
           <li nz-menu-item>
-            <span nz-icon nzType="search" nzTheme="outline"></span>
+            <span nz-icon nzType="Game" nzTheme="outline"></span>
             <span><a routerLink="/game/search">Search</a></span>
           </li>
 
-          <li nz-submenu nzTitle="Date" nzIcon="calendar" nzOpen>
-            <ul>
-              <li nz-menu-item *ngIf="thisYear"
-                  nz-popover
-                  [nzPopoverContent]="month">
-                <a routerLink="/game/date/{{thisYear.range.start}}/{{thisYear.range.end}}">今年</a>
-              </li>
-              <li nz-menu-item *ngIf="thisMonth">
-                <a routerLink="/game/date/{{thisMonth.range.start}}/{{thisMonth.range.end}}">今月</a>
-              </li>
-              <li nz-submenu nzTitle="Years">
-                <ul>
-                  <li nzMatchRouter nz-menu-item *ngFor="let date of nearDates"><a
-                    routerLink="/game/date/{{date.range.start}}/{{date.range.end}}"
-                  >{{date.title}}</a></li>
-                  <li nz-submenu nzTitle="Old">
-                    <ul>
-                      <li nz-menu-item *ngFor="let date of oldDates"><a (click)="jump(date)">{{date.title}}</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li nz-menu-item>
-            <span nz-icon nzType="play-circle" nzTheme="outline"></span>
-            <span>
-              <a routerLink="/game/playState/PLAYING">{{"PLAYING" | playStateJP}}</a>
-            </span>
-          </li>
-          <li nz-submenu nzTitle="Played" nzIcon="star">
-            <ul>
-              <li nzMatchRouter nz-menu-item>
-                <a routerLink="/game/playState/PLAYED">{{"PLAYED" | playStateJP}}</a>
-              </li>
-              <li nzMatchRouter nz-menu-item *ngFor="let star of stars">
-                <a routerLink="/game/star/{{star}}">{{star}}</a>
-              </li>
-            </ul>
-          </li>
-          <li nz-submenu nzTitle="Wishlist" nzIcon="heart">
-            <ul>
-              <li nzMatchRouter nz-menu-item *ngFor="let emotion of emotions"><a
-                routerLink="/game/emotion/{{emotion}}">{{emotion | emotionJP}}</a></li>
-            </ul>
-          </li>
-          <li nz-submenu nzTitle="Local" nzIcon="cloud">
-            <ul>
-              <li nzMatchRouter nz-menu-item *ngFor="let location of locations"><a
-                routerLink="/game/location/{{location}}">{{location | loc}}</a>
-              </li>
-            </ul>
-          </li>
-          <li nz-submenu nzTitle="Other" nzIcon="cloud">
-            <ul>
-              <li nzMatchRouter nz-menu-item>
+            <li nzMatchRouter nz-menu-item>
                 <span nz-icon nzType="search" nzTheme="outline"></span>
                 <span><a routerLink="/cv">CV</a></span>
-              </li>
-              <li nzMatchRouter nz-menu-item>
+            </li>
+            <li nzMatchRouter nz-menu-item>
                 <span nz-icon nzType="search" nzTheme="outline"></span>
                 <span><a routerLink="/tag">Tag</a></span>
-              </li>
-              <li nzMatchRouter nz-menu-item>
+            </li>
+            <li nzMatchRouter nz-menu-item>
                 <span nz-icon nzType="search" nzTheme="outline"></span>
                 <span><a routerLink="/brand">BRAND</a></span>
-              </li>
-            </ul>
+            </li>
 
-          </li>
-
+<!--          <li nz-submenu nzTitle="Date" nzIcon="calendar" nzOpen>-->
+<!--            <ul>-->
+<!--              <li nz-menu-item *ngIf="thisYear"-->
+<!--                  nz-popover-->
+<!--                  [nzPopoverContent]="month">-->
+<!--                <a routerLink="/game/date/{{thisYear.range.start}}/{{thisYear.range.end}}">今年</a>-->
+<!--              </li>-->
+<!--              <li nz-menu-item *ngIf="thisMonth">-->
+<!--                <a routerLink="/game/date/{{thisMonth.range.start}}/{{thisMonth.range.end}}">今月</a>-->
+<!--              </li>-->
+<!--              <li nz-submenu nzTitle="Years">-->
+<!--                <ul>-->
+<!--                  <li nzMatchRouter nz-menu-item *ngFor="let date of nearDates"><a-->
+<!--                    routerLink="/game/date/{{date.range.start}}/{{date.range.end}}"-->
+<!--                  >{{date.title}}</a></li>-->
+<!--                  <li nz-submenu nzTitle="Old">-->
+<!--                    <ul>-->
+<!--                      <li nz-menu-item *ngFor="let date of oldDates"><a (click)="jump(date)">{{date.title}}</a></li>-->
+<!--                    </ul>-->
+<!--                  </li>-->
+<!--                </ul>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </li>-->
+<!--          <li nz-menu-item>-->
+<!--            <span nz-icon nzType="play-circle" nzTheme="outline"></span>-->
+<!--            <span>-->
+<!--              <a routerLink="/game/playState/PLAYING">{{"PLAYING" | playStateJP}}</a>-->
+<!--            </span>-->
+<!--          </li>-->
+<!--          <li nz-submenu nzTitle="Played" nzIcon="star">-->
+<!--            <ul>-->
+<!--              <li nzMatchRouter nz-menu-item>-->
+<!--                <a routerLink="/game/playState/PLAYED">{{"PLAYED" | playStateJP}}</a>-->
+<!--              </li>-->
+<!--              <li nzMatchRouter nz-menu-item *ngFor="let star of stars">-->
+<!--                <a routerLink="/game/star/{{star}}">{{star}}</a>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </li>-->
+<!--          <li nz-submenu nzTitle="Wishlist" nzIcon="heart">-->
+<!--            <ul>-->
+<!--              <li nzMatchRouter nz-menu-item *ngFor="let emotion of emotions"><a-->
+<!--                routerLink="/game/emotion/{{emotion}}">{{emotion | emotionJP}}</a></li>-->
+<!--            </ul>-->
+<!--          </li>-->
+<!--          <li nz-submenu nzTitle="Local" nzIcon="cloud">-->
+<!--            <ul>-->
+<!--              <li nzMatchRouter nz-menu-item *ngFor="let location of locations"><a-->
+<!--                routerLink="/game/location/{{location}}">{{location | loc}}</a>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </li>-->
 
         </ul>
 
@@ -91,8 +86,8 @@
   </nz-content>
 </nz-layout>
 
-<ng-template #month>
-  <app-month-calendar [months]="months" (select)="jump($event)">
-  </app-month-calendar>
-</ng-template>
+<!--<ng-template #month>-->
+<!--  <app-month-calendar [months]="months" (select)="jump($event)">-->
+<!--  </app-month-calendar>-->
+<!--</ng-template>-->
 

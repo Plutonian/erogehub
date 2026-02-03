@@ -26,6 +26,9 @@ object CleanFieldDefaultTask {
     // 清洗 playState 字段
     cleanPlayState()
 
+
+    cleanStar()
+
     logger.info("Clean completed!")
   }
 
@@ -123,5 +126,37 @@ object CleanFieldDefaultTask {
     }
 
     logger.info(s"PlayState clean completed! Total updated: ${count}")
+  }
+
+  private def cleanStar(): Unit = {
+    logger.info("Start cleaning playState field...")
+
+    val games = GameQuery()
+      .find()
+      .filter(Filters.or(
+        Filters.exists("star", false),
+        Filters.eq("star", null)
+      ))
+      .asScala
+      .to(LazyList)
+
+    logger.info(s"Games to update star: ${games.size}")
+
+    var count = 0
+    games.foreach { game =>
+      count += 1
+      val id = game.getInteger("_id")
+
+      tpl.exec { documentMongoCollection =>
+        documentMongoCollection.updateOne(
+          Filters.eq("_id", id),
+          Updates.set("star", 0)
+        )
+      }
+
+      logger.info(s"[${count}] Game ID: ${id}, set star = 0")
+    }
+
+    logger.info(s"star clean completed! Total updated: ${count}")
   }
 }

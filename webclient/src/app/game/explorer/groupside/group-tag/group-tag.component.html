@@ -1,4 +1,4 @@
-<section class="flex_row flex_float gap-20" *ngIf="tagGroup?.length>0">
+<section class="flex_row flex_float gap-20" style="max-height: 400px" *ngIf="tagGroup?.length>0">
   <nz-badge *ngFor="let item of tagGroup" [nzCount]="item.count">
     <nz-tag [nzColor]="'#FFABD3'" style="color:#000;" (click)="select(item.title)">
       {{item.title}}

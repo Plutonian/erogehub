@@ -188,34 +188,30 @@ class GameController extends Controller {
   def groupByCV(request: Request) = {
     val where = request.queryString("filter").orElseThrow()
 
-    val list = GameFullWebQuery().where(BsonDocument.parse(where).preProcess()).scalaList()
+    val pipeline = List(
+      Aggregates.`match`(BsonDocument.parse(where)),
+      Aggregates.unwind("$gamechar"),
+      Aggregates.`match`(Filters.and(
+        Filters.ne("gamechar.cv", null),
+        Filters.ne("gamechar.cv", "")
+      )),
+      Aggregates.group("$gamechar.cv", Accumulators.sum("count", 1)),
+      Aggregates.sort(Sorts.descending("count")),
+      Aggregates.project(Projections.fields(
+        Projections.computed("title", "$_id"),
+        Projections.include("count"),
+        Projections.excludeId()
+      ))
+    ).asJava
 
-    val cvlist = list.to(LazyList)
+    val results = GameQuery()
+      .aggregate(pipeline)
+      .asScala
+      .to(LazyList)
+//      .map(doc => SampleCVItem(doc.getString("title"), doc.getInteger("count"), false))
+      .asJava
 
-      //skip all empty gameCharacters
-      .filter(g => Option(g.gameCharacters).map(_.size()).getOrElse(0) > 0)
-      .flatMap { g =>
-        g.gameCharacters.asScala.to(LazyList)
-          .map { case GameCharacter(_, cv, _, trueCV, _, _) =>
-
-            if (Strings.isNotEmpty(trueCV))
-              (s"$trueCV", true)
-            else
-              (s"$cv", false)
-          }
-      }
-      //skip all none cv or empty cv
-      .filter { case ((name, _)) => Strings.isNotEmpty(name) }
-
-      .groupBy(s => s).to(LazyList)
-      .sortBy { case (_, count) => count.size }.reverse
-      //        .take(20)
-      .map { case ((cv, isReal), games) =>
-        SampleCVItem(cv, games.size, isReal)
-      }.asJava
-
-
-    ok(Json.toJson(cvlist)).asJson()
+    ok(Json.toJson(results)).asJson()
   }
 
   def groupByTrueCV(request: Request) = {
@@ -241,7 +237,7 @@ class GameController extends Controller {
       .aggregate(pipeline)
       .asScala
       .to(LazyList)
-      .map(doc => SampleCVItem(doc.getString("title"), doc.getInteger("count"), true))
+//      .map(doc => SampleCVItem(doc.getString("title"), doc.getInteger("count"), true))
       .asJava
 
     ok(Json.toJson(results)).asJson()

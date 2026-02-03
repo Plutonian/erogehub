@@ -143,7 +143,6 @@ export interface PlayStateGroupItem extends GroupItem {
 }
 
 export interface CVGroupItem extends GroupItem {
-  real: Boolean
 }
 
 interface CompositeGroupItem extends GroupItem {

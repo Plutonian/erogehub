@@ -1,7 +1,7 @@
 <div *ngIf="game">
 
 <!--    <nz-affix [nzOffsetTop]="0">-->
-    <nz-page-header [class.HATE]="game.emotion =='HATE'" id="top"
+    <nz-page-header [class.HATE]="game._emotion ==Emotion.HATE" id="top"
                     >
         <nz-page-header-title>
             <app-game-playstate-change [game]="game"></app-game-playstate-change>

@@ -1,6 +1,6 @@
 <nz-card [nzActions]="[playState, emotion,markSame,date]"
          [nzBodyStyle]="{padding:0,flex:1}"
-         [class.HATE]="game.emotion =='HATE'"
+         [class.HATE]="game._emotion ==Emotion.HATE"
          class="flex_column game">
   <div class="flex_row">
 <!--    <main class="anchor_parent">-->

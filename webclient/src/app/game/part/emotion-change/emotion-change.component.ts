@@ -19,7 +19,7 @@ export class EmotionChangeComponent implements OnInit {
 
 
   updateEmotion() {
-    const emotionValue = Number(this.game.emotion);
+    const emotionValue = this.game._emotion.valueOf();
     console.log(emotionValue);
 
     this.gameService.changeEmotion(this.game.id, emotionValue)
@@ -33,4 +33,6 @@ export class EmotionChangeComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+    protected readonly Emotion = Emotion;
 }

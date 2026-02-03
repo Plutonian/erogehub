@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Game} from "../../../../entity";
+import {Emotion, Game} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
 const ColorMap = {
@@ -60,4 +60,6 @@ export class GridCellComponent implements OnInit {
     fillLocation() {
         return ColorMap[this.game?.playState]
     }
+
+    protected readonly Emotion = Emotion;
 }

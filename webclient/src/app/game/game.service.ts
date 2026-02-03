@@ -8,7 +8,7 @@ export class GameService {
   constructor(private httpClient: HttpClient) {
   }
 
-  info(id: Number) {
+  info(id: number) {
     // @ts-ignore
     return this.httpClient.get(`http://${environment.APP_SERVER}/api/game/detail/${id}`)
   }
@@ -31,11 +31,11 @@ export class GameService {
     )
   }
 
-  delete(id: Number) {
+  delete(id: number) {
     return this.httpClient.delete(`http://${environment.APP_SERVER}/api/game/${id}`)
   }
 
-  updateTags(id: Number, tags: string[]) {
+  updateTags(id: number, tags: string[]) {
     return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/updateTags`, {
       "tags": tags
     })
@@ -75,25 +75,25 @@ export class GameService {
   //   return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/state/${state}`, null)
   // }
 
-  markSame(id: Number, isSame: boolean) {
+  markSame(id: number, isSame: boolean) {
     return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/mark/${isSame}`, null)
   }
 
-  changeEmotion(id: Number, emotion: Number) {
+  changeEmotion(id: number, emotion: number) {
     return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/emotion/${emotion}`, null)
   }
 
-  changePlayState(id: Number, state: Number) {
+  changePlayState(id: number, state: number) {
     return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/playstate/${state}`, null)
   }
 
 
-  changeStar(id: Number, star: Number) {
+  changeStar(id: number, star: number) {
     return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/star/${star}`, null)
   }
 
 
-  changeLocation(id: Number, location: Number) {
+  changeLocation(id: number, location: number) {
     return this.httpClient.put(`http://${environment.APP_SERVER}/api/game/${id}/location/${location}`, null)
   }
 

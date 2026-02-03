@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Game} from "../../../../entity";
+import {Emotion, Game} from "../../../../entity";
 import {GameService} from "../../../game.service";
 
 @Component({
@@ -34,4 +34,5 @@ export class ListCellComponent implements OnInit {
 
   }
 
+    protected readonly Emotion = Emotion;
 }

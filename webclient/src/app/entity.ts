@@ -9,7 +9,8 @@ export interface Game {
   brand: Brand
   story: string
   intro: string
-  emotion: string
+  emotion: number
+  _emotion: Emotion
   playState: string
   location: string
   star: number

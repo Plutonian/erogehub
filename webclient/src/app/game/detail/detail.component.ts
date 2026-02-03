@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {Game} from "../../entity";
+import {Emotion, Game} from "../../entity";
 import {GameService} from "../game.service";
 import {ActivatedRoute} from "@angular/router";
 import {Title} from "@angular/platform-browser";
@@ -121,6 +121,7 @@ export class DetailComponent implements OnInit {
 
   }
 
+    protected readonly Emotion = Emotion;
 }
 
 

@@ -221,3 +221,72 @@ export const GameLocation = {
   REMOTE: {name: "Remote", value: 0},
   LOCAL: {name: "Local", value: 1}
 }
+
+export interface DateRangeValue {
+  startDate: string  // 格式: YYYY-MM-DD
+  endDate: string    // 格式: YYYY-MM-DD
+}
+
+export interface DateRangePreset {
+  label: string
+  key: string
+}
+
+export const DateRangePresets: DateRangePreset[] = [
+  { label: "全部", key: "ALL" },
+  { label: "今月", key: "THIS_MONTH" },
+  { label: "今年", key: "THIS_YEAR" },
+  { label: "最近3个月", key: "RECENT_3_MONTHS" },
+  { label: "最近半年", key: "RECENT_HALF_YEAR" },
+  { label: "去年", key: "LAST_YEAR" },
+  { label: "上一个月", key: "LAST_MONTH" },
+  { label: "自定义", key: "CUSTOM" }
+]
+
+export function getDateRange(presetKey: string): { startDate: string, endDate: string } {
+  const now = new Date()
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
+
+  switch (presetKey) {
+    case 'THIS_MONTH': {
+      const start = new Date(now.getFullYear(), now.getMonth(), 1)
+      const end = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+      return { startDate: formatDate(start), endDate: formatDate(end) }
+    }
+    case 'THIS_YEAR': {
+      const start = new Date(now.getFullYear(), 0, 1)
+      const end = new Date(now.getFullYear(), 11, 31)
+      return { startDate: formatDate(start), endDate: formatDate(end) }
+    }
+    case 'RECENT_3_MONTHS': {
+      const start = new Date(now.getFullYear(), now.getMonth() - 2, 1)
+      const end = new Date()
+      return { startDate: formatDate(start), endDate: formatDate(end) }
+    }
+    case 'RECENT_HALF_YEAR': {
+      const start = new Date(now.getFullYear(), now.getMonth() - 5, 1)
+      const end = new Date()
+      return { startDate: formatDate(start), endDate: formatDate(end) }
+    }
+    case 'LAST_YEAR': {
+      const lastYear = now.getFullYear() - 1
+      const start = new Date(lastYear, 0, 1)
+      const end = new Date(lastYear, 11, 31)
+      return { startDate: formatDate(start), endDate: formatDate(end) }
+    }
+    case 'LAST_MONTH': {
+      const start = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+      const end = new Date(now.getFullYear(), now.getMonth(), 0)
+      return { startDate: formatDate(start), endDate: formatDate(end) }
+    }
+    case 'ALL':
+    case 'CUSTOM':
+    default:
+      return { startDate: '', endDate: '' }
+  }
+}

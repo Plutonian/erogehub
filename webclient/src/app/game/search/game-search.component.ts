@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FILTER, Game, SearchOpt, SEARCHTYPE, Emotions, GamePlayStates, GameLocation} from "../../entity";
+import {FILTER, Game, SearchOpt, SEARCHTYPE, Emotions, GamePlayStates, GameLocation, DateRangePreset, DateRangeValue, DateRangePresets, getDateRange} from "../../entity";
 import {GameService} from "../game.service";
 
 @Component({
@@ -22,6 +22,12 @@ export class GameSearchComponent implements OnInit {
 
   includedAdvSearchOpts: SearchOpt[] = []
   excludedAdvSearchOpts: SearchOpt[] = []
+
+  // 日期范围相关
+  dateRangePresets = DateRangePresets
+  selectedDatePreset = 'ALL'
+  customDateRange: DateRangeValue = { startDate: '', endDate: '' }
+  currentDateRange: DateRangeValue = { startDate: '', endDate: '' }
 
   ngOnInit(): void {
   }
@@ -209,6 +215,26 @@ export class GameSearchComponent implements OnInit {
           }
         })
 
+    // 添加日期范围查询
+    if (this.selectedDatePreset !== 'ALL' && (this.currentDateRange.startDate || this.currentDateRange.endDate)) {
+      if (ret.$and == undefined) {
+        ret.$and = []
+      }
+
+      const dateQuery: any = {}
+
+      if (this.currentDateRange.startDate) {
+        const start = Date.parse(`${this.currentDateRange.startDate} 00:00:00`)
+        dateQuery.$gte = {"$date": start}
+      }
+      if (this.currentDateRange.endDate) {
+        const end = Date.parse(`${this.currentDateRange.endDate} 23:59:59`)
+        dateQuery.$lte = {"$date": end}
+      }
+
+      ret.$and.push({"publishDate": dateQuery})
+    }
+
     let jsString = JSON.stringify(ret)
 
     console.log(jsString)
@@ -222,6 +248,31 @@ export class GameSearchComponent implements OnInit {
       this.includedAdvSearchOpts.push(searchOpt)
     } else {
       this.excludedAdvSearchOpts.push(searchOpt)
+    }
+  }
+
+  // 日期范围相关方法
+  onDatePresetChange() {
+    if (this.selectedDatePreset === 'CUSTOM') {
+      // 清空当前范围，等待用户手动输入
+      this.currentDateRange = { startDate: '', endDate: '' }
+    } else if (this.selectedDatePreset === 'ALL') {
+      this.currentDateRange = { startDate: '', endDate: '' }
+    } else {
+      // 使用预设值
+      const range = getDateRange(this.selectedDatePreset)
+      this.currentDateRange = range
+    }
+  }
+
+  onCustomDateChange() {
+    if (this.customDateRange.startDate || this.customDateRange.endDate) {
+      this.currentDateRange = {
+        startDate: this.customDateRange.startDate,
+        endDate: this.customDateRange.endDate
+      }
+    } else {
+      this.currentDateRange = { startDate: '', endDate: '' }
     }
   }
 

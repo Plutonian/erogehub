@@ -2,6 +2,24 @@
     <nz-sider [nzWidth]="350">
         <nz-card nzTitle="Search" [nzExtra]="selectMark">
 
+            <!-- 日期范围筛选 -->
+            <div class="date-range-section">
+                <div class="date-range-header">
+                    <span class="date-range-label">发布日期</span>
+                    <nz-select nzSize="small" [(ngModel)]="selectedDatePreset" (ngModelChange)="onDatePresetChange()" class="date-range-preset-select">
+                        <nz-option *ngFor="let preset of dateRangePresets" [nzValue]="preset.key" [nzLabel]="preset.label"></nz-option>
+                    </nz-select>
+                </div>
+                <div *ngIf="selectedDatePreset === 'CUSTOM'" class="date-range-inputs">
+                    <input type="date" [(ngModel)]="customDateRange.startDate" (ngModelChange)="onCustomDateChange()" nz-input nzSize="small" class="date-input"/>
+                    <span class="date-separator">~</span>
+                    <input type="date" [(ngModel)]="customDateRange.endDate" (ngModelChange)="onCustomDateChange()" nz-input nzSize="small" class="date-input"/>
+                </div>
+                <div *ngIf="selectedDatePreset !== 'ALL' && selectedDatePreset !== 'CUSTOM'" class="date-range-info">
+                    <small>当前范围: {{currentDateRange.startDate}} ~ {{currentDateRange.endDate}}</small>
+                </div>
+            </div>
+
             <nz-collapse>
                 <nz-collapse-panel [nzActive]="true" nzHeader="包含" class="all_width" [nzExtra]="addIncludeSearchOpt">
                     <div class="scrollableY">

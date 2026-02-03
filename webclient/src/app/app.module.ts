@@ -106,7 +106,7 @@ import {NzTypographyModule} from "ng-zorro-antd/typography";
 import {NgOptimizedImage} from "@angular/common";
 import {NzDrawerComponent, NzDrawerContentDirective} from "ng-zorro-antd/drawer";
 import {NzNoAnimationDirective} from "ng-zorro-antd/core/no-animation";
-import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
+import {NzSelectModule} from "ng-zorro-antd/select";
 import {
     SearchPageSearchOptItemComponent
 } from "./shared/tag-search-page-search-opt/search-page-search-opt-item.component";
@@ -302,7 +302,7 @@ export const routes: Route[] = [
         NzTableModule,
         NzDividerModule,
         NzTypographyModule,
-        NgOptimizedImage, NzDrawerComponent, NzDrawerContentDirective, NzNoAnimationDirective, NzSelectComponent, NzOptionComponent], providers: [
+        NgOptimizedImage, NzDrawerComponent, NzDrawerContentDirective, NzNoAnimationDirective, NzSelectModule], providers: [
         GameService,
         GuideService,
         BrandService,

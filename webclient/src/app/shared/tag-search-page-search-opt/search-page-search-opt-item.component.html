@@ -1,85 +1,37 @@
 <div>
-
     <nz-input-group [nzAddOnAfter]="searchOptFilter" [nzAddOnBefore]="searchOptType" nzSize="large">
-        @switch (searchOpt.filter){
-            @case (FILTER.Include){
-                <!-- 星级输入 -->
-                @if (isStarInput(searchOpt.key)){
-                    <div style="padding: 8px 12px;">
-                        <nz-rate [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" [nzAllowClear]="true"></nz-rate>
-                    </div>
-                }
-                <!-- 下拉选择（情感/位置/状态） -->
-                @else if (isSelectInput(searchOpt.key)){
-                    @switch (searchOpt.key){
-                        @case (SEARCHTYPE.EMOTION){
-                            <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 140px">
-                                <nz-option [nzValue]="Emotion.LIKE" nzLabel="好き"></nz-option>
-                                <nz-option [nzValue]="Emotion.HOPE" nzLabel="気になり"></nz-option>
-                                <nz-option [nzValue]="Emotion.NORMAL" nzLabel="..."></nz-option>
-                                <nz-option [nzValue]="Emotion.HATE" nzLabel="嫌い"></nz-option>
-                            </nz-select>
-                        }
-                        @case (SEARCHTYPE.LOCATION){
-                            <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 120px">
-                                <nz-option [nzValue]="Location.LOCAL" nzLabel="Local"></nz-option>
-                                <nz-option [nzValue]="Location.REMOTE" nzLabel="Remote"></nz-option>
-                            </nz-select>
-                        }
-                        @case (SEARCHTYPE.PLAYSTATE){
-                            <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 120px">
-                                <nz-option [nzValue]="PlayState.NOT_PLAY" nzLabel="..."></nz-option>
-                                <nz-option [nzValue]="PlayState.PLAYING" nzLabel="進行中"></nz-option>
-                                <nz-option [nzValue]="PlayState.PLAYED" nzLabel="プレイ済み"></nz-option>
-                            </nz-select>
-                        }
-                    }
-                }
-                <!-- 文本输入 -->
-                @else {
-                    <input [(ngModel)]="searchOpt.value" class="include" [disabled]="!searchOpt.enabled" nz-input/>
-                }
-            }
-            @default {
-                <!-- 星级输入 -->
-                @if (isStarInput(searchOpt.key)){
-                    <div style="padding: 8px 12px;">
-                        <nz-rate [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" [nzAllowClear]="true"></nz-rate>
-                    </div>
-                }
-                <!-- 下拉选择（情感/位置/状态） -->
-                @else if (isSelectInput(searchOpt.key)){
-                    @switch (searchOpt.key){
-                        @case (SEARCHTYPE.EMOTION){
-                            <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 140px">
-                                <nz-option [nzValue]="Emotion.LIKE" nzLabel="好き"></nz-option>
-                                <nz-option [nzValue]="Emotion.HOPE" nzLabel="気になり"></nz-option>
-                                <nz-option [nzValue]="Emotion.NORMAL" nzLabel="..."></nz-option>
-                                <nz-option [nzValue]="Emotion.HATE" nzLabel="嫌い"></nz-option>
-                            </nz-select>
-                        }
-                        @case (SEARCHTYPE.LOCATION){
-                            <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 120px">
-                                <nz-option [nzValue]="Location.LOCAL" nzLabel="Local"></nz-option>
-                                <nz-option [nzValue]="Location.REMOTE" nzLabel="Remote"></nz-option>
-                            </nz-select>
-                        }
-                        @case (SEARCHTYPE.PLAYSTATE){
-                            <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" style="width: 120px">
-                                <nz-option [nzValue]="PlayState.NOT_PLAY" nzLabel="..."></nz-option>
-                                <nz-option [nzValue]="PlayState.PLAYING" nzLabel="進行中"></nz-option>
-                                <nz-option [nzValue]="PlayState.PLAYED" nzLabel="プレイ済み"></nz-option>
-                            </nz-select>
-                        }
-                    }
-                }
-                <!-- 文本输入 -->
-                @else {
-                    <input [(ngModel)]="searchOpt.value" class="exclude" [disabled]="!searchOpt.enabled" nz-input/>
-                }
-            }
+        <!-- 星级输入 -->
+        @if (isStarInput(searchOpt.key)){
+            <div style="padding: 8px 12px;" [class]="getInputClass()">
+                <nz-rate [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" [nzAllowClear]="true"></nz-rate>
+            </div>
         }
-
+        <!-- 下拉选择（情感/位置/状态） -->
+        @else if (isSelectInput(searchOpt.key)){
+            <nz-select [(ngModel)]="searchOpt.value" [disabled]="!searchOpt.enabled" [class]="getInputClass()" style="width: 120px">
+                @switch (searchOpt.key){
+                    @case (SEARCHTYPE.EMOTION){
+                        <nz-option [nzValue]="Emotion.LIKE" nzLabel="好き"></nz-option>
+                        <nz-option [nzValue]="Emotion.HOPE" nzLabel="気になり"></nz-option>
+                        <nz-option [nzValue]="Emotion.NORMAL" nzLabel="..."></nz-option>
+                        <nz-option [nzValue]="Emotion.HATE" nzLabel="嫌い"></nz-option>
+                    }
+                    @case (SEARCHTYPE.LOCATION){
+                        <nz-option [nzValue]="Location.LOCAL" nzLabel="Local"></nz-option>
+                        <nz-option [nzValue]="Location.REMOTE" nzLabel="Remote"></nz-option>
+                    }
+                    @case (SEARCHTYPE.PLAYSTATE){
+                        <nz-option [nzValue]="PlayState.NOT_PLAY" nzLabel="..."></nz-option>
+                        <nz-option [nzValue]="PlayState.PLAYING" nzLabel="進行中"></nz-option>
+                        <nz-option [nzValue]="PlayState.PLAYED" nzLabel="プレイ済み"></nz-option>
+                    }
+                }
+            </nz-select>
+        }
+        <!-- 文本输入 -->
+        @else {
+            <input [(ngModel)]="searchOpt.value" [class]="getInputClass()" [disabled]="!searchOpt.enabled" nz-input/>
+        }
     </nz-input-group>
 </div>
 <ng-template #searchOptType>

@@ -243,43 +243,35 @@ export class GameSearchComponent implements OnInit {
             ret.$and = []
           }
 
-          const not = (val) => searchOpt.filter == FILTER.Exclude ? {"$not": val} : val
+          const isExclude = searchOpt.filter == FILTER.Exclude
 
           switch (searchOpt.key) {
             case SEARCHTYPE.REGEX: {
               let raw = {"$regex": searchOpt.value}
-              if (searchOpt.filter == FILTER.Exclude) {
-                ret.$and.push({"name": not(raw)})
-              } else {
-                ret.$and.push({"name": raw})
-              }
+              ret.$and.push({"name": isExclude ? {"$not": raw} : raw})
               break
             }
             case SEARCHTYPE.TEXT: {
               let raw = {"$search": searchOpt.value}
-              if (searchOpt.filter == FILTER.Exclude) {
-                ret.$and.push({"$text": not(raw)})
-              } else {
-                ret.$and.push({"$text": raw})
-              }
+              ret.$and.push({"$text": isExclude ? {"$not": raw} : raw})
               break
             }
             case SEARCHTYPE.TAG: {
               let raw = {"$regex": String(searchOpt.value).trim()}
-              ret.$and.push({"tag": not(raw)})
+              ret.$and.push({"tag": isExclude ? {"$not": raw} : raw})
               break
             }
             case SEARCHTYPE.STAR: {
               let starValue = parseInt(String(searchOpt.value))
               if (!isNaN(starValue)) {
-                ret.$and.push({"star": not(starValue)})
+                ret.$and.push({"star": isExclude ? {"$ne": starValue} : starValue})
               }
               break
             }
             case SEARCHTYPE.EMOTION: {
               const emotionVal = Number(searchOpt.value)
               if (!isNaN(emotionVal)) {
-                ret.$and.push({"emotion": not(emotionVal)})
+                ret.$and.push({"emotion": isExclude ? {"$ne": emotionVal} : emotionVal})
               }
               break
             }
@@ -288,31 +280,35 @@ export class GameSearchComponent implements OnInit {
 
               console.log(locationVal);
               if (!isNaN(locationVal)) {
-                ret.$and.push({"location": not(locationVal)})
+                ret.$and.push({"location": isExclude ? {"$ne": locationVal} : locationVal})
               }
               break
             }
             case SEARCHTYPE.PLAYSTATE: {
               const playStateVal = Number(searchOpt.value)
               if (!isNaN(playStateVal)) {
-                ret.$and.push({"playState": not(playStateVal)})
+                ret.$and.push({"playState": isExclude ? {"$ne": playStateVal} : playStateVal})
               }
               break
             }
             case SEARCHTYPE.PAINTER: {
-              ret.$and.push({"painter": not(String(searchOpt.value))})
+              const painterVal = String(searchOpt.value)
+              ret.$and.push({"painter": isExclude ? {"$ne": painterVal} : painterVal})
               break
             }
             case SEARCHTYPE.WRITER: {
-              ret.$and.push({"writer": not(String(searchOpt.value))})
+              const writerVal = String(searchOpt.value)
+              ret.$and.push({"writer": isExclude ? {"$ne": writerVal} : writerVal})
               break
             }
             case SEARCHTYPE.CV: {
-              ret.$and.push({"gamechar.cv": not({"$regex": String(searchOpt.value)})})
+              const cvVal = {"$regex": String(searchOpt.value)}
+              ret.$and.push({"gamechar.cv": isExclude ? {"$not": cvVal} : cvVal})
               break
             }
             case SEARCHTYPE.BRAND: {
-              ret.$and.push({"brand.name": not({"$regex": String(searchOpt.value)})})
+              const brandVal = {"$regex": String(searchOpt.value)}
+              ret.$and.push({"brand.name": isExclude ? {"$not": brandVal} : brandVal})
               break
             }
           }

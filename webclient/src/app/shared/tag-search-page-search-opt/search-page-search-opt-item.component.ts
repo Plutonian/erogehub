@@ -43,5 +43,9 @@ export class SearchPageSearchOptItemComponent {
         return !this.isStarInput(key) && !this.isSelectInput(key)
     }
 
+    getInputClass(): string {
+        return this.searchOpt.filter === FILTER.Include ? 'include' : 'exclude'
+    }
+
     protected readonly FILTER = FILTER;
 }

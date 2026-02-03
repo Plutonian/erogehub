@@ -1,0 +1,5 @@
+<ul *ngIf="playStateGroup?.length>0">
+  <li *ngFor="let item of playStateGroup" (click)="playStateSelect(item)">
+    {{item.playState | playState}}({{item.count}})
+  </li>
+</ul>

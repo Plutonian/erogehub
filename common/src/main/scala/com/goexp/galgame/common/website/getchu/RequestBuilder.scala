@@ -17,7 +17,7 @@ class RequestBuilder private(val url: String) {
   private var builder = HttpRequest.newBuilder.uri(url)
 
   def adaltFlag: RequestBuilder = {
-    builder = builder.header("Cookie", "getchu_adalt_flag=getchu.com")
+//    builder = builder.header("Cookie", "getchu_adalt_flag=getchu.com")
     this
   }
 

@@ -234,16 +234,20 @@ export interface DateRangePreset {
 
 export const DateRangePresets: DateRangePreset[] = [
   { label: "全部", key: "ALL" },
-  { label: "近10年", key: "RECENT_10_YEARS" },
-  { label: "近5年", key: "RECENT_5_YEARS" },
-  { label: "近3年", key: "RECENT_3_YEARS" },
+  { label: "过去10年", key: "RECENT_10_YEARS" },
+  { label: "过去5年", key: "RECENT_5_YEARS" },
+  { label: "过去3年", key: "RECENT_3_YEARS" },
   { label: "去年", key: "LAST_YEAR" },
   { label: "前年", key: "YEAR_BEFORE_LAST" },
   { label: "今年", key: "THIS_YEAR" },
-  { label: "最近半年", key: "RECENT_HALF_YEAR" },
-  { label: "最近3个月", key: "RECENT_3_MONTHS" },
-  { label: "今月", key: "THIS_MONTH" },
+  { label: "明年", key: "NEXT_YEAR" },
+  { label: "过去半年", key: "RECENT_HALF_YEAR" },
+  { label: "过去3个月", key: "RECENT_3_MONTHS" },
+  { label: "这个月", key: "THIS_MONTH" },
   { label: "上一个月", key: "LAST_MONTH" },
+  { label: "下个月", key: "NEXT_MONTH" },
+  { label: "未来3个月", key: "NEXT_3_MONTHS" },
+  { label: "未来半年", key: "NEXT_HALF_YEAR" },
   { label: "自定义", key: "CUSTOM" }
 ]
 
@@ -278,18 +282,23 @@ export function getDateRange(presetKey: string): { startDate: string, endDate: s
     case 'LAST_YEAR': {
       const lastYear = now.getFullYear() - 1
       const start = new Date(lastYear, 0, 1)
-      const end = new Date(lastYear, 11, 31)
+      const end = new Date(now.getFullYear(), 0, 1)
       return { startDate: formatDate(start), endDate: formatDate(end) }
     }
     case 'YEAR_BEFORE_LAST': {
       const yearBeforeLast = now.getFullYear() - 2
       const start = new Date(yearBeforeLast, 0, 1)
-      const end = new Date(yearBeforeLast, 11, 31)
+      const end = new Date(yearBeforeLast + 1, 0, 1)
       return { startDate: formatDate(start), endDate: formatDate(end) }
     }
     case 'THIS_YEAR': {
       const start = new Date(now.getFullYear(), 0, 1)
-      const end = new Date(now.getFullYear(), 11, 31)
+      const end = new Date(now.getFullYear() + 1, 0, 1)
+      return { startDate: formatDate(start), endDate: formatDate(end) }
+    }
+    case 'NEXT_YEAR': {
+      const start = new Date(now.getFullYear() + 1, 0, 1)
+      const end = new Date(now.getFullYear() + 2, 0, 1)
       return { startDate: formatDate(start), endDate: formatDate(end) }
     }
     case 'RECENT_HALF_YEAR': {
@@ -304,12 +313,30 @@ export function getDateRange(presetKey: string): { startDate: string, endDate: s
     }
     case 'THIS_MONTH': {
       const start = new Date(now.getFullYear(), now.getMonth(), 1)
-      const end = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+      const end = new Date(now.getFullYear(), now.getMonth() + 1, 1)
       return { startDate: formatDate(start), endDate: formatDate(end) }
     }
     case 'LAST_MONTH': {
       const start = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-      const end = new Date(now.getFullYear(), now.getMonth(), 0)
+      const end = new Date(now.getFullYear(), now.getMonth(), 1)
+      return { startDate: formatDate(start), endDate: formatDate(end) }
+    }
+    case 'NEXT_MONTH': {
+      // 下个月从1号开始，结束于下下月1号（范围不含结束日）
+      const start = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+      const end = new Date(now.getFullYear(), now.getMonth() + 2, 1)
+      return { startDate: formatDate(start), endDate: formatDate(end) }
+    }
+    case 'NEXT_3_MONTHS': {
+      // 从下个月1号开始，共3个月，结束于第4个月1号
+      const start = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+      const end = new Date(now.getFullYear(), now.getMonth() + 4, 1)
+      return { startDate: formatDate(start), endDate: formatDate(end) }
+    }
+    case 'NEXT_HALF_YEAR': {
+      // 从下个月1号开始，共6个月，结束于第7个月1号
+      const start = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+      const end = new Date(now.getFullYear(), now.getMonth() + 7, 1)
       return { startDate: formatDate(start), endDate: formatDate(end) }
     }
     default:

@@ -32,19 +32,23 @@ export class GameSearchComponent implements OnInit {
   dateRangePresets = DateRangePresets
   dateRangePresetGroups = [
     { label: '全部', options: [{ label: '全部', key: 'ALL' }] },
-    { label: '年', options: [
-      { label: '今年', key: 'THIS_YEAR' },
-      { label: '去年', key: 'LAST_YEAR' },
-      { label: '前年', key: 'YEAR_BEFORE_LAST' },
-      { label: '近3年', key: 'RECENT_3_YEARS' },
-      { label: '近5年', key: 'RECENT_5_YEARS' },
-      { label: '近10年', key: 'RECENT_10_YEARS' }
-    ]},
     { label: '月', options: [
-      { label: '今月', key: 'THIS_MONTH' },
+      { label: '这个月', key: 'THIS_MONTH' },
       { label: '上一个月', key: 'LAST_MONTH' },
-      { label: '最近3个月', key: 'RECENT_3_MONTHS' },
-      { label: '最近半年', key: 'RECENT_HALF_YEAR' }
+      { label: '过去3个月', key: 'RECENT_3_MONTHS' },
+      { label: '过去半年', key: 'RECENT_HALF_YEAR' },
+      { label: '下个月', key: 'NEXT_MONTH' },
+      { label: '未来3个月', key: 'NEXT_3_MONTHS' },
+      { label: '未来半年', key: 'NEXT_HALF_YEAR' }
+    ]},
+    { label: '年', options: [
+      { label: '去年', key: 'LAST_YEAR' },
+      { label: '今年', key: 'THIS_YEAR' },
+      { label: '明年', key: 'NEXT_YEAR' },
+      { label: '前年', key: 'YEAR_BEFORE_LAST' },
+      { label: '过去3年', key: 'RECENT_3_YEARS' },
+      { label: '过去5年', key: 'RECENT_5_YEARS' },
+      { label: '过去10年', key: 'RECENT_10_YEARS' }
     ]},
     { label: '自定义', options: [{ label: '自定义', key: 'CUSTOM' }] }
   ]
@@ -390,14 +394,18 @@ export class GameSearchComponent implements OnInit {
   // 日期范围相关方法
   onDatePresetChange() {
     if (this.selectedDatePreset === 'CUSTOM') {
-      // 清空当前范围，等待用户手动输入
-      this.currentDateRange = { startDate: '', endDate: '' }
+      // 使用自定义日期范围，如果已有值则保留
+      this.currentDateRange = {
+        startDate: this.customDateRange.startDate,
+        endDate: this.customDateRange.endDate
+      }
     } else if (this.selectedDatePreset === 'ALL') {
       this.currentDateRange = { startDate: '', endDate: '' }
     } else {
-      // 使用预设值
+      // 使用预设值，同时更新自定义日期范围
       const range = getDateRange(this.selectedDatePreset)
       this.currentDateRange = range
+      this.customDateRange = { ...range }
     }
   }
 

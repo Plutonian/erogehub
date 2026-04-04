@@ -233,7 +233,6 @@ export interface DateRangePreset {
 }
 
 export const DateRangePresets: DateRangePreset[] = [
-  { label: "全部", key: "ALL" },
   { label: "过去10年", key: "RECENT_10_YEARS" },
   { label: "过去5年", key: "RECENT_5_YEARS" },
   { label: "过去3年", key: "RECENT_3_YEARS" },
@@ -256,12 +255,10 @@ export function getDateRange(presetKey: string): { startDate: string, endDate: s
   const formatDate = (date: Date) => {
     const year = date.getFullYear()
     const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-    return `${year}-${month}-${day}`
+    return `${year}-${month}`
   }
 
   switch (presetKey) {
-    case 'ALL':
     case 'CUSTOM':
       return { startDate: '', endDate: '' }
     case 'RECENT_10_YEARS': {
@@ -313,30 +310,24 @@ export function getDateRange(presetKey: string): { startDate: string, endDate: s
     }
     case 'THIS_MONTH': {
       const start = new Date(now.getFullYear(), now.getMonth(), 1)
-      const end = new Date(now.getFullYear(), now.getMonth() + 1, 1)
-      return { startDate: formatDate(start), endDate: formatDate(end) }
+      return { startDate: formatDate(start), endDate: formatDate(start) }
     }
     case 'LAST_MONTH': {
       const start = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-      const end = new Date(now.getFullYear(), now.getMonth(), 1)
-      return { startDate: formatDate(start), endDate: formatDate(end) }
+      return { startDate: formatDate(start), endDate: formatDate(start) }
     }
     case 'NEXT_MONTH': {
-      // 下个月从1号开始，结束于下下月1号（范围不含结束日）
       const start = new Date(now.getFullYear(), now.getMonth() + 1, 1)
-      const end = new Date(now.getFullYear(), now.getMonth() + 2, 1)
-      return { startDate: formatDate(start), endDate: formatDate(end) }
+      return { startDate: formatDate(start), endDate: formatDate(start) }
     }
     case 'NEXT_3_MONTHS': {
-      // 从下个月1号开始，共3个月，结束于第4个月1号
       const start = new Date(now.getFullYear(), now.getMonth() + 1, 1)
-      const end = new Date(now.getFullYear(), now.getMonth() + 4, 1)
+      const end = new Date(now.getFullYear(), now.getMonth() + 3, 1)
       return { startDate: formatDate(start), endDate: formatDate(end) }
     }
     case 'NEXT_HALF_YEAR': {
-      // 从下个月1号开始，共6个月，结束于第7个月1号
       const start = new Date(now.getFullYear(), now.getMonth() + 1, 1)
-      const end = new Date(now.getFullYear(), now.getMonth() + 7, 1)
+      const end = new Date(now.getFullYear(), now.getMonth() + 6, 1)
       return { startDate: formatDate(start), endDate: formatDate(end) }
     }
     default:

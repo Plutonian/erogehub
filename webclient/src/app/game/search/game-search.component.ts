@@ -31,28 +31,21 @@ export class GameSearchComponent implements OnInit {
   // 日期范围相关
   dateRangePresets = DateRangePresets
   dateRangePresetGroups = [
-    { label: '全部', options: [{ label: '全部', key: 'ALL' }] },
     { label: '月', options: [
       { label: '这个月', key: 'THIS_MONTH' },
-      { label: '上一个月', key: 'LAST_MONTH' },
       { label: '过去3个月', key: 'RECENT_3_MONTHS' },
       { label: '过去半年', key: 'RECENT_HALF_YEAR' },
-      { label: '下个月', key: 'NEXT_MONTH' },
       { label: '未来3个月', key: 'NEXT_3_MONTHS' },
       { label: '未来半年', key: 'NEXT_HALF_YEAR' }
     ]},
     { label: '年', options: [
-      { label: '去年', key: 'LAST_YEAR' },
-      { label: '今年', key: 'THIS_YEAR' },
-      { label: '明年', key: 'NEXT_YEAR' },
-      { label: '前年', key: 'YEAR_BEFORE_LAST' },
       { label: '过去3年', key: 'RECENT_3_YEARS' },
       { label: '过去5年', key: 'RECENT_5_YEARS' },
       { label: '过去10年', key: 'RECENT_10_YEARS' }
-    ]},
-    { label: '自定义', options: [{ label: '自定义', key: 'CUSTOM' }] }
+    ]}
   ]
-  selectedDatePreset = 'ALL'
+  customPreset = { label: '自定义', key: 'CUSTOM' }
+  selectedDatePreset = 'THIS_MONTH'
   customDateRange: DateRangeValue = { startDate: '', endDate: '' }
   currentDateRange: DateRangeValue = { startDate: '', endDate: '' }
   dateRangeEnabled: boolean = true
@@ -72,6 +65,10 @@ export class GameSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // 初始化日期范围为"这个月"
+    const range = getDateRange('THIS_MONTH')
+    this.currentDateRange = range
+    this.customDateRange = { ...range }
   }
 
   // 聚合面板事件处理
@@ -356,7 +353,7 @@ export class GameSearchComponent implements OnInit {
         })
 
     // 添加日期范围查询
-    if (this.dateRangeEnabled && this.selectedDatePreset !== 'ALL' && (this.currentDateRange.startDate || this.currentDateRange.endDate)) {
+    if (this.dateRangeEnabled && (this.currentDateRange.startDate || this.currentDateRange.endDate)) {
       if (ret.$and == undefined) {
         ret.$and = []
       }
@@ -364,12 +361,16 @@ export class GameSearchComponent implements OnInit {
       const dateQuery: any = {}
 
       if (this.currentDateRange.startDate) {
-        const start = Date.parse(`${this.currentDateRange.startDate} 00:00:00`)
+        // startDate: 当月1日 00:00:00
+        const [year, month] = this.currentDateRange.startDate.split('-').map(Number)
+        const start = new Date(year, month - 1, 1).getTime()
         dateQuery.$gte = {"$date": start}
       }
       if (this.currentDateRange.endDate) {
-        const end = Date.parse(`${this.currentDateRange.endDate} 23:59:59`)
-        dateQuery.$lte = {"$date": end}
+        // endDate: 下个月1日 00:00:00 (范围 [start, end))
+        const [year, month] = this.currentDateRange.endDate.split('-').map(Number)
+        const end = new Date(year, month, 1).getTime()
+        dateQuery.$lt = {"$date": end}
       }
 
       ret.$and.push({"publishDate": dateQuery})
@@ -399,8 +400,6 @@ export class GameSearchComponent implements OnInit {
         startDate: this.customDateRange.startDate,
         endDate: this.customDateRange.endDate
       }
-    } else if (this.selectedDatePreset === 'ALL') {
-      this.currentDateRange = { startDate: '', endDate: '' }
     } else {
       // 使用预设值，同时更新自定义日期范围
       const range = getDateRange(this.selectedDatePreset)
@@ -418,6 +417,44 @@ export class GameSearchComponent implements OnInit {
     } else {
       this.currentDateRange = { startDate: '', endDate: '' }
     }
+  }
+
+  adjustDateRange(delta: number, type: 'year' | 'month') {
+    // 切换到自定义模式
+    this.selectedDatePreset = 'CUSTOM'
+
+    // 解析当前日期范围 (YYYY-MM 格式)
+    const parseMonth = (str: string) => {
+      if (!str) return new Date()
+      const [year, month] = str.split('-').map(Number)
+      return new Date(year, month - 1, 1)
+    }
+    const start = parseMonth(this.currentDateRange.startDate)
+    const end = parseMonth(this.currentDateRange.endDate)
+
+    // 调整日期
+    if (type === 'year') {
+      start.setFullYear(start.getFullYear() + delta)
+      end.setFullYear(end.getFullYear() + delta)
+    } else {
+      start.setMonth(start.getMonth() + delta)
+      end.setMonth(end.getMonth() + delta)
+    }
+
+    // 格式化日期 (YYYY-MM)
+    const formatMonth = (date: Date) => {
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      return `${year}-${month}`
+    }
+
+    // 更新日期范围
+    const newRange = {
+      startDate: formatMonth(start),
+      endDate: formatMonth(end)
+    }
+    this.currentDateRange = newRange
+    this.customDateRange = { ...newRange }
   }
 
 

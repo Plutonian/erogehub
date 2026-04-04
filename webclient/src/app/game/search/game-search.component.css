@@ -116,3 +116,15 @@ nz-content {
 .date-range-info small {
     color: #bfbfbf;
 }
+
+.date-range-buttons {
+    display: flex;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.date-range-buttons button {
+    flex: 1;
+    font-size: 12px;
+    padding: 0 8px;
+}

@@ -11,16 +11,24 @@
                         <nz-option-group *ngFor="let group of dateRangePresetGroups" [nzLabel]="group.label">
                             <nz-option *ngFor="let preset of group.options" [nzValue]="preset.key" [nzLabel]="preset.label"></nz-option>
                         </nz-option-group>
+                        <nz-option [nzValue]="customPreset.key" [nzLabel]="customPreset.label"></nz-option>
                     </nz-select>
                     <nz-switch [(ngModel)]="dateRangeEnabled" nzCheckedChildren="E" nzUnCheckedChildren="D"></nz-switch>
                 </div>
                 <div *ngIf="selectedDatePreset === 'CUSTOM'" class="date-range-inputs">
-                    <input type="date" [(ngModel)]="customDateRange.startDate" (ngModelChange)="onCustomDateChange()" nz-input nzSize="small" class="date-input" [disabled]="!dateRangeEnabled"/>
+                    <input type="month" [(ngModel)]="customDateRange.startDate" (ngModelChange)="onCustomDateChange()" nz-input nzSize="small" class="date-input" [disabled]="!dateRangeEnabled"/>
                     <span class="date-separator">~</span>
-                    <input type="date" [(ngModel)]="customDateRange.endDate" (ngModelChange)="onCustomDateChange()" nz-input nzSize="small" class="date-input" [disabled]="!dateRangeEnabled"/>
+                    <input type="month" [(ngModel)]="customDateRange.endDate" (ngModelChange)="onCustomDateChange()" nz-input nzSize="small" class="date-input" [disabled]="!dateRangeEnabled"/>
                 </div>
-                <div *ngIf="selectedDatePreset !== 'ALL' && selectedDatePreset !== 'CUSTOM'" class="date-range-info">
+                <div *ngIf="selectedDatePreset !== 'CUSTOM'" class="date-range-info">
                     <small>当前范围: {{currentDateRange.startDate}} ~ {{currentDateRange.endDate}}</small>
+                </div>
+                <div class="date-range-buttons" *ngIf="dateRangeEnabled">
+                    <button nz-button nzSize="small" (click)="adjustDateRange(-1, 'year')" title="-年">-年</button>
+                    <button nz-button nzSize="small" (click)="adjustDateRange(-1, 'month')" title="-月">-月</button>
+                    <button nz-button nzSize="small" (click)="selectedDatePreset = 'THIS_MONTH'; onDatePresetChange()" title="这个月">这个月</button>
+                    <button nz-button nzSize="small" (click)="adjustDateRange(1, 'month')" title="+月">+月</button>
+                    <button nz-button nzSize="small" (click)="adjustDateRange(1, 'year')" title="+年">+年</button>
                 </div>
             </div>
 

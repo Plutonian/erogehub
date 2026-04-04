@@ -8,6 +8,7 @@ import com.goexp.galgame.common.db.mongo.query.GameQuery
 import com.goexp.galgame.common.model.Emotion
 import com.goexp.galgame.data.model.Brand
 import com.mongodb.client.model.*
+import com.mongodb.client.model.Sorts.*
 import com.mongodb.client.model.Updates.{combine, set}
 import entity.group.*
 import org.bson.BsonDocument
@@ -88,12 +89,12 @@ class GameController extends Controller {
         GameQuery()
           .find()
           .filter(BsonDocument.parse(where))
-          .sort(Sorts.orderBy(Sorts.descending("publishDate")))
+          .sort(orderBy(descending("publishDate"), descending("name")))
       }
       else {
         GameQuery()
           .find()
-          .sort(Sorts.orderBy(Sorts.descending("publishDate")))
+          .sort(orderBy(descending("publishDate"), descending("name")))
       }
 
     val list = findIterable
@@ -119,7 +120,7 @@ class GameController extends Controller {
     val pipeline = List(
       Aggregates.`match`(BsonDocument.parse(where)),
       Aggregates.group("$emotion", Accumulators.sum("count", 1)),
-      Aggregates.sort(Sorts.descending("_id")),
+      Aggregates.sort(descending("_id")),
       Aggregates.project(Projections.fields(
         Projections.computed("emotion", "$_id"),
         Projections.include("count"),
@@ -142,7 +143,7 @@ class GameController extends Controller {
     val pipeline = List(
       Aggregates.`match`(BsonDocument.parse(where)),
       Aggregates.group("$location", Accumulators.sum("count", 1)),
-      Aggregates.sort(Sorts.descending("_id")),
+      Aggregates.sort(descending("_id")),
       Aggregates.project(Projections.fields(
         Projections.computed("location", "$_id"),
         Projections.include("count"),
@@ -165,7 +166,7 @@ class GameController extends Controller {
     val pipeline = List(
       Aggregates.`match`(BsonDocument.parse(where)),
       Aggregates.group("$playState", Accumulators.sum("count", 1)),
-      Aggregates.sort(Sorts.descending("_id")),
+      Aggregates.sort(descending("_id")),
       Aggregates.project(Projections.fields(
         Projections.computed("playState", "$_id"),
         Projections.include("count"),
@@ -193,7 +194,7 @@ class GameController extends Controller {
         Filters.ne("gamechar.cv", "")
       )),
       Aggregates.group("$gamechar.cv", Accumulators.sum("count", 1)),
-      Aggregates.sort(Sorts.descending("count")),
+      Aggregates.sort(descending("count")),
       Aggregates.project(Projections.fields(
         Projections.computed("title", "$_id"),
         Projections.include("count"),
@@ -222,7 +223,7 @@ class GameController extends Controller {
         Filters.ne("gamechar.truecv", "")
       )),
       Aggregates.group("$gamechar.truecv", Accumulators.sum("count", 1)),
-      Aggregates.sort(Sorts.descending("count")),
+      Aggregates.sort(descending("count")),
       Aggregates.project(Projections.fields(
         Projections.computed("title", "$_id"),
         Projections.include("count"),
@@ -248,7 +249,7 @@ class GameController extends Controller {
       Aggregates.unwind("$tag"),
       Aggregates.`match`(Filters.ne("tag", "")),
       Aggregates.group("$tag", Accumulators.sum("count", 1)),
-      Aggregates.sort(Sorts.descending("count")),
+      Aggregates.sort(descending("count")),
       Aggregates.project(Projections.fields(
         Projections.computed("title", "$_id"),
         Projections.include("count"),
@@ -350,7 +351,7 @@ class GameController extends Controller {
     val pipeline = List(
       Aggregates.`match`(BsonDocument.parse(where)),
       Aggregates.group("$star", Accumulators.sum("count", 1)),
-      Aggregates.sort(Sorts.ascending("_id")),
+      Aggregates.sort(ascending("_id")),
       Aggregates.project(Projections.fields(
         Projections.computed("star", "$_id"),
         Projections.include("count"),

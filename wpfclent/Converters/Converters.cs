@@ -6,6 +6,9 @@ using ErogeHub.Wpf.Models;
 
 namespace ErogeHub.Wpf.Converters;
 
+/// <summary>
+/// bool → Visibility 转换器：true=Visible, false=Collapsed
+/// </summary>
 public class BoolToVisibilityConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -15,6 +18,9 @@ public class BoolToVisibilityConverter : IValueConverter
         => value is Visibility.Visible;
 }
 
+/// <summary>
+/// bool 取反转换器
+/// </summary>
 public class InverseBoolConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -25,7 +31,7 @@ public class InverseBoolConverter : IValueConverter
 }
 
 /// <summary>
-/// 游玩状态 → 边条颜色（NOT_PLAY 红 / PLAYING 绿 / PLAYED 蓝）
+/// 游玩状态 → 卡片边框颜色（NOT_PLAY=红色 / PLAYING=绿色 / PLAYED=蓝色）
 /// </summary>
 public class PlayStateToBrushConverter : IValueConverter
 {
@@ -45,7 +51,7 @@ public class PlayStateToBrushConverter : IValueConverter
 }
 
 /// <summary>
-/// 情感 → 卡片边框颜色（HATE 时暗红）
+/// 情感值 → 卡片边框颜色（HATE(-99) 时显示暗红边框）
 /// </summary>
 public class EmotionToBrushConverter : IValueConverter
 {

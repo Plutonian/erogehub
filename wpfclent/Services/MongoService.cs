@@ -4,9 +4,16 @@ using MongoDB.Driver;
 
 namespace ErogeHub.Wpf.Services;
 
+/// <summary>
+/// MongoDB 数据服务，封装所有数据库读写操作
+/// 包括：游戏查询、聚合分析、字段更新、数据映射
+/// </summary>
 public class MongoService
 {
+    /// <summary>MongoDB game 集合</summary>
     private readonly IMongoCollection<BsonDocument> _collection;
+
+    /// <summary>图片服务器地址</summary>
     private readonly string _imgServer;
 
     public MongoService(string connectionString, string databaseName, string imgServer)
@@ -16,15 +23,25 @@ public class MongoService
         _imgServer = imgServer;
     }
 
+    /// <summary>将 BsonDocument 过滤器转为标准的 FilterDefinition，空过滤器返回 Empty</summary>
     private static FilterDefinition<BsonDocument> ToFilterDef(BsonDocument? filter)
         => filter == null || filter.ElementCount == 0 ? Builders<BsonDocument>.Filter.Empty : filter;
 
+    /// <summary>空安全获取 $match 阶段的文档</summary>
     private static BsonDocument ToMatchDoc(BsonDocument? filter) => filter ?? new BsonDocument();
 
+    /// <summary>安全的 int 取值，null 返回 0</summary>
     private static int SafeInt(BsonValue v) => v is null or BsonNull ? 0 : v.AsInt32;
+
+    /// <summary>安全的 string 取值，null 返回空串</summary>
     private static string SafeStr(BsonValue v) => v is null or BsonNull ? "" : v.AsString;
+
+    /// <summary>安全的 bool 取值，非布尔类型返回 false</summary>
     private static bool SafeBool(BsonValue v) => v is BsonBoolean b && b.Value;
 
+    /// <summary>
+    /// 分页查询游戏列表，按发布日期和名称降序排列
+    /// </summary>
     public async Task<List<Game>> QueryGamesAsync(BsonDocument? filter, int page, int pageSize)
     {
         var sort = new BsonDocument { { "publishDate", -1 }, { "name", -1 } };
@@ -33,9 +50,11 @@ public class MongoService
         return docs.Select(MapToGame).ToList();
     }
 
+    /// <summary>查询符合条件的文档总数</summary>
     public async Task<long> CountAsync(BsonDocument? filter)
         => await _collection.CountDocumentsAsync(ToFilterDef(filter));
 
+    /// <summary>按情感值分组聚合</summary>
     public async Task<List<EmotionGroupItem>> GroupByEmotionAsync(BsonDocument? filter)
     {
         var pipeline = new[]
@@ -49,6 +68,7 @@ public class MongoService
         return docs.Select(d => { var e = SafeInt(d.GetValue("emotion")); return new EmotionGroupItem { Emotion = e, Count = SafeInt(d["count"]), Title = GetEmotionName(e) }; }).ToList();
     }
 
+    /// <summary>按存储位置分组聚合</summary>
     public async Task<List<LocationGroupItem>> GroupByLocationAsync(BsonDocument? filter)
     {
         var pipeline = new[]
@@ -62,6 +82,7 @@ public class MongoService
         return docs.Select(d => { var l = SafeInt(d.GetValue("location")); return new LocationGroupItem { Location = l, Count = SafeInt(d["count"]), Title = ((Location)l).ToString() }; }).ToList();
     }
 
+    /// <summary>按游玩状态分组聚合</summary>
     public async Task<List<PlayStateGroupItem>> GroupByPlayStateAsync(BsonDocument? filter)
     {
         var pipeline = new[]
@@ -75,6 +96,7 @@ public class MongoService
         return docs.Select(d => { var p = SafeInt(d.GetValue("playState")); return new PlayStateGroupItem { PlayState = p, Count = SafeInt(d["count"]), Title = GetPlayStateName(p) }; }).ToList();
     }
 
+    /// <summary>按星级分组聚合</summary>
     public async Task<List<StarGroupItem>> GroupByStarAsync(BsonDocument? filter)
     {
         var pipeline = new[]
@@ -88,6 +110,7 @@ public class MongoService
         return docs.Select(d => { var s = SafeInt(d.GetValue("star")); return new StarGroupItem { Star = s, Count = SafeInt(d["count"]), Title = $"{s}★" }; }).ToList();
     }
 
+    /// <summary>按声优（马甲名）分组聚合，展开 gamechar 数组统计</summary>
     public async Task<List<GroupItem>> GroupByCVAsync(BsonDocument? filter)
     {
         var pipeline = new[]
@@ -103,6 +126,7 @@ public class MongoService
         return docs.Select(d => new GroupItem { Title = SafeStr(d.GetValue("title")), Count = SafeInt(d["count"]) }).ToList();
     }
 
+    /// <summary>按去马甲CV（真实声优名）分组聚合</summary>
     public async Task<List<GroupItem>> GroupByTrueCVAsync(BsonDocument? filter)
     {
         var pipeline = new[]
@@ -118,6 +142,7 @@ public class MongoService
         return docs.Select(d => new GroupItem { Title = SafeStr(d.GetValue("title")), Count = SafeInt(d["count"]) }).ToList();
     }
 
+    /// <summary>按标签分组聚合，展开 tag 数组统计</summary>
     public async Task<List<GroupItem>> GroupByTagAsync(BsonDocument? filter)
     {
         var pipeline = new[]
@@ -133,6 +158,7 @@ public class MongoService
         return docs.Select(d => new GroupItem { Title = SafeStr(d.GetValue("title")), Count = SafeInt(d["count"]) }).ToList();
     }
 
+    /// <summary>按发布日期分组聚合（年 → 月层级），在内存中处理</summary>
     public async Task<List<DateGroupItem>> GroupByDateAsync(BsonDocument? filter)
     {
         var docs = await _collection.Find(ToFilterDef(filter)).Project(Builders<BsonDocument>.Projection.Include("publishDate")).ToListAsync();
@@ -159,12 +185,14 @@ public class MongoService
         }).ToList();
     }
 
+    /// <summary>按品牌分组聚合（公司 → 品牌层级），在内存中分组</summary>
     public async Task<List<BrandGroupItem>> GroupByBrandAsync(BsonDocument? filter)
     {
         var docs = await _collection.Find(ToFilterDef(filter)).Project(Builders<BsonDocument>.Projection.Include("brand")).ToListAsync();
         var brands = docs.Where(d => d.Contains("brand") && d["brand"].IsBsonDocument).Select(d => d["brand"].AsBsonDocument).ToList();
         var result = new List<BrandGroupItem>();
 
+        // 有公司信息的品牌：按公司分组，公司下再按品牌名分组
         var withComp = brands.Where(b => b.Contains("comp") && !string.IsNullOrEmpty(SafeStr(b["comp"]))).GroupBy(b => SafeStr(b["comp"]));
         foreach (var cg in withComp)
         {
@@ -175,6 +203,7 @@ public class MongoService
             else result.Add(new BrandGroupItem { Title = cg.Key, Count = cg.Count(), Comp = cg.Key, Children = new(nodes) });
         }
 
+        // 无公司信息的品牌：直接按品牌名分组
         var withoutComp = brands.Where(b => !b.Contains("comp") || string.IsNullOrEmpty(SafeStr(b["comp"]))).GroupBy(b => b.Contains("name") ? SafeStr(b["name"]) : "");
         foreach (var bg in withoutComp)
             result.Add(new BrandGroupItem { Title = bg.Key, Count = bg.Count(), Brand = ExtractBrand(bg.First()) });
@@ -182,47 +211,56 @@ public class MongoService
         return result.OrderByDescending(r => r.Count).ToList();
     }
 
+    /// <summary>根据 ID 查询单个游戏</summary>
     public async Task<Game?> QueryGameByIdAsync(int id)
     {
         var doc = await _collection.Find(Builders<BsonDocument>.Filter.Eq("_id", id)).FirstOrDefaultAsync();
         return doc == null ? null : MapToGame(doc);
     }
 
+    /// <summary>更新游戏的情感值</summary>
     public async Task<bool> UpdateEmotionAsync(int id, int emotion)
         => (await _collection.UpdateOneAsync(
             Builders<BsonDocument>.Filter.Eq("_id", id),
             Builders<BsonDocument>.Update.Set("emotion", emotion))).ModifiedCount > 0;
 
+    /// <summary>更新游戏的游玩状态</summary>
     public async Task<bool> UpdatePlayStateAsync(int id, int playState)
         => (await _collection.UpdateOneAsync(
             Builders<BsonDocument>.Filter.Eq("_id", id),
             Builders<BsonDocument>.Update.Set("playState", playState))).ModifiedCount > 0;
 
+    /// <summary>更新游戏的星级评分</summary>
     public async Task<bool> UpdateStarAsync(int id, int star)
         => (await _collection.UpdateOneAsync(
             Builders<BsonDocument>.Filter.Eq("_id", id),
             Builders<BsonDocument>.Update.Set("star", star))).ModifiedCount > 0;
 
+    /// <summary>更新游戏的存储位置</summary>
     public async Task<bool> UpdateLocationAsync(int id, int location)
         => (await _collection.UpdateOneAsync(
             Builders<BsonDocument>.Filter.Eq("_id", id),
             Builders<BsonDocument>.Update.Set("location", location))).ModifiedCount > 0;
 
+    /// <summary>标记/取消标记游戏为重复</summary>
     public async Task<bool> MarkSameAsync(int id, bool isSame)
         => (await _collection.UpdateOneAsync(
             Builders<BsonDocument>.Filter.Eq("_id", id),
             Builders<BsonDocument>.Update.Set("isSame", isSame))).ModifiedCount > 0;
 
+    /// <summary>更新游戏的标签列表</summary>
     public async Task<bool> UpdateTagsAsync(int id, List<string> tags)
         => (await _collection.UpdateOneAsync(
             Builders<BsonDocument>.Filter.Eq("_id", id),
             Builders<BsonDocument>.Update.Set("tag", new BsonArray(tags)))).ModifiedCount > 0;
 
+    /// <summary>更新游戏的主标题和副标题</summary>
     public async Task<bool> UpdateTitleAsync(int id, string mainTitle, string subTitle)
         => (await _collection.UpdateOneAsync(
             Builders<BsonDocument>.Filter.Eq("_id", id),
             Builders<BsonDocument>.Update.Set("mainTitle", mainTitle).Set("subTitle", subTitle))).ModifiedCount > 0;
 
+    /// <summary>设置指定角色的声优</summary>
     public async Task<bool> SetCharCVAsync(int id, int charIndex, string cv)
         => (await _collection.UpdateOneAsync(
             Builders<BsonDocument>.Filter.And(
@@ -230,9 +268,13 @@ public class MongoService
                 Builders<BsonDocument>.Filter.Eq("gamechar.index", charIndex)),
             Builders<BsonDocument>.Update.Set("gamechar.$.cv", cv))).ModifiedCount > 0;
 
+    /// <summary>删除指定游戏</summary>
     public async Task<bool> DeleteGameAsync(int id)
         => (await _collection.DeleteOneAsync(Builders<BsonDocument>.Filter.Eq("_id", id))).DeletedCount > 0;
 
+    /// <summary>
+    /// 将 BsonDocument 映射为 Game 模型，同时计算图片 URL
+    /// </summary>
     private Game MapToGame(BsonDocument doc)
     {
         var game = new Game
@@ -262,6 +304,7 @@ public class MongoService
         if (doc.Contains("publishDate") && doc["publishDate"].BsonType == BsonType.DateTime)
             game.PublishDate = doc["publishDate"].AsBsonDateTime.ToUniversalTime().ToLocalTime();
 
+        // 计算图片资源 URL
         game.ImgBase = $"http://{_imgServer}/img/{game.PublishDate.Year}/{game.PublishDate.Month}/{game.Id}/";
         game.CoverUrl = $"{game.ImgBase}game_s.jpg";
         game.StoryImageUrl = $"{game.ImgBase}game_l.jpg";
@@ -273,6 +316,7 @@ public class MongoService
         return game;
     }
 
+    /// <summary>将 BsonArray 角色数据映射为 GameCharacter 列表</summary>
     private static List<GameCharacter> MapCharacters(BsonArray arr)
     {
         var result = new List<GameCharacter>();
@@ -292,6 +336,7 @@ public class MongoService
         return result;
     }
 
+    /// <summary>从 BsonDocument 提取 Brand 对象</summary>
     private static Brand ExtractBrand(BsonDocument doc) => new()
     {
         Id = doc.Contains("id") ? SafeInt(doc["id"]) : 0,
@@ -300,11 +345,13 @@ public class MongoService
         Comp = doc.Contains("comp") ? SafeStr(doc["comp"]) : "",
     };
 
+    /// <summary>情感数字 → 显示名称</summary>
     private static string GetEmotionName(int emotion) => emotion switch
     {
         (int)Emotion.HATE => "嫌い", (int)Emotion.NORMAL => "...", (int)Emotion.HOPE => "気になり", (int)Emotion.LIKE => "好き", _ => emotion.ToString(),
     };
 
+    /// <summary>游玩状态数字 → 显示名称</summary>
     private static string GetPlayStateName(int state) => state switch
     {
         (int)PlayState.NOT_PLAY => "...", (int)PlayState.PLAYING => "進行中", (int)PlayState.PLAYED => "プレイ済み", _ => state.ToString(),

@@ -9,6 +9,10 @@ using MongoDB.Bson;
 
 namespace ErogeHub.Wpf.ViewModels;
 
+/// <summary>
+/// 搜索主视图模型 - 管理游戏列表、搜索条件、聚合分析和卡片交互
+/// 是整个 WPF 应用的核心 ViewModel
+/// </summary>
 public partial class SearchViewModel : ObservableObject
 {
     private readonly MongoService _mongo;
@@ -16,8 +20,10 @@ public partial class SearchViewModel : ObservableObject
 
     // ==================== 选项列表（供 UI 绑定） ====================
 
+    /// <summary>搜索类型选项记录</summary>
     public record SearchTypeOption(string Label, SearchType Type);
 
+    /// <summary>搜索类型下拉列表（左侧面板条件类型选择）</summary>
     public static List<SearchTypeOption> SearchTypeOptions { get; } = new()
     {
         new("全文检索", SearchType.TEXT),
@@ -34,8 +40,10 @@ public partial class SearchViewModel : ObservableObject
         new("品牌", SearchType.BRAND),
     };
 
+    /// <summary>枚举选项记录（值 + 显示名）</summary>
     public record EnumOption(string Label, string Value);
 
+    /// <summary>情感下拉选项</summary>
     public static List<EnumOption> EmotionOptions { get; } = new()
     {
         new("好き", ((int)Emotion.LIKE).ToString()),
@@ -44,12 +52,14 @@ public partial class SearchViewModel : ObservableObject
         new("嫌い", ((int)Emotion.HATE).ToString()),
     };
 
+    /// <summary>位置下拉选项</summary>
     public static List<EnumOption> LocationOptions { get; } = new()
     {
         new("Local", ((int)Location.LOCAL).ToString()),
         new("Remote", ((int)Location.REMOTE).ToString()),
     };
 
+    /// <summary>游玩状态下拉选项</summary>
     public static List<EnumOption> PlayStateOptions { get; } = new()
     {
         new("...", ((int)PlayState.NOT_PLAY).ToString()),
@@ -57,49 +67,64 @@ public partial class SearchViewModel : ObservableObject
         new("プレイ済み", ((int)PlayState.PLAYED).ToString()),
     };
 
+    /// <summary>日期范围预设列表</summary>
     public static List<DatePreset> DatePresets => DateRangeHelper.Presets;
 
     // ==================== 游戏列表 / 分页 ====================
 
+    /// <summary>当前页的游戏卡片数据</summary>
     [ObservableProperty]
     private ObservableCollection<Game> _games = new();
 
+    /// <summary>当前页码</summary>
     [ObservableProperty]
     private int _page = 1;
 
+    /// <summary>每页显示数量</summary>
     [ObservableProperty]
     private int _pageItemSize = 40;
 
+    /// <summary>符合条件的游戏总数</summary>
     [ObservableProperty]
     private long _total;
 
+    /// <summary>总页数</summary>
     [ObservableProperty]
     private int _totalPages;
 
+    /// <summary>是否正在加载</summary>
     [ObservableProperty]
     private bool _isLoading;
 
     // ==================== 搜索条件 ====================
 
+    /// <summary>当前选中的日期预设 key</summary>
     [ObservableProperty]
     private string _selectedDatePreset = "THIS_MONTH";
 
+    /// <summary>是否启用日期范围筛选</summary>
     [ObservableProperty]
     private bool _isDateRangeEnabled = true;
 
+    /// <summary>当前日期范围</summary>
     [ObservableProperty]
     private DateRange _currentDateRange = DateRangeHelper.GetDateRange("THIS_MONTH");
 
+    /// <summary>包含条件列表（满足才显示）</summary>
     [ObservableProperty]
     private ObservableCollection<SearchOpt> _includeOpts = new();
 
+    /// <summary>排除条件列表（满足则隐藏）</summary>
     [ObservableProperty]
     private ObservableCollection<SearchOpt> _excludeOpts = new();
 
+    /// <summary>是否选择了"自定义"日期预设</summary>
     public bool IsCustomDatePreset => SelectedDatePreset == "CUSTOM";
 
+    /// <summary>日期范围显示文本</summary>
     public string DateRangeDisplay => $"{CurrentDateRange.StartMonth} ~ {CurrentDateRange.EndMonth}";
 
+    /// <summary>日期预设变更时同步日期范围，自定义模式不清除已有范围</summary>
     partial void OnSelectedDatePresetChanged(string value)
     {
         OnPropertyChanged(nameof(IsCustomDatePreset));
@@ -116,30 +141,39 @@ public partial class SearchViewModel : ObservableObject
 
     // ==================== 聚合数据 ====================
 
+    /// <summary>情感聚合数据</summary>
     [ObservableProperty]
     private ObservableCollection<EmotionGroupItem> _emotionGroup = new();
 
+    /// <summary>星级聚合数据</summary>
     [ObservableProperty]
     private ObservableCollection<StarGroupItem> _starGroup = new();
 
+    /// <summary>位置聚合数据</summary>
     [ObservableProperty]
     private ObservableCollection<LocationGroupItem> _locationGroup = new();
 
+    /// <summary>游玩状态聚合数据</summary>
     [ObservableProperty]
     private ObservableCollection<PlayStateGroupItem> _playStateGroup = new();
 
+    /// <summary>声优聚合数据</summary>
     [ObservableProperty]
     private ObservableCollection<GroupItem> _cvGroup = new();
 
+    /// <summary>去马甲CV聚合数据</summary>
     [ObservableProperty]
     private ObservableCollection<GroupItem> _trueCVGroup = new();
 
+    /// <summary>标签聚合数据</summary>
     [ObservableProperty]
     private ObservableCollection<GroupItem> _tagGroup = new();
 
+    /// <summary>日期聚合数据（年→月树形结构）</summary>
     [ObservableProperty]
     private ObservableCollection<DateGroupItem> _dateGroup = new();
 
+    /// <summary>品牌聚合数据（公司→品牌树形结构）</summary>
     [ObservableProperty]
     private ObservableCollection<BrandGroupItem> _brandGroup = new();
 
@@ -149,11 +183,12 @@ public partial class SearchViewModel : ObservableObject
     {
         _mongo = mongo;
         _services = services;
-        _ = SearchAsync();
+        _ = SearchAsync(); // 启动后立即执行首次搜索
     }
 
-    // ==================== 命令 ====================
+    // ==================== 搜索命令 ====================
 
+    /// <summary>执行搜索（重置到第一页）</summary>
     [RelayCommand]
     private async Task SearchAsync()
     {
@@ -161,6 +196,7 @@ public partial class SearchViewModel : ObservableObject
         await LoadAllAsync();
     }
 
+    /// <summary>跳转到指定页</summary>
     [RelayCommand]
     private async Task GoToPageAsync(int page)
     {
@@ -179,6 +215,7 @@ public partial class SearchViewModel : ObservableObject
         }
     }
 
+    /// <summary>添加一条搜索条件</summary>
     [RelayCommand]
     private void AddSearchOpt(string filterType)
     {
@@ -190,6 +227,7 @@ public partial class SearchViewModel : ObservableObject
             ExcludeOpts.Add(opt);
     }
 
+    /// <summary>删除一条搜索条件</summary>
     [RelayCommand]
     private void RemoveSearchOpt(SearchOpt opt)
     {
@@ -199,6 +237,7 @@ public partial class SearchViewModel : ObservableObject
             ExcludeOpts.Remove(opt);
     }
 
+    /// <summary>交换搜索条件的包含/排除类型</summary>
     [RelayCommand]
     private void SwapSearchOpt(SearchOpt opt)
     {
@@ -216,6 +255,7 @@ public partial class SearchViewModel : ObservableObject
         }
     }
 
+    /// <summary>快捷调整日期范围（+/- 月或年，或跳转到本月）</summary>
     [RelayCommand]
     private void AdjustDateRange(string direction)
     {
@@ -244,46 +284,57 @@ public partial class SearchViewModel : ObservableObject
 
     // ==================== 聚合面板点击 ====================
 
+    /// <summary>点击情感聚合项，添加为包含条件</summary>
     [RelayCommand]
     private void OnEmotionClicked(EmotionGroupItem item)
         => AddAsIncludeOpt(SearchType.EMOTION, item.Emotion.ToString());
 
+    /// <summary>点击星级聚合项，添加为包含条件</summary>
     [RelayCommand]
     private void OnStarClicked(StarGroupItem item)
         => AddAsIncludeOpt(SearchType.STAR, item.Star.ToString());
 
+    /// <summary>点击位置聚合项，添加为包含条件</summary>
     [RelayCommand]
     private void OnLocationClicked(LocationGroupItem item)
         => AddAsIncludeOpt(SearchType.LOCATION, item.Location.ToString());
 
+    /// <summary>点击游玩状态聚合项，添加为包含条件</summary>
     [RelayCommand]
     private void OnPlayStateClicked(PlayStateGroupItem item)
         => AddAsIncludeOpt(SearchType.PLAYSTATE, item.PlayState.ToString());
 
+    /// <summary>点击声优聚合项，添加为包含条件</summary>
     [RelayCommand]
     private void OnCVClicked(GroupItem item)
         => AddAsIncludeOpt(SearchType.CV, item.Title);
 
+    /// <summary>点击去马甲CV聚合项，添加为包含条件</summary>
     [RelayCommand]
     private void OnTrueCVClicked(GroupItem item)
         => AddAsIncludeOpt(SearchType.TRUECV, item.Title);
 
+    /// <summary>点击标签聚合项，添加为包含条件</summary>
     [RelayCommand]
     private void OnTagClicked(GroupItem item)
         => AddAsIncludeOpt(SearchType.TAG, item.Title);
 
+    /// <summary>点击品牌聚合项，添加为包含条件</summary>
     [RelayCommand]
     private void OnBrandClicked(BrandGroupItem item)
         => AddAsIncludeOpt(SearchType.BRAND, item.Title);
 
+    /// <summary>点击游戏卡片上的标签，添加为包含条件</summary>
     [RelayCommand]
     private void TagClickToSearch(string tag)
         => AddAsIncludeOpt(SearchType.TAG, tag);
 
+    /// <summary>点击游戏卡片上的品牌，添加为包含条件</summary>
     [RelayCommand]
     private void BrandClickToSearch(string brand)
         => AddAsIncludeOpt(SearchType.BRAND, brand);
 
+    /// <summary>点击日期聚合项，切换到自定义日期范围</summary>
     [RelayCommand]
     private void OnDateClicked(DateGroupItem item)
     {
@@ -291,6 +342,7 @@ public partial class SearchViewModel : ObservableObject
         CurrentDateRange = new(DateRangeHelper.FormatMonth(item.Start), DateRangeHelper.FormatMonth(item.End));
     }
 
+    /// <summary>添加一条包含条件的快捷方法</summary>
     private void AddAsIncludeOpt(SearchType type, string value)
     {
         IncludeOpts.Add(new SearchOpt(type, value, true, FilterType.Include));
@@ -298,6 +350,7 @@ public partial class SearchViewModel : ObservableObject
 
     // ==================== 卡片交互 ====================
 
+    /// <summary>打开游戏详情窗口</summary>
     [RelayCommand]
     private void OpenDetail(Game game)
     {
@@ -308,6 +361,7 @@ public partial class SearchViewModel : ObservableObject
         window.Show();
     }
 
+    /// <summary>循环切换卡片游玩状态</summary>
     [RelayCommand]
     private async Task CycleCardPlayStateAsync(Game game)
     {
@@ -321,6 +375,7 @@ public partial class SearchViewModel : ObservableObject
         game.PlayState = next;
     }
 
+    /// <summary>循环切换卡片情感状态</summary>
     [RelayCommand]
     private async Task CycleCardEmotionAsync(Game game)
     {
@@ -335,6 +390,7 @@ public partial class SearchViewModel : ObservableObject
         game.Emotion = next;
     }
 
+    /// <summary>切换卡片存储位置</summary>
     [RelayCommand]
     private async Task ToggleCardLocationAsync(Game game)
     {
@@ -343,6 +399,7 @@ public partial class SearchViewModel : ObservableObject
         game.Location = next;
     }
 
+    /// <summary>删除卡片游戏，并重新加载列表</summary>
     [RelayCommand]
     private async Task DeleteCardAsync(Game game)
     {
@@ -352,7 +409,7 @@ public partial class SearchViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 卡片星级修改（由 SearchWindow.xaml.cs 的 ValueChanged 事件调用）
+    /// 卡片星级修改（由 SearchWindow.xaml.cs 的 CardRate_ValueChanged 事件调用）
     /// </summary>
     public async Task UpdateCardStarAsync(int gameId, int star)
     {
@@ -360,7 +417,7 @@ public partial class SearchViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 卡片 MarkSame 修改（由 SearchWindow.xaml.cs 的 Click 事件调用）
+    /// 卡片标记相同（由 SearchWindow.xaml.cs 的 CardMarkSame_Click 事件调用）
     /// </summary>
     public async Task UpdateCardMarkSameAsync(int gameId, bool isSame)
     {
@@ -369,6 +426,9 @@ public partial class SearchViewModel : ObservableObject
 
     // ==================== 核心逻辑 ====================
 
+    /// <summary>
+    /// 并行加载所有数据：游戏列表 + 总计数 + 所有聚合分析
+    /// </summary>
     private async Task LoadAllAsync()
     {
         IsLoading = true;
@@ -376,6 +436,7 @@ public partial class SearchViewModel : ObservableObject
         {
             var filter = BuildFilter();
 
+            // 并行发起所有数据请求
             var gamesTask = _mongo.QueryGamesAsync(filter, Page, PageItemSize);
             var countTask = _mongo.CountAsync(filter);
             var emotionTask = _mongo.GroupByEmotionAsync(filter);
@@ -388,9 +449,11 @@ public partial class SearchViewModel : ObservableObject
             var dateTask = _mongo.GroupByDateAsync(filter);
             var brandTask = _mongo.GroupByBrandAsync(filter);
 
+            // 等待所有任务完成
             await Task.WhenAll(gamesTask, countTask, emotionTask, locationTask, playStateTask,
                 starTask, cvTask, trueCVTask, tagTask, dateTask, brandTask);
 
+            // 填充 UI 数据
             Games = new ObservableCollection<Game>(gamesTask.Result);
             Total = countTask.Result;
             TotalPages = Total > 0 ? (int)Math.Ceiling((double)Total / PageItemSize) : 1;
@@ -412,10 +475,13 @@ public partial class SearchViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 构建 MongoDB 查询 BsonDocument（从 TypeScript getAdvSearchJson 直译）
+    /// 构建 MongoDB 查询条件 BsonDocument
+    /// 将 UI 中的搜索条件（包含/排除 + 日期范围）转为 MongoDB 查询语法
+    /// 对应前端的 getAdvSearchJson 逻辑
     /// </summary>
     private BsonDocument? BuildFilter()
     {
+        // 收集所有已启用且有值的搜索条件
         var allOpts = IncludeOpts.Concat(ExcludeOpts)
             .Where(o => o.Enabled && !string.IsNullOrWhiteSpace(o.Value))
             .ToList();
@@ -423,11 +489,13 @@ public partial class SearchViewModel : ObservableObject
         var hasDateRange = IsDateRangeEnabled &&
             (!string.IsNullOrEmpty(CurrentDateRange.StartMonth) || !string.IsNullOrEmpty(CurrentDateRange.EndMonth));
 
+        // 无任何条件时返回 null（查询全部）
         if (allOpts.Count == 0 && !hasDateRange)
             return null;
 
         var andList = new BsonArray();
 
+        // 遍历搜索条件，构建对应的 MongoDB 查询表达式
         foreach (var opt in allOpts)
         {
             var isExclude = opt.Filter == FilterType.Exclude;
@@ -437,18 +505,21 @@ public partial class SearchViewModel : ObservableObject
             {
                 case SearchType.REGEX:
                 {
+                    // name 字段正则匹配
                     var raw = new BsonDocument("$regex", value);
                     andList.Add(new BsonDocument("name", isExclude ? new BsonDocument("$not", raw) : raw));
                     break;
                 }
                 case SearchType.TEXT:
                 {
+                    // 全文检索（MongoDB $text 索引）
                     var raw = new BsonDocument("$search", value);
                     andList.Add(new BsonDocument("$text", isExclude ? new BsonDocument("$not", raw) : raw));
                     break;
                 }
                 case SearchType.TAG:
                 {
+                    // tag 数组正则匹配
                     var raw = new BsonDocument("$regex", value);
                     andList.Add(new BsonDocument("tag", isExclude ? new BsonDocument("$not", raw) : raw));
                     break;
@@ -504,7 +575,7 @@ public partial class SearchViewModel : ObservableObject
             }
         }
 
-        // 日期范围查询
+        // 添加日期范围查询条件（半开区间 [start, end)）
         if (hasDateRange)
         {
             var dateQuery = new BsonDocument();

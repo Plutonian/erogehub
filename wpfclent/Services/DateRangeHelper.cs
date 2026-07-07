@@ -3,11 +3,14 @@ namespace ErogeHub.Wpf.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 /// <summary>
-/// 日期范围，格式 "yyyy-MM"，空字符串表示未设置
+/// 日期范围模型，格式 "yyyy-MM"，空字符串表示未设置
 /// </summary>
 public partial class DateRange : ObservableObject
 {
+    /// <summary>起始月份（yyyy-MM 格式）</summary>
     [ObservableProperty] private string _startMonth = string.Empty;
+
+    /// <summary>结束月份（yyyy-MM 格式）</summary>
     [ObservableProperty] private string _endMonth = string.Empty;
 
     public DateRange() { }
@@ -18,12 +21,21 @@ public partial class DateRange : ObservableObject
     }
 }
 
+/// <summary>
+/// 日期预设选项记录（用于 ComboBox 绑定）
+/// </summary>
+/// <param name="Label">显示名称</param>
+/// <param name="Key">预设键值</param>
 public record DatePreset(string Label, string Key);
 
+/// <summary>
+/// 日期范围辅助工具类
+/// 提供预设日期范围计算、日期格式转换、范围调整等功能
+/// </summary>
 public static class DateRangeHelper
 {
     /// <summary>
-    /// 日期范围预设列表（扁平，供 ComboBox 绑定）
+    /// 日期范围预设列表（供 ComboBox 绑定）
     /// </summary>
     public static readonly List<DatePreset> Presets = new()
     {
@@ -94,7 +106,7 @@ public static class DateRangeHelper
     }
 
     /// <summary>
-    /// 解析 "yyyy-MM" 为 DateTime（该月1日）
+    /// 解析 "yyyy-MM" 字符串为 DateTime（该月1日）
     /// </summary>
     public static DateTime ParseMonth(string s)
     {
@@ -104,12 +116,12 @@ public static class DateRangeHelper
     }
 
     /// <summary>
-    /// 格式化 DateTime 为 "yyyy-MM"
+    /// 格式化 DateTime 为 "yyyy-MM" 字符串
     /// </summary>
     public static string FormatMonth(DateTime dt) => $"{dt:yyyy-MM}";
 
     /// <summary>
-    /// 将 "yyyy-MM" 转为 (year, month) 元组，month 为 1-based
+    /// 将 "yyyy-MM" 拆分为 (year, month) 元组，month 为 1-based
     /// </summary>
     public static (int year, int month) SplitMonth(string s)
     {

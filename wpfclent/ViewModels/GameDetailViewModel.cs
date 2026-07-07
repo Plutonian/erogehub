@@ -6,25 +6,37 @@ using ErogeHub.Wpf.Services;
 
 namespace ErogeHub.Wpf.ViewModels;
 
+/// <summary>
+/// 游戏详情视图模型 - 负责单个游戏的查看和编辑逻辑
+/// 包括：快速修改状态、Tag 管理、标题编辑、角色 CV 修改、外部搜索跳转
+/// </summary>
 public partial class GameDetailViewModel : ObservableObject
 {
     private readonly MongoService _mongo;
 
+    /// <summary>当前查看的游戏对象</summary>
     [ObservableProperty]
     private Game? _game;
 
+    /// <summary>是否正在加载</summary>
     [ObservableProperty]
     private bool _isLoading;
 
+    /// <summary>新增标签输入框绑定的文本</summary>
     [ObservableProperty]
     private string _newTag = string.Empty;
 
+    /// <summary>是否显示编辑弹窗</summary>
     [ObservableProperty]
     private bool _isEditModalVisible;
 
+    /// <summary>女主角列表（只读）</summary>
     public IEnumerable<GameCharacter> Heroines => Game?.GameCharacters.Where(c => c.Heroine) ?? Enumerable.Empty<GameCharacter>();
+
+    /// <summary>非女主角角色列表（只读）</summary>
     public IEnumerable<GameCharacter> Protagonists => Game?.GameCharacters.Where(c => !c.Heroine) ?? Enumerable.Empty<GameCharacter>();
 
+    /// <summary>共享的枚举选项列表（引用 SearchViewModel）</summary>
     public static List<SearchViewModel.EnumOption> EmotionOptions => SearchViewModel.EmotionOptions;
     public static List<SearchViewModel.EnumOption> LocationOptions => SearchViewModel.LocationOptions;
     public static List<SearchViewModel.EnumOption> PlayStateOptions => SearchViewModel.PlayStateOptions;
@@ -34,6 +46,7 @@ public partial class GameDetailViewModel : ObservableObject
         _mongo = mongo;
     }
 
+    /// <summary>Game 变更时刷新角色分类列表</summary>
     partial void OnGameChanged(Game? value)
     {
         OnPropertyChanged(nameof(Heroines));
@@ -41,7 +54,7 @@ public partial class GameDetailViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 直接设置 Game 对象（从搜索列表传入，共享引用）
+    /// 直接设置 Game 对象（从搜索列表传入，共享引用避免重复加载）
     /// </summary>
     public void SetGame(Game game)
     {
@@ -49,7 +62,7 @@ public partial class GameDetailViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 从数据库重新加载
+    /// 从数据库重新加载游戏数据
     /// </summary>
     public async Task LoadAsync(int gameId)
     {
@@ -66,6 +79,7 @@ public partial class GameDetailViewModel : ObservableObject
 
     // ==================== 快速修改命令 ====================
 
+    /// <summary>循环切换游玩状态：未玩 → 进行中 → 已通关 → 未玩</summary>
     [RelayCommand]
     private async Task CyclePlayStateAsync()
     {
@@ -80,6 +94,7 @@ public partial class GameDetailViewModel : ObservableObject
         Game.PlayState = next;
     }
 
+    /// <summary>循环切换情感状态：嫌い → ... → 気になり → 好き → 嫌い</summary>
     [RelayCommand]
     private async Task CycleEmotionAsync()
     {
@@ -95,6 +110,7 @@ public partial class GameDetailViewModel : ObservableObject
         Game.Emotion = next;
     }
 
+    /// <summary>切换存储位置：本地 ↔ 云端</summary>
     [RelayCommand]
     private async Task ToggleLocationAsync()
     {
@@ -104,12 +120,14 @@ public partial class GameDetailViewModel : ObservableObject
         Game.Location = next;
     }
 
+    /// <summary>更新星级评分（由 UI 事件调用）</summary>
     public async Task UpdateStarAsync(int star)
     {
         if (Game == null) return;
         await _mongo.UpdateStarAsync(Game.Id, star);
     }
 
+    /// <summary>切换标记相同状态（由 UI 事件调用）</summary>
     public async Task ToggleMarkSameAsync(bool isSame)
     {
         if (Game == null) return;
@@ -118,6 +136,7 @@ public partial class GameDetailViewModel : ObservableObject
 
     // ==================== Tag 操作 ====================
 
+    /// <summary>添加新标签</summary>
     [RelayCommand]
     private async Task AddTagAsync()
     {
@@ -129,6 +148,7 @@ public partial class GameDetailViewModel : ObservableObject
         NewTag = string.Empty;
     }
 
+    /// <summary>移除指定标签</summary>
     [RelayCommand]
     private async Task RemoveTagAsync(string tag)
     {
@@ -140,12 +160,14 @@ public partial class GameDetailViewModel : ObservableObject
 
     // ==================== 标题编辑 ====================
 
+    /// <summary>显示编辑弹窗</summary>
     [RelayCommand]
     private void ShowEditModal()
     {
         IsEditModalVisible = true;
     }
 
+    /// <summary>保存标题修改</summary>
     [RelayCommand]
     private async Task UpdateTitleAsync()
     {
@@ -154,6 +176,7 @@ public partial class GameDetailViewModel : ObservableObject
         IsEditModalVisible = false;
     }
 
+    /// <summary>从原始名称中按空格拆分主标题和副标题</summary>
     [RelayCommand]
     private void SplitTitle()
     {
@@ -168,6 +191,7 @@ public partial class GameDetailViewModel : ObservableObject
 
     // ==================== 角色 CV 编辑 ====================
 
+    /// <summary>更新指定角色的声优信息</summary>
     [RelayCommand]
     private async Task UpdateCharCVAsync(GameCharacter character)
     {
@@ -177,6 +201,7 @@ public partial class GameDetailViewModel : ObservableObject
 
     // ==================== 外部链接 ====================
 
+    /// <summary>在默认浏览器中打开 URL</summary>
     [RelayCommand]
     private void OpenUrl(string url)
     {
@@ -188,6 +213,7 @@ public partial class GameDetailViewModel : ObservableObject
         catch { }
     }
 
+    /// <summary>在 Wikipedia 搜索声优</summary>
     [RelayCommand]
     private void OpenCVWiki(string cv)
     {
@@ -195,6 +221,7 @@ public partial class GameDetailViewModel : ObservableObject
         OpenUrl($"https://ja.wikipedia.org/w/index.php?search={Uri.EscapeDataString(cv)}");
     }
 
+    /// <summary>在 Bangumi 搜索声优</summary>
     [RelayCommand]
     private void OpenCVBangumi(string cv)
     {
@@ -202,6 +229,7 @@ public partial class GameDetailViewModel : ObservableObject
         OpenUrl($"https://bgm.tv/subject_search/{Uri.EscapeDataString(cv)}?cat=person");
     }
 
+    /// <summary>在外部网站搜索游戏名</summary>
     [RelayCommand]
     private void OpenExternalSearch(string engine)
     {

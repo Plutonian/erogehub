@@ -1,3 +1,7 @@
+<!--
+    SearchWindow - ErogeHub 游戏搜索主窗口
+    布局：左侧搜索面板 | 中间游戏卡片列表 | 右侧聚合分析面板
+-->
 <Window x:Class="ErogeHub.Wpf.Views.SearchWindow"
         x:Name="RootWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -9,7 +13,9 @@
         Title="ErogeHub" Width="1400" Height="900"
         Background="#1E1E2E" WindowStartupLocation="CenterScreen">
 
+    <!-- ========== 窗口资源：转换器 & 模板 & 样式 ========== -->
     <Window.Resources>
+        <!-- 通用值转换器 -->
         <conv:BoolToVisibilityConverter x:Key="Bool2Vis"/>
         <conv:InverseBoolConverter x:Key="InvBool"/>
         <conv:PlayStateToBrushConverter x:Key="PlayStateBrush"/>
@@ -23,13 +29,14 @@
         <conv:EmptyToVisibilityConverter x:Key="Empty2Vis"/>
         <conv:DateRelativeConverter x:Key="DateRel"/>
 
-        <!-- ========== 游戏卡片模板（282px 宽，全交互） ========== -->
+        <!-- ========== 游戏卡片模板（282px 宽，全交互，用于中间游戏列表展示） ========== -->
         <DataTemplate x:Key="GameCardTemplate" DataType="{x:Type models:Game}">
+            <!-- 卡片外层：固定宽度，边框颜色根据情感值(Emotion)动态变色 -->
             <Border Width="282" Margin="4" Background="#2A2A3C" CornerRadius="6"
                     BorderBrush="{Binding Emotion, Converter={StaticResource EmotionBrush}}"
                     BorderThickness="2">
                 <StackPanel>
-                    <!-- 封面图（点击打开详情）— Height 设在 Button 上 -->
+                    <!-- 封面图区域：点击打开游戏详情窗口，Height 设在 Button 上保证统一高度 -->
                     <Button Command="{Binding DataContext.OpenDetailCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                CommandParameter="{Binding}"
                                Padding="0" BorderThickness="0" Background="Transparent"
@@ -39,16 +46,19 @@
                     </Button>
 
                     <StackPanel Margin="6,4">
-                        <!-- 标题行: PlayState 圆圈 + MainTitle + [Delete] -->
+                        <!-- 标题行：PlayState 状态圆圈 + 游戏主标题 + 删除按钮 -->
                         <StackPanel Orientation="Horizontal">
+                            <!-- 游玩状态圆形按钮：点击循环切换状态，颜色由 PlayStateBrush 转换器决定 -->
                             <Button Command="{Binding DataContext.CycleCardPlayStateCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                        CommandParameter="{Binding}"
                                        Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
                                        ToolTip="PlayState (click to cycle)">
                                 <Ellipse Width="16" Height="16" Fill="{Binding PlayState, Converter={StaticResource PlayStateBrush}}"/>
                             </Button>
+                            <!-- 游戏主标题，超长省略 -->
                             <TextBlock Text="{Binding MainTitle}" FontWeight="Bold" Foreground="#E0E0E0" FontSize="14"
                                        TextTrimming="CharacterEllipsis" Margin="4,0,0,0" MaxWidth="210"/>
+                            <!-- 删除按钮：仅当 IsSame 为 true 时显示（标记为重复的游戏） -->
                             <Button Content="[Del]" Foreground="#FF4444" FontSize="10" Margin="4,0,0,0"
                                        Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
                                        Style="{StaticResource ButtonDanger}"
@@ -57,11 +67,11 @@
                                        CommandParameter="{Binding}"/>
                         </StackPanel>
 
-                        <!-- SubTitle -->
+                        <!-- 副标题 -->
                         <TextBlock Text="{Binding SubTitle}" Foreground="#999" FontSize="12"
                                    TextTrimming="CharacterEllipsis"/>
 
-                        <!-- Brand (可点击) + 公式サイト -->
+                        <!-- 品牌名称（可点击搜索） + 官网链接 -->
                         <StackPanel Orientation="Horizontal" Margin="0,3,0,0"
                                     Visibility="{Binding Brand.Name, Converter={StaticResource Str2Vis}}">
                             <Button Command="{Binding DataContext.BrandClickToSearchCommand, RelativeSource={RelativeSource AncestorType=Window}}"
@@ -78,17 +88,20 @@
                             </TextBlock>
                         </StackPanel>
 
-                        <!-- Star + Emotion + Location + MarkSame -->
+                        <!-- 星级评价 + 情感 + 存储位置 + 标记为相同 -->
                         <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                            <!-- 星级评分控件：可交互，变更时触发 CardRate_ValueChanged -->
                             <hc:Rate Value="{Binding Star, Mode=TwoWay}" AllowClear="True"
                                      FontSize="14" Foreground="#FFB800"
                                      Visibility="{Binding ShowStar, Converter={StaticResource Bool2Vis}}"
                                      ValueChanged="CardRate_ValueChanged"/>
+                            <!-- 情感按钮：点击循环切换 -99/1/99，♥ 颜色随情感值变化 -->
                             <Button Command="{Binding DataContext.CycleCardEmotionCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                        CommandParameter="{Binding}"
                                        Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
                                        Visibility="{Binding ShowEmotion, Converter={StaticResource Bool2Vis}}"
                                        ToolTip="Emotion (click to cycle)" Margin="8,0,0,0">
+                                <!-- ♥ 图标：根据情感值(-99=暗红 / 1=粉红 / 99=亮红)改变颜色 -->
                                 <TextBlock Text="♥" FontSize="14">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
@@ -108,11 +121,13 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                             </Button>
+                            <!-- 存储位置切换按钮：云端 ☁ / 本地 ✓ -->
                             <Button Command="{Binding DataContext.ToggleCardLocationCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                        CommandParameter="{Binding}"
                                        Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
                                        Visibility="{Binding Published, Converter={StaticResource Bool2Vis}}"
                                        ToolTip="Location (click to toggle)" Margin="8,0,0,0">
+                                <!-- 存储位置图标：本地(✓) / 云端(☁) -->
                                 <TextBlock FontSize="14">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
@@ -128,10 +143,11 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                             </Button>
+                            <!-- 标记为相同游戏：ToggleButton，绑定 IsSame 属性 -->
                             <ToggleButton IsChecked="{Binding IsSame, Mode=TwoWay}" Click="CardMarkSame_Click" Content="同" Margin="8,0,0,0" Padding="6,2" FontSize="11" ToolTip="MarkSame"/>
                         </StackPanel>
 
-                        <!-- Tags (点击添加搜索条件) -->
+                        <!-- 标签列表（点击标签可将其添加为搜索条件） -->
                         <ItemsControl ItemsSource="{Binding Tag}" Margin="0,4,0,0">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
@@ -147,7 +163,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
 
-                        <!-- 日期 -->
+                        <!-- 发布日期：使用 DateRel 转换器显示为相对时间 -->
                         <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateRel}}"
                                    Foreground="#888" FontSize="11" Margin="0,4,0,0"/>
                     </StackPanel>
@@ -155,7 +171,7 @@
             </Border>
         </DataTemplate>
 
-        <!-- ========== 搜索条件项模板 ========== -->
+        <!-- ========== 搜索条件项模板（左侧搜索面板中的每一条搜索条件） ========== -->
         <DataTemplate x:Key="SearchOptTemplate" DataType="{x:Type models:SearchOpt}">
             <Border Background="#33334A" CornerRadius="4" Margin="0,2" Padding="4">
                 <Grid>
@@ -165,18 +181,22 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
+                    <!-- 搜索类型下拉框：TITLE/EMOTION/LOCATION/PLAYSTATE/TAG 等 -->
                     <hc:ComboBox Grid.Column="0" MinWidth="100" Margin="0,0,4,0"
                                  ItemsSource="{x:Static vm:SearchViewModel.SearchTypeOptions}"
                                  DisplayMemberPath="Label" SelectedValuePath="Type"
                                  SelectedValue="{Binding Key}" IsEnabled="{Binding Enabled}"/>
+                    <!-- 纯文本输入：当搜索类型为文本型时显示 -->
                     <hc:TextBox Grid.Column="1" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
                                 IsEnabled="{Binding Enabled}"
                                 Visibility="{Binding Key, Converter={StaticResource IsText}}"
                                 VerticalContentAlignment="Center"/>
+                    <!-- 星级评分输入：当搜索类型为 STAR 时显示 -->
                     <hc:Rate Grid.Column="1" Value="{Binding Value, Converter={StaticResource Str2Double}, Mode=TwoWay}"
                              IsEnabled="{Binding Enabled}" AllowClear="True"
                              Visibility="{Binding Key, Converter={StaticResource IsStar}}"
                              VerticalAlignment="Center"/>
+                    <!-- 下拉选择输入：当搜索类型为 EMOTION/LOCATION/PLAYSTATE 时显示对应选项 -->
                     <hc:ComboBox Grid.Column="1" IsEnabled="{Binding Enabled}"
                                  Visibility="{Binding Key, Converter={StaticResource IsSelect}}"
                                  SelectedValue="{Binding Value}" VerticalContentAlignment="Center">
@@ -202,7 +222,9 @@
                             </Style>
                         </hc:ComboBox.Style>
                     </hc:ComboBox>
+                    <!-- 启用/禁用该搜索条件的复选框 -->
                     <CheckBox Grid.Column="2" IsChecked="{Binding Enabled}" Margin="4,0" VerticalAlignment="Center"/>
+                    <!-- 操作按钮：交换（将包含条件变为排除条件，反之亦然）、删除 -->
                     <StackPanel Grid.Column="3" Orientation="Horizontal">
                         <Button Content="&#x21C4;" ToolTip="交换" Margin="2,0" Padding="6,2"
                                    Command="{Binding DataContext.SwapSearchOptCommand, RelativeSource={RelativeSource AncestorType=Window}}"
@@ -216,7 +238,7 @@
             </Border>
         </DataTemplate>
 
-        <!-- ========== 通用聚合项模板 ========== -->
+        <!-- ========== 通用聚合项模板：名称 + 数量，用于 Tag/CV 等 ========== -->
         <DataTemplate x:Key="GroupItemTemplate" DataType="{x:Type models:GroupItem}">
             <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
                        Command="{Binding DataContext.TagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
@@ -230,6 +252,7 @@
             </Button>
         </DataTemplate>
 
+        <!-- 星级聚合项模板：星级评分 + 数量 -->
         <DataTemplate x:Key="StarGroupTemplate" DataType="{x:Type models:StarGroupItem}">
             <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
                        Command="{Binding DataContext.StarClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
@@ -241,6 +264,7 @@
             </Button>
         </DataTemplate>
 
+        <!-- 日期聚合项模板：支持层级展开（年 → 月），使用 HierarchicalDataTemplate -->
         <HierarchicalDataTemplate x:Key="DateGroupTemplate" DataType="{x:Type models:DateGroupItem}"
                                   ItemsSource="{Binding Children}">
             <Button Padding="2,1" HorizontalContentAlignment="Stretch" Background="Transparent"
@@ -253,6 +277,7 @@
             </Button>
         </HierarchicalDataTemplate>
 
+        <!-- 品牌聚合项模板：支持层级展开，使用 HierarchicalDataTemplate -->
         <HierarchicalDataTemplate x:Key="BrandGroupTemplate" DataType="{x:Type models:BrandGroupItem}"
                                   ItemsSource="{Binding Children}">
             <Button Padding="2,1" HorizontalContentAlignment="Stretch" Background="Transparent"
@@ -265,7 +290,7 @@
             </Button>
         </HierarchicalDataTemplate>
 
-        <!-- 聚合面板折叠/展开 ToggleButton 样式 -->
+        <!-- ========== 右侧聚合面板折叠/展开按钮样式 ========== -->
         <Style x:Key="AggToggleStyle" TargetType="ToggleButton">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -305,6 +330,7 @@
         </Style>
     </Window.Resources>
 
+    <!-- ========== 三栏主布局：左(搜索) | 中(列表) | 右(聚合) ========== -->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="360"/>
@@ -312,9 +338,10 @@
             <ColumnDefinition Width="310"/>
         </Grid.ColumnDefinitions>
 
-        <!-- ========== 左侧：搜索面板 ========== -->
+        <!-- ========== 左侧栏：搜索面板（360px 固定宽度） ========== -->
         <Border Grid.Column="0" Background="#252535" Margin="4" CornerRadius="6">
             <DockPanel>
+                <!-- 搜索面板标题栏：标题 + Search 按钮 -->
                 <DockPanel DockPanel.Dock="Top" Margin="8,8,8,4">
                     <Button DockPanel.Dock="Right" Content="Search" Padding="12,4"
                                Style="{StaticResource ButtonPrimary}"
@@ -325,8 +352,8 @@
 
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="8,4,8,8">
-                        <!-- ========== 日期范围（紧凑2行） ========== -->
-                        <!-- 第1行: 标签 + 下拉预设 + E启用开关 -->
+                        <!-- ========== 日期范围筛选（紧凑2行布局） ========== -->
+                        <!-- 第1行：标签 + 下拉预设 + 启用开关 -->
                         <DockPanel Margin="0,10,0,4">
                             <CheckBox DockPanel.Dock="Right" IsChecked="{Binding IsDateRangeEnabled}"
                                       Content="E" Margin="12,0,0,0" VerticalAlignment="Center"
@@ -339,7 +366,7 @@
                                        VerticalAlignment="Center"/>
                         </DockPanel>
 
-                        <!-- 第2行: 日期输入框 + 快捷按钮（同一行） -->
+                        <!-- 第2行：自定义日期输入框 + 快捷调整按钮 -->
                         <Grid Margin="0,0,0,8">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -348,23 +375,23 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <!-- 起始月份 (仅自定义预设时显示) -->
+                            <!-- 起始月份输入框（仅自定义预设时显示） -->
                             <hc:TextBox Grid.Column="0" Text="{Binding CurrentDateRange.StartMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Width="72" IsEnabled="{Binding IsDateRangeEnabled}" hc:InfoElement.Placeholder="yyyy-MM"
                                         VerticalContentAlignment="Center"
                                         Visibility="{Binding IsCustomDatePreset, Converter={StaticResource Bool2Vis}}"/>
 
-                            <!-- 分隔符 (仅自定义预设时显示) -->
+                            <!-- 日期范围分隔符 -->
                             <TextBlock Grid.Column="1" Text="~" Foreground="#777" Margin="6,0" VerticalAlignment="Center"
                                        Visibility="{Binding IsCustomDatePreset, Converter={StaticResource Bool2Vis}}"/>
 
-                            <!-- 结束月份 (仅自定义预设时显示) -->
+                            <!-- 结束月份输入框（仅自定义预设时显示） -->
                             <hc:TextBox Grid.Column="2" Text="{Binding CurrentDateRange.EndMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Width="72" IsEnabled="{Binding IsDateRangeEnabled}" hc:InfoElement.Placeholder="yyyy-MM"
                                         VerticalContentAlignment="Center"
                                         Visibility="{Binding IsCustomDatePreset, Converter={StaticResource Bool2Vis}}"/>
 
-                            <!-- 快捷按钮组 -->
+                            <!-- 快捷按钮组：-年/-月/这个月/+月/+年 -->
                             <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right"
                                         IsEnabled="{Binding IsDateRangeEnabled}">
                                 <Button Content="-年" Padding="4,0" FontSize="11" Margin="2,0"
@@ -385,6 +412,7 @@
                             </StackPanel>
                         </Grid>
 
+                        <!-- 包含条件列表：匹配这些条件的游戏才会显示 -->
                         <DockPanel Margin="0,4,0,2">
                             <Button DockPanel.Dock="Right" Content="+" Padding="8,2" Margin="4,0,0,0"
                                        Style="{StaticResource ButtonPrimary}"
@@ -393,6 +421,7 @@
                         </DockPanel>
                         <ItemsControl ItemsSource="{Binding IncludeOpts}" ItemTemplate="{StaticResource SearchOptTemplate}" Margin="0,2,0,4"/>
 
+                        <!-- 排除条件列表：匹配这些条件的游戏会被过滤掉 -->
                         <DockPanel Margin="0,4,0,2">
                             <Button DockPanel.Dock="Right" Content="+" Padding="8,2" Margin="4,0,0,0"
                                        Style="{StaticResource ButtonDanger}"
@@ -405,8 +434,9 @@
             </DockPanel>
         </Border>
 
-        <!-- ========== 中间：游戏列表 ========== -->
+        <!-- ========== 中间栏：游戏卡片列表（自适应宽度） ========== -->
         <DockPanel Grid.Column="1" Margin="4">
+            <!-- 底部分页栏：总数 + Pagination 控件 -->
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4">
                 <TextBlock VerticalAlignment="Center" Margin="0,0,8,0">
                     <Run Text="共 " Foreground="#999"/>
@@ -417,6 +447,7 @@
                                PageUpdated="Pagination_PageUpdated"/>
             </StackPanel>
 
+            <!-- 卡片列表：使用 WrapPanel 自动换行，加载时显示 LoadingCircle -->
             <hc:SimplePanel>
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                     <ItemsControl ItemsSource="{Binding Games}" ItemTemplate="{StaticResource GameCardTemplate}">
@@ -430,11 +461,11 @@
             </hc:SimplePanel>
         </DockPanel>
 
-        <!-- ========== 右侧：聚合面板 ========== -->
+        <!-- ========== 右侧栏：聚合分析面板（310px 固定宽度） ========== -->
         <Border Grid.Column="2" Background="#252535" Margin="4" CornerRadius="6">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="4">
-                    <!-- 日期 -->
+                    <!-- 日期分布（树形结构：年 → 月） -->
                     <Grid Margin="0,2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -447,7 +478,7 @@
                                   Background="Transparent" Margin="4"/>
                     </Grid>
 
-                    <!-- 星级 -->
+                    <!-- 星级分布 -->
                     <Grid Margin="0,2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -459,7 +490,7 @@
                                       ItemsSource="{Binding StarGroup}" ItemTemplate="{StaticResource StarGroupTemplate}" Margin="4"/>
                     </Grid>
 
-                    <!-- 情感 -->
+                    <!-- 情感分布 -->
                     <Grid Margin="0,2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -486,7 +517,7 @@
                         </ItemsControl>
                     </Grid>
 
-                    <!-- 位置 -->
+                    <!-- 存储位置分布 -->
                     <Grid Margin="0,2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -513,7 +544,7 @@
                         </ItemsControl>
                     </Grid>
 
-                    <!-- 游玩状态 -->
+                    <!-- 游玩状态分布 -->
                     <Grid Margin="0,2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -540,7 +571,7 @@
                         </ItemsControl>
                     </Grid>
 
-                    <!-- 声优 -->
+                    <!-- 声优分布 -->
                     <Grid Margin="0,2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -567,7 +598,7 @@
                         </ItemsControl>
                     </Grid>
 
-                    <!-- 去马甲CV -->
+                    <!-- 去马甲CV分布（合并了马甲的声优真实姓名统计） -->
                     <Grid Margin="0,2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -594,7 +625,7 @@
                         </ItemsControl>
                     </Grid>
 
-                    <!-- Tag -->
+                    <!-- Tag 标签分布 -->
                     <Grid Margin="0,2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -621,7 +652,7 @@
                         </ItemsControl>
                     </Grid>
 
-                    <!-- 品牌 -->
+                    <!-- 品牌分布（树形结构） -->
                     <Grid Margin="0,2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>

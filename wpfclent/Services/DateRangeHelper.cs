@@ -1,9 +1,22 @@
 namespace ErogeHub.Wpf.Services;
 
+using CommunityToolkit.Mvvm.ComponentModel;
+
 /// <summary>
 /// 日期范围，格式 "yyyy-MM"，空字符串表示未设置
 /// </summary>
-public record DateRange(string StartMonth, string EndMonth);
+public partial class DateRange : ObservableObject
+{
+    [ObservableProperty] private string _startMonth = string.Empty;
+    [ObservableProperty] private string _endMonth = string.Empty;
+
+    public DateRange() { }
+    public DateRange(string startMonth, string endMonth)
+    {
+        StartMonth = startMonth;
+        EndMonth = endMonth;
+    }
+}
 
 public record DatePreset(string Label, string Key);
 

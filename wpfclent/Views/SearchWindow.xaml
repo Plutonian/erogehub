@@ -28,44 +28,47 @@
                     BorderBrush="{Binding Emotion, Converter={StaticResource EmotionBrush}}"
                     BorderThickness="2">
                 <StackPanel>
-                    <!-- 封面图（点击打开详情） -->
+                    <!-- 封面图（点击打开详情）— Height 设在 Button 上 -->
                     <Button Command="{Binding DataContext.OpenDetailCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                            CommandParameter="{Binding}"
-                            Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand">
-                        <Image Source="{Binding CoverUrl}" Height="240" Stretch="UniformToFill"/>
+                               CommandParameter="{Binding}"
+                               Padding="0" BorderThickness="0" Background="Transparent"
+                               HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Cursor="Hand"
+                               Height="396">
+                        <Image Source="{Binding CoverUrl}" Stretch="UniformToFill"/>
                     </Button>
 
-                    <StackPanel Margin="8,4">
+                    <StackPanel Margin="6,4">
                         <!-- 标题行: PlayState 圆圈 + MainTitle + [Delete] -->
                         <StackPanel Orientation="Horizontal">
                             <Button Command="{Binding DataContext.CycleCardPlayStateCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                    CommandParameter="{Binding}"
-                                    Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
-                                    ToolTip="PlayState (click to cycle)">
-                                <Ellipse Width="12" Height="12" Fill="{Binding PlayState, Converter={StaticResource PlayStateBrush}}"/>
+                                       CommandParameter="{Binding}"
+                                       Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
+                                       ToolTip="PlayState (click to cycle)">
+                                <Ellipse Width="16" Height="16" Fill="{Binding PlayState, Converter={StaticResource PlayStateBrush}}"/>
                             </Button>
-                            <TextBlock Text="{Binding MainTitle}" FontWeight="Bold" Foreground="#E0E0E0" FontSize="13"
+                            <TextBlock Text="{Binding MainTitle}" FontWeight="Bold" Foreground="#E0E0E0" FontSize="14"
                                        TextTrimming="CharacterEllipsis" Margin="4,0,0,0" MaxWidth="210"/>
                             <Button Content="[Del]" Foreground="#FF4444" FontSize="10" Margin="4,0,0,0"
-                                    Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
-                                    Visibility="{Binding IsSame, Converter={StaticResource Bool2Vis}}"
-                                    Command="{Binding DataContext.DeleteCardCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                    CommandParameter="{Binding}"/>
+                                       Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
+                                       Style="{StaticResource ButtonDanger}"
+                                       Visibility="{Binding IsSame, Converter={StaticResource Bool2Vis}}"
+                                       Command="{Binding DataContext.DeleteCardCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                       CommandParameter="{Binding}"/>
                         </StackPanel>
 
                         <!-- SubTitle -->
-                        <TextBlock Text="{Binding SubTitle}" Foreground="#999" FontSize="11"
+                        <TextBlock Text="{Binding SubTitle}" Foreground="#999" FontSize="12"
                                    TextTrimming="CharacterEllipsis"/>
 
                         <!-- Brand (可点击) + 公式サイト -->
-                        <StackPanel Orientation="Horizontal" Margin="0,2,0,0"
+                        <StackPanel Orientation="Horizontal" Margin="0,3,0,0"
                                     Visibility="{Binding Brand.Name, Converter={StaticResource Str2Vis}}">
                             <Button Command="{Binding DataContext.BrandClickToSearchCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                    CommandParameter="{Binding Brand.Name}"
-                                    Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand">
-                                <TextBlock Text="{Binding Brand.Name}" Foreground="#7AB8FF" FontSize="11"/>
+                                       CommandParameter="{Binding Brand.Name}"
+                                       Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand">
+                                <TextBlock Text="{Binding Brand.Name}" Foreground="#7AB8FF" FontSize="12"/>
                             </Button>
-                            <TextBlock Margin="4,0,0,0" FontSize="10"
+                            <TextBlock Margin="4,0,0,0" FontSize="11"
                                        Visibility="{Binding Brand.Website, Converter={StaticResource Web2Vis}}">
                                 <Hyperlink NavigateUri="{Binding Brand.Website}"
                                            RequestNavigate="OpenHyperlink_RequestNavigate">
@@ -75,16 +78,16 @@
                         </StackPanel>
 
                         <!-- Star + Emotion + Location + MarkSame -->
-                        <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
                             <hc:Rate Value="{Binding Star, Mode=TwoWay}" AllowClear="True"
-                                     FontSize="12" Foreground="#FFB800"
+                                     FontSize="14" Foreground="#FFB800"
                                      Visibility="{Binding ShowStar, Converter={StaticResource Bool2Vis}}"
                                      ValueChanged="CardRate_ValueChanged"/>
                             <Button Command="{Binding DataContext.CycleCardEmotionCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                    CommandParameter="{Binding}"
-                                    Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
-                                    Visibility="{Binding ShowEmotion, Converter={StaticResource Bool2Vis}}"
-                                    ToolTip="Emotion (click to cycle)" Margin="8,0,0,0">
+                                       CommandParameter="{Binding}"
+                                       Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
+                                       Visibility="{Binding ShowEmotion, Converter={StaticResource Bool2Vis}}"
+                                       ToolTip="Emotion (click to cycle)" Margin="8,0,0,0">
                                 <TextBlock Text="♥" FontSize="14">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
@@ -105,10 +108,10 @@
                                 </TextBlock>
                             </Button>
                             <Button Command="{Binding DataContext.ToggleCardLocationCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                    CommandParameter="{Binding}"
-                                    Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
-                                    Visibility="{Binding Published, Converter={StaticResource Bool2Vis}}"
-                                    ToolTip="Location (click to toggle)" Margin="8,0,0,0">
+                                       CommandParameter="{Binding}"
+                                       Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
+                                       Visibility="{Binding Published, Converter={StaticResource Bool2Vis}}"
+                                       ToolTip="Location (click to toggle)" Margin="8,0,0,0">
                                 <TextBlock FontSize="14">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
@@ -124,29 +127,28 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                             </Button>
-                            <ToggleButton IsChecked="{Binding IsSame, Mode=TwoWay}" Click="CardMarkSame_Click"
-                                          Content="同" Margin="8,0,0,0" Padding="4,1" FontSize="10"/>
+                            <ToggleButton IsChecked="{Binding IsSame, Mode=TwoWay}" Click="CardMarkSame_Click" Content="同" Margin="8,0,0,0" Padding="6,2" FontSize="11" ToolTip="MarkSame"/>
                         </StackPanel>
 
                         <!-- Tags (点击添加搜索条件) -->
-                        <ItemsControl ItemsSource="{Binding Tag}" Margin="0,2,0,0">
+                        <ItemsControl ItemsSource="{Binding Tag}" Margin="0,4,0,0">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Content="{Binding}" FontSize="10" Margin="0,0,4,2"
-                                            Padding="4,1" Background="#FFABD3" Foreground="#333"
-                                            BorderThickness="0" Cursor="Hand"
-                                            Command="{Binding DataContext.TagClickToSearchCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                            CommandParameter="{Binding}"/>
+                                    <Button Content="{Binding}" FontSize="10" Margin="0,0,4,3"
+                                               Padding="5,2" Background="#FFABD3" Foreground="#333"
+                                               BorderThickness="0" Cursor="Hand"
+                                               Command="{Binding DataContext.TagClickToSearchCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                               CommandParameter="{Binding}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
 
-                        <!-- 日期 (相对格式) -->
+                        <!-- 日期 -->
                         <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateRel}}"
-                                   Foreground="#888" FontSize="10" Margin="0,2,0,0"/>
+                                   Foreground="#888" FontSize="11" Margin="0,4,0,0"/>
                     </StackPanel>
                 </StackPanel>
             </Border>
@@ -166,11 +168,11 @@
                                  ItemsSource="{x:Static vm:SearchViewModel.SearchTypeOptions}"
                                  DisplayMemberPath="Label" SelectedValuePath="Type"
                                  SelectedValue="{Binding Key}" IsEnabled="{Binding Enabled}"/>
-                    <TextBox Grid.Column="1" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
-                             IsEnabled="{Binding Enabled}"
-                             Visibility="{Binding Key, Converter={StaticResource IsText}}"
-                             VerticalContentAlignment="Center"/>
-                    <hc:Rate Grid.Column="1" Value="{Binding Value, Converter={StaticResource Str2Double}}"
+                    <hc:TextBox Grid.Column="1" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
+                                IsEnabled="{Binding Enabled}"
+                                Visibility="{Binding Key, Converter={StaticResource IsText}}"
+                                VerticalContentAlignment="Center"/>
+                    <hc:Rate Grid.Column="1" Value="{Binding Value, Converter={StaticResource Str2Double}, Mode=TwoWay}"
                              IsEnabled="{Binding Enabled}" AllowClear="True"
                              Visibility="{Binding Key, Converter={StaticResource IsStar}}"
                              VerticalAlignment="Center"/>
@@ -202,11 +204,12 @@
                     <CheckBox Grid.Column="2" IsChecked="{Binding Enabled}" Margin="4,0" VerticalAlignment="Center"/>
                     <StackPanel Grid.Column="3" Orientation="Horizontal">
                         <Button Content="&#x21C4;" ToolTip="交换" Margin="2,0" Padding="6,2"
-                                Command="{Binding DataContext.SwapSearchOptCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                CommandParameter="{Binding}"/>
+                                   Command="{Binding DataContext.SwapSearchOptCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                   CommandParameter="{Binding}"/>
                         <Button Content="&#xD7;" ToolTip="删除" Margin="2,0" Padding="6,2"
-                                Command="{Binding DataContext.RemoveSearchOptCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                CommandParameter="{Binding}"/>
+                                   Style="{StaticResource ButtonDanger}"
+                                   Command="{Binding DataContext.RemoveSearchOptCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                   CommandParameter="{Binding}"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -215,8 +218,8 @@
         <!-- ========== 通用聚合项模板 ========== -->
         <DataTemplate x:Key="GroupItemTemplate" DataType="{x:Type models:GroupItem}">
             <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
-                    Command="{Binding DataContext.OnTagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                    CommandParameter="{Binding}">
+                       Command="{Binding DataContext.OnTagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                       CommandParameter="{Binding}">
                 <DockPanel>
                     <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
                         <TextBlock Text="{Binding Count}" Foreground="#CCC" FontSize="10"/>
@@ -228,8 +231,8 @@
 
         <DataTemplate x:Key="StarGroupTemplate" DataType="{x:Type models:StarGroupItem}">
             <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
-                    Command="{Binding DataContext.OnStarClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                    CommandParameter="{Binding}">
+                       Command="{Binding DataContext.OnStarClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                       CommandParameter="{Binding}">
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#CCC" Margin="8,0,0,0"/>
                     <hc:Rate Value="{Binding Star}" IsReadOnly="True" AllowClear="False" FontSize="12" Foreground="#FFB800"/>
@@ -240,8 +243,8 @@
         <HierarchicalDataTemplate x:Key="DateGroupTemplate" DataType="{x:Type models:DateGroupItem}"
                                   ItemsSource="{Binding Children}">
             <Button Padding="2,1" HorizontalContentAlignment="Stretch"
-                    Command="{Binding DataContext.OnDateClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                    CommandParameter="{Binding}">
+                       Command="{Binding DataContext.OnDateClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                       CommandParameter="{Binding}">
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#888" Margin="8,0,0,0"/>
                     <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
@@ -252,8 +255,8 @@
         <HierarchicalDataTemplate x:Key="BrandGroupTemplate" DataType="{x:Type models:BrandGroupItem}"
                                   ItemsSource="{Binding Children}">
             <Button Padding="2,1" HorizontalContentAlignment="Stretch"
-                    Command="{Binding DataContext.OnBrandClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                    CommandParameter="{Binding}">
+                       Command="{Binding DataContext.OnBrandClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                       CommandParameter="{Binding}">
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#888" Margin="8,0,0,0"/>
                     <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
@@ -274,62 +277,86 @@
             <DockPanel>
                 <DockPanel DockPanel.Dock="Top" Margin="8,8,8,4">
                     <Button DockPanel.Dock="Right" Content="Search" Padding="12,4"
-                            Command="{Binding SearchCommand}" Background="#4466AA" Foreground="White"/>
+                               Style="{StaticResource ButtonPrimary}"
+                               Command="{Binding SearchCommand}"/>
                     <TextBlock Text="Search" FontSize="16" FontWeight="Bold" Foreground="#E0E0E0"
                                VerticalAlignment="Center"/>
                 </DockPanel>
 
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="8,4,8,8">
-                        <TextBlock Text="发布日期" Foreground="#999" FontSize="12" Margin="0,4,0,2"/>
-                        <DockPanel Margin="0,0,0,4">
-                            <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding IsDateRangeEnabled}"
-                                          Content="E/D" Margin="4,0,0,0" Width="36"/>
+                        <!-- ========== 日期范围（紧凑2行） ========== -->
+                        <!-- 第1行: 标签 + 下拉预设 + E启用开关 -->
+                        <DockPanel Margin="0,10,0,4">
+                            <CheckBox DockPanel.Dock="Right" IsChecked="{Binding IsDateRangeEnabled}"
+                                      Content="E" Margin="12,0,0,0" VerticalAlignment="Center"
+                                      ToolTip="启用/禁用日期筛选"/>
                             <hc:ComboBox ItemsSource="{Binding DatePresets}" DisplayMemberPath="Label"
                                          SelectedValuePath="Key" SelectedValue="{Binding SelectedDatePreset}"
-                                         IsEnabled="{Binding IsDateRangeEnabled}"/>
+                                         IsEnabled="{Binding IsDateRangeEnabled}" Margin="8,0,0,0"
+                                         MinWidth="100" VerticalContentAlignment="Center"/>
+                            <TextBlock Text="发布日期" Foreground="#AAA" FontSize="12" FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
                         </DockPanel>
 
-                        <StackPanel Visibility="{Binding IsCustomDatePreset, Converter={StaticResource Bool2Vis}}"
-                                    Margin="0,0,0,4">
-                            <DockPanel>
-                                <TextBlock DockPanel.Dock="Left" Text="从" Foreground="#999" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                                <hc:TextBox hc:InfoElement.Placeholder="yyyy-MM"
-                                            Text="{Binding CurrentDateRange.StartMonth, Mode=OneWay}" IsEnabled="False"/>
-                            </DockPanel>
-                            <DockPanel Margin="0,2,0,0">
-                                <TextBlock DockPanel.Dock="Left" Text="到" Foreground="#999" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                                <hc:TextBox hc:InfoElement.Placeholder="yyyy-MM"
-                                            Text="{Binding CurrentDateRange.EndMonth, Mode=OneWay}" IsEnabled="False"/>
-                            </DockPanel>
-                        </StackPanel>
+                        <!-- 第2行: 日期输入框 + 快捷按钮（同一行） -->
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{Binding DateRangeDisplay}" Foreground="#888" FontSize="11" Margin="0,0,0,4"
-                                   Visibility="{Binding IsCustomDatePreset, Converter={StaticResource Bool2Vis}}"/>
+                            <!-- 起始月份 (仅自定义预设时显示) -->
+                            <hc:TextBox Grid.Column="0" Text="{Binding CurrentDateRange.StartMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="72" IsEnabled="{Binding IsDateRangeEnabled}" hc:InfoElement.Placeholder="yyyy-MM"
+                                        VerticalContentAlignment="Center"
+                                        Visibility="{Binding IsCustomDatePreset, Converter={StaticResource Bool2Vis}}"/>
 
-                        <UniformGrid Columns="5" Margin="0,0,0,8">
-                            <Button Content="-年" Padding="2" Margin="1" Command="{Binding AdjustDateRangeCommand}" CommandParameter="-1y"
-                                    IsEnabled="{Binding IsDateRangeEnabled}"/>
-                            <Button Content="-月" Padding="2" Margin="1" Command="{Binding AdjustDateRangeCommand}" CommandParameter="-1m"
-                                    IsEnabled="{Binding IsDateRangeEnabled}"/>
-                            <Button Content="本月" Padding="2" Margin="1" Command="{Binding AdjustDateRangeCommand}" CommandParameter="this_month"
-                                    IsEnabled="{Binding IsDateRangeEnabled}"/>
-                            <Button Content="+月" Padding="2" Margin="1" Command="{Binding AdjustDateRangeCommand}" CommandParameter="+1m"
-                                    IsEnabled="{Binding IsDateRangeEnabled}"/>
-                            <Button Content="+年" Padding="2" Margin="1" Command="{Binding AdjustDateRangeCommand}" CommandParameter="+1y"
-                                    IsEnabled="{Binding IsDateRangeEnabled}"/>
-                        </UniformGrid>
+                            <!-- 分隔符 (仅自定义预设时显示) -->
+                            <TextBlock Grid.Column="1" Text="~" Foreground="#777" Margin="6,0" VerticalAlignment="Center"
+                                       Visibility="{Binding IsCustomDatePreset, Converter={StaticResource Bool2Vis}}"/>
+
+                            <!-- 结束月份 (仅自定义预设时显示) -->
+                            <hc:TextBox Grid.Column="2" Text="{Binding CurrentDateRange.EndMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="72" IsEnabled="{Binding IsDateRangeEnabled}" hc:InfoElement.Placeholder="yyyy-MM"
+                                        VerticalContentAlignment="Center"
+                                        Visibility="{Binding IsCustomDatePreset, Converter={StaticResource Bool2Vis}}"/>
+
+                            <!-- 快捷按钮组 -->
+                            <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right"
+                                        IsEnabled="{Binding IsDateRangeEnabled}">
+                                <Button Content="-年" Padding="4,0" FontSize="11" Margin="2,0"
+                                        Command="{Binding AdjustDateRangeCommand}" CommandParameter="-1y"
+                                        Background="#33334A" Foreground="#CCC" BorderThickness="0"/>
+                                <Button Content="-月" Padding="4,0" FontSize="11" Margin="2,0"
+                                        Command="{Binding AdjustDateRangeCommand}" CommandParameter="-1m"
+                                        Background="#33334A" Foreground="#CCC" BorderThickness="0"/>
+                                <Button Content="这个月" Padding="4,0" FontSize="11" Margin="2,0"
+                                        Command="{Binding AdjustDateRangeCommand}" CommandParameter="this_month"
+                                        Background="#335577" Foreground="#FFF" BorderThickness="0" FontWeight="Bold"/>
+                                <Button Content="+月" Padding="4,0" FontSize="11" Margin="2,0"
+                                        Command="{Binding AdjustDateRangeCommand}" CommandParameter="+1m"
+                                        Background="#33334A" Foreground="#CCC" BorderThickness="0"/>
+                                <Button Content="+年" Padding="4,0" FontSize="11" Margin="2,0"
+                                        Command="{Binding AdjustDateRangeCommand}" CommandParameter="+1y"
+                                        Background="#33334A" Foreground="#CCC" BorderThickness="0"/>
+                            </StackPanel>
+                        </Grid>
 
                         <DockPanel Margin="0,4,0,2">
                             <Button DockPanel.Dock="Right" Content="+" Padding="8,2" Margin="4,0,0,0"
-                                    Command="{Binding AddSearchOptCommand}" CommandParameter="Include"/>
+                                       Style="{StaticResource ButtonPrimary}"
+                                       Command="{Binding AddSearchOptCommand}" CommandParameter="Include"/>
                             <TextBlock Text="包含" Foreground="#7AB8FF" FontWeight="Bold" VerticalAlignment="Center"/>
                         </DockPanel>
                         <ItemsControl ItemsSource="{Binding IncludeOpts}" ItemTemplate="{StaticResource SearchOptTemplate}" Margin="0,2,0,4"/>
 
                         <DockPanel Margin="0,4,0,2">
                             <Button DockPanel.Dock="Right" Content="+" Padding="8,2" Margin="4,0,0,0"
-                                    Command="{Binding AddSearchOptCommand}" CommandParameter="Exclude"/>
+                                       Style="{StaticResource ButtonDanger}"
+                                       Command="{Binding AddSearchOptCommand}" CommandParameter="Exclude"/>
                             <TextBlock Text="排除" Foreground="#FF8866" FontWeight="Bold" VerticalAlignment="Center"/>
                         </DockPanel>
                         <ItemsControl ItemsSource="{Binding ExcludeOpts}" ItemTemplate="{StaticResource SearchOptTemplate}" Margin="0,2,0,4"/>
@@ -369,7 +396,7 @@
                 <StackPanel Margin="4">
                     <Expander Header="日期" IsExpanded="False" Foreground="#CCC" Margin="0,2">
                         <TreeView ItemsSource="{Binding DateGroup}" ItemTemplate="{StaticResource DateGroupTemplate}"
-                                  Background="Transparent" Margin="4"/>
+                                     Background="Transparent" Margin="4"/>
                     </Expander>
                     <Expander Header="星级" IsExpanded="False" Foreground="#CCC" Margin="0,2">
                         <ItemsControl ItemsSource="{Binding StarGroup}" ItemTemplate="{StaticResource StarGroupTemplate}" Margin="4"/>
@@ -379,8 +406,8 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:EmotionGroupItem}">
                                     <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
-                                            Command="{Binding DataContext.OnEmotionClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                            CommandParameter="{Binding}">
+                                               Command="{Binding DataContext.OnEmotionClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                               CommandParameter="{Binding}">
                                         <DockPanel>
                                             <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
                                                 <TextBlock Text="{Binding Count}" Foreground="#CCC" FontSize="10"/>
@@ -397,8 +424,8 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:LocationGroupItem}">
                                     <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
-                                            Command="{Binding DataContext.OnLocationClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                            CommandParameter="{Binding}">
+                                               Command="{Binding DataContext.OnLocationClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                               CommandParameter="{Binding}">
                                         <DockPanel>
                                             <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
                                                 <TextBlock Text="{Binding Count}" Foreground="#CCC" FontSize="10"/>
@@ -415,8 +442,8 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:PlayStateGroupItem}">
                                     <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
-                                            Command="{Binding DataContext.OnPlayStateClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                            CommandParameter="{Binding}">
+                                               Command="{Binding DataContext.OnPlayStateClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                               CommandParameter="{Binding}">
                                         <DockPanel>
                                             <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
                                                 <TextBlock Text="{Binding Count}" Foreground="#CCC" FontSize="10"/>
@@ -433,8 +460,8 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GroupItem}">
                                     <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
-                                            Command="{Binding DataContext.OnCVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                            CommandParameter="{Binding}">
+                                               Command="{Binding DataContext.OnCVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                               CommandParameter="{Binding}">
                                         <DockPanel>
                                             <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
                                                 <TextBlock Text="{Binding Count}" Foreground="#CCC" FontSize="10"/>
@@ -451,8 +478,8 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GroupItem}">
                                     <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
-                                            Command="{Binding DataContext.OnTrueCVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                            CommandParameter="{Binding}">
+                                               Command="{Binding DataContext.OnTrueCVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                               CommandParameter="{Binding}">
                                         <DockPanel>
                                             <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
                                                 <TextBlock Text="{Binding Count}" Foreground="#CCC" FontSize="10"/>
@@ -469,8 +496,8 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GroupItem}">
                                     <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
-                                            Command="{Binding DataContext.OnTagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                            CommandParameter="{Binding}">
+                                               Command="{Binding DataContext.OnTagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                               CommandParameter="{Binding}">
                                         <DockPanel>
                                             <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
                                                 <TextBlock Text="{Binding Count}" Foreground="#CCC" FontSize="10"/>
@@ -484,7 +511,7 @@
                     </Expander>
                     <Expander Header="品牌" IsExpanded="False" Foreground="#CCC" Margin="0,2">
                         <TreeView ItemsSource="{Binding BrandGroup}" ItemTemplate="{StaticResource BrandGroupTemplate}"
-                                  Background="Transparent" Margin="4"/>
+                                     Background="Transparent" Margin="4"/>
                     </Expander>
                 </StackPanel>
             </ScrollViewer>

@@ -51,4 +51,6 @@ public partial class SearchWindow : Window
         catch { }
         e.Handled = true;
     }
+
 }
+

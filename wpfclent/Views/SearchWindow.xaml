@@ -1,4 +1,5 @@
 <Window x:Class="ErogeHub.Wpf.Views.SearchWindow"
+        x:Name="RootWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -218,7 +219,7 @@
         <!-- ========== 通用聚合项模板 ========== -->
         <DataTemplate x:Key="GroupItemTemplate" DataType="{x:Type models:GroupItem}">
             <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                       Command="{Binding DataContext.OnTagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                       Command="{Binding DataContext.TagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                        CommandParameter="{Binding}">
                 <DockPanel>
                     <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
@@ -231,7 +232,7 @@
 
         <DataTemplate x:Key="StarGroupTemplate" DataType="{x:Type models:StarGroupItem}">
             <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                       Command="{Binding DataContext.OnStarClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                       Command="{Binding DataContext.StarClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                        CommandParameter="{Binding}">
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#CCC" Margin="8,0,0,0"/>
@@ -243,7 +244,7 @@
         <HierarchicalDataTemplate x:Key="DateGroupTemplate" DataType="{x:Type models:DateGroupItem}"
                                   ItemsSource="{Binding Children}">
             <Button Padding="2,1" HorizontalContentAlignment="Stretch" Background="Transparent"
-                       Command="{Binding DataContext.OnDateClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                       Command="{Binding DataContext.DateClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                        CommandParameter="{Binding}">
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#888" Margin="8,0,0,0"/>
@@ -255,7 +256,7 @@
         <HierarchicalDataTemplate x:Key="BrandGroupTemplate" DataType="{x:Type models:BrandGroupItem}"
                                   ItemsSource="{Binding Children}">
             <Button Padding="2,1" HorizontalContentAlignment="Stretch" Background="Transparent"
-                       Command="{Binding DataContext.OnBrandClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                       Command="{Binding DataContext.BrandClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                        CommandParameter="{Binding}">
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#888" Margin="8,0,0,0"/>
@@ -263,6 +264,45 @@
                 </DockPanel>
             </Button>
         </HierarchicalDataTemplate>
+
+        <!-- 聚合面板折叠/展开 ToggleButton 样式 -->
+        <Style x:Key="AggToggleStyle" TargetType="ToggleButton">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Foreground" Value="#CCC"/>
+            <Setter Property="Background" Value="#2D2D42"/>
+            <Setter Property="BorderBrush" Value="#555"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <DockPanel>
+                                <TextBlock x:Name="arrow" DockPanel.Dock="Left" Text="▶" FontSize="10"
+                                           Foreground="#888" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </DockPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#383852"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#33334D"/>
+                                <Setter TargetName="arrow" Property="Text" Value="▼"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -394,19 +434,45 @@
         <Border Grid.Column="2" Background="#252535" Margin="4" CornerRadius="6">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="4">
-                    <Expander Header="日期" IsExpanded="False" Foreground="#CCC" Margin="0,2">
-                        <TreeView ItemsSource="{Binding DateGroup}" ItemTemplate="{StaticResource DateGroupTemplate}"
-                                     Background="Transparent" Margin="4"/>
-                    </Expander>
-                    <Expander Header="星级" IsExpanded="False" Foreground="#CCC" Margin="0,2">
-                        <ItemsControl ItemsSource="{Binding StarGroup}" ItemTemplate="{StaticResource StarGroupTemplate}" Margin="4"/>
-                    </Expander>
-                    <Expander Header="情感" IsExpanded="False" Foreground="#CCC" Margin="0,2">
-                        <ItemsControl ItemsSource="{Binding EmotionGroup}" Margin="4">
+                    <!-- 日期 -->
+                    <Grid Margin="0,2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ToggleButton Grid.Row="0" x:Name="ToggleDate" Style="{StaticResource AggToggleStyle}" Content="日期"/>
+                        <TreeView Grid.Row="1"
+                                  Visibility="{Binding IsChecked, ElementName=ToggleDate, Converter={StaticResource Bool2Vis}}"
+                                  ItemsSource="{Binding DateGroup}" ItemTemplate="{StaticResource DateGroupTemplate}"
+                                  Background="Transparent" Margin="4"/>
+                    </Grid>
+
+                    <!-- 星级 -->
+                    <Grid Margin="0,2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ToggleButton Grid.Row="0" x:Name="ToggleStar" Style="{StaticResource AggToggleStyle}" Content="星级"/>
+                        <ItemsControl Grid.Row="1"
+                                      Visibility="{Binding IsChecked, ElementName=ToggleStar, Converter={StaticResource Bool2Vis}}"
+                                      ItemsSource="{Binding StarGroup}" ItemTemplate="{StaticResource StarGroupTemplate}" Margin="4"/>
+                    </Grid>
+
+                    <!-- 情感 -->
+                    <Grid Margin="0,2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ToggleButton Grid.Row="0" x:Name="ToggleEmotion" Style="{StaticResource AggToggleStyle}" Content="情感"/>
+                        <ItemsControl Grid.Row="1"
+                                      Visibility="{Binding IsChecked, ElementName=ToggleEmotion, Converter={StaticResource Bool2Vis}}"
+                                      ItemsSource="{Binding EmotionGroup}" Margin="4">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:EmotionGroupItem}">
                                     <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                                               Command="{Binding DataContext.OnEmotionClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                               Command="{Binding DataContext.EmotionClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                CommandParameter="{Binding}">
                                         <DockPanel>
                                             <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
@@ -418,13 +484,22 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </Expander>
-                    <Expander Header="位置" IsExpanded="False" Foreground="#CCC" Margin="0,2">
-                        <ItemsControl ItemsSource="{Binding LocationGroup}" Margin="4">
+                    </Grid>
+
+                    <!-- 位置 -->
+                    <Grid Margin="0,2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ToggleButton Grid.Row="0" x:Name="ToggleLocation" Style="{StaticResource AggToggleStyle}" Content="位置"/>
+                        <ItemsControl Grid.Row="1"
+                                      Visibility="{Binding IsChecked, ElementName=ToggleLocation, Converter={StaticResource Bool2Vis}}"
+                                      ItemsSource="{Binding LocationGroup}" Margin="4">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:LocationGroupItem}">
                                     <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                                               Command="{Binding DataContext.OnLocationClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                               Command="{Binding DataContext.LocationClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                CommandParameter="{Binding}">
                                         <DockPanel>
                                             <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
@@ -436,13 +511,22 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </Expander>
-                    <Expander Header="游玩状态" IsExpanded="False" Foreground="#CCC" Margin="0,2">
-                        <ItemsControl ItemsSource="{Binding PlayStateGroup}" Margin="4">
+                    </Grid>
+
+                    <!-- 游玩状态 -->
+                    <Grid Margin="0,2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ToggleButton Grid.Row="0" x:Name="TogglePlayState" Style="{StaticResource AggToggleStyle}" Content="游玩状态"/>
+                        <ItemsControl Grid.Row="1"
+                                      Visibility="{Binding IsChecked, ElementName=TogglePlayState, Converter={StaticResource Bool2Vis}}"
+                                      ItemsSource="{Binding PlayStateGroup}" Margin="4">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:PlayStateGroupItem}">
                                     <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                                               Command="{Binding DataContext.OnPlayStateClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                               Command="{Binding DataContext.PlayStateClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                CommandParameter="{Binding}">
                                         <DockPanel>
                                             <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
@@ -454,13 +538,22 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </Expander>
-                    <Expander Header="声优" IsExpanded="False" Foreground="#CCC" Margin="0,2">
-                        <ItemsControl ItemsSource="{Binding CVGroup}" Margin="4">
+                    </Grid>
+
+                    <!-- 声优 -->
+                    <Grid Margin="0,2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ToggleButton Grid.Row="0" x:Name="ToggleCV" Style="{StaticResource AggToggleStyle}" Content="声优"/>
+                        <ItemsControl Grid.Row="1"
+                                      Visibility="{Binding IsChecked, ElementName=ToggleCV, Converter={StaticResource Bool2Vis}}"
+                                      ItemsSource="{Binding CvGroup}" Margin="4">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GroupItem}">
                                     <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                                               Command="{Binding DataContext.OnCVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                               Command="{Binding DataContext.CVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                CommandParameter="{Binding}">
                                         <DockPanel>
                                             <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
@@ -472,13 +565,22 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </Expander>
-                    <Expander Header="去马甲CV" IsExpanded="False" Foreground="#CCC" Margin="0,2">
-                        <ItemsControl ItemsSource="{Binding TrueCVGroup}" Margin="4">
+                    </Grid>
+
+                    <!-- 去马甲CV -->
+                    <Grid Margin="0,2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ToggleButton Grid.Row="0" x:Name="ToggleTrueCV" Style="{StaticResource AggToggleStyle}" Content="去马甲CV"/>
+                        <ItemsControl Grid.Row="1"
+                                      Visibility="{Binding IsChecked, ElementName=ToggleTrueCV, Converter={StaticResource Bool2Vis}}"
+                                      ItemsSource="{Binding TrueCVGroup}" Margin="4">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GroupItem}">
                                     <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                                               Command="{Binding DataContext.OnTrueCVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                               Command="{Binding DataContext.TrueCVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                CommandParameter="{Binding}">
                                         <DockPanel>
                                             <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
@@ -490,13 +592,22 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </Expander>
-                    <Expander Header="Tag" IsExpanded="False" Foreground="#CCC" Margin="0,2">
-                        <ItemsControl ItemsSource="{Binding TagGroup}" Margin="4">
+                    </Grid>
+
+                    <!-- Tag -->
+                    <Grid Margin="0,2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ToggleButton Grid.Row="0" x:Name="ToggleTag" Style="{StaticResource AggToggleStyle}" Content="Tag"/>
+                        <ItemsControl Grid.Row="1"
+                                      Visibility="{Binding IsChecked, ElementName=ToggleTag, Converter={StaticResource Bool2Vis}}"
+                                      ItemsSource="{Binding TagGroup}" Margin="4">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GroupItem}">
                                     <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                                               Command="{Binding DataContext.OnTagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                               Command="{Binding DataContext.TagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                CommandParameter="{Binding}">
                                         <DockPanel>
                                             <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
@@ -508,11 +619,20 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </Expander>
-                    <Expander Header="品牌" IsExpanded="False" Foreground="#CCC" Margin="0,2">
-                        <TreeView ItemsSource="{Binding BrandGroup}" ItemTemplate="{StaticResource BrandGroupTemplate}"
-                                     Background="Transparent" Margin="4"/>
-                    </Expander>
+                    </Grid>
+
+                    <!-- 品牌 -->
+                    <Grid Margin="0,2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ToggleButton Grid.Row="0" x:Name="ToggleBrand" Style="{StaticResource AggToggleStyle}" Content="品牌"/>
+                        <TreeView Grid.Row="1"
+                                  Visibility="{Binding IsChecked, ElementName=ToggleBrand, Converter={StaticResource Bool2Vis}}"
+                                  ItemsSource="{Binding BrandGroup}" ItemTemplate="{StaticResource BrandGroupTemplate}"
+                                  Background="Transparent" Margin="4"/>
+                    </Grid>
                 </StackPanel>
             </ScrollViewer>
         </Border>

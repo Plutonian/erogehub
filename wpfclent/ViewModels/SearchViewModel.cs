@@ -289,13 +289,11 @@ public partial class SearchViewModel : ObservableObject
     {
         SelectedDatePreset = "CUSTOM";
         CurrentDateRange = new(DateRangeHelper.FormatMonth(item.Start), DateRangeHelper.FormatMonth(item.End));
-        _ = SearchAsync();
     }
 
     private void AddAsIncludeOpt(SearchType type, string value)
     {
         IncludeOpts.Add(new SearchOpt(type, value, true, FilterType.Include));
-        _ = SearchAsync();
     }
 
     // ==================== 卡片交互 ====================
@@ -395,7 +393,8 @@ public partial class SearchViewModel : ObservableObject
 
             Games = new ObservableCollection<Game>(gamesTask.Result);
             Total = countTask.Result;
-            TotalPages = Total > 0 ? (int)Math.Ceiling((double)Total / PageItemSize) : 0;
+            TotalPages = Total > 0 ? (int)Math.Ceiling((double)Total / PageItemSize) : 1;
+            if (Page > TotalPages) Page = TotalPages;
             EmotionGroup = new ObservableCollection<EmotionGroupItem>(emotionTask.Result);
             LocationGroup = new ObservableCollection<LocationGroupItem>(locationTask.Result);
             PlayStateGroup = new ObservableCollection<PlayStateGroupItem>(playStateTask.Result);

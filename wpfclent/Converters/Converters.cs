@@ -128,7 +128,10 @@ public class WebsiteToVisibilityConverter : IValueConverter
 public class StringDoubleConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        => double.TryParse(value as string, out var d) ? d : 0;
+    {
+        if (!double.TryParse(value as string, out var d)) return 0;
+        return Math.Clamp(d, 0, 5);
+    }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         => value?.ToString() ?? "0";

@@ -9,8 +9,8 @@ object GetchuGameRemote {
 
 
   def byId(gameId: Int): String =
-    UrlBuilder(s"$searchUrl/soft.phtml")
-      .param("id", gameId)
+    UrlBuilder(s"$searchUrl/item/$gameId")
+      .param("gc", "gc")
       .build //                .param("gc", "gc")
 
   def normalImg(gameId: Int): String =

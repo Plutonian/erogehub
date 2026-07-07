@@ -217,7 +217,7 @@
 
         <!-- ========== 通用聚合项模板 ========== -->
         <DataTemplate x:Key="GroupItemTemplate" DataType="{x:Type models:GroupItem}">
-            <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
+            <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
                        Command="{Binding DataContext.OnTagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                        CommandParameter="{Binding}">
                 <DockPanel>
@@ -230,19 +230,19 @@
         </DataTemplate>
 
         <DataTemplate x:Key="StarGroupTemplate" DataType="{x:Type models:StarGroupItem}">
-            <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
+            <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
                        Command="{Binding DataContext.OnStarClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                        CommandParameter="{Binding}">
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#CCC" Margin="8,0,0,0"/>
-                    <hc:Rate Value="{Binding Star}" IsReadOnly="True" AllowClear="False" FontSize="12" Foreground="#FFB800"/>
+                    <hc:Rate Value="{Binding Star}" IsReadOnly="True" AllowClear="False" FontSize="12" Foreground="#FFB800" IsHitTestVisible="False"/>
                 </DockPanel>
             </Button>
         </DataTemplate>
 
         <HierarchicalDataTemplate x:Key="DateGroupTemplate" DataType="{x:Type models:DateGroupItem}"
                                   ItemsSource="{Binding Children}">
-            <Button Padding="2,1" HorizontalContentAlignment="Stretch"
+            <Button Padding="2,1" HorizontalContentAlignment="Stretch" Background="Transparent"
                        Command="{Binding DataContext.OnDateClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                        CommandParameter="{Binding}">
                 <DockPanel>
@@ -254,7 +254,7 @@
 
         <HierarchicalDataTemplate x:Key="BrandGroupTemplate" DataType="{x:Type models:BrandGroupItem}"
                                   ItemsSource="{Binding Children}">
-            <Button Padding="2,1" HorizontalContentAlignment="Stretch"
+            <Button Padding="2,1" HorizontalContentAlignment="Stretch" Background="Transparent"
                        Command="{Binding DataContext.OnBrandClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                        CommandParameter="{Binding}">
                 <DockPanel>
@@ -405,7 +405,7 @@
                         <ItemsControl ItemsSource="{Binding EmotionGroup}" Margin="4">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:EmotionGroupItem}">
-                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
+                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
                                                Command="{Binding DataContext.OnEmotionClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                CommandParameter="{Binding}">
                                         <DockPanel>
@@ -423,7 +423,7 @@
                         <ItemsControl ItemsSource="{Binding LocationGroup}" Margin="4">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:LocationGroupItem}">
-                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
+                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
                                                Command="{Binding DataContext.OnLocationClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                CommandParameter="{Binding}">
                                         <DockPanel>
@@ -441,7 +441,7 @@
                         <ItemsControl ItemsSource="{Binding PlayStateGroup}" Margin="4">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:PlayStateGroupItem}">
-                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
+                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
                                                Command="{Binding DataContext.OnPlayStateClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                CommandParameter="{Binding}">
                                         <DockPanel>
@@ -459,7 +459,7 @@
                         <ItemsControl ItemsSource="{Binding CVGroup}" Margin="4">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GroupItem}">
-                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
+                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
                                                Command="{Binding DataContext.OnCVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                CommandParameter="{Binding}">
                                         <DockPanel>
@@ -477,7 +477,7 @@
                         <ItemsControl ItemsSource="{Binding TrueCVGroup}" Margin="4">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GroupItem}">
-                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
+                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
                                                Command="{Binding DataContext.OnTrueCVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                CommandParameter="{Binding}">
                                         <DockPanel>
@@ -495,7 +495,7 @@
                         <ItemsControl ItemsSource="{Binding TagGroup}" Margin="4">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GroupItem}">
-                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch"
+                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
                                                Command="{Binding DataContext.OnTagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                CommandParameter="{Binding}">
                                         <DockPanel>

@@ -1,56 +1,145 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace ErogeHub.Wpf.Models;
 
-public class Game
+public partial class Game : ObservableObject
 {
-    [BsonElement("_id")]
-    public int Id { get; set; }
+    [ObservableProperty]
+    [property: BsonElement("_id")]
+    private int _id;
 
-    [BsonElement("name")]
-    public string Name { get; set; } = string.Empty;
+    [ObservableProperty]
+    [property: BsonElement("name")]
+    private string _name = string.Empty;
 
-    [BsonElement("mainTitle")]
-    public string MainTitle { get; set; } = string.Empty;
+    [ObservableProperty]
+    [property: BsonElement("mainTitle")]
+    private string _mainTitle = string.Empty;
 
-    [BsonElement("subTitle")]
-    public string SubTitle { get; set; } = string.Empty;
+    [ObservableProperty]
+    [property: BsonElement("subTitle")]
+    private string _subTitle = string.Empty;
 
-    [BsonElement("publishDate")]
-    public DateTime PublishDate { get; set; }
+    [ObservableProperty]
+    [property: BsonElement("publishDate")]
+    private DateTime _publishDate;
 
-    [BsonElement("star")]
-    public int Star { get; set; }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ShowStar))]
+    [NotifyPropertyChangedFor(nameof(ShowEmotion))]
+    [property: BsonElement("star")]
+    private int _star;
 
-    [BsonElement("emotion")]
-    public int Emotion { get; set; }
+    [ObservableProperty]
+    [property: BsonElement("emotion")]
+    private int _emotion;
 
-    [BsonElement("location")]
-    public int Location { get; set; }
+    [ObservableProperty]
+    [property: BsonElement("location")]
+    private int _location;
 
-    [BsonElement("playState")]
-    public int PlayState { get; set; }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ShowStar))]
+    [NotifyPropertyChangedFor(nameof(ShowEmotion))]
+    [property: BsonElement("playState")]
+    private int _playState;
 
-    [BsonElement("isSame")]
-    public bool IsSame { get; set; }
+    [ObservableProperty]
+    [property: BsonElement("isSame")]
+    private bool _isSame;
 
-    [BsonElement("tag")]
-    public List<string> Tag { get; set; } = new();
+    [ObservableProperty]
+    [property: BsonElement("tag")]
+    private List<string> _tag = new();
 
-    [BsonElement("painter")]
-    public List<string> Painter { get; set; } = new();
+    [ObservableProperty]
+    [property: BsonElement("painter")]
+    private List<string> _painter = new();
 
-    [BsonElement("writer")]
-    public List<string> Writer { get; set; } = new();
+    [ObservableProperty]
+    [property: BsonElement("writer")]
+    private List<string> _writer = new();
 
-    [BsonElement("brand")]
-    public Brand? Brand { get; set; }
+    [ObservableProperty]
+    [property: BsonElement("brand")]
+    private Brand? _brand;
+
+    [ObservableProperty]
+    [property: BsonElement("story")]
+    private string _story = string.Empty;
+
+    [ObservableProperty]
+    [property: BsonElement("intro")]
+    private string _intro = string.Empty;
+
+    [ObservableProperty]
+    [property: BsonElement("gamechar")]
+    private List<GameCharacter> _gameCharacters = new();
+
+    [ObservableProperty]
+    [property: BsonElement("simpleImg")]
+    private List<GameImg> _simpleImgs = new();
 
     /// <summary>
-    /// 封面图 URL，由 MongoService 根据发布日期和 ID 计算
+    /// 图片基础路径，由 MongoService 设置：http://{server}/img/{year}/{month}/{id}/
     /// </summary>
     [BsonIgnore]
+    public string ImgBase { get; set; } = string.Empty;
+
+    [BsonIgnore]
     public string CoverUrl { get; set; } = string.Empty;
+
+    [BsonIgnore]
+    public string StoryImageUrl { get; set; } = string.Empty;
+
+    [BsonIgnore]
+    public bool Published => DateTime.Now >= PublishDate;
+
+    [BsonIgnore]
+    public bool ShowStar => Published && (PlayState == 2 || Star > 0);
+
+    [BsonIgnore]
+    public bool ShowEmotion => PlayState != 2 && PlayState != 1;
+}
+
+public partial class GameCharacter : ObservableObject
+{
+    [ObservableProperty]
+    [property: BsonElement("name")]
+    private string _name = string.Empty;
+
+    [ObservableProperty]
+    [property: BsonElement("cv")]
+    private string _cv = string.Empty;
+
+    [ObservableProperty]
+    [property: BsonElement("intro")]
+    private string _intro = string.Empty;
+
+    [ObservableProperty]
+    [property: BsonElement("truecv")]
+    private string _trueCV = string.Empty;
+
+    [ObservableProperty]
+    [property: BsonElement("index")]
+    private int _index;
+
+    [ObservableProperty]
+    [property: BsonElement("heroine")]
+    private bool _heroine;
+
+    [BsonIgnore]
+    public string AvatarUrl { get; set; } = string.Empty;
+}
+
+public class GameImg
+{
+    [BsonElement("index")]
+    public int Index { get; set; }
+
+    [BsonIgnore]
+    public string Url { get; set; } = string.Empty;
 }
 
 public class Brand

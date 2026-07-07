@@ -161,3 +161,46 @@ public class StarToTextConverter : IValueConverter
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         => throw new NotImplementedException();
 }
+
+/// <summary>
+/// DateTime → 相对日期格式（今日/昨日/明日/あとN日/N日前/YY-MM-DD/YYYY-MM）
+/// 对应 Angular DateFormatPipe 逻辑
+/// </summary>
+public class DateRelativeConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is not DateTime date || date.Year == 0) return "";
+
+        var today = DateTime.Today;
+        var inputDate = date.Date;
+        var daysDiff = (inputDate - today).Days;
+
+        if (daysDiff == 0) return "今日";
+        if (daysDiff == -1) return "昨日";
+        if (daysDiff == 1) return "明日";
+        if (daysDiff > 0) return $"あと{daysDiff}日";
+        if (daysDiff > -8) return $"{-daysDiff}日前";
+
+        return inputDate.ToString("yyyy-MM");
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotImplementedException();
+}
+
+/// <summary>
+/// 集合/数量非空 → Visible（count > 0 时显示）
+/// </summary>
+public class NotEmptyToVisibilityConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is System.Collections.ICollection c) return c.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+        if (value is int i) return i > 0 ? Visibility.Visible : Visibility.Collapsed;
+        return Visibility.Collapsed;
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotImplementedException();
+}

@@ -1,0 +1,224 @@
+using System.Diagnostics;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using ErogeHub.Wpf.Models;
+using ErogeHub.Wpf.Services;
+
+namespace ErogeHub.Wpf.ViewModels;
+
+public partial class GameDetailViewModel : ObservableObject
+{
+    private readonly MongoService _mongo;
+
+    [ObservableProperty]
+    private Game? _game;
+
+    [ObservableProperty]
+    private bool _isLoading;
+
+    [ObservableProperty]
+    private string _newTag = string.Empty;
+
+    [ObservableProperty]
+    private bool _isEditModalVisible;
+
+    public IEnumerable<GameCharacter> Heroines => Game?.GameCharacters.Where(c => c.Heroine) ?? Enumerable.Empty<GameCharacter>();
+    public IEnumerable<GameCharacter> Protagonists => Game?.GameCharacters.Where(c => !c.Heroine) ?? Enumerable.Empty<GameCharacter>();
+
+    public static List<SearchViewModel.EnumOption> EmotionOptions => SearchViewModel.EmotionOptions;
+    public static List<SearchViewModel.EnumOption> LocationOptions => SearchViewModel.LocationOptions;
+    public static List<SearchViewModel.EnumOption> PlayStateOptions => SearchViewModel.PlayStateOptions;
+
+    public GameDetailViewModel(MongoService mongo)
+    {
+        _mongo = mongo;
+    }
+
+    partial void OnGameChanged(Game? value)
+    {
+        OnPropertyChanged(nameof(Heroines));
+        OnPropertyChanged(nameof(Protagonists));
+    }
+
+    /// <summary>
+    /// 直接设置 Game 对象（从搜索列表传入，共享引用）
+    /// </summary>
+    public void SetGame(Game game)
+    {
+        Game = game;
+    }
+
+    /// <summary>
+    /// 从数据库重新加载
+    /// </summary>
+    public async Task LoadAsync(int gameId)
+    {
+        IsLoading = true;
+        try
+        {
+            Game = await _mongo.QueryGameByIdAsync(gameId);
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    // ==================== 快速修改命令 ====================
+
+    [RelayCommand]
+    private async Task CyclePlayStateAsync()
+    {
+        if (Game == null) return;
+        var next = Game.PlayState switch
+        {
+            (int)PlayState.NOT_PLAY => (int)PlayState.PLAYING,
+            (int)PlayState.PLAYING => (int)PlayState.PLAYED,
+            _ => (int)PlayState.NOT_PLAY,
+        };
+        await _mongo.UpdatePlayStateAsync(Game.Id, next);
+        Game.PlayState = next;
+    }
+
+    [RelayCommand]
+    private async Task CycleEmotionAsync()
+    {
+        if (Game == null) return;
+        var next = Game.Emotion switch
+        {
+            (int)Emotion.HATE => (int)Emotion.NORMAL,
+            (int)Emotion.NORMAL => (int)Emotion.HOPE,
+            (int)Emotion.HOPE => (int)Emotion.LIKE,
+            _ => (int)Emotion.HATE,
+        };
+        await _mongo.UpdateEmotionAsync(Game.Id, next);
+        Game.Emotion = next;
+    }
+
+    [RelayCommand]
+    private async Task ToggleLocationAsync()
+    {
+        if (Game == null) return;
+        var next = Game.Location == (int)Location.LOCAL ? (int)Location.REMOTE : (int)Location.LOCAL;
+        await _mongo.UpdateLocationAsync(Game.Id, next);
+        Game.Location = next;
+    }
+
+    public async Task UpdateStarAsync(int star)
+    {
+        if (Game == null) return;
+        await _mongo.UpdateStarAsync(Game.Id, star);
+    }
+
+    public async Task ToggleMarkSameAsync(bool isSame)
+    {
+        if (Game == null) return;
+        await _mongo.MarkSameAsync(Game.Id, isSame);
+    }
+
+    // ==================== Tag 操作 ====================
+
+    [RelayCommand]
+    private async Task AddTagAsync()
+    {
+        if (Game == null || string.IsNullOrWhiteSpace(NewTag)) return;
+        var tags = Game.Tag.ToList();
+        tags.Add(NewTag.Trim());
+        await _mongo.UpdateTagsAsync(Game.Id, tags);
+        Game.Tag = tags;
+        NewTag = string.Empty;
+    }
+
+    [RelayCommand]
+    private async Task RemoveTagAsync(string tag)
+    {
+        if (Game == null) return;
+        var tags = Game.Tag.Where(t => t != tag).ToList();
+        await _mongo.UpdateTagsAsync(Game.Id, tags);
+        Game.Tag = tags;
+    }
+
+    // ==================== 标题编辑 ====================
+
+    [RelayCommand]
+    private void ShowEditModal()
+    {
+        IsEditModalVisible = true;
+    }
+
+    [RelayCommand]
+    private async Task UpdateTitleAsync()
+    {
+        if (Game == null) return;
+        await _mongo.UpdateTitleAsync(Game.Id, Game.MainTitle, Game.SubTitle);
+        IsEditModalVisible = false;
+    }
+
+    [RelayCommand]
+    private void SplitTitle()
+    {
+        if (Game == null) return;
+        var spIndex = Game.Name.IndexOf(' ');
+        if (spIndex != -1)
+        {
+            Game.MainTitle = Game.Name.Substring(0, spIndex);
+            Game.SubTitle = Game.Name.Substring(spIndex + 1);
+        }
+    }
+
+    // ==================== 角色 CV 编辑 ====================
+
+    [RelayCommand]
+    private async Task UpdateCharCVAsync(GameCharacter character)
+    {
+        if (Game == null) return;
+        await _mongo.SetCharCVAsync(Game.Id, character.Index, character.Cv);
+    }
+
+    // ==================== 外部链接 ====================
+
+    [RelayCommand]
+    private void OpenUrl(string url)
+    {
+        if (string.IsNullOrEmpty(url)) return;
+        try
+        {
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+        }
+        catch { }
+    }
+
+    [RelayCommand]
+    private void OpenCVWiki(string cv)
+    {
+        if (string.IsNullOrEmpty(cv)) return;
+        OpenUrl($"https://ja.wikipedia.org/w/index.php?search={Uri.EscapeDataString(cv)}");
+    }
+
+    [RelayCommand]
+    private void OpenCVBangumi(string cv)
+    {
+        if (string.IsNullOrEmpty(cv)) return;
+        OpenUrl($"https://bgm.tv/subject_search/{Uri.EscapeDataString(cv)}?cat=person");
+    }
+
+    [RelayCommand]
+    private void OpenExternalSearch(string engine)
+    {
+        if (Game == null) return;
+        var title = Uri.EscapeDataString(Game.MainTitle);
+        var url = engine switch
+        {
+            "google" => $"https://www.google.com/search?q={title}",
+            "wiki" => $"https://ja.wikipedia.org/w/index.php?search={title}",
+            "getchu" => $"http://www.getchu.com/soft.phtml?id={Game.Id}&gc=gc",
+            "dlsite" => $"https://www.dlsite.com/pro/fsr/=/language/jp/sex_category[0]/male/keyword/{title}",
+            "erogamescape" => $"https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/kensaku.php?category=game&word_category=name&mode=normal&word={title}",
+            "2df" => $"https://galge.fun/subjects/search?keyword={title}",
+            "ggbases" => $"https://www.ggbases.com/search.so?p=0&advanced=&title={title}",
+            _ => "",
+        };
+        if (!string.IsNullOrEmpty(url))
+            OpenUrl(url);
+    }
+}

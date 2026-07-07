@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ErogeHub.Wpf.Models;
 using ErogeHub.Wpf.Services;
+using ErogeHub.Wpf.Views;
+using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
 
 namespace ErogeHub.Wpf.ViewModels;
@@ -10,6 +12,7 @@ namespace ErogeHub.Wpf.ViewModels;
 public partial class SearchViewModel : ObservableObject
 {
     private readonly MongoService _mongo;
+    private readonly IServiceProvider _services;
 
     // ==================== 选项列表（供 UI 绑定） ====================
 
@@ -142,9 +145,10 @@ public partial class SearchViewModel : ObservableObject
 
     // ==================== 构造函数 ====================
 
-    public SearchViewModel(MongoService mongo)
+    public SearchViewModel(MongoService mongo, IServiceProvider services)
     {
         _mongo = mongo;
+        _services = services;
         _ = SearchAsync();
     }
 
@@ -273,6 +277,14 @@ public partial class SearchViewModel : ObservableObject
         => AddAsIncludeOpt(SearchType.BRAND, item.Title);
 
     [RelayCommand]
+    private void TagClickToSearch(string tag)
+        => AddAsIncludeOpt(SearchType.TAG, tag);
+
+    [RelayCommand]
+    private void BrandClickToSearch(string brand)
+        => AddAsIncludeOpt(SearchType.BRAND, brand);
+
+    [RelayCommand]
     private void OnDateClicked(DateGroupItem item)
     {
         SelectedDatePreset = "CUSTOM";
@@ -282,6 +294,77 @@ public partial class SearchViewModel : ObservableObject
     private void AddAsIncludeOpt(SearchType type, string value)
     {
         IncludeOpts.Add(new SearchOpt(type, value, true, FilterType.Include));
+    }
+
+    // ==================== 卡片交互 ====================
+
+    [RelayCommand]
+    private void OpenDetail(Game game)
+    {
+        var vm = _services.GetRequiredService<GameDetailViewModel>();
+        vm.SetGame(game);
+        var window = _services.GetRequiredService<GameDetailWindow>();
+        window.DataContext = vm;
+        window.Show();
+    }
+
+    [RelayCommand]
+    private async Task CycleCardPlayStateAsync(Game game)
+    {
+        var next = game.PlayState switch
+        {
+            (int)PlayState.NOT_PLAY => (int)PlayState.PLAYING,
+            (int)PlayState.PLAYING => (int)PlayState.PLAYED,
+            _ => (int)PlayState.NOT_PLAY,
+        };
+        await _mongo.UpdatePlayStateAsync(game.Id, next);
+        game.PlayState = next;
+    }
+
+    [RelayCommand]
+    private async Task CycleCardEmotionAsync(Game game)
+    {
+        var next = game.Emotion switch
+        {
+            (int)Emotion.HATE => (int)Emotion.NORMAL,
+            (int)Emotion.NORMAL => (int)Emotion.HOPE,
+            (int)Emotion.HOPE => (int)Emotion.LIKE,
+            _ => (int)Emotion.HATE,
+        };
+        await _mongo.UpdateEmotionAsync(game.Id, next);
+        game.Emotion = next;
+    }
+
+    [RelayCommand]
+    private async Task ToggleCardLocationAsync(Game game)
+    {
+        var next = game.Location == (int)Location.LOCAL ? (int)Location.REMOTE : (int)Location.LOCAL;
+        await _mongo.UpdateLocationAsync(game.Id, next);
+        game.Location = next;
+    }
+
+    [RelayCommand]
+    private async Task DeleteCardAsync(Game game)
+    {
+        await _mongo.DeleteGameAsync(game.Id);
+        Games.Remove(game);
+        await LoadAllAsync();
+    }
+
+    /// <summary>
+    /// 卡片星级修改（由 SearchWindow.xaml.cs 的 ValueChanged 事件调用）
+    /// </summary>
+    public async Task UpdateCardStarAsync(int gameId, int star)
+    {
+        await _mongo.UpdateStarAsync(gameId, star);
+    }
+
+    /// <summary>
+    /// 卡片 MarkSame 修改（由 SearchWindow.xaml.cs 的 Click 事件调用）
+    /// </summary>
+    public async Task UpdateCardMarkSameAsync(int gameId, bool isSame)
+    {
+        await _mongo.MarkSameAsync(gameId, isSame);
     }
 
     // ==================== 核心逻辑 ====================

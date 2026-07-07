@@ -182,6 +182,57 @@ public class MongoService
         return result.OrderByDescending(r => r.Count).ToList();
     }
 
+    public async Task<Game?> QueryGameByIdAsync(int id)
+    {
+        var doc = await _collection.Find(Builders<BsonDocument>.Filter.Eq("_id", id)).FirstOrDefaultAsync();
+        return doc == null ? null : MapToGame(doc);
+    }
+
+    public async Task<bool> UpdateEmotionAsync(int id, int emotion)
+        => (await _collection.UpdateOneAsync(
+            Builders<BsonDocument>.Filter.Eq("_id", id),
+            Builders<BsonDocument>.Update.Set("emotion", emotion))).ModifiedCount > 0;
+
+    public async Task<bool> UpdatePlayStateAsync(int id, int playState)
+        => (await _collection.UpdateOneAsync(
+            Builders<BsonDocument>.Filter.Eq("_id", id),
+            Builders<BsonDocument>.Update.Set("playState", playState))).ModifiedCount > 0;
+
+    public async Task<bool> UpdateStarAsync(int id, int star)
+        => (await _collection.UpdateOneAsync(
+            Builders<BsonDocument>.Filter.Eq("_id", id),
+            Builders<BsonDocument>.Update.Set("star", star))).ModifiedCount > 0;
+
+    public async Task<bool> UpdateLocationAsync(int id, int location)
+        => (await _collection.UpdateOneAsync(
+            Builders<BsonDocument>.Filter.Eq("_id", id),
+            Builders<BsonDocument>.Update.Set("location", location))).ModifiedCount > 0;
+
+    public async Task<bool> MarkSameAsync(int id, bool isSame)
+        => (await _collection.UpdateOneAsync(
+            Builders<BsonDocument>.Filter.Eq("_id", id),
+            Builders<BsonDocument>.Update.Set("isSame", isSame))).ModifiedCount > 0;
+
+    public async Task<bool> UpdateTagsAsync(int id, List<string> tags)
+        => (await _collection.UpdateOneAsync(
+            Builders<BsonDocument>.Filter.Eq("_id", id),
+            Builders<BsonDocument>.Update.Set("tag", new BsonArray(tags)))).ModifiedCount > 0;
+
+    public async Task<bool> UpdateTitleAsync(int id, string mainTitle, string subTitle)
+        => (await _collection.UpdateOneAsync(
+            Builders<BsonDocument>.Filter.Eq("_id", id),
+            Builders<BsonDocument>.Update.Set("mainTitle", mainTitle).Set("subTitle", subTitle))).ModifiedCount > 0;
+
+    public async Task<bool> SetCharCVAsync(int id, int charIndex, string cv)
+        => (await _collection.UpdateOneAsync(
+            Builders<BsonDocument>.Filter.And(
+                Builders<BsonDocument>.Filter.Eq("_id", id),
+                Builders<BsonDocument>.Filter.Eq("gamechar.index", charIndex)),
+            Builders<BsonDocument>.Update.Set("gamechar.$.cv", cv))).ModifiedCount > 0;
+
+    public async Task<bool> DeleteGameAsync(int id)
+        => (await _collection.DeleteOneAsync(Builders<BsonDocument>.Filter.Eq("_id", id))).DeletedCount > 0;
+
     private Game MapToGame(BsonDocument doc)
     {
         var game = new Game
@@ -195,15 +246,50 @@ public class MongoService
             Location = doc.Contains("location") ? SafeInt(doc["location"]) : 0,
             PlayState = doc.Contains("playState") ? SafeInt(doc["playState"]) : 0,
             IsSame = doc.Contains("isSame") && SafeBool(doc["isSame"]),
+            Story = doc.Contains("story") ? SafeStr(doc["story"]) : "",
+            Intro = doc.Contains("intro") ? SafeStr(doc["intro"]) : "",
             Tag = doc.Contains("tag") && doc["tag"].IsBsonArray ? doc["tag"].AsBsonArray.Select(SafeStr).ToList() : new(),
             Painter = doc.Contains("painter") && doc["painter"].IsBsonArray ? doc["painter"].AsBsonArray.Select(SafeStr).ToList() : new(),
             Writer = doc.Contains("writer") && doc["writer"].IsBsonArray ? doc["writer"].AsBsonArray.Select(SafeStr).ToList() : new(),
             Brand = doc.Contains("brand") && doc["brand"].IsBsonDocument ? ExtractBrand(doc["brand"].AsBsonDocument) : null,
+            GameCharacters = doc.Contains("gamechar") && doc["gamechar"].IsBsonArray ? MapCharacters(doc["gamechar"].AsBsonArray) : new(),
+            SimpleImgs = doc.Contains("simpleImg") && doc["simpleImg"].IsBsonArray
+                ? doc["simpleImg"].AsBsonArray.Select(v => v.IsBsonDocument
+                    ? new GameImg { Index = v.AsBsonDocument.Contains("index") ? SafeInt(v.AsBsonDocument["index"]) : 0 }
+                    : new GameImg { Index = SafeInt(v) }).ToList()
+                : new(),
         };
         if (doc.Contains("publishDate") && doc["publishDate"].BsonType == BsonType.DateTime)
             game.PublishDate = doc["publishDate"].AsBsonDateTime.ToUniversalTime().ToLocalTime();
-        game.CoverUrl = $"http://{_imgServer}/img/{game.PublishDate.Year}/{game.PublishDate.Month}/{game.Id}/game_s.jpg";
+
+        game.ImgBase = $"http://{_imgServer}/img/{game.PublishDate.Year}/{game.PublishDate.Month}/{game.Id}/";
+        game.CoverUrl = $"{game.ImgBase}game_s.jpg";
+        game.StoryImageUrl = $"{game.ImgBase}game_l.jpg";
+        foreach (var c in game.GameCharacters)
+            c.AvatarUrl = $"{game.ImgBase}char_s_{c.Index}.jpg";
+        foreach (var img in game.SimpleImgs)
+            img.Url = $"{game.ImgBase}simple_l_{img.Index}.jpg";
+
         return game;
+    }
+
+    private static List<GameCharacter> MapCharacters(BsonArray arr)
+    {
+        var result = new List<GameCharacter>();
+        foreach (var item in arr)
+        {
+            if (item is not BsonDocument doc) continue;
+            result.Add(new GameCharacter
+            {
+                Name = doc.Contains("name") ? SafeStr(doc["name"]) : "",
+                Cv = doc.Contains("cv") ? SafeStr(doc["cv"]) : "",
+                Intro = doc.Contains("intro") ? SafeStr(doc["intro"]) : "",
+                TrueCV = doc.Contains("truecv") ? SafeStr(doc["truecv"]) : "",
+                Index = doc.Contains("index") ? SafeInt(doc["index"]) : 0,
+                Heroine = doc.Contains("heroine") && SafeBool(doc["heroine"]),
+            });
+        }
+        return result;
     }
 
     private static Brand ExtractBrand(BsonDocument doc) => new()

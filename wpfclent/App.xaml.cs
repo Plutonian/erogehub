@@ -27,6 +27,8 @@ public partial class App : Application
         services.AddSingleton(new MongoService(mongoConn, dbName, imgServer));
         services.AddSingleton<SearchViewModel>();
         services.AddSingleton<SearchWindow>();
+        services.AddTransient<GameDetailViewModel>();
+        services.AddTransient<GameDetailWindow>();
         _services = services.BuildServiceProvider();
     }
 

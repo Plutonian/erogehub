@@ -150,7 +150,9 @@
                         <!-- 标签列表（点击标签可将其添加为搜索条件） -->
                         <ItemsControl ItemsSource="{Binding Tag}" Margin="0,4,0,0">
                             <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -335,7 +337,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="360"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="310"/>
+            <ColumnDefinition Width="360"/>
         </Grid.ColumnDefinitions>
 
         <!-- ========== 左侧栏：搜索面板（360px 固定宽度） ========== -->
@@ -358,12 +360,12 @@
                             <CheckBox DockPanel.Dock="Right" IsChecked="{Binding IsDateRangeEnabled}"
                                       Content="E" Margin="12,0,0,0" VerticalAlignment="Center"
                                       ToolTip="启用/禁用日期筛选"/>
-                            <hc:ComboBox ItemsSource="{Binding DatePresets}" DisplayMemberPath="Label"
-                                         SelectedValuePath="Key" SelectedValue="{Binding SelectedDatePreset}"
-                                         IsEnabled="{Binding IsDateRangeEnabled}" Margin="8,0,0,0"
-                                         MinWidth="100" VerticalContentAlignment="Center"/>
                             <TextBlock Text="发布日期" Foreground="#AAA" FontSize="12" FontWeight="SemiBold"
                                        VerticalAlignment="Center"/>
+                            <hc:ComboBox ItemsSource="{Binding DatePresets}" DisplayMemberPath="Label"
+                                         SelectedValuePath="Key" SelectedValue="{Binding SelectedDatePreset}"
+                                         IsEnabled="{Binding IsDateRangeEnabled}"
+                                         MinWidth="100" VerticalContentAlignment="Center" DockPanel.Dock="Left" Width="216"/>
                         </DockPanel>
 
                         <!-- 第2行：自定义日期输入框 + 快捷调整按钮 -->
@@ -452,7 +454,9 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                     <ItemsControl ItemsSource="{Binding Games}" ItemTemplate="{StaticResource GameCardTemplate}">
                         <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate><WrapPanel Orientation="Horizontal"/></ItemsPanelTemplate>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
                 </ScrollViewer>

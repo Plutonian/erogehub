@@ -16,7 +16,21 @@ public partial class GameDetailViewModel : ObservableObject
 
     /// <summary>当前查看的游戏对象</summary>
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(WindowTitle))]
     private Game? _game;
+
+    /// <summary>窗口标题：MainTitle + SubTitle</summary>
+    public string WindowTitle
+    {
+        get
+        {
+            if (Game == null) return "Game Detail";
+            var title = Game.MainTitle;
+            if (!string.IsNullOrEmpty(Game.SubTitle))
+                title += " " + Game.SubTitle;
+            return title;
+        }
+    }
 
     /// <summary>是否正在加载</summary>
     [ObservableProperty]
@@ -46,11 +60,12 @@ public partial class GameDetailViewModel : ObservableObject
         _mongo = mongo;
     }
 
-    /// <summary>Game 变更时刷新角色分类列表</summary>
+    /// <summary>Game 变更时刷新角色分类列表和窗口标题</summary>
     partial void OnGameChanged(Game? value)
     {
         OnPropertyChanged(nameof(Heroines));
         OnPropertyChanged(nameof(Protagonists));
+        OnPropertyChanged(nameof(WindowTitle));
     }
 
     /// <summary>
@@ -173,6 +188,7 @@ public partial class GameDetailViewModel : ObservableObject
     {
         if (Game == null) return;
         await _mongo.UpdateTitleAsync(Game.Id, Game.MainTitle, Game.SubTitle);
+        OnPropertyChanged(nameof(WindowTitle));
         IsEditModalVisible = false;
     }
 

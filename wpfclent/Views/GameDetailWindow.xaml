@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:ErogeHub.Wpf.ViewModels"
         xmlns:models="clr-namespace:ErogeHub.Wpf.Models"
         xmlns:controls="clr-namespace:ErogeHub.Wpf.Controls"
-        Title="Game Detail" Width="1100" Height="800"
+        Title="{Binding WindowTitle}" Width="1100" Height="800"
         Background="#1E1E2E" WindowStartupLocation="CenterOwner">
 
     <Window.Resources>
@@ -86,7 +86,7 @@
 
             <!-- ========== 主内容 ========== -->
             <TabControl Background="Transparent" Margin="8">
-                <!-- ========== Tab 0: 基本情報（左图右信息 + 下方 Story） ========== -->
+                <!-- ========== Tab 0: 基本情報（左图右信息 + 下方 Story + 外部検索） ========== -->
                 <TabItem Header="基本情報" Foreground="#CCC">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="4">
                         <Grid Margin="8">
@@ -296,6 +296,36 @@
                                         <ToggleButton IsChecked="{Binding Game.IsSame, Mode=TwoWay}" Click="DetailMarkSame_Click" Content="同" Margin="4,0" Padding="4,1" ToolTip="MarkSame"/>
                                     </StackPanel>
                                 </Border>
+
+                                <!-- 外部検索 -->
+                                <Border Background="#252535" CornerRadius="6" Margin="0,12,0,0" Padding="12,8">
+                                    <StackPanel>
+                                        <TextBlock Text="外部検索" Foreground="#CCC" FontSize="13" FontWeight="Bold" Margin="0,0,0,8"/>
+                                        <WrapPanel>
+                                            <Button Content="Google" Padding="12,4" Margin="2"
+                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="google"/>
+                                            <Button Content="Wiki" Padding="12,4" Margin="2"
+                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="wiki"/>
+                                            <Button Content="GetChu" Padding="12,4" Margin="2"
+                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="getchu"/>
+                                            <Button Content="DLsite" Padding="12,4" Margin="2"
+                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="dlsite"/>
+                                            <Button Content="ErogameScape" Padding="12,4" Margin="2"
+                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="erogamescape"/>
+                                            <Button Content="2DF" Padding="12,4" Margin="2"
+                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="2df"/>
+                                            <Button Content="GGBases" Padding="12,4" Margin="2"
+                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="ggbases"/>
+                                        </WrapPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                            <hc:TextBox Text="{Binding Game.MainTitle, Mode=OneWay}" IsReadOnly="True"
+                                                        Width="400" Padding="6,4" FontSize="13"/>
+                                            <Button Content="Search" Padding="12,4" Margin="8,0"
+                                                    Style="{StaticResource ButtonPrimary}"
+                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="google"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
                             </StackPanel>
 
                             <!-- 右下：ストーリー文本（与右上基本信息左对齐） -->
@@ -309,72 +339,38 @@
                     </ScrollViewer>
                 </TabItem>
 
-                <!-- ========== Tab 2: キャラクター ========== -->
+                <!-- ========== Tab 1: キャラクター＋サンプル画像（合并） ========== -->
                 <TabItem Header="キャラクター" Foreground="#CCC">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="4">
                         <StackPanel Margin="8">
+                            <!-- ヒロイン -->
                             <TextBlock Text="ヒロイン" Foreground="#7AB8FF" FontSize="14" FontWeight="Bold" Margin="0,0,0,4"/>
                             <ItemsControl ItemsSource="{Binding Heroines}" ItemTemplate="{StaticResource CharCardTemplate}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
+                            <!-- 主人公 -->
                             <TextBlock Text="主人公" Foreground="#7AB8FF" FontSize="14" FontWeight="Bold" Margin="0,12,0,4"/>
                             <ItemsControl ItemsSource="{Binding Protagonists}" ItemTemplate="{StaticResource CharCardTemplate}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
+
+                            <!-- サンプル画像 -->
+                            <TextBlock Text="サンプル画像" Foreground="#7AB8FF" FontSize="14" FontWeight="Bold" Margin="0,16,0,8"/>
+                            <hc:Carousel ItemsSource="{Binding Game.SimpleImgs}"
+                                         AutoRun="True" Interval="0:0:4" IsCenter="True"
+                                         HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <hc:Carousel.ItemTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Url}" Stretch="Uniform" Width="640" Margin="4"/>
+                                    </DataTemplate>
+                                </hc:Carousel.ItemTemplate>
+                            </hc:Carousel>
                         </StackPanel>
                     </ScrollViewer>
-                </TabItem>
-
-                <!-- ========== Tab 3: サンプル画像 ========== -->
-                <TabItem Header="サンプル画像" Foreground="#CCC">
-                    <hc:Carousel ItemsSource="{Binding Game.SimpleImgs}"
-                                 AutoRun="True"
-                                 Interval="0:0:4"
-                                 IsCenter="True"
-                                 HorizontalAlignment="Center"
-                                 VerticalAlignment="Center">
-                        <hc:Carousel.ItemTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding Url}" Stretch="Uniform" Width="640" Margin="4"/>
-                            </DataTemplate>
-                        </hc:Carousel.ItemTemplate>
-                    </hc:Carousel>
-                </TabItem>
-
-                <!-- ========== Tab 4: 外部検索 ========== -->
-                <TabItem Header="外部検索" Foreground="#CCC">
-                    <StackPanel Margin="16,8">
-                        <TextBlock Text="Search" Foreground="#CCC" FontSize="14" FontWeight="Bold" Margin="0,0,0,8"/>
-                        <WrapPanel>
-                            <Button Content="Google" Padding="16,6" Margin="4"
-                                       Command="{Binding OpenExternalSearchCommand}" CommandParameter="google"/>
-                            <Button Content="Wiki" Padding="16,6" Margin="4"
-                                       Command="{Binding OpenExternalSearchCommand}" CommandParameter="wiki"/>
-                            <Button Content="GetChu" Padding="16,6" Margin="4"
-                                       Command="{Binding OpenExternalSearchCommand}" CommandParameter="getchu"/>
-                            <Button Content="DLsite" Padding="16,6" Margin="4"
-                                       Command="{Binding OpenExternalSearchCommand}" CommandParameter="dlsite"/>
-                            <Button Content="ErogameScape" Padding="16,6" Margin="4"
-                                       Command="{Binding OpenExternalSearchCommand}" CommandParameter="erogamescape"/>
-                            <Button Content="2DF" Padding="16,6" Margin="4"
-                                       Command="{Binding OpenExternalSearchCommand}" CommandParameter="2df"/>
-                            <Button Content="GGBases" Padding="16,6" Margin="4"
-                                       Command="{Binding OpenExternalSearchCommand}" CommandParameter="ggbases"/>
-                        </WrapPanel>
-
-                        <TextBlock Text="攻略検索" Foreground="#CCC" FontSize="14" FontWeight="Bold" Margin="0,16,0,8"/>
-                        <StackPanel Orientation="Horizontal">
-                            <hc:TextBox Text="{Binding Game.MainTitle, Mode=OneWay}" IsReadOnly="True"
-                                        Width="400" Padding="6,4" FontSize="13"/>
-                            <Button Content="Search" Padding="16,6" Margin="8,0"
-                                       Style="{StaticResource ButtonPrimary}"
-                                       Command="{Binding OpenExternalSearchCommand}" CommandParameter="google"/>
-                        </StackPanel>
-                    </StackPanel>
                 </TabItem>
             </TabControl>
 

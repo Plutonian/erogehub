@@ -72,180 +72,227 @@
 
             <!-- ========== 主内容 ========== -->
             <TabControl Background="Transparent" Margin="8">
-                <!-- ========== Tab 0: 基本情報 ========== -->
+                <!-- ========== Tab 0: 基本情報（左图右信息 + 下方 Story） ========== -->
                 <TabItem Header="基本情報" Foreground="#CCC">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="4">
-                        <StackPanel Margin="8">
-                            <!-- 标题行 -->
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                                <Button Command="{Binding CyclePlayStateCommand}"
-                                           Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
-                                           ToolTip="PlayState (click to cycle)">
-                                    <Ellipse Width="16" Height="16"
-                                             Fill="{Binding Game.PlayState, Converter={StaticResource PlayStateBrush}}"/>
-                                </Button>
-                                <TextBlock Text="{Binding Game.MainTitle}" FontWeight="Bold" Foreground="#E0E0E0"
-                                           FontSize="18" Margin="6,0,0,0" TextWrapping="Wrap" MaxWidth="700"/>
-                                <Button Content="⚙" FontSize="16" Padding="4,2" Margin="8,0" Background="Transparent"
-                                           BorderThickness="0" Cursor="Hand" ToolTip="Edit Title"
-                                           Command="{Binding ShowEditModalCommand}"/>
-                            </StackPanel>
-                            <TextBlock Text="{Binding Game.SubTitle}" Foreground="#999" FontSize="13"
-                                       Margin="22,0,0,4" TextWrapping="Wrap"/>
+                        <Grid Margin="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                            <!-- Tags -->
-                            <StackPanel Orientation="Horizontal" Margin="0,8,0,4">
-                                <TextBlock Text="Tags: " Foreground="#999" VerticalAlignment="Center"/>
-                                <ItemsControl ItemsSource="{Binding Game.Tag}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border Background="#FFABD3" CornerRadius="3" Margin="2,0" Padding="6,2">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding}" Foreground="#333" FontSize="11"/>
-                                                    <Button Content="×" FontSize="11" Margin="4,0,0,0" Padding="2,0"
-                                                               Background="Transparent" BorderThickness="0" Cursor="Hand"
-                                                               Style="{StaticResource ButtonDanger}"
-                                                               Command="{Binding DataContext.RemoveTagCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                               CommandParameter="{Binding}"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,2,0,4">
-                                <hc:TextBox Text="{Binding NewTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            hc:InfoElement.Placeholder="新标签" Width="120" Padding="4,2" FontSize="11"/>
-                                <Button Content="+" Padding="8,2" Margin="4,0"
-                                           Style="{StaticResource ButtonPrimary}"
-                                           Command="{Binding AddTagCommand}"/>
-                            </StackPanel>
+                            <!-- 左侧：游戏大图 (game_l.jpg) -->
+                            <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+                                   Source="{Binding Game.StoryImageUrl}" Stretch="Uniform"
+                                   VerticalAlignment="Top" Margin="0,0,16,0" />
 
-                            <!-- Brand -->
-                            <StackPanel Orientation="Horizontal" Margin="0,8,0,4">
-                                <TextBlock Text="Brand: " Foreground="#999" VerticalAlignment="Center"/>
-                                <TextBlock Text="{Binding Game.Brand.Name}" Foreground="#7AB8FF" FontSize="13"/>
-                                <Button Content="(公式サイト)" FontSize="11" Padding="0" Margin="6,0,0,0"
-                                           Background="Transparent" BorderThickness="0" Cursor="Hand" Foreground="#7AB8FF"
-                                           Visibility="{Binding Game.Brand.Website, Converter={StaticResource Web2Vis}}"
-                                           Command="{Binding OpenUrlCommand}"
-                                           CommandParameter="{Binding Game.Brand.Website}"/>
-                            </StackPanel>
-
-                            <!-- Metadata -->
-                            <StackPanel Margin="0,8,0,4">
-                                <StackPanel Orientation="Horizontal" Margin="0,2">
-                                    <TextBlock Text="発売日: " Foreground="#999" FontSize="12" Width="60"/>
-                                    <TextBlock Text="{Binding Game.PublishDate, Converter={StaticResource DateRel}}"
-                                               Foreground="#E0E0E0" FontSize="12"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,2"
-                                            Visibility="{Binding Game.Painter.Count, Converter={StaticResource NotEmpty2Vis}}">
-                                    <TextBlock Text="原画: " Foreground="#999" FontSize="12" Width="60"/>
-                                    <ItemsControl ItemsSource="{Binding Game.Painter}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding}" Foreground="#7AB8FF" FontSize="12" Margin="0,0,8,0"/>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,2"
-                                            Visibility="{Binding Game.Writer.Count, Converter={StaticResource NotEmpty2Vis}}">
-                                    <TextBlock Text="シナリオ: " Foreground="#999" FontSize="12" Width="60"/>
-                                    <ItemsControl ItemsSource="{Binding Game.Writer}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding}" Foreground="#7AB8FF" FontSize="12" Margin="0,0,8,0"/>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </StackPanel>
-                            </StackPanel>
-
-                            <!-- 快速操作 -->
-                            <Border Background="#252535" CornerRadius="6" Margin="0,12,0,0" Padding="12,8">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Emotion: " Foreground="#999" VerticalAlignment="Center"/>
-                                    <Button Command="{Binding CycleEmotionCommand}"
-                                               Padding="4,2" Background="Transparent" BorderThickness="0" Cursor="Hand"
-                                               ToolTip="Click to cycle" Margin="4,0,8,0">
-                                        <TextBlock Text="♥" FontSize="18">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Foreground" Value="#666"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Game.Emotion}" Value="-99">
-                                                            <Setter Property="Foreground" Value="#8B0000"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Game.Emotion}" Value="1">
-                                                            <Setter Property="Foreground" Value="#FF69B4"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Game.Emotion}" Value="99">
-                                                            <Setter Property="Foreground" Value="#FF4444"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
+                            <!-- 右上：基本信息 -->
+                            <StackPanel Grid.Row="0" Grid.Column="1">
+                                <!-- 标题行：PlayState + 主标题（副标题）+ ⚙ -->
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                    <Button Command="{Binding CyclePlayStateCommand}"
+                                            Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
+                                            ToolTip="PlayState (click to cycle)">
+                                        <Ellipse Width="16" Height="16"
+                                                 Fill="{Binding Game.PlayState, Converter={StaticResource PlayStateBrush}}"/>
                                     </Button>
-
-                                    <TextBlock Text="Location: " Foreground="#999" VerticalAlignment="Center" Margin="8,0,0,0"/>
-                                    <Button Command="{Binding ToggleLocationCommand}"
-                                               Padding="4,2" Background="Transparent" BorderThickness="0" Cursor="Hand"
-                                               ToolTip="Click to toggle" Margin="4,0,8,0">
-                                        <TextBlock FontSize="16">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Text" Value="✓"/>
-                                                    <Setter Property="Foreground" Value="#44AA44"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Game.Location}" Value="0">
-                                                            <Setter Property="Text" Value="☁"/>
-                                                            <Setter Property="Foreground" Value="#88AACC"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </Button>
-
-                                    <TextBlock Text="Star: " Foreground="#999" VerticalAlignment="Center" Margin="8,0,0,0"/>
-                                    <hc:Rate Value="{Binding Game.Star, Mode=TwoWay}" AllowClear="True"
-                                             FontSize="14" Foreground="#FFB800" Margin="4,0,8,0"
-                                             ValueChanged="DetailRate_ValueChanged"/>
-
-                                    <TextBlock Text="MarkSame: " Foreground="#999" VerticalAlignment="Center" Margin="8,0,0,0"/>
-                                    <ToggleButton IsChecked="{Binding Game.IsSame, Mode=TwoWay}" Click="DetailMarkSame_Click" Content="同" Margin="4,0" Padding="4,1" ToolTip="MarkSame"/>
+                                    <TextBlock Text="{Binding Game.MainTitle}" FontWeight="Bold" Foreground="#E0E0E0"
+                                               FontSize="18" Margin="6,0,0,0" TextWrapping="Wrap" MaxWidth="600"/>
+                                    <TextBlock Text="{Binding Game.SubTitle}" Foreground="#999" FontSize="13"
+                                               Margin="8,0,0,0" VerticalAlignment="Center"
+                                               Visibility="{Binding Game.SubTitle, Converter={StaticResource Str2Vis}}"/>
+                                    <Button Content="⚙" FontSize="16" Padding="4,2" Margin="8,0" Background="Transparent"
+                                            BorderThickness="0" Cursor="Hand" ToolTip="Edit Title"
+                                            Command="{Binding ShowEditModalCommand}"/>
                                 </StackPanel>
-                            </Border>
-                        </StackPanel>
+
+                                <!-- 信息表格（Brand / 発売日 / 原画 / シナリオ / Tags） -->
+                                <Border Background="#1E1E30" CornerRadius="6" Margin="0,8,0,4" Padding="0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="70"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!-- 表格分隔线样式 -->
+                                        <Grid.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Grid.ColumnSpan" Value="3"/>
+                                                <Setter Property="Height" Value="1"/>
+                                                <Setter Property="Background" Value="#33334A"/>
+                                            </Style>
+                                        </Grid.Resources>
+
+                                        <!-- Row 0: Brand -->
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Brand" Foreground="#999"
+                                                   FontSize="12" Padding="8,6,0,6" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Game.Brand.Name}"
+                                                   Foreground="#7AB8FF" FontSize="12" Padding="4,6,0,6" VerticalAlignment="Center"
+                                                   Visibility="{Binding Game.Brand.Name, Converter={StaticResource Str2Vis}}"/>
+                                        <Button Grid.Row="0" Grid.Column="2" Content="(公式サイト)" FontSize="11"
+                                                Padding="0,6,8,6" Background="Transparent" BorderThickness="0" Cursor="Hand"
+                                                Foreground="#7AB8FF" VerticalAlignment="Center"
+                                                Visibility="{Binding Game.Brand.Website, Converter={StaticResource Web2Vis}}"
+                                                Command="{Binding OpenUrlCommand}"
+                                                CommandParameter="{Binding Game.Brand.Website}"/>
+                                        <Border Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+
+                                        <!-- Row 1: 発売日 -->
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="発売日" Foreground="#999"
+                                                   FontSize="12" Padding="8,6,0,6" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                                                   Text="{Binding Game.PublishDate, Converter={StaticResource DateRel}}"
+                                                   Foreground="#E0E0E0" FontSize="12" Padding="4,6,0,6" VerticalAlignment="Center"/>
+                                        <Border Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+
+                                        <!-- Row 2: 原画 -->
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="原画" Foreground="#999"
+                                                   FontSize="12" Padding="8,6,0,6" VerticalAlignment="Center"
+                                                   Visibility="{Binding Game.Painter.Count, Converter={StaticResource NotEmpty2Vis}}"/>
+                                        <ItemsControl Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+                                                      ItemsSource="{Binding Game.Painter}" Padding="4,6,0,6"
+                                                      Visibility="{Binding Game.Painter.Count, Converter={StaticResource NotEmpty2Vis}}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}" Foreground="#7AB8FF" FontSize="12" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+
+                                        <!-- Row 3: シナリオ -->
+                                        <TextBlock Grid.Row="3" Grid.Column="0" Text="シナリオ" Foreground="#999"
+                                                   FontSize="12" Padding="8,6,0,6" VerticalAlignment="Center"
+                                                   Visibility="{Binding Game.Writer.Count, Converter={StaticResource NotEmpty2Vis}}"/>
+                                        <ItemsControl Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"
+                                                      ItemsSource="{Binding Game.Writer}" Padding="4,6,0,6"
+                                                      Visibility="{Binding Game.Writer.Count, Converter={StaticResource NotEmpty2Vis}}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}" Foreground="#7AB8FF" FontSize="12" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <Border Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+
+                                        <!-- Row 4: Tags -->
+                                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Tags" Foreground="#999"
+                                                   FontSize="12" Padding="8,6,0,6" VerticalAlignment="Top"/>
+                                        <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="4,6,8,6">
+                                            <ItemsControl ItemsSource="{Binding Game.Tag}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border Background="#FFABD3" CornerRadius="3" Margin="2,0,4,3" Padding="6,2">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="{Binding}" Foreground="#333" FontSize="11"/>
+                                                                <Button Content="×" FontSize="11" Margin="4,0,0,0" Padding="2,0"
+                                                                        Background="Transparent" BorderThickness="0" Cursor="Hand"
+                                                                        Style="{StaticResource ButtonDanger}"
+                                                                        Command="{Binding DataContext.RemoveTagCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                        CommandParameter="{Binding}"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                                <hc:TextBox Text="{Binding NewTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                            hc:InfoElement.Placeholder="新标签" Width="120" Padding="4,2" FontSize="11"/>
+                                                <Button Content="+" Padding="8,2" Margin="4,0"
+                                                        Style="{StaticResource ButtonPrimary}"
+                                                        Command="{Binding AddTagCommand}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <!-- 快速操作 -->
+                                <Border Background="#252535" CornerRadius="6" Margin="0,12,0,0" Padding="12,8">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Emotion: " Foreground="#999" VerticalAlignment="Center"/>
+                                        <Button Command="{Binding CycleEmotionCommand}"
+                                                Padding="4,2" Background="Transparent" BorderThickness="0" Cursor="Hand"
+                                                ToolTip="Click to cycle" Margin="4,0,8,0">
+                                            <TextBlock Text="♥" FontSize="18">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Foreground" Value="#666"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Game.Emotion}" Value="-99">
+                                                                <Setter Property="Foreground" Value="#8B0000"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Game.Emotion}" Value="1">
+                                                                <Setter Property="Foreground" Value="#FF69B4"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Game.Emotion}" Value="99">
+                                                                <Setter Property="Foreground" Value="#FF4444"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Button>
+
+                                        <TextBlock Text="Location: " Foreground="#999" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                        <Button Command="{Binding ToggleLocationCommand}"
+                                                Padding="4,2" Background="Transparent" BorderThickness="0" Cursor="Hand"
+                                                ToolTip="Click to toggle" Margin="4,0,8,0">
+                                            <TextBlock FontSize="16">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text" Value="✓"/>
+                                                        <Setter Property="Foreground" Value="#44AA44"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Game.Location}" Value="0">
+                                                                <Setter Property="Text" Value="☁"/>
+                                                                <Setter Property="Foreground" Value="#88AACC"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Button>
+
+                                        <TextBlock Text="Star: " Foreground="#999" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                        <hc:Rate Value="{Binding Game.Star, Mode=TwoWay}" AllowClear="True"
+                                                 FontSize="14" Foreground="#FFB800" Margin="4,0,8,0"
+                                                 ValueChanged="DetailRate_ValueChanged"/>
+
+                                        <TextBlock Text="MarkSame: " Foreground="#999" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                        <ToggleButton IsChecked="{Binding Game.IsSame, Mode=TwoWay}" Click="DetailMarkSame_Click" Content="同" Margin="4,0" Padding="4,1" ToolTip="MarkSame"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <!-- 右下：ストーリー文本（与右上基本信息左对齐） -->
+                            <hc:TextBox Grid.Row="1" Grid.Column="1"
+                                        Text="{Binding Game.Story}" IsReadOnly="True"
+                                        FontSize="14" BorderThickness="0" Background="#252535" Foreground="#DDD"
+                                        TextWrapping="Wrap" AcceptsReturn="True"
+                                        VerticalScrollBarVisibility="Auto" Padding="12" Margin="0,16,0,0"
+                                        MinHeight="150"/>
+                        </Grid>
                     </ScrollViewer>
-                </TabItem>
-
-                <!-- ========== Tab 1: ストーリー ========== -->
-                <TabItem Header="ストーリー" Foreground="#CCC">
-                    <Grid Margin="8">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="300"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="{Binding Game.StoryImageUrl}" Stretch="Uniform"
-                               VerticalAlignment="Top" Margin="0,0,8,0"/>
-                        <hc:TextBox Grid.Column="1" Text="{Binding Game.Story}" IsReadOnly="True"
-                                    FontSize="16" BorderThickness="0" Background="#252535" Foreground="#DDD"
-                                    TextWrapping="Wrap" AcceptsReturn="True"
-                                    VerticalScrollBarVisibility="Auto" Padding="12"/>
-                    </Grid>
                 </TabItem>
 
                 <!-- ========== Tab 2: キャラクター ========== -->

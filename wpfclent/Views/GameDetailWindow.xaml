@@ -88,7 +88,7 @@
 
                             <!-- 左侧：游戏大图 (game_l.jpg) -->
                             <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
-                                   Source="{Binding Game.StoryImageUrl}" Stretch="Uniform"
+                                   Source="{Binding Game.StoryImageUrl}" 
                                    VerticalAlignment="Top" Margin="0,0,16,0" />
 
                             <!-- 右上：基本信息 -->
@@ -318,18 +318,18 @@
 
                 <!-- ========== Tab 3: サンプル画像 ========== -->
                 <TabItem Header="サンプル画像" Foreground="#CCC">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Margin="4">
-                        <ItemsControl ItemsSource="{Binding Game.SimpleImgs}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding Url}" Stretch="Uniform" Margin="4" MaxHeight="500"/>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
+                    <hc:Carousel ItemsSource="{Binding Game.SimpleImgs}"
+                                 AutoRun="True"
+                                 Interval="0:0:4"
+                                 IsCenter="True"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center">
+                        <hc:Carousel.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Url}" Stretch="Uniform" Width="640" Margin="4"/>
+                            </DataTemplate>
+                        </hc:Carousel.ItemTemplate>
+                    </hc:Carousel>
                 </TabItem>
 
                 <!-- ========== Tab 4: 外部検索 ========== -->

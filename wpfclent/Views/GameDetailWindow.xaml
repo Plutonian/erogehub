@@ -94,13 +94,9 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
 
                             <!-- 左侧：游戏大图 (game_l.jpg) -->
-                            <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+                            <Image Grid.Column="0"
                                    Source="{Binding Game.StoryImageUrl}" 
                                    VerticalAlignment="Top" Margin="0,0,16,0" />
 
@@ -292,6 +288,46 @@
                                                  FontSize="14" Foreground="#FFB800" Margin="4,0,8,0"
                                                  ValueChanged="DetailRate_ValueChanged"/>
 
+                                        <TextBlock Text="Search: " Foreground="#999" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                        <hc:TextBox Text="{Binding Game.MainTitle, Mode=OneWay}" IsReadOnly="True"
+                                                    Width="200" Padding="4,2" FontSize="12" VerticalAlignment="Center"/>
+                                        <hc:SplitButton Content="Search" Padding="12,4" Margin="4,0"
+                                                        Style="{StaticResource SplitButtonPrimary}"
+                                                        Command="{Binding OpenExternalSearchCommand}" CommandParameter="google">
+                                            <hc:SplitButton.DropDownContent>
+                                                <StackPanel Background="#2A2A3C" MinWidth="100">
+                                                    <Button Content="  Google" Padding="12,4" Margin="1"
+                                                            Background="Transparent" BorderThickness="0" Foreground="#CCC"
+                                                            HorizontalAlignment="Stretch" Cursor="Hand"
+                                                            Command="{Binding OpenExternalSearchCommand}" CommandParameter="google"/>
+                                                    <Button Content="  Wiki" Padding="12,4" Margin="1"
+                                                            Background="Transparent" BorderThickness="0" Foreground="#CCC"
+                                                            HorizontalAlignment="Stretch" Cursor="Hand"
+                                                            Command="{Binding OpenExternalSearchCommand}" CommandParameter="wiki"/>
+                                                    <Button Content="  GetChu" Padding="12,4" Margin="1"
+                                                            Background="Transparent" BorderThickness="0" Foreground="#CCC"
+                                                            HorizontalAlignment="Stretch" Cursor="Hand"
+                                                            Command="{Binding OpenExternalSearchCommand}" CommandParameter="getchu"/>
+                                                    <Button Content="  DLsite" Padding="12,4" Margin="1"
+                                                            Background="Transparent" BorderThickness="0" Foreground="#CCC"
+                                                            HorizontalAlignment="Stretch" Cursor="Hand"
+                                                            Command="{Binding OpenExternalSearchCommand}" CommandParameter="dlsite"/>
+                                                    <Button Content="  ErogameScape" Padding="12,4" Margin="1"
+                                                            Background="Transparent" BorderThickness="0" Foreground="#CCC"
+                                                            HorizontalAlignment="Stretch" Cursor="Hand"
+                                                            Command="{Binding OpenExternalSearchCommand}" CommandParameter="erogamescape"/>
+                                                    <Button Content="  2DF" Padding="12,4" Margin="1"
+                                                            Background="Transparent" BorderThickness="0" Foreground="#CCC"
+                                                            HorizontalAlignment="Stretch" Cursor="Hand"
+                                                            Command="{Binding OpenExternalSearchCommand}" CommandParameter="2df"/>
+                                                    <Button Content="  GGBases" Padding="12,4" Margin="1"
+                                                            Background="Transparent" BorderThickness="0" Foreground="#CCC"
+                                                            HorizontalAlignment="Stretch" Cursor="Hand"
+                                                            Command="{Binding OpenExternalSearchCommand}" CommandParameter="ggbases"/>
+                                                </StackPanel>
+                                            </hc:SplitButton.DropDownContent>
+                                        </hc:SplitButton>
+
                                         <TextBlock Text="MarkSame: " Foreground="#999" VerticalAlignment="Center" Margin="8,0,0,0"/>
                                         <ToggleButton IsChecked="{Binding Game.IsSame, Mode=TwoWay}" Click="DetailMarkSame_Click" Content="同" Margin="4,0" Padding="4,1" ToolTip="MarkSame"/>
                                     </StackPanel>
@@ -317,24 +353,16 @@
                                             <Button Content="GGBases" Padding="12,4" Margin="2"
                                                     Command="{Binding OpenExternalSearchCommand}" CommandParameter="ggbases"/>
                                         </WrapPanel>
-                                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                                            <hc:TextBox Text="{Binding Game.MainTitle, Mode=OneWay}" IsReadOnly="True"
-                                                        Width="400" Padding="6,4" FontSize="13"/>
-                                            <Button Content="Search" Padding="12,4" Margin="8,0"
-                                                    Style="{StaticResource ButtonPrimary}"
-                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="google"/>
-                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
-                            </StackPanel>
 
-                            <!-- 右下：ストーリー文本（与右上基本信息左对齐） -->
-                            <hc:TextBox Grid.Row="1" Grid.Column="1"
-                                        Text="{Binding Game.Story}" IsReadOnly="True"
+                            <!-- ストーリー -->
+                            <hc:TextBox Text="{Binding Game.Story}" IsReadOnly="True"
                                         FontSize="14" BorderThickness="0" Background="#252535" Foreground="#DDD"
                                         TextWrapping="Wrap" AcceptsReturn="True"
                                         VerticalScrollBarVisibility="Auto" Padding="12" Margin="0,16,0,0"
                                         MinHeight="150"/>
+                            </StackPanel>
                         </Grid>
                     </ScrollViewer>
                 </TabItem>
@@ -361,7 +389,7 @@
                             <!-- サンプル画像 -->
                             <TextBlock Text="サンプル画像" Foreground="#7AB8FF" FontSize="14" FontWeight="Bold" Margin="0,16,0,8"/>
                             <hc:Carousel ItemsSource="{Binding Game.SimpleImgs}"
-                                         AutoRun="True" Interval="0:0:4" IsCenter="True"
+                                         AutoRun="True" Interval="0:0:2" IsCenter="True"
                                          HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <hc:Carousel.ItemTemplate>
                                     <DataTemplate>

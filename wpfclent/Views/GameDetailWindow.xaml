@@ -14,53 +14,66 @@
         <conv:PlayStateToBrushConverter x:Key="PlayStateBrush"/>
         <conv:EmotionToBrushConverter x:Key="EmotionBrush"/>
         <conv:StringToVisibilityConverter x:Key="Str2Vis"/>
+        <conv:InverseStringToVisibilityConverter x:Key="InvStr2Vis"/>
         <conv:WebsiteToVisibilityConverter x:Key="Web2Vis"/>
         <conv:DateRelativeConverter x:Key="DateRel"/>
         <conv:NotEmptyToVisibilityConverter x:Key="NotEmpty2Vis"/>
+        <conv:NotNullToVisibilityConverter x:Key="NotNull2Vis"/>
 
         <!-- ========== 角色卡片模板 ========== -->
         <DataTemplate x:Key="CharCardTemplate" DataType="{x:Type models:GameCharacter}">
             <Border Background="#2A2A3C" CornerRadius="6" Margin="4" Width="240">
-                <StackPanel>
-                    <Image Source="{Binding AvatarUrl}" Height="200" Stretch="UniformToFill"
-                           HorizontalAlignment="Center"/>
-                    <StackPanel Margin="8,4">
-                        <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="#E0E0E0"
-                                   TextTrimming="CharacterEllipsis" FontSize="14"/>
-                        <!-- CV 编辑区 -->
-                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0"
-                                    Visibility="{Binding Cv, Converter={StaticResource Str2Vis}}">
-                            <TextBlock Text="CV: " Foreground="#999" FontSize="11" VerticalAlignment="Center"/>
-                            <hc:TextBox Text="{Binding Cv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        MinWidth="80" FontSize="11" Padding="2,1"/>
-                            <Button Content="✓" Padding="6,2" Margin="2,0" FontSize="11"
-                                       Style="{StaticResource ButtonPrimary}"
-                                       Command="{Binding DataContext.UpdateCharCVCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                       CommandParameter="{Binding}"/>
+                <Grid>
+                    <StackPanel>
+                        <!-- 角色头像 -->
+                        <Image Source="{Binding AvatarUrl}" Height="200" Stretch="UniformToFill"
+                               HorizontalAlignment="Center"/>
+                        <StackPanel Margin="8,4">
+                            <!-- 角色名（按空格拆分显示） -->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding CharTitle}" FontWeight="Bold" Foreground="#E0E0E0"
+                                           FontSize="14" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock Text="{Binding CharSubTitle}" Foreground="#999" FontSize="11"
+                                           Margin="4,0,0,0" VerticalAlignment="Center"
+                                           Visibility="{Binding CharSubTitle, Converter={StaticResource Str2Vis}}"/>
+                            </StackPanel>
+
+                            <!-- CV 信息区 -->
+                            <StackPanel Margin="0,4,0,0"
+                                        Visibility="{Binding Cv, Converter={StaticResource Str2Vis}}">
+                                <TextBlock Text="CV: " Foreground="#999" FontSize="11" VerticalAlignment="Center"/>
+
+                                <!-- 有 TrueCV 时：显示 TrueCV + 星级评分 -->
+                                <StackPanel Orientation="Horizontal" Margin="12,0,0,0"
+                                            Visibility="{Binding TrueCV, Converter={StaticResource Str2Vis}}">
+                                    <TextBlock Text="{Binding TrueCV}" Foreground="#FFABD3" FontSize="11"/>
+                                    <hc:Rate Value="{Binding CvObj.Star}" IsReadOnly="True"
+                                             AllowClear="False" FontSize="10" Foreground="#FFB800"
+                                             Margin="4,0,0,0"
+                                             Visibility="{Binding CvObj, Converter={StaticResource NotNull2Vis}}"/>
+                                </StackPanel>
+
+                                <!-- 无 TrueCV 时：显示 CV -->
+                                <TextBlock Text="{Binding Cv}" Foreground="#E0E0E0" FontSize="11"
+                                           Margin="12,0,0,0"
+                                           Visibility="{Binding TrueCV, Converter={StaticResource InvStr2Vis}}"/>
+                            </StackPanel>
+
+                            <!-- 编辑按钮（齿轮图标）-->
+                            <Button Content="⚙" FontSize="14" Padding="4,0" Margin="0,4,0,0"
+                                    Background="Transparent" BorderThickness="0" Cursor="Hand"
+                                    Foreground="#888" HorizontalAlignment="Right"
+                                    Command="{Binding DataContext.ShowCharEditCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                    CommandParameter="{Binding}"/>
+
+                            <!-- Intro -->
+                            <hc:TextBox Text="{Binding Intro}" IsReadOnly="True" Margin="0,4,0,0"
+                                        FontSize="11" BorderThickness="0" Background="Transparent"
+                                        Foreground="#BBB" TextWrapping="Wrap" MaxHeight="120"
+                                        VerticalScrollBarVisibility="Auto"/>
                         </StackPanel>
-                        <!-- CV 搜索链接 -->
-                        <StackPanel Orientation="Horizontal" Margin="0,2,0,0"
-                                    Visibility="{Binding Cv, Converter={StaticResource Str2Vis}}">
-                            <Button Content="Wiki" FontSize="10" Padding="4,1" Margin="0,0,4,0"
-                                       Command="{Binding DataContext.OpenCVWikiCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                       CommandParameter="{Binding Cv}"/>
-                            <Button Content="Bangumi" FontSize="10" Padding="4,1"
-                                       Command="{Binding DataContext.OpenCVBangumiCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                       CommandParameter="{Binding Cv}"/>
-                        </StackPanel>
-                        <!-- TrueCV -->
-                        <StackPanel Orientation="Horizontal" Margin="0,2,0,0"
-                                    Visibility="{Binding TrueCV, Converter={StaticResource Str2Vis}}">
-                            <TextBlock Text="TrueCV: " Foreground="#FFABD3" FontSize="11"/>
-                            <TextBlock Text="{Binding TrueCV}" Foreground="#E0E0E0" FontSize="11"/>
-                        </StackPanel>
-                        <!-- Intro -->
-                        <hc:TextBox Text="{Binding Intro}" IsReadOnly="True" Margin="0,4,0,0"
-                                    FontSize="11" BorderThickness="0" Background="Transparent"
-                                    Foreground="#BBB" TextWrapping="Wrap" MaxHeight="120"
-                                    VerticalScrollBarVisibility="Auto"/>
                     </StackPanel>
-                </StackPanel>
+                </Grid>
             </Border>
         </DataTemplate>
     </Window.Resources>
@@ -367,6 +380,9 @@
 
             <!-- ========== 编辑标题 Modal（使用 EditTitleModal 用户控件） ========== -->
             <controls:EditTitleModal/>
+
+            <!-- ========== 角色编辑 Modal ========== -->
+            <controls:CharEditModal/>
         </Grid>
     </Grid>
 </Window>

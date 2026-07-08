@@ -30,11 +30,11 @@ public partial class GameDetailViewModel : ObservableObject
     [ObservableProperty]
     private bool _isEditModalVisible;
 
-    /// <summary>女主角列表（只读）</summary>
-    public IEnumerable<GameCharacter> Heroines => Game?.GameCharacters.Where(c => c.Heroine) ?? Enumerable.Empty<GameCharacter>();
+    /// <summary>女主角列表（man=false）</summary>
+    public IEnumerable<GameCharacter> Heroines => Game?.GameCharacters.Where(c => !c.Man) ?? Enumerable.Empty<GameCharacter>();
 
-    /// <summary>非女主角角色列表（只读）</summary>
-    public IEnumerable<GameCharacter> Protagonists => Game?.GameCharacters.Where(c => !c.Heroine) ?? Enumerable.Empty<GameCharacter>();
+    /// <summary>男主角列表（man=true）</summary>
+    public IEnumerable<GameCharacter> Protagonists => Game?.GameCharacters.Where(c => c.Man) ?? Enumerable.Empty<GameCharacter>();
 
     /// <summary>共享的枚举选项列表（引用 SearchViewModel）</summary>
     public static List<SearchViewModel.EnumOption> EmotionOptions => SearchViewModel.EmotionOptions;
@@ -199,6 +199,53 @@ public partial class GameDetailViewModel : ObservableObject
         await _mongo.SetCharCVAsync(Game.Id, character.Index, character.Cv);
     }
 
+    // ==================== 角色编辑弹窗 ====================
+
+    /// <summary>当前正在编辑的角色</summary>
+    [ObservableProperty]
+    private GameCharacter? _selectedCharacter;
+
+    /// <summary>是否显示角色编辑弹窗</summary>
+    [ObservableProperty]
+    private bool _isCharEditVisible;
+
+    /// <summary>显示角色编辑弹窗</summary>
+    [RelayCommand]
+    private void ShowCharEdit(GameCharacter? character)
+    {
+        SelectedCharacter = character;
+        IsCharEditVisible = true;
+    }
+
+    /// <summary>关闭角色编辑弹窗</summary>
+    [RelayCommand]
+    private void CloseCharEdit()
+    {
+        IsCharEditVisible = false;
+        SelectedCharacter = null;
+    }
+
+    /// <summary>从弹窗更新声优</summary>
+    [RelayCommand]
+    private async Task UpdateCharCVFromModalAsync()
+    {
+        if (Game == null || SelectedCharacter == null) return;
+        await _mongo.SetCharCVAsync(Game.Id, SelectedCharacter.Index, SelectedCharacter.Cv);
+        IsCharEditVisible = false;
+    }
+
+    /// <summary>将角色标记为男主角（SetMan）</summary>
+    [RelayCommand]
+    private async Task SetCharManAsync(GameCharacter? character)
+    {
+        if (Game == null || character == null) return;
+        await _mongo.SetCharManAsync(Game.Id, character.Index);
+        character.Man = true;
+        OnPropertyChanged(nameof(Heroines));
+        OnPropertyChanged(nameof(Protagonists));
+        IsCharEditVisible = false;
+    }
+
     // ==================== 外部链接 ====================
 
     /// <summary>在默认浏览器中打开 URL</summary>
@@ -211,22 +258,6 @@ public partial class GameDetailViewModel : ObservableObject
             Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
         catch { }
-    }
-
-    /// <summary>在 Wikipedia 搜索声优</summary>
-    [RelayCommand]
-    private void OpenCVWiki(string cv)
-    {
-        if (string.IsNullOrEmpty(cv)) return;
-        OpenUrl($"https://ja.wikipedia.org/w/index.php?search={Uri.EscapeDataString(cv)}");
-    }
-
-    /// <summary>在 Bangumi 搜索声优</summary>
-    [RelayCommand]
-    private void OpenCVBangumi(string cv)
-    {
-        if (string.IsNullOrEmpty(cv)) return;
-        OpenUrl($"https://bgm.tv/subject_search/{Uri.EscapeDataString(cv)}?cat=person");
     }
 
     /// <summary>在外部网站搜索游戏名</summary>

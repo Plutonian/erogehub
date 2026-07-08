@@ -131,6 +131,20 @@ public partial class Game : ObservableObject
 }
 
 /// <summary>
+/// 声优信息模型（对应 MongoDB cv 集合）
+/// </summary>
+public class CV
+{
+    /// <summary>声优名</summary>
+    [BsonElement("name")]
+    public string Name { get; set; } = string.Empty;
+
+    /// <summary>声优星级评分</summary>
+    [BsonElement("star")]
+    public int Star { get; set; }
+}
+
+/// <summary>
 /// 游戏角色模型
 /// </summary>
 public partial class GameCharacter : ObservableObject
@@ -160,14 +174,31 @@ public partial class GameCharacter : ObservableObject
     [property: BsonElement("index")]
     private int _index;
 
-    /// <summary>是否女主角</summary>
+    /// <summary>是否男主角（数据库字段）</summary>
     [ObservableProperty]
-    [property: BsonElement("heroine")]
-    private bool _heroine;
+    [NotifyPropertyChangedFor(nameof(Heroine))]
+    [property: BsonElement("man")]
+    private bool _man;
+
+    /// <summary>是否女主角（由 man 推导）</summary>
+    [BsonIgnore]
+    public bool Heroine => !Man;
 
     /// <summary>角色头像 URL，由 MongoService 计算</summary>
     [BsonIgnore]
     public string AvatarUrl { get; set; } = string.Empty;
+
+    /// <summary>声优评分数据，由 MongoService 查询 cv 集合后匹配 trueCV 填充</summary>
+    [BsonIgnore]
+    public CV? CvObj { get; set; }
+
+    /// <summary>角色名标题部分（第二个空格后内容，如"橘花"）</summary>
+    [BsonIgnore]
+    public string CharTitle { get; set; } = string.Empty;
+
+    /// <summary>角色名副标题部分（第一个空格前内容，如"春川 ミミ"中为"春川"）</summary>
+    [BsonIgnore]
+    public string CharSubTitle { get; set; } = string.Empty;
 }
 
 /// <summary>

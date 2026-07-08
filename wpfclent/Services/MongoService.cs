@@ -268,6 +268,32 @@ public class MongoService
                 Builders<BsonDocument>.Filter.Eq("gamechar.index", charIndex)),
             Builders<BsonDocument>.Update.Set("gamechar.$.cv", cv))).ModifiedCount > 0;
 
+    /// <summary>将角色标记为男主角（SetMan）</summary>
+    public async Task<bool> SetCharManAsync(int id, int charIndex)
+        => (await _collection.UpdateOneAsync(
+            Builders<BsonDocument>.Filter.And(
+                Builders<BsonDocument>.Filter.Eq("_id", id),
+                Builders<BsonDocument>.Filter.Eq("gamechar.index", charIndex)),
+            Builders<BsonDocument>.Update.Set("gamechar.$.man", true))).ModifiedCount > 0;
+
+    /// <summary>从 cv 集合加载所有声优数据到内存字典</summary>
+    private Dictionary<string, CV>? _cvMap;
+    private Dictionary<string, CV> GetCVMap()
+    {
+        if (_cvMap != null) return _cvMap;
+        var cvCollection = _collection.Database.GetCollection<BsonDocument>("cv");
+        var docs = cvCollection.Find(Builders<BsonDocument>.Filter.Empty).ToList();
+        _cvMap = docs
+            .Where(d => d.Contains("name"))
+            .Select(d => new CV
+            {
+                Name = SafeStr(d["name"]),
+                Star = d.Contains("star") ? SafeInt(d["star"]) : 0,
+            })
+            .ToDictionary(cv => cv.Name, cv => cv);
+        return _cvMap;
+    }
+
     /// <summary>删除指定游戏</summary>
     public async Task<bool> DeleteGameAsync(int id)
         => (await _collection.DeleteOneAsync(Builders<BsonDocument>.Filter.Eq("_id", id))).DeletedCount > 0;
@@ -308,12 +334,38 @@ public class MongoService
         game.ImgBase = $"http://{_imgServer}/img/{game.PublishDate.Year}/{game.PublishDate.Month}/{game.Id}/";
         game.CoverUrl = $"{game.ImgBase}game_s.jpg";
         game.StoryImageUrl = $"{game.ImgBase}game_l.jpg";
+
+        // 加载 cv 地图并填充角色数据
+        var cvMap = GetCVMap();
         foreach (var c in game.GameCharacters)
+        {
             c.AvatarUrl = $"{game.ImgBase}char_s_{c.Index}.jpg";
+            // 通过 trueCV 匹配声优评分数据
+            if (!string.IsNullOrEmpty(c.TrueCV) && cvMap.TryGetValue(c.TrueCV, out var cv))
+                c.CvObj = cv;
+            // 角色名按空格拆分为 title / subTitle
+            SplitCharName(c);
+        }
         foreach (var img in game.SimpleImgs)
             img.Url = $"{game.ImgBase}simple_l_{img.Index}.jpg";
 
         return game;
+    }
+
+    /// <summary>将角色名按空格拆分为 CharTitle 和 CharSubTitle</summary>
+    private static void SplitCharName(GameCharacter c)
+    {
+        if (string.IsNullOrEmpty(c.Name)) return;
+        var parts = c.Name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length > 1)
+        {
+            c.CharSubTitle = parts[0];
+            c.CharTitle = string.Join(" ", parts.Skip(1));
+        }
+        else
+        {
+            c.CharTitle = c.Name;
+        }
     }
 
     /// <summary>将 BsonArray 角色数据映射为 GameCharacter 列表</summary>
@@ -330,7 +382,7 @@ public class MongoService
                 Intro = doc.Contains("intro") ? SafeStr(doc["intro"]) : "",
                 TrueCV = doc.Contains("truecv") ? SafeStr(doc["truecv"]) : "",
                 Index = doc.Contains("index") ? SafeInt(doc["index"]) : 0,
-                Heroine = doc.Contains("heroine") && SafeBool(doc["heroine"]),
+                Man = doc.Contains("man") && SafeBool(doc["man"]),
             });
         }
         return result;

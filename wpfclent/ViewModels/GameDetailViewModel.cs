@@ -40,6 +40,10 @@ public partial class GameDetailViewModel : ObservableObject
     [ObservableProperty]
     private string _newTag = string.Empty;
 
+    /// <summary>是否正在添加标签（控制输入框显隐，仿 web 版）</summary>
+    [ObservableProperty]
+    private bool _isAddingTag;
+
     /// <summary>是否显示编辑弹窗</summary>
     [ObservableProperty]
     private bool _isEditModalVisible;

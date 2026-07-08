@@ -26,7 +26,7 @@
                 <Grid>
                     <StackPanel>
                         <!-- 角色头像 -->
-                        <Image Source="{Binding AvatarUrl}" Height="200" Stretch="UniformToFill"
+                        <Image Source="{Binding AvatarUrl}"  Stretch="Uniform"
                                HorizontalAlignment="Center"/>
                         <StackPanel Margin="8,4">
                             <!-- 角色名（按空格拆分显示） -->
@@ -205,7 +205,7 @@
                                         <!-- Row 4: Tags -->
                                         <TextBlock Grid.Row="4" Grid.Column="0" Text="Tags" Foreground="#999"
                                                    FontSize="12" Padding="8,6,0,6" VerticalAlignment="Top"/>
-                                        <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="4,6,8,6">
+                                        <WrapPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="4,6,8,6">
                                             <ItemsControl ItemsSource="{Binding Game.Tag}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
@@ -214,8 +214,8 @@
                                                     <DataTemplate>
                                                         <Border Background="#FFABD3" CornerRadius="3" Margin="2,0,4,3" Padding="6,2">
                                                             <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Text="{Binding}" Foreground="#333" FontSize="11"/>
-                                                                <Button Content="×" FontSize="11" Margin="4,0,0,0" Padding="2,0"
+                                                                <TextBlock Text="{Binding}" Foreground="#333" FontSize="12"/>
+                                                                <Button Content="×" FontSize="12" Margin="4,0,0,0" Padding="2,0"
                                                                         Background="Transparent" BorderThickness="0" Cursor="Hand"
                                                                         Style="{StaticResource ButtonDanger}"
                                                                         Command="{Binding DataContext.RemoveTagCommand, RelativeSource={RelativeSource AncestorType=Window}}"
@@ -225,14 +225,29 @@
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>
-                                            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                                                <hc:TextBox Text="{Binding NewTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                            hc:InfoElement.Placeholder="新标签" Width="120" Padding="4,2" FontSize="11"/>
-                                                <Button Content="+" Padding="8,2" Margin="4,0"
-                                                        Style="{StaticResource ButtonPrimary}"
-                                                        Command="{Binding AddTagCommand}"/>
-                                            </StackPanel>
-                                        </StackPanel>
+                                        <!-- "+ 新标签" pill - 点击显示输入框 -->
+                                        <Border Background="#FFABD3" CornerRadius="3" Padding="6,2" Cursor="Hand"
+                                                MouseLeftButtonDown="TagAddPill_Click"
+                                                VerticalAlignment="Center" Margin="2,0,4,3">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsAddingTag}" Value="True">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock Text="+ 新标签" Foreground="#333" FontSize="12"/>
+                                        </Border>
+                                        <!-- 输入框 - 按 Enter 或失去焦点确认 -->
+                                        <hc:TextBox Text="{Binding NewTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    hc:InfoElement.Placeholder="新标签" Width="120" Padding="4,2" FontSize="11"
+                                                    KeyDown="TagInput_KeyDown" LostFocus="TagInput_LostFocus"
+                                                    Visibility="{Binding IsAddingTag, Converter={StaticResource Bool2Vis}}"
+                                                    VerticalAlignment="Center" Margin="2,0"/>
+                                        </WrapPanel>
                                     </Grid>
                                 </Border>
 
@@ -333,28 +348,7 @@
                                     </StackPanel>
                                 </Border>
 
-                                <!-- 外部検索 -->
-                                <Border Background="#252535" CornerRadius="6" Margin="0,12,0,0" Padding="12,8">
-                                    <StackPanel>
-                                        <TextBlock Text="外部検索" Foreground="#CCC" FontSize="13" FontWeight="Bold" Margin="0,0,0,8"/>
-                                        <WrapPanel>
-                                            <Button Content="Google" Padding="12,4" Margin="2"
-                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="google"/>
-                                            <Button Content="Wiki" Padding="12,4" Margin="2"
-                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="wiki"/>
-                                            <Button Content="GetChu" Padding="12,4" Margin="2"
-                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="getchu"/>
-                                            <Button Content="DLsite" Padding="12,4" Margin="2"
-                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="dlsite"/>
-                                            <Button Content="ErogameScape" Padding="12,4" Margin="2"
-                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="erogamescape"/>
-                                            <Button Content="2DF" Padding="12,4" Margin="2"
-                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="2df"/>
-                                            <Button Content="GGBases" Padding="12,4" Margin="2"
-                                                    Command="{Binding OpenExternalSearchCommand}" CommandParameter="ggbases"/>
-                                        </WrapPanel>
-                                    </StackPanel>
-                                </Border>
+
 
                             <!-- ストーリー -->
                             <hc:TextBox Text="{Binding Game.Story}" IsReadOnly="True"

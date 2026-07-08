@@ -106,35 +106,12 @@
                     </TextBlock>
                 </StackPanel>
 
-                <!-- 星级评价 + 存储位置 + 标记为相同 -->
+                <!-- 星级评分 -->
                 <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
                     <hc:Rate Value="{Binding Star, Mode=TwoWay}" AllowClear="True"
                              FontSize="14" Foreground="#FFB800"
                              Visibility="{Binding ShowStar, Converter={StaticResource Bool2Vis}}"
                              ValueChanged="CardRate_ValueChanged"/>
-                    <Button Command="{Binding ToggleCardLocationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                            CommandParameter="{Binding}"
-                            Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
-                            Visibility="{Binding Published, Converter={StaticResource Bool2Vis}}"
-                            ToolTip="Location (click to toggle)" Margin="8,0,0,0">
-                        <TextBlock FontSize="14">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="✓"/>
-                                    <Setter Property="Foreground" Value="#44AA44"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Location}" Value="0">
-                                            <Setter Property="Text" Value="☁"/>
-                                            <Setter Property="Foreground" Value="#88AACC"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Button>
-                    <ToggleButton IsChecked="{Binding IsSame, Mode=TwoWay}"
-                                  Click="CardMarkSame_Click" Content="同"
-                                  Margin="8,0,0,0" Padding="6,2" FontSize="11" ToolTip="MarkSame"/>
                 </StackPanel>
 
                 <!-- 标签列表（点击标签可将其添加为搜索条件） -->
@@ -155,9 +132,32 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <!-- 发布日期 -->
-                <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateRel}}"
-                           Foreground="#888" FontSize="11" Margin="0,4,0,0"/>
+                <!-- 底部：发布日期（左） + 存储位置（右） -->
+                <DockPanel Margin="0,4,0,0">
+                    <Button DockPanel.Dock="Right"
+                            Command="{Binding ToggleCardLocationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            CommandParameter="{Binding}"
+                            Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
+                            Visibility="{Binding Published, Converter={StaticResource Bool2Vis}}"
+                            ToolTip="Location (click to toggle)" Margin="8,0,0,0">
+                        <TextBlock FontSize="14">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="✓"/>
+                                    <Setter Property="Foreground" Value="#44AA44"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Location}" Value="0">
+                                            <Setter Property="Text" Value="☁"/>
+                                            <Setter Property="Foreground" Value="#88AACC"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Button>
+                    <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateRel}}"
+                               Foreground="#888" FontSize="11" VerticalAlignment="Center"/>
+                </DockPanel>
             </StackPanel>
         </StackPanel>
     </Border>

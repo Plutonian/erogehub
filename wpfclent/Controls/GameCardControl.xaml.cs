@@ -1,6 +1,5 @@
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using ErogeHub.Wpf.Models;
@@ -112,16 +111,6 @@ public partial class GameCardControl : UserControl
         set => SetValue(StarChangedCommandProperty, value);
     }
 
-    /// <summary>标记相同变更命令（参数：(int GameId, bool IsSame)）</summary>
-    public static readonly DependencyProperty MarkSameChangedCommandProperty =
-        DependencyProperty.Register(nameof(MarkSameChangedCommand), typeof(ICommand), typeof(GameCardControl));
-
-    public ICommand? MarkSameChangedCommand
-    {
-        get => (ICommand?)GetValue(MarkSameChangedCommandProperty);
-        set => SetValue(MarkSameChangedCommandProperty, value);
-    }
-
     // ==================== 事件处理器 ====================
 
     /// <summary>星级评分变更事件</summary>
@@ -130,14 +119,6 @@ public partial class GameCardControl : UserControl
         if (Game is null || StarChangedCommand is null) return;
         if (StarChangedCommand.CanExecute(null))
             StarChangedCommand.Execute((Game.Id, (int)e.Info));
-    }
-
-    /// <summary>"标记为相同"切换事件</summary>
-    private void CardMarkSame_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is not ToggleButton tb || Game is null || MarkSameChangedCommand is null) return;
-        if (MarkSameChangedCommand.CanExecute(null))
-            MarkSameChangedCommand.Execute((Game.Id, tb.IsChecked == true));
     }
 
     /// <summary>超链接导航（用默认浏览器打开 URL）</summary>

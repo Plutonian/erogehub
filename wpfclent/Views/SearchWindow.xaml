@@ -41,8 +41,7 @@
                 BrandClickToSearchCommand="{Binding DataContext.BrandClickToSearchCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                 ToggleCardLocationCommand="{Binding DataContext.ToggleCardLocationCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                 TagClickToSearchCommand="{Binding DataContext.TagClickToSearchCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                StarChangedCommand="{Binding DataContext.CardStarChangedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                MarkSameChangedCommand="{Binding DataContext.CardMarkSameChangedCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                StarChangedCommand="{Binding DataContext.CardStarChangedCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
         </DataTemplate>
 
         <!-- ========== 搜索条件项模板（左侧搜索面板中的每一条搜索条件） ========== -->

@@ -418,15 +418,6 @@ public partial class SearchViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 卡片标记相同变更命令（由 GameCardControl 的 MarkSameChangedCommand DP 绑定）
-    /// </summary>
-    [RelayCommand]
-    private async Task CardMarkSameChangedAsync((int GameId, bool IsSame) args)
-    {
-        await _mongo.MarkSameAsync(args.GameId, args.IsSame);
-    }
-
-    /// <summary>
     /// 卡片星级修改（保留供其他窗口直接调用；卡片交互请使用 CardStarChangedCommand）
     /// </summary>
     public async Task UpdateCardStarAsync(int gameId, int star)

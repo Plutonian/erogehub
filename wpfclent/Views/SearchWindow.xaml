@@ -10,6 +10,7 @@
         xmlns:conv="clr-namespace:ErogeHub.Wpf.Converters"
         xmlns:vm="clr-namespace:ErogeHub.Wpf.ViewModels"
         xmlns:models="clr-namespace:ErogeHub.Wpf.Models"
+        xmlns:controls="clr-namespace:ErogeHub.Wpf.Controls"
         Title="ErogeHub" Width="1400" Height="900"
         Background="#1E1E2E" WindowStartupLocation="CenterScreen">
 
@@ -29,156 +30,19 @@
         <conv:EmptyToVisibilityConverter x:Key="Empty2Vis"/>
         <conv:DateRelativeConverter x:Key="DateRel"/>
 
-        <!-- ========== 游戏卡片模板（282px 宽，全交互，用于中间游戏列表展示） ========== -->
+        <!-- ========== 游戏卡片模板（使用 GameCardControl 用户控件） ========== -->
         <DataTemplate x:Key="GameCardTemplate" DataType="{x:Type models:Game}">
-            <!-- 卡片外层：固定宽度，边框颜色根据情感值(Emotion)动态变色 -->
-            <Border Width="282" Margin="4" Background="#2A2A3C" CornerRadius="6"
-                    BorderBrush="{Binding Emotion, Converter={StaticResource EmotionBrush}}"
-                    BorderThickness="2">
-                <StackPanel>
-                    <!-- 封面图区域：固定宽度 280px，高度按图片比例自动缩放 -->
-                    <Grid Width="280">
-                        <Image Source="{Binding CoverUrl}" Width="280" Stretch="Uniform" Cursor="Hand">
-                            <Image.InputBindings>
-                                <MouseBinding Command="{Binding DataContext.OpenDetailCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                              CommandParameter="{Binding}"
-                                              MouseAction="LeftClick"/>
-                            </Image.InputBindings>
-                        </Image>
-
-                        <!-- 右上角的"心"情感按钮：40x40 深色背景框，叠层在封面图上 -->
-                        <Button Command="{Binding DataContext.CycleCardEmotionCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                   CommandParameter="{Binding}"
-                                   Width="40" Height="40"
-                                   Padding="0" BorderThickness="0"
-                                   HorizontalAlignment="Right" VerticalAlignment="Top"
-                                   Margin="0,6,6,0"
-                                   Background="#AA1E1E2E" Cursor="Hand"
-                                   Visibility="{Binding ShowEmotion, Converter={StaticResource Bool2Vis}}"
-                                   ToolTip="Emotion (click to cycle)">
-                            <!-- ♥ 图标：根据情感值(-99=暗红 / 1=粉红 / 99=亮红)改变颜色 -->
-                            <TextBlock Text="♥" FontSize="22" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Foreground" Value="#666"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Emotion}" Value="-99">
-                                                <Setter Property="Foreground" Value="#8B0000"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Emotion}" Value="1">
-                                                <Setter Property="Foreground" Value="#FF69B4"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Emotion}" Value="99">
-                                                <Setter Property="Foreground" Value="#FF4444"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </Button>
-                    </Grid>
-
-                    <StackPanel Margin="6,4">
-                        <!-- 标题行：PlayState 状态圆圈 + 游戏主标题 + 删除按钮 -->
-                        <StackPanel Orientation="Horizontal">
-                            <!-- 游玩状态圆形按钮：点击循环切换状态，颜色由 PlayStateBrush 转换器决定 -->
-                            <Button Command="{Binding DataContext.CycleCardPlayStateCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                       CommandParameter="{Binding}"
-                                       Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
-                                       ToolTip="PlayState (click to cycle)">
-                                <Ellipse Width="16" Height="16" Fill="{Binding PlayState, Converter={StaticResource PlayStateBrush}}"/>
-                            </Button>
-                            <!-- 游戏主标题，超长省略 -->
-                            <TextBlock Text="{Binding MainTitle}" FontWeight="Bold" Foreground="#E0E0E0" FontSize="14"
-                                       TextTrimming="CharacterEllipsis" Margin="4,0,0,0" MaxWidth="210"/>
-                            <!-- 删除按钮：仅当 IsSame 为 true 时显示（标记为重复的游戏） -->
-                            <Button Content="[Del]" Foreground="#FF4444" FontSize="10" Margin="4,0,0,0"
-                                       Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
-                                       Style="{StaticResource ButtonDanger}"
-                                       Visibility="{Binding IsSame, Converter={StaticResource Bool2Vis}}"
-                                       Command="{Binding DataContext.DeleteCardCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                       CommandParameter="{Binding}"/>
-                        </StackPanel>
-
-                        <!-- 副标题 -->
-                        <TextBlock Text="{Binding SubTitle}" Foreground="#999" FontSize="12"
-                                   TextTrimming="CharacterEllipsis"/>
-
-                        <!-- 品牌名称（可点击搜索） + 官网链接 -->
-                        <StackPanel Orientation="Horizontal" Margin="0,3,0,0"
-                                    Visibility="{Binding Brand.Name, Converter={StaticResource Str2Vis}}">
-                            <Button Command="{Binding DataContext.BrandClickToSearchCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                       CommandParameter="{Binding Brand.Name}"
-                                       Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand">
-                                <TextBlock Text="{Binding Brand.Name}" Foreground="#7AB8FF" FontSize="12"/>
-                            </Button>
-                            <TextBlock Margin="4,0,0,0" FontSize="11"
-                                       Visibility="{Binding Brand.Website, Converter={StaticResource Web2Vis}}">
-                                <Hyperlink NavigateUri="{Binding Brand.Website}"
-                                           RequestNavigate="OpenHyperlink_RequestNavigate">
-                                    <Run Text="(公式サイト)" Foreground="#7AB8FF"/>
-                                </Hyperlink>
-                            </TextBlock>
-                        </StackPanel>
-
-                        <!-- 星级评价 + 情感 + 存储位置 + 标记为相同 -->
-                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                            <!-- 星级评分控件：可交互，变更时触发 CardRate_ValueChanged -->
-                            <hc:Rate Value="{Binding Star, Mode=TwoWay}" AllowClear="True"
-                                     FontSize="14" Foreground="#FFB800"
-                                     Visibility="{Binding ShowStar, Converter={StaticResource Bool2Vis}}"
-                                     ValueChanged="CardRate_ValueChanged"/>
-                            <!-- 存储位置切换按钮：云端 ☁ / 本地 ✓ -->
-                            <!-- 存储位置切换按钮：云端 ☁ / 本地 ✓ -->
-                            <Button Command="{Binding DataContext.ToggleCardLocationCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                       CommandParameter="{Binding}"
-                                       Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
-                                       Visibility="{Binding Published, Converter={StaticResource Bool2Vis}}"
-                                       ToolTip="Location (click to toggle)" Margin="8,0,0,0">
-                                <!-- 存储位置图标：本地(✓) / 云端(☁) -->
-                                <TextBlock FontSize="14">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Text" Value="✓"/>
-                                            <Setter Property="Foreground" Value="#44AA44"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Location}" Value="0">
-                                                    <Setter Property="Text" Value="☁"/>
-                                                    <Setter Property="Foreground" Value="#88AACC"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </Button>
-                            <!-- 标记为相同游戏：ToggleButton，绑定 IsSame 属性 -->
-                            <ToggleButton IsChecked="{Binding IsSame, Mode=TwoWay}" Click="CardMarkSame_Click" Content="同" Margin="8,0,0,0" Padding="6,2" FontSize="11" ToolTip="MarkSame"/>
-                        </StackPanel>
-
-                        <!-- 标签列表（点击标签可将其添加为搜索条件） -->
-                        <ItemsControl ItemsSource="{Binding Tag}" Margin="0,4,0,0">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Button Content="{Binding}" FontSize="10" Margin="0,0,4,3"
-                                               Padding="5,2" Background="#FFABD3" Foreground="#333"
-                                               BorderThickness="0" Cursor="Hand"
-                                               Command="{Binding DataContext.TagClickToSearchCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                               CommandParameter="{Binding}"/>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-
-                        <!-- 发布日期：使用 DateRel 转换器显示为相对时间 -->
-                        <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateRel}}"
-                                   Foreground="#888" FontSize="11" Margin="0,4,0,0"/>
-                    </StackPanel>
-                </StackPanel>
-            </Border>
+            <controls:GameCardControl
+                Game="{Binding}"
+                OpenDetailCommand="{Binding DataContext.OpenDetailCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                CycleCardEmotionCommand="{Binding DataContext.CycleCardEmotionCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                CycleCardPlayStateCommand="{Binding DataContext.CycleCardPlayStateCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                DeleteCardCommand="{Binding DataContext.DeleteCardCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                BrandClickToSearchCommand="{Binding DataContext.BrandClickToSearchCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                ToggleCardLocationCommand="{Binding DataContext.ToggleCardLocationCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                TagClickToSearchCommand="{Binding DataContext.TagClickToSearchCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                StarChangedCommand="{Binding DataContext.CardStarChangedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                MarkSameChangedCommand="{Binding DataContext.CardMarkSameChangedCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
         </DataTemplate>
 
         <!-- ========== 搜索条件项模板（左侧搜索面板中的每一条搜索条件） ========== -->

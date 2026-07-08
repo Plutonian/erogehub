@@ -409,7 +409,25 @@ public partial class SearchViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 卡片星级修改（由 SearchWindow.xaml.cs 的 CardRate_ValueChanged 事件调用）
+    /// 卡片星级变更命令（由 GameCardControl 的 StarChangedCommand DP 绑定）
+    /// </summary>
+    [RelayCommand]
+    private async Task CardStarChangedAsync((int GameId, int Star) args)
+    {
+        await _mongo.UpdateStarAsync(args.GameId, args.Star);
+    }
+
+    /// <summary>
+    /// 卡片标记相同变更命令（由 GameCardControl 的 MarkSameChangedCommand DP 绑定）
+    /// </summary>
+    [RelayCommand]
+    private async Task CardMarkSameChangedAsync((int GameId, bool IsSame) args)
+    {
+        await _mongo.MarkSameAsync(args.GameId, args.IsSame);
+    }
+
+    /// <summary>
+    /// 卡片星级修改（保留供其他窗口直接调用；卡片交互请使用 CardStarChangedCommand）
     /// </summary>
     public async Task UpdateCardStarAsync(int gameId, int star)
     {
@@ -417,7 +435,7 @@ public partial class SearchViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 卡片标记相同（由 SearchWindow.xaml.cs 的 CardMarkSame_Click 事件调用）
+    /// 卡片标记相同（保留供其他窗口直接调用；卡片交互请使用 CardMarkSameChangedCommand）
     /// </summary>
     public async Task UpdateCardMarkSameAsync(int gameId, bool isSame)
     {

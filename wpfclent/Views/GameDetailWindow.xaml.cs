@@ -51,14 +51,4 @@ public partial class GameDetailWindow : Window
         e.Handled = true;
     }
 
-    /// <summary>
-    /// 取消编辑按钮点击，关闭编辑弹窗
-    /// </summary>
-    private void CancelEdit_Click(object sender, RoutedEventArgs e)
-    {
-        if (DataContext is GameDetailViewModel vm)
-        {
-            vm.IsEditModalVisible = false;
-        }
-    }
 }

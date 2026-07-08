@@ -5,6 +5,7 @@
         xmlns:conv="clr-namespace:ErogeHub.Wpf.Converters"
         xmlns:vm="clr-namespace:ErogeHub.Wpf.ViewModels"
         xmlns:models="clr-namespace:ErogeHub.Wpf.Models"
+        xmlns:controls="clr-namespace:ErogeHub.Wpf.Controls"
         Title="Game Detail" Width="1100" Height="800"
         Background="#1E1E2E" WindowStartupLocation="CenterOwner">
 
@@ -364,30 +365,8 @@
                 </TabItem>
             </TabControl>
 
-            <!-- ========== 编辑标题 Modal ========== -->
-            <Border Background="#80000000" Visibility="{Binding IsEditModalVisible, Converter={StaticResource Bool2Vis}}">
-                <Border Background="#2A2A3C" CornerRadius="8" Padding="24" Width="500"
-                        HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel>
-                        <TextBlock Text="Edit Title" FontSize="16" FontWeight="Bold" Foreground="#E0E0E0" Margin="0,0,0,12"/>
-                        <TextBlock Text="{Binding Game.Name}" Foreground="#999" Margin="0,0,0,4" TextWrapping="Wrap"/>
-                        <Button Content="Split" Command="{Binding SplitTitleCommand}" Padding="12,4"
-                                   HorizontalAlignment="Left" Margin="0,0,0,12"/>
-                        <TextBlock Text="Main" Foreground="#999" Margin="0,0,0,2"/>
-                        <hc:TextBox Text="{Binding Game.MainTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Padding="6,4" FontSize="14" Margin="0,0,0,12"/>
-                        <TextBlock Text="Sub" Foreground="#999" Margin="0,0,0,2"/>
-                        <hc:TextBox Text="{Binding Game.SubTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Padding="6,4" FontSize="14" Margin="0,0,0,16"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Content="Cancel" Padding="16,6" Margin="0,0,8,0" Click="CancelEdit_Click"/>
-                            <Button Content="Update" Padding="16,6"
-                                       Style="{StaticResource ButtonPrimary}"
-                                       Command="{Binding UpdateTitleCommand}"/>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-            </Border>
+            <!-- ========== 编辑标题 Modal（使用 EditTitleModal 用户控件） ========== -->
+            <controls:EditTitleModal/>
         </Grid>
     </Grid>
 </Window>

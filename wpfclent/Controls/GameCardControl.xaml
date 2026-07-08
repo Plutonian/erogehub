@@ -24,7 +24,7 @@
         <StackPanel>
             <!-- 封面图区域：固定宽度 280px，高度按图片比例自动缩放 -->
             <Grid Width="280">
-                <Image Source="{Binding CoverUrl}" Width="280" Stretch="Uniform" Cursor="Hand">
+                <Image Source="{Binding CoverUrl}"  Stretch="None" Cursor="Hand">
                     <Image.InputBindings>
                         <MouseBinding Command="{Binding OpenDetailCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                       CommandParameter="{Binding}"

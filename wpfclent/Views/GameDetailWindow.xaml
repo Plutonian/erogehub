@@ -26,7 +26,7 @@
                 <Grid>
                     <StackPanel>
                         <!-- 角色头像 -->
-                        <Image Source="{Binding AvatarUrl}"  Stretch="Uniform"
+                        <Image Source="{Binding AvatarUrl}"  Stretch="None"
                                HorizontalAlignment="Center"/>
                         <StackPanel Margin="8,4">
                             <!-- 角色名（按空格拆分显示） -->
@@ -239,7 +239,7 @@
                                                     </Style.Triggers>
                                                 </Style>
                                             </Border.Style>
-                                            <TextBlock Text="+ 新标签" Foreground="#333" FontSize="12"/>
+                                            <TextBlock Text="+" Foreground="#333" FontSize="12"/>
                                         </Border>
                                         <!-- 输入框 - 按 Enter 或失去焦点确认 -->
                                         <hc:TextBox Text="{Binding NewTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

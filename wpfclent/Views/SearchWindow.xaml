@@ -36,14 +36,47 @@
                     BorderBrush="{Binding Emotion, Converter={StaticResource EmotionBrush}}"
                     BorderThickness="2">
                 <StackPanel>
-                    <!-- 封面图区域：点击打开游戏详情窗口，Height 设在 Button 上保证统一高度 -->
-                    <Button Command="{Binding DataContext.OpenDetailCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                               CommandParameter="{Binding}"
-                               Padding="0" BorderThickness="0" Background="Transparent"
-                               HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Cursor="Hand"
-                               Height="396">
-                        <Image Source="{Binding CoverUrl}" Stretch="UniformToFill"/>
-                    </Button>
+                    <!-- 封面图区域：固定宽度 280px，高度按图片比例自动缩放 -->
+                    <Grid Width="280">
+                        <Image Source="{Binding CoverUrl}" Width="280" Stretch="Uniform" Cursor="Hand">
+                            <Image.InputBindings>
+                                <MouseBinding Command="{Binding DataContext.OpenDetailCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                              CommandParameter="{Binding}"
+                                              MouseAction="LeftClick"/>
+                            </Image.InputBindings>
+                        </Image>
+
+                        <!-- 右上角的"心"情感按钮：40x40 深色背景框，叠层在封面图上 -->
+                        <Button Command="{Binding DataContext.CycleCardEmotionCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                   CommandParameter="{Binding}"
+                                   Width="40" Height="40"
+                                   Padding="0" BorderThickness="0"
+                                   HorizontalAlignment="Right" VerticalAlignment="Top"
+                                   Margin="0,6,6,0"
+                                   Background="#AA1E1E2E" Cursor="Hand"
+                                   Visibility="{Binding ShowEmotion, Converter={StaticResource Bool2Vis}}"
+                                   ToolTip="Emotion (click to cycle)">
+                            <!-- ♥ 图标：根据情感值(-99=暗红 / 1=粉红 / 99=亮红)改变颜色 -->
+                            <TextBlock Text="♥" FontSize="22" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="#666"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Emotion}" Value="-99">
+                                                <Setter Property="Foreground" Value="#8B0000"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Emotion}" Value="1">
+                                                <Setter Property="Foreground" Value="#FF69B4"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Emotion}" Value="99">
+                                                <Setter Property="Foreground" Value="#FF4444"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Button>
+                    </Grid>
 
                     <StackPanel Margin="6,4">
                         <!-- 标题行：PlayState 状态圆圈 + 游戏主标题 + 删除按钮 -->
@@ -95,32 +128,7 @@
                                      FontSize="14" Foreground="#FFB800"
                                      Visibility="{Binding ShowStar, Converter={StaticResource Bool2Vis}}"
                                      ValueChanged="CardRate_ValueChanged"/>
-                            <!-- 情感按钮：点击循环切换 -99/1/99，♥ 颜色随情感值变化 -->
-                            <Button Command="{Binding DataContext.CycleCardEmotionCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                       CommandParameter="{Binding}"
-                                       Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
-                                       Visibility="{Binding ShowEmotion, Converter={StaticResource Bool2Vis}}"
-                                       ToolTip="Emotion (click to cycle)" Margin="8,0,0,0">
-                                <!-- ♥ 图标：根据情感值(-99=暗红 / 1=粉红 / 99=亮红)改变颜色 -->
-                                <TextBlock Text="♥" FontSize="14">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Foreground" Value="#666"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Emotion}" Value="-99">
-                                                    <Setter Property="Foreground" Value="#8B0000"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Emotion}" Value="1">
-                                                    <Setter Property="Foreground" Value="#FF69B4"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Emotion}" Value="99">
-                                                    <Setter Property="Foreground" Value="#FF4444"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </Button>
+                            <!-- 存储位置切换按钮：云端 ☁ / 本地 ✓ -->
                             <!-- 存储位置切换按钮：云端 ☁ / 本地 ✓ -->
                             <Button Command="{Binding DataContext.ToggleCardLocationCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                        CommandParameter="{Binding}"

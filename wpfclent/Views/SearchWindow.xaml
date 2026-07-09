@@ -125,16 +125,12 @@
             </Button>
         </DataTemplate>
 
-        <!-- 星级聚合项模板：星级评分 + 数量 -->
+        <!-- 星级聚合项模板：星级评分 + 数量（无 Button，由 ListBox 选中触发） -->
         <DataTemplate x:Key="StarGroupTemplate" DataType="{x:Type models:StarGroupItem}">
-            <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                       Command="{Binding DataContext.StarClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                       CommandParameter="{Binding}">
-                <DockPanel>
-                    <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#CCC" Margin="8,0,0,0"/>
-                    <hc:Rate Value="{Binding Star}" IsReadOnly="True" AllowClear="False" FontSize="12" Foreground="#FFB800" IsHitTestVisible="False"/>
-                </DockPanel>
-            </Button>
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#CCC" Margin="8,0,0,0"/>
+                <hc:Rate Value="{Binding Star}" IsReadOnly="True" AllowClear="False" FontSize="12" Foreground="#FFB800" IsHitTestVisible="False"/>
+            </DockPanel>
         </DataTemplate>
 
         <!-- 日期聚合项模板：纯展示，无点击行为 -->
@@ -146,18 +142,42 @@
             </DockPanel>
         </HierarchicalDataTemplate>
 
-        <!-- 品牌聚合项模板：支持层级展开，使用 HierarchicalDataTemplate -->
+        <!-- 品牌聚合项模板：支持层级展开，使用 HierarchicalDataTemplate（无 Button，由 TreeView 选中触发） -->
         <HierarchicalDataTemplate x:Key="BrandGroupTemplate" DataType="{x:Type models:BrandGroupItem}"
                                   ItemsSource="{Binding Children}">
-            <Button Padding="2,1" HorizontalContentAlignment="Stretch" Background="Transparent"
-                       Command="{Binding DataContext.BrandClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                       CommandParameter="{Binding}">
-                <DockPanel>
-                    <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#888" Margin="8,0,0,0"/>
-                    <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
-                </DockPanel>
-            </Button>
+            <DockPanel Margin="2,1">
+                <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#888" Margin="8,0,0,0"/>
+                <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
+            </DockPanel>
         </HierarchicalDataTemplate>
+
+        <!-- ========== 聚合列表项样式：用于星级/情感/位置/游玩状态等 ListBox ========== -->
+        <Style x:Key="AggListBoxItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="4,2"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="MinHeight" Value="26"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Stretch"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#383852"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#3D5A80"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
         <!-- ========== 右侧聚合面板折叠/展开按钮样式 ========== -->
         <Style x:Key="AggToggleStyle" TargetType="ToggleButton">
@@ -412,9 +432,12 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <ToggleButton Grid.Row="0" x:Name="ToggleStar" Style="{StaticResource AggToggleStyle}" Content="星级"/>
-                        <ItemsControl Grid.Row="1"
-                                      Visibility="{Binding IsChecked, ElementName=ToggleStar, Converter={StaticResource Bool2Vis}}"
-                                      ItemsSource="{Binding StarGroup}" ItemTemplate="{StaticResource StarGroupTemplate}" Margin="4"/>
+                        <ListBox Grid.Row="1"
+                                 Visibility="{Binding IsChecked, ElementName=ToggleStar, Converter={StaticResource Bool2Vis}}"
+                                 ItemsSource="{Binding StarGroup}" ItemTemplate="{StaticResource StarGroupTemplate}"
+                                 ItemContainerStyle="{StaticResource AggListBoxItemStyle}"
+                                 SelectionMode="Single" Background="Transparent" BorderThickness="0" Margin="4"
+                                 SelectionChanged="StarListBox_SelectionChanged"/>
                     </Grid>
 
                     <!-- 情感分布 -->
@@ -424,24 +447,21 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <ToggleButton Grid.Row="0" x:Name="ToggleEmotion" Style="{StaticResource AggToggleStyle}" Content="情感"/>
-                        <ItemsControl Grid.Row="1"
-                                      Visibility="{Binding IsChecked, ElementName=ToggleEmotion, Converter={StaticResource Bool2Vis}}"
-                                      ItemsSource="{Binding EmotionGroup}" Margin="4">
-                            <ItemsControl.ItemTemplate>
+                        <ListBox Grid.Row="1"
+                                 Visibility="{Binding IsChecked, ElementName=ToggleEmotion, Converter={StaticResource Bool2Vis}}"
+                                 ItemsSource="{Binding EmotionGroup}" Margin="4"
+                                 ItemContainerStyle="{StaticResource AggListBoxItemStyle}"
+                                 SelectionMode="Single" Background="Transparent" BorderThickness="0"
+                                 SelectionChanged="EmotionListBox_SelectionChanged">
+                            <ListBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:EmotionGroupItem}">
-                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                                               Command="{Binding DataContext.EmotionClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                               CommandParameter="{Binding}">
-                                        <DockPanel>
-                                            <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
-                                                <TextBlock Text="{Binding Count}" Foreground="#CCC" FontSize="10"/>
-                                            </Border>
-                                            <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
-                                        </DockPanel>
-                                    </Button>
+                                    <DockPanel>
+                                        <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#CCC" Margin="8,0,0,0"/>
+                                        <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
+                                    </DockPanel>
                                 </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
 
                     <!-- 存储位置分布 -->
@@ -451,24 +471,21 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <ToggleButton Grid.Row="0" x:Name="ToggleLocation" Style="{StaticResource AggToggleStyle}" Content="位置"/>
-                        <ItemsControl Grid.Row="1"
-                                      Visibility="{Binding IsChecked, ElementName=ToggleLocation, Converter={StaticResource Bool2Vis}}"
-                                      ItemsSource="{Binding LocationGroup}" Margin="4">
-                            <ItemsControl.ItemTemplate>
+                        <ListBox Grid.Row="1"
+                                 Visibility="{Binding IsChecked, ElementName=ToggleLocation, Converter={StaticResource Bool2Vis}}"
+                                 ItemsSource="{Binding LocationGroup}" Margin="4"
+                                 ItemContainerStyle="{StaticResource AggListBoxItemStyle}"
+                                 SelectionMode="Single" Background="Transparent" BorderThickness="0"
+                                 SelectionChanged="LocationListBox_SelectionChanged">
+                            <ListBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:LocationGroupItem}">
-                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                                               Command="{Binding DataContext.LocationClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                               CommandParameter="{Binding}">
-                                        <DockPanel>
-                                            <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
-                                                <TextBlock Text="{Binding Count}" Foreground="#CCC" FontSize="10"/>
-                                            </Border>
-                                            <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
-                                        </DockPanel>
-                                    </Button>
+                                    <DockPanel>
+                                        <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#CCC" Margin="8,0,0,0"/>
+                                        <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
+                                    </DockPanel>
                                 </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
 
                     <!-- 游玩状态分布 -->
@@ -478,24 +495,21 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <ToggleButton Grid.Row="0" x:Name="TogglePlayState" Style="{StaticResource AggToggleStyle}" Content="游玩状态"/>
-                        <ItemsControl Grid.Row="1"
-                                      Visibility="{Binding IsChecked, ElementName=TogglePlayState, Converter={StaticResource Bool2Vis}}"
-                                      ItemsSource="{Binding PlayStateGroup}" Margin="4">
-                            <ItemsControl.ItemTemplate>
+                        <ListBox Grid.Row="1"
+                                 Visibility="{Binding IsChecked, ElementName=TogglePlayState, Converter={StaticResource Bool2Vis}}"
+                                 ItemsSource="{Binding PlayStateGroup}" Margin="4"
+                                 ItemContainerStyle="{StaticResource AggListBoxItemStyle}"
+                                 SelectionMode="Single" Background="Transparent" BorderThickness="0"
+                                 SelectionChanged="PlayStateListBox_SelectionChanged">
+                            <ListBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:PlayStateGroupItem}">
-                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                                               Command="{Binding DataContext.PlayStateClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                               CommandParameter="{Binding}">
-                                        <DockPanel>
-                                            <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
-                                                <TextBlock Text="{Binding Count}" Foreground="#CCC" FontSize="10"/>
-                                            </Border>
-                                            <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
-                                        </DockPanel>
-                                    </Button>
+                                    <DockPanel>
+                                        <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#CCC" Margin="8,0,0,0"/>
+                                        <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
+                                    </DockPanel>
                                 </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
 
                     <!-- 声优分布 -->
@@ -604,7 +618,8 @@
                         <TreeView Grid.Row="1"
                                   Visibility="{Binding IsChecked, ElementName=ToggleBrand, Converter={StaticResource Bool2Vis}}"
                                   ItemsSource="{Binding BrandGroup}" ItemTemplate="{StaticResource BrandGroupTemplate}"
-                                  Background="Transparent" Margin="4"/>
+                                  Background="Transparent" Margin="4"
+                                  SelectedItemChanged="BrandTree_SelectedItemChanged"/>
                     </Grid>
                 </StackPanel>
             </ScrollViewer>

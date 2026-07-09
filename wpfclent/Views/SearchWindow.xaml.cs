@@ -1,4 +1,6 @@
 using System.Windows;
+using System.Windows.Controls;
+using ErogeHub.Wpf.Models;
 using ErogeHub.Wpf.ViewModels;
 using HandyControl.Data;
 
@@ -27,6 +29,51 @@ public partial class SearchWindow : Window
         if (_viewModel.GoToPageCommand.CanExecute(e.Info))
         {
             _viewModel.GoToPageCommand.Execute(e.Info);
+        }
+    }
+
+    /// <summary>星级列表选中：添加 STAR 包含条件</summary>
+    private void StarListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.Count > 0 && e.AddedItems[0] is StarGroupItem item)
+        {
+            _viewModel.StarClickedCommand.Execute(item);
+        }
+    }
+
+    /// <summary>情感列表选中：添加 EMOTION 包含条件</summary>
+    private void EmotionListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.Count > 0 && e.AddedItems[0] is EmotionGroupItem item)
+        {
+            _viewModel.EmotionClickedCommand.Execute(item);
+        }
+    }
+
+    /// <summary>位置列表选中：添加 LOCATION 包含条件</summary>
+    private void LocationListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.Count > 0 && e.AddedItems[0] is LocationGroupItem item)
+        {
+            _viewModel.LocationClickedCommand.Execute(item);
+        }
+    }
+
+    /// <summary>游玩状态列表选中：添加 PLAYSTATE 包含条件</summary>
+    private void PlayStateListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.Count > 0 && e.AddedItems[0] is PlayStateGroupItem item)
+        {
+            _viewModel.PlayStateClickedCommand.Execute(item);
+        }
+    }
+
+    /// <summary>品牌树选中：添加 BRAND 包含条件</summary>
+    private void BrandTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+    {
+        if (e.NewValue is BrandGroupItem item)
+        {
+            _viewModel.BrandClickedCommand.Execute(item);
         }
     }
 }

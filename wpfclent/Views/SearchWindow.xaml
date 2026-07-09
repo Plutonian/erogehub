@@ -133,15 +133,6 @@
             </DockPanel>
         </DataTemplate>
 
-        <!-- 日期聚合项模板：纯展示，无点击行为 -->
-        <HierarchicalDataTemplate x:Key="DateGroupTemplate" DataType="{x:Type models:DateGroupItem}"
-                                  ItemsSource="{Binding Children}">
-            <DockPanel Margin="2,1">
-                <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#888" Margin="8,0,0,0"/>
-                <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
-            </DockPanel>
-        </HierarchicalDataTemplate>
-
         <!-- 品牌聚合项模板：支持层级展开，使用 HierarchicalDataTemplate（无 Button，由 TreeView 选中触发） -->
         <HierarchicalDataTemplate x:Key="BrandGroupTemplate" DataType="{x:Type models:BrandGroupItem}"
                                   ItemsSource="{Binding Children}">
@@ -419,10 +410,15 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <ToggleButton Grid.Row="0" x:Name="ToggleDate" Style="{StaticResource AggToggleStyle}" Content="日期"/>
-                        <TreeView Grid.Row="1"
-                                  Visibility="{Binding IsChecked, ElementName=ToggleDate, Converter={StaticResource Bool2Vis}}"
-                                  ItemsSource="{Binding DateGroup}" ItemTemplate="{StaticResource DateGroupTemplate}"
-                                  Background="Transparent" Margin="4"/>
+                        <ItemsControl Grid.Row="1"
+                                      Visibility="{Binding IsChecked, ElementName=ToggleDate, Converter={StaticResource Bool2Vis}}"
+                                      ItemsSource="{Binding DateGroup}" Margin="4">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type models:DateGroupItem}">
+                                    <controls:YearCalendarControl Year="{Binding}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </Grid>
 
                     <!-- 星级分布 -->

@@ -166,14 +166,29 @@ public class MongoService
         return docs.Select(d => new GroupItem { Title = SafeStr(d.GetValue("title")), Count = SafeInt(d["count"]) }).ToList();
     }
 
-    /// <summary>按发布日期分组聚合（年 → 月层级），在内存中处理</summary>
+    /// <summary>按发布日期分组聚合（年 → 月层级），在内存中处理。日期为空或无效的游戏归入"无日期"组。</summary>
     public async Task<List<DateGroupItem>> GroupByDateAsync(BsonDocument? filter)
     {
         var docs = await _collection.Find(ToFilterDef(filter)).Project(Builders<BsonDocument>.Projection.Include("publishDate")).ToListAsync();
-        var dates = docs.Where(d => d.Contains("publishDate") && d["publishDate"].BsonType == BsonType.DateTime)
-            .Select(d => d["publishDate"].AsBsonDateTime.ToUniversalTime().ToLocalTime()).Where(dt => dt.Year > 0).ToList();
 
-        return dates.GroupBy(dt => dt.Year).Where(g => g.Key > 0).OrderByDescending(g => g.Key).Select(yearGroup => new DateGroupItem
+        var validDates = new List<DateTime>();
+        var noDateCount = 0;
+        foreach (var d in docs)
+        {
+            if (d.Contains("publishDate") && d["publishDate"].BsonType == BsonType.DateTime)
+            {
+                try
+                {
+                    var dt = d["publishDate"].AsBsonDateTime.ToUniversalTime().ToLocalTime();
+                    if (dt.Year > 1) validDates.Add(dt);
+                    else noDateCount++;
+                }
+                catch { noDateCount++; }
+            }
+            else noDateCount++;
+        }
+
+        var result = validDates.GroupBy(dt => dt.Year).Where(g => g.Key > 0).OrderByDescending(g => g.Key).Select(yearGroup => new DateGroupItem
         {
             Title = $"{yearGroup.Key}年",
             Start = new DateTime(yearGroup.Key, 1, 1),
@@ -191,6 +206,12 @@ public class MongoService
                 DateType = DateType.MONTH,
             })),
         }).ToList();
+
+        // 日期为空或无效的游戏统一归入"无日期"组（无月份子节点）
+        if (noDateCount > 0)
+            result.Add(new DateGroupItem { Title = "无日期", Count = noDateCount, Index = 0, DateType = DateType.YEAR });
+
+        return result;
     }
 
     /// <summary>按品牌分组聚合（公司 → 品牌层级），在内存中分组</summary>
@@ -343,7 +364,10 @@ public class MongoService
                 : new(),
         };
         if (doc.Contains("publishDate") && doc["publishDate"].BsonType == BsonType.DateTime)
-            game.PublishDate = doc["publishDate"].AsBsonDateTime.ToUniversalTime().ToLocalTime();
+        {
+            try { game.PublishDate = doc["publishDate"].AsBsonDateTime.ToUniversalTime().ToLocalTime(); }
+            catch { /* 日期超出 .NET DateTime 范围，保持默认值 */ }
+        }
 
         // 计算图片资源 URL
         game.ImgBase = $"http://{_imgServer}/img/{game.PublishDate.Year}/{game.PublishDate.Month}/{game.Id}/";

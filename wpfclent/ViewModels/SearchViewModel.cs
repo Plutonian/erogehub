@@ -604,15 +604,15 @@ public partial class SearchViewModel : ObservableObject
         return type switch
         {
             GroupType.Year => games
-                .GroupBy(g => g.PublishDate.Year)
+                .GroupBy(g => g.PublishDate.Year > 1 ? g.PublishDate.Year : 0)
                 .OrderByDescending(g => g.Key)
-                .Select(g => new GameGroup { Title = $"{g.Key}年", Games = new(g) })
+                .Select(g => new GameGroup { Title = g.Key > 0 ? $"{g.Key}年" : "无日期", Games = new(g) })
                 .ToList(),
 
             GroupType.Month => games
-                .GroupBy(g => g.PublishDate.ToString("yyyy-MM"))
+                .GroupBy(g => g.PublishDate.Year > 1 ? g.PublishDate.ToString("yyyy-MM") : "0000-00")
                 .OrderByDescending(g => g.Key)
-                .Select(g => new GameGroup { Title = g.Key, Games = new(g) })
+                .Select(g => new GameGroup { Title = g.Key == "0000-00" ? "无日期" : g.Key, Games = new(g) })
                 .ToList(),
 
             GroupType.Star => games

@@ -251,23 +251,22 @@ public class GrayscaleImageConverter : IMultiValueConverter
         if (values.Length < 1 || values[0] is not string url || string.IsNullOrEmpty(url))
             return null;
 
-        var bitmap = new BitmapImage();
-        bitmap.BeginInit();
-        bitmap.UriSource = new Uri(url, UriKind.Absolute);
-        bitmap.CacheOption = BitmapCacheOption.OnLoad;
-        bitmap.EndInit();
+        // 与 WPF 直接绑定 URL 走同一加载路径（ImageSourceConverter 内部用的就是
+        // BitmapFrame.Create），延迟解码，渲染时才解码，不崩溃。
+        var uri = new Uri(url, UriKind.Absolute);
+        var frame = BitmapFrame.Create(uri, BitmapCreateOptions.None, BitmapCacheOption.Default);
 
         if (values.Length > 1 && values[1] is int emotion && emotion == (int)Emotion.HATE)
         {
             var gray = new FormatConvertedBitmap();
             gray.BeginInit();
-            gray.Source = bitmap;
+            gray.Source = frame;
             gray.DestinationFormat = PixelFormats.Gray8;
             gray.EndInit();
             return gray;
         }
 
-        return bitmap;
+        return frame;
     }
 
     public object?[] ConvertBack(object? value, Type[] targetTypes, object? parameter, CultureInfo culture)

@@ -23,7 +23,33 @@
             BorderThickness="2">
         <StackPanel>
             <!-- 封面图区域：固定宽度 280px，高度按图片比例自动缩放 -->
-            <Grid Width="280">
+            <Grid Width="280" MinHeight="160" Background="#1A1A2E">
+                <Grid.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="HoverOverlay"
+                                                 Storyboard.TargetProperty="Opacity"
+                                                 From="0" To="1" Duration="0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetName="HoverOverlay"
+                                                 Storyboard.TargetProperty="(RenderTransform).(TranslateTransform.Y)"
+                                                 From="20" To="0" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="HoverOverlay"
+                                                 Storyboard.TargetProperty="Opacity"
+                                                 From="1" To="0" Duration="0:0:0.15"/>
+                                <DoubleAnimation Storyboard.TargetName="HoverOverlay"
+                                                 Storyboard.TargetProperty="(RenderTransform).(TranslateTransform.Y)"
+                                                 From="0" To="20" Duration="0:0:0.15"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Grid.Triggers>
                 <Image Source="{Binding CoverUrl}"  Width="279" Stretch="Uniform" Cursor="Hand">
                     <Image.InputBindings>
                         <MouseBinding Command="{Binding OpenDetailCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -62,103 +88,111 @@
                         </TextBlock.Style>
                     </TextBlock>
                 </Button>
+
+                <!-- 鼠标悬停时滑入的暗色半透明覆盖面板 -->
+                <Border x:Name="HoverOverlay"
+                        VerticalAlignment="Bottom" Background="#E51A1A2E" Padding="6,4"
+                        Opacity="0" RenderTransformOrigin="0,1">
+                    <Border.RenderTransform>
+                        <TranslateTransform Y="20"/>
+                    </Border.RenderTransform>
+                    <StackPanel>
+                        <!-- 标题行：PlayState 状态圆圈 + 游戏主标题 + 删除按钮 -->
+                        <StackPanel Orientation="Horizontal">
+                            <Button Command="{Binding CycleCardPlayStateCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
+                                    ToolTip="PlayState (click to cycle)">
+                                <Ellipse Width="20" Height="20"
+                                         Fill="{Binding PlayState, Converter={StaticResource PlayStateBrush}}"/>
+                            </Button>
+                            <TextBlock Text="{Binding MainTitle}" FontWeight="Bold"
+                                       Foreground="#E0E0E0" FontSize="24"
+                                       TextTrimming="CharacterEllipsis" Margin="4,0,0,0" MaxWidth="250" TextWrapping="Wrap"/>
+                            <Button Content="[Del]" Foreground="#FF4444" FontSize="10" Margin="4,0,0,0"
+                                    Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
+                                    Style="{StaticResource ButtonDanger}"
+                                    Visibility="{Binding IsSame, Converter={StaticResource Bool2Vis}}"
+                                    Command="{Binding DeleteCardCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"/>
+                        </StackPanel>
+
+                        <!-- 副标题 -->
+                        <TextBlock Text="{Binding SubTitle}" Foreground="#999" FontSize="12"
+                                   TextTrimming="CharacterEllipsis"/>
+
+                        <!-- 品牌名称（可点击搜索） + 官网链接 -->
+                        <StackPanel Orientation="Horizontal" Margin="0,3,0,0"
+                                    Visibility="{Binding Brand.Name, Converter={StaticResource Str2Vis}}">
+                            <Button Command="{Binding BrandClickToSearchCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding Brand.Name}"
+                                    Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand">
+                                <TextBlock Text="{Binding Brand.Name}" Foreground="#7AB8FF" FontSize="12"/>
+                            </Button>
+                            <TextBlock Margin="4,0,0,0" FontSize="11"
+                                       Visibility="{Binding Brand.Website, Converter={StaticResource Web2Vis}}">
+                                <Hyperlink NavigateUri="{Binding Brand.Website}"
+                                           RequestNavigate="OpenHyperlink_RequestNavigate">
+                                    <Run Text="(公式サイト)" Foreground="#7AB8FF"/>
+                                </Hyperlink>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <!-- 星级评分 -->
+                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                            <hc:Rate Value="{Binding Star, Mode=TwoWay}" AllowClear="True"
+                                     FontSize="14" Foreground="#FFB800"
+                                     Visibility="{Binding ShowStar, Converter={StaticResource Bool2Vis}}"
+                                     ValueChanged="CardRate_ValueChanged"/>
+                        </StackPanel>
+
+                        <!-- 标签列表 -->
+                        <ItemsControl ItemsSource="{Binding Tag}" Margin="0,4,0,0">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Content="{Binding}" FontSize="12" Margin="0,0,4,3"
+                                            Padding="5,2" Background="#FFABD3" Foreground="#333"
+                                            BorderThickness="0" Cursor="Hand"
+                                            Command="{Binding TagClickToSearchCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
             </Grid>
 
-            <StackPanel Margin="6,4">
-                <!-- 标题行：PlayState 状态圆圈 + 游戏主标题 + 删除按钮 -->
-                <StackPanel Orientation="Horizontal">
-                    <Button Command="{Binding CycleCardPlayStateCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                            CommandParameter="{Binding}"
-                            Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
-                            ToolTip="PlayState (click to cycle)">
-                        <Ellipse Width="20" Height="20"
-                                 Fill="{Binding PlayState, Converter={StaticResource PlayStateBrush}}"/>
-                    </Button>
-                    <TextBlock Text="{Binding MainTitle}" FontWeight="Bold"
-                               Foreground="#E0E0E0" FontSize="24"
-                               TextTrimming="CharacterEllipsis" Margin="4,0,0,0" MaxWidth="250" TextWrapping="Wrap"/>
-                    <Button Content="[Del]" Foreground="#FF4444" FontSize="10" Margin="4,0,0,0"
-                            Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
-                            Style="{StaticResource ButtonDanger}"
-                            Visibility="{Binding IsSame, Converter={StaticResource Bool2Vis}}"
-                            Command="{Binding DeleteCardCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                            CommandParameter="{Binding}"/>
-                </StackPanel>
-
-                <!-- 副标题 -->
-                <TextBlock Text="{Binding SubTitle}" Foreground="#999" FontSize="12"
-                           TextTrimming="CharacterEllipsis"/>
-
-                <!-- 品牌名称（可点击搜索） + 官网链接 -->
-                <StackPanel Orientation="Horizontal" Margin="0,3,0,0"
-                            Visibility="{Binding Brand.Name, Converter={StaticResource Str2Vis}}">
-                    <Button Command="{Binding BrandClickToSearchCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                            CommandParameter="{Binding Brand.Name}"
-                            Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand">
-                        <TextBlock Text="{Binding Brand.Name}" Foreground="#7AB8FF" FontSize="12"/>
-                    </Button>
-                    <TextBlock Margin="4,0,0,0" FontSize="11"
-                               Visibility="{Binding Brand.Website, Converter={StaticResource Web2Vis}}">
-                        <Hyperlink NavigateUri="{Binding Brand.Website}"
-                                   RequestNavigate="OpenHyperlink_RequestNavigate">
-                            <Run Text="(公式サイト)" Foreground="#7AB8FF"/>
-                        </Hyperlink>
+            <!-- 底部：发布日期（左） + 存储位置（右） -->
+            <DockPanel Margin="6,4,6,0">
+                <Button DockPanel.Dock="Right"
+                        Command="{Binding ToggleCardLocationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding}"
+                        Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
+                        Visibility="{Binding Published, Converter={StaticResource Bool2Vis}}"
+                        ToolTip="Location (click to toggle)" Margin="8,0,0,0">
+                    <TextBlock FontSize="14">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Text" Value="✓"/>
+                                <Setter Property="Foreground" Value="#44AA44"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Location}" Value="0">
+                                        <Setter Property="Text" Value="☁"/>
+                                        <Setter Property="Foreground" Value="#88AACC"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
                     </TextBlock>
-                </StackPanel>
-
-                <!-- 星级评分 -->
-                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                    <hc:Rate Value="{Binding Star, Mode=TwoWay}" AllowClear="True"
-                             FontSize="14" Foreground="#FFB800"
-                             Visibility="{Binding ShowStar, Converter={StaticResource Bool2Vis}}"
-                             ValueChanged="CardRate_ValueChanged"/>
-                </StackPanel>
-
-                <!-- 标签列表（点击标签可将其添加为搜索条件） -->
-                <ItemsControl ItemsSource="{Binding Tag}" Margin="0,4,0,0">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Content="{Binding}" FontSize="12" Margin="0,0,4,3"
-                                    Padding="5,2" Background="#FFABD3" Foreground="#333"
-                                    BorderThickness="0" Cursor="Hand"
-                                    Command="{Binding TagClickToSearchCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                    CommandParameter="{Binding}"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-                <!-- 底部：发布日期（左） + 存储位置（右） -->
-                <DockPanel Margin="0,4,0,0">
-                    <Button DockPanel.Dock="Right"
-                            Command="{Binding ToggleCardLocationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                            CommandParameter="{Binding}"
-                            Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
-                            Visibility="{Binding Published, Converter={StaticResource Bool2Vis}}"
-                            ToolTip="Location (click to toggle)" Margin="8,0,0,0">
-                        <TextBlock FontSize="14">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="✓"/>
-                                    <Setter Property="Foreground" Value="#44AA44"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Location}" Value="0">
-                                            <Setter Property="Text" Value="☁"/>
-                                            <Setter Property="Foreground" Value="#88AACC"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Button>
-                    <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateRel}}"
-                               Foreground="#888" FontSize="11" VerticalAlignment="Center"/>
-                </DockPanel>
-            </StackPanel>
+                </Button>
+                <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateRel}}"
+                           Foreground="#888" FontSize="11" VerticalAlignment="Center"/>
+            </DockPanel>
         </StackPanel>
     </Border>
 </UserControl>

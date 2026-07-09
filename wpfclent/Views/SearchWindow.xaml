@@ -13,7 +13,7 @@
         xmlns:controls="clr-namespace:ErogeHub.Wpf.Controls"
         xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
         Title="ErogeHub" Width="1400" Height="900"
-        Background="#1E1E2E" WindowStartupLocation="CenterScreen">
+        Background="#0F0F16" WindowStartupLocation="CenterScreen">
 
     <!-- ========== 窗口资源：转换器 & 模板 & 样式 ========== -->
     <Window.Resources>
@@ -47,7 +47,7 @@
 
         <!-- ========== 搜索条件项模板（左侧搜索面板中的每一条搜索条件） ========== -->
         <DataTemplate x:Key="SearchOptTemplate" DataType="{x:Type models:SearchOpt}">
-            <Border Background="#33334A" CornerRadius="4" Margin="0,2" Padding="4">
+            <Border Background="#2D2D44" CornerRadius="6" Margin="0,2" Padding="14,4" MinHeight="40">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -100,10 +100,10 @@
                     <CheckBox Grid.Column="2" IsChecked="{Binding Enabled}" Margin="4,0" VerticalAlignment="Center"/>
                     <!-- 操作按钮：交换（将包含条件变为排除条件，反之亦然）、删除 -->
                     <StackPanel Grid.Column="3" Orientation="Horizontal">
-                        <Button Content="&#x21C4;" ToolTip="交换" Margin="2,0" Padding="6,2"
+                        <Button Content="&#x21C4;" ToolTip="交换" Margin="2,0" Padding="6,2" FontSize="14"
                                    Command="{Binding DataContext.SwapSearchOptCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                    CommandParameter="{Binding}"/>
-                        <Button Content="&#xD7;" ToolTip="删除" Margin="2,0" Padding="6,2"
+                        <Button Content="&#xD7;" ToolTip="删除" Margin="2,0" Padding="6,2" FontSize="14"
                                    Style="{StaticResource ButtonDanger}"
                                    Command="{Binding DataContext.RemoveSearchOptCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                    CommandParameter="{Binding}"/>
@@ -118,10 +118,10 @@
                        Command="{Binding DataContext.TagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                        CommandParameter="{Binding}">
                 <DockPanel>
-                    <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
-                        <TextBlock Text="{Binding Count}" Foreground="#CCC" FontSize="10"/>
+                    <Border DockPanel.Dock="Right" Background="#2D2D44" CornerRadius="9" Padding="6,1">
+                        <TextBlock Text="{Binding Count}" Foreground="#6E6E80" FontSize="10"/>
                     </Border>
-                    <TextBlock Text="{Binding Title}" Foreground="#DDD" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock Text="{Binding Title}" Foreground="#D0D0D5" FontSize="13" TextTrimming="CharacterEllipsis"/>
                 </DockPanel>
             </Button>
         </DataTemplate>
@@ -129,7 +129,7 @@
         <!-- 星级聚合项模板：星级评分 + 数量（无 Button，由 ListBox 选中触发） -->
         <DataTemplate x:Key="StarGroupTemplate" DataType="{x:Type models:StarGroupItem}">
             <DockPanel>
-                <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#CCC" Margin="8,0,0,0"/>
+                <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#D0D0D5" FontSize="13" Margin="8,0,0,0"/>
                 <hc:Rate Value="{Binding Star}" IsReadOnly="True" AllowClear="False" FontSize="12" Foreground="#FFB800" IsHitTestVisible="False"/>
             </DockPanel>
         </DataTemplate>
@@ -138,8 +138,8 @@
         <HierarchicalDataTemplate x:Key="BrandGroupTemplate" DataType="{x:Type models:BrandGroupItem}"
                                   ItemsSource="{Binding Children}">
             <DockPanel Margin="2,1">
-                <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#888" Margin="8,0,0,0"/>
-                <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
+                <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#6E6E80" FontSize="11" Margin="8,0,0,0"/>
+                <TextBlock Text="{Binding Title}" Foreground="#D0D0D5" FontSize="13"/>
             </DockPanel>
         </HierarchicalDataTemplate>
 
@@ -175,11 +175,13 @@
         <Style x:Key="AggToggleStyle" TargetType="ToggleButton">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="Foreground" Value="#CCC"/>
-            <Setter Property="Background" Value="#2D2D42"/>
-            <Setter Property="BorderBrush" Value="#555"/>
+            <Setter Property="Foreground" Value="#A0A0B0"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#2D2D44"/>
             <Setter Property="BorderThickness" Value="0,0,0,1"/>
-            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Padding" Value="20,8"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -191,18 +193,46 @@
                                 Padding="{TemplateBinding Padding}">
                             <DockPanel>
                                 <TextBlock x:Name="arrow" DockPanel.Dock="Left" Text="▶" FontSize="10"
-                                           Foreground="#888" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                           Foreground="#A0A0B0" VerticalAlignment="Center" Margin="0,0,8,0"/>
                                 <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </DockPanel>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#383852"/>
+                                <Setter TargetName="border" Property="Background" Value="#2D2D44"/>
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#33334D"/>
+                                <Setter TargetName="border" Property="Background" Value="Transparent"/>
                                 <Setter TargetName="arrow" Property="Text" Value="▼"/>
+                                <Setter TargetName="arrow" Property="Foreground" Value="#E0E0E6"/>
+                                <Setter Property="Foreground" Value="#E0E0E6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ========== 药丸形标签徽章按钮样式（Tag/CV/TrueCV 等） ========== -->
+        <Style x:Key="PillBadgeButton" TargetType="Button">
+            <Setter Property="Margin" Value="0,0,10,10"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="#D0D0D5"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Background" Value="#333D5A80"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="13"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#553D5A80"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -214,40 +244,41 @@
     <!-- ========== 三栏主布局：左(搜索) | 中(列表) | 右(聚合) ========== -->
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="360"/>
+            <ColumnDefinition Width="320"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="360"/>
         </Grid.ColumnDefinitions>
 
         <!-- ========== 左侧栏：搜索面板（360px 固定宽度） ========== -->
-        <Border Grid.Column="0" Background="#252535" Margin="4" CornerRadius="6">
+        <Border Grid.Column="0" Background="#1E1E2E" Margin="4" CornerRadius="12">
             <DockPanel>
                 <!-- 搜索面板标题栏：标题 + Clone + Search 按钮 -->
-                <DockPanel DockPanel.Dock="Top" Margin="8,8,8,4">
+                <DockPanel DockPanel.Dock="Top" Margin="20,12,20,4">
                     <Button DockPanel.Dock="Right" Content="Search" Padding="12,4"
                                Style="{StaticResource ButtonPrimary}"
                                Command="{Binding SearchCommand}"/>
                     <Button DockPanel.Dock="Right" Content="Clone" Padding="8,4" Margin="0,0,4,0"
-                               Background="#444466" Foreground="#CCC" BorderThickness="0"
+                               Background="#2D2D44" Foreground="#D0D0D5" BorderThickness="0"
                                Command="{Binding CloneSearchCommand}"/>
-                    <TextBlock Text="Search" FontSize="16" FontWeight="Bold" Foreground="#E0E0E0"
+                    <TextBlock Text="Search" FontSize="16" FontWeight="Bold" Foreground="#E0E0E6"
                                VerticalAlignment="Center"/>
                 </DockPanel>
 
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Margin="8,4,8,8">
+                    <StackPanel Margin="20,4,20,8">
                         <!-- ========== 日期范围筛选（紧凑2行布局） ========== -->
                         <!-- 第1行：标签 + 下拉预设 + 启用开关 -->
                         <DockPanel Margin="0,10,0,4">
                             <CheckBox DockPanel.Dock="Right" IsChecked="{Binding IsDateRangeEnabled}"
                                       Content="E" Margin="5,0,0,0" VerticalAlignment="Center"
+                                      FontSize="12"
                                       ToolTip="启用/禁用日期筛选"/>
-                            <TextBlock Text="发布日期" Foreground="#AAA" FontSize="12" FontWeight="SemiBold"
+                            <TextBlock Text="发布日期" Foreground="#A0A0B0" FontSize="12" FontWeight="SemiBold"
                                        VerticalAlignment="Center"/>
                             <hc:ComboBox ItemsSource="{Binding DatePresets}" DisplayMemberPath="Label"
                                          SelectedValuePath="Key" SelectedValue="{Binding SelectedDatePreset}"
                                          IsEnabled="{Binding IsDateRangeEnabled}"
-                                         MinWidth="100" VerticalContentAlignment="Center" DockPanel.Dock="Left" Width="216"/>
+                                         MinWidth="100" Height="36" VerticalContentAlignment="Center" DockPanel.Dock="Left" Width="200"/>
                         </DockPanel>
 
                         <!-- 第2行：自定义日期输入框 + 快捷调整按钮 -->
@@ -266,7 +297,7 @@
                                         Visibility="{Binding IsCustomDatePreset, Converter={StaticResource Bool2Vis}}"/>
 
                             <!-- 日期范围分隔符 -->
-                            <TextBlock Grid.Column="1" Text="~" Foreground="#777" Margin="6,0" VerticalAlignment="Center"
+                            <TextBlock Grid.Column="1" Text="~" Foreground="#6E6E80" FontSize="13" Margin="6,0" VerticalAlignment="Center"
                                        Visibility="{Binding IsCustomDatePreset, Converter={StaticResource Bool2Vis}}"/>
 
                             <!-- 结束月份输入框（仅自定义预设时显示） -->
@@ -280,37 +311,40 @@
                                         IsEnabled="{Binding IsDateRangeEnabled}">
                                 <Button Content="-年" Padding="4,0" FontSize="11" Margin="2,0"
                                         Command="{Binding AdjustDateRangeCommand}" CommandParameter="-1y"
-                                        Background="#33334A" Foreground="#CCC" BorderThickness="0"/>
+                                        Background="#2D2D44" Foreground="#D0D0D5" BorderThickness="0"/>
                                 <Button Content="-月" Padding="4,0" FontSize="11" Margin="2,0"
                                         Command="{Binding AdjustDateRangeCommand}" CommandParameter="-1m"
-                                        Background="#33334A" Foreground="#CCC" BorderThickness="0"/>
+                                        Background="#2D2D44" Foreground="#D0D0D5" BorderThickness="0"/>
                                 <Button Content="这个月" Padding="4,0" FontSize="11" Margin="2,0"
                                         Command="{Binding AdjustDateRangeCommand}" CommandParameter="this_month"
-                                        Background="#335577" Foreground="#FFF" BorderThickness="0" FontWeight="Bold"/>
+                                        Background="#3D5A80" Foreground="#FFF" BorderThickness="0" FontWeight="Bold"/>
                                 <Button Content="+月" Padding="4,0" FontSize="11" Margin="2,0"
                                         Command="{Binding AdjustDateRangeCommand}" CommandParameter="+1m"
-                                        Background="#33334A" Foreground="#CCC" BorderThickness="0"/>
+                                        Background="#2D2D44" Foreground="#D0D0D5" BorderThickness="0"/>
                                 <Button Content="+年" Padding="4,0" FontSize="11" Margin="2,0"
                                         Command="{Binding AdjustDateRangeCommand}" CommandParameter="+1y"
-                                        Background="#33334A" Foreground="#CCC" BorderThickness="0"/>
+                                        Background="#2D2D44" Foreground="#D0D0D5" BorderThickness="0"/>
                             </StackPanel>
                         </Grid>
 
+                        <!-- 分隔线（日期区与包含区之间） -->
+                        <Separator Height="1" Margin="0,10,0,10" Background="#2D2D44"/>
+
                         <!-- 包含条件列表：匹配这些条件的游戏才会显示 -->
-                        <DockPanel Margin="0,4,0,2">
+                        <DockPanel Margin="0,0,0,4">
                             <Button DockPanel.Dock="Right" Content="+" Padding="8,2" Margin="4,0,0,0"
                                        Style="{StaticResource ButtonPrimary}"
                                        Command="{Binding AddSearchOptCommand}" CommandParameter="Include"/>
-                            <TextBlock Text="包含" Foreground="#7AB8FF" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <TextBlock Text="包含" Foreground="#7AB8FF" FontSize="13" FontWeight="Bold" VerticalAlignment="Center"/>
                         </DockPanel>
-                        <ItemsControl ItemsSource="{Binding IncludeOpts}" ItemTemplate="{StaticResource SearchOptTemplate}" Margin="0,2,0,4"/>
+                        <ItemsControl ItemsSource="{Binding IncludeOpts}" ItemTemplate="{StaticResource SearchOptTemplate}" Margin="0,4,0,8"/>
 
                         <!-- 排除条件列表：匹配这些条件的游戏会被过滤掉 -->
-                        <DockPanel Margin="0,4,0,2">
+                        <DockPanel Margin="0,0,0,4">
                             <Button DockPanel.Dock="Right" Content="+" Padding="8,2" Margin="4,0,0,0"
                                        Style="{StaticResource ButtonDanger}"
                                        Command="{Binding AddSearchOptCommand}" CommandParameter="Exclude"/>
-                            <TextBlock Text="排除" Foreground="#FF8866" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <TextBlock Text="排除" Foreground="#FF8866" FontSize="13" FontWeight="Bold" VerticalAlignment="Center"/>
                         </DockPanel>
                         <ItemsControl ItemsSource="{Binding ExcludeOpts}" ItemTemplate="{StaticResource SearchOptTemplate}" Margin="0,2,0,4"/>
                     </StackPanel>
@@ -327,10 +361,10 @@
                 <!-- 分页信息 + 控件（左侧） -->
                 <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center"
                             >
-                    <TextBlock VerticalAlignment="Center" Margin="0,0,8,0">
-                        <Run Text="共 " Foreground="#999"/>
+                    <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13">
+                        <Run Text="共 " Foreground="#D0D0D5"/>
                         <Run Text="{Binding Total}" Foreground="#7AB8FF"/>
-                        <Run Text=" 条" Foreground="#999"/>
+                        <Run Text=" 条" Foreground="#D0D0D5"/>
                     </TextBlock>
                     <hc:Pagination MaxPageCount="{Binding TotalPages}" PageIndex="{Binding Page, Mode=TwoWay}"
                                    PageUpdated="Pagination_PageUpdated" Visibility="{Binding IsNotGrouping, Converter={StaticResource Bool2Vis}}"/>
@@ -338,7 +372,7 @@
 
                 <!-- 分组类型选择器（右侧） -->
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="分组" Foreground="#999" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <TextBlock Text="分组视图" Foreground="#6E6E80" FontSize="11" VerticalAlignment="Center" Margin="0,0,6,0"/>
                     <hc:ComboBox ItemsSource="{x:Static vm:SearchViewModel.GroupTypeOptions}"
                                  DisplayMemberPath="Label" SelectedValuePath="Type"
                                  SelectedValue="{Binding SelectedGroupType}"
@@ -387,17 +421,17 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="GroupItem">
-                                                <Expander Background="#2D2D42" Foreground="#DDD"
-                                                          BorderBrush="#555" BorderThickness="0,0,0,1"
+                                                <Expander Background="#2D2D44" Foreground="#D0D0D5"
+                                                          BorderBrush="#2D2D44" BorderThickness="0,0,0,1"
                                                           Margin="0,2" Padding="8,5" IsExpanded="True">
                                                     <Expander.Header>
                                                         <DockPanel>
-                                                            <Border DockPanel.Dock="Right" Background="#444466"
-                                                                    CornerRadius="8" Padding="6,1" Margin="8,0,0,0">
+                                                            <Border DockPanel.Dock="Right" Background="#2D2D44"
+                                                                    CornerRadius="9" Padding="6,1" Margin="8,0,0,0">
                                                                 <TextBlock Text="{Binding ItemCount}"
-                                                                           Foreground="#CCC" FontSize="10"/>
+                                                                           Foreground="#6E6E80" FontSize="10"/>
                                                             </Border>
-                                                            <TextBlock Text="{Binding Name}" Foreground="#DDD"
+                                                            <TextBlock Text="{Binding Name}" Foreground="#D0D0D5"
                                                                        FontWeight="SemiBold"/>
                                                         </DockPanel>
                                                     </Expander.Header>
@@ -434,11 +468,11 @@
         </DockPanel>
 
         <!-- ========== 右侧栏：聚合分析面板（310px 固定宽度） ========== -->
-        <Border Grid.Column="2" Background="#252535" Margin="4" CornerRadius="6">
+        <Border Grid.Column="2" Background="#1E1E2E" Margin="4" CornerRadius="12">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                <StackPanel Margin="4">
+                <StackPanel Margin="0">
                     <!-- 日期分布（树形结构：年 → 月） -->
-                    <Grid Margin="0,2">
+                    <Grid Margin="0,8">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -446,7 +480,7 @@
                         <ToggleButton Grid.Row="0" x:Name="ToggleDate" Style="{StaticResource AggToggleStyle}" Content="日期" IsChecked="True"/>
                         <ItemsControl Grid.Row="1"
                                       Visibility="{Binding IsChecked, ElementName=ToggleDate, Converter={StaticResource Bool2Vis}}"
-                                      ItemsSource="{Binding DateGroup}" Margin="4">
+                                      ItemsSource="{Binding DateGroup}" Margin="20,4">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:DateGroupItem}">
                                     <controls:YearCalendarControl Year="{Binding}"/>
@@ -456,7 +490,7 @@
                     </Grid>
 
                     <!-- 星级分布 -->
-                    <Grid Margin="0,2">
+                    <Grid Margin="0,8">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -466,12 +500,12 @@
                                  Visibility="{Binding IsChecked, ElementName=ToggleStar, Converter={StaticResource Bool2Vis}}"
                                  ItemsSource="{Binding StarGroup}" ItemTemplate="{StaticResource StarGroupTemplate}"
                                  ItemContainerStyle="{StaticResource AggListBoxItemStyle}"
-                                 SelectionMode="Single" Background="Transparent" BorderThickness="0" Margin="4"
+                                 SelectionMode="Single" Background="Transparent" BorderThickness="0" Margin="20,4"
                                  SelectionChanged="StarListBox_SelectionChanged"/>
                     </Grid>
 
                     <!-- 情感分布 -->
-                    <Grid Margin="0,2">
+                    <Grid Margin="0,8">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -479,15 +513,15 @@
                         <ToggleButton Grid.Row="0" x:Name="ToggleEmotion" Style="{StaticResource AggToggleStyle}" Content="情感"/>
                         <ListBox Grid.Row="1"
                                  Visibility="{Binding IsChecked, ElementName=ToggleEmotion, Converter={StaticResource Bool2Vis}}"
-                                 ItemsSource="{Binding EmotionGroup}" Margin="4"
+                                 ItemsSource="{Binding EmotionGroup}" Margin="20,4"
                                  ItemContainerStyle="{StaticResource AggListBoxItemStyle}"
                                  SelectionMode="Single" Background="Transparent" BorderThickness="0"
                                  SelectionChanged="EmotionListBox_SelectionChanged">
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:EmotionGroupItem}">
                                     <DockPanel>
-                                        <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#CCC" Margin="8,0,0,0"/>
-                                        <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
+                                        <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#6E6E80" FontSize="11" Margin="8,0,0,0"/>
+                                        <TextBlock Text="{Binding Title}" Foreground="#D0D0D5" FontSize="13"/>
                                     </DockPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -495,7 +529,7 @@
                     </Grid>
 
                     <!-- 存储位置分布 -->
-                    <Grid Margin="0,2">
+                    <Grid Margin="0,8">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -510,8 +544,8 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:LocationGroupItem}">
                                     <DockPanel>
-                                        <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#CCC" Margin="8,0,0,0"/>
-                                        <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
+                                        <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#6E6E80" FontSize="11" Margin="8,0,0,0"/>
+                                        <TextBlock Text="{Binding Title}" Foreground="#D0D0D5" FontSize="13"/>
                                     </DockPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -519,7 +553,7 @@
                     </Grid>
 
                     <!-- 游玩状态分布 -->
-                    <Grid Margin="0,2">
+                    <Grid Margin="0,8">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -527,15 +561,15 @@
                         <ToggleButton Grid.Row="0" x:Name="TogglePlayState" Style="{StaticResource AggToggleStyle}" Content="游玩状态"/>
                         <ListBox Grid.Row="1"
                                  Visibility="{Binding IsChecked, ElementName=TogglePlayState, Converter={StaticResource Bool2Vis}}"
-                                 ItemsSource="{Binding PlayStateGroup}" Margin="4"
+                                 ItemsSource="{Binding PlayStateGroup}" Margin="20,4"
                                  ItemContainerStyle="{StaticResource AggListBoxItemStyle}"
                                  SelectionMode="Single" Background="Transparent" BorderThickness="0"
                                  SelectionChanged="PlayStateListBox_SelectionChanged">
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:PlayStateGroupItem}">
                                     <DockPanel>
-                                        <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#CCC" Margin="8,0,0,0"/>
-                                        <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
+                                        <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#6E6E80" FontSize="11" Margin="8,0,0,0"/>
+                                        <TextBlock Text="{Binding Title}" Foreground="#D0D0D5" FontSize="13"/>
                                     </DockPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -552,12 +586,12 @@
                         <TreeView Grid.Row="1"
                                   Visibility="{Binding IsChecked, ElementName=ToggleBrand, Converter={StaticResource Bool2Vis}}"
                                   ItemsSource="{Binding BrandGroup}" ItemTemplate="{StaticResource BrandGroupTemplate}"
-                                  Background="Transparent" Margin="4"
+                                  Background="Transparent" Margin="20,4"
                                   SelectedItemChanged="BrandTree_SelectedItemChanged"/>
                     </Grid>
 
                     <!-- Tag 标签分布 -->
-                    <Grid Margin="0,2">
+                    <Grid Margin="0,8">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -565,7 +599,7 @@
                         <ToggleButton Grid.Row="0" x:Name="ToggleTag" Style="{StaticResource AggToggleStyle}" Content="Tag"/>
                         <ItemsControl Grid.Row="1"
                                       Visibility="{Binding IsChecked, ElementName=ToggleTag, Converter={StaticResource Bool2Vis}}"
-                                      ItemsSource="{Binding TagGroup}" Margin="4">
+                                      ItemsSource="{Binding TagGroup}" Margin="20,4">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal"/>
@@ -573,14 +607,12 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GroupItem}">
-                                    <Button Margin="0,0,4,3" Padding="5,2"
-                                            Background="#FFABD3" Foreground="#333"
-                                            BorderThickness="0" Cursor="Hand"
+                                    <Button Style="{StaticResource PillBadgeButton}"
                                             Command="{Binding DataContext.TagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                             CommandParameter="{Binding}">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MaxWidth="120"/>
-                                            <TextBlock Text="{Binding Count}" Foreground="#555" FontSize="10" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Count}" Foreground="#6E6E80" FontSize="10" Margin="4,0,0,0" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
                                 </DataTemplate>
@@ -597,7 +629,7 @@
                         <ToggleButton Grid.Row="0" x:Name="ToggleCV" Style="{StaticResource AggToggleStyle}" Content="声优"/>
                         <ItemsControl Grid.Row="1"
                                       Visibility="{Binding IsChecked, ElementName=ToggleCV, Converter={StaticResource Bool2Vis}}"
-                                      ItemsSource="{Binding CvGroup}" Margin="4">
+                                      ItemsSource="{Binding CvGroup}" Margin="20,4">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal"/>
@@ -605,14 +637,12 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GroupItem}">
-                                    <Button Margin="0,0,4,3" Padding="5,2"
-                                            Background="#3D3D52" Foreground="#DDD"
-                                            BorderThickness="0" Cursor="Hand"
+                                    <Button Style="{StaticResource PillBadgeButton}"
                                             Command="{Binding DataContext.CVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                             CommandParameter="{Binding}">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MaxWidth="120"/>
-                                            <TextBlock Text="{Binding Count}" Foreground="#999" FontSize="10" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Count}" Foreground="#6E6E80" FontSize="10" Margin="4,0,0,0" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
                                 </DataTemplate>
@@ -621,7 +651,7 @@
                     </Grid>
 
                     <!-- 去马甲CV分布（合并了马甲的声优真实姓名统计） -->
-                    <Grid Margin="0,2">
+                    <Grid Margin="0,8">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -629,7 +659,7 @@
                         <ToggleButton Grid.Row="0" x:Name="ToggleTrueCV" Style="{StaticResource AggToggleStyle}" Content="去马甲CV"/>
                         <ItemsControl Grid.Row="1"
                                       Visibility="{Binding IsChecked, ElementName=ToggleTrueCV, Converter={StaticResource Bool2Vis}}"
-                                      ItemsSource="{Binding TrueCVGroup}" Margin="4">
+                                      ItemsSource="{Binding TrueCVGroup}" Margin="20,4">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal"/>
@@ -637,14 +667,12 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GroupItem}">
-                                    <Button Margin="0,0,4,3" Padding="5,2"
-                                            Background="#3D3D52" Foreground="#DDD"
-                                            BorderThickness="0" Cursor="Hand"
+                                    <Button Style="{StaticResource PillBadgeButton}"
                                             Command="{Binding DataContext.TrueCVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                             CommandParameter="{Binding}">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MaxWidth="120"/>
-                                            <TextBlock Text="{Binding Count}" Foreground="#999" FontSize="10" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Count}" Foreground="#6E6E80" FontSize="10" Margin="4,0,0,0" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
                                 </DataTemplate>

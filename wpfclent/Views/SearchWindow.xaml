@@ -318,14 +318,14 @@
 
                 <!-- 分页信息 + 控件（左侧） -->
                 <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center"
-                            Visibility="{Binding IsNotGrouping, Converter={StaticResource Bool2Vis}}">
+                            >
                     <TextBlock VerticalAlignment="Center" Margin="0,0,8,0">
                         <Run Text="共 " Foreground="#999"/>
                         <Run Text="{Binding Total}" Foreground="#7AB8FF"/>
                         <Run Text=" 条" Foreground="#999"/>
                     </TextBlock>
                     <hc:Pagination MaxPageCount="{Binding TotalPages}" PageIndex="{Binding Page}"
-                                   PageUpdated="Pagination_PageUpdated"/>
+                                   PageUpdated="Pagination_PageUpdated" Visibility="{Binding IsNotGrouping, Converter={StaticResource Bool2Vis}}"/>
                 </StackPanel>
 
                 <!-- 分组类型选择器（右侧） -->

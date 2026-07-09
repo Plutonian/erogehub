@@ -197,8 +197,10 @@ public class MongoService
     public async Task<List<BrandGroupItem>> GroupByBrandAsync(BsonDocument? filter)
     {
         var docs = await _collection.Find(ToFilterDef(filter)).Project(Builders<BsonDocument>.Projection.Include("brand")).ToListAsync();
-        var brands = docs.Where(d => d.Contains("brand") && d["brand"].IsBsonDocument).Select(d => d["brand"].AsBsonDocument).ToList();
         var result = new List<BrandGroupItem>();
+
+        // 有品牌信息的文档
+        var brands = docs.Where(d => d.Contains("brand") && d["brand"].IsBsonDocument).Select(d => d["brand"].AsBsonDocument).ToList();
 
         // 有公司信息的品牌：按公司分组，公司下再按品牌名分组
         var withComp = brands.Where(b => b.Contains("comp") && !string.IsNullOrEmpty(SafeStr(b["comp"]))).GroupBy(b => SafeStr(b["comp"]));
@@ -215,6 +217,11 @@ public class MongoService
         var withoutComp = brands.Where(b => !b.Contains("comp") || string.IsNullOrEmpty(SafeStr(b["comp"]))).GroupBy(b => b.Contains("name") ? SafeStr(b["name"]) : "");
         foreach (var bg in withoutComp)
             result.Add(new BrandGroupItem { Title = bg.Key, Count = bg.Count(), Brand = ExtractBrand(bg.First()) });
+
+        // 无品牌信息的文档统一归入"无品牌"
+        var noBrandCount = docs.Count(d => !d.Contains("brand") || !d["brand"].IsBsonDocument);
+        if (noBrandCount > 0)
+            result.Add(new BrandGroupItem { Title = "无品牌", Count = noBrandCount });
 
         return result.OrderByDescending(r => r.Count).ToList();
     }

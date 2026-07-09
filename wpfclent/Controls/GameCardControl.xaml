@@ -23,7 +23,7 @@
             BorderThickness="2">
         <StackPanel>
             <!-- 封面图区域：固定宽度 280px，高度按图片比例自动缩放 -->
-            <Grid Width="280" MinHeight="160" Background="#1A1A2E">
+            <Grid Width="280" MinHeight="300" Background="#1A1A2E">
                 <Grid.Triggers>
                     <EventTrigger RoutedEvent="MouseEnter">
                         <BeginStoryboard>

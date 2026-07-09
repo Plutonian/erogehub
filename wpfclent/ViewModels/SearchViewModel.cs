@@ -640,8 +640,9 @@ public partial class SearchViewModel : ObservableObject
                 .ToList(),
 
             GroupType.Brand => games
-                .Where(g => g.Brand != null)
-                .GroupBy(g => !string.IsNullOrEmpty(g.Brand!.Comp) ? g.Brand!.Comp : g.Brand!.Name)
+                .GroupBy(g => g.Brand != null && !string.IsNullOrEmpty(g.Brand.Comp) ? g.Brand.Comp
+                            : g.Brand != null && !string.IsNullOrEmpty(g.Brand.Name) ? g.Brand.Name
+                            : "无品牌")
                 .OrderByDescending(g => g.Count())
                 .Select(g => new GameGroup { Title = g.Key, Games = new(g) })
                 .ToList(),

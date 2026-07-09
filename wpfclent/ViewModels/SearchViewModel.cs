@@ -68,6 +68,22 @@ public partial class SearchViewModel : ObservableObject
         new("プレイ済み", ((int)PlayState.PLAYED).ToString()),
     };
 
+    /// <summary>分组类型选项记录</summary>
+    public record GroupTypeOption(string Label, GroupType Type);
+
+    /// <summary>列表分组类型下拉选项（底部栏分组选择器）</summary>
+    public static List<GroupTypeOption> GroupTypeOptions { get; } = new()
+    {
+        new("无分组", GroupType.None),
+        new("年", GroupType.Year),
+        new("月", GroupType.Month),
+        new("星级", GroupType.Star),
+        new("情感", GroupType.Emotion),
+        new("位置", GroupType.Location),
+        new("游玩状态", GroupType.PlayState),
+        new("品牌", GroupType.Brand),
+    };
+
     /// <summary>日期范围预设列表</summary>
     public static List<DatePreset> DatePresets => DateRangeHelper.Presets;
 
@@ -100,6 +116,22 @@ public partial class SearchViewModel : ObservableObject
     /// <summary>是否已点击过搜索按钮</summary>
     [ObservableProperty]
     private bool _hasSearched;
+
+    // ==================== 列表分组 ====================
+
+    /// <summary>当前选中的分组类型</summary>
+    [ObservableProperty]
+    private GroupType _selectedGroupType = GroupType.None;
+
+    /// <summary>分组后的游戏列表（分组模式时使用）</summary>
+    [ObservableProperty]
+    private ObservableCollection<GameGroup> _groupedGames = new();
+
+    /// <summary>是否处于分组模式</summary>
+    public bool IsGrouping => SelectedGroupType != GroupType.None;
+
+    /// <summary>是否处于非分组模式（用于 UI 可见性反转）</summary>
+    public bool IsNotGrouping => SelectedGroupType == GroupType.None;
 
     // ==================== 搜索条件 ====================
 
@@ -142,6 +174,32 @@ public partial class SearchViewModel : ObservableObject
     partial void OnCurrentDateRangeChanged(DateRange value)
     {
         OnPropertyChanged(nameof(DateRangeDisplay));
+    }
+
+    /// <summary>分组类型变更时刷新列表，聚合面板不受影响</summary>
+    partial void OnSelectedGroupTypeChanged(GroupType value)
+    {
+        OnPropertyChanged(nameof(IsGrouping));
+        OnPropertyChanged(nameof(IsNotGrouping));
+        if (!HasSearched) return;
+        _ = OnGroupTypeChangedAsync(value);
+    }
+
+    private async Task OnGroupTypeChangedAsync(GroupType value)
+    {
+        IsLoading = true;
+        try
+        {
+            var filter = BuildFilter();
+            if (value == GroupType.None)
+                await LoadPagedDataAsync(filter);
+            else
+                await LoadGroupedDataAsync(filter);
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     // ==================== 聚合数据 ====================
@@ -192,16 +250,30 @@ public partial class SearchViewModel : ObservableObject
 
     // ==================== 搜索命令 ====================
 
-    /// <summary>执行搜索（重置到第一页）</summary>
+    /// <summary>执行搜索（重置到第一页，并行加载列表数据 + 右侧聚合）</summary>
     [RelayCommand]
     private async Task SearchAsync()
     {
         HasSearched = true;
         Page = 1;
-        await LoadAllAsync();
+        IsLoading = true;
+        try
+        {
+            var filter = BuildFilter();
+            // 并行：列表数据 + 右侧聚合
+            var dataTask = IsGrouping
+                ? LoadGroupedDataAsync(filter)
+                : LoadPagedDataAsync(filter);
+            var aggTask = LoadAggregationsAsync(filter);
+            await Task.WhenAll(dataTask, aggTask);
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
-    /// <summary>跳转到指定页</summary>
+    /// <summary>跳转到指定页（仅分页查询，不触发聚合）</summary>
     [RelayCommand]
     private async Task GoToPageAsync(int page)
     {
@@ -210,9 +282,7 @@ public partial class SearchViewModel : ObservableObject
         IsLoading = true;
         try
         {
-            var filter = BuildFilter();
-            var games = await _mongo.QueryGamesAsync(filter, Page, PageItemSize);
-            Games = new ObservableCollection<Game>(games);
+            await LoadPagedDataAsync(BuildFilter());
         }
         finally
         {
@@ -430,13 +500,19 @@ public partial class SearchViewModel : ObservableObject
         game.Location = next;
     }
 
-    /// <summary>删除卡片游戏，并重新加载列表</summary>
+    /// <summary>删除卡片游戏，并重新加载列表（不触发聚合）</summary>
     [RelayCommand]
     private async Task DeleteCardAsync(Game game)
     {
         await _mongo.DeleteGameAsync(game.Id);
-        Games.Remove(game);
-        await LoadAllAsync();
+        var filter = BuildFilter();
+        if (IsGrouping)
+            await LoadGroupedDataAsync(filter);
+        else
+        {
+            Games.Remove(game);
+            await LoadPagedDataAsync(filter);
+        }
     }
 
     /// <summary>
@@ -467,52 +543,131 @@ public partial class SearchViewModel : ObservableObject
     // ==================== 核心逻辑 ====================
 
     /// <summary>
-    /// 并行加载所有数据：游戏列表 + 总计数 + 所有聚合分析
+    /// 分页加载游戏列表 + 总数（不含聚合）
     /// </summary>
-    private async Task LoadAllAsync()
+    private async Task LoadPagedDataAsync(BsonDocument? filter)
     {
-        IsLoading = true;
-        try
-        {
-            var filter = BuildFilter();
+        var gamesTask = _mongo.QueryGamesAsync(filter, Page, PageItemSize);
+        var countTask = _mongo.CountAsync(filter);
+        await Task.WhenAll(gamesTask, countTask);
 
-            // 并行发起所有数据请求
-            var gamesTask = _mongo.QueryGamesAsync(filter, Page, PageItemSize);
-            var countTask = _mongo.CountAsync(filter);
-            var emotionTask = _mongo.GroupByEmotionAsync(filter);
-            var locationTask = _mongo.GroupByLocationAsync(filter);
-            var playStateTask = _mongo.GroupByPlayStateAsync(filter);
-            var starTask = _mongo.GroupByStarAsync(filter);
-            var cvTask = _mongo.GroupByCVAsync(filter);
-            var trueCVTask = _mongo.GroupByTrueCVAsync(filter);
-            var tagTask = _mongo.GroupByTagAsync(filter);
-            var dateTask = _mongo.GroupByDateAsync(filter);
-            var brandTask = _mongo.GroupByBrandAsync(filter);
-
-            // 等待所有任务完成
-            await Task.WhenAll(gamesTask, countTask, emotionTask, locationTask, playStateTask,
-                starTask, cvTask, trueCVTask, tagTask, dateTask, brandTask);
-
-            // 填充 UI 数据
-            Games = new ObservableCollection<Game>(gamesTask.Result);
-            Total = countTask.Result;
-            TotalPages = Total > 0 ? (int)Math.Ceiling((double)Total / PageItemSize) : 1;
-            if (Page > TotalPages) Page = TotalPages;
-            EmotionGroup = new ObservableCollection<EmotionGroupItem>(emotionTask.Result);
-            LocationGroup = new ObservableCollection<LocationGroupItem>(locationTask.Result);
-            PlayStateGroup = new ObservableCollection<PlayStateGroupItem>(playStateTask.Result);
-            StarGroup = new ObservableCollection<StarGroupItem>(starTask.Result);
-            CvGroup = new ObservableCollection<GroupItem>(cvTask.Result);
-            TrueCVGroup = new ObservableCollection<GroupItem>(trueCVTask.Result);
-            TagGroup = new ObservableCollection<GroupItem>(tagTask.Result);
-            DateGroup = new ObservableCollection<DateGroupItem>(dateTask.Result);
-            BrandGroup = new ObservableCollection<BrandGroupItem>(brandTask.Result);
-        }
-        finally
-        {
-            IsLoading = false;
-        }
+        Games = new ObservableCollection<Game>(gamesTask.Result);
+        Total = countTask.Result;
+        TotalPages = Total > 0 ? (int)Math.Ceiling((double)Total / PageItemSize) : 1;
+        if (Page > TotalPages) Page = TotalPages;
     }
+
+    /// <summary>
+    /// 全量加载游戏并按内存分组（不含聚合，不分页）
+    /// </summary>
+    private async Task LoadGroupedDataAsync(BsonDocument? filter)
+    {
+        var allGames = await _mongo.QueryAllGamesAsync(filter);
+        Total = allGames.Count;
+        TotalPages = 1;
+        GroupedGames = new ObservableCollection<GameGroup>(
+            GroupGames(allGames, SelectedGroupType));
+    }
+
+    /// <summary>
+    /// 加载右侧聚合面板全部数据（与列表完全独立）
+    /// </summary>
+    private async Task LoadAggregationsAsync(BsonDocument? filter)
+    {
+        var emotionTask = _mongo.GroupByEmotionAsync(filter);
+        var locationTask = _mongo.GroupByLocationAsync(filter);
+        var playStateTask = _mongo.GroupByPlayStateAsync(filter);
+        var starTask = _mongo.GroupByStarAsync(filter);
+        var cvTask = _mongo.GroupByCVAsync(filter);
+        var trueCVTask = _mongo.GroupByTrueCVAsync(filter);
+        var tagTask = _mongo.GroupByTagAsync(filter);
+        var dateTask = _mongo.GroupByDateAsync(filter);
+        var brandTask = _mongo.GroupByBrandAsync(filter);
+
+        await Task.WhenAll(emotionTask, locationTask, playStateTask,
+            starTask, cvTask, trueCVTask, tagTask, dateTask, brandTask);
+
+        EmotionGroup = new ObservableCollection<EmotionGroupItem>(emotionTask.Result);
+        LocationGroup = new ObservableCollection<LocationGroupItem>(locationTask.Result);
+        PlayStateGroup = new ObservableCollection<PlayStateGroupItem>(playStateTask.Result);
+        StarGroup = new ObservableCollection<StarGroupItem>(starTask.Result);
+        CvGroup = new ObservableCollection<GroupItem>(cvTask.Result);
+        TrueCVGroup = new ObservableCollection<GroupItem>(trueCVTask.Result);
+        TagGroup = new ObservableCollection<GroupItem>(tagTask.Result);
+        DateGroup = new ObservableCollection<DateGroupItem>(dateTask.Result);
+        BrandGroup = new ObservableCollection<BrandGroupItem>(brandTask.Result);
+    }
+
+    /// <summary>将游戏列表按指定类型在内存中分组</summary>
+    private static List<GameGroup> GroupGames(List<Game> games, GroupType type)
+    {
+        return type switch
+        {
+            GroupType.Year => games
+                .GroupBy(g => g.PublishDate.Year)
+                .OrderByDescending(g => g.Key)
+                .Select(g => new GameGroup { Title = $"{g.Key}年", Games = new(g) })
+                .ToList(),
+
+            GroupType.Month => games
+                .GroupBy(g => g.PublishDate.ToString("yyyy-MM"))
+                .OrderByDescending(g => g.Key)
+                .Select(g => new GameGroup { Title = g.Key, Games = new(g) })
+                .ToList(),
+
+            GroupType.Star => games
+                .GroupBy(g => g.Star)
+                .OrderByDescending(g => g.Key)
+                .Select(g => new GameGroup { Title = $"{g.Key}★", Games = new(g) })
+                .ToList(),
+
+            GroupType.Emotion => games
+                .GroupBy(g => g.Emotion)
+                .OrderByDescending(g => g.Key)
+                .Select(g => new GameGroup { Title = GetEmotionLabel(g.Key), Games = new(g) })
+                .ToList(),
+
+            GroupType.Location => games
+                .GroupBy(g => g.Location)
+                .OrderByDescending(g => g.Key)
+                .Select(g => new GameGroup { Title = ((Location)g.Key).ToString(), Games = new(g) })
+                .ToList(),
+
+            GroupType.PlayState => games
+                .GroupBy(g => g.PlayState)
+                .OrderByDescending(g => g.Key)
+                .Select(g => new GameGroup { Title = GetPlayStateLabel(g.Key), Games = new(g) })
+                .ToList(),
+
+            GroupType.Brand => games
+                .Where(g => g.Brand != null)
+                .GroupBy(g => !string.IsNullOrEmpty(g.Brand!.Comp) ? g.Brand!.Comp : g.Brand!.Name)
+                .OrderByDescending(g => g.Count())
+                .Select(g => new GameGroup { Title = g.Key, Games = new(g) })
+                .ToList(),
+
+            _ => new List<GameGroup>()
+        };
+    }
+
+    /// <summary>情感值 → 显示标签</summary>
+    private static string GetEmotionLabel(int e) => e switch
+    {
+        (int)Emotion.HATE => "嫌い",
+        (int)Emotion.NORMAL => "...",
+        (int)Emotion.HOPE => "気になり",
+        (int)Emotion.LIKE => "好き",
+        _ => e.ToString()
+    };
+
+    /// <summary>游玩状态值 → 显示标签</summary>
+    private static string GetPlayStateLabel(int s) => s switch
+    {
+        (int)PlayState.NOT_PLAY => "...",
+        (int)PlayState.PLAYING => "進行中",
+        (int)PlayState.PLAYED => "プレイ済み",
+        _ => s.ToString()
+    };
 
     /// <summary>
     /// 构建 MongoDB 查询条件 BsonDocument

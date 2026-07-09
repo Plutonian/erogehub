@@ -66,3 +66,18 @@ public enum DateType
     YEAR,   // 按年分组
     MONTH   // 按月分组
 }
+
+/// <summary>
+/// 列表分组类型，用于中间面板对当前查询结果进行内存分组
+/// </summary>
+public enum GroupType
+{
+    None,       // 无分组
+    Year,       // 按年
+    Month,      // 按月
+    Star,       // 按星级
+    Emotion,    // 按情感
+    Location,   // 按位置
+    PlayState,  // 按游玩状态
+    Brand       // 按品牌
+}

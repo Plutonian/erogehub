@@ -312,21 +312,34 @@
 
         <!-- ========== 中间栏：游戏卡片列表（自适应宽度） ========== -->
         <DockPanel Grid.Column="1" Margin="4">
-            <!-- 底部分页栏：总数 + Pagination 控件 -->
+            <!-- 底部分页栏：分组选择器 + 总数 + Pagination 控件 -->
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4"
                         Visibility="{Binding HasSearched, Converter={StaticResource Bool2Vis}}">
-                <TextBlock VerticalAlignment="Center" Margin="0,0,8,0">
+
+                <!-- 分组类型选择器 -->
+                <TextBlock Text="分组" Foreground="#999" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <hc:ComboBox ItemsSource="{x:Static vm:SearchViewModel.GroupTypeOptions}"
+                             DisplayMemberPath="Label" SelectedValuePath="Type"
+                             SelectedValue="{Binding SelectedGroupType}"
+                             MinWidth="80" VerticalContentAlignment="Center" Margin="0,0,16,0"/>
+
+                <!-- 总数（仅非分组模式） -->
+                <TextBlock VerticalAlignment="Center" Margin="0,0,8,0"
+                           Visibility="{Binding IsNotGrouping, Converter={StaticResource Bool2Vis}}">
                     <Run Text="共 " Foreground="#999"/>
                     <Run Text="{Binding Total}" Foreground="#7AB8FF"/>
                     <Run Text=" 条" Foreground="#999"/>
                 </TextBlock>
                 <hc:Pagination MaxPageCount="{Binding TotalPages}" PageIndex="{Binding Page}"
-                               PageUpdated="Pagination_PageUpdated"/>
+                               PageUpdated="Pagination_PageUpdated"
+                               Visibility="{Binding IsNotGrouping, Converter={StaticResource Bool2Vis}}"/>
             </StackPanel>
 
-            <!-- 卡片列表：使用 WrapPanel 自动换行，加载时显示 LoadingCircle -->
+            <!-- 卡片列表：平铺 / 分组双视图，加载时显示 LoadingCircle -->
             <hc:SimplePanel>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <!-- 平铺模式（无分组） -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                              Visibility="{Binding IsNotGrouping, Converter={StaticResource Bool2Vis}}">
                     <ItemsControl ItemsSource="{Binding Games}" ItemTemplate="{StaticResource GameCardTemplate}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -335,6 +348,42 @@
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
                 </ScrollViewer>
+
+                <!-- 分组模式：Expander + WrapPanel -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                              Visibility="{Binding IsGrouping, Converter={StaticResource Bool2Vis}}">
+                    <ItemsControl ItemsSource="{Binding GroupedGames}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type models:GameGroup}">
+                                <Expander Background="#2D2D42" Foreground="#DDD"
+                                          BorderBrush="#555" BorderThickness="0,0,0,1"
+                                          Margin="0,2" Padding="8,5" IsExpanded="True">
+                                    <Expander.Header>
+                                        <DockPanel>
+                                            <Border DockPanel.Dock="Right" Background="#444466"
+                                                    CornerRadius="8" Padding="6,1" Margin="8,0,0,0">
+                                                <TextBlock Text="{Binding Games.Count}"
+                                                           Foreground="#CCC" FontSize="10"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding Title}" Foreground="#DDD"
+                                                       FontWeight="SemiBold"/>
+                                        </DockPanel>
+                                    </Expander.Header>
+                                    <ItemsControl ItemsSource="{Binding Games}"
+                                                  ItemTemplate="{StaticResource GameCardTemplate}"
+                                                  Margin="4">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </Expander>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
                 <hc:LoadingCircle Visibility="{Binding IsLoading, Converter={StaticResource Bool2Vis}}"
                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </hc:SimplePanel>

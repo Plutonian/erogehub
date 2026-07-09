@@ -72,6 +72,19 @@ public class DateGroupItem : GroupItem
 }
 
 /// <summary>
+/// 列表分组项：标题 + 该组包含的游戏列表
+/// 用于中间面板分组显示模式
+/// </summary>
+public class GameGroup
+{
+    /// <summary>分组标题（如"2024年"、"3★"、"好き"）</summary>
+    public string Title { get; set; } = string.Empty;
+
+    /// <summary>该分组下的游戏列表</summary>
+    public ObservableCollection<Game> Games { get; set; } = new();
+}
+
+/// <summary>
 /// 品牌分组项（支持公司→品牌层级），用于右侧面板的 TreeView
 /// </summary>
 public class BrandGroupItem : GroupItem

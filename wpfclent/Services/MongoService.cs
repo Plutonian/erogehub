@@ -54,6 +54,14 @@ public class MongoService
     public async Task<long> CountAsync(BsonDocument? filter)
         => await _collection.CountDocumentsAsync(ToFilterDef(filter));
 
+    /// <summary>查询全部符合条件的游戏（不分页），用于分组模式</summary>
+    public async Task<List<Game>> QueryAllGamesAsync(BsonDocument? filter)
+    {
+        var sort = new BsonDocument { { "publishDate", -1 }, { "name", -1 } };
+        var docs = await _collection.Find(ToFilterDef(filter)).Sort(sort).ToListAsync();
+        return docs.Select(MapToGame).ToList();
+    }
+
     /// <summary>按情感值分组聚合</summary>
     public async Task<List<EmotionGroupItem>> GroupByEmotionAsync(BsonDocument? filter)
     {

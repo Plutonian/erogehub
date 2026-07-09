@@ -137,17 +137,13 @@
             </Button>
         </DataTemplate>
 
-        <!-- 日期聚合项模板：支持层级展开（年 → 月），使用 HierarchicalDataTemplate -->
+        <!-- 日期聚合项模板：纯展示，无点击行为 -->
         <HierarchicalDataTemplate x:Key="DateGroupTemplate" DataType="{x:Type models:DateGroupItem}"
                                   ItemsSource="{Binding Children}">
-            <Button Padding="2,1" HorizontalContentAlignment="Stretch" Background="Transparent"
-                       Command="{Binding DataContext.DateClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                       CommandParameter="{Binding}">
-                <DockPanel>
-                    <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#888" Margin="8,0,0,0"/>
-                    <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
-                </DockPanel>
-            </Button>
+            <DockPanel Margin="2,1">
+                <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#888" Margin="8,0,0,0"/>
+                <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
+            </DockPanel>
         </HierarchicalDataTemplate>
 
         <!-- 品牌聚合项模板：支持层级展开，使用 HierarchicalDataTemplate -->
@@ -394,7 +390,7 @@
 
         <!-- ========== 右侧栏：聚合分析面板（310px 固定宽度） ========== -->
         <Border Grid.Column="2" Background="#252535" Margin="4" CornerRadius="6">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel Margin="4">
                     <!-- 日期分布（树形结构：年 → 月） -->
                     <Grid Margin="0,2">
@@ -512,17 +508,22 @@
                         <ItemsControl Grid.Row="1"
                                       Visibility="{Binding IsChecked, ElementName=ToggleCV, Converter={StaticResource Bool2Vis}}"
                                       ItemsSource="{Binding CvGroup}" Margin="4">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GroupItem}">
-                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                                               Command="{Binding DataContext.CVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                               CommandParameter="{Binding}">
-                                        <DockPanel>
-                                            <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
-                                                <TextBlock Text="{Binding Count}" Foreground="#CCC" FontSize="10"/>
-                                            </Border>
-                                            <TextBlock Text="{Binding Title}" Foreground="#DDD" TextTrimming="CharacterEllipsis"/>
-                                        </DockPanel>
+                                    <Button Margin="0,0,4,3" Padding="5,2"
+                                            Background="#3D3D52" Foreground="#DDD"
+                                            BorderThickness="0" Cursor="Hand"
+                                            Command="{Binding DataContext.CVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MaxWidth="120"/>
+                                            <TextBlock Text="{Binding Count}" Foreground="#999" FontSize="10" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
                                     </Button>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -539,17 +540,22 @@
                         <ItemsControl Grid.Row="1"
                                       Visibility="{Binding IsChecked, ElementName=ToggleTrueCV, Converter={StaticResource Bool2Vis}}"
                                       ItemsSource="{Binding TrueCVGroup}" Margin="4">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GroupItem}">
-                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                                               Command="{Binding DataContext.TrueCVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                               CommandParameter="{Binding}">
-                                        <DockPanel>
-                                            <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
-                                                <TextBlock Text="{Binding Count}" Foreground="#CCC" FontSize="10"/>
-                                            </Border>
-                                            <TextBlock Text="{Binding Title}" Foreground="#DDD" TextTrimming="CharacterEllipsis"/>
-                                        </DockPanel>
+                                    <Button Margin="0,0,4,3" Padding="5,2"
+                                            Background="#3D3D52" Foreground="#DDD"
+                                            BorderThickness="0" Cursor="Hand"
+                                            Command="{Binding DataContext.TrueCVClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MaxWidth="120"/>
+                                            <TextBlock Text="{Binding Count}" Foreground="#999" FontSize="10" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
                                     </Button>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -566,17 +572,22 @@
                         <ItemsControl Grid.Row="1"
                                       Visibility="{Binding IsChecked, ElementName=ToggleTag, Converter={StaticResource Bool2Vis}}"
                                       ItemsSource="{Binding TagGroup}" Margin="4">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GroupItem}">
-                                    <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                                               Command="{Binding DataContext.TagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                               CommandParameter="{Binding}">
-                                        <DockPanel>
-                                            <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
-                                                <TextBlock Text="{Binding Count}" Foreground="#CCC" FontSize="10"/>
-                                            </Border>
-                                            <TextBlock Text="{Binding Title}" Foreground="#DDD" TextTrimming="CharacterEllipsis"/>
-                                        </DockPanel>
+                                    <Button Margin="0,0,4,3" Padding="5,2"
+                                            Background="#FFABD3" Foreground="#333"
+                                            BorderThickness="0" Cursor="Hand"
+                                            Command="{Binding DataContext.TagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MaxWidth="120"/>
+                                            <TextBlock Text="{Binding Count}" Foreground="#555" FontSize="10" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
                                     </Button>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

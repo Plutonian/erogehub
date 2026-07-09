@@ -240,7 +240,7 @@
                         <!-- 第1行：标签 + 下拉预设 + 启用开关 -->
                         <DockPanel Margin="0,10,0,4">
                             <CheckBox DockPanel.Dock="Right" IsChecked="{Binding IsDateRangeEnabled}"
-                                      Content="E" Margin="12,0,0,0" VerticalAlignment="Center"
+                                      Content="E" Margin="5,0,0,0" VerticalAlignment="Center"
                                       ToolTip="启用/禁用日期筛选"/>
                             <TextBlock Text="发布日期" Foreground="#AAA" FontSize="12" FontWeight="SemiBold"
                                        VerticalAlignment="Center"/>
@@ -443,7 +443,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <ToggleButton Grid.Row="0" x:Name="ToggleDate" Style="{StaticResource AggToggleStyle}" Content="日期"/>
+                        <ToggleButton Grid.Row="0" x:Name="ToggleDate" Style="{StaticResource AggToggleStyle}" Content="日期" IsChecked="True"/>
                         <ItemsControl Grid.Row="1"
                                       Visibility="{Binding IsChecked, ElementName=ToggleDate, Converter={StaticResource Bool2Vis}}"
                                       ItemsSource="{Binding DateGroup}" Margin="4">
@@ -542,6 +542,52 @@
                         </ListBox>
                     </Grid>
 
+                    <!-- 品牌分布（树形结构） -->
+                    <Grid Margin="0,2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ToggleButton Grid.Row="0" x:Name="ToggleBrand" Style="{StaticResource AggToggleStyle}" Content="品牌"/>
+                        <TreeView Grid.Row="1"
+                                  Visibility="{Binding IsChecked, ElementName=ToggleBrand, Converter={StaticResource Bool2Vis}}"
+                                  ItemsSource="{Binding BrandGroup}" ItemTemplate="{StaticResource BrandGroupTemplate}"
+                                  Background="Transparent" Margin="4"
+                                  SelectedItemChanged="BrandTree_SelectedItemChanged"/>
+                    </Grid>
+
+                    <!-- Tag 标签分布 -->
+                    <Grid Margin="0,2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ToggleButton Grid.Row="0" x:Name="ToggleTag" Style="{StaticResource AggToggleStyle}" Content="Tag"/>
+                        <ItemsControl Grid.Row="1"
+                                      Visibility="{Binding IsChecked, ElementName=ToggleTag, Converter={StaticResource Bool2Vis}}"
+                                      ItemsSource="{Binding TagGroup}" Margin="4">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type models:GroupItem}">
+                                    <Button Margin="0,0,4,3" Padding="5,2"
+                                            Background="#FFABD3" Foreground="#333"
+                                            BorderThickness="0" Cursor="Hand"
+                                            Command="{Binding DataContext.TagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MaxWidth="120"/>
+                                            <TextBlock Text="{Binding Count}" Foreground="#555" FontSize="10" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+
                     <!-- 声优分布 -->
                     <Grid Margin="0,2">
                         <Grid.RowDefinitions>
@@ -606,51 +652,9 @@
                         </ItemsControl>
                     </Grid>
 
-                    <!-- Tag 标签分布 -->
-                    <Grid Margin="0,2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <ToggleButton Grid.Row="0" x:Name="ToggleTag" Style="{StaticResource AggToggleStyle}" Content="Tag"/>
-                        <ItemsControl Grid.Row="1"
-                                      Visibility="{Binding IsChecked, ElementName=ToggleTag, Converter={StaticResource Bool2Vis}}"
-                                      ItemsSource="{Binding TagGroup}" Margin="4">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="{x:Type models:GroupItem}">
-                                    <Button Margin="0,0,4,3" Padding="5,2"
-                                            Background="#FFABD3" Foreground="#333"
-                                            BorderThickness="0" Cursor="Hand"
-                                            Command="{Binding DataContext.TagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                            CommandParameter="{Binding}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MaxWidth="120"/>
-                                            <TextBlock Text="{Binding Count}" Foreground="#555" FontSize="10" Margin="4,0,0,0" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </Button>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </Grid>
 
-                    <!-- 品牌分布（树形结构） -->
-                    <Grid Margin="0,2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <ToggleButton Grid.Row="0" x:Name="ToggleBrand" Style="{StaticResource AggToggleStyle}" Content="品牌"/>
-                        <TreeView Grid.Row="1"
-                                  Visibility="{Binding IsChecked, ElementName=ToggleBrand, Converter={StaticResource Bool2Vis}}"
-                                  ItemsSource="{Binding BrandGroup}" ItemTemplate="{StaticResource BrandGroupTemplate}"
-                                  Background="Transparent" Margin="4"
-                                  SelectedItemChanged="BrandTree_SelectedItemChanged"/>
-                    </Grid>
+
+
                 </StackPanel>
             </ScrollViewer>
         </Border>

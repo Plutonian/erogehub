@@ -313,7 +313,8 @@
         <!-- ========== 中间栏：游戏卡片列表（自适应宽度） ========== -->
         <DockPanel Grid.Column="1" Margin="4">
             <!-- 底部分页栏：总数 + Pagination 控件 -->
-            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4"
+                        Visibility="{Binding HasSearched, Converter={StaticResource Bool2Vis}}">
                 <TextBlock VerticalAlignment="Center" Margin="0,0,8,0">
                     <Run Text="共 " Foreground="#999"/>
                     <Run Text="{Binding Total}" Foreground="#7AB8FF"/>

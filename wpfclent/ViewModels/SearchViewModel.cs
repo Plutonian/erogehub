@@ -97,6 +97,10 @@ public partial class SearchViewModel : ObservableObject
     [ObservableProperty]
     private bool _isLoading;
 
+    /// <summary>是否已点击过搜索按钮</summary>
+    [ObservableProperty]
+    private bool _hasSearched;
+
     // ==================== 搜索条件 ====================
 
     /// <summary>当前选中的日期预设 key</summary>
@@ -192,6 +196,7 @@ public partial class SearchViewModel : ObservableObject
     [RelayCommand]
     private async Task SearchAsync()
     {
+        HasSearched = true;
         Page = 1;
         await LoadAllAsync();
     }

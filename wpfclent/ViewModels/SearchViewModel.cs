@@ -7,6 +7,7 @@ using ErogeHub.Wpf.Views;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
 using System.Linq;
+using System.Windows.Data;
 
 namespace ErogeHub.Wpf.ViewModels;
 
@@ -122,10 +123,6 @@ public partial class SearchViewModel : ObservableObject
     /// <summary>当前选中的分组类型</summary>
     [ObservableProperty]
     private GroupType _selectedGroupType = GroupType.None;
-
-    /// <summary>分组后的游戏列表（分组模式时使用）</summary>
-    [ObservableProperty]
-    private ObservableCollection<GameGroup> _groupedGames = new();
 
     /// <summary>是否处于分组模式</summary>
     public bool IsGrouping => SelectedGroupType != GroupType.None;
@@ -552,21 +549,29 @@ public partial class SearchViewModel : ObservableObject
         await Task.WhenAll(gamesTask, countTask);
 
         Games = new ObservableCollection<Game>(gamesTask.Result);
+        // 清除分组（从分组模式切回分页模式时）
+        CollectionViewSource.GetDefaultView(Games).GroupDescriptions.Clear();
         Total = countTask.Result;
         TotalPages = Total > 0 ? (int)Math.Ceiling((double)Total / PageItemSize) : 1;
         if (Page > TotalPages) Page = TotalPages;
     }
 
     /// <summary>
-    /// 全量加载游戏并按内存分组（不含聚合，不分页）
+    /// 全量加载游戏并设置 CollectionView 分组（不含聚合，不分页）
+    /// 配合虚拟化 ListBox 实现分组模式的整体虚拟化
     /// </summary>
     private async Task LoadGroupedDataAsync(BsonDocument? filter)
     {
         var allGames = await _mongo.QueryAllGamesAsync(filter);
         Total = allGames.Count;
         TotalPages = 1;
-        GroupedGames = new ObservableCollection<GameGroup>(
-            GroupGames(allGames, SelectedGroupType));
+
+        // 扁平集合 + CollectionView 分组（配合虚拟化 ListBox）
+        Games = new ObservableCollection<Game>(allGames);
+        var view = CollectionViewSource.GetDefaultView(Games);
+        view.GroupDescriptions.Clear();
+        var sortWeights = ComputeGroupSortWeights(allGames, SelectedGroupType);
+        view.GroupDescriptions.Add(new GameGroupDescription(SelectedGroupType, sortWeights));
     }
 
     /// <summary>
@@ -598,56 +603,63 @@ public partial class SearchViewModel : ObservableObject
         BrandGroup = new ObservableCollection<BrandGroupItem>(brandTask.Result);
     }
 
-    /// <summary>将游戏列表按指定类型在内存中分组</summary>
-    private static List<GameGroup> GroupGames(List<Game> games, GroupType type)
+    /// <summary>预计算各分组的排序权重（升序，值越小排越前），供 GameGroupDescription 控制组顺序</summary>
+    private static Dictionary<string, double> ComputeGroupSortWeights(List<Game> games, GroupType type)
     {
         return type switch
         {
             GroupType.Year => games
-                .GroupBy(g => g.PublishDate.Year > 1 ? g.PublishDate.Year : 0)
-                .OrderByDescending(g => g.Key)
-                .Select(g => new GameGroup { Title = g.Key > 0 ? $"{g.Key}年" : "无日期", Games = new(g) })
-                .ToList(),
+                .Select(g => g.PublishDate.Year > 1 ? g.PublishDate.Year : 0)
+                .Distinct()
+                .OrderByDescending(y => y)
+                .Select((y, i) => (key: y.ToString(), rank: (double)i))
+                .ToDictionary(x => x.key, x => x.rank),
 
             GroupType.Month => games
-                .GroupBy(g => g.PublishDate.Year > 1 ? g.PublishDate.ToString("yyyy-MM") : "0000-00")
-                .OrderByDescending(g => g.Key)
-                .Select(g => new GameGroup { Title = g.Key == "0000-00" ? "无日期" : g.Key, Games = new(g) })
-                .ToList(),
+                .Select(g => g.PublishDate.Year > 1 ? g.PublishDate.ToString("yyyy-MM") : "0000-00")
+                .Distinct()
+                .OrderByDescending(s => s)
+                .Select((s, i) => (key: s, rank: (double)i))
+                .ToDictionary(x => x.key, x => x.rank),
 
             GroupType.Star => games
-                .GroupBy(g => g.Star)
-                .OrderByDescending(g => g.Key)
-                .Select(g => new GameGroup { Title = $"{g.Key}★", Games = new(g) })
-                .ToList(),
+                .Select(g => g.Star)
+                .Distinct()
+                .OrderByDescending(s => s)
+                .Select((s, i) => (key: s.ToString(), rank: (double)i))
+                .ToDictionary(x => x.key, x => x.rank),
 
             GroupType.Emotion => games
-                .GroupBy(g => g.Emotion)
-                .OrderByDescending(g => g.Key)
-                .Select(g => new GameGroup { Title = GetEmotionLabel(g.Key), Games = new(g) })
-                .ToList(),
+                .Select(g => g.Emotion)
+                .Distinct()
+                .OrderByDescending(e => e)
+                .Select((e, i) => (key: e.ToString(), rank: (double)i))
+                .ToDictionary(x => x.key, x => x.rank),
 
             GroupType.Location => games
-                .GroupBy(g => g.Location)
-                .OrderByDescending(g => g.Key)
-                .Select(g => new GameGroup { Title = ((Location)g.Key).ToString(), Games = new(g) })
-                .ToList(),
+                .Select(g => g.Location)
+                .Distinct()
+                .OrderByDescending(l => l)
+                .Select((l, i) => (key: l.ToString(), rank: (double)i))
+                .ToDictionary(x => x.key, x => x.rank),
 
             GroupType.PlayState => games
-                .GroupBy(g => g.PlayState)
-                .OrderByDescending(g => g.Key)
-                .Select(g => new GameGroup { Title = GetPlayStateLabel(g.Key), Games = new(g) })
-                .ToList(),
+                .Select(g => g.PlayState)
+                .Distinct()
+                .OrderByDescending(p => p)
+                .Select((p, i) => (key: p.ToString(), rank: (double)i))
+                .ToDictionary(x => x.key, x => x.rank),
 
             GroupType.Brand => games
-                .GroupBy(g => g.Brand != null && !string.IsNullOrEmpty(g.Brand.Comp) ? g.Brand.Comp
+                .Select(g => g.Brand != null && !string.IsNullOrEmpty(g.Brand.Comp) ? g.Brand.Comp
                             : g.Brand != null && !string.IsNullOrEmpty(g.Brand.Name) ? g.Brand.Name
                             : "无品牌")
+                .GroupBy(name => name)
                 .OrderByDescending(g => g.Count())
-                .Select(g => new GameGroup { Title = g.Key, Games = new(g) })
-                .ToList(),
+                .Select((g, i) => (key: g.Key, rank: (double)i))
+                .ToDictionary(x => x.key, x => x.rank),
 
-            _ => new List<GameGroup>()
+            _ => new Dictionary<string, double>()
         };
     }
 

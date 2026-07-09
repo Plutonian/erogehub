@@ -12,7 +12,6 @@
         <conv:StringToVisibilityConverter x:Key="Str2Vis"/>
         <conv:WebsiteToVisibilityConverter x:Key="Web2Vis"/>
         <conv:DateRelativeConverter x:Key="DateRel"/>
-        <conv:GrayscaleImageConverter x:Key="GrayImg"/>
     </UserControl.Resources>
 
     <!-- DataContext 自动继承自父级（Game 对象），所以直接用 {Binding PropertyName} -->
@@ -49,19 +48,28 @@
                         </BeginStoryboard>
                     </EventTrigger>
                 </Grid.Triggers>
-                <Image Width="279" Stretch="Uniform" Cursor="Hand">
-                    <Image.Source>
-                        <MultiBinding Converter="{StaticResource GrayImg}">
-                            <Binding Path="CoverUrl"/>
-                            <Binding Path="Emotion"/>
-                        </MultiBinding>
-                    </Image.Source>
+                <Image Width="279" Stretch="Uniform" Cursor="Hand"
+                       Source="{Binding CoverUrl}">
                     <Image.InputBindings>
                         <MouseBinding Command="{Binding OpenDetailCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                       CommandParameter="{Binding}"
                                       MouseAction="LeftClick"/>
                     </Image.InputBindings>
                 </Image>
+
+                <!-- HATE(-99) 暗化遮罩：替代像素级灰度，避免手动 BitmapFrame 在虚拟化回收时崩溃 -->
+                <Border Background="#80000000" IsHitTestVisible="False">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Emotion}" Value="-99">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
 
                 <!-- 右上角的"心"情感按钮 -->
                 <Button Command="{Binding CycleCardEmotionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"

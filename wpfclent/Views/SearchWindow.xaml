@@ -11,6 +11,7 @@
         xmlns:vm="clr-namespace:ErogeHub.Wpf.ViewModels"
         xmlns:models="clr-namespace:ErogeHub.Wpf.Models"
         xmlns:controls="clr-namespace:ErogeHub.Wpf.Controls"
+        xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
         Title="ErogeHub" Width="1400" Height="900"
         Background="#1E1E2E" WindowStartupLocation="CenterScreen">
 
@@ -359,40 +360,73 @@
                     </ItemsControl>
                 </ScrollViewer>
 
-                <!-- 分组模式：Expander + WrapPanel -->
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
-                              Visibility="{Binding IsGrouping, Converter={StaticResource Bool2Vis}}">
-                    <ItemsControl ItemsSource="{Binding GroupedGames}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type models:GameGroup}">
-                                <Expander Background="#2D2D42" Foreground="#DDD"
-                                          BorderBrush="#555" BorderThickness="0,0,0,1"
-                                          Margin="0,2" Padding="8,5" IsExpanded="True">
-                                    <Expander.Header>
-                                        <DockPanel>
-                                            <Border DockPanel.Dock="Right" Background="#444466"
-                                                    CornerRadius="8" Padding="6,1" Margin="8,0,0,0">
-                                                <TextBlock Text="{Binding Games.Count}"
-                                                           Foreground="#CCC" FontSize="10"/>
-                                            </Border>
-                                            <TextBlock Text="{Binding Title}" Foreground="#DDD"
-                                                       FontWeight="SemiBold"/>
-                                        </DockPanel>
-                                    </Expander.Header>
-                                    <ItemsControl ItemsSource="{Binding Games}"
-                                                  ItemTemplate="{StaticResource GameCardTemplate}"
-                                                  Margin="4">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel Orientation="Horizontal"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                    </ItemsControl>
-                                </Expander>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
+                <!-- 分组模式：虚拟化 ListBox + CollectionView 分组（外层虚拟化组、内层虚拟化卡片） -->
+                <ListBox ItemsSource="{Binding Games}"
+                         ItemTemplate="{StaticResource GameCardTemplate}"
+                         ScrollViewer.CanContentScroll="True"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         VirtualizingPanel.IsVirtualizing="True"
+                         VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                         VirtualizingPanel.ScrollUnit="Pixel"
+                         Background="Transparent" BorderThickness="0"
+                         Visibility="{Binding IsGrouping, Converter={StaticResource Bool2Vis}}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <vwp:VirtualizingWrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.Panel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel/>
+                                </ItemsPanelTemplate>
+                            </GroupStyle.Panel>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="GroupItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="GroupItem">
+                                                <Expander Background="#2D2D42" Foreground="#DDD"
+                                                          BorderBrush="#555" BorderThickness="0,0,0,1"
+                                                          Margin="0,2" Padding="8,5" IsExpanded="True">
+                                                    <Expander.Header>
+                                                        <DockPanel>
+                                                            <Border DockPanel.Dock="Right" Background="#444466"
+                                                                    CornerRadius="8" Padding="6,1" Margin="8,0,0,0">
+                                                                <TextBlock Text="{Binding ItemCount}"
+                                                                           Foreground="#CCC" FontSize="10"/>
+                                                            </Border>
+                                                            <TextBlock Text="{Binding Name}" Foreground="#DDD"
+                                                                       FontWeight="SemiBold"/>
+                                                        </DockPanel>
+                                                    </Expander.Header>
+                                                    <ItemsPresenter Margin="4"/>
+                                                </Expander>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                        </GroupStyle>
+                    </ListBox.GroupStyle>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Margin" Value="0"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <ContentPresenter/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
 
                 <hc:LoadingCircle Visibility="{Binding IsLoading, Converter={StaticResource Bool2Vis}}"
                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>

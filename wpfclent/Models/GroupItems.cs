@@ -1,4 +1,6 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Globalization;
 
 namespace ErogeHub.Wpf.Models;
 
@@ -82,6 +84,116 @@ public class GameGroup
 
     /// <summary>该分组下的游戏列表</summary>
     public ObservableCollection<Game> Games { get; set; } = new();
+}
+
+/// <summary>
+/// 分组键：含显示名 + 排序权重，用于 CollectionView 分组时控制组顺序
+/// </summary>
+public class GameGroupKey : IComparable, IComparable<GameGroupKey>, IEquatable<GameGroupKey>
+{
+    /// <summary>分组显示名称（如"2024年"、"3★"、"好き"）</summary>
+    public string Display { get; init; } = string.Empty;
+
+    /// <summary>排序权重（升序，值越小排越前）</summary>
+    public double Sort { get; init; }
+
+    /// <summary>分组唯一标识（用于去重和匹配排序权重）</summary>
+    public string Identity { get; init; } = string.Empty;
+
+    public override string ToString() => Display;
+
+    public int CompareTo(GameGroupKey? other) => other is null ? 1 : Sort.CompareTo(other.Sort);
+
+    public int CompareTo(object? obj) => obj switch
+    {
+        null => 1,
+        GameGroupKey k => CompareTo(k),
+        _ => 1
+    };
+
+    public override bool Equals(object? obj) => obj is GameGroupKey k && Identity == k.Identity;
+
+    public override int GetHashCode() => Identity.GetHashCode();
+
+    public bool Equals(GameGroupKey? other) => other is not null && Identity == other.Identity;
+}
+
+/// <summary>
+/// 按 GroupType 对 Game 进行分组的 GroupDescription
+/// 配合 VirtualizingWrapPanel 的分组虚拟化使用
+/// </summary>
+public class GameGroupDescription : GroupDescription
+{
+    private readonly GroupType _groupType;
+    private readonly Dictionary<string, double> _sortWeights;
+
+    /// <param name="groupType">分组类型</param>
+    /// <param name="sortWeights">分组标识 → 排序权重（升序，值越小排越前）</param>
+    public GameGroupDescription(GroupType groupType, Dictionary<string, double> sortWeights)
+    {
+        _groupType = groupType;
+        _sortWeights = sortWeights;
+    }
+
+    public override object? GroupNameFromItem(object item, int level, CultureInfo culture)
+    {
+        if (item is not Game game) return null;
+
+        var (identity, display) = GetGroupIdentity(game, _groupType);
+        _sortWeights.TryGetValue(identity, out var sort);
+        return new GameGroupKey { Display = display, Sort = sort, Identity = identity };
+    }
+
+    /// <summary>从 Game 算出分组标识和显示名</summary>
+    private static (string identity, string display) GetGroupIdentity(Game game, GroupType type)
+    {
+        return type switch
+        {
+            GroupType.Year => game.PublishDate.Year > 1
+                ? (game.PublishDate.Year.ToString(), $"{game.PublishDate.Year}年")
+                : ("0", "无日期"),
+
+            GroupType.Month => game.PublishDate.Year > 1
+                ? (game.PublishDate.ToString("yyyy-MM"), game.PublishDate.ToString("yyyy-MM"))
+                : ("0000-00", "无日期"),
+
+            GroupType.Star => (game.Star.ToString(), $"{game.Star}★"),
+
+            GroupType.Emotion => (game.Emotion.ToString(), GetEmotionLabel(game.Emotion)),
+
+            GroupType.Location => (game.Location.ToString(), ((Location)game.Location).ToString()),
+
+            GroupType.PlayState => (game.PlayState.ToString(), GetPlayStateLabel(game.PlayState)),
+
+            GroupType.Brand => (
+                game.Brand != null && !string.IsNullOrEmpty(game.Brand.Comp) ? game.Brand.Comp
+                : game.Brand != null && !string.IsNullOrEmpty(game.Brand.Name) ? game.Brand.Name
+                : "无品牌",
+                game.Brand != null && !string.IsNullOrEmpty(game.Brand.Comp) ? game.Brand.Comp
+                : game.Brand != null && !string.IsNullOrEmpty(game.Brand.Name) ? game.Brand.Name
+                : "无品牌"
+            ),
+
+            _ => ("unknown", "unknown")
+        };
+    }
+
+    private static string GetEmotionLabel(int e) => e switch
+    {
+        (int)Emotion.HATE => "嫌い",
+        (int)Emotion.NORMAL => "...",
+        (int)Emotion.HOPE => "気になり",
+        (int)Emotion.LIKE => "好き",
+        _ => e.ToString()
+    };
+
+    private static string GetPlayStateLabel(int s) => s switch
+    {
+        (int)PlayState.NOT_PLAY => "...",
+        (int)PlayState.PLAYING => "進行中",
+        (int)PlayState.PLAYED => "プレイ済み",
+        _ => s.ToString()
+    };
 }
 
 /// <summary>

@@ -13,14 +13,22 @@ public class MongoService
     /// <summary>MongoDB game 集合</summary>
     private readonly IMongoCollection<BsonDocument> _collection;
 
-    /// <summary>图片服务器地址</summary>
+    /// <summary>图片服务器地址（网络模式）</summary>
     private readonly string _imgServer;
 
-    public MongoService(string connectionString, string databaseName, string imgServer)
+    /// <summary>是否使用本地图片路径</summary>
+    private readonly bool _useLocalImg;
+
+    /// <summary>本地图片根目录（本地模式）</summary>
+    private readonly string _localImgPath;
+
+    public MongoService(string connectionString, string databaseName, string imgServer, bool useLocalImg, string localImgPath)
     {
         var client = new MongoClient(connectionString);
         _collection = client.GetDatabase(databaseName).GetCollection<BsonDocument>("game");
         _imgServer = imgServer;
+        _useLocalImg = useLocalImg;
+        _localImgPath = localImgPath;
     }
 
     /// <summary>将 BsonDocument 过滤器转为标准的 FilterDefinition，空过滤器返回 Empty</summary>
@@ -369,8 +377,10 @@ public class MongoService
             catch { /* 日期超出 .NET DateTime 范围，保持默认值 */ }
         }
 
-        // 计算图片资源 URL
-        game.ImgBase = $"http://{_imgServer}/img/{game.PublishDate.Year}/{game.PublishDate.Month}/{game.Id}/";
+        // 计算图片资源 URL（根据配置选择网络或本地路径）
+        game.ImgBase = _useLocalImg
+            ? $"file:///{_localImgPath.Replace('\\', '/').TrimEnd('/')}/img/{game.PublishDate.Year}/{game.PublishDate.Month}/{game.Id}/"
+            : $"http://{_imgServer}/img/{game.PublishDate.Year}/{game.PublishDate.Month}/{game.Id}/";
         game.CoverUrl = $"{game.ImgBase}game_s.jpg";
         game.StoryImageUrl = $"{game.ImgBase}game_l.jpg";
 

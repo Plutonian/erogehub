@@ -24,14 +24,16 @@ public partial class App : Application
             .AddJsonFile("appsettings.json", optional: false)
             .Build();
 
-        // 读取数据库连接信息和图片服务器地址
+        // 读取数据库连接信息和图片配置
         var mongoConn = config["MongoConnection"]!;
         var dbName = config["DatabaseName"]!;
         var imgServer = config["ImgServer"]!;
+        var useLocalImg = config["ImgMode"]?.Equals("local", StringComparison.OrdinalIgnoreCase) == true;
+        var localImgPath = config["LocalImgPath"] ?? "";
 
         // 注册 DI 服务
         var services = new ServiceCollection();
-        services.AddSingleton(new MongoService(mongoConn, dbName, imgServer)); // MongoDB 数据服务（单例）
+        services.AddSingleton(new MongoService(mongoConn, dbName, imgServer, useLocalImg, localImgPath)); // MongoDB 数据服务（单例）
         services.AddSingleton<SearchViewModel>();    // 搜索主视图模型（单例）
         services.AddSingleton<SearchWindow>();        // 搜索主窗口（单例）
         services.AddTransient<GameDetailViewModel>(); // 游戏详情视图模型（每次新建）

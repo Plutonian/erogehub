@@ -332,7 +332,7 @@
                         <Run Text="{Binding Total}" Foreground="#7AB8FF"/>
                         <Run Text=" 条" Foreground="#999"/>
                     </TextBlock>
-                    <hc:Pagination MaxPageCount="{Binding TotalPages}" PageIndex="{Binding Page}"
+                    <hc:Pagination MaxPageCount="{Binding TotalPages}" PageIndex="{Binding Page, Mode=TwoWay}"
                                    PageUpdated="Pagination_PageUpdated" Visibility="{Binding IsNotGrouping, Converter={StaticResource Bool2Vis}}"/>
                 </StackPanel>
 

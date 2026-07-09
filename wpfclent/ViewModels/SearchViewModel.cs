@@ -6,6 +6,7 @@ using ErogeHub.Wpf.Services;
 using ErogeHub.Wpf.Views;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
+using System.Linq;
 
 namespace ErogeHub.Wpf.ViewModels;
 
@@ -183,7 +184,6 @@ public partial class SearchViewModel : ObservableObject
     {
         _mongo = mongo;
         _services = services;
-        _ = SearchAsync(); // 启动后立即执行首次搜索
     }
 
     // ==================== 搜索命令 ====================
@@ -349,6 +349,32 @@ public partial class SearchViewModel : ObservableObject
     }
 
     // ==================== 卡片交互 ====================
+
+    /// <summary>
+    /// 克隆当前搜索条件到新窗口
+    /// 复制：日期范围、包含条件、排除条件（不自动执行搜索）
+    /// </summary>
+    [RelayCommand]
+    private void CloneSearch()
+    {
+        // 创建新的 ViewModel
+        var cloneVm = new SearchViewModel(_mongo, _services);
+
+        // 复制日期范围条件
+        cloneVm.SelectedDatePreset = SelectedDatePreset;
+        cloneVm.CurrentDateRange = new DateRange(CurrentDateRange.StartMonth, CurrentDateRange.EndMonth);
+        cloneVm.IsDateRangeEnabled = IsDateRangeEnabled;
+
+        // 深拷贝包含/排除条件
+        cloneVm.IncludeOpts = new ObservableCollection<SearchOpt>(
+            IncludeOpts.Select(o => new SearchOpt(o.Key, o.Value, o.Enabled, o.Filter)));
+        cloneVm.ExcludeOpts = new ObservableCollection<SearchOpt>(
+            ExcludeOpts.Select(o => new SearchOpt(o.Key, o.Value, o.Enabled, o.Filter)));
+
+        // 创建新窗口并显示
+        var window = new SearchWindow(cloneVm);
+        window.Show();
+    }
 
     /// <summary>打开游戏详情窗口</summary>
     [RelayCommand]

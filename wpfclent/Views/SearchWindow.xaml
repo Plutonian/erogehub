@@ -214,11 +214,14 @@
         <!-- ========== 左侧栏：搜索面板（360px 固定宽度） ========== -->
         <Border Grid.Column="0" Background="#252535" Margin="4" CornerRadius="6">
             <DockPanel>
-                <!-- 搜索面板标题栏：标题 + Search 按钮 -->
+                <!-- 搜索面板标题栏：标题 + Clone + Search 按钮 -->
                 <DockPanel DockPanel.Dock="Top" Margin="8,8,8,4">
                     <Button DockPanel.Dock="Right" Content="Search" Padding="12,4"
                                Style="{StaticResource ButtonPrimary}"
                                Command="{Binding SearchCommand}"/>
+                    <Button DockPanel.Dock="Right" Content="Clone" Padding="8,4" Margin="0,0,4,0"
+                               Background="#444466" Foreground="#CCC" BorderThickness="0"
+                               Command="{Binding CloneSearchCommand}"/>
                     <TextBlock Text="Search" FontSize="16" FontWeight="Bold" Foreground="#E0E0E0"
                                VerticalAlignment="Center"/>
                 </DockPanel>

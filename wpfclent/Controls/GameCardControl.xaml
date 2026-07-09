@@ -12,15 +12,14 @@
         <conv:StringToVisibilityConverter x:Key="Str2Vis"/>
         <conv:WebsiteToVisibilityConverter x:Key="Web2Vis"/>
         <conv:DateRelativeConverter x:Key="DateRel"/>
+        <conv:GrayscaleImageConverter x:Key="GrayImg"/>
     </UserControl.Resources>
 
     <!-- DataContext 自动继承自父级（Game 对象），所以直接用 {Binding PropertyName} -->
     <!-- 命令通过 RelativeSource 绑定到 UserControl 自身的 DependencyProperty -->
 
     <!-- 卡片外层：固定宽度，边框颜色根据情感值(Emotion)动态变色 -->
-    <Border Width="282" Margin="4" Background="#2A2A3C" CornerRadius="6"
-            BorderBrush="{Binding Emotion, Converter={StaticResource EmotionBrush}}"
-            BorderThickness="2">
+    <Border Width="282" Margin="4" Background="#2A2A3C" CornerRadius="6" BorderThickness="0">
         <StackPanel>
             <!-- 封面图区域：固定宽度 280px，高度按图片比例自动缩放 -->
             <Grid Width="280" MinHeight="300" Background="#1A1A2E">
@@ -50,7 +49,13 @@
                         </BeginStoryboard>
                     </EventTrigger>
                 </Grid.Triggers>
-                <Image Source="{Binding CoverUrl}"  Width="279" Stretch="Uniform" Cursor="Hand">
+                <Image Width="279" Stretch="Uniform" Cursor="Hand">
+                    <Image.Source>
+                        <MultiBinding Converter="{StaticResource GrayImg}">
+                            <Binding Path="CoverUrl"/>
+                            <Binding Path="Emotion"/>
+                        </MultiBinding>
+                    </Image.Source>
                     <Image.InputBindings>
                         <MouseBinding Command="{Binding OpenDetailCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                       CommandParameter="{Binding}"

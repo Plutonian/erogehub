@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using ErogeHub.Wpf.Models;
 
 namespace ErogeHub.Wpf.Converters;
@@ -235,5 +236,40 @@ public class NotEmptyToVisibilityConverter : IValueConverter
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotImplementedException();
+}
+
+/// <summary>
+/// MultiValueConverter：[0]=图片URL, [1]=Emotion
+/// Emotion == HATE(-99) 时返回 Gray8 灰度图（等价于 CSS filter: saturate(0%)）
+/// 否则返回正常 BitmapImage
+/// </summary>
+public class GrayscaleImageConverter : IMultiValueConverter
+{
+    public object? Convert(object?[] values, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (values.Length < 1 || values[0] is not string url || string.IsNullOrEmpty(url))
+            return null;
+
+        var bitmap = new BitmapImage();
+        bitmap.BeginInit();
+        bitmap.UriSource = new Uri(url, UriKind.Absolute);
+        bitmap.CacheOption = BitmapCacheOption.OnLoad;
+        bitmap.EndInit();
+
+        if (values.Length > 1 && values[1] is int emotion && emotion == (int)Emotion.HATE)
+        {
+            var gray = new FormatConvertedBitmap();
+            gray.BeginInit();
+            gray.Source = bitmap;
+            gray.DestinationFormat = PixelFormats.Gray8;
+            gray.EndInit();
+            return gray;
+        }
+
+        return bitmap;
+    }
+
+    public object?[] ConvertBack(object? value, Type[] targetTypes, object? parameter, CultureInfo culture)
         => throw new NotImplementedException();
 }

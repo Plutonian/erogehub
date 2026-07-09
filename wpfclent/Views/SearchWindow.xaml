@@ -74,7 +74,7 @@
                                  Visibility="{Binding Key, Converter={StaticResource IsSelect}}"
                                  SelectedValue="{Binding Value}" VerticalContentAlignment="Center">
                         <hc:ComboBox.Style>
-                            <Style TargetType="hc:ComboBox">
+                            <Style TargetType="hc:ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Key}" Value="{x:Static models:SearchType.EMOTION}">
                                         <Setter Property="ItemsSource" Value="{x:Static vm:SearchViewModel.EmotionOptions}"/>

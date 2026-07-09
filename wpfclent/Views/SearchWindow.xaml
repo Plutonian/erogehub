@@ -312,28 +312,31 @@
 
         <!-- ========== 中间栏：游戏卡片列表（自适应宽度） ========== -->
         <DockPanel Grid.Column="1" Margin="4">
-            <!-- 底部分页栏：分组选择器 + 总数 + Pagination 控件 -->
-            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4"
+            <!-- 底部状态栏：分页在左，分组在右 -->
+            <DockPanel DockPanel.Dock="Bottom" Margin="0,4" LastChildFill="False"
                         Visibility="{Binding HasSearched, Converter={StaticResource Bool2Vis}}">
 
-                <!-- 分组类型选择器 -->
-                <TextBlock Text="分组" Foreground="#999" VerticalAlignment="Center" Margin="0,0,6,0"/>
-                <hc:ComboBox ItemsSource="{x:Static vm:SearchViewModel.GroupTypeOptions}"
-                             DisplayMemberPath="Label" SelectedValuePath="Type"
-                             SelectedValue="{Binding SelectedGroupType}"
-                             MinWidth="80" VerticalContentAlignment="Center" Margin="0,0,16,0"/>
+                <!-- 分页信息 + 控件（左侧） -->
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center"
+                            Visibility="{Binding IsNotGrouping, Converter={StaticResource Bool2Vis}}">
+                    <TextBlock VerticalAlignment="Center" Margin="0,0,8,0">
+                        <Run Text="共 " Foreground="#999"/>
+                        <Run Text="{Binding Total}" Foreground="#7AB8FF"/>
+                        <Run Text=" 条" Foreground="#999"/>
+                    </TextBlock>
+                    <hc:Pagination MaxPageCount="{Binding TotalPages}" PageIndex="{Binding Page}"
+                                   PageUpdated="Pagination_PageUpdated"/>
+                </StackPanel>
 
-                <!-- 总数（仅非分组模式） -->
-                <TextBlock VerticalAlignment="Center" Margin="0,0,8,0"
-                           Visibility="{Binding IsNotGrouping, Converter={StaticResource Bool2Vis}}">
-                    <Run Text="共 " Foreground="#999"/>
-                    <Run Text="{Binding Total}" Foreground="#7AB8FF"/>
-                    <Run Text=" 条" Foreground="#999"/>
-                </TextBlock>
-                <hc:Pagination MaxPageCount="{Binding TotalPages}" PageIndex="{Binding Page}"
-                               PageUpdated="Pagination_PageUpdated"
-                               Visibility="{Binding IsNotGrouping, Converter={StaticResource Bool2Vis}}"/>
-            </StackPanel>
+                <!-- 分组类型选择器（右侧） -->
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="分组" Foreground="#999" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <hc:ComboBox ItemsSource="{x:Static vm:SearchViewModel.GroupTypeOptions}"
+                                 DisplayMemberPath="Label" SelectedValuePath="Type"
+                                 SelectedValue="{Binding SelectedGroupType}"
+                                 MinWidth="80" VerticalContentAlignment="Center"/>
+                </StackPanel>
+            </DockPanel>
 
             <!-- 卡片列表：平铺 / 分组双视图，加载时显示 LoadingCircle -->
             <hc:SimplePanel>

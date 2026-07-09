@@ -12,41 +12,16 @@
         <conv:StringToVisibilityConverter x:Key="Str2Vis"/>
         <conv:WebsiteToVisibilityConverter x:Key="Web2Vis"/>
         <conv:DateRelativeConverter x:Key="DateRel"/>
-
-        <!-- 卡片标签徽章样式：半透明蓝底 + 蓝色文字 + 圆角 -->
-        <Style x:Key="CardTagBadge" TargetType="Button">
-            <Setter Property="FontSize" Value="11"/>
-            <Setter Property="Margin" Value="0,0,4,3"/>
-            <Setter Property="Padding" Value="6,2"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Foreground" Value="#7AB8FF"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="bd" Background="#4D3D5A80" CornerRadius="4"
-                                Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#6D3D5A80"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </UserControl.Resources>
 
     <!-- DataContext 自动继承自父级（Game 对象），所以直接用 {Binding PropertyName} -->
     <!-- 命令通过 RelativeSource 绑定到 UserControl 自身的 DependencyProperty -->
 
     <!-- 卡片外层：固定宽度，边框颜色根据情感值(Emotion)动态变色 -->
-    <Border Width="295" Margin="10,12" Background="#252538" CornerRadius="8" BorderThickness="0">
+    <Border Width="282" Margin="4" Background="#2A2A3C" CornerRadius="6" BorderThickness="0">
         <StackPanel>
-            <!-- 封面图区域：固定宽度 295px，高度按图片比例自动缩放 -->
-            <Grid Width="293" Height="400" Background="#2E2E42">
+            <!-- 封面图区域：固定宽度 280px，高度按图片比例自动缩放 -->
+            <Grid Width="280" Height="400" Background="#1A1A2E">
                 <Grid.Triggers>
                     <EventTrigger RoutedEvent="MouseEnter">
                         <BeginStoryboard>
@@ -73,7 +48,7 @@
                         </BeginStoryboard>
                     </EventTrigger>
                 </Grid.Triggers>
-                <Image Width="293"  Cursor="Hand" VerticalAlignment="Top"
+                <Image Width="280"  Cursor="Hand" VerticalAlignment="Top"
                        Source="{Binding CoverUrl}">
                     <Image.InputBindings>
                         <MouseBinding Command="{Binding OpenDetailCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -103,14 +78,14 @@
                         Padding="0" BorderThickness="0"
                         HorizontalAlignment="Right" VerticalAlignment="Top"
                         Margin="0,6,6,0"
-                        Background="#AA2E2E42" Cursor="Hand"
+                        Background="#AA1E1E2E" Cursor="Hand"
                         Visibility="{Binding ShowEmotion, Converter={StaticResource Bool2Vis}}"
                         ToolTip="Emotion (click to cycle)">
-                        <TextBlock Text="♥" FontSize="22" TextAlignment="Center"
+                    <TextBlock Text="♥" FontSize="22" TextAlignment="Center"
                                VerticalAlignment="Center" HorizontalAlignment="Center">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="#6E6E80"/>
+                                <Setter Property="Foreground" Value="#666"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Emotion}" Value="-99">
                                         <Setter Property="Foreground" Value="#000000"/>
@@ -119,7 +94,7 @@
                                         <Setter Property="Foreground" Value="#FF69B4"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding Emotion}" Value="99">
-                                        <Setter Property="Foreground" Value="#FF8866"/>
+                                        <Setter Property="Foreground" Value="#FF4444"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -129,7 +104,7 @@
 
                 <!-- 鼠标悬停时滑入的暗色半透明覆盖面板 -->
                 <Border x:Name="HoverOverlay"
-                        VerticalAlignment="Bottom" Background="#E52E2E42" Padding="16,8"
+                        VerticalAlignment="Bottom" Background="#E51A1A2E" Padding="6,4"
                         Opacity="0" RenderTransformOrigin="0,1">
                     <Border.RenderTransform>
                         <TranslateTransform Y="20"/>
@@ -145,8 +120,8 @@
                                          Fill="{Binding PlayState, Converter={StaticResource PlayStateBrush}}"/>
                             </Button>
                             <TextBlock Text="{Binding MainTitle}" FontWeight="Bold"
-                                       Foreground="#E0E0E6" FontSize="24"
-                                       TextTrimming="CharacterEllipsis" Margin="4,0,0,0" MaxWidth="260" TextWrapping="Wrap"/>
+                                       Foreground="#E0E0E0" FontSize="24"
+                                       TextTrimming="CharacterEllipsis" Margin="4,0,0,0" MaxWidth="250" TextWrapping="Wrap"/>
                             <Button Content="[Del]" Foreground="#FF4444" FontSize="10" Margin="4,0,0,0"
                                     Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
                                     Style="{StaticResource ButtonDanger}"
@@ -193,7 +168,9 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Content="{Binding}" Style="{StaticResource CardTagBadge}"
+                                    <Button Content="{Binding}" FontSize="12" Margin="0,0,4,3"
+                                            Padding="5,2" Background="#FFABD3" Foreground="#333"
+                                            BorderThickness="0" Cursor="Hand"
                                             Command="{Binding TagClickToSearchCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding}"/>
                                 </DataTemplate>
@@ -204,7 +181,7 @@
             </Grid>
 
             <!-- 底部：发布日期（左） + 存储位置（右） -->
-            <DockPanel Margin="16,8,16,4">
+            <DockPanel Margin="6,4,6,0">
                 <Button DockPanel.Dock="Right"
                         Command="{Binding ToggleCardLocationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                         CommandParameter="{Binding}"
@@ -227,7 +204,7 @@
                     </TextBlock>
                 </Button>
                 <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateRel}}"
-                           Foreground="#6E6E80" FontSize="11" VerticalAlignment="Center"/>
+                           Foreground="#888" FontSize="11" VerticalAlignment="Center"/>
             </DockPanel>
         </StackPanel>
     </Border>

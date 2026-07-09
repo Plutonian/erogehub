@@ -10,12 +10,12 @@
     <StackPanel Margin="0,4">
         <!-- 年份标题栏：年份名称 + 总数徽章 -->
         <DockPanel Margin="0,0,0,5">
-            <Border DockPanel.Dock="Right" Background="#2D2D44" CornerRadius="9" Padding="7,1">
+            <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="7,1">
                 <TextBlock Text="{Binding Year.Count, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                           Foreground="#6E6E80" FontSize="10"/>
+                           Foreground="#CCC" FontSize="10"/>
             </Border>
             <TextBlock Text="{Binding Year.Title, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                       Foreground="#7AB8FF" FontWeight="Bold" FontSize="13"/>
+                       Foreground="#DDD" FontWeight="SemiBold" FontSize="13"/>
         </DockPanel>
 
         <!-- 4×3 月份网格：固定 12 格，1~12月 -->
@@ -29,27 +29,27 @@
                 <DataTemplate DataType="{x:Type models:DateGroupItem}">
                     <!-- 注意：Background / Padding 不在 Border 标签上写死，全部交给 Style 控制，
                          否则直接属性值会覆盖 Style Setter 的优先级 -->
-                    <Border Margin="2" CornerRadius="6" BorderThickness="1" MinHeight="44">
+                    <Border Margin="1" CornerRadius="4">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding Title}" FontSize="13"
+                            <TextBlock Text="{Binding Title}" FontSize="14"
                                        HorizontalAlignment="Center">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="Foreground" Value="#D0D0D5"/>
+                                        <Setter Property="Foreground" Value="#FFF"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Count}" Value="0">
-                                                <Setter Property="Foreground" Value="#6E6E80"/>
+                                                <Setter Property="Foreground" Value="#444"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
                             <TextBlock Text="{Binding Count, StringFormat='({0})'}"
-                                       FontSize="10"
+                                       FontSize="12" FontWeight="Bold"
                                        HorizontalAlignment="Center">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="Foreground" Value="#7AB8FF"/>
+                                        <Setter Property="Foreground" Value="#FFCC00"/>
                                         <Setter Property="Visibility" Value="Visible"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Count}" Value="0">
@@ -62,18 +62,14 @@
                         </StackPanel>
                         <Border.Style>
                             <Style TargetType="Border">
-                                <!-- 默认 = 有数据状态：透明底 + 蓝色描边 -->
-                                <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="BorderBrush" Value="#3D5A80"/>
-                                <Setter Property="Padding" Value="8,10"/>
-                                <Setter Property="Opacity" Value="1"/>
+                                <!-- 默认 = 有数据状态 -->
+                                <Setter Property="Background" Value="#5577BB"/>
+                                <Setter Property="Padding"     Value="10,8"/>
                                 <Style.Triggers>
-                                    <!-- 空白月份 → 透明底 + 灰色描边 + 半透明 -->
+                                    <!-- 空白月份 → 浅灰底、稍大内边距（无数据时文字更居中） -->
                                     <DataTrigger Binding="{Binding Count}" Value="0">
-                                        <Setter Property="Background" Value="Transparent"/>
-                                        <Setter Property="BorderBrush" Value="#44445C"/>
-                                        <Setter Property="Padding" Value="8,10"/>
-                                        <Setter Property="Opacity" Value="0.3"/>
+                                        <Setter Property="Background"   Value="#E8EAF0"/>
+                                        <Setter Property="Padding"     Value="10,10"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

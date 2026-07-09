@@ -9,11 +9,6 @@
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDark.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <!-- 覆盖 HandyControl 主题色以匹配 SVG 设计稿 -->
-            <SolidColorBrush x:Key="PrimaryBrush" Color="#3D5A80"/>
-            <SolidColorBrush x:Key="PrimaryTextBrush" Color="#FFFFFF"/>
-            <SolidColorBrush x:Key="DangerBrush" Color="#FF8866"/>
-            <SolidColorBrush x:Key="DangerTextBrush" Color="#FFFFFF"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

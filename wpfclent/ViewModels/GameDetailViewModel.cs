@@ -12,7 +12,8 @@ namespace ErogeHub.Wpf.ViewModels;
 /// </summary>
 public partial class GameDetailViewModel : ObservableObject
 {
-    private readonly MongoService _mongo;
+    private readonly GameRepository _gameRepo;
+    private readonly GameUpdater _updater;
 
     /// <summary>当前查看的游戏对象</summary>
     [ObservableProperty]
@@ -59,9 +60,10 @@ public partial class GameDetailViewModel : ObservableObject
     public static List<SearchViewModel.EnumOption> LocationOptions => SearchViewModel.LocationOptions;
     public static List<SearchViewModel.EnumOption> PlayStateOptions => SearchViewModel.PlayStateOptions;
 
-    public GameDetailViewModel(MongoService mongo)
+    public GameDetailViewModel(GameRepository gameRepo, GameUpdater updater)
     {
-        _mongo = mongo;
+        _gameRepo = gameRepo;
+        _updater = updater;
     }
 
     /// <summary>Game 变更时刷新角色分类列表和窗口标题</summary>
@@ -88,7 +90,7 @@ public partial class GameDetailViewModel : ObservableObject
         IsLoading = true;
         try
         {
-            Game = await _mongo.QueryGameByIdAsync(gameId);
+            Game = await _gameRepo.QueryGameByIdAsync(gameId);
         }
         finally
         {
@@ -109,7 +111,7 @@ public partial class GameDetailViewModel : ObservableObject
             (int)PlayState.PLAYING => (int)PlayState.PLAYED,
             _ => (int)PlayState.NOT_PLAY,
         };
-        await _mongo.UpdatePlayStateAsync(Game.Id, next);
+        await _updater.UpdatePlayStateAsync(Game.Id, next);
         Game.PlayState = next;
     }
 
@@ -125,7 +127,7 @@ public partial class GameDetailViewModel : ObservableObject
             (int)Emotion.HOPE => (int)Emotion.LIKE,
             _ => (int)Emotion.HATE,
         };
-        await _mongo.UpdateEmotionAsync(Game.Id, next);
+        await _updater.UpdateEmotionAsync(Game.Id, next);
         Game.Emotion = next;
     }
 
@@ -135,7 +137,7 @@ public partial class GameDetailViewModel : ObservableObject
     {
         if (Game == null) return;
         var next = Game.Location == (int)Location.LOCAL ? (int)Location.REMOTE : (int)Location.LOCAL;
-        await _mongo.UpdateLocationAsync(Game.Id, next);
+        await _updater.UpdateLocationAsync(Game.Id, next);
         Game.Location = next;
     }
 
@@ -143,14 +145,14 @@ public partial class GameDetailViewModel : ObservableObject
     public async Task UpdateStarAsync(int star)
     {
         if (Game == null) return;
-        await _mongo.UpdateStarAsync(Game.Id, star);
+        await _updater.UpdateStarAsync(Game.Id, star);
     }
 
     /// <summary>切换标记相同状态（由 UI 事件调用）</summary>
     public async Task ToggleMarkSameAsync(bool isSame)
     {
         if (Game == null) return;
-        await _mongo.MarkSameAsync(Game.Id, isSame);
+        await _updater.MarkSameAsync(Game.Id, isSame);
     }
 
     // ==================== Tag 操作 ====================
@@ -162,7 +164,7 @@ public partial class GameDetailViewModel : ObservableObject
         if (Game == null || string.IsNullOrWhiteSpace(NewTag)) return;
         var tags = Game.Tag.ToList();
         tags.Add(NewTag.Trim());
-        await _mongo.UpdateTagsAsync(Game.Id, tags);
+        await _updater.UpdateTagsAsync(Game.Id, tags);
         Game.Tag = tags;
         NewTag = string.Empty;
     }
@@ -173,7 +175,7 @@ public partial class GameDetailViewModel : ObservableObject
     {
         if (Game == null) return;
         var tags = Game.Tag.Where(t => t != tag).ToList();
-        await _mongo.UpdateTagsAsync(Game.Id, tags);
+        await _updater.UpdateTagsAsync(Game.Id, tags);
         Game.Tag = tags;
     }
 
@@ -191,7 +193,7 @@ public partial class GameDetailViewModel : ObservableObject
     private async Task UpdateTitleAsync()
     {
         if (Game == null) return;
-        await _mongo.UpdateTitleAsync(Game.Id, Game.MainTitle, Game.SubTitle);
+        await _updater.UpdateTitleAsync(Game.Id, Game.MainTitle, Game.SubTitle);
         OnPropertyChanged(nameof(WindowTitle));
         IsEditModalVisible = false;
     }
@@ -216,7 +218,7 @@ public partial class GameDetailViewModel : ObservableObject
     private async Task UpdateCharCVAsync(GameCharacter character)
     {
         if (Game == null) return;
-        await _mongo.SetCharCVAsync(Game.Id, character.Index, character.Cv);
+        await _updater.SetCharCVAsync(Game.Id, character.Index, character.Cv);
     }
 
     // ==================== 角色编辑弹窗 ====================
@@ -250,7 +252,7 @@ public partial class GameDetailViewModel : ObservableObject
     private async Task UpdateCharCVFromModalAsync()
     {
         if (Game == null || SelectedCharacter == null) return;
-        await _mongo.SetCharCVAsync(Game.Id, SelectedCharacter.Index, SelectedCharacter.Cv);
+        await _updater.SetCharCVAsync(Game.Id, SelectedCharacter.Index, SelectedCharacter.Cv);
         IsCharEditVisible = false;
     }
 
@@ -259,7 +261,7 @@ public partial class GameDetailViewModel : ObservableObject
     private async Task SetCharManAsync(GameCharacter? character)
     {
         if (Game == null || character == null) return;
-        await _mongo.SetCharManAsync(Game.Id, character.Index);
+        await _updater.SetCharManAsync(Game.Id, character.Index);
         character.Man = true;
         OnPropertyChanged(nameof(Heroines));
         OnPropertyChanged(nameof(Protagonists));

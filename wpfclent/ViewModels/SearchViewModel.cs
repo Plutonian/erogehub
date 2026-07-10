@@ -19,7 +19,9 @@ namespace ErogeHub.Wpf.ViewModels;
 /// </summary>
 public partial class SearchViewModel : ObservableObject
 {
-    private readonly MongoService _mongo;
+    private readonly GameRepository _gameRepo;
+    private readonly GameAggregator _aggregator;
+    private readonly GameUpdater _updater;
     private readonly IServiceProvider _services;
 
     // ==================== 选项列表（供 UI 绑定） ====================
@@ -241,9 +243,11 @@ public partial class SearchViewModel : ObservableObject
 
     // ==================== 构造函数 ====================
 
-    public SearchViewModel(MongoService mongo, IServiceProvider services)
+    public SearchViewModel(GameRepository gameRepo, GameAggregator aggregator, GameUpdater updater, IServiceProvider services)
     {
-        _mongo = mongo;
+        _gameRepo = gameRepo;
+        _aggregator = aggregator;
+        _updater = updater;
         _services = services;
     }
 
@@ -432,7 +436,7 @@ public partial class SearchViewModel : ObservableObject
     private void CloneSearch()
     {
         // 创建新的 ViewModel
-        var cloneVm = new SearchViewModel(_mongo, _services);
+        var cloneVm = new SearchViewModel(_gameRepo, _aggregator, _updater, _services);
 
         // 复制日期范围条件
         cloneVm.SelectedDatePreset = SelectedDatePreset;
@@ -471,7 +475,7 @@ public partial class SearchViewModel : ObservableObject
             (int)PlayState.PLAYING => (int)PlayState.PLAYED,
             _ => (int)PlayState.NOT_PLAY,
         };
-        await _mongo.UpdatePlayStateAsync(game.Id, next);
+        await _updater.UpdatePlayStateAsync(game.Id, next);
         game.PlayState = next;
     }
 
@@ -486,7 +490,7 @@ public partial class SearchViewModel : ObservableObject
             (int)Emotion.HOPE => (int)Emotion.LIKE,
             _ => (int)Emotion.HATE,
         };
-        await _mongo.UpdateEmotionAsync(game.Id, next);
+        await _updater.UpdateEmotionAsync(game.Id, next);
         game.Emotion = next;
     }
 
@@ -495,7 +499,7 @@ public partial class SearchViewModel : ObservableObject
     private async Task ToggleCardLocationAsync(Game game)
     {
         var next = game.Location == (int)Location.LOCAL ? (int)Location.REMOTE : (int)Location.LOCAL;
-        await _mongo.UpdateLocationAsync(game.Id, next);
+        await _updater.UpdateLocationAsync(game.Id, next);
         game.Location = next;
     }
 
@@ -503,7 +507,7 @@ public partial class SearchViewModel : ObservableObject
     [RelayCommand]
     private async Task DeleteCardAsync(Game game)
     {
-        await _mongo.DeleteGameAsync(game.Id);
+        await _gameRepo.DeleteGameAsync(game.Id);
         var filter = BuildFilter();
         if (IsGrouping)
             await LoadGroupedDataAsync(filter);
@@ -520,7 +524,7 @@ public partial class SearchViewModel : ObservableObject
     [RelayCommand]
     private async Task CardStarChangedAsync((int GameId, int Star) args)
     {
-        await _mongo.UpdateStarAsync(args.GameId, args.Star);
+        await _updater.UpdateStarAsync(args.GameId, args.Star);
     }
 
     /// <summary>
@@ -528,7 +532,7 @@ public partial class SearchViewModel : ObservableObject
     /// </summary>
     public async Task UpdateCardStarAsync(int gameId, int star)
     {
-        await _mongo.UpdateStarAsync(gameId, star);
+        await _updater.UpdateStarAsync(gameId, star);
     }
 
     /// <summary>
@@ -536,7 +540,7 @@ public partial class SearchViewModel : ObservableObject
     /// </summary>
     public async Task UpdateCardMarkSameAsync(int gameId, bool isSame)
     {
-        await _mongo.MarkSameAsync(gameId, isSame);
+        await _updater.MarkSameAsync(gameId, isSame);
     }
 
     // ==================== 核心逻辑 ====================
@@ -546,8 +550,8 @@ public partial class SearchViewModel : ObservableObject
     /// </summary>
     private async Task LoadPagedDataAsync(FilterDefinition<Game>? filter)
     {
-        var gamesTask = _mongo.QueryGamesAsync(filter, Page, PageItemSize);
-        var countTask = _mongo.CountAsync(filter);
+        var gamesTask = _gameRepo.QueryGamesAsync(filter, Page, PageItemSize);
+        var countTask = _gameRepo.CountAsync(filter);
         await Task.WhenAll(gamesTask, countTask);
 
         Games = new ObservableCollection<Game>(gamesTask.Result);
@@ -564,7 +568,7 @@ public partial class SearchViewModel : ObservableObject
     /// </summary>
     private async Task LoadGroupedDataAsync(FilterDefinition<Game>? filter)
     {
-        var allGames = await _mongo.QueryAllGamesAsync(filter);
+        var allGames = await _gameRepo.QueryAllGamesAsync(filter);
         Total = allGames.Count;
         TotalPages = 1;
 
@@ -581,15 +585,15 @@ public partial class SearchViewModel : ObservableObject
     /// </summary>
     private async Task LoadAggregationsAsync(FilterDefinition<Game>? filter)
     {
-        var emotionTask = _mongo.GroupByEmotionAsync(filter);
-        var locationTask = _mongo.GroupByLocationAsync(filter);
-        var playStateTask = _mongo.GroupByPlayStateAsync(filter);
-        var starTask = _mongo.GroupByStarAsync(filter);
-        var cvTask = _mongo.GroupByCVAsync(filter);
-        var trueCVTask = _mongo.GroupByTrueCVAsync(filter);
-        var tagTask = _mongo.GroupByTagAsync(filter);
-        var dateTask = _mongo.GroupByDateAsync(filter);
-        var brandTask = _mongo.GroupByBrandAsync(filter);
+        var emotionTask = _aggregator.GroupByEmotionAsync(filter);
+        var locationTask = _aggregator.GroupByLocationAsync(filter);
+        var playStateTask = _aggregator.GroupByPlayStateAsync(filter);
+        var starTask = _aggregator.GroupByStarAsync(filter);
+        var cvTask = _aggregator.GroupByCVAsync(filter);
+        var trueCVTask = _aggregator.GroupByTrueCVAsync(filter);
+        var tagTask = _aggregator.GroupByTagAsync(filter);
+        var dateTask = _aggregator.GroupByDateAsync(filter);
+        var brandTask = _aggregator.GroupByBrandAsync(filter);
 
         await Task.WhenAll(emotionTask, locationTask, playStateTask,
             starTask, cvTask, trueCVTask, tagTask, dateTask, brandTask);

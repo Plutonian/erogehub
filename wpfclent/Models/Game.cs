@@ -189,11 +189,11 @@ public partial class GameCharacter : ObservableObject
     [BsonIgnore]
     public bool Heroine => !Man;
 
-    /// <summary>角色头像 URL，由 MongoService 计算</summary>
+    /// <summary>角色头像 URL，由 GameEnricher 计算</summary>
     [BsonIgnore]
     public string AvatarUrl { get; set; } = string.Empty;
 
-    /// <summary>声优评分数据，由 MongoService 查询 cv 集合后匹配 trueCV 填充</summary>
+    /// <summary>声优评分数据，由 GameEnricher 查询 cv 集合后匹配 trueCV 填充</summary>
     [BsonIgnore]
     public CV? CvObj { get; set; }
 
@@ -232,7 +232,7 @@ public class GameImg
     [BsonElement("index")]
     public int Index { get; set; }
 
-    /// <summary>截图 URL，由 MongoService 计算</summary>
+    /// <summary>截图 URL，由 GameEnricher 计算</summary>
     [BsonIgnore]
     public string Url { get; set; } = string.Empty;
 }

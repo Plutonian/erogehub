@@ -37,7 +37,13 @@ public partial class App : Application
 
         // 注册 DI 服务
         var services = new ServiceCollection();
-        services.AddSingleton(new MongoService(mongoConn, dbName, imgServer, useLocalImg, localImgPath)); // MongoDB 数据服务（单例）
+        // MongoDB 数据访问层（按职责拆分，共享 MongoContext）
+        services.AddSingleton(new MongoContext(mongoConn, dbName));
+        services.AddSingleton<CvRepository>();       // CV 字典加载与缓存
+        services.AddSingleton<GameEnricher>();        // Game 派生字段计算
+        services.AddSingleton<GameRepository>();      // 查询 + 删除
+        services.AddSingleton<GameAggregator>();      // 9 个 GroupBy 聚合
+        services.AddSingleton<GameUpdater>();         // 字段更新
         services.AddSingleton<SearchViewModel>();    // 搜索主视图模型（单例）
         services.AddSingleton<SearchWindow>();        // 搜索主窗口（单例）
         services.AddTransient<GameDetailViewModel>(); // 游戏详情视图模型（每次新建）

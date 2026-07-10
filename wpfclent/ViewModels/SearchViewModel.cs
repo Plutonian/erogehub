@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Linq.Expressions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ErogeHub.Wpf.Models;
@@ -6,6 +7,7 @@ using ErogeHub.Wpf.Services;
 using ErogeHub.Wpf.Views;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using System.Linq;
 using System.Windows.Data;
 
@@ -542,7 +544,7 @@ public partial class SearchViewModel : ObservableObject
     /// <summary>
     /// 分页加载游戏列表 + 总数（不含聚合）
     /// </summary>
-    private async Task LoadPagedDataAsync(BsonDocument? filter)
+    private async Task LoadPagedDataAsync(FilterDefinition<Game>? filter)
     {
         var gamesTask = _mongo.QueryGamesAsync(filter, Page, PageItemSize);
         var countTask = _mongo.CountAsync(filter);
@@ -560,7 +562,7 @@ public partial class SearchViewModel : ObservableObject
     /// 全量加载游戏并设置 CollectionView 分组（不含聚合，不分页）
     /// 配合虚拟化 ListBox 实现分组模式的整体虚拟化
     /// </summary>
-    private async Task LoadGroupedDataAsync(BsonDocument? filter)
+    private async Task LoadGroupedDataAsync(FilterDefinition<Game>? filter)
     {
         var allGames = await _mongo.QueryAllGamesAsync(filter);
         Total = allGames.Count;
@@ -577,7 +579,7 @@ public partial class SearchViewModel : ObservableObject
     /// <summary>
     /// 加载右侧聚合面板全部数据（与列表完全独立）
     /// </summary>
-    private async Task LoadAggregationsAsync(BsonDocument? filter)
+    private async Task LoadAggregationsAsync(FilterDefinition<Game>? filter)
     {
         var emotionTask = _mongo.GroupByEmotionAsync(filter);
         var locationTask = _mongo.GroupByLocationAsync(filter);
@@ -683,11 +685,11 @@ public partial class SearchViewModel : ObservableObject
     };
 
     /// <summary>
-    /// 构建 MongoDB 查询条件 BsonDocument
-    /// 将 UI 中的搜索条件（包含/排除 + 日期范围）转为 MongoDB 查询语法
-    /// 对应前端的 getAdvSearchJson 逻辑
+    /// 构建 MongoDB 强类型查询条件 FilterDefinition&lt;Game&gt;
+    /// 将 UI 中的搜索条件（包含/排除 + 日期范围）转为 MongoDB 查询语法。
+    /// 使用 Builders&lt;Game&gt;.Filter 强类型构造，字段名重命名时编译器会报错。
     /// </summary>
-    private BsonDocument? BuildFilter()
+    private FilterDefinition<Game>? BuildFilter()
     {
         // 收集所有已启用且有值的搜索条件
         var allOpts = IncludeOpts.Concat(ExcludeOpts)
@@ -701,98 +703,99 @@ public partial class SearchViewModel : ObservableObject
         if (allOpts.Count == 0 && !hasDateRange)
             return null;
 
-        var andList = new BsonArray();
+        var filters = new List<FilterDefinition<Game>>();
+        var fb = Builders<Game>.Filter;
 
-        // 遍历搜索条件，构建对应的 MongoDB 查询表达式
+        // 遍历搜索条件，构建对应的强类型过滤器
         foreach (var opt in allOpts)
         {
             var isExclude = opt.Filter == FilterType.Exclude;
             var value = opt.Value.Trim();
+            // 公共：标量字段正则匹配，exclude 时用 $not 包裹
+            FilterDefinition<Game> RegexMatch(Expression<Func<Game, object?>> field, string pattern)
+            {
+                var regex = fb.Regex(field, new BsonRegularExpression(pattern));
+                return isExclude ? fb.Not(regex) : regex;
+            }
+            // 公共：字符串路径正则匹配（用于数组/嵌套字段）
+            FilterDefinition<Game> RegexMatchPath(string fieldPath, string pattern)
+            {
+                var regex = fb.Regex(fieldPath, new BsonRegularExpression(pattern));
+                return isExclude ? fb.Not(regex) : regex;
+            }
+            // 公共：int 字段，include 等于 / exclude 不等于
+            FilterDefinition<Game> IntEq(Expression<Func<Game, int>> field, int v)
+                => isExclude ? fb.Ne(field, v) : fb.Eq(field, v);
+            // 公共：字符串路径等于（用于数组字段，MongoDB 对数组做 Eq 会自动匹配元素）
+            FilterDefinition<Game> StringEqPath(string fieldPath, string v)
+                => isExclude ? fb.Ne(fieldPath, v) : fb.Eq(fieldPath, v);
 
             switch (opt.Key)
             {
                 case SearchType.REGEX:
-                {
                     // name 字段正则匹配
-                    var raw = new BsonDocument("$regex", value);
-                    andList.Add(new BsonDocument("name", isExclude ? new BsonDocument("$not", raw) : raw));
+                    filters.Add(RegexMatch(g => g.Name, value));
                     break;
-                }
                 case SearchType.TEXT:
                 {
-                    // 全文检索（MongoDB $text 索引）
-                    var raw = new BsonDocument("$search", value);
-                    andList.Add(new BsonDocument("$text", isExclude ? new BsonDocument("$not", raw) : raw));
+                    // 全文检索（MongoDB $text 索引）。$text 不支持 $not，exclude 时用 $nor 取反
+                    if (isExclude)
+                        filters.Add(new BsonDocument("$nor", new BsonArray { new BsonDocument("$text", new BsonDocument("$search", value)) }));
+                    else
+                        filters.Add(fb.Text(value));
                     break;
                 }
                 case SearchType.TAG:
-                {
-                    // tag 数组正则匹配
-                    var raw = new BsonDocument("$regex", value);
-                    andList.Add(new BsonDocument("tag", isExclude ? new BsonDocument("$not", raw) : raw));
+                    // tag 数组正则匹配（MongoDB 对数组字段做 Regex 会自动匹配任意元素）
+                    filters.Add(RegexMatchPath("tag", value));
                     break;
-                }
                 case SearchType.STAR:
-                {
                     if (int.TryParse(value, out var starValue))
-                        andList.Add(new BsonDocument("star", isExclude ? new BsonDocument("$ne", starValue) : starValue));
+                        filters.Add(IntEq(g => g.Star, starValue));
                     break;
-                }
                 case SearchType.EMOTION:
-                {
                     if (int.TryParse(value, out var emotionVal))
-                        andList.Add(new BsonDocument("emotion", isExclude ? new BsonDocument("$ne", emotionVal) : emotionVal));
+                        filters.Add(IntEq(g => g.Emotion, emotionVal));
                     break;
-                }
                 case SearchType.LOCATION:
-                {
                     if (int.TryParse(value, out var locationVal))
-                        andList.Add(new BsonDocument("location", isExclude ? new BsonDocument("$ne", locationVal) : locationVal));
+                        filters.Add(IntEq(g => g.Location, locationVal));
                     break;
-                }
                 case SearchType.PLAYSTATE:
-                {
                     if (int.TryParse(value, out var playStateVal))
-                        andList.Add(new BsonDocument("playState", isExclude ? new BsonDocument("$ne", playStateVal) : playStateVal));
+                        filters.Add(IntEq(g => g.PlayState, playStateVal));
                     break;
-                }
                 case SearchType.PAINTER:
-                    andList.Add(new BsonDocument("painter", isExclude ? new BsonDocument("$ne", value) : value));
+                    // painter 是 List<string>，用字符串路径做 Eq，MongoDB 会自动匹配数组元素
+                    filters.Add(StringEqPath("painter", value));
                     break;
                 case SearchType.WRITER:
-                    andList.Add(new BsonDocument("writer", isExclude ? new BsonDocument("$ne", value) : value));
+                    filters.Add(StringEqPath("writer", value));
                     break;
                 case SearchType.CV:
-                {
-                    var cvVal = new BsonDocument("$regex", value);
-                    andList.Add(new BsonDocument("gamechar.cv", isExclude ? new BsonDocument("$not", cvVal) : cvVal));
+                    // 嵌套数组字段正则：用字符串路径访问 gamechar.cv
+                    filters.Add(RegexMatchPath("gamechar.cv", value));
                     break;
-                }
                 case SearchType.TRUECV:
-                {
-                    var truecvVal = new BsonDocument("$regex", value);
-                    andList.Add(new BsonDocument("gamechar.truecv", isExclude ? new BsonDocument("$not", truecvVal) : truecvVal));
+                    filters.Add(RegexMatchPath("gamechar.truecv", value));
                     break;
-                }
                 case SearchType.BRAND:
-                {
-                    var brandVal = new BsonDocument("$regex", value);
-                    andList.Add(new BsonDocument("brand.name", isExclude ? new BsonDocument("$not", brandVal) : brandVal));
+                    // 嵌套子文档字段正则：用字符串路径访问 brand.name
+                    filters.Add(RegexMatchPath("brand.name", value));
                     break;
-                }
             }
         }
 
         // 添加日期范围查询条件（半开区间 [start, end)）
         if (hasDateRange)
         {
-            var dateQuery = new BsonDocument();
+            var dateFilters = new List<FilterDefinition<Game>>();
 
             if (!string.IsNullOrEmpty(CurrentDateRange.StartMonth))
             {
                 var (year, month) = DateRangeHelper.SplitMonth(CurrentDateRange.StartMonth);
                 var startLocal = new DateTime(year, month, 1, 0, 0, 0, DateTimeKind.Local);
-                dateQuery["$gte"] = new BsonDateTime(startLocal.ToUniversalTime());
+                dateFilters.Add(fb.Gte(g => g.PublishDate, startLocal.ToUniversalTime()));
             }
 
             if (!string.IsNullOrEmpty(CurrentDateRange.EndMonth))
@@ -800,15 +803,16 @@ public partial class SearchViewModel : ObservableObject
                 var (year, month) = DateRangeHelper.SplitMonth(CurrentDateRange.EndMonth);
                 // endDate 为下个月1日（半开区间 [start, end)）
                 var endLocal = new DateTime(year, month, 1, 0, 0, 0, DateTimeKind.Local).AddMonths(1);
-                dateQuery["$lt"] = new BsonDateTime(endLocal.ToUniversalTime());
+                dateFilters.Add(fb.Lt(g => g.PublishDate, endLocal.ToUniversalTime()));
             }
 
-            andList.Add(new BsonDocument("publishDate", dateQuery));
+            if (dateFilters.Count > 0)
+                filters.Add(fb.And(dateFilters));
         }
 
-        if (andList.Count == 0)
+        if (filters.Count == 0)
             return null;
 
-        return new BsonDocument("$and", andList);
+        return fb.And(filters);
     }
 }

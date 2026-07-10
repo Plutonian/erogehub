@@ -50,12 +50,17 @@ public class MongoService
         catch { /* 预热失败不影响主流程，后续用到时会重试 */ }
     }
 
-    /// <summary>把 BsonDocument 过滤器适配为强类型 FilterDefinition，空过滤器返回 Empty</summary>
-    private static FilterDefinition<Game> ToGameFilter(BsonDocument? filter)
-        => filter == null || filter.ElementCount == 0 ? Builders<Game>.Filter.Empty : filter;
+    /// <summary>空安全：null filter 返回 Empty，否则原样使用（FilterDefinition 已是强类型）</summary>
+    private static FilterDefinition<Game> ToGameFilter(FilterDefinition<Game>? filter)
+        => filter ?? Builders<Game>.Filter.Empty;
 
-    /// <summary>空安全获取 $match 阶段的文档</summary>
-    private static BsonDocument ToMatchDoc(BsonDocument? filter) => filter ?? new BsonDocument();
+    /// <summary>把强类型 FilterDefinition 渲染成 BsonDocument，供聚合管道的 $match 阶段使用</summary>
+    private BsonDocument ToMatchDoc(FilterDefinition<Game>? filter)
+    {
+        if (filter == null) return new BsonDocument();
+        var args = new RenderArgs<Game>(_collection.DocumentSerializer, _collection.Settings.SerializerRegistry);
+        return filter.Render(args).AsBsonDocument;
+    }
 
     /// <summary>安全的 int 取值，null 返回 0</summary>
     private static int SafeInt(BsonValue v) => v is null or BsonNull ? 0 : v.AsInt32;
@@ -72,7 +77,7 @@ public class MongoService
     /// 分页查询游戏列表，按发布日期和名称降序排列。
     /// 查到后先一次性拿 cvMap，再并行 enrich 全部 Game。
     /// </summary>
-    public async Task<List<Game>> QueryGamesAsync(BsonDocument? filter, int page, int pageSize)
+    public async Task<List<Game>> QueryGamesAsync(FilterDefinition<Game>? filter, int page, int pageSize)
     {
         var sort = Builders<Game>.Sort.Descending(g => g.PublishDate).Descending(g => g.Name);
         var games = await _collection.Find(ToGameFilter(filter))
@@ -82,11 +87,11 @@ public class MongoService
     }
 
     /// <summary>查询符合条件的文档总数</summary>
-    public async Task<long> CountAsync(BsonDocument? filter)
+    public async Task<long> CountAsync(FilterDefinition<Game>? filter)
         => await _collection.CountDocumentsAsync(ToGameFilter(filter));
 
     /// <summary>查询全部符合条件的游戏（不分页），用于分组模式</summary>
-    public async Task<List<Game>> QueryAllGamesAsync(BsonDocument? filter)
+    public async Task<List<Game>> QueryAllGamesAsync(FilterDefinition<Game>? filter)
     {
         var sort = Builders<Game>.Sort.Descending(g => g.PublishDate).Descending(g => g.Name);
         var games = await _collection.Find(ToGameFilter(filter)).Sort(sort).ToListAsync();
@@ -106,7 +111,7 @@ public class MongoService
     // 聚合管道返回的中间结构不是 Game，继续用 BsonDocument 处理
 
     /// <summary>按情感值分组聚合</summary>
-    public async Task<List<EmotionGroupItem>> GroupByEmotionAsync(BsonDocument? filter)
+    public async Task<List<EmotionGroupItem>> GroupByEmotionAsync(FilterDefinition<Game>? filter)
     {
         var pipeline = new[]
         {
@@ -120,7 +125,7 @@ public class MongoService
     }
 
     /// <summary>按存储位置分组聚合</summary>
-    public async Task<List<LocationGroupItem>> GroupByLocationAsync(BsonDocument? filter)
+    public async Task<List<LocationGroupItem>> GroupByLocationAsync(FilterDefinition<Game>? filter)
     {
         var pipeline = new[]
         {
@@ -134,7 +139,7 @@ public class MongoService
     }
 
     /// <summary>按游玩状态分组聚合</summary>
-    public async Task<List<PlayStateGroupItem>> GroupByPlayStateAsync(BsonDocument? filter)
+    public async Task<List<PlayStateGroupItem>> GroupByPlayStateAsync(FilterDefinition<Game>? filter)
     {
         var pipeline = new[]
         {
@@ -148,7 +153,7 @@ public class MongoService
     }
 
     /// <summary>按星级分组聚合</summary>
-    public async Task<List<StarGroupItem>> GroupByStarAsync(BsonDocument? filter)
+    public async Task<List<StarGroupItem>> GroupByStarAsync(FilterDefinition<Game>? filter)
     {
         var pipeline = new[]
         {
@@ -162,7 +167,7 @@ public class MongoService
     }
 
     /// <summary>按声优（马甲名）分组聚合，展开 gamechar 数组统计</summary>
-    public async Task<List<GroupItem>> GroupByCVAsync(BsonDocument? filter)
+    public async Task<List<GroupItem>> GroupByCVAsync(FilterDefinition<Game>? filter)
     {
         var pipeline = new[]
         {
@@ -178,7 +183,7 @@ public class MongoService
     }
 
     /// <summary>按去马甲CV（真实声优名）分组聚合</summary>
-    public async Task<List<GroupItem>> GroupByTrueCVAsync(BsonDocument? filter)
+    public async Task<List<GroupItem>> GroupByTrueCVAsync(FilterDefinition<Game>? filter)
     {
         var pipeline = new[]
         {
@@ -194,7 +199,7 @@ public class MongoService
     }
 
     /// <summary>按标签分组聚合，展开 tag 数组统计</summary>
-    public async Task<List<GroupItem>> GroupByTagAsync(BsonDocument? filter)
+    public async Task<List<GroupItem>> GroupByTagAsync(FilterDefinition<Game>? filter)
     {
         var pipeline = new[]
         {
@@ -210,7 +215,7 @@ public class MongoService
     }
 
     /// <summary>按发布日期分组聚合（年 → 月层级），在内存中处理。日期为空或无效的游戏归入"无日期"组。</summary>
-    public async Task<List<DateGroupItem>> GroupByDateAsync(BsonDocument? filter)
+    public async Task<List<DateGroupItem>> GroupByDateAsync(FilterDefinition<Game>? filter)
     {
         // 用强类型投影只取 PublishDate，减少网络传输
         var docs = await _collection.Find(ToGameFilter(filter))
@@ -251,7 +256,7 @@ public class MongoService
     }
 
     /// <summary>按品牌分组聚合（公司 → 品牌层级），在内存中分组</summary>
-    public async Task<List<BrandGroupItem>> GroupByBrandAsync(BsonDocument? filter)
+    public async Task<List<BrandGroupItem>> GroupByBrandAsync(FilterDefinition<Game>? filter)
     {
         // 用强类型投影只取 Brand，driver 自动反序列化
         var brands = await _collection.Find(ToGameFilter(filter))

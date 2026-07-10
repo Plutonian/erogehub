@@ -159,11 +159,11 @@ public class GameGroupDescription : GroupDescription
 
             GroupType.Star => (game.Star.ToString(), $"{game.Star}★"),
 
-            GroupType.Emotion => (game.Emotion.ToString(), GetEmotionLabel(game.Emotion)),
+            GroupType.Emotion => (game.Emotion.ToString(), ((Emotion)game.Emotion).Label()),
 
             GroupType.Location => (game.Location.ToString(), ((Location)game.Location).ToString()),
 
-            GroupType.PlayState => (game.PlayState.ToString(), GetPlayStateLabel(game.PlayState)),
+            GroupType.PlayState => (game.PlayState.ToString(), ((PlayState)game.PlayState).Label()),
 
             GroupType.Brand => (
                 game.Brand != null && !string.IsNullOrEmpty(game.Brand.Comp) ? game.Brand.Comp
@@ -177,23 +177,6 @@ public class GameGroupDescription : GroupDescription
             _ => ("unknown", "unknown")
         };
     }
-
-    private static string GetEmotionLabel(int e) => e switch
-    {
-        (int)Emotion.HATE => "嫌い",
-        (int)Emotion.NORMAL => "...",
-        (int)Emotion.HOPE => "気になり",
-        (int)Emotion.LIKE => "好き",
-        _ => e.ToString()
-    };
-
-    private static string GetPlayStateLabel(int s) => s switch
-    {
-        (int)PlayState.NOT_PLAY => "...",
-        (int)PlayState.PLAYING => "進行中",
-        (int)PlayState.PLAYED => "プレイ済み",
-        _ => s.ToString()
-    };
 }
 
 /// <summary>

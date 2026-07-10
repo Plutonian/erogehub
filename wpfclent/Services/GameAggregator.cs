@@ -32,7 +32,7 @@ public class GameAggregator
             new BsonDocument("$project", new BsonDocument { { "emotion", "$_id" }, { "count", 1 }, { "_id", 0 } }),
         };
         var docs = await _context.Games.Aggregate<BsonDocument>(pipeline).ToListAsync();
-        return docs.Select(d => { var e = MongoContext.SafeInt(d.GetValue("emotion")); return new EmotionGroupItem { Emotion = e, Count = MongoContext.SafeInt(d["count"]), Title = GetEmotionName(e) }; }).ToList();
+        return docs.Select(d => { var e = MongoContext.SafeInt(d.GetValue("emotion")); return new EmotionGroupItem { Emotion = e, Count = MongoContext.SafeInt(d["count"]), Title = ((Emotion)e).Label() }; }).ToList();
     }
 
     /// <summary>按存储位置分组聚合</summary>
@@ -60,7 +60,7 @@ public class GameAggregator
             new BsonDocument("$project", new BsonDocument { { "playState", "$_id" }, { "count", 1 }, { "_id", 0 } }),
         };
         var docs = await _context.Games.Aggregate<BsonDocument>(pipeline).ToListAsync();
-        return docs.Select(d => { var p = MongoContext.SafeInt(d.GetValue("playState")); return new PlayStateGroupItem { PlayState = p, Count = MongoContext.SafeInt(d["count"]), Title = GetPlayStateName(p) }; }).ToList();
+        return docs.Select(d => { var p = MongoContext.SafeInt(d.GetValue("playState")); return new PlayStateGroupItem { PlayState = p, Count = MongoContext.SafeInt(d["count"]), Title = ((PlayState)p).Label() }; }).ToList();
     }
 
     /// <summary>按星级分组聚合</summary>
@@ -203,18 +203,4 @@ public class GameAggregator
 
         return result.OrderByDescending(r => r.Count).ToList();
     }
-
-    // ==================== 枚举显示名 ====================
-
-    /// <summary>情感数字 → 显示名称</summary>
-    private static string GetEmotionName(int emotion) => emotion switch
-    {
-        (int)Emotion.HATE => "嫌い", (int)Emotion.NORMAL => "...", (int)Emotion.HOPE => "気になり", (int)Emotion.LIKE => "好き", _ => emotion.ToString(),
-    };
-
-    /// <summary>游玩状态数字 → 显示名称</summary>
-    private static string GetPlayStateName(int state) => state switch
-    {
-        (int)PlayState.NOT_PLAY => "...", (int)PlayState.PLAYING => "進行中", (int)PlayState.PLAYED => "プレイ済み", _ => state.ToString(),
-    };
 }

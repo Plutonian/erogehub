@@ -105,12 +105,7 @@ public partial class GameDetailViewModel : ObservableObject
     private async Task CyclePlayStateAsync()
     {
         if (Game == null) return;
-        var next = Game.PlayState switch
-        {
-            (int)PlayState.NOT_PLAY => (int)PlayState.PLAYING,
-            (int)PlayState.PLAYING => (int)PlayState.PLAYED,
-            _ => (int)PlayState.NOT_PLAY,
-        };
+        var next = (int)((PlayState)Game.PlayState).Next();
         await _updater.UpdatePlayStateAsync(Game.Id, next);
         Game.PlayState = next;
     }
@@ -120,13 +115,7 @@ public partial class GameDetailViewModel : ObservableObject
     private async Task CycleEmotionAsync()
     {
         if (Game == null) return;
-        var next = Game.Emotion switch
-        {
-            (int)Emotion.HATE => (int)Emotion.NORMAL,
-            (int)Emotion.NORMAL => (int)Emotion.HOPE,
-            (int)Emotion.HOPE => (int)Emotion.LIKE,
-            _ => (int)Emotion.HATE,
-        };
+        var next = (int)((Emotion)Game.Emotion).Next();
         await _updater.UpdateEmotionAsync(Game.Id, next);
         Game.Emotion = next;
     }

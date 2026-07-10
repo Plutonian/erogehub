@@ -81,3 +81,46 @@ public enum GroupType
     PlayState,  // 按游玩状态
     Brand       // 按品牌
 }
+
+/// <summary>
+/// 枚举显示标签与循环切换的扩展方法。
+/// 集中管理避免散落各处的 switch 表达式（原 6 处重复映射 + 2 处 Cycle 逻辑）。
+/// </summary>
+public static class EnumLabels
+{
+    /// <summary>情感值 → 显示标签</summary>
+    public static string Label(this Emotion e) => e switch
+    {
+        Emotion.HATE => "嫌い",
+        Emotion.NORMAL => "...",
+        Emotion.HOPE => "気になり",
+        Emotion.LIKE => "好き",
+        _ => ((int)e).ToString(),
+    };
+
+    /// <summary>游玩状态 → 显示标签</summary>
+    public static string Label(this PlayState s) => s switch
+    {
+        PlayState.NOT_PLAY => "...",
+        PlayState.PLAYING => "進行中",
+        PlayState.PLAYED => "プレイ済み",
+        _ => ((int)s).ToString(),
+    };
+
+    /// <summary>情感值循环切换：嫌い → ... → 気になり → 好き → 嫌い</summary>
+    public static Emotion Next(this Emotion e) => e switch
+    {
+        Emotion.HATE => Emotion.NORMAL,
+        Emotion.NORMAL => Emotion.HOPE,
+        Emotion.HOPE => Emotion.LIKE,
+        _ => Emotion.HATE,
+    };
+
+    /// <summary>游玩状态循环切换：未玩 → 进行中 → 已通关 → 未玩</summary>
+    public static PlayState Next(this PlayState s) => s switch
+    {
+        PlayState.NOT_PLAY => PlayState.PLAYING,
+        PlayState.PLAYING => PlayState.PLAYED,
+        _ => PlayState.NOT_PLAY,
+    };
+}

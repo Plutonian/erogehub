@@ -52,10 +52,10 @@ public partial class SearchViewModel : ObservableObject
     /// <summary>情感下拉选项</summary>
     public static List<EnumOption> EmotionOptions { get; } = new()
     {
-        new("好き", ((int)Emotion.LIKE).ToString()),
-        new("気になり", ((int)Emotion.HOPE).ToString()),
-        new("...", ((int)Emotion.NORMAL).ToString()),
-        new("嫌い", ((int)Emotion.HATE).ToString()),
+        new(Emotion.LIKE.Label(), ((int)Emotion.LIKE).ToString()),
+        new(Emotion.HOPE.Label(), ((int)Emotion.HOPE).ToString()),
+        new(Emotion.NORMAL.Label(), ((int)Emotion.NORMAL).ToString()),
+        new(Emotion.HATE.Label(), ((int)Emotion.HATE).ToString()),
     };
 
     /// <summary>位置下拉选项</summary>
@@ -68,9 +68,9 @@ public partial class SearchViewModel : ObservableObject
     /// <summary>游玩状态下拉选项</summary>
     public static List<EnumOption> PlayStateOptions { get; } = new()
     {
-        new("...", ((int)PlayState.NOT_PLAY).ToString()),
-        new("進行中", ((int)PlayState.PLAYING).ToString()),
-        new("プレイ済み", ((int)PlayState.PLAYED).ToString()),
+        new(PlayState.NOT_PLAY.Label(), ((int)PlayState.NOT_PLAY).ToString()),
+        new(PlayState.PLAYING.Label(), ((int)PlayState.PLAYING).ToString()),
+        new(PlayState.PLAYED.Label(), ((int)PlayState.PLAYED).ToString()),
     };
 
     /// <summary>分组类型选项记录</summary>
@@ -469,12 +469,7 @@ public partial class SearchViewModel : ObservableObject
     [RelayCommand]
     private async Task CycleCardPlayStateAsync(Game game)
     {
-        var next = game.PlayState switch
-        {
-            (int)PlayState.NOT_PLAY => (int)PlayState.PLAYING,
-            (int)PlayState.PLAYING => (int)PlayState.PLAYED,
-            _ => (int)PlayState.NOT_PLAY,
-        };
+        var next = (int)((PlayState)game.PlayState).Next();
         await _updater.UpdatePlayStateAsync(game.Id, next);
         game.PlayState = next;
     }
@@ -483,13 +478,7 @@ public partial class SearchViewModel : ObservableObject
     [RelayCommand]
     private async Task CycleCardEmotionAsync(Game game)
     {
-        var next = game.Emotion switch
-        {
-            (int)Emotion.HATE => (int)Emotion.NORMAL,
-            (int)Emotion.NORMAL => (int)Emotion.HOPE,
-            (int)Emotion.HOPE => (int)Emotion.LIKE,
-            _ => (int)Emotion.HATE,
-        };
+        var next = (int)((Emotion)game.Emotion).Next();
         await _updater.UpdateEmotionAsync(game.Id, next);
         game.Emotion = next;
     }
@@ -668,25 +657,6 @@ public partial class SearchViewModel : ObservableObject
             _ => new Dictionary<string, double>()
         };
     }
-
-    /// <summary>情感值 → 显示标签</summary>
-    private static string GetEmotionLabel(int e) => e switch
-    {
-        (int)Emotion.HATE => "嫌い",
-        (int)Emotion.NORMAL => "...",
-        (int)Emotion.HOPE => "気になり",
-        (int)Emotion.LIKE => "好き",
-        _ => e.ToString()
-    };
-
-    /// <summary>游玩状态值 → 显示标签</summary>
-    private static string GetPlayStateLabel(int s) => s switch
-    {
-        (int)PlayState.NOT_PLAY => "...",
-        (int)PlayState.PLAYING => "進行中",
-        (int)PlayState.PLAYED => "プレイ済み",
-        _ => s.ToString()
-    };
 
     /// <summary>
     /// 构建 MongoDB 强类型查询条件 FilterDefinition&lt;Game&gt;

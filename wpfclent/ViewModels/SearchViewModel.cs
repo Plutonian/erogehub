@@ -29,73 +29,28 @@ public partial class SearchViewModel : ObservableObject
     // 聚合查询取消令牌（连点搜索按钮时取消上一次未完成的聚合）
     private CancellationTokenSource? _aggCts;
 
-    // ==================== 选项列表（供 UI 绑定） ====================
-
-    /// <summary>搜索类型选项记录</summary>
-    public record SearchTypeOption(string Label, SearchType Type);
-
-    /// <summary>搜索类型下拉列表（左侧面板条件类型选择）</summary>
-    public static List<SearchTypeOption> SearchTypeOptions { get; } = new()
+    /// <summary>取消并释放旧的 CTS，返回新实例的 Token（CTS 内部持有 Timer 等资源，需显式 Dispose）</summary>
+    private static CancellationToken RenewCts(ref CancellationTokenSource? cts)
     {
-        new("全文检索", SearchType.TEXT),
-        new("Regex", SearchType.REGEX),
-        new("Tag", SearchType.TAG),
-        new("星级", SearchType.STAR),
-        new("情感", SearchType.EMOTION),
-        new("位置", SearchType.LOCATION),
-        new("游玩状态", SearchType.PLAYSTATE),
-        new("画师", SearchType.PAINTER),
-        new("剧本作家", SearchType.WRITER),
-        new("声优", SearchType.CV),
-        new("去马甲CV", SearchType.TRUECV),
-        new("品牌", SearchType.BRAND),
-    };
+        cts?.Cancel();
+        cts?.Dispose();
+        return (cts = new CancellationTokenSource()).Token;
+    }
 
-    /// <summary>枚举选项记录（值 + 显示名）</summary>
-    public record EnumOption(string Label, string Value);
+    // ==================== 选项列表（供 UI 绑定，定义已移至 SearchOptions） ====================
 
+    /// <summary>搜索类型下拉列表（转发到 SearchOptions，保持 VM 绑定路径兼容）</summary>
+    public static List<SearchOptions.SearchTypeOption> SearchTypeOptions => SearchOptions.SearchTypeOptions;
     /// <summary>情感下拉选项</summary>
-    public static List<EnumOption> EmotionOptions { get; } = new()
-    {
-        new(Emotion.LIKE.Label(), ((int)Emotion.LIKE).ToString()),
-        new(Emotion.HOPE.Label(), ((int)Emotion.HOPE).ToString()),
-        new(Emotion.NORMAL.Label(), ((int)Emotion.NORMAL).ToString()),
-        new(Emotion.HATE.Label(), ((int)Emotion.HATE).ToString()),
-    };
-
+    public static List<SearchOptions.EnumOption> EmotionOptions => SearchOptions.EmotionOptions;
     /// <summary>位置下拉选项</summary>
-    public static List<EnumOption> LocationOptions { get; } = new()
-    {
-        new("Local", ((int)Location.LOCAL).ToString()),
-        new("Remote", ((int)Location.REMOTE).ToString()),
-    };
-
+    public static List<SearchOptions.EnumOption> LocationOptions => SearchOptions.LocationOptions;
     /// <summary>游玩状态下拉选项</summary>
-    public static List<EnumOption> PlayStateOptions { get; } = new()
-    {
-        new(PlayState.NOT_PLAY.Label(), ((int)PlayState.NOT_PLAY).ToString()),
-        new(PlayState.PLAYING.Label(), ((int)PlayState.PLAYING).ToString()),
-        new(PlayState.PLAYED.Label(), ((int)PlayState.PLAYED).ToString()),
-    };
-
-    /// <summary>分组类型选项记录</summary>
-    public record GroupTypeOption(string Label, GroupType Type);
-
-    /// <summary>列表分组类型下拉选项（底部栏分组选择器）</summary>
-    public static List<GroupTypeOption> GroupTypeOptions { get; } = new()
-    {
-        new("无分组", GroupType.None),
-        new("年", GroupType.Year),
-        new("月", GroupType.Month),
-        new("星级", GroupType.Star),
-        new("情感", GroupType.Emotion),
-        new("位置", GroupType.Location),
-        new("游玩状态", GroupType.PlayState),
-        new("品牌", GroupType.Brand),
-    };
-
+    public static List<SearchOptions.EnumOption> PlayStateOptions => SearchOptions.PlayStateOptions;
+    /// <summary>列表分组类型下拉选项</summary>
+    public static List<SearchOptions.GroupTypeOption> GroupTypeOptions => SearchOptions.GroupTypeOptions;
     /// <summary>日期范围预设列表</summary>
-    public static List<DatePreset> DatePresets => DateRangeHelper.Presets;
+    public static List<DatePreset> DatePresets => SearchOptions.DatePresets;
 
     // ==================== 游戏列表 / 分页 ====================
 
@@ -193,10 +148,8 @@ public partial class SearchViewModel : ObservableObject
 
     private async Task OnGroupTypeChangedAsync(GroupType value)
     {
-        // 切分组类型时取消上一次未完成的列表查询
-        _listCts?.Cancel();
-        _listCts = new CancellationTokenSource();
-        var token = _listCts.Token;
+        // 切分组类型时取消并释放上一次未完成的列表查询
+        var token = RenewCts(ref _listCts);
 
         IsLoading = true;
         try
@@ -207,7 +160,7 @@ public partial class SearchViewModel : ObservableObject
             else
                 await LoadGroupedDataAsync(filter, token);
         }
-        catch (OperationCanceledException) when (_listCts.IsCancellationRequested)
+        catch (OperationCanceledException) when (_listCts?.IsCancellationRequested == true)
         {
             // 主动取消，静默
         }
@@ -271,11 +224,9 @@ public partial class SearchViewModel : ObservableObject
     [RelayCommand]
     private async Task SearchAsync()
     {
-        // 取消上一次未完成的列表查询和聚合查询
-        _listCts?.Cancel();
-        _aggCts?.Cancel();
-        _listCts = new CancellationTokenSource();
-        _aggCts = new CancellationTokenSource();
+        // 取消并释放上一次未完成的列表查询和聚合查询
+        var listToken = RenewCts(ref _listCts);
+        var aggToken = RenewCts(ref _aggCts);
 
         HasSearched = true;
         Page = 1;
@@ -284,15 +235,13 @@ public partial class SearchViewModel : ObservableObject
         {
             var filter = BuildFilter();
             // 并行：列表数据 + 右侧聚合（各自独立的 token）
-            var listToken = _listCts.Token;
-            var aggToken = _aggCts.Token;
             var dataTask = IsGrouping
                 ? LoadGroupedDataAsync(filter, listToken)
                 : LoadPagedDataAsync(filter, listToken);
             var aggTask = LoadAggregationsAsync(filter, aggToken);
             await Task.WhenAll(dataTask, aggTask);
         }
-        catch (OperationCanceledException) when (_listCts.IsCancellationRequested || _aggCts.IsCancellationRequested)
+        catch (OperationCanceledException) when (_listCts?.IsCancellationRequested == true || _aggCts?.IsCancellationRequested == true)
         {
             // 主动取消是预期行为，静默吞掉
         }
@@ -307,10 +256,8 @@ public partial class SearchViewModel : ObservableObject
     private async Task GoToPageAsync(int page)
     {
         if (page < 1 || (TotalPages > 0 && page > TotalPages)) return;
-        // 取消上一次未完成的翻页查询
-        _listCts?.Cancel();
-        _listCts = new CancellationTokenSource();
-        var token = _listCts.Token;
+        // 取消并释放上一次未完成的翻页查询
+        var token = RenewCts(ref _listCts);
 
         Page = page;
         IsLoading = true;
@@ -318,7 +265,7 @@ public partial class SearchViewModel : ObservableObject
         {
             await LoadPagedDataAsync(BuildFilter(), token);
         }
-        catch (OperationCanceledException) when (_listCts.IsCancellationRequested)
+        catch (OperationCanceledException) when (_listCts?.IsCancellationRequested == true)
         {
             // 主动取消，静默
         }
@@ -600,7 +547,7 @@ public partial class SearchViewModel : ObservableObject
         Games = new ObservableCollection<Game>(allGames);
         var view = CollectionViewSource.GetDefaultView(Games);
         view.GroupDescriptions.Clear();
-        var sortWeights = ComputeGroupSortWeights(allGames, SelectedGroupType);
+        var sortWeights = GameGroupDescription.ComputeSortWeights(allGames, SelectedGroupType);
         view.GroupDescriptions.Add(new GameGroupDescription(SelectedGroupType, sortWeights));
     }
 
@@ -633,195 +580,9 @@ public partial class SearchViewModel : ObservableObject
         BrandGroup = new ObservableCollection<BrandGroupItem>(brandTask.Result);
     }
 
-    /// <summary>预计算各分组的排序权重（升序，值越小排越前），供 GameGroupDescription 控制组顺序</summary>
-    private static Dictionary<string, double> ComputeGroupSortWeights(List<Game> games, GroupType type)
-    {
-        return type switch
-        {
-            GroupType.Year => games
-                .Select(g => g.PublishDate.Year > 1 ? g.PublishDate.Year : 0)
-                .Distinct()
-                .OrderByDescending(y => y)
-                .Select((y, i) => (key: y.ToString(), rank: (double)i))
-                .ToDictionary(x => x.key, x => x.rank),
-
-            GroupType.Month => games
-                .Select(g => g.PublishDate.Year > 1 ? g.PublishDate.ToString("yyyy-MM") : "0000-00")
-                .Distinct()
-                .OrderByDescending(s => s)
-                .Select((s, i) => (key: s, rank: (double)i))
-                .ToDictionary(x => x.key, x => x.rank),
-
-            GroupType.Star => games
-                .Select(g => g.Star)
-                .Distinct()
-                .OrderByDescending(s => s)
-                .Select((s, i) => (key: s.ToString(), rank: (double)i))
-                .ToDictionary(x => x.key, x => x.rank),
-
-            GroupType.Emotion => games
-                .Select(g => g.Emotion)
-                .Distinct()
-                .OrderByDescending(e => e)
-                .Select((e, i) => (key: e.ToString(), rank: (double)i))
-                .ToDictionary(x => x.key, x => x.rank),
-
-            GroupType.Location => games
-                .Select(g => g.Location)
-                .Distinct()
-                .OrderByDescending(l => l)
-                .Select((l, i) => (key: l.ToString(), rank: (double)i))
-                .ToDictionary(x => x.key, x => x.rank),
-
-            GroupType.PlayState => games
-                .Select(g => g.PlayState)
-                .Distinct()
-                .OrderByDescending(p => p)
-                .Select((p, i) => (key: p.ToString(), rank: (double)i))
-                .ToDictionary(x => x.key, x => x.rank),
-
-            GroupType.Brand => games
-                .Select(g => g.Brand != null && !string.IsNullOrEmpty(g.Brand.Comp) ? g.Brand.Comp
-                            : g.Brand != null && !string.IsNullOrEmpty(g.Brand.Name) ? g.Brand.Name
-                            : "无品牌")
-                .GroupBy(name => name)
-                .OrderByDescending(g => g.Count())
-                .Select((g, i) => (key: g.Key, rank: (double)i))
-                .ToDictionary(x => x.key, x => x.rank),
-
-            _ => new Dictionary<string, double>()
-        };
-    }
-
     /// <summary>
-    /// 构建 MongoDB 强类型查询条件 FilterDefinition&lt;Game&gt;
-    /// 将 UI 中的搜索条件（包含/排除 + 日期范围）转为 MongoDB 查询语法。
-    /// 使用 Builders&lt;Game&gt;.Filter 强类型构造，字段名重命名时编译器会报错。
+    /// 构建 MongoDB 强类型查询条件（委托到 SearchFilterBuilder）
     /// </summary>
     private FilterDefinition<Game>? BuildFilter()
-    {
-        // 收集所有已启用且有值的搜索条件
-        var allOpts = IncludeOpts.Concat(ExcludeOpts)
-            .Where(o => o.Enabled && !string.IsNullOrWhiteSpace(o.Value))
-            .ToList();
-
-        var hasDateRange = IsDateRangeEnabled &&
-            (!string.IsNullOrEmpty(CurrentDateRange.StartMonth) || !string.IsNullOrEmpty(CurrentDateRange.EndMonth));
-
-        // 无任何条件时返回 null（查询全部）
-        if (allOpts.Count == 0 && !hasDateRange)
-            return null;
-
-        var filters = new List<FilterDefinition<Game>>();
-        var fb = Builders<Game>.Filter;
-
-        // 遍历搜索条件，构建对应的强类型过滤器
-        foreach (var opt in allOpts)
-        {
-            var isExclude = opt.Filter == FilterType.Exclude;
-            var value = opt.Value.Trim();
-            // 公共：标量字段正则匹配，exclude 时用 $not 包裹
-            FilterDefinition<Game> RegexMatch(Expression<Func<Game, object?>> field, string pattern)
-            {
-                var regex = fb.Regex(field, new BsonRegularExpression(pattern));
-                return isExclude ? fb.Not(regex) : regex;
-            }
-            // 公共：字符串路径正则匹配（用于数组/嵌套字段）
-            FilterDefinition<Game> RegexMatchPath(string fieldPath, string pattern)
-            {
-                var regex = fb.Regex(fieldPath, new BsonRegularExpression(pattern));
-                return isExclude ? fb.Not(regex) : regex;
-            }
-            // 公共：强类型字段，include 等于 / exclude 不等于
-            FilterDefinition<Game> Eq<T>(Expression<Func<Game, T>> field, T v)
-                => isExclude ? fb.Ne(field, v) : fb.Eq(field, v);
-            // 公共：字符串路径等于（用于数组字段，MongoDB 对数组做 Eq 会自动匹配元素）
-            FilterDefinition<Game> StringEqPath(string fieldPath, string v)
-                => isExclude ? fb.Ne(fieldPath, v) : fb.Eq(fieldPath, v);
-
-            switch (opt.Key)
-            {
-                case SearchType.REGEX:
-                    // name 字段正则匹配
-                    filters.Add(RegexMatch(g => g.Name, value));
-                    break;
-                case SearchType.TEXT:
-                {
-                    // 全文检索（MongoDB $text 索引）。$text 不支持 $not，exclude 时用 $nor 取反
-                    if (isExclude)
-                        filters.Add(new BsonDocument("$nor", new BsonArray { new BsonDocument("$text", new BsonDocument("$search", value)) }));
-                    else
-                        filters.Add(fb.Text(value));
-                    break;
-                }
-                case SearchType.TAG:
-                    // tag 数组正则匹配（MongoDB 对数组字段做 Regex 会自动匹配任意元素）
-                    filters.Add(RegexMatchPath("tag", value));
-                    break;
-                case SearchType.STAR:
-                    if (int.TryParse(value, out var starValue))
-                        filters.Add(Eq(g => g.Star, starValue));
-                    break;
-                case SearchType.EMOTION:
-                    if (int.TryParse(value, out var emotionVal))
-                        filters.Add(Eq(g => g.Emotion, (Emotion)emotionVal));
-                    break;
-                case SearchType.LOCATION:
-                    if (int.TryParse(value, out var locationVal))
-                        filters.Add(Eq(g => g.Location, (Location)locationVal));
-                    break;
-                case SearchType.PLAYSTATE:
-                    if (int.TryParse(value, out var playStateVal))
-                        filters.Add(Eq(g => g.PlayState, (PlayState)playStateVal));
-                    break;
-                case SearchType.PAINTER:
-                    // painter 是 List<string>，用字符串路径做 Eq，MongoDB 会自动匹配数组元素
-                    filters.Add(StringEqPath("painter", value));
-                    break;
-                case SearchType.WRITER:
-                    filters.Add(StringEqPath("writer", value));
-                    break;
-                case SearchType.CV:
-                    // 嵌套数组字段正则：用字符串路径访问 gamechar.cv
-                    filters.Add(RegexMatchPath("gamechar.cv", value));
-                    break;
-                case SearchType.TRUECV:
-                    filters.Add(RegexMatchPath("gamechar.truecv", value));
-                    break;
-                case SearchType.BRAND:
-                    // 嵌套子文档字段正则：用字符串路径访问 brand.name
-                    filters.Add(RegexMatchPath("brand.name", value));
-                    break;
-            }
-        }
-
-        // 添加日期范围查询条件（半开区间 [start, end)）
-        if (hasDateRange)
-        {
-            var dateFilters = new List<FilterDefinition<Game>>();
-
-            if (!string.IsNullOrEmpty(CurrentDateRange.StartMonth))
-            {
-                var (year, month) = DateRangeHelper.SplitMonth(CurrentDateRange.StartMonth);
-                var startLocal = new DateTime(year, month, 1, 0, 0, 0, DateTimeKind.Local);
-                dateFilters.Add(fb.Gte(g => g.PublishDate, startLocal.ToUniversalTime()));
-            }
-
-            if (!string.IsNullOrEmpty(CurrentDateRange.EndMonth))
-            {
-                var (year, month) = DateRangeHelper.SplitMonth(CurrentDateRange.EndMonth);
-                // endDate 为下个月1日（半开区间 [start, end)）
-                var endLocal = new DateTime(year, month, 1, 0, 0, 0, DateTimeKind.Local).AddMonths(1);
-                dateFilters.Add(fb.Lt(g => g.PublishDate, endLocal.ToUniversalTime()));
-            }
-
-            if (dateFilters.Count > 0)
-                filters.Add(fb.And(dateFilters));
-        }
-
-        if (filters.Count == 0)
-            return null;
-
-        return fb.And(filters);
-    }
+        => SearchFilterBuilder.Build(IncludeOpts, ExcludeOpts, IsDateRangeEnabled, CurrentDateRange);
 }

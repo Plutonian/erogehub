@@ -55,10 +55,10 @@ public partial class GameDetailViewModel : ObservableObject
     /// <summary>男主角列表（man=true）</summary>
     public IEnumerable<GameCharacter> Protagonists => Game?.GameCharacters.Where(c => c.Man) ?? Enumerable.Empty<GameCharacter>();
 
-    /// <summary>共享的枚举选项列表（引用 SearchViewModel）</summary>
-    public static List<SearchViewModel.EnumOption> EmotionOptions => SearchViewModel.EmotionOptions;
-    public static List<SearchViewModel.EnumOption> LocationOptions => SearchViewModel.LocationOptions;
-    public static List<SearchViewModel.EnumOption> PlayStateOptions => SearchViewModel.PlayStateOptions;
+    /// <summary>共享的枚举选项列表（引用 SearchOptions）</summary>
+    public static List<SearchOptions.EnumOption> EmotionOptions => SearchOptions.EmotionOptions;
+    public static List<SearchOptions.EnumOption> LocationOptions => SearchOptions.LocationOptions;
+    public static List<SearchOptions.EnumOption> PlayStateOptions => SearchOptions.PlayStateOptions;
 
     public GameDetailViewModel(GameRepository gameRepo, GameUpdater updater)
     {

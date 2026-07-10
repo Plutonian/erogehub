@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 
 namespace ErogeHub.Wpf.Models;
 
@@ -175,6 +176,66 @@ public class GameGroupDescription : GroupDescription
             ),
 
             _ => ("unknown", "unknown")
+        };
+    }
+
+    /// <summary>预计算各分组的排序权重（升序，值越小排越前），供 GroupNameFromItem 控制组顺序</summary>
+    public static Dictionary<string, double> ComputeSortWeights(List<Game> games, GroupType type)
+    {
+        return type switch
+        {
+            GroupType.Year => games
+                .Select(g => g.PublishDate.Year > 1 ? g.PublishDate.Year : 0)
+                .Distinct()
+                .OrderByDescending(y => y)
+                .Select((y, i) => (key: y.ToString(), rank: (double)i))
+                .ToDictionary(x => x.key, x => x.rank),
+
+            GroupType.Month => games
+                .Select(g => g.PublishDate.Year > 1 ? g.PublishDate.ToString("yyyy-MM") : "0000-00")
+                .Distinct()
+                .OrderByDescending(s => s)
+                .Select((s, i) => (key: s, rank: (double)i))
+                .ToDictionary(x => x.key, x => x.rank),
+
+            GroupType.Star => games
+                .Select(g => g.Star)
+                .Distinct()
+                .OrderByDescending(s => s)
+                .Select((s, i) => (key: s.ToString(), rank: (double)i))
+                .ToDictionary(x => x.key, x => x.rank),
+
+            GroupType.Emotion => games
+                .Select(g => g.Emotion)
+                .Distinct()
+                .OrderByDescending(e => e)
+                .Select((e, i) => (key: e.ToString(), rank: (double)i))
+                .ToDictionary(x => x.key, x => x.rank),
+
+            GroupType.Location => games
+                .Select(g => g.Location)
+                .Distinct()
+                .OrderByDescending(l => l)
+                .Select((l, i) => (key: l.ToString(), rank: (double)i))
+                .ToDictionary(x => x.key, x => x.rank),
+
+            GroupType.PlayState => games
+                .Select(g => g.PlayState)
+                .Distinct()
+                .OrderByDescending(p => p)
+                .Select((p, i) => (key: p.ToString(), rank: (double)i))
+                .ToDictionary(x => x.key, x => x.rank),
+
+            GroupType.Brand => games
+                .Select(g => g.Brand != null && !string.IsNullOrEmpty(g.Brand.Comp) ? g.Brand.Comp
+                            : g.Brand != null && !string.IsNullOrEmpty(g.Brand.Name) ? g.Brand.Name
+                            : "无品牌")
+                .GroupBy(name => name)
+                .OrderByDescending(g => g.Count())
+                .Select((g, i) => (key: g.Key, rank: (double)i))
+                .ToDictionary(x => x.key, x => x.rank),
+
+            _ => new Dictionary<string, double>()
         };
     }
 }

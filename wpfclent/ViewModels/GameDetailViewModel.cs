@@ -105,7 +105,7 @@ public partial class GameDetailViewModel : ObservableObject
     private async Task CyclePlayStateAsync()
     {
         if (Game == null) return;
-        var next = (int)((PlayState)Game.PlayState).Next();
+        var next = Game.PlayState.Next();
         await _updater.UpdatePlayStateAsync(Game.Id, next);
         Game.PlayState = next;
     }
@@ -115,7 +115,7 @@ public partial class GameDetailViewModel : ObservableObject
     private async Task CycleEmotionAsync()
     {
         if (Game == null) return;
-        var next = (int)((Emotion)Game.Emotion).Next();
+        var next = Game.Emotion.Next();
         await _updater.UpdateEmotionAsync(Game.Id, next);
         Game.Emotion = next;
     }
@@ -125,7 +125,7 @@ public partial class GameDetailViewModel : ObservableObject
     private async Task ToggleLocationAsync()
     {
         if (Game == null) return;
-        var next = Game.Location == (int)Location.LOCAL ? (int)Location.REMOTE : (int)Location.LOCAL;
+        var next = Game.Location == Location.LOCAL ? Location.REMOTE : Location.LOCAL;
         await _updater.UpdateLocationAsync(Game.Id, next);
         Game.Location = next;
     }

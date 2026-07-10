@@ -17,13 +17,13 @@ public class GameUpdater
     }
 
     /// <summary>更新游戏的情感值</summary>
-    public async Task<bool> UpdateEmotionAsync(int id, int emotion)
+    public async Task<bool> UpdateEmotionAsync(int id, Emotion emotion)
         => (await _context.Games.UpdateOneAsync(
             Builders<Game>.Filter.Eq(g => g.Id, id),
             Builders<Game>.Update.Set(g => g.Emotion, emotion))).ModifiedCount > 0;
 
     /// <summary>更新游戏的游玩状态</summary>
-    public async Task<bool> UpdatePlayStateAsync(int id, int playState)
+    public async Task<bool> UpdatePlayStateAsync(int id, PlayState playState)
         => (await _context.Games.UpdateOneAsync(
             Builders<Game>.Filter.Eq(g => g.Id, id),
             Builders<Game>.Update.Set(g => g.PlayState, playState))).ModifiedCount > 0;
@@ -35,7 +35,7 @@ public class GameUpdater
             Builders<Game>.Update.Set(g => g.Star, star))).ModifiedCount > 0;
 
     /// <summary>更新游戏的存储位置</summary>
-    public async Task<bool> UpdateLocationAsync(int id, int location)
+    public async Task<bool> UpdateLocationAsync(int id, Location location)
         => (await _context.Games.UpdateOneAsync(
             Builders<Game>.Filter.Eq(g => g.Id, id),
             Builders<Game>.Update.Set(g => g.Location, location))).ModifiedCount > 0;

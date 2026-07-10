@@ -469,7 +469,7 @@ public partial class SearchViewModel : ObservableObject
     [RelayCommand]
     private async Task CycleCardPlayStateAsync(Game game)
     {
-        var next = (int)((PlayState)game.PlayState).Next();
+        var next = game.PlayState.Next();
         await _updater.UpdatePlayStateAsync(game.Id, next);
         game.PlayState = next;
     }
@@ -478,7 +478,7 @@ public partial class SearchViewModel : ObservableObject
     [RelayCommand]
     private async Task CycleCardEmotionAsync(Game game)
     {
-        var next = (int)((Emotion)game.Emotion).Next();
+        var next = game.Emotion.Next();
         await _updater.UpdateEmotionAsync(game.Id, next);
         game.Emotion = next;
     }
@@ -487,7 +487,7 @@ public partial class SearchViewModel : ObservableObject
     [RelayCommand]
     private async Task ToggleCardLocationAsync(Game game)
     {
-        var next = game.Location == (int)Location.LOCAL ? (int)Location.REMOTE : (int)Location.LOCAL;
+        var next = game.Location == Location.LOCAL ? Location.REMOTE : Location.LOCAL;
         await _updater.UpdateLocationAsync(game.Id, next);
         game.Location = next;
     }
@@ -697,8 +697,8 @@ public partial class SearchViewModel : ObservableObject
                 var regex = fb.Regex(fieldPath, new BsonRegularExpression(pattern));
                 return isExclude ? fb.Not(regex) : regex;
             }
-            // 公共：int 字段，include 等于 / exclude 不等于
-            FilterDefinition<Game> IntEq(Expression<Func<Game, int>> field, int v)
+            // 公共：强类型字段，include 等于 / exclude 不等于
+            FilterDefinition<Game> Eq<T>(Expression<Func<Game, T>> field, T v)
                 => isExclude ? fb.Ne(field, v) : fb.Eq(field, v);
             // 公共：字符串路径等于（用于数组字段，MongoDB 对数组做 Eq 会自动匹配元素）
             FilterDefinition<Game> StringEqPath(string fieldPath, string v)
@@ -725,19 +725,19 @@ public partial class SearchViewModel : ObservableObject
                     break;
                 case SearchType.STAR:
                     if (int.TryParse(value, out var starValue))
-                        filters.Add(IntEq(g => g.Star, starValue));
+                        filters.Add(Eq(g => g.Star, starValue));
                     break;
                 case SearchType.EMOTION:
                     if (int.TryParse(value, out var emotionVal))
-                        filters.Add(IntEq(g => g.Emotion, emotionVal));
+                        filters.Add(Eq(g => g.Emotion, (Emotion)emotionVal));
                     break;
                 case SearchType.LOCATION:
                     if (int.TryParse(value, out var locationVal))
-                        filters.Add(IntEq(g => g.Location, locationVal));
+                        filters.Add(Eq(g => g.Location, (Location)locationVal));
                     break;
                 case SearchType.PLAYSTATE:
                     if (int.TryParse(value, out var playStateVal))
-                        filters.Add(IntEq(g => g.PlayState, playStateVal));
+                        filters.Add(Eq(g => g.PlayState, (PlayState)playStateVal));
                     break;
                 case SearchType.PAINTER:
                     // painter 是 List<string>，用字符串路径做 Eq，MongoDB 会自动匹配数组元素

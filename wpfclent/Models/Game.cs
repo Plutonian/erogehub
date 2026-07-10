@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace ErogeHub.Wpf.Models;
@@ -45,19 +46,22 @@ public partial class Game : ObservableObject
     /// <summary>情感值：-99(嫌い) / 0(...) / 1(気になり) / 99(好き)</summary>
     [ObservableProperty]
     [property: BsonElement("emotion")]
-    private int _emotion;
+    [property: BsonRepresentation(BsonType.Int32)]
+    private Emotion _emotion;
 
     /// <summary>存储位置：0=云端 / 1=本地</summary>
     [ObservableProperty]
     [property: BsonElement("location")]
-    private int _location;
+    [property: BsonRepresentation(BsonType.Int32)]
+    private Location _location;
 
     /// <summary>游玩状态：0=未玩 / 1=进行中 / 2=已通关</summary>
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ShowStar))]
     [NotifyPropertyChangedFor(nameof(ShowEmotion))]
     [property: BsonElement("playState")]
-    private int _playState;
+    [property: BsonRepresentation(BsonType.Int32)]
+    private PlayState _playState;
 
     /// <summary>是否标记为重复游戏</summary>
     [ObservableProperty]
@@ -124,11 +128,11 @@ public partial class Game : ObservableObject
 
     /// <summary>是否显示星级控件：已发布且（已通关或有评分）</summary>
     [BsonIgnore]
-    public bool ShowStar => Published && (PlayState == 2 || Star > 0);
+    public bool ShowStar => Published && (PlayState == PlayState.PLAYED || Star > 0);
 
     /// <summary>是否显示情感按钮：未通关时显示</summary>
     [BsonIgnore]
-    public bool ShowEmotion => PlayState != 2 && PlayState != 1;
+    public bool ShowEmotion => PlayState != PlayState.PLAYED && PlayState != PlayState.PLAYING;
 }
 
 /// <summary>

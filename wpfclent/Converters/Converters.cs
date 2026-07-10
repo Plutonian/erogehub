@@ -40,9 +40,9 @@ public class PlayStateToBrushConverter : IValueConverter
     {
         return value switch
         {
-            (int)PlayState.NOT_PLAY => new SolidColorBrush(Color.FromRgb(0xFF, 0x44, 0x44)),
-            (int)PlayState.PLAYING => new SolidColorBrush(Color.FromRgb(0x44, 0xAA, 0x44)),
-            (int)PlayState.PLAYED => new SolidColorBrush(Color.FromRgb(0x44, 0x88, 0xFF)),
+            PlayState.NOT_PLAY => new SolidColorBrush(Color.FromRgb(0xFF, 0x44, 0x44)),
+            PlayState.PLAYING => new SolidColorBrush(Color.FromRgb(0x44, 0xAA, 0x44)),
+            PlayState.PLAYED => new SolidColorBrush(Color.FromRgb(0x44, 0x88, 0xFF)),
             _ => Brushes.Transparent,
         };
     }
@@ -58,7 +58,7 @@ public class EmotionToBrushConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        return value is (int)Emotion.HATE
+        return value is Emotion.HATE
             ? new SolidColorBrush(Color.FromRgb(0x8B, 0x00, 0x00))
             : Brushes.Transparent;
     }
@@ -256,7 +256,7 @@ public class GrayscaleImageConverter : IMultiValueConverter
         var uri = new Uri(url, UriKind.Absolute);
         var frame = BitmapFrame.Create(uri, BitmapCreateOptions.None, BitmapCacheOption.Default);
 
-        if (values.Length > 1 && values[1] is int emotion && emotion == (int)Emotion.HATE)
+        if (values.Length > 1 && values[1] is Emotion.HATE)
         {
             var gray = new FormatConvertedBitmap();
             gray.BeginInit();

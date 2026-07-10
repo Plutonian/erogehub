@@ -263,13 +263,13 @@
                                                     <Style TargetType="TextBlock">
                                                         <Setter Property="Foreground" Value="#666"/>
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Game.Emotion}" Value="-99">
+                                                            <DataTrigger Binding="{Binding Game.Emotion}" Value="HATE">
                                                                 <Setter Property="Foreground" Value="#8B0000"/>
                                                             </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Game.Emotion}" Value="1">
+                                                            <DataTrigger Binding="{Binding Game.Emotion}" Value="HOPE">
                                                                 <Setter Property="Foreground" Value="#FF69B4"/>
                                                             </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Game.Emotion}" Value="99">
+                                                            <DataTrigger Binding="{Binding Game.Emotion}" Value="LIKE">
                                                                 <Setter Property="Foreground" Value="#FF4444"/>
                                                             </DataTrigger>
                                                         </Style.Triggers>
@@ -288,7 +288,7 @@
                                                         <Setter Property="Text" Value="✓"/>
                                                         <Setter Property="Foreground" Value="#44AA44"/>
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Game.Location}" Value="0">
+                                                            <DataTrigger Binding="{Binding Game.Location}" Value="REMOTE">
                                                                 <Setter Property="Text" Value="☁"/>
                                                                 <Setter Property="Foreground" Value="#88AACC"/>
                                                             </DataTrigger>

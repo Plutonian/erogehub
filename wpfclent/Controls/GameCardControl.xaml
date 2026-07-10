@@ -63,7 +63,7 @@
                         <Style TargetType="Border">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Emotion}" Value="-99">
+                                <DataTrigger Binding="{Binding Emotion}" Value="HATE">
                                     <Setter Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -87,13 +87,13 @@
                             <Style TargetType="TextBlock">
                                 <Setter Property="Foreground" Value="#666"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Emotion}" Value="-99">
+                                    <DataTrigger Binding="{Binding Emotion}" Value="HATE">
                                         <Setter Property="Foreground" Value="#000000"/>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding Emotion}" Value="1">
+                                    <DataTrigger Binding="{Binding Emotion}" Value="HOPE">
                                         <Setter Property="Foreground" Value="#FF69B4"/>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding Emotion}" Value="99">
+                                    <DataTrigger Binding="{Binding Emotion}" Value="LIKE">
                                         <Setter Property="Foreground" Value="#FF4444"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -194,7 +194,7 @@
                                 <Setter Property="Text" Value="✓"/>
                                 <Setter Property="Foreground" Value="#44AA44"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Location}" Value="0">
+                                    <DataTrigger Binding="{Binding Location}" Value="REMOTE">
                                         <Setter Property="Text" Value="☁"/>
                                         <Setter Property="Foreground" Value="#88AACC"/>
                                     </DataTrigger>

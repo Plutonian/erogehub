@@ -159,11 +159,11 @@ public class GameGroupDescription : GroupDescription
 
             GroupType.Star => (game.Star.ToString(), $"{game.Star}★"),
 
-            GroupType.Emotion => (game.Emotion.ToString(), ((Emotion)game.Emotion).Label()),
+            GroupType.Emotion => (game.Emotion.ToString(), game.Emotion.Label()),
 
-            GroupType.Location => (game.Location.ToString(), ((Location)game.Location).ToString()),
+            GroupType.Location => (game.Location.ToString(), game.Location.ToString()),
 
-            GroupType.PlayState => (game.PlayState.ToString(), ((PlayState)game.PlayState).Label()),
+            GroupType.PlayState => (game.PlayState.ToString(), game.PlayState.Label()),
 
             GroupType.Brand => (
                 game.Brand != null && !string.IsNullOrEmpty(game.Brand.Comp) ? game.Brand.Comp

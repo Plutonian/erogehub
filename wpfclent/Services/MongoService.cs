@@ -5,13 +5,17 @@ using MongoDB.Driver;
 namespace ErogeHub.Wpf.Services;
 
 /// <summary>
-/// MongoDB 数据服务，封装所有数据库读写操作
-/// 包括：游戏查询、聚合分析、字段更新、数据映射
+/// MongoDB 数据服务，封装所有数据库读写操作。
+/// 主集合使用强类型 IMongoCollection&lt;Game&gt;，由 driver 自动反序列化；
+/// 聚合管道使用 BsonDocument，因为中间结果不是 Game 结构。
 /// </summary>
 public class MongoService
 {
-    /// <summary>MongoDB game 集合</summary>
-    private readonly IMongoCollection<BsonDocument> _collection;
+    /// <summary>MongoDB game 集合（强类型，driver 自动映射）</summary>
+    private readonly IMongoCollection<Game> _collection;
+
+    /// <summary>MongoDB cv 集合（强类型）</summary>
+    private readonly IMongoCollection<CV> _cvCollection;
 
     /// <summary>图片服务器地址（网络模式）</summary>
     private readonly string _imgServer;
@@ -22,18 +26,23 @@ public class MongoService
     /// <summary>本地图片根目录（本地模式）</summary>
     private readonly string _localImgPath;
 
+    /// <summary>声优评分缓存（按 trueCV 名匹配），首次访问后驻留内存</summary>
+    private Dictionary<string, CV>? _cvMap;
+
     public MongoService(string connectionString, string databaseName, string imgServer, bool useLocalImg, string localImgPath)
     {
         var client = new MongoClient(connectionString);
-        _collection = client.GetDatabase(databaseName).GetCollection<BsonDocument>("game");
+        var database = client.GetDatabase(databaseName);
+        _collection = database.GetCollection<Game>("game");
+        _cvCollection = database.GetCollection<CV>("cv");
         _imgServer = imgServer;
         _useLocalImg = useLocalImg;
         _localImgPath = localImgPath;
     }
 
-    /// <summary>将 BsonDocument 过滤器转为标准的 FilterDefinition，空过滤器返回 Empty</summary>
-    private static FilterDefinition<BsonDocument> ToFilterDef(BsonDocument? filter)
-        => filter == null || filter.ElementCount == 0 ? Builders<BsonDocument>.Filter.Empty : filter;
+    /// <summary>把 BsonDocument 过滤器适配为强类型 FilterDefinition，空过滤器返回 Empty</summary>
+    private static FilterDefinition<Game> ToGameFilter(BsonDocument? filter)
+        => filter == null || filter.ElementCount == 0 ? Builders<Game>.Filter.Empty : filter;
 
     /// <summary>空安全获取 $match 阶段的文档</summary>
     private static BsonDocument ToMatchDoc(BsonDocument? filter) => filter ?? new BsonDocument();
@@ -47,28 +56,43 @@ public class MongoService
     /// <summary>安全的 bool 取值，非布尔类型返回 false</summary>
     private static bool SafeBool(BsonValue v) => v is BsonBoolean b && b.Value;
 
+    // ==================== 主查询 ====================
+
     /// <summary>
     /// 分页查询游戏列表，按发布日期和名称降序排列
     /// </summary>
     public async Task<List<Game>> QueryGamesAsync(BsonDocument? filter, int page, int pageSize)
     {
-        var sort = new BsonDocument { { "publishDate", -1 }, { "name", -1 } };
-        var docs = await _collection.Find(ToFilterDef(filter))
+        var sort = Builders<Game>.Sort.Descending(g => g.PublishDate).Descending(g => g.Name);
+        var games = await _collection.Find(ToGameFilter(filter))
             .Sort(sort).Skip((page - 1) * pageSize).Limit(pageSize).ToListAsync();
-        return docs.Select(MapToGame).ToList();
+        foreach (var g in games) await EnrichGameAsync(g);
+        return games;
     }
 
     /// <summary>查询符合条件的文档总数</summary>
     public async Task<long> CountAsync(BsonDocument? filter)
-        => await _collection.CountDocumentsAsync(ToFilterDef(filter));
+        => await _collection.CountDocumentsAsync(ToGameFilter(filter));
 
     /// <summary>查询全部符合条件的游戏（不分页），用于分组模式</summary>
     public async Task<List<Game>> QueryAllGamesAsync(BsonDocument? filter)
     {
-        var sort = new BsonDocument { { "publishDate", -1 }, { "name", -1 } };
-        var docs = await _collection.Find(ToFilterDef(filter)).Sort(sort).ToListAsync();
-        return docs.Select(MapToGame).ToList();
+        var sort = Builders<Game>.Sort.Descending(g => g.PublishDate).Descending(g => g.Name);
+        var games = await _collection.Find(ToGameFilter(filter)).Sort(sort).ToListAsync();
+        foreach (var g in games) await EnrichGameAsync(g);
+        return games;
     }
+
+    /// <summary>根据 ID 查询单个游戏</summary>
+    public async Task<Game?> QueryGameByIdAsync(int id)
+    {
+        var game = await _collection.Find(Builders<Game>.Filter.Eq(g => g.Id, id)).FirstOrDefaultAsync();
+        if (game != null) await EnrichGameAsync(game);
+        return game;
+    }
+
+    // ==================== 聚合分析 ====================
+    // 聚合管道返回的中间结构不是 Game，继续用 BsonDocument 处理
 
     /// <summary>按情感值分组聚合</summary>
     public async Task<List<EmotionGroupItem>> GroupByEmotionAsync(BsonDocument? filter)
@@ -177,22 +201,15 @@ public class MongoService
     /// <summary>按发布日期分组聚合（年 → 月层级），在内存中处理。日期为空或无效的游戏归入"无日期"组。</summary>
     public async Task<List<DateGroupItem>> GroupByDateAsync(BsonDocument? filter)
     {
-        var docs = await _collection.Find(ToFilterDef(filter)).Project(Builders<BsonDocument>.Projection.Include("publishDate")).ToListAsync();
+        // 用强类型投影只取 PublishDate，减少网络传输
+        var docs = await _collection.Find(ToGameFilter(filter))
+            .Project(g => g.PublishDate).ToListAsync();
 
         var validDates = new List<DateTime>();
         var noDateCount = 0;
-        foreach (var d in docs)
+        foreach (var dt in docs)
         {
-            if (d.Contains("publishDate") && d["publishDate"].BsonType == BsonType.DateTime)
-            {
-                try
-                {
-                    var dt = d["publishDate"].AsBsonDateTime.ToUniversalTime().ToLocalTime();
-                    if (dt.Year > 1) validDates.Add(dt);
-                    else noDateCount++;
-                }
-                catch { noDateCount++; }
-            }
+            if (dt.Year > 1) validDates.Add(dt);
             else noDateCount++;
         }
 
@@ -225,157 +242,115 @@ public class MongoService
     /// <summary>按品牌分组聚合（公司 → 品牌层级），在内存中分组</summary>
     public async Task<List<BrandGroupItem>> GroupByBrandAsync(BsonDocument? filter)
     {
-        var docs = await _collection.Find(ToFilterDef(filter)).Project(Builders<BsonDocument>.Projection.Include("brand")).ToListAsync();
+        // 用强类型投影只取 Brand，driver 自动反序列化
+        var brands = await _collection.Find(ToGameFilter(filter))
+            .Project(g => g.Brand).ToListAsync();
         var result = new List<BrandGroupItem>();
 
-        // 有品牌信息的文档
-        var brands = docs.Where(d => d.Contains("brand") && d["brand"].IsBsonDocument).Select(d => d["brand"].AsBsonDocument).ToList();
+        var hasBrand = brands.Where(b => b != null).Select(b => b!).ToList();
 
         // 有公司信息的品牌：按公司分组，公司下再按品牌名分组
-        var withComp = brands.Where(b => b.Contains("comp") && !string.IsNullOrEmpty(SafeStr(b["comp"]))).GroupBy(b => SafeStr(b["comp"]));
+        var withComp = hasBrand.Where(b => !string.IsNullOrEmpty(b.Comp)).GroupBy(b => b.Comp);
         foreach (var cg in withComp)
         {
-            var nodes = cg.GroupBy(b => b.Contains("name") ? SafeStr(b["name"]) : "")
-                .Select(bg => new BrandGroupItem { Title = bg.Key, Count = bg.Count(), Brand = ExtractBrand(bg.First()) })
+            var nodes = cg.GroupBy(b => b!.Name ?? "")
+                .Select(bg => new BrandGroupItem { Title = bg.Key, Count = bg.Count(), Brand = bg.First() })
                 .OrderByDescending(b => b.Count).ToList();
             if (nodes.Count == 1) result.Add(nodes[0]);
             else result.Add(new BrandGroupItem { Title = cg.Key, Count = cg.Count(), Comp = cg.Key, Children = new(nodes) });
         }
 
         // 无公司信息的品牌：直接按品牌名分组
-        var withoutComp = brands.Where(b => !b.Contains("comp") || string.IsNullOrEmpty(SafeStr(b["comp"]))).GroupBy(b => b.Contains("name") ? SafeStr(b["name"]) : "");
+        var withoutComp = hasBrand.Where(b => string.IsNullOrEmpty(b.Comp)).GroupBy(b => b.Name ?? "");
         foreach (var bg in withoutComp)
-            result.Add(new BrandGroupItem { Title = bg.Key, Count = bg.Count(), Brand = ExtractBrand(bg.First()) });
+            result.Add(new BrandGroupItem { Title = bg.Key, Count = bg.Count(), Brand = bg.First() });
 
         // 无品牌信息的文档统一归入"无品牌"
-        var noBrandCount = docs.Count(d => !d.Contains("brand") || !d["brand"].IsBsonDocument);
+        var noBrandCount = brands.Count(b => b == null);
         if (noBrandCount > 0)
             result.Add(new BrandGroupItem { Title = "无品牌", Count = noBrandCount });
 
         return result.OrderByDescending(r => r.Count).ToList();
     }
 
-    /// <summary>根据 ID 查询单个游戏</summary>
-    public async Task<Game?> QueryGameByIdAsync(int id)
-    {
-        var doc = await _collection.Find(Builders<BsonDocument>.Filter.Eq("_id", id)).FirstOrDefaultAsync();
-        return doc == null ? null : MapToGame(doc);
-    }
+    // ==================== 字段更新 ====================
 
     /// <summary>更新游戏的情感值</summary>
     public async Task<bool> UpdateEmotionAsync(int id, int emotion)
         => (await _collection.UpdateOneAsync(
-            Builders<BsonDocument>.Filter.Eq("_id", id),
-            Builders<BsonDocument>.Update.Set("emotion", emotion))).ModifiedCount > 0;
+            Builders<Game>.Filter.Eq(g => g.Id, id),
+            Builders<Game>.Update.Set(g => g.Emotion, emotion))).ModifiedCount > 0;
 
     /// <summary>更新游戏的游玩状态</summary>
     public async Task<bool> UpdatePlayStateAsync(int id, int playState)
         => (await _collection.UpdateOneAsync(
-            Builders<BsonDocument>.Filter.Eq("_id", id),
-            Builders<BsonDocument>.Update.Set("playState", playState))).ModifiedCount > 0;
+            Builders<Game>.Filter.Eq(g => g.Id, id),
+            Builders<Game>.Update.Set(g => g.PlayState, playState))).ModifiedCount > 0;
 
     /// <summary>更新游戏的星级评分</summary>
     public async Task<bool> UpdateStarAsync(int id, int star)
         => (await _collection.UpdateOneAsync(
-            Builders<BsonDocument>.Filter.Eq("_id", id),
-            Builders<BsonDocument>.Update.Set("star", star))).ModifiedCount > 0;
+            Builders<Game>.Filter.Eq(g => g.Id, id),
+            Builders<Game>.Update.Set(g => g.Star, star))).ModifiedCount > 0;
 
     /// <summary>更新游戏的存储位置</summary>
     public async Task<bool> UpdateLocationAsync(int id, int location)
         => (await _collection.UpdateOneAsync(
-            Builders<BsonDocument>.Filter.Eq("_id", id),
-            Builders<BsonDocument>.Update.Set("location", location))).ModifiedCount > 0;
+            Builders<Game>.Filter.Eq(g => g.Id, id),
+            Builders<Game>.Update.Set(g => g.Location, location))).ModifiedCount > 0;
 
     /// <summary>标记/取消标记游戏为重复</summary>
     public async Task<bool> MarkSameAsync(int id, bool isSame)
         => (await _collection.UpdateOneAsync(
-            Builders<BsonDocument>.Filter.Eq("_id", id),
-            Builders<BsonDocument>.Update.Set("isSame", isSame))).ModifiedCount > 0;
+            Builders<Game>.Filter.Eq(g => g.Id, id),
+            Builders<Game>.Update.Set(g => g.IsSame, isSame))).ModifiedCount > 0;
 
     /// <summary>更新游戏的标签列表</summary>
     public async Task<bool> UpdateTagsAsync(int id, List<string> tags)
         => (await _collection.UpdateOneAsync(
-            Builders<BsonDocument>.Filter.Eq("_id", id),
-            Builders<BsonDocument>.Update.Set("tag", new BsonArray(tags)))).ModifiedCount > 0;
+            Builders<Game>.Filter.Eq(g => g.Id, id),
+            Builders<Game>.Update.Set(g => g.Tag, tags))).ModifiedCount > 0;
 
     /// <summary>更新游戏的主标题和副标题</summary>
     public async Task<bool> UpdateTitleAsync(int id, string mainTitle, string subTitle)
         => (await _collection.UpdateOneAsync(
-            Builders<BsonDocument>.Filter.Eq("_id", id),
-            Builders<BsonDocument>.Update.Set("mainTitle", mainTitle).Set("subTitle", subTitle))).ModifiedCount > 0;
+            Builders<Game>.Filter.Eq(g => g.Id, id),
+            Builders<Game>.Update.Set(g => g.MainTitle, mainTitle).Set(g => g.SubTitle, subTitle))).ModifiedCount > 0;
 
-    /// <summary>设置指定角色的声优</summary>
+    /// <summary>设置指定角色的声优（用 ElemMatch 定位嵌套数组元素，位置操作符 $ 更新）</summary>
     public async Task<bool> SetCharCVAsync(int id, int charIndex, string cv)
         => (await _collection.UpdateOneAsync(
-            Builders<BsonDocument>.Filter.And(
-                Builders<BsonDocument>.Filter.Eq("_id", id),
-                Builders<BsonDocument>.Filter.Eq("gamechar.index", charIndex)),
-            Builders<BsonDocument>.Update.Set("gamechar.$.cv", cv))).ModifiedCount > 0;
+            Builders<Game>.Filter.And(
+                Builders<Game>.Filter.Eq(g => g.Id, id),
+                Builders<Game>.Filter.ElemMatch(g => g.GameCharacters, c => c.Index == charIndex)),
+            Builders<Game>.Update.Set("gamechar.$.cv", cv))).ModifiedCount > 0;
 
     /// <summary>将角色标记为男主角（SetMan）</summary>
     public async Task<bool> SetCharManAsync(int id, int charIndex)
         => (await _collection.UpdateOneAsync(
-            Builders<BsonDocument>.Filter.And(
-                Builders<BsonDocument>.Filter.Eq("_id", id),
-                Builders<BsonDocument>.Filter.Eq("gamechar.index", charIndex)),
-            Builders<BsonDocument>.Update.Set("gamechar.$.man", true))).ModifiedCount > 0;
+            Builders<Game>.Filter.And(
+                Builders<Game>.Filter.Eq(g => g.Id, id),
+                Builders<Game>.Filter.ElemMatch(g => g.GameCharacters, c => c.Index == charIndex)),
+            Builders<Game>.Update.Set("gamechar.$.man", true))).ModifiedCount > 0;
 
-    /// <summary>从 cv 集合加载所有声优数据到内存字典</summary>
-    private Dictionary<string, CV>? _cvMap;
-    private Dictionary<string, CV> GetCVMap()
-    {
-        if (_cvMap != null) return _cvMap;
-        var cvCollection = _collection.Database.GetCollection<BsonDocument>("cv");
-        var docs = cvCollection.Find(Builders<BsonDocument>.Filter.Empty).ToList();
-        _cvMap = docs
-            .Where(d => d.Contains("name"))
-            .Select(d => new CV
-            {
-                Name = SafeStr(d["name"]),
-                Star = d.Contains("star") ? SafeInt(d["star"]) : 0,
-            })
-            .ToDictionary(cv => cv.Name, cv => cv);
-        return _cvMap;
-    }
+    // ==================== 删除 ====================
 
     /// <summary>删除指定游戏</summary>
     public async Task<bool> DeleteGameAsync(int id)
-        => (await _collection.DeleteOneAsync(Builders<BsonDocument>.Filter.Eq("_id", id))).DeletedCount > 0;
+        => (await _collection.DeleteOneAsync(Builders<Game>.Filter.Eq(g => g.Id, id))).DeletedCount > 0;
+
+    // ==================== 派生字段增强 ====================
 
     /// <summary>
-    /// 将 BsonDocument 映射为 Game 模型，同时计算图片 URL
+    /// 在 driver 自动反序列化的 Game 基础上，填充 MongoDB 中不存在的派生字段：
+    /// 图片 URL、角色头像、声优评分关联、角色名拆分。
+    /// 与"字段映射"分离，便于单独修改 URL 规则或 CV 匹配策略。
     /// </summary>
-    private Game MapToGame(BsonDocument doc)
+    private async Task EnrichGameAsync(Game game)
     {
-        var game = new Game
-        {
-            Id = doc.Contains("_id") ? SafeInt(doc["_id"]) : 0,
-            Name = doc.Contains("name") ? SafeStr(doc["name"]) : "",
-            MainTitle = doc.Contains("mainTitle") ? SafeStr(doc["mainTitle"]) : "",
-            SubTitle = doc.Contains("subTitle") ? SafeStr(doc["subTitle"]) : "",
-            Star = doc.Contains("star") ? SafeInt(doc["star"]) : 0,
-            Emotion = doc.Contains("emotion") ? SafeInt(doc["emotion"]) : 0,
-            Location = doc.Contains("location") ? SafeInt(doc["location"]) : 0,
-            PlayState = doc.Contains("playState") ? SafeInt(doc["playState"]) : 0,
-            IsSame = doc.Contains("isSame") && SafeBool(doc["isSame"]),
-            Story = doc.Contains("story") ? SafeStr(doc["story"]) : "",
-            Intro = doc.Contains("intro") ? SafeStr(doc["intro"]) : "",
-            Tag = doc.Contains("tag") && doc["tag"].IsBsonArray ? doc["tag"].AsBsonArray.Select(SafeStr).ToList() : new(),
-            Painter = doc.Contains("painter") && doc["painter"].IsBsonArray ? doc["painter"].AsBsonArray.Select(SafeStr).ToList() : new(),
-            Writer = doc.Contains("writer") && doc["writer"].IsBsonArray ? doc["writer"].AsBsonArray.Select(SafeStr).ToList() : new(),
-            Brand = doc.Contains("brand") && doc["brand"].IsBsonDocument ? ExtractBrand(doc["brand"].AsBsonDocument) : null,
-            GameCharacters = doc.Contains("gamechar") && doc["gamechar"].IsBsonArray ? MapCharacters(doc["gamechar"].AsBsonArray) : new(),
-            SimpleImgs = doc.Contains("simpleImg") && doc["simpleImg"].IsBsonArray
-                ? doc["simpleImg"].AsBsonArray.Select(v => v.IsBsonDocument
-                    ? new GameImg { Index = v.AsBsonDocument.Contains("index") ? SafeInt(v.AsBsonDocument["index"]) : 0 }
-                    : new GameImg { Index = SafeInt(v) }).ToList()
-                : new(),
-        };
-        if (doc.Contains("publishDate") && doc["publishDate"].BsonType == BsonType.DateTime)
-        {
-            try { game.PublishDate = doc["publishDate"].AsBsonDateTime.ToUniversalTime().ToLocalTime(); }
-            catch { /* 日期超出 .NET DateTime 范围，保持默认值 */ }
-        }
+        // 计算 PublishDate 时区：driver 默认按 UTC 反序列化，转回本地时间保持与原行为一致
+        if (game.PublishDate != default && game.PublishDate.Kind == DateTimeKind.Utc)
+            game.PublishDate = game.PublishDate.ToLocalTime();
 
         // 计算图片资源 URL（根据配置选择网络或本地路径）
         game.ImgBase = _useLocalImg
@@ -384,8 +359,8 @@ public class MongoService
         game.CoverUrl = $"{game.ImgBase}game_s.jpg";
         game.StoryImageUrl = $"{game.ImgBase}game_l.jpg";
 
-        // 加载 cv 地图并填充角色数据
-        var cvMap = GetCVMap();
+        // 加载 CV 地图并填充角色数据
+        var cvMap = await GetCVMapAsync();
         foreach (var c in game.GameCharacters)
         {
             c.AvatarUrl = $"{game.ImgBase}char_s_{c.Index}.jpg";
@@ -397,8 +372,6 @@ public class MongoService
         }
         foreach (var img in game.SimpleImgs)
             img.Url = $"{game.ImgBase}simple_l_{img.Index}.jpg";
-
-        return game;
     }
 
     /// <summary>将角色名按空格拆分为 CharTitle 和 CharSubTitle</summary>
@@ -417,34 +390,16 @@ public class MongoService
         }
     }
 
-    /// <summary>将 BsonArray 角色数据映射为 GameCharacter 列表</summary>
-    private static List<GameCharacter> MapCharacters(BsonArray arr)
+    /// <summary>从 cv 集合加载所有声优数据到内存字典（强类型查询，首次访问后缓存）</summary>
+    private async Task<Dictionary<string, CV>> GetCVMapAsync()
     {
-        var result = new List<GameCharacter>();
-        foreach (var item in arr)
-        {
-            if (item is not BsonDocument doc) continue;
-            result.Add(new GameCharacter
-            {
-                Name = doc.Contains("name") ? SafeStr(doc["name"]) : "",
-                Cv = doc.Contains("cv") ? SafeStr(doc["cv"]) : "",
-                Intro = doc.Contains("intro") ? SafeStr(doc["intro"]) : "",
-                TrueCV = doc.Contains("truecv") ? SafeStr(doc["truecv"]) : "",
-                Index = doc.Contains("index") ? SafeInt(doc["index"]) : 0,
-                Man = doc.Contains("man") && SafeBool(doc["man"]),
-            });
-        }
-        return result;
+        if (_cvMap != null) return _cvMap;
+        var list = await _cvCollection.Find(Builders<CV>.Filter.Empty).ToListAsync();
+        _cvMap = list
+            .Where(cv => !string.IsNullOrEmpty(cv.Name))
+            .ToDictionary(cv => cv.Name!, cv => cv);
+        return _cvMap;
     }
-
-    /// <summary>从 BsonDocument 提取 Brand 对象</summary>
-    private static Brand ExtractBrand(BsonDocument doc) => new()
-    {
-        Id = doc.Contains("id") ? SafeInt(doc["id"]) : 0,
-        Name = doc.Contains("name") ? SafeStr(doc["name"]) : "",
-        Website = doc.Contains("website") ? SafeStr(doc["website"]) : "",
-        Comp = doc.Contains("comp") ? SafeStr(doc["comp"]) : "",
-    };
 
     /// <summary>情感数字 → 显示名称</summary>
     private static string GetEmotionName(int emotion) => emotion switch

@@ -7,6 +7,7 @@ namespace ErogeHub.Wpf.Models;
 /// 游戏主模型，对应 MongoDB game 集合的文档结构
 /// 使用 CommunityToolkit.Mvvm 源码生成器实现属性变更通知
 /// </summary>
+[BsonIgnoreExtraElements]
 public partial class Game : ObservableObject
 {
     /// <summary>游戏唯一 ID（对应 MongoDB _id）</summary>
@@ -133,6 +134,7 @@ public partial class Game : ObservableObject
 /// <summary>
 /// 声优信息模型（对应 MongoDB cv 集合）
 /// </summary>
+[BsonIgnoreExtraElements]
 public class CV
 {
     /// <summary>声优名</summary>
@@ -147,6 +149,7 @@ public class CV
 /// <summary>
 /// 游戏角色模型
 /// </summary>
+[BsonIgnoreExtraElements]
 public partial class GameCharacter : ObservableObject
 {
     /// <summary>角色名</summary>
@@ -204,6 +207,7 @@ public partial class GameCharacter : ObservableObject
 /// <summary>
 /// 游戏截图模型
 /// </summary>
+[BsonIgnoreExtraElements]
 public class GameImg
 {
     /// <summary>截图索引序号</summary>
@@ -218,6 +222,7 @@ public class GameImg
 /// <summary>
 /// 品牌信息模型
 /// </summary>
+[BsonIgnoreExtraElements]
 public class Brand
 {
     /// <summary>品牌 ID</summary>

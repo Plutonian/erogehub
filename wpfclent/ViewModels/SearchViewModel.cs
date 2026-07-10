@@ -347,7 +347,7 @@ public partial class SearchViewModel : ObservableObject
     /// <summary>点击情感聚合项，添加为包含条件</summary>
     [RelayCommand]
     private void OnEmotionClicked(EmotionGroupItem item)
-        => AddAsIncludeOpt(SearchType.EMOTION, item.Emotion.ToString());
+        => AddAsIncludeOpt(SearchType.EMOTION, ((int)item.Emotion).ToString());
 
     /// <summary>点击星级聚合项，添加为包含条件</summary>
     [RelayCommand]
@@ -357,12 +357,12 @@ public partial class SearchViewModel : ObservableObject
     /// <summary>点击位置聚合项，添加为包含条件</summary>
     [RelayCommand]
     private void OnLocationClicked(LocationGroupItem item)
-        => AddAsIncludeOpt(SearchType.LOCATION, item.Location.ToString());
+        => AddAsIncludeOpt(SearchType.LOCATION, ((int)item.Location).ToString());
 
     /// <summary>点击游玩状态聚合项，添加为包含条件</summary>
     [RelayCommand]
     private void OnPlayStateClicked(PlayStateGroupItem item)
-        => AddAsIncludeOpt(SearchType.PLAYSTATE, item.PlayState.ToString());
+        => AddAsIncludeOpt(SearchType.PLAYSTATE, ((int)item.PlayState).ToString());
 
     /// <summary>点击声优聚合项，添加为包含条件</summary>
     [RelayCommand]

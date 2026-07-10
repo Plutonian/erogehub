@@ -32,7 +32,7 @@ public class GameAggregator
             new BsonDocument("$project", new BsonDocument { { "emotion", "$_id" }, { "count", 1 }, { "_id", 0 } }),
         };
         var docs = await _context.Games.Aggregate<BsonDocument>(pipeline).ToListAsync(cancellationToken);
-        return docs.Select(d => { var e = MongoContext.SafeInt(d.GetValue("emotion")); return new EmotionGroupItem { Emotion = e, Count = MongoContext.SafeInt(d["count"]), Title = ((Emotion)e).Label() }; }).ToList();
+        return docs.Select(d => { var e = (Emotion)MongoContext.SafeInt(d.GetValue("emotion")); return new EmotionGroupItem { Emotion = e, Count = MongoContext.SafeInt(d["count"]), Title = e.Label() }; }).ToList();
     }
 
     /// <summary>按存储位置分组聚合</summary>
@@ -46,7 +46,7 @@ public class GameAggregator
             new BsonDocument("$project", new BsonDocument { { "location", "$_id" }, { "count", 1 }, { "_id", 0 } }),
         };
         var docs = await _context.Games.Aggregate<BsonDocument>(pipeline).ToListAsync(cancellationToken);
-        return docs.Select(d => { var l = MongoContext.SafeInt(d.GetValue("location")); return new LocationGroupItem { Location = l, Count = MongoContext.SafeInt(d["count"]), Title = ((Location)l).ToString() }; }).ToList();
+        return docs.Select(d => { var l = (Location)MongoContext.SafeInt(d.GetValue("location")); return new LocationGroupItem { Location = l, Count = MongoContext.SafeInt(d["count"]), Title = l.ToString() }; }).ToList();
     }
 
     /// <summary>按游玩状态分组聚合</summary>
@@ -60,7 +60,7 @@ public class GameAggregator
             new BsonDocument("$project", new BsonDocument { { "playState", "$_id" }, { "count", 1 }, { "_id", 0 } }),
         };
         var docs = await _context.Games.Aggregate<BsonDocument>(pipeline).ToListAsync(cancellationToken);
-        return docs.Select(d => { var p = MongoContext.SafeInt(d.GetValue("playState")); return new PlayStateGroupItem { PlayState = p, Count = MongoContext.SafeInt(d["count"]), Title = ((PlayState)p).Label() }; }).ToList();
+        return docs.Select(d => { var p = (PlayState)MongoContext.SafeInt(d.GetValue("playState")); return new PlayStateGroupItem { PlayState = p, Count = MongoContext.SafeInt(d["count"]), Title = p.Label() }; }).ToList();
     }
 
     /// <summary>按星级分组聚合</summary>

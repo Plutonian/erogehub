@@ -22,8 +22,8 @@ public class GroupItem
 /// </summary>
 public class EmotionGroupItem : GroupItem
 {
-    /// <summary>情感值：-99 / 0 / 1 / 99</summary>
-    public int Emotion { get; set; }
+    /// <summary>情感值</summary>
+    public Emotion Emotion { get; set; }
 }
 
 /// <summary>
@@ -31,8 +31,8 @@ public class EmotionGroupItem : GroupItem
 /// </summary>
 public class LocationGroupItem : GroupItem
 {
-    /// <summary>位置值：0=远程 / 1=本地</summary>
-    public int Location { get; set; }
+    /// <summary>存储位置</summary>
+    public Location Location { get; set; }
 }
 
 /// <summary>
@@ -49,8 +49,8 @@ public class StarGroupItem : GroupItem
 /// </summary>
 public class PlayStateGroupItem : GroupItem
 {
-    /// <summary>游玩状态：0=未玩 / 1=进行中 / 2=已通关</summary>
-    public int PlayState { get; set; }
+    /// <summary>游玩状态</summary>
+    public PlayState PlayState { get; set; }
 }
 
 /// <summary>

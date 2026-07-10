@@ -22,37 +22,37 @@ public class GameRepository
     /// 分页查询游戏列表，按发布日期和名称降序排列。
     /// 查到后并行 enrich 全部 Game。
     /// </summary>
-    public async Task<List<Game>> QueryGamesAsync(FilterDefinition<Game>? filter, int page, int pageSize)
+    public async Task<List<Game>> QueryGamesAsync(FilterDefinition<Game>? filter, int page, int pageSize, CancellationToken cancellationToken = default)
     {
         var sort = Builders<Game>.Sort.Descending(g => g.PublishDate).Descending(g => g.Name);
         var games = await _context.Games.Find(MongoContext.ToGameFilter(filter))
-            .Sort(sort).Skip((page - 1) * pageSize).Limit(pageSize).ToListAsync();
-        await _enricher.EnrichAsync(games);
+            .Sort(sort).Skip((page - 1) * pageSize).Limit(pageSize).ToListAsync(cancellationToken);
+        await _enricher.EnrichAsync(games, cancellationToken);
         return games;
     }
 
     /// <summary>查询符合条件的文档总数</summary>
-    public async Task<long> CountAsync(FilterDefinition<Game>? filter)
-        => await _context.Games.CountDocumentsAsync(MongoContext.ToGameFilter(filter));
+    public async Task<long> CountAsync(FilterDefinition<Game>? filter, CancellationToken cancellationToken = default)
+        => await _context.Games.CountDocumentsAsync(MongoContext.ToGameFilter(filter), cancellationToken: cancellationToken);
 
     /// <summary>查询全部符合条件的游戏（不分页），用于分组模式</summary>
-    public async Task<List<Game>> QueryAllGamesAsync(FilterDefinition<Game>? filter)
+    public async Task<List<Game>> QueryAllGamesAsync(FilterDefinition<Game>? filter, CancellationToken cancellationToken = default)
     {
         var sort = Builders<Game>.Sort.Descending(g => g.PublishDate).Descending(g => g.Name);
-        var games = await _context.Games.Find(MongoContext.ToGameFilter(filter)).Sort(sort).ToListAsync();
-        await _enricher.EnrichAsync(games);
+        var games = await _context.Games.Find(MongoContext.ToGameFilter(filter)).Sort(sort).ToListAsync(cancellationToken);
+        await _enricher.EnrichAsync(games, cancellationToken);
         return games;
     }
 
     /// <summary>根据 ID 查询单个游戏</summary>
-    public async Task<Game?> QueryGameByIdAsync(int id)
+    public async Task<Game?> QueryGameByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        var game = await _context.Games.Find(Builders<Game>.Filter.Eq(g => g.Id, id)).FirstOrDefaultAsync();
-        if (game != null) await _enricher.EnrichAsync(game);
+        var game = await _context.Games.Find(Builders<Game>.Filter.Eq(g => g.Id, id)).FirstOrDefaultAsync(cancellationToken);
+        if (game != null) await _enricher.EnrichAsync(game, cancellationToken);
         return game;
     }
 
     /// <summary>删除指定游戏</summary>
-    public async Task<bool> DeleteGameAsync(int id)
-        => (await _context.Games.DeleteOneAsync(Builders<Game>.Filter.Eq(g => g.Id, id))).DeletedCount > 0;
+    public async Task<bool> DeleteGameAsync(int id, CancellationToken cancellationToken = default)
+        => (await _context.Games.DeleteOneAsync(Builders<Game>.Filter.Eq(g => g.Id, id), cancellationToken)).DeletedCount > 0;
 }

@@ -85,12 +85,12 @@ public partial class GameDetailViewModel : ObservableObject
     /// <summary>
     /// 从数据库重新加载游戏数据
     /// </summary>
-    public async Task LoadAsync(int gameId)
+    public async Task LoadAsync(int gameId, CancellationToken cancellationToken = default)
     {
         IsLoading = true;
         try
         {
-            Game = await _gameRepo.QueryGameByIdAsync(gameId);
+            Game = await _gameRepo.QueryGameByIdAsync(gameId, cancellationToken);
         }
         finally
         {

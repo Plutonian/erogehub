@@ -24,6 +24,11 @@ public partial class SearchViewModel : ObservableObject
     private readonly GameUpdater _updater;
     private readonly IServiceProvider _services;
 
+    // 列表查询取消令牌（翻页/分组切换时取消上一次未完成的查询）
+    private CancellationTokenSource? _listCts;
+    // 聚合查询取消令牌（连点搜索按钮时取消上一次未完成的聚合）
+    private CancellationTokenSource? _aggCts;
+
     // ==================== 选项列表（供 UI 绑定） ====================
 
     /// <summary>搜索类型选项记录</summary>
@@ -188,14 +193,23 @@ public partial class SearchViewModel : ObservableObject
 
     private async Task OnGroupTypeChangedAsync(GroupType value)
     {
+        // 切分组类型时取消上一次未完成的列表查询
+        _listCts?.Cancel();
+        _listCts = new CancellationTokenSource();
+        var token = _listCts.Token;
+
         IsLoading = true;
         try
         {
             var filter = BuildFilter();
             if (value == GroupType.None)
-                await LoadPagedDataAsync(filter);
+                await LoadPagedDataAsync(filter, token);
             else
-                await LoadGroupedDataAsync(filter);
+                await LoadGroupedDataAsync(filter, token);
+        }
+        catch (OperationCanceledException) when (_listCts.IsCancellationRequested)
+        {
+            // 主动取消，静默
         }
         finally
         {
@@ -257,18 +271,30 @@ public partial class SearchViewModel : ObservableObject
     [RelayCommand]
     private async Task SearchAsync()
     {
+        // 取消上一次未完成的列表查询和聚合查询
+        _listCts?.Cancel();
+        _aggCts?.Cancel();
+        _listCts = new CancellationTokenSource();
+        _aggCts = new CancellationTokenSource();
+
         HasSearched = true;
         Page = 1;
         IsLoading = true;
         try
         {
             var filter = BuildFilter();
-            // 并行：列表数据 + 右侧聚合
+            // 并行：列表数据 + 右侧聚合（各自独立的 token）
+            var listToken = _listCts.Token;
+            var aggToken = _aggCts.Token;
             var dataTask = IsGrouping
-                ? LoadGroupedDataAsync(filter)
-                : LoadPagedDataAsync(filter);
-            var aggTask = LoadAggregationsAsync(filter);
+                ? LoadGroupedDataAsync(filter, listToken)
+                : LoadPagedDataAsync(filter, listToken);
+            var aggTask = LoadAggregationsAsync(filter, aggToken);
             await Task.WhenAll(dataTask, aggTask);
+        }
+        catch (OperationCanceledException) when (_listCts.IsCancellationRequested || _aggCts.IsCancellationRequested)
+        {
+            // 主动取消是预期行为，静默吞掉
         }
         finally
         {
@@ -281,11 +307,20 @@ public partial class SearchViewModel : ObservableObject
     private async Task GoToPageAsync(int page)
     {
         if (page < 1 || (TotalPages > 0 && page > TotalPages)) return;
+        // 取消上一次未完成的翻页查询
+        _listCts?.Cancel();
+        _listCts = new CancellationTokenSource();
+        var token = _listCts.Token;
+
         Page = page;
         IsLoading = true;
         try
         {
-            await LoadPagedDataAsync(BuildFilter());
+            await LoadPagedDataAsync(BuildFilter(), token);
+        }
+        catch (OperationCanceledException) when (_listCts.IsCancellationRequested)
+        {
+            // 主动取消，静默
         }
         finally
         {
@@ -537,10 +572,10 @@ public partial class SearchViewModel : ObservableObject
     /// <summary>
     /// 分页加载游戏列表 + 总数（不含聚合）
     /// </summary>
-    private async Task LoadPagedDataAsync(FilterDefinition<Game>? filter)
+    private async Task LoadPagedDataAsync(FilterDefinition<Game>? filter, CancellationToken cancellationToken = default)
     {
-        var gamesTask = _gameRepo.QueryGamesAsync(filter, Page, PageItemSize);
-        var countTask = _gameRepo.CountAsync(filter);
+        var gamesTask = _gameRepo.QueryGamesAsync(filter, Page, PageItemSize, cancellationToken);
+        var countTask = _gameRepo.CountAsync(filter, cancellationToken);
         await Task.WhenAll(gamesTask, countTask);
 
         Games = new ObservableCollection<Game>(gamesTask.Result);
@@ -555,9 +590,9 @@ public partial class SearchViewModel : ObservableObject
     /// 全量加载游戏并设置 CollectionView 分组（不含聚合，不分页）
     /// 配合虚拟化 ListBox 实现分组模式的整体虚拟化
     /// </summary>
-    private async Task LoadGroupedDataAsync(FilterDefinition<Game>? filter)
+    private async Task LoadGroupedDataAsync(FilterDefinition<Game>? filter, CancellationToken cancellationToken = default)
     {
-        var allGames = await _gameRepo.QueryAllGamesAsync(filter);
+        var allGames = await _gameRepo.QueryAllGamesAsync(filter, cancellationToken);
         Total = allGames.Count;
         TotalPages = 1;
 
@@ -572,17 +607,17 @@ public partial class SearchViewModel : ObservableObject
     /// <summary>
     /// 加载右侧聚合面板全部数据（与列表完全独立）
     /// </summary>
-    private async Task LoadAggregationsAsync(FilterDefinition<Game>? filter)
+    private async Task LoadAggregationsAsync(FilterDefinition<Game>? filter, CancellationToken cancellationToken = default)
     {
-        var emotionTask = _aggregator.GroupByEmotionAsync(filter);
-        var locationTask = _aggregator.GroupByLocationAsync(filter);
-        var playStateTask = _aggregator.GroupByPlayStateAsync(filter);
-        var starTask = _aggregator.GroupByStarAsync(filter);
-        var cvTask = _aggregator.GroupByCVAsync(filter);
-        var trueCVTask = _aggregator.GroupByTrueCVAsync(filter);
-        var tagTask = _aggregator.GroupByTagAsync(filter);
-        var dateTask = _aggregator.GroupByDateAsync(filter);
-        var brandTask = _aggregator.GroupByBrandAsync(filter);
+        var emotionTask = _aggregator.GroupByEmotionAsync(filter, cancellationToken);
+        var locationTask = _aggregator.GroupByLocationAsync(filter, cancellationToken);
+        var playStateTask = _aggregator.GroupByPlayStateAsync(filter, cancellationToken);
+        var starTask = _aggregator.GroupByStarAsync(filter, cancellationToken);
+        var cvTask = _aggregator.GroupByCVAsync(filter, cancellationToken);
+        var trueCVTask = _aggregator.GroupByTrueCVAsync(filter, cancellationToken);
+        var tagTask = _aggregator.GroupByTagAsync(filter, cancellationToken);
+        var dateTask = _aggregator.GroupByDateAsync(filter, cancellationToken);
+        var brandTask = _aggregator.GroupByBrandAsync(filter, cancellationToken);
 
         await Task.WhenAll(emotionTask, locationTask, playStateTask,
             starTask, cvTask, trueCVTask, tagTask, dateTask, brandTask);

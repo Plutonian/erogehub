@@ -19,17 +19,18 @@ public class GameEnricher
     /// 批量并行 enrich：先一次性拿 cvMap（异步），再用 Parallel.ForEach 并行计算每个 Game 的派生字段。
     /// 相比串行 foreach + await，避免了重复 await 调度开销，适合批量场景。
     /// </summary>
-    public async Task EnrichAsync(List<Game> games)
+    public async Task EnrichAsync(List<Game> games, CancellationToken cancellationToken = default)
     {
         if (games.Count == 0) return;
-        var cvMap = await _cvRepository.GetCvMapAsync();
-        Parallel.ForEach(games, g => EnrichSync(g, cvMap));
+        var cvMap = await _cvRepository.GetCvMapAsync(cancellationToken);
+        var parallelOpts = new ParallelOptions { CancellationToken = cancellationToken };
+        Parallel.ForEach(games, parallelOpts, g => EnrichSync(g, cvMap));
     }
 
     /// <summary>单条 enrich：用于 QueryGameByIdAsync 等单条查询场景。</summary>
-    public async Task EnrichAsync(Game game)
+    public async Task EnrichAsync(Game game, CancellationToken cancellationToken = default)
     {
-        var cvMap = await _cvRepository.GetCvMapAsync();
+        var cvMap = await _cvRepository.GetCvMapAsync(cancellationToken);
         EnrichSync(game, cvMap);
     }
 

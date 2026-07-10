@@ -29,10 +29,10 @@ public class CvRepository
     }
 
     /// <summary>从 cv 集合加载所有声优数据到内存字典（强类型查询，首次访问后缓存）</summary>
-    public async Task<Dictionary<string, CV>> GetCvMapAsync()
+    public async Task<Dictionary<string, CV>> GetCvMapAsync(CancellationToken cancellationToken = default)
     {
         if (_cvMap != null) return _cvMap;
-        var list = await _context.CVs.Find(Builders<CV>.Filter.Empty).ToListAsync();
+        var list = await _context.CVs.Find(Builders<CV>.Filter.Empty).ToListAsync(cancellationToken);
         _cvMap = list
             .Where(cv => !string.IsNullOrEmpty(cv.Name))
             .ToDictionary(cv => cv.Name!, cv => cv);

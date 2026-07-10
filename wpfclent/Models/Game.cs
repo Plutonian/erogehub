@@ -105,18 +105,18 @@ public partial class Game : ObservableObject
     private List<GameImg> _simpleImgs = new();
 
     /// <summary>
-    /// 图片基础路径，由 MongoService 设置：http://{server}/img/{year}/{month}/{id}/
+    /// 图片基础路径，基于 ImageConfig 配置 + PublishDate + Id 计算
     /// </summary>
     [BsonIgnore]
-    public string ImgBase { get; set; } = string.Empty;
+    public string ImgBase => ImageConfig.BuildImgBase(PublishDate.Year, PublishDate.Month, Id);
 
     /// <summary>封面图完整 URL</summary>
     [BsonIgnore]
-    public string CoverUrl { get; set; } = string.Empty;
+    public string CoverUrl => $"{ImgBase}game_s.jpg";
 
     /// <summary>故事图完整 URL</summary>
     [BsonIgnore]
-    public string StoryImageUrl { get; set; } = string.Empty;
+    public string StoryImageUrl => $"{ImgBase}game_l.jpg";
 
     /// <summary>是否已发布（当前时间 >= 发布日期）</summary>
     [BsonIgnore]
@@ -154,6 +154,8 @@ public partial class GameCharacter : ObservableObject
 {
     /// <summary>角色名</summary>
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CharTitle))]
+    [NotifyPropertyChangedFor(nameof(CharSubTitle))]
     [property: BsonElement("name")]
     private string _name = string.Empty;
 
@@ -195,13 +197,29 @@ public partial class GameCharacter : ObservableObject
     [BsonIgnore]
     public CV? CvObj { get; set; }
 
-    /// <summary>角色名标题部分（第二个空格后内容，如"橘花"）</summary>
+    /// <summary>角色名标题部分（第二个空格后内容，如"橘花"），基于 Name 实时计算</summary>
     [BsonIgnore]
-    public string CharTitle { get; set; } = string.Empty;
+    public string CharTitle
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(Name)) return string.Empty;
+            var parts = Name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            return parts.Length > 1 ? string.Join(" ", parts.Skip(1)) : Name;
+        }
+    }
 
-    /// <summary>角色名副标题部分（第一个空格前内容，如"春川 ミミ"中为"春川"）</summary>
+    /// <summary>角色名副标题部分（第一个空格前内容，如"春川 ミミ"中为"春川"），基于 Name 实时计算</summary>
     [BsonIgnore]
-    public string CharSubTitle { get; set; } = string.Empty;
+    public string CharSubTitle
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(Name)) return string.Empty;
+            var parts = Name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            return parts.Length > 1 ? parts[0] : string.Empty;
+        }
+    }
 }
 
 /// <summary>

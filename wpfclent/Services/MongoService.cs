@@ -38,6 +38,16 @@ public class MongoService
         _imgServer = imgServer;
         _useLocalImg = useLocalImg;
         _localImgPath = localImgPath;
+
+        // 后台预热 CV 字典，避免首次查询游戏时才加载导致首屏卡顿
+        _ = Task.Run(InitializeCvMapAsync);
+    }
+
+    /// <summary>后台预加载 CV 字典（失败不抛异常，首次用到时会再尝试）</summary>
+    private async Task InitializeCvMapAsync()
+    {
+        try { await GetCVMapAsync(); }
+        catch { /* 预热失败不影响主流程，后续用到时会重试 */ }
     }
 
     /// <summary>把 BsonDocument 过滤器适配为强类型 FilterDefinition，空过滤器返回 Empty</summary>
@@ -59,14 +69,15 @@ public class MongoService
     // ==================== 主查询 ====================
 
     /// <summary>
-    /// 分页查询游戏列表，按发布日期和名称降序排列
+    /// 分页查询游戏列表，按发布日期和名称降序排列。
+    /// 查到后先一次性拿 cvMap，再并行 enrich 全部 Game。
     /// </summary>
     public async Task<List<Game>> QueryGamesAsync(BsonDocument? filter, int page, int pageSize)
     {
         var sort = Builders<Game>.Sort.Descending(g => g.PublishDate).Descending(g => g.Name);
         var games = await _collection.Find(ToGameFilter(filter))
             .Sort(sort).Skip((page - 1) * pageSize).Limit(pageSize).ToListAsync();
-        foreach (var g in games) await EnrichGameAsync(g);
+        await EnrichGamesParallelAsync(games);
         return games;
     }
 
@@ -79,7 +90,7 @@ public class MongoService
     {
         var sort = Builders<Game>.Sort.Descending(g => g.PublishDate).Descending(g => g.Name);
         var games = await _collection.Find(ToGameFilter(filter)).Sort(sort).ToListAsync();
-        foreach (var g in games) await EnrichGameAsync(g);
+        await EnrichGamesParallelAsync(games);
         return games;
     }
 
@@ -342,52 +353,44 @@ public class MongoService
     // ==================== 派生字段增强 ====================
 
     /// <summary>
-    /// 在 driver 自动反序列化的 Game 基础上，填充 MongoDB 中不存在的派生字段：
-    /// 图片 URL、角色头像、声优评分关联、角色名拆分。
-    /// 与"字段映射"分离，便于单独修改 URL 规则或 CV 匹配策略。
+    /// 批量并行 enrich：先一次性拿 cvMap（异步），再用 Parallel.ForEach 并行计算每个 Game 的派生字段。
+    /// 相比串行 foreach + await，避免了重复 await 调度开销，适合批量场景。
+    /// </summary>
+    private async Task EnrichGamesParallelAsync(List<Game> games)
+    {
+        if (games.Count == 0) return;
+        var cvMap = await GetCVMapAsync();
+        Parallel.ForEach(games, g => EnrichGameSync(g, cvMap));
+    }
+
+    /// <summary>
+    /// 单条 enrich：用于 QueryGameByIdAsync 等单条查询场景。
     /// </summary>
     private async Task EnrichGameAsync(Game game)
     {
-        // 计算 PublishDate 时区：driver 默认按 UTC 反序列化，转回本地时间保持与原行为一致
+        var cvMap = await GetCVMapAsync();
+        EnrichGameSync(game, cvMap);
+    }
+
+    /// <summary>
+    /// 同步版本：在已拿到 cvMap 后，纯 CPU 计算派生字段。供 Parallel.ForEach 并行批量调用。
+    /// </summary>
+    private static void EnrichGameSync(Game game, Dictionary<string, CV> cvMap)
+    {
+        // PublishDate 时区：driver 默认按 UTC 反序列化，转回本地时间保持与原行为一致
         if (game.PublishDate != default && game.PublishDate.Kind == DateTimeKind.Utc)
             game.PublishDate = game.PublishDate.ToLocalTime();
 
-        // 计算图片资源 URL（根据配置选择网络或本地路径）
-        game.ImgBase = _useLocalImg
-            ? $"file:///{_localImgPath.Replace('\\', '/').TrimEnd('/')}/img/{game.PublishDate.Year}/{game.PublishDate.Month}/{game.Id}/"
-            : $"http://{_imgServer}/img/{game.PublishDate.Year}/{game.PublishDate.Month}/{game.Id}/";
-        game.CoverUrl = $"{game.ImgBase}game_s.jpg";
-        game.StoryImageUrl = $"{game.ImgBase}game_l.jpg";
-
-        // 加载 CV 地图并填充角色数据
-        var cvMap = await GetCVMapAsync();
+        // 角色头像 URL + CV 关联
         foreach (var c in game.GameCharacters)
         {
             c.AvatarUrl = $"{game.ImgBase}char_s_{c.Index}.jpg";
-            // 通过 trueCV 匹配声优评分数据
             if (!string.IsNullOrEmpty(c.TrueCV) && cvMap.TryGetValue(c.TrueCV, out var cv))
                 c.CvObj = cv;
-            // 角色名按空格拆分为 title / subTitle
-            SplitCharName(c);
         }
+        // 截图 URL
         foreach (var img in game.SimpleImgs)
             img.Url = $"{game.ImgBase}simple_l_{img.Index}.jpg";
-    }
-
-    /// <summary>将角色名按空格拆分为 CharTitle 和 CharSubTitle</summary>
-    private static void SplitCharName(GameCharacter c)
-    {
-        if (string.IsNullOrEmpty(c.Name)) return;
-        var parts = c.Name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        if (parts.Length > 1)
-        {
-            c.CharSubTitle = parts[0];
-            c.CharTitle = string.Join(" ", parts.Skip(1));
-        }
-        else
-        {
-            c.CharTitle = c.Name;
-        }
     }
 
     /// <summary>从 cv 集合加载所有声优数据到内存字典（强类型查询，首次访问后缓存）</summary>

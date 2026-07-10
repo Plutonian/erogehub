@@ -1,5 +1,6 @@
 using System.IO;
 using System.Windows;
+using ErogeHub.Wpf.Models;
 using ErogeHub.Wpf.Services;
 using ErogeHub.Wpf.ViewModels;
 using ErogeHub.Wpf.Views;
@@ -30,6 +31,9 @@ public partial class App : Application
         var imgServer = config["ImgServer"]!;
         var useLocalImg = config["ImgMode"]?.Equals("local", StringComparison.OrdinalIgnoreCase) == true;
         var localImgPath = config["LocalImgPath"] ?? "";
+
+        // 初始化图片配置（供 Game 模型计算派生 URL）
+        ImageConfig.Initialize(imgServer, useLocalImg, localImgPath);
 
         // 注册 DI 服务
         var services = new ServiceCollection();

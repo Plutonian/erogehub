@@ -1,0 +1,125 @@
+<!--
+    DataTemplates.xaml - 数据模板
+    在 SearchWindow.xaml 中合并到 Window.Resources
+    仅 SearchWindow 使用（含 RelativeSource AncestorType=Window 绑定）
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:hc="https://handyorg.github.io/handycontrol"
+                    xmlns:vm="clr-namespace:ErogeHub.Wpf.ViewModels"
+                    xmlns:models="clr-namespace:ErogeHub.Wpf.Models"
+                    xmlns:controls="clr-namespace:ErogeHub.Wpf.Controls">
+
+    <!-- ========== 游戏卡片模板（使用 GameCardControl 用户控件） ========== -->
+    <DataTemplate x:Key="GameCardTemplate" DataType="{x:Type models:Game}">
+        <controls:GameCardControl
+            Game="{Binding}"
+            OpenDetailCommand="{Binding DataContext.OpenDetailCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+            CycleCardEmotionCommand="{Binding DataContext.CycleCardEmotionCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+            CycleCardPlayStateCommand="{Binding DataContext.CycleCardPlayStateCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+            DeleteCardCommand="{Binding DataContext.DeleteCardCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+            BrandClickToSearchCommand="{Binding DataContext.BrandClickToSearchCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+            ToggleCardLocationCommand="{Binding DataContext.ToggleCardLocationCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+            TagClickToSearchCommand="{Binding DataContext.TagClickToSearchCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+            StarChangedCommand="{Binding DataContext.CardStarChangedCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+    </DataTemplate>
+
+    <!-- ========== 搜索条件项模板（左侧搜索面板中的每一条搜索条件） ========== -->
+    <DataTemplate x:Key="SearchOptTemplate" DataType="{x:Type models:SearchOpt}">
+        <Border Background="#33334A" CornerRadius="4" Margin="0,2" Padding="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <!-- 搜索类型下拉框：TITLE/EMOTION/LOCATION/PLAYSTATE/TAG 等 -->
+                <hc:ComboBox Grid.Column="0" MinWidth="100" Margin="0,0,4,0"
+                             ItemsSource="{x:Static vm:SearchViewModel.SearchTypeOptions}"
+                             DisplayMemberPath="Label" SelectedValuePath="Type"
+                             SelectedValue="{Binding Key}" IsEnabled="{Binding Enabled}"/>
+                <!-- 纯文本输入：当搜索类型为文本型时显示 -->
+                <hc:TextBox Grid.Column="1" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{Binding Enabled}"
+                            Visibility="{Binding Key, Converter={StaticResource IsText}}"
+                            VerticalContentAlignment="Center"/>
+                <!-- 星级评分输入：当搜索类型为 STAR 时显示 -->
+                <hc:Rate Grid.Column="1" Value="{Binding Value, Converter={StaticResource Str2Double}, Mode=TwoWay}"
+                         IsEnabled="{Binding Enabled}" AllowClear="True"
+                         Visibility="{Binding Key, Converter={StaticResource IsStar}}"
+                         VerticalAlignment="Center"/>
+                <!-- 下拉选择输入：当搜索类型为 EMOTION/LOCATION/PLAYSTATE 时显示对应选项 -->
+                <hc:ComboBox Grid.Column="1" IsEnabled="{Binding Enabled}"
+                             Visibility="{Binding Key, Converter={StaticResource IsSelect}}"
+                             SelectedValue="{Binding Value}" VerticalContentAlignment="Center">
+                    <hc:ComboBox.Style>
+                        <Style TargetType="hc:ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Key}" Value="{x:Static models:SearchType.EMOTION}">
+                                    <Setter Property="ItemsSource" Value="{x:Static vm:SearchViewModel.EmotionOptions}"/>
+                                    <Setter Property="DisplayMemberPath" Value="Label"/>
+                                    <Setter Property="SelectedValuePath" Value="Value"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Key}" Value="{x:Static models:SearchType.LOCATION}">
+                                    <Setter Property="ItemsSource" Value="{x:Static vm:SearchViewModel.LocationOptions}"/>
+                                    <Setter Property="DisplayMemberPath" Value="Label"/>
+                                    <Setter Property="SelectedValuePath" Value="Value"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Key}" Value="{x:Static models:SearchType.PLAYSTATE}">
+                                    <Setter Property="ItemsSource" Value="{x:Static vm:SearchViewModel.PlayStateOptions}"/>
+                                    <Setter Property="DisplayMemberPath" Value="Label"/>
+                                    <Setter Property="SelectedValuePath" Value="Value"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </hc:ComboBox.Style>
+                </hc:ComboBox>
+                <!-- 启用/禁用该搜索条件的复选框 -->
+                <CheckBox Grid.Column="2" IsChecked="{Binding Enabled}" Margin="4,0" VerticalAlignment="Center"/>
+                <!-- 操作按钮：交换（将包含条件变为排除条件，反之亦然）、删除 -->
+                <StackPanel Grid.Column="3" Orientation="Horizontal">
+                    <Button Content="&#x21C4;" ToolTip="交换" Margin="2,0" Padding="6,2"
+                               Command="{Binding DataContext.SwapSearchOptCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                               CommandParameter="{Binding}"/>
+                    <Button Content="&#xD7;" ToolTip="删除" Margin="2,0" Padding="6,2"
+                               Style="{StaticResource ButtonDanger}"
+                               Command="{Binding DataContext.RemoveSearchOptCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                               CommandParameter="{Binding}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+    <!-- ========== 通用聚合项模板：名称 + 数量，用于 Tag/CV 等 ========== -->
+    <DataTemplate x:Key="GroupItemTemplate" DataType="{x:Type models:GroupItem}">
+        <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
+                   Command="{Binding DataContext.TagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                   CommandParameter="{Binding}">
+            <DockPanel>
+                <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">
+                    <TextBlock Text="{Binding Count}" Foreground="#CCC" FontSize="10"/>
+                </Border>
+                <TextBlock Text="{Binding Title}" Foreground="#DDD" TextTrimming="CharacterEllipsis"/>
+            </DockPanel>
+        </Button>
+    </DataTemplate>
+
+    <!-- 星级聚合项模板：星级评分 + 数量（无 Button，由 ListBox 选中触发） -->
+    <DataTemplate x:Key="StarGroupTemplate" DataType="{x:Type models:StarGroupItem}">
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#CCC" Margin="8,0,0,0"/>
+            <hc:Rate Value="{Binding Star}" IsReadOnly="True" AllowClear="False" FontSize="12" Foreground="#FFB800" IsHitTestVisible="False"/>
+        </DockPanel>
+    </DataTemplate>
+
+    <!-- 品牌聚合项模板：支持层级展开，使用 HierarchicalDataTemplate（无 Button，由 TreeView 选中触发） -->
+    <HierarchicalDataTemplate x:Key="BrandGroupTemplate" DataType="{x:Type models:BrandGroupItem}"
+                              ItemsSource="{Binding Children}">
+        <DockPanel Margin="2,1">
+            <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" Foreground="#888" Margin="8,0,0,0"/>
+            <TextBlock Text="{Binding Title}" Foreground="#DDD"/>
+        </DockPanel>
+    </HierarchicalDataTemplate>
+
+</ResourceDictionary>

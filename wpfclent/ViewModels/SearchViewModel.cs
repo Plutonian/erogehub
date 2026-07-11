@@ -160,7 +160,7 @@ public partial class SearchViewModel : ObservableObject
             else
                 await LoadGroupedDataAsync(filter, token);
         }
-        catch (OperationCanceledException) when (_listCts?.IsCancellationRequested == true)
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
         {
             // 主动取消，静默
         }
@@ -241,7 +241,7 @@ public partial class SearchViewModel : ObservableObject
             var aggTask = LoadAggregationsAsync(filter, aggToken);
             await Task.WhenAll(dataTask, aggTask);
         }
-        catch (OperationCanceledException) when (_listCts?.IsCancellationRequested == true || _aggCts?.IsCancellationRequested == true)
+        catch (OperationCanceledException) when (listToken.IsCancellationRequested || aggToken.IsCancellationRequested)
         {
             // 主动取消是预期行为，静默吞掉
         }
@@ -265,7 +265,7 @@ public partial class SearchViewModel : ObservableObject
         {
             await LoadPagedDataAsync(BuildFilter(), token);
         }
-        catch (OperationCanceledException) when (_listCts?.IsCancellationRequested == true)
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
         {
             // 主动取消，静默
         }

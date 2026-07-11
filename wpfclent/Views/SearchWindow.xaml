@@ -279,7 +279,7 @@
                                  ItemsSource="{Binding StarGroup}" ItemTemplate="{StaticResource StarGroupTemplate}"
                                  ItemContainerStyle="{StaticResource AggListBoxItemStyle}"
                                  SelectionMode="Single" Background="Transparent" BorderThickness="0" Margin="4"
-                                 SelectionChanged="StarListBox_SelectionChanged"/>
+                                 SelectedItem="{Binding SelectedStar, Mode=TwoWay}"/>
                     </Grid>
 
                     <!-- 情感分布 -->
@@ -294,7 +294,7 @@
                                  ItemsSource="{Binding EmotionGroup}" Margin="4"
                                  ItemContainerStyle="{StaticResource AggListBoxItemStyle}"
                                  SelectionMode="Single" Background="Transparent" BorderThickness="0"
-                                 SelectionChanged="EmotionListBox_SelectionChanged">
+                                 SelectedItem="{Binding SelectedEmotion, Mode=TwoWay}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:EmotionGroupItem}">
                                     <DockPanel>
@@ -318,7 +318,7 @@
                                  ItemsSource="{Binding LocationGroup}" Margin="4"
                                  ItemContainerStyle="{StaticResource AggListBoxItemStyle}"
                                  SelectionMode="Single" Background="Transparent" BorderThickness="0"
-                                 SelectionChanged="LocationListBox_SelectionChanged">
+                                 SelectedItem="{Binding SelectedLocation, Mode=TwoWay}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:LocationGroupItem}">
                                     <DockPanel>
@@ -342,7 +342,7 @@
                                  ItemsSource="{Binding PlayStateGroup}" Margin="4"
                                  ItemContainerStyle="{StaticResource AggListBoxItemStyle}"
                                  SelectionMode="Single" Background="Transparent" BorderThickness="0"
-                                 SelectionChanged="PlayStateListBox_SelectionChanged">
+                                 SelectedItem="{Binding SelectedPlayState, Mode=TwoWay}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:PlayStateGroupItem}">
                                     <DockPanel>

@@ -208,6 +208,44 @@ public partial class SearchViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<BrandGroupItem> _brandGroup = new();
 
+    // ==================== 聚合面板选中项（双向绑定，选中后触发命令并清空，允许重复点击） ====================
+
+    [ObservableProperty]
+    private StarGroupItem? _selectedStar;
+    partial void OnSelectedStarChanged(StarGroupItem? value)
+    {
+        if (value is null) return;
+        OnStarClicked(value);
+        SelectedStar = null;
+    }
+
+    [ObservableProperty]
+    private EmotionGroupItem? _selectedEmotion;
+    partial void OnSelectedEmotionChanged(EmotionGroupItem? value)
+    {
+        if (value is null) return;
+        OnEmotionClicked(value);
+        SelectedEmotion = null;
+    }
+
+    [ObservableProperty]
+    private LocationGroupItem? _selectedLocation;
+    partial void OnSelectedLocationChanged(LocationGroupItem? value)
+    {
+        if (value is null) return;
+        OnLocationClicked(value);
+        SelectedLocation = null;
+    }
+
+    [ObservableProperty]
+    private PlayStateGroupItem? _selectedPlayState;
+    partial void OnSelectedPlayStateChanged(PlayStateGroupItem? value)
+    {
+        if (value is null) return;
+        OnPlayStateClicked(value);
+        SelectedPlayState = null;
+    }
+
     // ==================== 构造函数 ====================
 
     public SearchViewModel(GameRepository gameRepo, GameAggregator aggregator, GameUpdater updater, IServiceProvider services)

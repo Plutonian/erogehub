@@ -56,7 +56,7 @@
                                       ToolTip="启用/禁用日期筛选"/>
                             <TextBlock Text="发布日期" Foreground="#AAA" FontSize="12" FontWeight="SemiBold"
                                        VerticalAlignment="Center"/>
-                            <hc:ComboBox ItemsSource="{Binding DatePresets}" DisplayMemberPath="Label"
+                            <hc:ComboBox ItemsSource="{x:Static models:SearchOptions.DatePresets}" DisplayMemberPath="Label"
                                          SelectedValuePath="Key" SelectedValue="{Binding SelectedDatePreset}"
                                          IsEnabled="{Binding IsDateRangeEnabled}"
                                          MinWidth="100" VerticalContentAlignment="Center" DockPanel.Dock="Left" Width="216"/>
@@ -151,7 +151,7 @@
                 <!-- 分组类型选择器（右侧） -->
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock Text="分组" Foreground="#999" VerticalAlignment="Center" Margin="0,0,6,0"/>
-                    <hc:ComboBox ItemsSource="{x:Static vm:SearchViewModel.GroupTypeOptions}"
+                    <hc:ComboBox ItemsSource="{x:Static models:SearchOptions.GroupTypeOptions}"
                                  DisplayMemberPath="Label" SelectedValuePath="Type"
                                  SelectedValue="{Binding SelectedGroupType}"
                                  MinWidth="80" VerticalContentAlignment="Center"/>

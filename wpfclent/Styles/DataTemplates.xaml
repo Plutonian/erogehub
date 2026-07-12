@@ -36,7 +36,7 @@
                 </Grid.ColumnDefinitions>
                 <!-- 搜索类型下拉框：TITLE/EMOTION/LOCATION/PLAYSTATE/TAG 等 -->
                 <hc:ComboBox Grid.Column="0" MinWidth="100" Margin="0,0,4,0"
-                             ItemsSource="{x:Static vm:SearchViewModel.SearchTypeOptions}"
+                             ItemsSource="{x:Static models:SearchOptions.SearchTypeOptions}"
                              DisplayMemberPath="Label" SelectedValuePath="Type"
                              SelectedValue="{Binding Key}" IsEnabled="{Binding Enabled}"/>
                 <!-- 纯文本输入：当搜索类型为文本型时显示 -->
@@ -57,17 +57,17 @@
                         <Style TargetType="hc:ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Key}" Value="{x:Static models:SearchType.EMOTION}">
-                                    <Setter Property="ItemsSource" Value="{x:Static vm:SearchViewModel.EmotionOptions}"/>
+                                    <Setter Property="ItemsSource" Value="{x:Static models:SearchOptions.EmotionOptions}"/>
                                     <Setter Property="DisplayMemberPath" Value="Label"/>
                                     <Setter Property="SelectedValuePath" Value="Value"/>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding Key}" Value="{x:Static models:SearchType.LOCATION}">
-                                    <Setter Property="ItemsSource" Value="{x:Static vm:SearchViewModel.LocationOptions}"/>
+                                    <Setter Property="ItemsSource" Value="{x:Static models:SearchOptions.LocationOptions}"/>
                                     <Setter Property="DisplayMemberPath" Value="Label"/>
                                     <Setter Property="SelectedValuePath" Value="Value"/>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding Key}" Value="{x:Static models:SearchType.PLAYSTATE}">
-                                    <Setter Property="ItemsSource" Value="{x:Static vm:SearchViewModel.PlayStateOptions}"/>
+                                    <Setter Property="ItemsSource" Value="{x:Static models:SearchOptions.PlayStateOptions}"/>
                                     <Setter Property="DisplayMemberPath" Value="Label"/>
                                     <Setter Property="SelectedValuePath" Value="Value"/>
                                 </DataTrigger>

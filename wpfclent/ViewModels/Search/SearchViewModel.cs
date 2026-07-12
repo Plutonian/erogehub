@@ -31,21 +31,6 @@ public partial class SearchViewModel : ObservableObject
         return (cts = new CancellationTokenSource()).Token;
     }
 
-    // ==================== 选项列表（供 UI 绑定，定义已移至 SearchOptions） ====================
-
-    /// <summary>搜索类型下拉列表（转发到 SearchOptions，保持 VM 绑定路径兼容）</summary>
-    public static List<SearchOptions.SearchTypeOption> SearchTypeOptions => SearchOptions.SearchTypeOptions;
-    /// <summary>情感下拉选项</summary>
-    public static List<SearchOptions.EnumOption> EmotionOptions => SearchOptions.EmotionOptions;
-    /// <summary>位置下拉选项</summary>
-    public static List<SearchOptions.EnumOption> LocationOptions => SearchOptions.LocationOptions;
-    /// <summary>游玩状态下拉选项</summary>
-    public static List<SearchOptions.EnumOption> PlayStateOptions => SearchOptions.PlayStateOptions;
-    /// <summary>列表分组类型下拉选项</summary>
-    public static List<SearchOptions.GroupTypeOption> GroupTypeOptions => SearchOptions.GroupTypeOptions;
-    /// <summary>日期范围预设列表</summary>
-    public static List<DatePreset> DatePresets => SearchOptions.DatePresets;
-
     // ==================== 游戏列表 / 分页 ====================
 
     /// <summary>当前页的游戏卡片数据</summary>

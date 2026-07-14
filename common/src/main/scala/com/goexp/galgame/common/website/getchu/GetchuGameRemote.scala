@@ -36,7 +36,7 @@ object GetchuGameRemote {
   def getUrlFromSrc(src: String): String = {
     if (src.startsWith("http") || src.startsWith("https")) return src
 
-    s"$searchUrl/${src.replaceFirst("\\.", "")}"
+    s"$searchUrl$src"
   }
 
 }

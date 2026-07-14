@@ -37,8 +37,8 @@ private object DetailPageParser {
       g.writer = ele.select("td:contains(シナリオ)").next.text.split("、").to(LazyList).map(s => s.trim).asJava
       g.`type` = ele.select("td:contains(サブジャンル)").next.text.replace("[一覧]", "").split("、").to(LazyList).map(s => s.trim).asJava
       g.tag = ele.select("td:contains(カテゴリ)").next.text.replace("[一覧]", "").split("、").to(LazyList).map(s => s.trim).asJava
-      g.story = root.select("#wrapper div.tabletitle:contains(ストーリー)").next.html.replaceAll("<[^>]*>", "").replace("<br>", "").replace(" ", "")
-      g.intro = root.select("#wrapper div.tabletitle:contains(商品紹介)").next.html.replaceAll("<[^>]*>", "").replace("<br>", "").replace(" ", "")
+      g.story = root.select("#wrapper .tabletitle:contains(ストーリー)").next.html.replaceAll("<[^>]*>", "").replace("<br>", "").replace(" ", "")
+      g.intro = root.select("#wrapper .tabletitle:contains(商品紹介)").next.html.replaceAll("<[^>]*>", "").replace("<br>", "").replace(" ", "")
       val brandUrl = ele.select("a:contains(このブランドの作品一覧)").attr("href")
       g.brandId = BRAND_ID_REGEX.findFirstMatchIn(brandUrl).map(m => m.group("brandid").toInt).getOrElse(0)
       g
@@ -61,10 +61,10 @@ private object DetailPageParser {
     }
 
     def parse(root: Document) =
-      root.select("#wrapper div.tabletitle:contains(キャラクター)").next.select("tbody>tr:nth-of-type(2n+1)").asScala
+      root.select("#wrapper .tabletitle:contains(キャラクター)").next.select("tbody>tr:nth-of-type(2n+1)").asScala
         .to(LazyList)
         .map { tr =>
-          val title = tr.select("h2.chara-name").text
+          val title = tr.select(".chara-name").text
           val cv = parseCV(title)
 
           val person = GameCharacter(
@@ -84,7 +84,7 @@ private object DetailPageParser {
     private var imgIndex = 1
 
     def parse(root: Document) =
-      root.select("#wrapper div.tabletitle:contains(サンプル画像)").next.select("a.highslide")
+      root.select("#wrapper .tabletitle:contains(サンプル画像)").next.select("a.highslide")
         .asScala.to(LazyList)
         .map { a =>
           val img = GameImg(

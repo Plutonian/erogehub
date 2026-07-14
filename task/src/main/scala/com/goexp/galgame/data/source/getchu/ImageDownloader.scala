@@ -39,7 +39,7 @@ object ImageDownloader {
       .header("Accept-Language", "ja,en-US;q=0.7,en;q=0.3")
       .header("Cache-Control", "max-age=0")
       .header("Upgrade-Insecure-Requests", "1")
-      .header("Referer", "http://www.getchu.com")
+      .header("Referer", "https://www.getchu.com")
       .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36")
       .timeout(Duration.ofMinutes(2))
       .build()

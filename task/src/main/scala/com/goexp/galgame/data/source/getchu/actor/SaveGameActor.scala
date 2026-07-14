@@ -115,19 +115,19 @@ class SaveGameActor extends DefaultActor {
           /**
            * upgrade sample img
            */
-//          val localImgSize = Option(localGame.gameImgs).map(_.size).getOrElse(0)
-//          val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)
-//
-//          if (remoteImgSize > localImgSize) {
-//
-//            logger.info(s"Update SampleImage [${RED.s(localGame.id.toString)}] ${RED.s(localGame.name)} ($localImgSize --> $remoteImgSize)")
-//            GameDB.updateImg(remoteGame)
-//          }
-//
-//          remoteGame.smallImg = localGame.smallImg
-//
-//
-//          sendTo[PrepareDownloadImageActor](remoteGame)
+          val localImgSize = Option(localGame.gameImgs).map(_.size).getOrElse(0)
+          val remoteImgSize = Option(remoteGame.gameImgs).map(_.size).getOrElse(0)
+
+          if (remoteImgSize > localImgSize) {
+
+            logger.info(s"Update SampleImage [${RED.s(localGame.id.toString)}] ${RED.s(localGame.name)} ($localImgSize --> $remoteImgSize)")
+            GameDB.updateImg(remoteGame)
+          }
+
+          remoteGame.smallImg = localGame.smallImg
+
+
+          sendTo[PrepareDownloadImageActor](remoteGame)
 
 
         case _ =>

@@ -40,7 +40,10 @@ object Config {
             System.setProperty("http.proxyPort", port)
           }
 
-        Option(c.proxy.https)
+                // https 代理：若 DB 未配 proxy.https，回退使用 http 代理（多数 http 代理同样支持 CONNECT 隧道）
+        // 否则 https.proxyHost 为空 → HttpClient 直连 getchu:443 → 被防火墙 RST → SSLHandshakeException
+        val httpsProxy = Option(c.proxy.https).filter(Strings.isNotEmpty).getOrElse(c.proxy.http)
+        Option(httpsProxy)
           .filter(s => Strings.isNotEmpty(s))
           .map(_.split(":")).foreach { pear =>
           val host = pear(0)

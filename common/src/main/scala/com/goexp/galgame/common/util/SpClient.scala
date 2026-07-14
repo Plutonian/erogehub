@@ -19,7 +19,7 @@ object SpClient {
   sessionCookie.setVersion(0)
 
   val cookieManager = new CookieManager()
-  cookieManager.getCookieStore.add(new URI("http://www.getchu.com"), sessionCookie)
+  cookieManager.getCookieStore.add(new URI("https://www.getchu.com"), sessionCookie)
 
   val httpClient: HttpClient =
     HttpClient.newBuilder

@@ -38,7 +38,7 @@ class DownloadPageActor extends OnErrorReTryActor(20, 5, TimeUnit.SECONDS) {
       val request = RequestBuilder(url).adaltFlag.build
       val html = download(request)(DEFAULT_CHARSET)
 
-      logger.debug(html)
+      logger.trace(html)
 
       sendTo[ParsePageActor]((html, "ListPageParser"))
       sendTo[ShutdownActor]("reset")

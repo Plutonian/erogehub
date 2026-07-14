@@ -51,7 +51,7 @@ class Game extends CommonGame with Logger {
       //      .add("tag=" + tag)
       //      .add("gameImgs=" + gameImgs)
       //      .add("gameCharacters=" + gameCharacters)
-      //                .add("story='" + story + "'")
+                      .add("story='" + story + "'")
       //                .add("intro='" + intro + "'")
       .toString
   }
@@ -118,10 +118,10 @@ class Game extends CommonGame with Logger {
         .filter { sampleImg => Strings.isNotEmpty(sampleImg.src) }
         .foreach { sampleImg =>
 
-          val smallSimpleLocal = Config.IMG_LOCAL_ROOT.resolve(s"${GetchuGameLocal.smallSimpleImg(g, sampleImg.index)}.jpg")
-          val smallSimpleRemote = GetchuGameRemote.smallSimpleImg(sampleImg.src)
-
-          list.addOne((smallSimpleLocal, smallSimpleRemote))
+//          val smallSimpleLocal = Config.IMG_LOCAL_ROOT.resolve(s"${GetchuGameLocal.smallSimpleImg(g, sampleImg.index)}.jpg")
+//          val smallSimpleRemote = GetchuGameRemote.smallSimpleImg(sampleImg.src)
+//
+//          list.addOne((smallSimpleLocal, smallSimpleRemote))
 
           val largeSimpleLocal = Config.IMG_LOCAL_ROOT.resolve(s"${GetchuGameLocal.largeSimpleImg(g, sampleImg.index)}.jpg")
           val largeSimpleRemote = GetchuGameRemote.largeSimpleImg(sampleImg.src)

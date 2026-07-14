@@ -19,6 +19,8 @@ class ParsePageActor extends DefaultActor {
       try {
         val game = new DetailPageParser().parse(gameId, html)
 
+        logger.debug(s"Game:$game")
+
         if (game.brandId == 0) {
           logger.error(s"Get brandid error Game[${game.id}] ${game.name}")
         } else {

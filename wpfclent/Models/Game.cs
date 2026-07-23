@@ -122,7 +122,11 @@ public partial class Game : ObservableObject
 
     /// <summary>封面图 BitmapImage（延迟加载，缓存实例避免虚拟化回收时重复创建和解码）</summary>
     [BsonIgnore]
-    public ImageSource? CoverImage => _coverImage ??= CreateCoverImage();
+    public ImageSource? CoverImage
+    {
+        get => _coverImage ??= CreateCoverImage();
+        internal set => _coverImage = value;
+    }
 
     private ImageSource? _coverImage;
 

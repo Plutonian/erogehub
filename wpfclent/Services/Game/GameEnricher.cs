@@ -1,10 +1,12 @@
 using ErogeHub.Wpf.Models;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace ErogeHub.Wpf.Services;
 
 /// <summary>
 /// 游戏 Enricher：基于已加载的 CV 字典，并行计算 Game 的派生字段
-/// （角色头像 URL、CV 关联、截图 URL、PublishDate 时区校正）。
+/// （角色头像 URL、CV 关联、截图 URL、PublishDate 时区校正、封面图预解码）。
 /// </summary>
 public class GameEnricher
 {
@@ -16,15 +18,25 @@ public class GameEnricher
     }
 
     /// <summary>
-    /// 批量并行 enrich：先一次性拿 cvMap（异步），再用 Parallel.ForEach 并行计算每个 Game 的派生字段。
-    /// 相比串行 foreach + await，避免了重复 await 调度开销，适合批量场景。
+    /// 批量并行 enrich：先一次性拿 cvMap（异步），再并行计算派生字段，最后并行预下载封面图。
+    /// 封面图在后台线程下载+解码+Freeze，避免首次渲染时在 UI 线程阻塞。
     /// </summary>
     public async Task EnrichAsync(List<Game> games, CancellationToken cancellationToken = default)
     {
         if (games.Count == 0) return;
         var cvMap = await _cvRepository.GetCvMapAsync(cancellationToken);
-        var parallelOpts = new ParallelOptions { CancellationToken = cancellationToken };
-        Parallel.ForEach(games, parallelOpts, g => EnrichSync(g, cvMap));
+
+        // 第一步：CPU 计算派生字段（快）
+        var cpuOpts = new ParallelOptions { CancellationToken = cancellationToken };
+        Parallel.ForEach(games, cpuOpts, g => EnrichSync(g, cvMap));
+
+        // 第二步：预下载+解码封面图（I/O bound，限制 8 并发避免网络拥塞）
+        var ioOpts = new ParallelOptions
+        {
+            CancellationToken = cancellationToken,
+            MaxDegreeOfParallelism = 8
+        };
+        Parallel.ForEach(games, ioOpts, PreloadCoverImage);
     }
 
     /// <summary>单条 enrich：用于 QueryGameByIdAsync 等单条查询场景。</summary>
@@ -32,6 +44,7 @@ public class GameEnricher
     {
         var cvMap = await _cvRepository.GetCvMapAsync(cancellationToken);
         EnrichSync(game, cvMap);
+        PreloadCoverImage(game);
     }
 
     /// <summary>
@@ -53,5 +66,30 @@ public class GameEnricher
         // 截图 URL
         foreach (var img in game.SimpleImgs)
             img.Url = $"{game.ImgBase}simple_l_{img.Index}.jpg";
+    }
+
+    /// <summary>
+    /// 后台线程预下载+解码封面图，Freeze 后缓存到 Game.CoverImage。
+    /// 失败时静默忽略，CoverImage getter 会回退到 DelayCreation 在 UI 线程懒加载。
+    /// </summary>
+    private static void PreloadCoverImage(Game game)
+    {
+        if (string.IsNullOrEmpty(game.CoverUrl)) return;
+        try
+        {
+            var bmp = new BitmapImage();
+            bmp.BeginInit();
+            bmp.DecodePixelWidth = 280;
+            bmp.UriSource = new Uri(game.CoverUrl);
+            bmp.CacheOption = BitmapCacheOption.OnLoad;
+            bmp.EndInit();
+            bmp.Freeze();
+            game.CoverImage = bmp;
+        }
+        catch
+        {
+            // 图片加载失败（404/网络错误），CoverImage 保持 null
+            // getter 会回退到 CreateCoverImage()（DelayCreation）在渲染时重试
+        }
     }
 }

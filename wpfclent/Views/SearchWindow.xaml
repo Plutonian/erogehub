@@ -160,17 +160,37 @@
 
             <!-- 卡片列表：平铺 / 分组双视图，加载时显示 LoadingCircle -->
             <hc:SimplePanel>
-                <!-- 平铺模式（无分组） -->
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
-                              Visibility="{Binding IsNotGrouping, Converter={StaticResource Bool2Vis}}">
-                    <ItemsControl ItemsSource="{Binding Games}" ItemTemplate="{StaticResource GameCardTemplate}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </ScrollViewer>
+                <!-- 平铺模式（无分组）：虚拟化 ListBox -->
+                <ListBox ItemsSource="{Binding Games}"
+                         ItemTemplate="{StaticResource GameCardTemplate}"
+                         ScrollViewer.CanContentScroll="True"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         VirtualizingPanel.IsVirtualizing="True"
+                         VirtualizingPanel.ScrollUnit="Pixel"
+                         Background="Transparent" BorderThickness="0"
+                         Visibility="{Binding IsNotGrouping, Converter={StaticResource Bool2Vis}}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <vwp:VirtualizingWrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Margin" Value="0"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <ContentPresenter/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
 
                 <!-- 分组模式：虚拟化 ListBox + CollectionView 分组（外层虚拟化组、内层虚拟化卡片） -->
                 <ListBox ItemsSource="{Binding Games}"

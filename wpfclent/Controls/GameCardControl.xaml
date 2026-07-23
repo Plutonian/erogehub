@@ -4,15 +4,7 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:conv="clr-namespace:ErogeHub.Wpf.Converters">
 
-    <!-- 卡片内部使用的转换器 -->
-    <UserControl.Resources>
-        <conv:BoolToVisibilityConverter x:Key="Bool2Vis"/>
-        <conv:PlayStateToBrushConverter x:Key="PlayStateBrush"/>
-        <conv:EmotionToBrushConverter x:Key="EmotionBrush"/>
-        <conv:StringToVisibilityConverter x:Key="Str2Vis"/>
-        <conv:WebsiteToVisibilityConverter x:Key="Web2Vis"/>
-        <conv:DateRelativeConverter x:Key="DateRel"/>
-    </UserControl.Resources>
+    <!-- Converter 使用全局注册（App.xaml → Converters.xaml），无需在此重复定义 -->
 
     <!-- DataContext 自动继承自父级（Game 对象），所以直接用 {Binding PropertyName} -->
     <!-- 命令通过 RelativeSource 绑定到 UserControl 自身的 DependencyProperty -->

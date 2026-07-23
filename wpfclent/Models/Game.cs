@@ -125,7 +125,14 @@ public partial class Game : ObservableObject
     public ImageSource? CoverImage
     {
         get => _coverImage ??= CreateCoverImage();
-        internal set => _coverImage = value;
+        internal set
+        {
+            if (_coverImage != value)
+            {
+                _coverImage = value;
+                OnPropertyChanged(nameof(CoverImage));
+            }
+        }
     }
 
     private ImageSource? _coverImage;

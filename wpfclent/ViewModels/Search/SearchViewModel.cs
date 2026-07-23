@@ -35,7 +35,7 @@ public partial class SearchViewModel : ObservableObject
 
     /// <summary>当前页的游戏卡片数据</summary>
     [ObservableProperty]
-    private ObservableCollection<Game> _games = new();
+    private RangeObservableCollection<Game> _games = new();
 
     /// <summary>当前页码</summary>
     [ObservableProperty]
@@ -82,7 +82,7 @@ public partial class SearchViewModel : ObservableObject
         var countTask = _gameRepo.CountAsync(filter, cancellationToken);
         await Task.WhenAll(gamesTask, countTask);
 
-        Games = new ObservableCollection<Game>(gamesTask.Result);
+        Games.ReplaceAll(gamesTask.Result);
         // 清除分组（从分组模式切回分页模式时）
         CollectionViewSource.GetDefaultView(Games).GroupDescriptions.Clear();
         Total = countTask.Result;
@@ -101,7 +101,7 @@ public partial class SearchViewModel : ObservableObject
         TotalPages = 1;
 
         // 扁平集合 + CollectionView 分组（配合虚拟化 ListBox）
-        Games = new ObservableCollection<Game>(allGames);
+        Games.ReplaceAll(allGames);
         var view = CollectionViewSource.GetDefaultView(Games);
         view.GroupDescriptions.Clear();
         var sortWeights = GameGroupDescription.ComputeSortWeights(allGames, SelectedGroupType);

@@ -18,8 +18,9 @@ public class GameEnricher
     }
 
     /// <summary>
-    /// 批量并行 enrich：先一次性拿 cvMap（异步），再并行计算派生字段，最后并行预下载封面图。
-    /// 封面图在后台线程下载+解码+Freeze，避免首次渲染时在 UI 线程阻塞。
+    /// 批量并行 enrich：先一次性拿 cvMap（异步），再并行计算派生字段。
+    /// 封面图在后台 fire-and-forget 预下载，不阻塞 EnrichAsync 返回。
+    /// 图片下载完后通过 PropertyChanged 自动刷新 UI。
     /// </summary>
     public async Task EnrichAsync(List<Game> games, CancellationToken cancellationToken = default)
     {
@@ -30,13 +31,20 @@ public class GameEnricher
         var cpuOpts = new ParallelOptions { CancellationToken = cancellationToken };
         Parallel.ForEach(games, cpuOpts, g => EnrichSync(g, cvMap));
 
-        // 第二步：预下载+解码封面图（I/O bound，限制 8 并发避免网络拥塞）
-        var ioOpts = new ParallelOptions
+        // 第二步：后台预下载封面图（不阻塞，下载完后通过 PropertyChanged 自动刷新 UI）
+        _ = Task.Run(() =>
         {
-            CancellationToken = cancellationToken,
-            MaxDegreeOfParallelism = 8
-        };
-        Parallel.ForEach(games, ioOpts, PreloadCoverImage);
+            try
+            {
+                var ioOpts = new ParallelOptions
+                {
+                    CancellationToken = cancellationToken,
+                    MaxDegreeOfParallelism = 8
+                };
+                Parallel.ForEach(games, ioOpts, PreloadCoverImage);
+            }
+            catch (OperationCanceledException) { }
+        }, cancellationToken);
     }
 
     /// <summary>单条 enrich：用于 QueryGameByIdAsync 等单条查询场景。</summary>

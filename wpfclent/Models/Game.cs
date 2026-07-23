@@ -1,6 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace ErogeHub.Wpf.Models;
 
@@ -117,6 +119,24 @@ public partial class Game : ObservableObject
     /// <summary>封面图完整 URL</summary>
     [BsonIgnore]
     public string CoverUrl => $"{ImgBase}game_s.jpg";
+
+    /// <summary>封面图 BitmapImage（延迟加载，缓存实例避免虚拟化回收时重复创建和解码）</summary>
+    [BsonIgnore]
+    public ImageSource? CoverImage => _coverImage ??= CreateCoverImage();
+
+    private ImageSource? _coverImage;
+
+    private ImageSource? CreateCoverImage()
+    {
+        if (string.IsNullOrEmpty(CoverUrl)) return null;
+        var bmp = new BitmapImage();
+        bmp.BeginInit();
+        bmp.DecodePixelWidth = 280;
+        bmp.UriSource = new Uri(CoverUrl);
+        bmp.CreateOptions = BitmapCreateOptions.DelayCreation;
+        bmp.EndInit();
+        return bmp;
+    }
 
     /// <summary>故事图完整 URL</summary>
     [BsonIgnore]

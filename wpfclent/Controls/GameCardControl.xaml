@@ -100,7 +100,7 @@
                 <!-- 封面图：DecodePixelWidth 按卡片宽度解码，避免解码原图再缩放 -->
                 <Image Width="280" Height="400" Cursor="Hand" VerticalAlignment="Top"
                        Stretch="UniformToFill"
-                       Source="{Binding CoverUrl, Converter={StaticResource CoverImg}, ConverterParameter=280}">
+                       Source="{Binding CoverImage}">
                     <Image.InputBindings>
                         <MouseBinding Command="{Binding OpenDetailCommand, ElementName=card}"
                                       CommandParameter="{Binding}"

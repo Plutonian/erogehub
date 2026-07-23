@@ -272,3 +272,28 @@ public class GrayscaleImageConverter : IMultiValueConverter
     public object?[] ConvertBack(object? value, Type[] targetTypes, object? parameter, CultureInfo culture)
         => throw new NotImplementedException();
 }
+
+/// <summary>
+/// URL string → BitmapImage（按 ConverterParameter 指定宽度解码，减少内存和解码开销）
+/// 配合 DelayCreation 延迟到实际渲染时才下载解码
+/// </summary>
+public class CoverImageConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is not string url || string.IsNullOrEmpty(url))
+            return null;
+
+        var width = parameter is int w ? w : 280;
+        var bmp = new BitmapImage();
+        bmp.BeginInit();
+        bmp.DecodePixelWidth = width;
+        bmp.UriSource = new Uri(url, UriKind.Absolute);
+        bmp.CreateOptions = BitmapCreateOptions.DelayCreation;
+        bmp.EndInit();
+        return bmp;
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotImplementedException();
+}

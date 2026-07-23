@@ -27,5 +27,6 @@
     <!-- 其他 -->
     <conv:WebsiteToVisibilityConverter x:Key="Web2Vis"/>
     <conv:DateRelativeConverter x:Key="DateRel"/>
+    <conv:CoverImageConverter x:Key="CoverImg"/>
 
 </ResourceDictionary>

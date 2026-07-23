@@ -14,14 +14,14 @@
     <DataTemplate x:Key="GameCardTemplate" DataType="{x:Type models:Game}">
         <controls:GameCardControl
             Game="{Binding}"
-            OpenDetailCommand="{Binding DataContext.OpenDetailCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-            CycleCardEmotionCommand="{Binding DataContext.CycleCardEmotionCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-            CycleCardPlayStateCommand="{Binding DataContext.CycleCardPlayStateCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-            DeleteCardCommand="{Binding DataContext.DeleteCardCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-            BrandClickToSearchCommand="{Binding DataContext.BrandClickToSearchCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-            ToggleCardLocationCommand="{Binding DataContext.ToggleCardLocationCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-            TagClickToSearchCommand="{Binding DataContext.TagClickToSearchCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-            StarChangedCommand="{Binding DataContext.CardStarChangedCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+            OpenDetailCommand="{Binding DataContext.OpenDetailCommand, ElementName=RootWindow}"
+            CycleCardEmotionCommand="{Binding DataContext.CycleCardEmotionCommand, ElementName=RootWindow}"
+            CycleCardPlayStateCommand="{Binding DataContext.CycleCardPlayStateCommand, ElementName=RootWindow}"
+            DeleteCardCommand="{Binding DataContext.DeleteCardCommand, ElementName=RootWindow}"
+            BrandClickToSearchCommand="{Binding DataContext.BrandClickToSearchCommand, ElementName=RootWindow}"
+            ToggleCardLocationCommand="{Binding DataContext.ToggleCardLocationCommand, ElementName=RootWindow}"
+            TagClickToSearchCommand="{Binding DataContext.TagClickToSearchCommand, ElementName=RootWindow}"
+            StarChangedCommand="{Binding DataContext.CardStarChangedCommand, ElementName=RootWindow}"/>
     </DataTemplate>
 
     <!-- ========== 搜索条件项模板（左侧搜索面板中的每一条搜索条件） ========== -->
@@ -80,11 +80,11 @@
                 <!-- 操作按钮：交换（将包含条件变为排除条件，反之亦然）、删除 -->
                 <StackPanel Grid.Column="3" Orientation="Horizontal">
                     <Button Content="&#x21C4;" ToolTip="交换" Margin="2,0" Padding="6,2"
-                               Command="{Binding DataContext.SwapSearchOptCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                               Command="{Binding DataContext.SwapSearchOptCommand, ElementName=RootWindow}"
                                CommandParameter="{Binding}"/>
                     <Button Content="&#xD7;" ToolTip="删除" Margin="2,0" Padding="6,2"
                                Style="{StaticResource ButtonDanger}"
-                               Command="{Binding DataContext.RemoveSearchOptCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                               Command="{Binding DataContext.RemoveSearchOptCommand, ElementName=RootWindow}"
                                CommandParameter="{Binding}"/>
                 </StackPanel>
             </Grid>
@@ -94,7 +94,7 @@
     <!-- ========== 通用聚合项模板：名称 + 数量，用于 Tag/CV 等 ========== -->
     <DataTemplate x:Key="GroupItemTemplate" DataType="{x:Type models:GroupItem}">
         <Button Margin="0,1" Padding="4,2" HorizontalContentAlignment="Stretch" Background="Transparent"
-                   Command="{Binding DataContext.TagClickedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                   Command="{Binding DataContext.TagClickedCommand, ElementName=RootWindow}"
                    CommandParameter="{Binding}">
             <DockPanel>
                 <Border DockPanel.Dock="Right" Background="#444466" CornerRadius="8" Padding="6,1">

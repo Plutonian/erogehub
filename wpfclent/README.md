@@ -81,25 +81,35 @@ ErogeHub.Wpf/
 public ImageSource? CoverImage
 {
     get => _coverImage ??= CreateCoverImage();
-    internal set => _coverImage = value;
+    internal set
+    {
+        if (_coverImage != value)
+        {
+            _coverImage = value;
+            OnPropertyChanged(nameof(CoverImage));  // 后台设置后通知 UI 刷新
+        }
+    }
 }
 ```
 
-**GameEnricher 后台预下载**，在数据加载阶段并行下载+解码+Freeze 所有封面图：
+**GameEnricher 后台 fire-and-forget 预下载**，不阻塞数据加载流程：
 
 ```csharp
-// GameEnricher.cs
-Parallel.ForEach(games, ioOpts, game =>
+// GameEnricher.cs — EnrichAsync 只等 CPU 计算完成，图片在后台下载
+_ = Task.Run(() =>
 {
-    var bmp = new BitmapImage();
-    bmp.BeginInit();
-    bmp.DecodePixelWidth = 280;           // 按卡片宽度解码，不解码原图
-    bmp.CacheOption = BitmapCacheOption.OnLoad;  // 立即下载+解码
-    bmp.UriSource = new Uri(game.CoverUrl);
-    bmp.EndInit();
-    bmp.Freeze();                         // 冻结，可跨线程访问
-    game.CoverImage = bmp;
-});
+    Parallel.ForEach(games, ioOpts, game =>
+    {
+        var bmp = new BitmapImage();
+        bmp.BeginInit();
+        bmp.DecodePixelWidth = 280;           // 按卡片宽度解码，不解码原图
+        bmp.CacheOption = BitmapCacheOption.OnLoad;  // 立即下载+解码
+        bmp.UriSource = new Uri(game.CoverUrl);
+        bmp.EndInit();
+        bmp.Freeze();                         // 冻结，可跨线程访问
+        game.CoverImage = bmp;                // PropertyChanged 自动刷新 UI
+    });
+}, cancellationToken);
 ```
 
 | 优化点 | 作用 |
@@ -109,6 +119,8 @@ Parallel.ForEach(games, ioOpts, game =>
 | `Freeze()` | 使 BitmapImage 不可变，WPF 渲染更高效 |
 | `MaxDegreeOfParallelism=8` | 限制并发避免网络拥塞 |
 | Game 模型缓存 | 每个 Game 对象只创建一次 BitmapImage，回收复用时零开销 |
+| fire-and-forget | 图片下载不阻塞 `EnrichAsync`，卡片先显示再加载图片 |
+| `OnPropertyChanged` | 后台线程设置 `CoverImage` 后通知 UI 刷新，WPF 自动 marshal 到 UI 线程 |
 
 ### 4. 绑定路径优化
 
@@ -123,6 +135,57 @@ Command="{Binding DataContext.OpenDetailCommand, ElementName=RootWindow}"
 ```
 
 共替换 15 处绑定（DataTemplate 8 处 + GameCardControl 内部 7 处）。
+
+### 5. MongoDB 投影 + 批量添加
+
+**列表查询投影**：列表页不需要 `GameCharacters`、`SimpleImgs`、`story`、`intro` 等大字段，投影掉减少网络传输和反序列化开销：
+
+```csharp
+// GameRepository.cs
+private static readonly ProjectionDefinition<Game, Game> ListProjection =
+    new BsonDocumentProjectionDefinition<Game, Game>(new BsonDocument
+    {
+        { "gamechar", 0 }, { "simpleImg", 0 }, { "story", 0 },
+        { "intro", 0 }, { "painter", 0 }, { "writer", 0 }
+    });
+```
+
+**RangeObservableCollection 批量替换**：避免 2k 次逐个 Add 触发 2k 次 CollectionChanged：
+
+```csharp
+// RangeObservableCollection.cs
+public void ReplaceAll(IEnumerable<T> items)
+{
+    Items.Clear();
+    foreach (var item in items) Items.Add(item);
+    RaiseReset();  // 只触发 1 次 Reset 通知
+}
+```
+
+### 6. NullSafeDateTimeSerializer
+
+MongoDB 中部分文档的 `publishDate` 为 null，默认 `DateTimeSerializer` 反序列化时抛 `FormatException`。自定义序列化器将 null 安全转为 `DateTime.MinValue`：
+
+```csharp
+// Game.cs
+public class NullSafeDateTimeSerializer : SerializerBase<DateTime>
+{
+    private static readonly DateTimeSerializer Inner = new();
+
+    public override DateTime Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+    {
+        if (context.Reader.GetCurrentBsonType() == BsonType.Null)
+        {
+            context.Reader.ReadNull();
+            return DateTime.MinValue;
+        }
+        return Inner.Deserialize(context, args);
+    }
+
+    public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, DateTime value)
+        => Inner.Serialize(context, args, value);
+}
+```
 
 ## 构建
 

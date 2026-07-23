@@ -98,8 +98,7 @@
             <!-- 封面图区域：固定宽度 280px，高度固定 400px -->
             <Grid Width="280" Height="400" Background="#1A1A2E" x:Name="cardGrid">
                 <!-- 封面图：DecodePixelWidth 按卡片宽度解码，避免解码原图再缩放 -->
-                <Image Width="280" Height="400" Cursor="Hand" VerticalAlignment="Top"
-                       Stretch="UniformToFill"
+                <Image Width="280" Cursor="Hand" VerticalAlignment="Top"
                        Source="{Binding CoverImage}">
                     <Image.InputBindings>
                         <MouseBinding Command="{Binding OpenDetailCommand, ElementName=card}"
@@ -175,8 +174,17 @@
                         Command="{Binding ToggleCardLocationCommand, ElementName=card}"
                         CommandParameter="{Binding}"
                         Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
-                        Visibility="{Binding Published, Converter={StaticResource Bool2Vis}}"
                         ToolTip="Location (click to toggle)" Margin="8,0,0,0">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Published}" Value="False">
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                     <TextBlock FontSize="14">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">

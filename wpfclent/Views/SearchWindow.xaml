@@ -166,6 +166,8 @@
                          ScrollViewer.CanContentScroll="True"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          VirtualizingPanel.IsVirtualizing="True"
+                         VirtualizingPanel.VirtualizationMode="Recycling"
+                         VirtualizingPanel.CacheLength="1,1"
                          VirtualizingPanel.ScrollUnit="Pixel"
                          Background="Transparent" BorderThickness="0"
                          Visibility="{Binding IsNotGrouping, Converter={StaticResource Bool2Vis}}">
@@ -198,6 +200,8 @@
                          ScrollViewer.CanContentScroll="True"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          VirtualizingPanel.IsVirtualizing="True"
+                         VirtualizingPanel.VirtualizationMode="Recycling"
+                         VirtualizingPanel.CacheLength="1,1"
                          VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                          VirtualizingPanel.ScrollUnit="Pixel"
                          Background="Transparent" BorderThickness="0"

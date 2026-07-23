@@ -98,7 +98,8 @@
             <!-- 封面图区域：固定宽度 280px，高度固定 400px -->
             <Grid Width="280" Height="400" Background="#1A1A2E" x:Name="cardGrid">
                 <!-- 封面图：DecodePixelWidth 按卡片宽度解码，避免解码原图再缩放 -->
-                <Image Width="280" Cursor="Hand" VerticalAlignment="Top"
+                <Image Width="280" Height="400" Cursor="Hand" VerticalAlignment="Top"
+                       Stretch="UniformToFill"
                        Source="{Binding CoverUrl, Converter={StaticResource CoverImg}, ConverterParameter=280}">
                     <Image.InputBindings>
                         <MouseBinding Command="{Binding OpenDetailCommand, ElementName=card}"

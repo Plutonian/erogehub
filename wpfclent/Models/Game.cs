@@ -1,6 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Serializers;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -36,6 +38,7 @@ public partial class Game : ObservableObject
     /// <summary>发布日期</summary>
     [ObservableProperty]
     [property: BsonElement("publishDate")]
+    [property: BsonSerializer(typeof(NullSafeDateTimeSerializer))]
     private DateTime _publishDate;
 
     /// <summary>星级评分 0~5</summary>
@@ -293,4 +296,25 @@ public class Brand
     /// <summary>所属公司</summary>
     [BsonElement("comp")]
     public string Comp { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// DateTime 序列化器，将 BsonType.Null 安全反序列化为 DateTime.MinValue，避免 FormatException。
+/// </summary>
+public class NullSafeDateTimeSerializer : SerializerBase<DateTime>
+{
+    private static readonly DateTimeSerializer Inner = new();
+
+    public override DateTime Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+    {
+        if (context.Reader.GetCurrentBsonType() == BsonType.Null)
+        {
+            context.Reader.ReadNull();
+            return DateTime.MinValue;
+        }
+        return Inner.Deserialize(context, args);
+    }
+
+    public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, DateTime value)
+        => Inner.Serialize(context, args, value);
 }

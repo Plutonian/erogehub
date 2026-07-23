@@ -132,16 +132,25 @@ public class GameAggregator
     /// <summary>按发布日期分组聚合（年 → 月层级），在内存中处理。日期为空或无效的游戏归入"无日期"组。</summary>
     public async Task<List<DateGroupItem>> GroupByDateAsync(FilterDefinition<Game>? filter, CancellationToken cancellationToken = default)
     {
-        // 用强类型投影只取 PublishDate，减少网络传输
+        // 用 BsonDocument 投影，安全处理 publishDate 为 null 的文档
         var docs = await _context.Games.Find(MongoContext.ToGameFilter(filter))
-            .Project(g => g.PublishDate).ToListAsync(cancellationToken);
+            .Project<BsonDocument>(new BsonDocument { { "_id", 0 }, { "d", "$publishDate" } })
+            .ToListAsync(cancellationToken);
 
         var validDates = new List<DateTime>();
         var noDateCount = 0;
-        foreach (var dt in docs)
+        foreach (var doc in docs)
         {
-            if (dt.Year > 1) validDates.Add(dt);
-            else noDateCount++;
+            if (doc.TryGetValue("d", out var d) && !d.IsBsonNull && d.IsValidDateTime)
+            {
+                var dt = d.ToUniversalTime();
+                if (dt.Year > 1) validDates.Add(dt);
+                else noDateCount++;
+            }
+            else
+            {
+                noDateCount++;
+            }
         }
 
         var result = validDates.GroupBy(dt => dt.Year).Where(g => g.Key > 0).OrderByDescending(g => g.Key).Select(yearGroup => new DateGroupItem

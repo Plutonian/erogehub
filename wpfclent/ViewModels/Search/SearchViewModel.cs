@@ -43,7 +43,7 @@ public partial class SearchViewModel : ObservableObject
 
     /// <summary>每页显示数量</summary>
     [ObservableProperty]
-    private int _pageItemSize = 40;
+    private int _pageItemSize = 500;
 
     /// <summary>符合条件的游戏总数</summary>
     [ObservableProperty]

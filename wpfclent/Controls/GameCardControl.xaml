@@ -33,12 +33,7 @@
                         <TextBlock Text="{Binding MainTitle}" FontWeight="Bold"
                                    Foreground="#E0E0E0" FontSize="24"
                                    TextTrimming="CharacterEllipsis" Margin="4,0,0,0" MaxWidth="250" TextWrapping="Wrap"/>
-                        <Button Content="[Del]" Foreground="#FF4444" FontSize="10" Margin="4,0,0,0"
-                                Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
-                                Style="{StaticResource ButtonDanger}"
-                                Visibility="{Binding IsSame, Converter={StaticResource Bool2Vis}}"
-                                Command="{Binding DeleteCardCommand, ElementName=card}"
-                                CommandParameter="{Binding}"/>
+
                     </StackPanel>
 
                     <!-- 副标题 -->
@@ -97,14 +92,14 @@
         <StackPanel>
             <!-- 封面图区域：固定宽度 280px，高度固定 400px -->
             <Grid Width="280" Height="400" Background="#1A1A2E" x:Name="cardGrid">
+                <Grid.InputBindings>
+                    <MouseBinding Command="{Binding OpenDetailCommand, ElementName=card}"
+                                  CommandParameter="{Binding}"
+                                  MouseAction="LeftClick"/>
+                </Grid.InputBindings>
                 <!-- 封面图：DecodePixelWidth 按卡片宽度解码，避免解码原图再缩放 -->
                 <Image Width="280" Cursor="Hand" VerticalAlignment="Top"
                        Source="{Binding CoverImage}">
-                    <Image.InputBindings>
-                        <MouseBinding Command="{Binding OpenDetailCommand, ElementName=card}"
-                                      CommandParameter="{Binding}"
-                                      MouseAction="LeftClick"/>
-                    </Image.InputBindings>
                 </Image>
 
                 <!-- HATE(-99) 暗化遮罩 -->
@@ -200,8 +195,16 @@
                         </TextBlock.Style>
                     </TextBlock>
                 </Button>
+                
+
                 <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateRel}}"
                            Foreground="#888" FontSize="11" VerticalAlignment="Center"/>
+                <Button Content="[Del]" Foreground="#FF4444" FontSize="10" Margin="4,0,0,0"
+                        Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand"
+                        Style="{StaticResource ButtonDanger}"
+                        Visibility="{Binding IsSame, Converter={StaticResource Bool2Vis}}"
+                        Command="{Binding DeleteCardCommand, ElementName=card}"
+                        CommandParameter="{Binding}"/>
             </DockPanel>
         </StackPanel>
     </Border>

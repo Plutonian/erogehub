@@ -58,7 +58,7 @@ abstract class CommonGame {
 
   def titles = {
 
-    if (Strings.isNotEmpty(this.mainTitle)) {
+    if (Strings.isNotEmpty(this.mainTitle) && Strings.isNotEmpty(this.subTitle)) {
       Titles(this.mainTitle.trim, this.subTitle.trim)
     } else {
       val cleanedName = name

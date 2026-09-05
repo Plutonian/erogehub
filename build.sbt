@@ -12,7 +12,7 @@ lazy val commonSettings = Seq(
 )
 
 lazy val root = (project in file("."))
-  .aggregate(common, task,webapi) // 你所有子项目都列这里
+  .aggregate(common, task) // 你所有子项目都列这里
   .settings(
     name := "root"
   )
@@ -47,13 +47,4 @@ lazy val task = (project in file("task"))
     ,
     Compile / mainClass := Some("com.goexp.galgame.data.script.ImporterStart")
 
-  )
-
-
-
-lazy val webapi = (project in file("webapi"))
-  .enablePlugins(PlayScala)  // Play Framework 插件
-  .dependsOn(common)          // 依赖 common 子项目
-  .settings(
-    name :="webapi"
   )

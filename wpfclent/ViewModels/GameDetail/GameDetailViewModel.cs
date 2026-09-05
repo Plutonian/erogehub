@@ -74,7 +74,9 @@ public partial class GameDetailViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 直接设置 Game 对象（从搜索列表传入，共享引用避免重复加载）
+    /// 直接设置 Game 对象（从搜索列表传入，供窗口立即显示基本信息）。
+    /// 注意：列表查询是投影查询，不含角色/截图/Story 等详情字段，
+    /// 需再调用 <see cref="LoadAsync"/> 加载完整文档。
     /// </summary>
     public void SetGame(Game game)
     {

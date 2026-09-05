@@ -41,7 +41,10 @@ public partial class SearchViewModel
         window.Show();
     }
 
-    /// <summary>打开游戏详情窗口</summary>
+    /// <summary>
+    /// 打开游戏详情窗口。列表查询是投影查询（不含角色/截图/Story 等），
+    /// 先 SetGame 立即显示基本信息，再异步加载完整文档补全详情字段。
+    /// </summary>
     [RelayCommand]
     private void OpenDetail(Game game)
     {
@@ -50,6 +53,7 @@ public partial class SearchViewModel
         var window = _services.GetRequiredService<GameDetailWindow>();
         window.DataContext = vm;
         window.Show();
+        _ = vm.LoadAsync(game.Id);
     }
 
     /// <summary>循环切换卡片游玩状态</summary>

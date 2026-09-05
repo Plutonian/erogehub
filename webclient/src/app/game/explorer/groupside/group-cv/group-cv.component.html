@@ -1,6 +1,0 @@
-<section *ngIf="cvGroup?.length>0" class="flex_row flex_float gap-20" style="max-height: 400px">
-  <nz-badge *ngFor="let item of cvGroup" [nzCount]="item.count" (click)="cvSelect(item)">
-<!--    <app-jumpcv style="font-size: 14px;" [cv]="item.title" [isReal]="item.real"></app-jumpcv>-->
-      <nz-tag>{{item.title}}</nz-tag>
-  </nz-badge>
-</section>

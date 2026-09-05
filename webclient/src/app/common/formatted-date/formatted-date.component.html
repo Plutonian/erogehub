@@ -1,9 +1,0 @@
-<span *ngIf="game._publishDate==null;else notNull">
-  --
-</span>
-<ng-template #notNull>
-<span title="{{game._publishDate | date:'yyyy-MM-dd'}}">
-  {{ game._publishDate|dateFormat }}
-    <!--  <span *ngIf="game.published">(已发售)</span>-->
-</span>
-</ng-template>
